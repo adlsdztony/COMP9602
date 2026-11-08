@@ -25,6 +25,3 @@
 
 已保存全部 18 段 64 kbps AAC 音频，共 29.39 小时、847.2 MB。见 [音频索引](06_Recordings/Audio_64kbps/README.md)。
 
-## 交互学习网页
-
-[打开 Study Lab](https://adlsdztony.github.io/COMP9602/)：系统学习 Lecture 4–10，含必要回顾、知识点中的图形与课堂片段、逐章练习及作业导航。

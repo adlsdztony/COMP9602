@@ -1,9 +1,5 @@
 * text=auto
-*.js text eol=lf
-*.css text eol=lf
-*.html text eol=lf
 *.md text eol=lf
-*.yml text eol=lf
 *.py text eol=lf
 *.csv text eol=lf
 *.vtt text eol=lf
@@ -12,4 +8,3 @@
 *.m4a binary
 *.png binary
 *.jpg binary
-*.woff2 binary
