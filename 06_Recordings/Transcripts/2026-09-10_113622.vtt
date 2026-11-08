@@ -1,0 +1,150 @@
+WEBVTT
+
+1
+00:02:19.350 --> 00:02:27.370
+chuanwu: Okay, so that's the first example. And the second example is composition of a norm function with an affine function.
+
+2
+00:02:27.530 --> 00:02:43.740
+chuanwu: So we know the norm function is, convex. So we established, no matter whether it's L1 norm, L2 norm, L infinity norm, a norm function is always convex. And then if we compose a norm function with an alpha function, the result function is a convex function as well.
+
+3
+00:02:46.110 --> 00:02:54.570
+chuanwu: And then, the next property of preserving a next operation that preserves complexity is point-wise maximization.
+
+4
+00:02:54.720 --> 00:03:06.580
+chuanwu: So, if you are given a set of convex functions, then the, maximal, maximization… maximal among the function values would be a convex function as well.
+
+5
+00:03:09.650 --> 00:03:12.410
+chuanwu: So we can show it intuitively.
+
+6
+00:03:26.290 --> 00:03:44.270
+chuanwu: Okay, so we can show it intuitively using the example here. So here, we consider f to be maximal among a set of alpha functions, and alpha functions in the two-dimensional plane would just be straight lines.
+
+7
+00:03:44.440 --> 00:03:46.990
+chuanwu: So let me draw a bit here.
+
+8
+00:04:11.590 --> 00:04:13.730
+chuanwu: Okay, straight lines.
+
+9
+00:04:13.970 --> 00:04:16.470
+chuanwu: We change to a different color.
+
+10
+00:04:27.920 --> 00:04:37.890
+chuanwu: Okay, so we have one alpha function, or linear function, and we have another linear function, we have the third linear function, we can have the fourth, and so on.
+
+11
+00:04:38.000 --> 00:04:40.419
+chuanwu: Okay, so let me just draw 3.
+
+12
+00:04:40.750 --> 00:04:41.799
+chuanwu: All right.
+
+13
+00:04:41.940 --> 00:04:54.160
+chuanwu: So, each one of them is in the form of A1 transpose X plus B1, A2 transpose X plus B2, and A3 transpose X plus B3.
+
+14
+00:04:55.020 --> 00:05:00.509
+chuanwu: All right, so what does the maximal between those functions look like?
+
+15
+00:05:00.990 --> 00:05:03.590
+chuanwu: So, if at every point X,
+
+16
+00:05:03.690 --> 00:05:14.540
+chuanwu: We are choosing the maximal value among the three values of the three alpha functions. What we essentially get is a function curve here.
+
+17
+00:05:26.010 --> 00:05:26.830
+chuanwu: Okay.
+
+18
+00:05:28.390 --> 00:05:30.719
+chuanwu: So, by a draft.
+
+19
+00:05:31.630 --> 00:05:40.970
+chuanwu: line segments, okay, my red line segments is the function curve of our piecewise, linear function FX.
+
+20
+00:05:41.360 --> 00:05:50.679
+chuanwu: Right. So if you're picking maximal, operator in there, we know the red one is our function, and we know it's a convex function.
+
+21
+00:05:51.160 --> 00:05:58.209
+chuanwu: And the other way around, if you are taking minimum, the result function won't be a convex function.
+
+22
+00:05:58.450 --> 00:06:08.000
+chuanwu: Alright. So in the example here, if we always take minimal, so pretty much that will be a concave function, more like a concave function there. Okay.
+
+23
+00:06:10.920 --> 00:06:14.960
+chuanwu: Okay, and example is here.
+
+24
+00:06:15.150 --> 00:06:18.090
+chuanwu: So, if we are given a vector X,
+
+25
+00:06:18.330 --> 00:06:31.300
+chuanwu: And our function value FX is the sum of the R largest components in vector X. Then, the result function FX is a convex function as well.
+
+26
+00:06:31.690 --> 00:06:38.710
+chuanwu: And here we use X square bracket I to denote VI's largest component vector X.
+
+27
+00:06:39.010 --> 00:06:55.380
+chuanwu: And how to see, this example makes use of our property, its point-wise maximization property of F. It is here. So we can put down FX in the way of maximizing any combination of R components from
+
+28
+00:06:55.690 --> 00:06:57.850
+chuanwu: from, vector X.
+
+29
+00:06:58.580 --> 00:07:08.980
+chuanwu: Okay, so we can come up with many different combinations of components of, from vector X, and if X is n-dimensional.
+
+30
+00:07:09.130 --> 00:07:19.570
+chuanwu: We know we have CNR many combinations of its components, right? So therefore, we actually have CNR, that number of affine functions in here.
+
+31
+00:07:19.710 --> 00:07:25.559
+chuanwu: And we're taking the maximal among the values of that CNR alpha function in there.
+
+32
+00:07:25.930 --> 00:07:41.379
+chuanwu: Okay, and then that is exactly corresponding to our point-wise maximization property, so we know all the functions in there are half-fine, and convex, and then convex, and then the maximal would be a convex function as well.
+
+33
+00:07:45.290 --> 00:07:46.080
+chuanwu: question.
+
+34
+00:07:47.910 --> 00:07:50.750
+chuanwu: Okay. Alright.
+
+35
+00:08:01.970 --> 00:08:06.110
+chuanwu: Okay, I think it's a good point to stop our lecture today.
+
+36
+00:08:06.230 --> 00:08:14.440
+chuanwu: We will call it a day. We'll continue with the rest of the discussions on next Tuesday. Alright, okay, thank you for your attention.
+
+37
+00:08:17.790 --> 00:08:18.570
+chuanwu: Oh.
+

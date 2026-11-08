@@ -1,0 +1,1260 @@
+COMP9602 Optimization — 2026-10-20 09:57:41
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/1nhMSAD-Q3SzCSWsKuvoB6RcGIK6JTAnoE9U9xGOVpRpcadpJszKRX0YyR-XlaW8.nnP5xNIkvcKv4NvH
+保存日期：2026-11-08
+
+[00:02:11.760] Chuan Wu: Bye.
+
+[00:02:52.120] Chuan Wu: All right, good morning, everyone. Welcome to today's lecture on optimization. Let's get started.
+
+[00:03:16.810] Chuan Wu: Okay, so we are now on the course theory of the course, which is a duality theory. So, especially, we worked on how to derive the Lagrangian Bureau of a given primal authorization problem, and we have been looking at a few conditions of very important properties related to duality.
+
+[00:03:34.310] Chuan Wu: So, especially in last time, we have been working on two of the major optimality conditions that we are working on in this course. So, one is complementary selectness.
+
+[00:03:45.730] Chuan Wu: So essentially, component is like this works on all the mathematical programs, not a necessary complex program. So here, we are working on… we are checking out a general form of mathematical program here.
+
+[00:03:58.470] Chuan Wu: And the prerequisite for complementary selectness to hope is we want strong duality to hope for the given optimization problem.
+
+[00:04:07.190] Chuan Wu: So before, we worked on convex programs, and we know for most complex programs, as long as they satisfy some L condition, for example, the Scheder's constraint computations, then strong duality holds. We also worked on some examples where the problem is non-convex, but strong duality also holds.
+
+[00:04:25.850] Chuan Wu: So no matter what, as long as the strong derivative holds, meaning the primal optimal value equals the pure optimal value for the given mathematical program, then we have complementary slackness.
+
+[00:04:38.220] Chuan Wu: And what complementary selectness is saying is that the derivative variable, or the long multiplier, lambda i, associated with the i's inequality constraint.
+
+[00:04:51.860] Chuan Wu: its product with the constraint function in the i in holidays would be equating 0. Okay, lambda I star multiplying FI X star equating 0.
+
+[00:05:03.520] Chuan Wu: Okay.
+
+[00:05:04.470] Chuan Wu: And then, moving on, the next very important documentary conditions is a set of PKD conditions.
+
+[00:05:11.960] Chuan Wu: And in general, we can also lay down KGB conditions for…
+
+[00:05:16.550] Chuan Wu: mathematical program. But here we have an additional condition. We want the functions involved in the mathematical program to be differentiable, because in one of the set, one of the key definitions, we need to work on the gradient of the electron je.
+
+[00:05:34.830] Chuan Wu: Okay, and the KKB conditions consist of four sets of conditions. And the first set is exactly the set of primal constraints, and the second set is exactly the dual constraints. And here, we only consider the default dual constraint, which is non-negativity on the multipliers.
+
+[00:05:56.890] Chuan Wu: On the multipliers associated with the inequality constraints, all the lambda i should be larger than equal to 0.
+
+[00:06:04.190] Chuan Wu: And we often know, when we derive the pure problem, we could come up with more explicit constraints, because when we derive the pure, function, often there are two cases, and one of the cases has some condition, and that condition would become explicit constraints in our pure problem.
+
+[00:06:21.430] Chuan Wu: But those constraints, which result from the procedure of deriving the Durer function, that do not count into the Durer constraints when we put down the KAD conditions. Okay, remember that.
+
+[00:06:33.470] Chuan Wu: And then the third set of conditions under KKT is complementary slackness. Okay, lambda i at iX equaling 0. Okay, pairwise equaling 0.
+
+[00:06:44.060] Chuan Wu: And then the fourth set of conditions often is the most important one that we are making use of when deriving the dual n prime optimal solution, is saying that the gradient of the Lagrangian function with respect to X should be exactly on zero vector.
+
+[00:07:00.520] Chuan Wu: Okay, and here we require that all the functions involved are configurable.
+
+[00:07:05.740] Chuan Wu: Okay, and we also analyzed that if we do have strong duality for the derivative of the validation problem, or the given mathematical problem, then the KVD conditions would hold.
+
+[00:07:19.090] Chuan Wu: And on the other hand, if we are looking at a complex program, where strong duity holds, then KKB condition is both necessary and sufficient for establishing primal and dual optimality.
+
+[00:07:32.290] Chuan Wu: Okay, so basically, if we have a convex program, and then we find the convex program satisfies the KKD condition, primal and dual optimal value… optimal variable values satisfy the set of KKD conditions, then we can conclude that strong derivative hold for the convex program, and the X and the lambda nuos are primal and the dual optimal, respectively.
+
+[00:07:55.550] Chuan Wu: And the average round, it also holds. Okay, so the other way around, pretty much that is the first, situation that in general applies for, strong… between strong duality and the KKT conditions.
+
+[00:08:08.400] Chuan Wu: Okay.
+
+[00:08:09.290] Chuan Wu: And we have been working on a few examples where we actually, we… at the end of last Tuesday's lecture, we were working on a numerical example, so we are given a concrete numerical problem, and then we are making use of KKD conditions to exactly solve the problem for the primal optimal solution, and as well as pure optimal solution.
+
+[00:08:31.090] Chuan Wu: Right? Okay, so that is a major news of KKT Foundation. So why we bothered to introduce KKT, and actually we'll be working on KKT mostly in the rest of the semester.
+
+[00:08:41.780] Chuan Wu: Because we use KT to try to solve our current subsidization problem.
+
+[00:08:47.280] Chuan Wu: And, we also use KKT to establish a number of algorithms to solve, numerically, a given validation problem, a given conactivation problem.
+
+[00:08:57.120] Chuan Wu: Okay, so we, today I will be working, moving up, so we will first be looking at more examples where we establish algorithms, some very simple algorithms to solve some specially formed connectorization problem, and based on KDT.
+
+[00:09:14.660] Chuan Wu: Okay, simply put, they made the use of KDV conditions for a given problem, and then we are able to derive some algorithm to solve the problem exactly. So we will see that.
+
+[00:09:25.300] Chuan Wu: And the example problems we are working on are called water feeding examples. They… the problems, they follow some special structure that we are going to work on concrete blade first, and then more, you know, more general fashion in the next.
+
+[00:09:40.750] Chuan Wu: Okay, so looking at the example on the slide.
+
+[00:09:44.010] Chuan Wu: So here we have a minimization problem. So, because by default, we put the problem down, complex problem down in a minimalization form, so we are minimizing a negative sum lock of some function.
+
+[00:09:56.740] Chuan Wu: Okay, so we know lock is a concave function, and the next thing lock is a convex function.
+
+[00:10:02.720] Chuan Wu: So therefore, the objective function of the problem here is a convex function. And what are our variables? So here, small pis are our variables.
+
+[00:10:14.570] Chuan Wu: And the NIs are given.
+
+[00:10:17.490] Chuan Wu: Okay, NIs are given, and the PIs are our variables.
+
+[00:10:21.960] Chuan Wu: So the objective function is clearly complex on PI, and then how about the constraints? So we have two sets of constraints, in a pretty neat fashion manner, and the first constraint is saying that some of all the PIs should be no larger than the upper bound. We call the upper bound big P.
+
+[00:10:41.940] Chuan Wu: And then, every PI should be non-active.
+
+[00:10:44.980] Chuan Wu: Okay, every AIC gonna happen.
+
+[00:10:48.020] Chuan Wu: Okay, so actually this, is a pretty, classical clock resource allocation problems.
+
+[00:10:57.610] Chuan Wu: formulation.
+
+[00:10:59.390] Chuan Wu: Okay, so you can consider the B2P, which is the total amount of resource you are given. You know what BP exactly is, and then you try to allocate B to P into B0, P1, P2 up to P, and minus 1.
+
+[00:11:15.310] Chuan Wu: Okay, so basically you have n different quantities, and you are allocating a total amount of resource P into those quantities.
+
+[00:11:22.830] Chuan Wu: An objective function is saying you are minimizing active block, and making it more intuitive is equivalent to maximize sum of block. Okay, maximize sum of block.
+
+[00:11:32.940] Chuan Wu: And when you allocate the BP among the results into those n different variables, what you want is you want the objective function in the form of sum of log to be as large as possible.
+
+[00:11:45.740] Chuan Wu: And what does the objective function, represent?
+
+[00:11:49.230] Chuan Wu: Okay, so if you are from Triple E, or EE department.
+
+[00:11:53.050] Chuan Wu: Okay, you see department, and, you know, it's pretty much in the form of, signal-to-noise ratio, the channel capacity. Okay, it's a simplified, formula of the channel capacity, right?
+
+[00:12:07.910] Chuan Wu: So here, and I represent the channel noise, and yeah, the signal level, signal strength, and the locked form is an exactly signified form of the channel capacity formulation.
+
+[00:12:20.950] Chuan Wu: Okay.
+
+[00:12:22.220] Chuan Wu: All right, so basically you are allocating, you can consider as you have a total amount of power to allocate into different stations, and you want their total transmission capacity to be as large as possible.
+
+[00:12:35.440] Chuan Wu: Okay, so that's an intuitive interpretation of this, validation problem.
+
+[00:12:40.450] Chuan Wu: Okay, this is apparently a complex optimization problem, so we… and we also intuitively know we have a strictly feasible solution.
+
+[00:12:50.290] Chuan Wu: Okay, we could have strictly feasible solution cumulatively, and strong derivative holds. When strong derivative holes, it also implies KGB conditions are sufficient and necessary to establish that X of lambda nu, satisfying the KGB conditions of primal and dual optimal rest actively.
+
+[00:13:07.420] Chuan Wu: And we'll follow that, idea to, come up with, algorithm to solve such, so-called water feeding, example.
+
+[00:13:16.180] Chuan Wu: Okay.
+
+[00:13:17.040] Chuan Wu: And first step first, we put down the KKD conditions together. So for the, concrete problem, the KKD conditions, starting from the first step, so the first step, the condition under KKT is a primal,
+
+[00:13:30.940] Chuan Wu: constraints. Okay, primal problems constraints. So we have two sets of constraints for the primal problem, a sum of PI no larger than P, and then every PI larger than 0. So that is exactly the primal constraints.
+
+[00:13:43.840] Chuan Wu: Then, how about the neural constraint?
+
+[00:13:46.210] Chuan Wu: So here, we need to create the dual variable. So we assume there is a lambda associated with that first inequality constraint.
+
+[00:13:55.010] Chuan Wu: The sum of PI no larger than BP, so that is a single primal constraint. We have a scalar variable, lambda, scalar multiplier lambda associated with that, and we want that lambda to be larger than 0. That is skewer constraint.
+
+[00:14:08.770] Chuan Wu: And similarly, we have a number of PI, larger or equal to zero constrict.
+
+[00:14:14.370] Chuan Wu: From here, let go to 0, for every one of that, we associate a multiplier mu i.
+
+[00:14:20.360] Chuan Wu: Okay, mui here. So they're in total K mu i's, so we have a mui associated with every one of this PI larger equal to 0 constraint, and then that mu i, every one of them, has to be logical to 0 as well.
+
+[00:14:35.350] Chuan Wu: And therefore, here, this line, this row, what we put down is a viewer, and a viewer constraints.
+
+[00:14:44.450] Chuan Wu: Okay, and then complementary slackness. Okay, complementary slackness is the same. Multiplier, multiplying is associated, inequality pure constraint function function.
+
+[00:14:54.940] Chuan Wu: the result should be exactly 0. Okay, so therefore here, so lambda… lambda multiplying its associate constraint function, so moving big P to the left-hand side, our inequality constraint is here. So sum of PI minus P equaling exactly 0.
+
+[00:15:13.160] Chuan Wu: Okay, and then for all the mu i's associated with PI logic to zero constraint, we also have mu i multiplying negative PI equaling 0.
+
+[00:15:24.120] Chuan Wu: Okay, because for the PI logical to zero condition, the constraint function is actually negative PI. But of course, we know negative sign can be canceled, okay, when it's equaling 0.
+
+[00:15:35.780] Chuan Wu: Okay, so here, the two sets here represent complementary slackness.
+
+[00:15:41.830] Chuan Wu: And then finally, the gradient of the Lagrangian should vanish. And then to do… to formulate that, we first formulate our Lagrangian function here.
+
+[00:15:53.100] Chuan Wu: So, left learning function consisting of the, objective function, primal objective function.
+
+[00:15:59.420] Chuan Wu: plus weighted sum, or pairwise, product of multiplier, and associate, inequality constraint functions. Okay, so lambda multiply sum of Pi minus D, and then sum of, mu i, multiply negative PI.
+
+[00:16:15.630] Chuan Wu: Okay, so that is our Lagrangian. And our fourth set of, conditions under KKT is saying that the gradient of the Lagrangian, with respect to the primal variable, that exists.
+
+[00:16:29.380] Chuan Wu: So we know the gradient actually consists of partial derivative of the Lagrangian function with respect to each variable in the primal variable vector.
+
+[00:16:39.460] Chuan Wu: So that is here. So our, like, round genes partial derivative with respect to every PI should be exactly equaling zero for all I.
+
+[00:16:49.360] Chuan Wu: Okay.
+
+[00:16:50.610] Chuan Wu: All right, and then what is that exactly like? So this is our Lagrangian function, so the partial derivative with respect to 2,
+
+[00:17:02.240] Chuan Wu: Pi.
+
+[00:17:03.730] Chuan Wu: So if, we can work it out together. So the, first lock, So what is Locke's derivative?
+
+[00:17:12.390] Chuan Wu: So it's… that's a protocol of the function inside, right? So lock, and then it becomes 1 plus PI, you add by NI,
+
+[00:17:24.119] Chuan Wu: Okay, multiplying 1 over an I.
+
+[00:17:29.500] Chuan Wu: So this is a partial derivative of the Lagrangian's first account.
+
+[00:17:34.780] Chuan Wu: Okay, and then for the other part, it's in there. So the second part is, offline function on PI, the third part is another affine function on PI, so we exactly have
+
+[00:17:48.300] Chuan Wu: this as the actual derivative of our laboratory with respect to PI, right?
+
+[00:17:54.690] Chuan Wu: Okay, setting it to zero, so that is what we want in the KKD condition, or set of conditions under KKD.
+
+[00:18:04.100] Chuan Wu: Alright, and then what is that exactly like?
+
+[00:18:08.450] Chuan Wu: So that…
+
+[00:18:13.400] Chuan Wu: Okay, negative 1 over NI, that's PI.
+
+[00:18:19.340] Chuan Wu: That's lambda, and I listen to action.
+
+[00:18:23.100] Chuan Wu: Okay? You're quitting.
+
+[00:18:25.620] Chuan Wu: They are comfortable.
+
+[00:18:27.110] Chuan Wu: Okay, and then if we, wolf.
+
+[00:18:36.060] Chuan Wu: London.
+
+[00:18:37.670] Chuan Wu: buy this new life.
+
+[00:18:39.780] Chuan Wu: one side, and then one over an I plus PI to the other side.
+
+[00:18:45.520] Chuan Wu: And if we take a recipe of this, it's the equivalent.
+
+[00:18:50.210] Chuan Wu: So there's a protocol on both sides, and then we come up with that, on the slide. So 1 over lambda minus mu i equaling PI plus ni. So this is exactly what the fourth set of conditions under KKT is telling us.
+
+[00:19:07.280] Chuan Wu: Okay.
+
+[00:19:08.420] Chuan Wu: All right, so now we have come up with all the KKD conditions, and our next test is we try to solve the KKD conditions. We try to solve for EI, lambda, mu i. Together, they satisfy all the KKD conditions.
+
+[00:19:25.070] Chuan Wu: And among the key foundations, you'll find out there are new equalities and equalities. Often, it is the set of equalities that are most useful.
+
+[00:19:35.960] Chuan Wu: Because when there are equalities, if they happen to be in the F1 form of linear form, then we know we have a system, a number of linear equalities, that we can… we know how to exactly solve that, and that is actually the case we worked on for the last example we showed, last Tuesday.
+
+[00:19:54.440] Chuan Wu: And, if the, even when the inequalities are not of affine or linear form, we often also have a way to express one variable in terms of other variables, exactly, because it is equality, right?
+
+[00:20:09.670] Chuan Wu: Okay, so therefore, when we have put down the set of communications, the first, the first set of equal… the first set of conditions that we work on, or we start to analyze or derive on, are often the equalities.
+
+[00:20:25.630] Chuan Wu: And where do equalities happen? Equalities mostly happen when we formulate the first set of conditions on the KPP.
+
+[00:20:33.190] Chuan Wu: Which is a gradient with respect to every variable. Primal variable vanishes equally zero. And then sometimes we also made use of the complemented slackness, because complemented slacknesses are also equalities.
+
+[00:20:46.670] Chuan Wu: And then we check out if all the other inequalities of funds are satisfied or not, right? So that is our usual rationale.
+
+[00:20:55.510] Chuan Wu: Okay, then we start, working on the equalities, okay? We start to work on the equalities, and we try to analyze the different conditions, different, different expressions, the way how we can express a primal variable in terms of the dual variable, and so on.
+
+[00:21:14.780] Chuan Wu: Okay, and then the first analysis we work on is from the company members like this.
+
+[00:21:21.290] Chuan Wu: Okay, so for complementary selectness, we know here. So mu IPI equaling 0. Okay, so therefore, what we know is, if, one of the primal variable PI is larger than zero.
+
+[00:21:34.820] Chuan Wu: then the corresponding dual variable mui has to be exactly zero. So that's what the complementary selectness condition is saying, right? And then we further make use of… combine that with our,
+
+[00:21:51.730] Chuan Wu: equality derived from the last set of conditions under KKT, and what we can derive is here. So from that… so this is a valid way to express the last set of conditions under KKT, exactly the same as what we had on the slide, previous page.
+
+[00:22:08.630] Chuan Wu: And from this, what we can derive S?
+
+[00:22:13.380] Chuan Wu: PI, okay, so let's see, again, make it consistent with what we have on the slide.
+
+[00:22:23.510] Chuan Wu: Okay, so we know PI plus ni equals 1 over lambda divided by mu i. Okay, and then moving that ni to the right-hand side, what we exactly have is PI equals 1 over lambda minus mu i minus NI.
+
+[00:22:39.340] Chuan Wu: So, by this step, what we have derived is, we derived exactly quality… expression of primal variable in terms of dual variable values.
+
+[00:22:49.630] Chuan Wu: So lambda mu, dual variable, and if their values are set, then we know exactly what PI, primal variable's value is, right? Okay, so this is important, because often, when we make use of duality, we need this kind of, exact relationship.
+
+[00:23:05.670] Chuan Wu: Okay, and then moving on, we know in this case, we are considering the PI is larger than 0, and then correspondingly, mu i is exactly 0. Then plug in mu i equaling 0 into the formula equality here, what we exactly have is PI equaling 1 over lambda minus 9.
+
+[00:23:24.160] Chuan Wu: Okay, further simplify the expression of PI in terms of dual variable value.
+
+[00:23:29.410] Chuan Wu: And, we have to analyze the other case as well. So what if PI equaling 0? So for PI equaling 0, then mu i can be larger equal to zero, not exactly… not always exactly 0. And then what we derive is here, so we know PI plus NI equals 1 over lambda minus mu i as KKD condition.
+
+[00:23:53.870] Chuan Wu: And then, when mu i is larger or equal to 0, we know this value is larger or equal to 1 over lambda.
+
+[00:24:00.220] Chuan Wu: Because mu i in the denominator here is, less equal to 0.
+
+[00:24:05.020] Chuan Wu: Okay, and, what we try to derive is further here.
+
+[00:24:15.440] Chuan Wu: Right. And, because here we assume PI equaling 0, so when PI equaling 0, what we come up with is Ni larger equal to 1 over lambda. Further, that is saying that lambda is larger or equal to 1 over NI.
+
+[00:24:32.770] Chuan Wu: Okay, all right.
+
+[00:24:35.910] Chuan Wu: All right, so if we summarize from the above two cases that we have analyzed, making use of the complementary slackness equality and the gradient of the Lagrangian vanishment equality, what we have concluded is here.
+
+[00:24:53.200] Chuan Wu: So we know, PI. Okay, so we have two cases for PI.
+
+[00:24:57.620] Chuan Wu: So if our, one case is PI, it's exactly equaling 1 over lambda minus ni, and the other case is PI equaling 0.
+
+[00:25:07.910] Chuan Wu: For the PI equaling zero case, we know we have to have that lambda is larger equal to 1 over ni. And then the other case is under the situation that lambda is smaller than 1 over ni.
+
+[00:25:21.730] Chuan Wu: So this is also straightforward, because here, in the first case, we know PI is larger than 0, so larger than 0, it implies 1 over lambda minus ni larger than 0, and that is equivalent to say that lambda is smaller than 1 over ni.
+
+[00:25:39.240] Chuan Wu: Okay, two cases.
+
+[00:25:41.620] Chuan Wu: Okay, so now we have summarized some, some… we have summarized the complete relation between the primal variable PI and the dual variable values by analyzing the equality conditions under KKT.
+
+[00:25:57.490] Chuan Wu: Okay, so that would be useful. So that would be useful in deriving the primal and the dual optimal, exactly the primal and dual optimal solution, but by doing that, we have to make use of other conditions under KKD as well.
+
+[00:26:13.120] Chuan Wu: Okay, so the… what are other major conditions under KKT? Let's go back to the slide showing our complete set of KKD conditions. So, so far, we have… what we have made use of includes the last set, complementary slackness, and this complementary slackness haven't been made use of, but we are going to soon. And then, what are the other major KKD conditions that we can
+
+[00:26:38.030] Chuan Wu: exploit. So larger, lambda non-negative, mui non-nective, PI non-nective, so those, non-negativity conditions are often, kind of,
+
+[00:26:48.600] Chuan Wu: exploited, or inexplicitly exploited already. And, one of the major conditions that we haven't exploited is here.
+
+[00:26:58.070] Chuan Wu: So we know a sum of PI should be no larger than P, okay? Sum of PI should be no larger than P. And, our further derivation by analyzing the given problem is
+
+[00:27:09.010] Chuan Wu: Actually, at optimality, this inequality would hold exactly with equality.
+
+[00:27:15.130] Chuan Wu: Why? So that is related to our form of the original problem here.
+
+[00:27:20.690] Chuan Wu: So we know the objective function is decreasing. The value is decreasing when PI is increasing, right?
+
+[00:27:28.980] Chuan Wu: Okay, lock function is increasing and negative is decreasing, right? Okay, so therefore, when we try to maximally minimize the objective function here in the negative log form here, we definitely would want to push all the PIs to be as large as possible.
+
+[00:27:46.900] Chuan Wu: But we do know the sum of PIs has upper bound big P.
+
+[00:27:50.970] Chuan Wu: And then, at optimality, of course, this inequality would hold with equality, because we need to maximize… maximally allocate all resources out in order to minimize the objective function to minimal.
+
+[00:28:05.300] Chuan Wu: Right. Okay, so by analyzing the concrete form of the optimization problem, we know at optimality, actually, the primal inequality, the major primal inequality, should hold with exactly with equality.
+
+[00:28:20.810] Chuan Wu: Okay, and equality would be useful.
+
+[00:28:24.340] Chuan Wu: Okay, here. Right, and then, we make use of that, what we have analyzed, that is, the primal inequality constraint should hold with equality, or sum of PI should exactly be equating big P.
+
+[00:28:41.050] Chuan Wu: Okay, and then, this is what we are going to make use of by exactly deciding PI and lambda I's.
+
+[00:28:50.980] Chuan Wu: And how. Okay, so over here, what we are going to make use of is a geometric illustration of the algorithm, or,
+
+[00:29:00.070] Chuan Wu: And over there, you will see the algorithm we designed that, achieves some PI equating exactly P, and achieves that PI equaling all the quantities, under different conditions, would exactly be fur-filled, and that algorithm is pretty much like a water fielding algorithm.
+
+[00:29:20.160] Chuan Wu: Okay, here.
+
+[00:29:43.060] Chuan Wu: Okay.
+
+[00:29:44.130] Chuan Wu: So our index of variables starting from what?
+
+[00:29:53.430] Chuan Wu: Okay, so we assume there are K beans laying on the same ground, so this is, ground level. Okay, and we have K beans.
+
+[00:30:21.610] Chuan Wu: Okay, remember that big N. So, NIs are given quantities.
+
+[00:30:26.590] Chuan Wu: And we consider the floor level of every bin. So this is a very base ground level, and we have the floor level of all the bins, and the floor level of floor height of every bin is, denoted by NI.
+
+[00:30:43.620] Chuan Wu: Okay. And then… So, there are… these are the means.
+
+[00:31:01.350] Chuan Wu: All right, of course, we have more means, and I will just illustrate the floor.
+
+[00:31:08.550] Chuan Wu: Okay, and what we are going to do is, we try to pour a total amount of pee, amount of water, into the beans.
+
+[00:31:17.490] Chuan Wu: Okay, total amount of P. Okay, and then what we do is, when we fill water into the bins, consider the four bins, when we inject water into the bins, and the floor level of the different bins are different, and which bin will the water first flow into?
+
+[00:31:36.020] Chuan Wu: So we found out the, first VINs floor level is the lowest.
+
+[00:31:40.500] Chuan Wu: Then the water would go into the first beam first.
+
+[00:31:45.860] Chuan Wu: Okay, so the water would be going in.
+
+[00:31:48.930] Chuan Wu: The rest of it?
+
+[00:31:50.610] Chuan Wu: Okay.
+
+[00:31:53.140] Chuan Wu: And fill it out, so the water goes…
+
+[00:31:56.640] Chuan Wu: So the water goes in, and it fills up, fills up, and until the water level becomes the same height as the floor level of another bin.
+
+[00:32:07.980] Chuan Wu: Okay, we know between amount of four beams, the water level of the fourth beam is the second highest, second lowest, right? Okay, so when the water level becomes the same height as the floor level of the fourth beam, then the water will become injected into both beams.
+
+[00:32:28.500] Chuan Wu: And this continues, if we haven't used up all our water, then this continues.
+
+[00:32:34.960] Chuan Wu: And, if the water level arrives at the same height of the third lowest floor.
+
+[00:32:42.730] Chuan Wu: which is into the second bin's floor level. Then, starting from that point on, the water continues close into all three bins.
+
+[00:32:56.320] Chuan Wu: Okay, so the worker goes in all the bins, makes sure the water level across the bins are always the same. Okay.
+
+[00:33:03.690] Chuan Wu: And this process… procedure repeats until
+
+[00:33:09.620] Chuan Wu: At a point. Until at a point.
+
+[00:33:12.730] Chuan Wu: When we have finished up all of our water.
+
+[00:33:16.520] Chuan Wu: Okay, so suppose at this time, all the water has been injected.
+
+[00:33:21.820] Chuan Wu: And then you found out that there are water in bin 1, 2, 4, but there is no water in bin 3, because bin 3's flow level is too high.
+
+[00:33:31.510] Chuan Wu: Okay, alright, Ed?
+
+[00:33:35.770] Chuan Wu: During this procedure, what we exactly have decided, okay, what we exactly have decided is, eventually, when the water stopped, okay, when the water stopped, the water level
+
+[00:33:49.160] Chuan Wu: It's corresponding to 1 over lambda.
+
+[00:33:53.520] Chuan Wu: And the height of water in every bin where the water does go in is PI.
+
+[00:34:00.970] Chuan Wu: Okay, so that is P1, and that is… P… 2, and that is P4.
+
+[00:34:14.300] Chuan Wu: Okay, so this… There's clean, poof.
+
+[00:34:20.889] Chuan Wu: And how about P3? P3 is still zero, because no water goes in VIN 3 at all.
+
+[00:34:29.110] Chuan Wu: Okay, so that is the, that is a very intuitive idea.
+
+[00:34:34.320] Chuan Wu: And that, actually, the algorithm I was describing there can be… is exactly a numerical algorithm you can implement using
+
+[00:34:44.489] Chuan Wu: code, okay, by code, using some algorithm code, right? For example, when filling water into the bins, pretty much you judge which ground level is the lowest. If the ground level is lowest, you add a small delta amount of water into that quantit API.
+
+[00:35:00.740] Chuan Wu: and adding delta into that PI, adding small delta into P2, P4, and eventually make sure N1 plus P1 always equals N2 plus P2 equals N4 plus P4 water levels.
+
+[00:35:15.600] Chuan Wu: As compared to the fundamental grant level, should be the same.
+
+[00:35:19.650] Chuan Wu: Right. Okay, so by implementing that algorithm I was describing, which you can definitely implement using computer using code.
+
+[00:35:27.550] Chuan Wu: And what we are exactly, ensuring is the set of KGD conditions in the whole procedure, in the procedure is guaranteed. And exactly when the algorithm, you know, whole feeding algorithm finishes, the KD conditions are exactly satisfied.
+
+[00:35:44.580] Chuan Wu: Okay, so let's double check. Why?
+
+[00:35:47.640] Chuan Wu: Okay, so here.
+
+[00:35:50.820] Chuan Wu: So we have analyzed, and what we derived is this major equality. Okay, two conditions here. Okay, so here we know PI equaling 1 over lambda minus Ni, if lambda is smaller than 1 over ni.
+
+[00:36:06.690] Chuan Wu: So lambda is smaller than 1 over ni, equivalently, that is Z ni.
+
+[00:36:12.180] Chuan Wu: is smaller.
+
+[00:36:15.390] Chuan Wu: That went over that back.
+
+[00:36:19.840] Chuan Wu: Okay, so if Ni is smaller than 1 over lambda, so Ni is smaller than the eventual water level 1 over lambda, then, we have PI equating
+
+[00:36:32.700] Chuan Wu: PI, equating.
+
+[00:36:35.190] Chuan Wu: 1 over lambda minus an i.
+
+[00:36:39.060] Chuan Wu: So that's exactly equivalent to PI plus an I equals 1 over lag that. Okay.
+
+[00:36:46.520] Chuan Wu: PI plus an i equaling 1 over lambda.
+
+[00:36:50.200] Chuan Wu: And the other situation is an i is larger than 1 over lambda.
+
+[00:36:55.130] Chuan Wu: So, like, in the case of VIN3, so NI is larger than our eventual 1 over lambda.
+
+[00:37:01.300] Chuan Wu: And in that case, our corresponding PI has to be exactly just a zero.
+
+[00:37:10.210] Chuan Wu: Okay, so therefore, actually throughout the procedure of the water filling algorithm I was introducing with this illustration on board, we are guaranteeing the equality here holds.
+
+[00:37:26.460] Chuan Wu: And the other major condition we make use of is here. So the primal constraints holding with equality.
+
+[00:37:33.570] Chuan Wu: And we sum up… sum up PI, the sum of PI, including being P.
+
+[00:37:39.850] Chuan Wu: Right?
+
+[00:37:41.020] Chuan Wu: Okay, so where did we make use of that? So we make use of that when we're deciding… when we are deciding how much water in total to inject.
+
+[00:37:49.690] Chuan Wu: Right? So we stop at a point when P1 plus P2 plus P4, exactly equating that big P, and then we stop.
+
+[00:38:00.390] Chuan Wu: Okay, so that big P decides our stopping criteria when running this numerical algorithm in code.
+
+[00:38:08.130] Chuan Wu: Okay, we always sum up the current allocated P1 plus P2 plus P4. If they sum up to big P, then we stop.
+
+[00:38:16.750] Chuan Wu: Right.
+
+[00:38:17.900] Chuan Wu: Okay.
+
+[00:38:19.070] Chuan Wu: Alright,
+
+[00:38:22.750] Chuan Wu: So this is a so-called and quite famous water filling algorithm that we are introducing, and in the textbook, there is a similar example, and they have a very close, similar way to introduce the algorithm, but slightly, some slight variation, and you are encouraged, I believe, listed here.
+
+[00:38:45.530] Chuan Wu: Okay, so here. And you are encouraged to check it out. So the whole set of algorithms is so-called water filling, because it has the KKD calculations boils down to some very simple, neat, and intuitive water filling algorithm design.
+
+[00:39:00.310] Chuan Wu: Okay, and evaluation is on the textbook, and you're definitely encouraged to check it out.
+
+[00:39:08.570] Chuan Wu: Okay.
+
+[00:39:10.080] Chuan Wu: All right, so this is a classical example on a simple need optimization problem, where we can exploit the KKD condition to design some numerical algorithm. So pay attention here, we don't exactly have the close-form solution for PI and lambda muice.
+
+[00:39:29.740] Chuan Wu: what we actually have is exactly, again, a numerical algorithm. So that means when we are given the input 9 and a big P, we have this algorithm step by adding small delta, delta eventually arrive at the numerical value, satisfying the KKD conditions.
+
+[00:39:47.000] Chuan Wu: Okay, so it's a numerical algorithm.
+
+[00:39:51.710] Chuan Wu: Alright,
+
+[00:39:56.230] Chuan Wu: And, actually, this water filling example and the idea of the algorithm design can be generalized, okay? Over there, we have, although our NIEP are not known, but, at least the objective function is exactly known.
+
+[00:40:11.650] Chuan Wu: So what I want to show here is that, even if we do not know that even if the objective function is in a different form from the negative sum of log, we can still use similar idea, or get similar idea to design a numerical algorithm to solve the corresponding complex problem.
+
+[00:40:31.630] Chuan Wu: So here, suppose our objective function is just a generic PI.
+
+[00:40:36.180] Chuan Wu: But we do require that PI is convex twice differentiable, that means it's hashing, and its Hashion is positive definite. Okay, so that's a pretty strong requirement on convexity of the objective function. So, objective function FP is convex, and we mean by the convex objective, and then constraints.
+
+[00:40:54.950] Chuan Wu: constraints remain the same as in our, more concrete water failing example. So we have all the variables PI that are equal to 0, and we want all the PI summed up to big P, no, larger than big P.
+
+[00:41:08.160] Chuan Wu: And this is actually conforming, to, the simplest, resource allocation problem. Okay, so again, we have big amount of resource, big P,
+
+[00:41:18.830] Chuan Wu: We have the total amount of results being a P, and we try to allocate it to A onto this, and we try to, by this allocation, we want the objective function to be as small as possible.
+
+[00:41:30.910] Chuan Wu: Okay.
+
+[00:41:32.090] Chuan Wu: All right, of course, in a real-world resource allocation problem, often objective function is in maximization form. We want to maximize some utility by allocating the resource, right? Often, we still listed here in the validation form, just to be consistent with our general form of validation we deal with.
+
+[00:41:52.350] Chuan Wu: Okay, and then over here, we require that partial derivative of the objective function is, smaller than zero.
+
+[00:42:01.100] Chuan Wu: So, partial derivative of objective function with respect to every variable PI smaller than zero, what does that imply? It implies when does PI increase? So, when PI increases from 0 to a positive value, then objective function value is decreasing.
+
+[00:42:18.260] Chuan Wu: Okay, so that actually just to make the problem kind of meaningful, because we want to minimize, right? And we want to allocate the results out to minimize. The more results we allocate out, the object function is smaller.
+
+[00:42:30.960] Chuan Wu: that eventually we will just allocate all the resources. It's just how we, coordinate among all the key candidates, which one gets more, which one gets smaller, gets less.
+
+[00:42:41.960] Chuan Wu: Okay, and then, we also know that PI is separable in terms of every PI.
+
+[00:42:49.130] Chuan Wu: So, consider the concrete example, sum of log, sum of… negative sum of log. The objective function is separable in terms of every API. That is exactly the same, all the three algorithms can apply.
+
+[00:43:02.260] Chuan Wu: And in the idea of the water saving, algorithm can be summarized concisely, just in using this one sentence. Okay, one sentence.
+
+[00:43:11.110] Chuan Wu: So basically, we try to maximally allocate the resource into a quantity of variable PI, which achieves the current smallest marginal utility.
+
+[00:43:23.040] Chuan Wu: Okay, marginal utility, often in the literature, we just use a partial derivative of our objective function with respect to the variable to represent. So that is so-called marginal utility.
+
+[00:43:35.570] Chuan Wu: And, we know that, National utility is,
+
+[00:43:42.280] Chuan Wu: increasing with, okay, I think there is a little bit twisting here.
+
+[00:44:10.730] Chuan Wu: Right, yes, marginal utility is increasing, right. Okay, so the partial derivative, okay, the notion is the partial derivative is often used to represent some marginal utility, okay? And then, the marginal utility should be increasing with PI.
+
+[00:44:27.270] Chuan Wu: And, in terms of our…
+
+[00:44:30.730] Chuan Wu: preverse water-feeling concrete objective function. So this is our, partial derivative of
+
+[00:44:39.110] Chuan Wu: The objective function is this part.
+
+[00:44:47.760] Chuan Wu: Okay.
+
+[00:44:48.720] Chuan Wu: So consider our FP as the, Negative sum of luck.
+
+[00:45:02.320] Chuan Wu: Okay, maximum sum of log. Then, its partial derivative with respect to every PI is here. So that's the first part of the gradient of the Lagrangian, right? So we know when PI increases.
+
+[00:45:16.660] Chuan Wu: this quantitative becomes… Larger.
+
+[00:45:20.780] Chuan Wu: Right.
+
+[00:45:22.330] Chuan Wu: This quantity becomes larger. And when this quantity becomes larger, so that is, not exactly what we want, because we want the objective function to be as small as possible.
+
+[00:45:36.400] Chuan Wu: So therefore,
+
+[00:45:38.940] Chuan Wu: If we allocate a PI… if we allocate some resource to a PI, meaning adding a delta positive quantity to PI, then its marginal utility is, increasing.
+
+[00:45:50.650] Chuan Wu: But, well, the objective function is to minimize FP, so we want the objective function value to, to increase along the… with respect to PI, we want the objective function to be as simple as possible, so we don't really want to allocate resource.
+
+[00:46:09.660] Chuan Wu: to not yet with large marginality.
+
+[00:46:13.500] Chuan Wu: Okay.
+
+[00:46:15.760] Chuan Wu: Okay, so therefore, we always allocate the resource to PI, the recurrent smallest margin utility, and then until all the resource PI still sell.
+
+[00:46:25.900] Chuan Wu: And with respect to the concrete example here, so the, the…
+
+[00:46:33.340] Chuan Wu: The marginal utility here, is kind of representing, corresponding tool.
+
+[00:46:44.180] Chuan Wu: The water level here.
+
+[00:46:47.530] Chuan Wu: So we want to allocate the resource with, corresponds to the current smallest marginal utility that corresponds to the current lowest water level in the bin.
+
+[00:46:59.680] Chuan Wu: Okay, and when we allocate resource to the moon, it's kind of the smallest water level.
+
+[00:47:06.710] Chuan Wu: We are adding resource to PI with the smallest marginal utility.
+
+[00:47:13.580] Chuan Wu: Okay, so we allocate, allocate eventually, until the results have all been used up.
+
+[00:47:20.410] Chuan Wu: Right. So the idea here is a little bit twisting, because we kind of try to, make the objective function in… put the objective function into the minimalization form.
+
+[00:47:31.910] Chuan Wu: Actually, if we, the more intuitive way to understand this water-building algorithm is we just consider a maximization objective function. Maximize a concrete function.
+
+[00:47:43.620] Chuan Wu: And in that case, when we allocate,
+
+[00:47:47.440] Chuan Wu: In that case, what… when we allocate resource into one of the variables PIs, what we are trying to put in is to put PI… to, put the resource into the PI, achieving the current largest marginal utility with respect to the objective function, maximized.
+
+[00:48:06.260] Chuan Wu: Okay, all right, so here, it does sound a little bit twisting, because our objective function is in the validation form.
+
+[00:48:14.850] Chuan Wu: Okay, so while it's in the minimization form, we allocate, some PI, we allocate some positive delta into a PI, and that will result in the reduction of the objective function FP here.
+
+[00:48:28.660] Chuan Wu: But the PI that we want to add that small delta on the result should be the PI whose marginal utility is the smallest. So that means the increase is the smallest, because we want to minimize objective function.
+
+[00:48:44.080] Chuan Wu: Okay.
+
+[00:48:45.880] Chuan Wu: Alright,
+
+[00:49:04.960] Chuan Wu: Okay, so is my point clear?
+
+[00:49:08.360] Chuan Wu: is clear, then let's check out the, more… check out the KDM general… more general form KDM liquidation, and then we are also able to do some geometrical ascertaination using the water filling… beam, water filling, example.
+
+[00:49:23.800] Chuan Wu: Okay, so what we have listed on the previous slide is the general idea to solve the algorithm, and it is grounded under the KGB condition. So what that one sentence describes the water feeding algorithm?
+
+[00:49:40.970] Chuan Wu: is trying to follow is exactly to solve the K&A conditions. And then, let's together look at what the AIC conditions for the general water drilling example program are looking like.
+
+[00:49:54.320] Chuan Wu: Okay, so we have, the, so here we actually omit the,
+
+[00:50:01.370] Chuan Wu: We omit the, primal constraint, the dewer constraint, and complementary slackness conditions.
+
+[00:50:11.730] Chuan Wu: And we directly… because all of them are the same as what we have put down under the more concrete water filling example, and what we directly start with here is the fourth set of conditions under KKT.
+
+[00:50:26.120] Chuan Wu: Okay, so let's check out the Lagrangian function of this more general form, the water feeding example. So objective function is just FP to minimize, and then this is the lambda multiplying the inequality constraint, and then sum of mui, multiplying the corresponding inequality constraint function. And then we want this gradient of the Lagrangian to vanish.
+
+[00:50:51.100] Chuan Wu: So that means the partial derivative of the Lagrang gene with respect to every PI should be exactly zero. Okay.
+
+[00:50:59.980] Chuan Wu: So then, FP is given some general form of convex program, and we just use partial derivative of it in the first part. And then the second part, the partial derivative with respect to PI is lambda. And for the third part, partial derivative with respect to PI is negative mu i.
+
+[00:51:21.740] Chuan Wu: Okay, and then we, similar to the previous case, we analyzed two situations. So the first is, we consider PI larger than zero. The second case is we consider PI equally 0. So when PI larger than zero, using complementary slackness, we know the corresponding mu i should be exactly 0.
+
+[00:51:40.650] Chuan Wu: And then when mu i is 0, according to the above equality, what we have is partial derivative of F with respect to PI plus lambda should be exactly 0.
+
+[00:51:53.060] Chuan Wu: And in the case that PI equaling zero, so when PI is equaling 0, what we have is, here. So when PI equaling 0, mu i, the corresponding mu i, is larger equal to 0. So according to the, equality here.
+
+[00:52:10.000] Chuan Wu: So when mu i is exactly 0, what we… when mu i is larger equal to 0, what we have is here. The partial derivative here plus lambda is larger equal to 0, and we denote it here.
+
+[00:52:23.520] Chuan Wu: So what we denote using the vertical line, 0 is… so this is evaluated 1PI equaling 0. So partial derivative of objective function with respect to PI, evaluated 1PI equaling 0, plus lambda.
+
+[00:52:39.290] Chuan Wu: It's equaling mu i, and the mu i is logical to 0, so it's logical to 0.
+
+[00:52:44.120] Chuan Wu: And summarizing from the two cases here, what we can come up with a formula to express PI in terms of lambda.
+
+[00:52:52.640] Chuan Wu: Okay, so it is here.
+
+[00:52:54.430] Chuan Wu: And to simplify notation a bit, here we just use FI prime P.
+
+[00:53:00.330] Chuan Wu: to denote the partial derivative of the objective function FP with respect to, variable PI. Okay, so we use Fi prime p to represent that. And we also, we, we also consider it's, invertible, okay? So the partial derivative function here is invertible, and if we have a minus sign there, it further indicates the inverse of this
+
+[00:53:24.820] Chuan Wu: corresponding partial derivative function. Okay, so using the defined notation, what we come up with is here. So PI, equaling… so here.
+
+[00:53:39.280] Chuan Wu: the… partial derivatives.
+
+[00:54:00.180] Chuan Wu: Okay, using our defined notation, so we know F prime, I, P,
+
+[00:54:07.700] Chuan Wu: So that is a partial derivative part, plus lambda equaling 0. So 1PI is larger
+
+[00:54:15.660] Chuan Wu: 1PI is larger than the other. Okay. And, we…
+
+[00:54:26.280] Chuan Wu: Okay, so the equality becomes here, and…
+
+[00:54:30.030] Chuan Wu: over P equaling Fi prime inwards of negative labor, considered inwards of the partial derivative function.
+
+[00:54:38.490] Chuan Wu: Okay.
+
+[00:54:39.500] Chuan Wu: And this is how we derive the first case of PI's value, here. Okay, so FI prime negative 1 inverse of the partial derivative, and evaluate it as negative lambda.
+
+[00:54:54.410] Chuan Wu: And this happens when lambda is smaller than negative Fi prime 0.
+
+[00:55:00.930] Chuan Wu: Why?
+
+[00:55:03.940] Chuan Wu: So that is corresponding to the second case. The 1PI equaling 0.
+
+[00:55:10.040] Chuan Wu: Using our notation, what we have is
+
+[00:55:13.590] Chuan Wu: F prime I0. So F prime I0 is a partial derivative of FP with respect to
+
+[00:55:22.610] Chuan Wu: PI evaluated at 0, 1P included in zero.
+
+[00:55:27.770] Chuan Wu: S lambda larger than equal to 0.
+
+[00:55:32.800] Chuan Wu: Okay, and that is… Under the case.
+
+[00:55:40.060] Chuan Wu: Lambda is larger or equal to negative 5 times 0.
+
+[00:55:44.430] Chuan Wu: Okay, so therefore, we have the two cases under different conditions of lambda. If lambda is larger or equal to negative Fi prime 0, then Fi… PI is exactly 0.
+
+[00:55:56.770] Chuan Wu: Otherwise, if lambda is smaller here, then we have a concrete PI value, which is calculated here, according to the value of lambda.
+
+[00:56:06.390] Chuan Wu: Okay, notation a little bit complex, but the idea is still the same as before.
+
+[00:56:11.590] Chuan Wu: Okay, and as I said, when we are allocating PI according to the formula in relationship to lambda, and in order to allocate, in order to allocate all the results P out.
+
+[00:56:26.010] Chuan Wu: We use the same auto-filling algorithm, and we actually have a similar, although a little bit twisted, geometric illustration.
+
+[00:56:35.430] Chuan Wu: In terms of water filling as… Dude.
+
+[00:56:44.390] Chuan Wu: Okay, I'll draw it here.
+
+[00:56:54.150] Chuan Wu: So again, we have, N beans, K beans.
+
+[00:57:09.640] Chuan Wu: And, different water level.
+
+[00:57:13.650] Chuan Wu: A different, lower level of the means.
+
+[00:57:22.780] Chuan Wu: Okay, and in the generic case, the floor level of every
+
+[00:57:30.100] Chuan Wu: B represent the value of Xi.
+
+[00:57:34.620] Chuan Wu: Prime, zero. Okay, FI prime, zero.
+
+[00:57:50.240] Chuan Wu: Okay, and then we will be filling water in in a similar manner.
+
+[00:57:56.740] Chuan Wu: So we inject the water, inject the water, okay, inject the water, inject the water…
+
+[00:58:04.460] Chuan Wu: Okay, suppose at this time, the first three beans will be flooded.
+
+[00:58:10.250] Chuan Wu: And the first three of the beans will be flooded, and…
+
+[00:58:15.870] Chuan Wu: The third bin, the floor level is still, again, too high, so it's not flooded.
+
+[00:58:21.210] Chuan Wu: And, let me stop.
+
+[00:58:29.090] Chuan Wu: Okay, so when we stop, the water level will be corresponding to negative lambda.
+
+[00:58:39.250] Chuan Wu: Okay, and when we recover the, PI value, so it's more complex than the, for simple, than the concrete objective function case, the, the water height in every bin
+
+[00:58:55.200] Chuan Wu: In the more generic case, is exactly…
+
+[00:59:06.170] Chuan Wu: Or, I shall say…
+
+[00:59:17.280] Chuan Wu: Okay.
+
+[00:59:20.500] Chuan Wu: So the total height here is FI… Prime.
+
+[00:59:29.080] Chuan Wu: Yeah.
+
+[00:59:32.290] Chuan Wu: Okay, so when it stops, the water level corresponds to negative lambda, and across all means, where there is water going in, the height of the water with respect to the fundamental ground level is exactly FI prime Pi.
+
+[00:59:52.640] Chuan Wu: Okay, here. So basically, every PI, so negative lambda is equaling Fi prime evaluated at the PI.
+
+[01:00:04.940] Chuan Wu: If we, inverse the function.
+
+[01:00:10.630] Chuan Wu: Here.
+
+[01:00:11.830] Chuan Wu: Okay, here, it's exactly here.
+
+[01:00:14.830] Chuan Wu: So, according to the KKD condition, what we have is FI prime key.
+
+[01:00:22.510] Chuan Wu: Aye.
+
+[01:00:24.320] Chuan Wu: It's exactly connected lambda.
+
+[01:00:27.140] Chuan Wu: So the same quantity across all VINs is, same order height, negative lambda.
+
+[01:00:33.330] Chuan Wu: And, with respect to every concrete PI,
+
+[01:00:36.990] Chuan Wu: They do not directly correspond to the height of water in every bean, but what they achieve is FI prime evaluated at the PI would be exactly the same water level, corresponds to the, growth.
+
+[01:00:58.200] Chuan Wu: All right, so this is not as intuitive as in our first example.
+
+[01:01:03.910] Chuan Wu: But still, this is consistent with our KKD conditions, so double check here. So eventually, the KKD condition goes down here, and we know the first case is exactly the case here.
+
+[01:01:19.050] Chuan Wu: And eventually, at optimality, when the water feeding is stopped, we have to ensure, for every PI, the corresponding Fi prime function evaluated at PI should be the same value.
+
+[01:01:31.390] Chuan Wu: Negative lambda.
+
+[01:01:33.670] Chuan Wu: And, this, water feeding still stopped when the total amount of water to inject to all the PI, P1, P2, up to PKs sum up to big P.
+
+[01:01:45.920] Chuan Wu: Okay.
+
+[01:01:52.840] Chuan Wu: All right.
+
+[01:01:53.970] Chuan Wu: So this is a very generic case, and in the first concrete, in our first water healing example we analyzed today, the neater and cleaner, illustration here is exactly due to we have the concrete negative sum of log object function 4.
+
+[01:02:13.480] Chuan Wu: Okay? If you do know the objective function FP's concrete form, you would have a simpler water filling illustration here as well, in general, okay? And in the most common case, we don't exactly know what the function P is like, of what the function F is like, this is a water-feeling
+
+[01:02:32.480] Chuan Wu: Approach to illustrate.
+
+[01:02:34.050] Chuan Wu: the corresponds to the numerical algorithm we can design and run to solve the KKD conditions.
+
+[01:02:46.300] Chuan Wu: All right, so I'll just be stopping here today for a short break, so 3 minutes break before we continue.
+
+[01:04:14.900] Chuan Wu: Boom.
+
+[01:04:15.980] Chuan Wu: Let's be concerned.
+
+[01:04:17.320] Chuan Wu: So, in the original problem, the water filling example, there's, the objective is negative sum log of 1 plus PI over NNI, right? Yes. So, we are assuming that all Ni's are positive, right? Yes.
+
+[01:04:35.220] Chuan Wu: Yes, P. Big P is also positive. Yeah, yeah, P is positive because of the constraints, but N is seem to be positive. Yes, yes.
+
+[01:06:00.110] Chuan Wu: There you go.
+
+[01:06:50.290] Chuan Wu: Okay, all right, let's continue with our lecture, and especially, we are working on the laser part of duality theory now.
+
+[01:06:57.920] Chuan Wu: And in this part, we want you to check out more variations of formulating the dual problem, as well as reformulating and extension of the duality into more generalized inequality constraints.
+
+[01:07:13.980] Chuan Wu: Okay.
+
+[01:07:14.970] Chuan Wu: So we have learned and worked on the detailed steps of deriving the dual problem. So what we actually know is, when the primal problem is given in different form… different equivalent forms, actually a steer would render pretty different forms. Okay.
+
+[01:07:34.430] Chuan Wu: Before, when we introduced convex program, we talked about the different ways to reformulate a given program, using, into, you call it, into an equivalent form, right? So what we want to show you is that, when the, primal problems formulations are different, then the dual problem could look very different.
+
+[01:07:57.320] Chuan Wu: And it is your task to decide the equivalent primal problem formulation form, such that your dual problem is meaningful and useful.
+
+[01:08:05.960] Chuan Wu: So what, in terms of useful, is that, often the purpose for us to formulate your problem is that your problem could be more either, it could be easier to solve than the primal problem, or the dual problem together means primal problem using, you can solve them concurrently together, then that you are formulating the dual problem would be useful. Okay.
+
+[01:08:27.920] Chuan Wu: So let's first check out that, when we have different forms of the equivalent forms of the primal program, how the dual program would look differently.
+
+[01:08:37.880] Chuan Wu: Okay, and, recall, how we can reformulate the primal problem in equivalent form. We could be introducing new variables or equality constraints, or we could reduce equality constraints and reduce the variables.
+
+[01:08:53.310] Chuan Wu: And we could be replacing the objective function into equilibrium form, for example, replacing the operational objective function F0, by phi F0, by composition with some very… with some convex increasing function phi, okay?
+
+[01:09:08.960] Chuan Wu: So those are techniques we have seen to reformulate the problem into an equivalent board.
+
+[01:09:14.270] Chuan Wu: Okay, so next, let's check out when we are dealing with different equivalent forms of the same problem, what the different dual problem we could result in.
+
+[01:09:23.790] Chuan Wu: Okay, so here, so let's say the primal problem we are looking at is here, it's unconstrained originally. So we are minimizing F0 combination with the affine function AX plus B.
+
+[01:09:37.279] Chuan Wu: And, then for this unconstrained optimization, what does its viewer problem look like that here?
+
+[01:09:45.460] Chuan Wu: So the, when we formulate the dual problem, we know we need to come up with the Lagrangian, so the Lagrangian LX here, and then we minimize the Lagrangian over X, then we come up with a dual function G, and then in the dual problem, we are maximizing the G subject to any potential,
+
+[01:10:04.160] Chuan Wu: Constraint. Okay, so for this primal unconstrained optimization problem, what does this Lagrangian look like? Because we don't have explicit constraint. So the Lagrangian LX is exactly the primal objective function.
+
+[01:10:19.350] Chuan Wu: Right, so the Lagrangian is exactly only consisting of the primal objective function. And then we are deriving the DUR, which is to further do implement of the Lagrangian with respect to X.
+
+[01:10:32.530] Chuan Wu: So this increment calculating calculation when deriving the dual function, you found out that the increment of objective function F0, AX plus B with respect to X, that is exactly equivalent to the primal problem itself.
+
+[01:10:48.810] Chuan Wu: Right? So it's exactly the primal problem itself.
+
+[01:10:52.270] Chuan Wu: So therefore, the implement will give us the optimal primal value P star, and we actually know our dual function is exactly our primal value.
+
+[01:11:05.380] Chuan Wu: objective, the primal problem. So the… the problem of deriving the dual function is exactly equivalent to solving the primal, optimization problem.
+
+[01:11:18.010] Chuan Wu: then, okay, the difficulty level and the… all the steps would remain the same, right? So therefore, by deriving the dual, it doesn't add anything new.
+
+[01:11:27.790] Chuan Wu: Or it doesn't bring anything new to solve the primal problem.
+
+[01:11:31.170] Chuan Wu: Okay.
+
+[01:11:32.310] Chuan Wu: All right, so therefore, in this case, we, we do have a strong duality, right? Because when we derive the dual function, the step is exactly like solving the primal problem. Then, of course.
+
+[01:11:48.420] Chuan Wu: We… and then the dual problem actually is kind of…
+
+[01:11:53.160] Chuan Wu: meaningless, so we don't have any variable to maximize in terms of G, so therefore the duality deriving the Dior is very… is quite useless in terms of solving the original primal problem.
+
+[01:12:05.970] Chuan Wu: And what we can do is, we… in order to make use of duality for… to provide at least another approach to solve the primal problem, then directly solving the primal problem, we should formulate a more useful, a meaningful dual. And to do that, we can convert the primal problem into an equivalent form by introducing equality constraint and a new variable Y.
+
+[01:12:30.620] Chuan Wu: So suppose we introduce new variable Y, and we ask Y to be equivalent to AX plus B. Then the primal problem becomes a form here. So we are minimizing F0 Y, and then we have an equality constraint.
+
+[01:12:44.750] Chuan Wu: So when we have an equality constraint, then the dual would be meaningful, because we have to associate the dual variable with the equality constraint, and then we can come up with the dual problem. Okay.
+
+[01:12:57.890] Chuan Wu: For equality constraint,
+
+[01:13:00.590] Chuan Wu: of the optimization problem, we know… we actually have seen them before, and we know the derivation would involve conjugate function calculation, derivation of conjugate function, because equality constraint will nicely, conform to a conjugate function calculation formula.
+
+[01:13:19.230] Chuan Wu: Let me briefly put the… put it down here to brush up your memory.
+
+[01:13:28.690] Chuan Wu: Okay, so for the equilibrium form, it's Lagrangian is here. Let's say the multiplier we associate with the equality constraints is, mu, mu.
+
+[01:13:41.140] Chuan Wu: New.
+
+[01:13:49.340] Chuan Wu: Okay, so this is our Lagrangian, and when deriving the Dior function, we try to minimize over… X, Y?
+
+[01:13:59.830] Chuan Wu: our G mu, including the Lagrone genes minimization over X and the Y. So our primal variables now includes two sets. One is X and the other is Y.
+
+[01:14:12.910] Chuan Wu: Okay, and then…
+
+[01:14:31.720] Chuan Wu: We can separate the terms in the Labor with respect to X and Y, respectively.
+
+[01:14:48.870] Chuan Wu: Okay.
+
+[01:14:50.020] Chuan Wu: All right, and then… Check on this puppy.
+
+[01:15:00.610] Chuan Wu: Okay, so does this part remind you of anything?
+
+[01:15:04.740] Chuan Wu: It's a formula can calculate the conjug.
+
+[01:15:08.690] Chuan Wu: of a given function, right? So, conjugate function.
+
+[01:15:13.100] Chuan Wu: So…
+
+[01:15:20.890] Chuan Wu: Okay.
+
+[01:15:21.980] Chuan Wu: All right, of course, there could be some sign inverse of some sine, and then, making it, the,
+
+[01:15:29.020] Chuan Wu: formulaic… following the conjugate functions formula. Okay, conjugate function is in the supreme form. There is infinite, right? So we have to have a negative of, that… negative of, supreme of negative of the function. But, after twisting all the, sides, what we come up is here.
+
+[01:15:48.950] Chuan Wu: Okay, so it's the first part, I circles in blue, is equivalent to negative F0 conjugate
+
+[01:15:57.080] Chuan Wu: a function of the ethnic Bureau, evaluated at the new
+
+[01:16:01.220] Chuan Wu: Okay, and then, how about the, second part here? So here is the alpha function on X.
+
+[01:16:08.020] Chuan Wu: So pu transpose A nu is considered given, A is given, nu transpose A, and then X. So we know alpha function is unbinded unless the coefficient vector is exactly zero, right? That we are in the projecting as is exactly zero.
+
+[01:16:23.650] Chuan Wu: So therefore, there are two cases, we consider,
+
+[01:16:28.320] Chuan Wu: A transpose mu is exactly 0, or otherwise.
+
+[01:16:34.120] Chuan Wu: Okay, so if it's exactly zero, this term is gone, and what we are remaining with is only V transformed.
+
+[01:16:42.330] Chuan Wu: be transparent.
+
+[01:16:44.140] Chuan Wu: And, otherwise, it's abundant below.
+
+[01:16:49.580] Chuan Wu: Right, okay.
+
+[01:16:52.510] Chuan Wu: All right, and then when we put down the dual problem, it's in maximization form, and then, of course, we only take the non-negative infinity case. We only take the first case, and that first case gives us the dual problem here.
+
+[01:17:08.130] Chuan Wu: So we are maximizing negative F0RO conjugate nu plus B transpose nu, subject to that A transpose nu is 0.
+
+[01:17:18.540] Chuan Wu: Okay.
+
+[01:17:19.540] Chuan Wu: All right, so for… we know for different given functions, we always… we… we can always derive… we can derive the conjugate, and for some well-known functions, it's conjugate already derived by others and given. So therefore, the, dual function problem is in an explicit form, and we can solve… kind of solve the dual problem, and at least derive,
+
+[01:17:43.810] Chuan Wu: lower bound for the primal, optimal value. And then we can also derive at least the approximate primal optimal solution.
+
+[01:17:53.340] Chuan Wu: Okay, so this is, first case, say, showing us that when we reformulate the primal problem into equilibrium form, a pure problem could be more meaningful and useful.
+
+[01:18:06.390] Chuan Wu: Okay, a concrete example here. Okay, concrete example where we do know the objective function F0 is a norm, okay, it's a norm function.
+
+[01:18:16.530] Chuan Wu: So for the norm function, so we can put it down. When we're minimizing the norm of a FN function, we convert it to the equivalent form here, introducing a set of variable Y.
+
+[01:18:28.220] Chuan Wu: Okay, and we do know the norm functions conjugate. You can find it out from the textbook, and using the conjugate of the norm function, we can exactly put down the concrete form of the dual problem here.
+
+[01:18:46.860] Chuan Wu: Okay.
+
+[01:18:48.070] Chuan Wu: All right, so that is, conversion case one, and then the second case is
+
+[01:18:54.550] Chuan Wu: Rather than introducing new constraints, we could be making some existing constraints implicit, okay? That also means when we derive the tour, we do not.
+
+[01:19:08.130] Chuan Wu: explicitly associate multipliers means that those constraints, and we only consider constraints when we are deriving the dual function in a minimization code. So let's check it out.
+
+[01:19:21.130] Chuan Wu: Okay, here, concrete example here. So here we have a linear program. So if we consider objective function, object function is a linear program, a linear function on X, and we have a set of linear equalities, AX equaling B. And other than those, we have a set of so-called box constraints. So here, vector X is within the range of negative 1 vector.
+
+[01:19:46.120] Chuan Wu: and one vector, so this exactly… what it exactly means is every Xi is in the range of negative 1 to 1.
+
+[01:19:53.700] Chuan Wu: Okay.
+
+[01:19:55.200] Chuan Wu: All right, so this is a pretty standard linear program, and then you can associate variables, like lambda… you can have lambda 1, lambda 2 associated with the two sets of inequality box… in the box constraints.
+
+[01:20:11.760] Chuan Wu: you have new associated with AX equating B, and then you can derive the dual problem. So the dual problem, of course, is guaranteed to be a linear program as well.
+
+[01:20:21.590] Chuan Wu: Here, you found out that the dual problem is kind of a little bit complex, involving three sets of variables. And, an alternative way is we can, we, when we derive the dual, we don't have to consider all the constraints.
+
+[01:20:38.710] Chuan Wu: we can kind of hide some constraints into the objective function as part of the domain of the objective function, then we could be deriving a dual problem that is in a neater form. Okay, and how is that achieved? It's here.
+
+[01:20:53.760] Chuan Wu: Okay, among the constraints, we return AX equaling B, the equality constraints. And for the box inequality constraints, where do we consider it? We kind of merge it with objective function.
+
+[01:21:08.640] Chuan Wu: So we consider the object function has two cases. One case is when the inequalities, the box inequalities are satisfied, then the objective functions equaling the original value C transpose X. Otherwise, if the constraints are not satisfied, we make the objective function value to be positive infinity.
+
+[01:21:28.880] Chuan Wu: So in this way, we kind of assign that box, those box constraints, as domain of the objective function.
+
+[01:21:36.830] Chuan Wu: Okay, domain of the objective function. Recall, in many cases, we do have domain for the objective function. For example, for the… when the objective function involves lock, we do require whatever behind the lock sign symbol to be a positive value, right? Okay, so that is also considered as domain of the objective function.
+
+[01:21:57.370] Chuan Wu: Okay, so treating the original problem in this way, first of all, you need to… we can see the, apologization problem here is exactly equivalent to the original object… original optimization problem. And treating it in this form, we can come up with a neater form of the doer problem.
+
+[01:22:16.770] Chuan Wu: So how? So here.
+
+[01:22:18.920] Chuan Wu: So we have objective function in the, two… in the… with the domain here, and then what is about our Lagrangian? So our Lagarangian is still the objective function augmented by the, product of multiplier and the explicit constraint.
+
+[01:22:39.110] Chuan Wu: And now, our explicit constraint is only the equality constraint, AX minus B equaling 0. We will associate multiplier nu with it, so this is a lock around J. And the domain of the objective function, where is it made use of?
+
+[01:22:55.950] Chuan Wu: The domain of the objective function is made use of when we derive the Durer function.
+
+[01:23:01.490] Chuan Wu: So when we derive the dual function, we are doing minimization of the Lagrangian with respect to the primal variable in the domain of the objective function. So it's here, okay?
+
+[01:23:15.880] Chuan Wu: Right, so the box constraint happened here as domain of the function f to minimize X on in deriving the Durer function. So this is exactly conforming to our standard step of deriving the Dior.
+
+[01:23:30.830] Chuan Wu: Okay, it's just that we consider some domain here. And, what, for minimization of the, affine function there.
+
+[01:24:05.050] Chuan Wu: Okay.
+
+[01:24:06.010] Chuan Wu: So we have C transpose X plus… A transpose mu.
+
+[01:24:13.610] Chuan Wu: principles X.
+
+[01:24:17.010] Chuan Wu: minus mu transpose B. Okay, so this is what we are minimizing. So, implement of that when X is in the range of negative 1, 1.
+
+[01:24:28.520] Chuan Wu: End?
+
+[01:24:29.810] Chuan Wu: Combining the terms related to… X.
+
+[01:24:37.630] Chuan Wu: Okay, so we are minimizing the alpha function here. When X is in the range.
+
+[01:24:47.120] Chuan Wu: Positive one, and the negative one.
+
+[01:24:51.820] Chuan Wu: Okay.
+
+[01:24:52.950] Chuan Wu: Actually, we know, we say, this is, equivalent to L1 naught of the coefficient vector here.
+
+[01:25:03.140] Chuan Wu: So why? So the, treating the whole thing here as a vector. Okay, call it a vector.
+
+[01:25:11.570] Chuan Wu: U.
+
+[01:25:12.850] Chuan Wu: Okay, so the, first term, the, inner product, is exactly equivalent to sum of ui xi, right? And now we know every XI is in the range of negative 1 and 1.
+
+[01:25:30.970] Chuan Wu: And if we want to minimize the weighted sum here, how do we choose the value of XIs within the range here?
+
+[01:25:39.910] Chuan Wu: So when the corresponding coefficient UI is larger than 0, we choose Xi to be negative 1, to make the product the smallest possible, right? And when the coefficient UI here is smaller than 0, we choose corresponding Xi to be positive 1.
+
+[01:25:59.090] Chuan Wu: To make the product still the smallest.
+
+[01:26:01.640] Chuan Wu: Negative smallest.
+
+[01:26:03.400] Chuan Wu: Right? So that's our idea. So intentionally, every XI should be UI,
+
+[01:26:16.530] Chuan Wu: Absolute value.
+
+[01:26:19.940] Chuan Wu: Okay, it should be here.
+
+[01:26:23.110] Chuan Wu: Oh, sorry. From inside of that, Or, I should say, UI?
+
+[01:26:32.410] Chuan Wu: Eventually.
+
+[01:26:38.020] Chuan Wu: Right.
+
+[01:26:39.360] Chuan Wu: Eventually, when we choose an Xi, the product UI XI should exactly be negative UI, absolute value.
+
+[01:26:48.440] Chuan Wu: Right.
+
+[01:26:49.470] Chuan Wu: Okay, all right, and then in that case, let's hear,
+
+[01:26:56.960] Chuan Wu: The, inner product eventually is a death belief, Don't lie.
+
+[01:27:05.800] Chuan Wu: So, an active sound of that.
+
+[01:27:08.200] Chuan Wu: All day.
+
+[01:27:09.890] Chuan Wu: All right, so what is that? That is exactly, L1 naught of U negative.
+
+[01:27:19.930] Chuan Wu: So L1 norm's definition is sum of absolute value of every component.
+
+[01:27:26.770] Chuan Wu: Okay, and remember our U is C plus A transpose nu. So therefore.
+
+[01:27:33.080] Chuan Wu: The concrete form is here, so L1 norm of the vector, coefficient vector there.
+
+[01:27:38.060] Chuan Wu: be worse.
+
+[01:27:42.180] Chuan Wu: Okay, all right, and then our dual function now, as compared, is here, and what is about our dual problem? So our dual problem is to maximize the dual function without explicit constraint.
+
+[01:27:57.100] Chuan Wu: Because our dual variable mu is associated with equality constraint, so there is no explicit nu logical to zero condition.
+
+[01:28:08.290] Chuan Wu: So therefore, with this conversion of the primal problem by hiding some constraints into the domain of objective function, and then still follow the three steps of deriving the Durer, the doer we have derived here is much neater than the dual problem we have seen in the original way of deriving the Dior, right?
+
+[01:28:29.160] Chuan Wu: So now, at least, now the dual problem, first of all, the dual problem is unconstrained.
+
+[01:28:34.320] Chuan Wu: And later, when we will be starting from next lecture, we'll be introducing algorithms to solve convex program. What we exactly start with is algorithm to solve unconstrained convex program, because that is a simple list. The algorithm over there is a simple list.
+
+[01:28:52.090] Chuan Wu: Okay, so here we have unconstrained problems, so that they are as efficient hours later.
+
+[01:28:58.710] Chuan Wu: And the… although the dual problem now is no longer a linear program, okay, no longer a linear program because of our conversion of everything here, but still it's a convex program, and we can use that algorithm for solving unconstrained convex program to solve it.
+
+[01:29:17.370] Chuan Wu: Okay.
+
+[01:29:22.010] Chuan Wu: All right, and, closely associated with our technique saw in the previous example here, well, let's introduce, what is so-called as partial Lagrangian relaxation.
+
+[01:29:35.110] Chuan Wu: So what is, Lagrangian relaxation? So actually, follow the steps of deriving the viewer, the first step is we come up with the, Lagrangian function.
+
+[01:29:45.580] Chuan Wu: So when we come up with Lagrangian function in the form of augmenting the original objective function, we split the sum of the constraint functions. So that step is kind of… is often called as Lagrangian relaxation in MLA literature.
+
+[01:29:59.840] Chuan Wu: Okay, what are we… are we relaxing? We are relaxing the constraints. We relax the primal constraints and add them into the objective function, and then we come up with a lateral object.
+
+[01:30:10.680] Chuan Wu: And we know the background gene is closely related with the dual function, which is the dual objective function, eventually.
+
+[01:30:17.150] Chuan Wu: Right, okay. So, coming up with Lagrangian function, that's that is, called as Lagrangian relaxation. And what is Lagrangian… partial Lagrangian relaxation about?
+
+[01:30:28.920] Chuan Wu: So that exactly means when we come up with a Lagrangian function, we do not involve all the constraints of the primal problem. We probably just choose a subset of the primal problem, and move those, subset of primal constraints, and move those into the Lagrangian function, evaluated some form.
+
+[01:30:49.520] Chuan Wu: But we return the restless set of primal constraints as domain of the primal cognitive function.
+
+[01:30:56.130] Chuan Wu: Okay, exactly the same technique as we saw in the example here. So let's check it out. I'm building a simpler form, how to represent our idea.
+
+[01:31:05.380] Chuan Wu: So here, our objective function is to minimize F0X, and then we have two constraints. Okay, of course, you can consider that two constraints actually represents two sets of constraints.
+
+[01:31:16.820] Chuan Wu: Okay, so one set is what we want to relax in composing the Lagrangian function, and the other set is what we want to return in, deriving the doer, return as a domain of the objective function to obtaining the doer.
+
+[01:31:31.470] Chuan Wu: Okay, using the simple case to illustrate our idea, two constraints. Okay, and in general, we just consider two inequality constraints, but the same idea can be applied to the case with equality constraints as well.
+
+[01:31:45.410] Chuan Wu: Okay.
+
+[01:31:46.550] Chuan Wu: So consider this observation. The… if we use the very original approach to derive the Lagrangian, sometimes we call it the full Lagrangian relaxation, and deriving the dual, what we come up with is here. Assuming lambda 1 is a multiplier with the first constraint, and lambda 2 is a multiplier associated with the second constraint, then our Lagrangian function is here.
+
+[01:32:10.010] Chuan Wu: So we have objective function, and then we did some of the relaxed constraint functions.
+
+[01:32:15.070] Chuan Wu: And then our Lagrange dealer G would be on two variables, lambda 1, lambda 2, and then it's calculated by minimizing Lagrangian with respect to X.
+
+[01:32:25.590] Chuan Wu: And here, we probably don't have many explicit constraints on X. X has to purview the domain of the original objective function F0X.
+
+[01:32:36.740] Chuan Wu: Okay, then how about a partial background here? So consider between the two constraints, we only relax the first constraint, but we return the second constraint when we are deriving the dual.
+
+[01:32:49.620] Chuan Wu: Okay, so what I mean is here, so let me use L tuta to differentiate this Lagrangian from the full Lagrangian relaxation.
+
+[01:32:57.690] Chuan Wu: So the Lagrangian consists of the objective function plus weighted sum of the relaxed constraint, assuming we are relaxing F1x more or equal to 0, and the lambda here is a scalar variable, multiplier associated with F1X.
+
+[01:33:14.890] Chuan Wu: And where does F2X more equal to 0 happen? It's here.
+
+[01:33:19.280] Chuan Wu: When we calculate Lagrangian dual function, we are minimizing this partial Lagrangian with respect to X in the domain of the Lagrang… in the domain of the objective function, and we consider F2X smaller to 0 as part of the domain of the objective function.
+
+[01:33:37.810] Chuan Wu: So the same technique as we applied just now on the linear program with box constraint.
+
+[01:33:43.010] Chuan Wu: Okay, and then we call the Lagrange dual we derived as partial Lagrange duo, such as use G tilda to denote it.
+
+[01:33:52.250] Chuan Wu: All right, and then, our duality results, what the important and interesting duality results we can come up with, we have regarding this partial Lagrangian is here.
+
+[01:34:05.890] Chuan Wu: So when we have the partial Lagrangian function G2 dot lambda there, what is our dual problem like?
+
+[01:34:13.610] Chuan Wu: So the dual problem is still in the standard… is still put on in the standard way.
+
+[01:34:20.070] Chuan Wu: We are minimizing
+
+[01:34:28.320] Chuan Wu: With a mini lighting.
+
+[01:34:31.350] Chuan Wu: G to the lambda. Subject 2, lambda.
+
+[01:34:37.500] Chuan Wu: Okay, so partial Lagrangian, function as objective function, and then minimizing our multiplier.
+
+[01:34:45.740] Chuan Wu: Okay, so this is our partial Lagrangian problem, and the nice problem that we have related to such, partially derived Lagrangian… partial Lagrangian relaxation derived, dual problem is that
+
+[01:35:00.000] Chuan Wu: If our given problem is a convex program, and we do know it satisfies later's condition, so together it means a strong duality hold for the given problem, then we do have strong duality between the primal problem and the partial Lagrangian dual problem as well.
+
+[01:35:18.930] Chuan Wu: Okay, so here it is. So the left-hand side is exactly our partial Lagrangian Durer problem, and the right-hand side is exactly our original primal problem. Okay, so we know the primal optimal value equals the partial Lagrangian's Durer optimal value as well.
+
+[01:35:37.060] Chuan Wu: So this is a very nice property, because it gives us more flexibility to formulate the Dior, and the fundamental rationale, why in some cases we only want partial Lagrangian relaxation in deriving the Dior, rather than the full Lagrangian relaxation in deriving the Dior, is exactly because in that way, probably the dual problem we derive is in
+
+[01:36:01.980] Chuan Wu: need her flow.
+
+[01:36:03.050] Chuan Wu: And the, within the step of deriving the dual function, probably we can make use of some classical algorithm, because that partial problem is of some classical problems form, as well.
+
+[01:36:14.320] Chuan Wu: So we'll see more examples, but actually the box constraints, making the box constraints implicit, that example already served as the first example to justify our point.
+
+[01:36:26.460] Chuan Wu: So that door we derive here
+
+[01:36:30.120] Chuan Wu: Okay, so that duo we derived here can be exactly considered as the Dior derived using partial, like rounding relaxation.
+
+[01:36:39.150] Chuan Wu: Okay, because exactly we relaxed some constraint, but return some constraint as condition in deriving the doer function.
+
+[01:36:50.750] Chuan Wu: Okay, and, okay, so continue with our nice property here. It is exactly because we have this nice property, such that we can rest assured that the partial Lagrangian we derive can save the same purpose.
+
+[01:37:04.780] Chuan Wu: as solving the primal problem as well, we can solve the partial relaxed Lagrangian duo, and then come up with lower bound and exact solution, to the primal problem as well.
+
+[01:37:18.200] Chuan Wu: Here, so why? Okay, so, but, here, first thing first, let's do some simple derivation to justify why, if the problem has, strong duality, why, using partial Lagranian relaxation, we can still guarantee strong duality and solve the problems exactly.
+
+[01:37:38.230] Chuan Wu: Okay, to justify that, let's do some analysis together, and let's first consider assuming that X star is our primal optimal solution, primal optimal point.
+
+[01:37:49.990] Chuan Wu: And, consider our… consider the, full Lagrangian relaxation derived Durer problem, G, and it has two set of variables, and we consider lambda 1 star, lambda 2 star as a dual optimal point for that,
+
+[01:38:07.180] Chuan Wu: Fully relaxed dual problem.
+
+[01:38:09.680] Chuan Wu: And further consider our partial relaxed dual problem, G tilde lambda, and it has only one variable lambda, so that lambda actually corresponds to lambda web in the full relaxation case, so therefore we use lambda 1 prime to denote the dual optimal point for our
+
+[01:38:28.580] Chuan Wu: partial Lagrangian dual problem.
+
+[01:38:30.790] Chuan Wu: And we can do a set of derivations as follows.
+
+[01:38:34.220] Chuan Wu: Okay, so here, and we,
+
+[01:38:41.410] Chuan Wu: So we have that, primal…
+
+[01:38:44.900] Chuan Wu: optimal value, F dual X star, is lower bounded by G2.lambda1 prime. So this can be easily derived due to the procedure of deriving the Lagrang… partial Lagrang-J duel problem. Okay, so the weak duality always holds. And what we want to show is, actually, strong duality also holds, if strong duality holds for the original problem.
+
+[01:39:08.940] Chuan Wu: Okay, and,
+
+[01:39:11.640] Chuan Wu: Because we know lambda 1 prime is the optimal point for our partial Lagrangian dual problem. So therefore, if we replace lambda 1 prime by lambda 1 star, then the dual optimal value
+
+[01:39:28.080] Chuan Wu: your objective value would be smaller, no larger. Okay, so it's larger equals sign here.
+
+[01:39:35.210] Chuan Wu: And, what is exactly G tilde lambda star? So G tilde is, the dual function of our partial Lagrangian dual problem.
+
+[01:39:46.150] Chuan Wu: It's calculated by minimizing the partial Lagrangian subjected to the second unrelaxed constraint as domain of the minimization.
+
+[01:39:56.820] Chuan Wu: Right? And what we are doing is we just replace lambda 1 prime by lambda 1 star here.
+
+[01:40:05.850] Chuan Wu: And, if we further append lambda 2 star F2X there, so we know F2X, should be smaller equal to 0. So therefore, if we append this lambda 2 star F2X term there, the whole, like, the full, like, round JN function's value should be smaller, no larger.
+
+[01:40:28.650] Chuan Wu: Right? And, what is exactly this? If I'm minimizing the full Lagrangian here, so this is how we derive the dual function in full Lagrangian relaxation.
+
+[01:40:41.110] Chuan Wu: Okay, G here.
+
+[01:40:42.910] Chuan Wu: And, if we have strong duality for the problem, okay, so strong duality established that between the primal optimal value and the dual optimal value of the full relaxed dual problem, the F dual X star equaling G, lambda 1 star, lambda 2 star, right? Okay, so through all the steps of derivation, what we come up with is
+
+[01:41:06.130] Chuan Wu: All the inequality signs in the middle should be exactly equality signs.
+
+[01:41:11.000] Chuan Wu: Okay, so if it is equality design, that also means between the primal problem and our partial Lagrange dual problem, strong duality also holds.
+
+[01:41:24.800] Chuan Wu: Okay.
+
+[01:41:43.650] Chuan Wu: All right. Okay,
+
+[01:41:46.730] Chuan Wu: So here, we are illustrating using a simpler optimization problem, F0X, where we have two sets of two inequality constraints. We relax one and keep the other in deriving our partial log range dual. Actually, the same property extends to more generic case. So, if we are given a convex program where strong duity holds.
+
+[01:42:11.500] Chuan Wu: We can derive partial Lagrangian by relaxing any subset of the constraints of the original primal problem. And then the partial Lagrangian duality derived still is still guaranteed with strong duality with the primal problem.
+
+[01:42:27.380] Chuan Wu: Okay.
+
+[01:42:29.070] Chuan Wu: Alright, I want to share another example.
+
+[01:42:36.240] Chuan Wu: Yep.
+
+[01:42:37.210] Chuan Wu: So, we will share an example here.
+
+[01:42:42.320] Chuan Wu: To show you, why, beyond the box constraint example, where we do partial Lagrangian relaxation, so I want to share another example to justify why we further consider such partial Lagrangian, or why partial Lagrangian relaxation could be useful, in both cases.
+
+[01:43:01.410] Chuan Wu: Alright, so checking out the, optimization problem here, does it look familiar?
+
+[01:43:09.810] Chuan Wu: At least I hope so, because it's the third time we see this accommodation throughout the course. It's a mean cost of flow problem population, linear program population, mean cost of flow problem.
+
+[01:43:20.590] Chuan Wu: Right, over here, we are minimizing some weighted sum of cost for passive election. Xij is associated with, is a low amount associated with the SIJ.
+
+[01:43:32.930] Chuan Wu: And the set of equality constraint here exactly defines a valid flow, right? Flow of amount V flowing from source S to the sink T, and in the intermediate node, strong… the flow conservation constraint is here.
+
+[01:43:49.500] Chuan Wu: Right? And we also have upper bound of XIJs. We want the amount of flow on every edge to be within the range of 0 and UIJ. So we saw variation of it before, right? So if Xij is binary, 0 or 1, this is exactly the integer linear program formulation of minimal cost of the shortest path problem.
+
+[01:44:09.730] Chuan Wu: Okay, but now what we are looking at is a mean constant flow problem.
+
+[01:44:14.790] Chuan Wu: Okay, so for mean-cost flow problem, it's a well-studied commander optimization problem, and there are efficient algorithms to solve that. Although it is linear program, we can apply all the generic algorithms to solve convex program to solve it, but exactly for mean-cost flow problem, they are more, intuitive.
+
+[01:44:33.260] Chuan Wu: Meaningful algorithm that people have designed to solve it.
+
+[01:44:37.910] Chuan Wu: Okay, but the primary problem we are looking at is not exactly the mean construct flow problem. We have extra constraints.
+
+[01:44:46.400] Chuan Wu: So consider we have a set of constraints on XIJ on every node I. So what this constraint is saying is that the overall outgoing flow amount
+
+[01:44:59.710] Chuan Wu: Brown, node I should be lower than upper bound OI.
+
+[01:45:04.750] Chuan Wu: And the second set of constraints is saying, at every node i, the overall amount of incoming flow should be no larger than III.
+
+[01:45:14.740] Chuan Wu: Okay, so we just limit. We not only limit the flow amount on every edge, we also limit the flow amount on every node. Some total incoming amount, total outgoing amount, supposedly, we have constraints on them as well.
+
+[01:45:29.750] Chuan Wu: Okay, alright, and then… We, we have this as the primal problem.
+
+[01:45:37.420] Chuan Wu: And if we do consider is, Lagrangian. So, see, we have many sets of inequality, inequality, alpha inequality, inequality constraints. If you relax, if you relax all the constraints, then you have many different variables, right? And what we do is, here, we choose to do partial Lagrangian relaxation.
+
+[01:45:57.410] Chuan Wu: So we associate lambda i with, every one of this, outgoing flow capacity constraints. We associate mu i with every one of this incoming total flow,
+
+[01:46:10.610] Chuan Wu: capacity constraints, and then we can derive a simpler partial Lagrangian. Okay, so still, the first step is to come up with the Lagrangian function.
+
+[01:46:23.100] Chuan Wu: So, Lagrangian function, this is objective function, and this is really some of the constraints we relax, okay? And this is maybe some of the second set of constraints we relax.
+
+[01:46:34.460] Chuan Wu: N?
+
+[01:46:38.040] Chuan Wu: What is our partial Lagrangian looking like? So our partial Lagrangian is a minimization of the partial… our partial Lagrangian duo is calculated by minimizing the partial Lagrangian subject to constraints that we didn't relax.
+
+[01:46:53.770] Chuan Wu: Okay, so what are the constraints we didn't relax? So we call this big group of constraints as constraint set 1, and we call this second group of constraints as group constraints 2. Okay, Group 2 constraints.
+
+[01:47:07.770] Chuan Wu: And when we derive the partial Lagrangian duo, they will serve all together to limit the domain of the Lagrangian function in the minimization.
+
+[01:47:18.190] Chuan Wu: Okay, so this is our problem of solving for the partial Lagrange duo problem.
+
+[01:47:24.550] Chuan Wu: part of Lagrange duo function.
+
+[01:47:27.400] Chuan Wu: Okay, and then, if we have solved this, our dual problem would be in a neater form. So our neater form is here. We are maximizing the partial Lagrangian Lagrangian dual objective function.
+
+[01:47:42.230] Chuan Wu: And then, our constraints include two sets, lambda electric to zero and mu electric to zero.
+
+[01:47:49.230] Chuan Wu: Okay.
+
+[01:47:50.470] Chuan Wu: Alright, and,
+
+[01:47:52.740] Chuan Wu: So, at least… So, from the first site, at least what we figured is that the dual problem is now in a neater form. At least we have much fewer number of dual variables, right?
+
+[01:48:04.110] Chuan Wu: Not relaxing everyone all the time, all that. So that is one, point number one. But the second point, why this Pasha Lagalonji and many boys here?
+
+[01:48:13.580] Chuan Wu: So here, checking out the, derivation optimization for deriving the Lagrange-Dure, partial Lagrange-Dure function. So the problem here is to minimize the partial Lagrangian here, subject to constraint set 1 and the constraint set 2.
+
+[01:48:33.080] Chuan Wu: So this subproblem of deriving the partial Lagrange dual function is itself a mean cost flow problem.
+
+[01:48:41.480] Chuan Wu: constraints are the same, it's just the objective function has more terms. But again, the objective function is still, affine on XIJs.
+
+[01:48:50.760] Chuan Wu: So still, it is a main cause of flow problem.
+
+[01:48:54.550] Chuan Wu: So therefore, when solving this step, we can apply the new algorithm people have designed for solving mean cost flow problem here, and then we can come up with a concrete value or form of the partial Lagrange Dior function.
+
+[01:49:10.600] Chuan Wu: Okay, and then we can come up with a duo.
+
+[01:49:14.190] Chuan Wu: Okay, so in fact, this partial Lagrangian relaxation is a foundation of some primal dual optimization algorithm that we are going to introduce in detail in one of the later lectures.
+
+[01:49:25.490] Chuan Wu: Okay, so over there, we will see that we have partially relaxed, viewer. We have an intermediate step of deriving the viewer, and within this step, we actually may already apply some numerical algorithm.
+
+[01:49:38.380] Chuan Wu: And this numerical algorithm together with the dual solving numerical algorithm together, becomes the so-called primal viewer algorithm. So, the primal and dual optimization problem together.
+
+[01:49:51.050] Chuan Wu: Okay.
+
+[01:49:53.570] Chuan Wu: Alright, so the, very last,
+
+[01:49:57.390] Chuan Wu: slide I want to cover is here. So other than doing casual operational relaxation, other than, introducing quality constraints and another transformation, to equivalent form of the primal problem is here. So we could be,
+
+[01:50:15.190] Chuan Wu: In the example here, we are minimizing a norm of an affine function. So, as I saw before, we… the first technique we can apply is we can introduce the,
+
+[01:50:28.960] Chuan Wu: variable Y, and then…
+
+[01:50:31.830] Chuan Wu: we introduce equality constraint, and then we can derive the dealer here. And the, another choice is…
+
+[01:50:41.190] Chuan Wu: Not only then introducing Y and introducing correlative constraints, we can also transform the objective function.
+
+[01:50:49.030] Chuan Wu: So, minimizing norm of Y is equivalent to minimizing norm squared of Y.
+
+[01:50:56.580] Chuan Wu: Okay, equivalent is exact, except the optimal solution would be the same, except that optimal value could be different, right?
+
+[01:51:05.750] Chuan Wu: And,
+
+[01:51:07.970] Chuan Wu: And the dual problem of this, derivative, the dual problem of this is given on the textbook, and you are encouraged to take a look. And the dual problem here would be rendered a different form than the dual problem that we introduced, by deriving directly norm of Y.
+
+[01:51:26.070] Chuan Wu: Okay, as an alternate thing.
+
+[01:51:28.700] Chuan Wu: Okay, all right, so, I'll stop here, and we will continue on our discussion on Thursday.

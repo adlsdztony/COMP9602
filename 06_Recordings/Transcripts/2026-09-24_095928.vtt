@@ -1,0 +1,3134 @@
+WEBVTT
+
+1
+00:01:31.540 --> 00:01:37.810
+Chuan Wu: Okay, good morning, everyone. Welcome to the late class on optimization. Let's get started.
+
+2
+00:01:37.890 --> 00:01:51.650
+Chuan Wu: So we have working… we have been working on convex program. So, especially, we checked out the generic form of convex program, and then we have been starting to work on concrete different types of representative
+
+3
+00:01:51.650 --> 00:01:58.749
+Chuan Wu: a different representative types of economics program. So, especially, we are working on linear program.
+
+4
+00:01:58.750 --> 00:02:09.540
+Chuan Wu: And more specifically, now we have started to look at the, close relative of linear product, which is integer linear product in an IT or ILP shot.
+
+5
+00:02:09.539 --> 00:02:22.880
+Chuan Wu: In general, for integer linear improvement, we require all the solutions to be taking integer values. So, meaning the dimensional vector X, every component in the vector needs to be an integer vector number.
+
+6
+00:02:23.120 --> 00:02:39.509
+Chuan Wu: And then we have done some geometric illustration. We are seeing that the, for geometric proven, the, feasibility set is a set of discrete points within the polyhedron described by the FIE qualities and equalatics.
+
+7
+00:02:40.670 --> 00:02:48.800
+Chuan Wu: Okay, and we have been saying that solving integer linear proven is, in general, hard, okay? In general, hard.
+
+8
+00:02:48.800 --> 00:03:04.099
+Chuan Wu: So there is a natural idea for solving integer linear program, assuming we will introduce a deficient polynomial time-deficient exact algorithm to solve complex problems in general. Or, in short, without algorithms to solve
+
+9
+00:03:04.100 --> 00:03:07.580
+Chuan Wu: Linear program, efficiently, to all the more.
+
+10
+00:03:08.740 --> 00:03:20.670
+Chuan Wu: To optimize it. Okay, and then, based on that, how the natural idea of solving integer linear program is we can kind of relax the incorrectly constraints.
+
+11
+00:03:20.670 --> 00:03:39.050
+Chuan Wu: So, essentially, there are different ways to, relax and integrate the constraints, and we will introduce, we will show some examples how the relaxation is done. But a good first way, okay, a brute force way is we just temporarily remove X in the end constraints, so that's constraint actually in VN.
+
+12
+00:03:39.310 --> 00:03:52.450
+Chuan Wu: Okay, and have to relax the integer linear program to come up with a standard linear program, and we can use algorithm that we are going to introduce to solve the linear system and find the exact notion.
+
+13
+00:03:52.570 --> 00:04:07.589
+Chuan Wu: And then, what will we do to recover integer solutions to the problem? Okay, so because we know an fractional solution, of the relaxed linear program is just a kind of a proximate solution for the original problem.
+
+14
+00:04:07.640 --> 00:04:17.069
+Chuan Wu: And the next way to find out the integer solution that is close to the solution of the linear proof is that we love the
+
+15
+00:04:17.430 --> 00:04:18.320
+Chuan Wu: Okay.
+
+16
+00:04:18.740 --> 00:04:20.720
+Chuan Wu: Let me adjust the microbi.
+
+17
+00:04:29.710 --> 00:04:30.610
+Chuan Wu: Okay.
+
+18
+00:04:30.970 --> 00:04:55.070
+Chuan Wu: So an intuitive idea to recover integer solutions from a potentially fractional solution is we just run the non-integer numbers to the nearby integer numbers, and as pointed out at the end of last lecture, so this procedure, although appearingly simple, but actually it represents a potentially, exponentially search, search.
+
+19
+00:04:55.170 --> 00:05:14.800
+Chuan Wu: step within its potential space. So the core reason is, surrounding a fractional, potential length fractional solution, there can be 2 to the power of n number of integer solutions, and you need to decide which one to move in… move 2 as a solution of the original integer problem.
+
+20
+00:05:15.050 --> 00:05:31.380
+Chuan Wu: Okay, and there have been a lot of studies on designing algorithms to decide how we move from a fractional solution to the linear program to an integer solution, which is an approximate solution to the original integer linear program.
+
+21
+00:05:31.410 --> 00:05:48.110
+Chuan Wu: Okay, so those are so-called approximation algorithms, and because the solution stays, the potential integer points surrounding the fractional solution can be exponentially magic, so therefore, the algorithm in nature is not an exact algorithm.
+
+22
+00:05:48.110 --> 00:05:56.990
+Chuan Wu: It is a kind of approximate algorithm which runs in polynomial time, but the integer solution it identifies may not be the exact
+
+23
+00:05:56.990 --> 00:06:00.130
+Chuan Wu: Integer solution to the original integer program.
+
+24
+00:06:00.280 --> 00:06:02.580
+Chuan Wu: Okay, so that would be the rationale behind.
+
+25
+00:06:02.590 --> 00:06:20.999
+Chuan Wu: And when the algorithm… and for algorithms that identify such an approximate integer solution, we call it an approximation algorithm. Okay, the approximation algorithm just means the algorithm is not guaranteed for the exact solution, but a kind of approximate solution instead.
+
+26
+00:06:21.170 --> 00:06:22.020
+Chuan Wu: Okay.
+
+27
+00:06:22.070 --> 00:06:25.200
+Chuan Wu: And we have some, metrics for…
+
+28
+00:06:25.200 --> 00:06:43.000
+Chuan Wu: And indicate the efficiency or optimality of the identified approximate solution, which is the so-called… and also the metric is to describe the efficiency, kind of optimality of the approximation algorithm as well, and the metric is called approximation ratio.
+
+29
+00:06:43.000 --> 00:06:45.880
+Chuan Wu: Okay, so check out how the approximation ratio
+
+30
+00:06:45.880 --> 00:07:01.240
+Chuan Wu: is being computed. So here, AI represents approximate optimal value. So when we say optimal value, remember it means optimal value of the objective function of the problem. It's not optimal value of the solution.
+
+31
+00:07:01.250 --> 00:07:03.559
+Chuan Wu: Okay, optimal objective functionality.
+
+32
+00:07:03.630 --> 00:07:14.799
+Chuan Wu: So AI is an approximate optimal value derived based on the approximate integer solution you find by the approximation algorithm.
+
+33
+00:07:15.060 --> 00:07:24.500
+Chuan Wu: And in the denominator, OPTI represent the true or exact optimal value of the original integer program.
+
+34
+00:07:24.710 --> 00:07:27.859
+Chuan Wu: And I represent the different problem instances.
+
+35
+00:07:28.370 --> 00:07:35.110
+Chuan Wu: Okay, different problem instances indicates different… corresponds to different concrete input to the problem.
+
+36
+00:07:35.290 --> 00:07:40.249
+Chuan Wu: Meaning all the values of the holidays besides the optimization variables.
+
+37
+00:07:40.910 --> 00:07:43.069
+Chuan Wu: Except optimization variables.
+
+38
+00:07:43.230 --> 00:07:55.730
+Chuan Wu: Okay, so here, if we are looking at a minimization problem, so can you tell me this ratio is, in general, larger than what, larger or equal to 1, or smaller than 1?
+
+39
+00:08:00.060 --> 00:08:07.440
+Chuan Wu: So if our original integer problem, or integer linear program, is a minimization problem, we have a minimization objective.
+
+40
+00:08:07.480 --> 00:08:24.500
+Chuan Wu: Then, is this ratio in general larger than 1, or smaller than what? Larger than Y. Because the true optimal in the denominator is usually the smallest, right? And the approximated solution gives us a larger objective functionality, so the ratio is larger than what?
+
+41
+00:08:24.630 --> 00:08:36.699
+Chuan Wu: Okay, and then the approximation ratio of the approximation algorithm is defined to be the largest ratio across all problem deep instances.
+
+42
+00:08:37.039 --> 00:08:47.449
+Chuan Wu: Okay, the same problem, but different instances, different input. We found out the largest ratio, alpha, and it's called approximation ratio of that approximation algorithm.
+
+43
+00:08:48.330 --> 00:08:49.210
+Chuan Wu: Okay.
+
+44
+00:08:49.630 --> 00:08:51.490
+Chuan Wu: Alright,
+
+45
+00:08:51.840 --> 00:09:04.759
+Chuan Wu: And essentially, this approximation ratio bounds how far off the approximate solution we find by the approximation algorithm is from the true optimal solution port.
+
+46
+00:09:05.760 --> 00:09:06.620
+Chuan Wu: Okay.
+
+47
+00:09:06.760 --> 00:09:07.580
+Chuan Wu: Alright.
+
+48
+00:09:11.460 --> 00:09:29.670
+Chuan Wu: Okay, so next, so let's check out a simple example and have, and get some idea about this approximation, ratio, or, bound that, the, potentially approximate rate algorithm, can derive.
+
+49
+00:09:29.900 --> 00:09:44.719
+Chuan Wu: Okay, so now the problem we are considering is a minimal vertex cover problem. So minimal vertex cover problem is one of the problems that we formulated into individual linear program. That's the lecture, on Tuesday's lecture.
+
+50
+00:09:44.860 --> 00:09:59.899
+Chuan Wu: Okay, just consider, now we have a very simple approximation algorithm to solve that integer linear program. So the idea is, we first relax the integer constraints.
+
+51
+00:10:00.050 --> 00:10:03.740
+Chuan Wu: So it could be useful if I put down the,
+
+52
+00:10:04.200 --> 00:10:07.090
+Chuan Wu: Name a vertex cover problem on the board.
+
+53
+00:10:44.120 --> 00:10:51.169
+Chuan Wu: Okay, so this is a simple mis form of our minimal vertex cover problems, integer linear program formulation.
+
+54
+00:10:51.410 --> 00:11:09.349
+Chuan Wu: Okay, so how do we solve it? So we use the idea, intuitive idea, the first step is to apply the intuitive idea of relaxing the integer program into a linear program. Okay, and how do we achieve that? We relax the integer constraint.
+
+55
+00:11:09.430 --> 00:11:16.900
+Chuan Wu: Okay, so the integer constraint is here, so we can… what we can do is we…
+
+56
+00:11:17.450 --> 00:11:32.740
+Chuan Wu: A common way, okay, a common approach of relaxing a binary constraint on variables, like Xi should be either 0 or 1, is to make it a continuous variable within the range of 0 and 1.
+
+57
+00:11:32.740 --> 00:11:39.869
+Chuan Wu: So this is a common approach. So at least we keep the bound of the value of X at lower and upper bound.
+
+58
+00:11:39.870 --> 00:11:45.250
+Chuan Wu: Okay, and, consider the nature of the minimal vertex cover product.
+
+59
+00:11:45.380 --> 00:11:50.960
+Chuan Wu: Actually, we can safely remove the right-hand side half of the constraint.
+
+60
+00:11:51.420 --> 00:11:54.390
+Chuan Wu: To relax the continuous constraint.
+
+61
+00:11:54.570 --> 00:11:59.640
+Chuan Wu: So we only keep that XI should be larger than 0.
+
+62
+00:11:59.990 --> 00:12:01.520
+Chuan Wu: And what is the reason?
+
+63
+00:12:03.230 --> 00:12:06.620
+Chuan Wu: To the reasonizing, we are really dividing by the sum of X at.
+
+64
+00:12:08.780 --> 00:12:09.650
+Chuan Wu: Right.
+
+65
+00:12:10.280 --> 00:12:21.780
+Chuan Wu: Okay, so if possible, we definitely will push Xan down to be lower than what? And because here we also have some vision that the two of them sum up together to be larger into what?
+
+66
+00:12:22.770 --> 00:12:23.560
+Chuan Wu: Right.
+
+67
+00:12:23.780 --> 00:12:32.309
+Chuan Wu: Okay, so we push X down, the smallest possible, and we won't paste any value larger than XI… larger than 1.
+
+68
+00:12:32.650 --> 00:12:33.540
+Chuan Wu: Right.
+
+69
+00:12:34.190 --> 00:12:42.780
+Chuan Wu: Okay, so therefore, after relaxation, we only keep the simple continuous constraint, Xi, negative to zero.
+
+70
+00:12:42.980 --> 00:12:58.760
+Chuan Wu: Okay, and then what we come up with is a standard linear program, and then we can apply algorithms that we are going to introduce to solve it indirectly and efficiently. And then we come up with solutions. So we come up with a set of solutions, Xi's.
+
+71
+00:12:58.970 --> 00:13:14.210
+Chuan Wu: Okay, to the relaxed integer, to the relaxed linear program, and then we adopt an approximation algorithm idea, and that idea is simple. We just run the solution of the linear program
+
+72
+00:13:14.210 --> 00:13:20.790
+Chuan Wu: to, obtain the integer solution to the Original.
+
+73
+00:13:22.310 --> 00:13:36.370
+Chuan Wu: integer linear program. And how do we do the rounding? Okay, so the rounding is following the very simple approach. So, like, if Xi is, larger equal to 0.5, we just make XI what?
+
+74
+00:13:37.030 --> 00:13:37.990
+Chuan Wu: Okay.
+
+75
+00:13:39.560 --> 00:13:42.490
+Chuan Wu: So if Xi is smaller than the Yuan.
+
+76
+00:13:43.600 --> 00:13:46.700
+Chuan Wu: 5. Then we just make its value 0.
+
+77
+00:13:47.050 --> 00:13:59.520
+Chuan Wu: Okay, it's as simple as the rounding approach we typically adopt, right? Okay, and then after rounding, we do come up with integer solutions in the sense that Xi is either 0 or 1.
+
+78
+00:14:00.140 --> 00:14:14.890
+Chuan Wu: Right? And we say that is an approximate solution, because we actually cannot guarantee that solution, based on a simple rounding approach of fractional number to integer… nearby integer numbers, is optimal to the original
+
+79
+00:14:14.940 --> 00:14:24.849
+Chuan Wu: Integer reading approach. But we are able to analyze an approximation ratio regarding the approach and the solution we have identified just enough.
+
+80
+00:14:25.100 --> 00:14:25.970
+Chuan Wu: Okay.
+
+81
+00:14:26.100 --> 00:14:32.779
+Chuan Wu: So here, so let's assume our optimal solution to the F3 last.
+
+82
+00:14:32.840 --> 00:14:39.339
+Chuan Wu: linear profile. Okay, so relax the linear program here. Optimal solution is XI star.
+
+83
+00:14:39.340 --> 00:14:55.129
+Chuan Wu: Okay, the ice component is XL star. And actually, people have, proof. We are able to prove, and we are not going to show the proof here, what people are able to prove is that every X ice value is either 0 or 1, or 1.5.
+
+84
+00:14:55.270 --> 00:14:56.210
+Chuan Wu: Well, half.
+
+85
+00:14:57.480 --> 00:15:05.080
+Chuan Wu: Okay, so you can easily find the proof in the literature, and here we don't give it, we just take it as a fact.
+
+86
+00:15:05.300 --> 00:15:13.829
+Chuan Wu: Okay, so the fact is, the optimal solution of the relaxed linear program is simply one of the three values, 0, 1,51.
+
+87
+00:15:14.110 --> 00:15:21.249
+Chuan Wu: Okay, and based on that, given knowledge, okay, or given assumption, we are able to analyze our ratio.
+
+88
+00:15:21.370 --> 00:15:32.749
+Chuan Wu: Okay, and the water ratio I'll be analyzing, approximation ratio is computed based on value, or optimal value of the objective function. And what is our objective function is here.
+
+89
+00:15:33.230 --> 00:15:38.049
+Chuan Wu: Our minimal vertex-cover problems objective function is sum of i Xr.
+
+90
+00:15:38.690 --> 00:15:42.879
+Chuan Wu: Okay, so sum of iXi, that's our objective function value.
+
+91
+00:15:45.860 --> 00:16:02.459
+Chuan Wu: Okay, and now we assume, Xi. Okay, so Xi is our solution, to our derived solution. Okay, so here, let's distinguish the, location. So X star represents optimal solution.
+
+92
+00:16:02.460 --> 00:16:08.479
+Chuan Wu: the ice component in optimal solution vector X star of the relaxed linear fluid.
+
+93
+00:16:08.760 --> 00:16:17.700
+Chuan Wu: And the Xi is the ice component of the approximate solution we derived using an approach of F, like, rounding Xi.
+
+94
+00:16:18.030 --> 00:16:21.010
+Chuan Wu: every component Xi star to Xi.
+
+95
+00:16:22.830 --> 00:16:27.829
+Chuan Wu: Okay, so simply put, XI is a rounding result of XI star.
+
+96
+00:16:30.110 --> 00:16:36.339
+Chuan Wu: Okay, so what are the possible wronging results? If X starts in 0, after longing, it's still 0.
+
+97
+00:16:36.590 --> 00:16:39.560
+Chuan Wu: Either star is one of the wrongly, it's field 1.
+
+98
+00:16:39.810 --> 00:16:44.750
+Chuan Wu: If FS star is one half, the rolling result is What?
+
+99
+00:16:45.020 --> 00:16:51.009
+Chuan Wu: Okay, and based on all the possibilities, here we can simply put down an equality here.
+
+100
+00:16:51.340 --> 00:17:00.849
+Chuan Wu: So sum of the after-rounding integer solution values would be no larger than 2 times of the sum of the original fractional.
+
+101
+00:17:00.990 --> 00:17:06.560
+Chuan Wu: potentially fractional optimal solution values to the relaxed linear program, right?
+
+102
+00:17:08.210 --> 00:17:10.259
+Chuan Wu: Two types, at most of the two types.
+
+103
+00:17:10.619 --> 00:17:14.240
+Chuan Wu: Because if X star is 1 half, we don't get to 1.
+
+104
+00:17:14.619 --> 00:17:17.190
+Chuan Wu: Right, so that's… that makes up the two types.
+
+105
+00:17:17.380 --> 00:17:20.839
+Chuan Wu: In other cases, the XI star equals XI.
+
+106
+00:17:21.210 --> 00:17:25.149
+Chuan Wu: Right, so a loose bond, bond, that always hold is here.
+
+107
+00:17:30.250 --> 00:17:46.719
+Chuan Wu: Okay, and as we assume, XI star is the optimal solution of the relaxed linear program, and based on our notation, we use OBTSM to represent fractional fractional solution of the relaxed linear program.
+
+108
+00:17:47.030 --> 00:17:49.739
+Chuan Wu: Okay, so this, this is a collet here.
+
+109
+00:17:54.910 --> 00:18:01.610
+Chuan Wu: Okay, and then if we further consider two optimal solutions of the original integer program.
+
+110
+00:18:01.720 --> 00:18:10.070
+Chuan Wu: We know the fractional solution, okay, OPT represents the optimal value of the relaxed linear program here.
+
+111
+00:18:10.680 --> 00:18:18.580
+Chuan Wu: Relax the linear program. And OPTI represents the optimal value of the original into the program.
+
+112
+00:18:19.460 --> 00:18:28.929
+Chuan Wu: And we know after relaxation, the fractional solution can possibly achieve smaller objective functionality than integer solutions, right?
+
+113
+00:18:30.010 --> 00:18:37.720
+Chuan Wu: Okay, so the end point is, after relaxing the integrity constraints into continuous constraints.
+
+114
+00:18:38.040 --> 00:18:50.009
+Chuan Wu: There is larger space, larger feasibility set here, and the optimal value it can attain is, in general, no larger than the optimal value of the original integer pool.
+
+115
+00:18:50.730 --> 00:18:54.239
+Chuan Wu: Right, meaning the objective function value can be pushed down further.
+
+116
+00:18:54.540 --> 00:18:57.950
+Chuan Wu: Okay, so that, becomes the thing we call it a bit here.
+
+117
+00:18:58.210 --> 00:19:09.689
+Chuan Wu: So, fractional solution of the relaxed linear program achieves an objective function value that is no larger than what the integer solution of the original integer program can achieve.
+
+118
+00:19:10.500 --> 00:19:13.529
+Chuan Wu: Right? So this results in the inequality.
+
+119
+00:19:13.670 --> 00:19:14.520
+Chuan Wu: Okay.
+
+120
+00:19:14.720 --> 00:19:18.589
+Chuan Wu: And then, what do we get?
+
+121
+00:19:18.690 --> 00:19:31.610
+Chuan Wu: Okay, so from all the few steps of derivation, what we can derive is that the approximation ratio that is defined on the previous slide is exactly 2 here.
+
+122
+00:19:33.140 --> 00:19:34.820
+Chuan Wu: Why? Okay.
+
+123
+00:19:35.050 --> 00:19:41.010
+Chuan Wu: So sum of Xi divided by OPTI is no larger than 2.
+
+124
+00:19:41.910 --> 00:19:52.100
+Chuan Wu: Okay, and the sum of Xi is in the numerator of our definition of approximation ratio, and OPTI is in the denominator of the approximation ratio.
+
+125
+00:19:52.860 --> 00:20:08.910
+Chuan Wu: Right, so 2 approximation ratio here is 2. And what we have derived so far is a pretty loose approximation ratio, or it's the approximation ratio of our simple, relaxation and rounding approach above.
+
+126
+00:20:09.130 --> 00:20:18.440
+Chuan Wu: Relaxation plus rounding together, they render an approximation algorithm to solve the minimal vortex cover integer linear program.
+
+127
+00:20:20.680 --> 00:20:26.119
+Chuan Wu: Okay, so in fact, the approximation ratio of a potential
+
+128
+00:20:26.710 --> 00:20:40.879
+Chuan Wu: Approximation algorithms tool, a minimal vertex cover problem, has been very well studied in the theory, the science theory community. Okay, so the fast ratio so far is approx… is, about around this value.
+
+129
+00:20:42.080 --> 00:20:44.779
+Chuan Wu: Okay, 2 minus H01.
+
+130
+00:20:45.170 --> 00:20:56.210
+Chuan Wu: Okay, so this is the best the ratio that can be achieved. Not the ratio, it's based on some more complex algorithm, more complex approximation algorithm than the one we have analyzed.
+
+131
+00:20:56.370 --> 00:20:57.210
+Chuan Wu: Okay.
+
+132
+00:20:57.490 --> 00:21:16.840
+Chuan Wu: In this example, I not only want to show you how the approximation ratio can be actually derived, okay, based on a bound of the AI divided by OPTI, and a second point I want to make here is, so when you are analyzing approximation ratio of,
+
+133
+00:21:17.740 --> 00:21:28.489
+Chuan Wu: Of a, approximation algorithm, and potentially, you don't have to know what is the exact optimal value, because what you want is just a ratio.
+
+134
+00:21:29.370 --> 00:21:31.600
+Chuan Wu: Okay, oh, upper bound of the ratio.
+
+135
+00:21:31.970 --> 00:21:40.040
+Chuan Wu: Okay, so as long as you divide this to the left-hand side, it becomes a denominator. The right-hand side constant is our ratio.
+
+136
+00:21:41.990 --> 00:21:42.900
+Chuan Wu: Okay.
+
+137
+00:21:43.920 --> 00:21:57.060
+Chuan Wu: All right, so, that is an example to show you how we can potentially solve, integer linear program and design, simple groundbreaking algorithm with whose approximation ratio we can analyze.
+
+138
+00:21:58.620 --> 00:22:15.340
+Chuan Wu: Okay, all right, so as said, the integer linear programs are in general hard, but I did mention that as special cases where the problem that we model as integer linear program is actually not going to be hard.
+
+139
+00:22:15.500 --> 00:22:24.330
+Chuan Wu: So when they are not in behind, meaning their corresponding integer linear program can actually be stopped efficiently and optimally in quite a long time.
+
+140
+00:22:24.480 --> 00:22:35.690
+Chuan Wu: Right, okay, all right. And, actually there are some sufficient sufficient conditions under which those individual linear programs are exactly solvable.
+
+141
+00:22:36.040 --> 00:22:42.119
+Chuan Wu: And equivalently, the corresponding combinatorial population problem is not a jihad.
+
+142
+00:22:42.330 --> 00:23:01.820
+Chuan Wu: And what are the sufficient conditions? And here we are going to introduce one set. Okay, and this, this property we are introducing, which ensures the corresponding integer linear program, is, efficiently solved, is called total unimodularity property. Let's check out what they are.
+
+143
+00:23:01.920 --> 00:23:05.649
+Chuan Wu: Okay, and let me say that the,
+
+144
+00:23:05.830 --> 00:23:23.139
+Chuan Wu: integer linear program is exactly solvable. The equivalence is that the relaxed linear program, has integer optimal point, or the relaxation, as we exemplified here, is index.
+
+145
+00:23:23.380 --> 00:23:42.979
+Chuan Wu: Okay, so I'll… I'll analyze the logic again. Okay, so we have so far introduced a general approach to solve integer linear program. Okay, so what we do is, first step, we relax the integrality constraints in integer program, and we derive a relaxed linear program.
+
+146
+00:23:43.160 --> 00:23:50.929
+Chuan Wu: And then we saw the relaxed linear program and tried to run its potentially fractional solutions to integer solutions.
+
+147
+00:23:51.080 --> 00:24:08.390
+Chuan Wu: Okay, so the key, so that now we are focusing on the first step, okay, relaxing the integer linear program to a linear program. So if the relaxed linear program, okay, does give integer solutions by itself.
+
+148
+00:24:08.900 --> 00:24:18.299
+Chuan Wu: then we are good. We don't have to design any approximate rounding algorithm and analyze the approximation ratio, because approximation ratio is exactly what
+
+149
+00:24:18.840 --> 00:24:19.720
+Chuan Wu: Right.
+
+150
+00:24:20.100 --> 00:24:20.980
+Chuan Wu: Okay.
+
+151
+00:24:21.110 --> 00:24:36.729
+Chuan Wu: And in the int relaxed linear proverb does originally itself provides integer optimal solutions, we will say the relaxation from the integer linear program to linear proverb is exact.
+
+152
+00:24:37.400 --> 00:24:39.650
+Chuan Wu: Because let's the relaxed.
+
+153
+00:24:40.200 --> 00:24:47.550
+Chuan Wu: linear program. Solution is exactly the integer solution of the original integer linear program.
+
+154
+00:24:48.100 --> 00:24:50.199
+Chuan Wu: Okay, I hope that is clear.
+
+155
+00:24:50.630 --> 00:24:57.130
+Chuan Wu: Okay, and that's the property that can ensure the relaxation is that
+
+156
+00:24:57.610 --> 00:25:10.170
+Chuan Wu: is called total unimodularity. Okay, before we check on what total unmodularity is, so let's first define, let's first define what is called as a total unimodularity.
+
+157
+00:25:10.350 --> 00:25:19.069
+Chuan Wu: matrix. Okay, so if we are looking at an integer matrix, okay, meaning all the components in the matrix are integers.
+
+158
+00:25:19.220 --> 00:25:23.530
+Chuan Wu: And the integer matrix is total unimodular.
+
+159
+00:25:23.690 --> 00:25:33.430
+Chuan Wu: If the determinant of every square submatrice matrix of the matrix is either negative 1, 0, or 1.
+
+160
+00:25:34.230 --> 00:25:40.939
+Chuan Wu: Okay, so here it comes to a concept that we should have studied before.
+
+161
+00:25:42.460 --> 00:25:46.850
+Chuan Wu: Okay, so determinant of a square matrix.
+
+162
+00:25:47.160 --> 00:25:49.669
+Chuan Wu: So consider square matrix here.
+
+163
+00:25:50.010 --> 00:25:52.330
+Chuan Wu: So, A, B, C, D, right?
+
+164
+00:25:54.240 --> 00:25:55.190
+Chuan Wu: Okay.
+
+165
+00:25:55.430 --> 00:25:58.790
+Chuan Wu: So a square, a simple 2 times 2 square matrix.
+
+166
+00:26:00.230 --> 00:26:03.600
+Chuan Wu: Right? Okay. And, COVID A.
+
+167
+00:26:04.290 --> 00:26:07.210
+Chuan Wu: And we can calculate its determinant.
+
+168
+00:26:07.800 --> 00:26:13.450
+Chuan Wu: And the determinant of matrix is usually expressed by putting two vertical lines.
+
+169
+00:26:13.560 --> 00:26:16.580
+Chuan Wu: Parallel lines beside the matrix symbol.
+
+170
+00:26:16.820 --> 00:26:21.869
+Chuan Wu: It's just like absolute value of real numbers, but here it is a matrix.
+
+171
+00:26:22.340 --> 00:26:26.019
+Chuan Wu: Right. Okay. And for the simple…
+
+172
+00:26:27.280 --> 00:26:33.340
+Chuan Wu: 2 times 2 matrix there, its determinant calculation has a formula, and this is the formula.
+
+173
+00:26:33.570 --> 00:26:36.189
+Chuan Wu: Right? AD minus Z.
+
+174
+00:26:37.440 --> 00:26:38.540
+Chuan Wu: Oh.
+
+175
+00:26:39.570 --> 00:26:41.309
+Chuan Wu: Oh, right, the meat.
+
+176
+00:26:41.590 --> 00:26:42.590
+Chuan Wu: Okay, okay.
+
+177
+00:26:45.360 --> 00:27:00.310
+Chuan Wu: Right? If it's 3 times 3, I hope you still remember what the formula is like, right? So, product of the diagonal elements minus some combination of products of three elements in the matrix, right? Okay. All right, so that's the determinant.
+
+178
+00:27:00.310 --> 00:27:07.889
+Chuan Wu: So therefore, if you are given a matrix, and if you consider every square, submatrix of the matrix.
+
+179
+00:27:07.900 --> 00:27:18.460
+Chuan Wu: and calculate its determinant. And if you find a determinant, it's either negative 1, 0, or 1, then we call the whole matrix as a totally unimodular matrix.
+
+180
+00:27:19.210 --> 00:27:24.330
+Chuan Wu: Okay, and what… and here we can give a few examples of such matrices.
+
+181
+00:27:24.950 --> 00:27:32.439
+Chuan Wu: So, in fact, if you are given a directive graph, and we put down the incidence matrix of the directive graph.
+
+182
+00:27:32.590 --> 00:27:37.529
+Chuan Wu: We are able to find out the incidence matrix is totally modular.
+
+183
+00:27:37.730 --> 00:27:49.279
+Chuan Wu: And if we're given an undirected bipartite graph, and we put out its incidence matrix, we will also be able to find out that incidence matrix is totally unimodular as well.
+
+184
+00:27:49.700 --> 00:27:52.230
+Chuan Wu: So we have examples on the next page.
+
+185
+00:27:52.500 --> 00:27:58.070
+Chuan Wu: So, on top, right-hand side top, we have a direct, simple, directed graph.
+
+186
+00:27:58.210 --> 00:28:14.229
+Chuan Wu: And then let's put it down as incidence matrix together. It's here. So an incidence matrix of a graph is, has the number of rows corresponding to the number of vertices, and the number of columns corresponding to the number of edges in the graph.
+
+187
+00:28:14.400 --> 00:28:17.100
+Chuan Wu: So that's a definition of incidence matrix.
+
+188
+00:28:17.440 --> 00:28:21.439
+Chuan Wu: Okay, as inside the, notes or vertex text.
+
+189
+00:28:21.930 --> 00:28:26.650
+Chuan Wu: Okay, and in a single example here, we have 4 rare cases.
+
+190
+00:28:26.810 --> 00:28:29.510
+Chuan Wu: And then we have 4-5 edges.
+
+191
+00:28:29.670 --> 00:28:33.690
+Chuan Wu: And, like, 1, 2, 1, 3, 1, 4, 2, 3, 4, 3.
+
+192
+00:28:33.990 --> 00:28:40.649
+Chuan Wu: And the, convention, we put down the components values in the, incidence matrix S,
+
+193
+00:28:40.860 --> 00:28:49.999
+Chuan Wu: So, here, vertex web. For any outgoing edge at the corresponding column, the value will be next in web.
+
+194
+00:28:50.450 --> 00:28:52.140
+Chuan Wu: And add a vertex.
+
+195
+00:28:52.580 --> 00:28:57.680
+Chuan Wu: For every corresponding incoming edge, the corresponding edge value is 1.
+
+196
+00:28:58.230 --> 00:29:07.210
+Chuan Wu: Right, so, like, for edge 1, 2, its value is negative 1 in the row of vertex 1, and its value is 1 in the row of vertex 2.
+
+197
+00:29:07.610 --> 00:29:19.340
+Chuan Wu: And similarly, the edge 1, 4, for example, it goes from edge… it goes from vertex 1 to vertex 4, so we have negative 1 and 1 in the corresponding positions.
+
+198
+00:29:22.010 --> 00:29:34.430
+Chuan Wu: Okay, and then, basically, at every column in the incidence matrix, there are only two non-zero values. All the other unfilled positions corresponds to values of zero.
+
+199
+00:29:35.730 --> 00:29:41.949
+Chuan Wu: Okay, so this is the matrix, so zero here. So the first row is negative 1, negative 1, next 1, 0, 0.
+
+200
+00:29:42.960 --> 00:29:47.490
+Chuan Wu: Okay, for this matrix, you found out, the, component.
+
+201
+00:29:47.630 --> 00:29:58.720
+Chuan Wu: It's either taking the value of 0 or negative 1, or 1. And actually, you can verify, and also it can be rigorous proven, that every sub-square, submatrix.
+
+202
+00:29:59.040 --> 00:30:08.360
+Chuan Wu: 2 times 2, or 3 times 3, or 4… at most of 4 times 4, square some matrices there, their determined value is
+
+203
+00:30:08.840 --> 00:30:11.959
+Chuan Wu: Either negative one of the robot.
+
+204
+00:30:13.610 --> 00:30:14.530
+Chuan Wu: Okay.
+
+205
+00:30:15.510 --> 00:30:26.899
+Chuan Wu: All right, and then a second example here. And, in the second graph here, what we are looking at is, undirected bipartite graph, okay, bipartite graph.
+
+206
+00:30:27.220 --> 00:30:40.660
+Chuan Wu: And the incident matrix can be put down here. So similarly, the number of rows in the matrix corresponding to the number of vertices, and the number of columns corresponding to the
+
+207
+00:30:41.050 --> 00:30:43.890
+Chuan Wu: Number of edges in the graph.
+
+208
+00:30:43.990 --> 00:30:58.250
+Chuan Wu: Okay, and for undirected graph, at every column corresponding to an edge, there are two ones corresponds to two endpoints of the edge. So E1 is connecting node 1 and 5.
+
+209
+00:30:58.280 --> 00:31:04.830
+Chuan Wu: So in first row and fifth row, we have two whats, respectively. Yeah, what, respectively.
+
+210
+00:31:04.880 --> 00:31:10.119
+Chuan Wu: And similarly, all the other unfilled positions corresponds to value.
+
+211
+00:31:12.510 --> 00:31:14.430
+Chuan Wu: And again, we can verify.
+
+212
+00:31:14.600 --> 00:31:21.199
+Chuan Wu: And it can be rigorously proven that, yeah, such an incident matrix
+
+213
+00:31:21.450 --> 00:31:25.249
+Chuan Wu: As, it's totally using modular as well.
+
+214
+00:31:26.660 --> 00:31:27.560
+Chuan Wu: Okay.
+
+215
+00:31:28.260 --> 00:31:32.550
+Chuan Wu: Alright, nope.
+
+216
+00:31:32.780 --> 00:31:43.260
+Chuan Wu: So based on the definition of total unimodular matrix, let's further move on to see what the total modularity property is like.
+
+217
+00:31:43.400 --> 00:31:51.819
+Chuan Wu: So here, we consider a matrix A, which is total unimodular. So A itself doesn't have to be a square matrix.
+
+218
+00:31:52.060 --> 00:32:00.339
+Chuan Wu: Because, in the definition of totally unimodular matrix, we only consider square a submatrice matrix is from the original matrix.
+
+219
+00:32:00.610 --> 00:32:05.670
+Chuan Wu: So A, suppose A is a total unimodular matrix.
+
+220
+00:32:05.790 --> 00:32:20.740
+Chuan Wu: And B is an integer vector. Okay, and then, we consider the polyhedron defined by the, hyperglot, defined in two ways, equivalently. In the first way here.
+
+221
+00:32:23.090 --> 00:32:28.729
+Chuan Wu: Okay, EX equals P, and X, component-wise, no smaller than 0.
+
+222
+00:32:29.430 --> 00:32:37.470
+Chuan Wu: Does that mean to these two set of conditions appearing Appear to you.
+
+223
+00:32:40.350 --> 00:32:52.180
+Chuan Wu: Or if we further check it out, another way of defining P. So we have two sets of conditions, in defining P, AX logic to B component-wise, and X logic to 0 component-wise.
+
+224
+00:32:53.040 --> 00:32:55.480
+Chuan Wu: Do these constraints ring a bell?
+
+225
+00:32:57.710 --> 00:33:06.759
+Chuan Wu: Okay, so actually, if you check these sets of conditions against the definition, or format of,
+
+226
+00:33:08.420 --> 00:33:10.869
+Chuan Wu: Okay, let me see which page it is on.
+
+227
+00:33:12.710 --> 00:33:26.349
+Chuan Wu: Okay, second page of this set of slides, or third page, if you come to the, the very front page. Okay, the… this set of constraints are actually the constraints in standard for linear program.
+
+228
+00:33:26.970 --> 00:33:32.220
+Chuan Wu: And these are the constraints in the canonical form of linear programming.
+
+229
+00:33:32.990 --> 00:33:50.349
+Chuan Wu: Okay, all right. So therefore, P defined either in the first wave or the second wave is representing the feasibility set of standard form linear product, or feasibility set of standard economical form linear product, right?
+
+230
+00:33:51.580 --> 00:33:53.859
+Chuan Wu: Okay, I hope you'll see the connection.
+
+231
+00:33:53.960 --> 00:34:06.299
+Chuan Wu: And as we analyzed earlier, we know the feasibility set of linear program, regardless whether it's in a generic form, standard form, or economic form, they represent polyhedrals.
+
+232
+00:34:06.770 --> 00:34:13.820
+Chuan Wu: A feasibility set of a linear program is a polyhedral, because there are intersections of hyperplanes and half-spaces.
+
+233
+00:34:14.699 --> 00:34:31.340
+Chuan Wu: Okay, all right, and then the property is saying, so if A is totally unimodular and B is an integer vector, meaning all components are integer, are taking integer values, then all vertices of the feasibility polyhedral are integers.
+
+234
+00:34:32.409 --> 00:34:36.810
+Chuan Wu: Okay, meaning all vertices of the F,
+
+235
+00:34:36.969 --> 00:34:44.249
+Chuan Wu: Vortex of the vertexes of the feasibility polyhedrons are falling off integer points.
+
+236
+00:34:45.360 --> 00:35:04.850
+Chuan Wu: Okay, example here. So suppose this is a polyhedron corresponding to a peak defined above. Then, if A is TLM and B is integer vector, then there are vertices. Okay, here we have 1, 2, 3, 4, 5, 6 vertices of this feasibility, of this polyhedral.
+
+237
+00:35:04.850 --> 00:35:10.139
+Chuan Wu: And essentially, all of every vertex is falling on an integer point.
+
+238
+00:35:10.430 --> 00:35:12.809
+Chuan Wu: Meaning their quantum is antith derivatives.
+
+239
+00:35:13.660 --> 00:35:14.500
+Chuan Wu: Okay.
+
+240
+00:35:14.700 --> 00:35:17.319
+Chuan Wu: So this is a very interesting property.
+
+241
+00:35:17.770 --> 00:35:26.499
+Chuan Wu: We are not going to prove it, it's proven in the literature. What we are going to do is, we are going to make use of it. So we are going to check out its implication.
+
+242
+00:35:27.310 --> 00:35:28.250
+Chuan Wu: Okay.
+
+243
+00:35:28.550 --> 00:35:37.679
+Chuan Wu: So what its implication is, if we consider a linear program in a standard form or canonical form, as defined.
+
+244
+00:35:38.550 --> 00:35:41.419
+Chuan Wu: Here, obviously, define the risk constraints here.
+
+245
+00:35:41.880 --> 00:35:43.320
+Chuan Wu: And,
+
+246
+00:35:45.560 --> 00:35:58.649
+Chuan Wu: And, if there are constrained matrix A is totally unimodular, and that corresponding B is an integer vector, then such a linear program has an integer optimal point.
+
+247
+00:35:59.320 --> 00:36:04.099
+Chuan Wu: Our optimal solution of that linear program is integer.
+
+248
+00:36:05.620 --> 00:36:12.010
+Chuan Wu: Why? Geometrically or intuitively, I should become very easily, understand it.
+
+249
+00:36:12.600 --> 00:36:19.789
+Chuan Wu: Last time, actually, I also mentioned a property and briefly illustrate, what we… I briefly illustrated was.
+
+250
+00:36:20.080 --> 00:36:27.929
+Chuan Wu: The optimal solution of linear program happens either on one of the vertices, or along one edge.
+
+251
+00:36:28.650 --> 00:36:38.050
+Chuan Wu: by the boundary edge. So the reason is, consider the, level curves, okay, level curves defined by the normal vector C in the objective function.
+
+252
+00:36:38.230 --> 00:36:48.699
+Chuan Wu: Okay, so they intersect with, BF, BF… the boundary of the polyhedral, and that intersection point is the optimal point.
+
+253
+00:36:49.250 --> 00:36:55.990
+Chuan Wu: Okay, if the level curve is, is tilting this way, okay, parallel lines, then the optimal solution is here.
+
+254
+00:36:56.120 --> 00:37:10.139
+Chuan Wu: Right? If that level curve is tilting and happens to be parallel to one of the boundary edges, then all points along that edge, including the two vertices of that edge, are optimal solutions.
+
+255
+00:37:11.010 --> 00:37:23.559
+Chuan Wu: And in either case, because we already established if A is still M, P is integer, then this polyhedron has integer vertices. Then, at least the one optimal solution is falling on an integer point.
+
+256
+00:37:23.810 --> 00:37:24.520
+Chuan Wu: Right.
+
+257
+00:37:24.760 --> 00:37:26.160
+Chuan Wu: Bless the idea.
+
+258
+00:37:27.780 --> 00:37:37.860
+Chuan Wu: Okay, all right. So then we know, so if we have an integer linear program, and we relax it to be a relaxed LP linear program.
+
+259
+00:37:37.860 --> 00:37:50.470
+Chuan Wu: If that relaxed linear program, that satisfies the above property. Then, we are able to solve the relaxed linear program and obtain optimal solution to the original integer linear program.
+
+260
+00:37:51.990 --> 00:37:53.330
+Chuan Wu: So that's the idea.
+
+261
+00:37:54.690 --> 00:37:55.630
+Chuan Wu: All right.
+
+262
+00:37:55.840 --> 00:37:59.990
+Chuan Wu: Okay, and this property is actually called total unimodularity.
+
+263
+00:38:01.760 --> 00:38:14.930
+Chuan Wu: Simply put, if the relaxed linear program satisfies this total unimodularity, then its optimal solution is exactly this integer optimal solution to the original integer program.
+
+264
+00:38:16.490 --> 00:38:19.350
+Chuan Wu: Or we say the relaxation is exact.
+
+265
+00:38:20.560 --> 00:38:21.500
+Chuan Wu: Okay.
+
+266
+00:38:22.260 --> 00:38:25.299
+Chuan Wu: All right, and what are examples?
+
+267
+00:38:25.630 --> 00:38:37.209
+Chuan Wu: So you may consider shortest the past problem and weighted bipartis matching problems. We formulated weighted bipartis matching problems last time, and we formulated the shortest path problem.
+
+268
+00:38:37.400 --> 00:38:45.709
+Chuan Wu: That's not as well, as well as in our very first lecture of the course. Okay, both are taking the form of an individual linear program.
+
+269
+00:38:46.880 --> 00:38:55.639
+Chuan Wu: And we are able to show the, those, those integer linear problems can be exactly solved by solving its relaxed linear program.
+
+270
+00:38:55.770 --> 00:39:01.919
+Chuan Wu: Because the relaxed linear program does satisfy the total unimodularity probability here.
+
+271
+00:39:02.430 --> 00:39:13.139
+Chuan Wu: Because they are constrained matrices, you will see is the incidence matrix that we formulated as the example of topology of the modular matrix just now.
+
+272
+00:39:14.500 --> 00:39:20.109
+Chuan Wu: Okay, all right, so let's check it out. So, using the example of the shortest path problem.
+
+273
+00:39:20.240 --> 00:39:25.939
+Chuan Wu: Okay, so this is the third time we have checked out the shortest path problem in the course so far.
+
+274
+00:39:26.210 --> 00:39:32.740
+Chuan Wu: Okay, and this time, what we are going to do is, we will further analyze its relaxation, relax the linear program.
+
+275
+00:39:32.950 --> 00:39:41.649
+Chuan Wu: Okay, so this is showing this past problem. The objective function is in the form of, sum of cost of select of the edge.
+
+276
+00:39:41.770 --> 00:39:47.770
+Chuan Wu: And here are three groups of constraints, corresponding largely to flow conservation.
+
+277
+00:39:47.920 --> 00:39:58.629
+Chuan Wu: And in shortest path problems, we require the variable Xij associated with every edge, is binary, it's taking a binary value, either 0 or 1.
+
+278
+00:39:58.750 --> 00:40:07.490
+Chuan Wu: So zero meaning this, ash doesn't appear in the final pass, and zero meaning this is, one of… one segment of the final pass.
+
+279
+00:40:07.750 --> 00:40:08.580
+Chuan Wu: Okay.
+
+280
+00:40:09.590 --> 00:40:18.590
+Chuan Wu: All right, relaxation. Okay, so let's consider a concrete instance of the shortest class problem using the input graph of F.
+
+281
+00:40:18.790 --> 00:40:31.870
+Chuan Wu: So, in the above example graph, suppose the above example graph is the input graph to the shortest path problem. So, where we have 4 vertices and 5 edges, directly graphed.
+
+282
+00:40:32.230 --> 00:40:38.359
+Chuan Wu: And we are trying to, we are trying to go from vertex 1 to vertex 3.
+
+283
+00:40:41.000 --> 00:40:46.249
+Chuan Wu: Vortex 1 is a sauce, and Vortex 3 is a sink. We try to find the best paths.
+
+284
+00:40:47.090 --> 00:40:50.110
+Chuan Wu: Okay, and then also, and here.
+
+285
+00:40:50.910 --> 00:41:03.890
+Chuan Wu: What are the appropriate constraints we have? Okay, we would have, over here, okay, over this group of, concise form of constraints, we actually have four constraints.
+
+286
+00:41:05.290 --> 00:41:08.230
+Chuan Wu: Following the concrete problem instance.
+
+287
+00:41:08.460 --> 00:41:12.890
+Chuan Wu: So let's check out what each of the four constraints are like.
+
+288
+00:41:13.070 --> 00:41:17.250
+Chuan Wu: So the first constraint here corresponds to
+
+289
+00:41:17.430 --> 00:41:30.709
+Chuan Wu: the first constraint there. So the first constraint here, saying from the source node, from the source vertex, the outgoing total amount of outgoing flow is exactly 1.
+
+290
+00:41:31.050 --> 00:41:31.900
+Chuan Wu: Right.
+
+291
+00:41:32.090 --> 00:41:46.619
+Chuan Wu: Okay, and here, at vertex 1, what is the total amount of outgoing flow? It's here. X12 corresponds to outgoing edge 1, 2, that's X13, corresponding to outgoing edge 1, 3.
+
+292
+00:41:46.690 --> 00:41:53.799
+Chuan Wu: And X14 corresponds to upload X14, right? Sum them up together, value is what?
+
+293
+00:41:55.150 --> 00:42:01.939
+Chuan Wu: And the third constraint here corresponds to the constraint, generic form constraint here.
+
+294
+00:42:02.050 --> 00:42:12.110
+Chuan Wu: It is saying all the incoming flow amount to, the, all the incoming flow amount to the sync node is exactly 1 as well.
+
+295
+00:42:12.630 --> 00:42:28.460
+Chuan Wu: Right? So incoming to, edge vertex 3. So what are the edges? 1, 3 goes to it, goes into it, 2, 3 goes into it, 2, 3 goes into it. Some are equating what, or if we put a negative sign on both sides.
+
+296
+00:42:28.830 --> 00:42:31.320
+Chuan Wu: On the active role sets.
+
+297
+00:42:32.220 --> 00:42:40.760
+Chuan Wu: Okay, and then the second and the fourth constraints correspond to low conservation at the two intermediate nodes.
+
+298
+00:42:41.070 --> 00:42:45.879
+Chuan Wu: Right? So what are the two intermediate nodes? They are node 2 and node 4.
+
+299
+00:42:46.130 --> 00:42:52.540
+Chuan Wu: Right, so I know the 2, X1, 2 goes into it, 2, 3 goes out of it.
+
+300
+00:42:52.850 --> 00:42:55.430
+Chuan Wu: Obviously, that difference should be exactly zero.
+
+301
+00:42:55.810 --> 00:42:57.730
+Chuan Wu: And at a node 4.
+
+302
+00:42:57.860 --> 00:43:05.470
+Chuan Wu: 1 4 goes into it, and the 4-3 goes out of it, and their sum, and their difference should be exactly 2.
+
+303
+00:43:06.030 --> 00:43:07.510
+Chuan Wu: flow conservation.
+
+304
+00:43:07.970 --> 00:43:16.259
+Chuan Wu: Okay, so therefore, concrete constraints corresponds to our first approval constraints in the generic formulation of Jaune's past problem.
+
+305
+00:43:16.650 --> 00:43:22.340
+Chuan Wu: And then, relaxation. So, originally, we require every variable to be binary.
+
+306
+00:43:22.570 --> 00:43:33.139
+Chuan Wu: And how do we relax it? Okay, so similarly, the more exact way of relaxing it is here. So every variable should be in the range of 0 and 1, continuously.
+
+307
+00:43:33.620 --> 00:43:46.509
+Chuan Wu: And again, because the whole problem is a minimization problem, so we can simply just return the first half of the relaxer constraints in the Xi component-wise, now smaller than 0.
+
+308
+00:43:46.710 --> 00:43:55.200
+Chuan Wu: But XIJ smaller than 1 is kind of hinted in the whole problem formulation, which we don't have to explicitly formulate here.
+
+309
+00:43:55.970 --> 00:43:57.680
+Chuan Wu: Okay, alright.
+
+310
+00:43:58.700 --> 00:44:01.439
+Chuan Wu: Okay, and then,
+
+311
+00:44:01.720 --> 00:44:09.279
+Chuan Wu: This part is the, AX larger to B larger equaling B, AX equaling B part.
+
+312
+00:44:09.710 --> 00:44:13.780
+Chuan Wu: In the standard formulation of linear program.
+
+313
+00:44:13.980 --> 00:44:16.890
+Chuan Wu: And this is not negativity condition.
+
+314
+00:44:17.570 --> 00:44:23.579
+Chuan Wu: Okay, so AX equals B at X equals 0, and the matrix A here
+
+315
+00:44:24.090 --> 00:44:27.190
+Chuan Wu: Yeah, I do have it here. Okay, matrix A is here.
+
+316
+00:44:27.560 --> 00:44:33.400
+Chuan Wu: Okay, AX equals B, 4 rows, corresponds to the four constraints of F.
+
+317
+00:44:33.620 --> 00:44:38.840
+Chuan Wu: And this is a matrix A, and you will find out it is exactly the incident matrix.
+
+318
+00:44:39.230 --> 00:44:42.979
+Chuan Wu: Okay, incident matrix of the graphs above.
+
+319
+00:44:44.060 --> 00:44:46.820
+Chuan Wu: So this A is totally unimodular.
+
+320
+00:44:47.320 --> 00:44:51.649
+Chuan Wu: And then B is what we have on the right-hand side, half, right-hand side.
+
+321
+00:44:52.360 --> 00:44:55.300
+Chuan Wu: Okay, so there is some reorganization of the roles.
+
+322
+00:44:55.690 --> 00:44:59.759
+Chuan Wu: Okay, and B is the right-hand side, integer factor.
+
+323
+00:44:59.870 --> 00:45:07.660
+Chuan Wu: And therefore, AX equals P, and X larger than zero, They set aside total unimodularity.
+
+324
+00:45:08.280 --> 00:45:24.969
+Chuan Wu: Right? And then, the relaxation is the exact. Meaning, by solving this relaxed linear program of the original shortage path problem, yeah, it would identify the integer solution. And that integer solution is exactly the solution to the original problem.
+
+325
+00:45:27.040 --> 00:45:32.499
+Chuan Wu: And this also explains why shortest path problem is not a rehab.
+
+326
+00:45:33.330 --> 00:45:35.780
+Chuan Wu: And we do have efficient algorithms to solve it.
+
+327
+00:45:38.530 --> 00:45:39.350
+Chuan Wu: Okay.
+
+328
+00:45:39.710 --> 00:45:56.339
+Chuan Wu: All right, so this is a concrete example. Actually, for weighted method matching, you can, do it in a similar way. You can put down concrete problem instance, and then you can analyze, you will find out that the matrix is total unimod… the constrained matrix is total unimodular.
+
+329
+00:45:56.340 --> 00:46:06.649
+Chuan Wu: And then, the weighted Bathetic graph, a relaxed version, also gave us integer solutions to the original problem. And we take Bathetic prob, which is not empty hat.
+
+330
+00:46:06.990 --> 00:46:14.200
+Chuan Wu: Because using this linear programming algorithm, we are able to solve it exactly, and efficiently.
+
+331
+00:46:16.540 --> 00:46:17.410
+Chuan Wu: Okay.
+
+332
+00:46:26.340 --> 00:46:32.479
+Chuan Wu: Okay, and that finishes our discussion on… Linear program.
+
+333
+00:46:51.480 --> 00:47:01.510
+Chuan Wu: All right, so, let's take a short break now, before we move on to see the second representative category of convex program. Okay, 5 minutes break.
+
+334
+00:47:44.610 --> 00:47:45.310
+Chuan Wu: No, everything.
+
+335
+00:47:49.930 --> 00:47:50.930
+Chuan Wu: international note.
+
+336
+00:47:56.750 --> 00:47:57.990
+Chuan Wu: I'm closing over.
+
+337
+00:48:50.120 --> 00:48:51.230
+Chuan Wu: That doesn't…
+
+338
+00:49:21.310 --> 00:49:23.849
+Chuan Wu: Community Shift, we can respond.
+
+339
+00:49:24.560 --> 00:49:25.690
+Chuan Wu: Honestly.
+
+340
+00:51:14.090 --> 00:51:17.110
+Chuan Wu: Alrighty, let's continue with our class today.
+
+341
+00:51:17.110 --> 00:51:39.960
+Chuan Wu: We have been working on integer, linear program, integer linear program, and moving on, we will see different representative types of, complex program as well, starting with quadratic program, and then, geometric program, semi-definite programs, and then we will check out, vector optimization, where our objective function value is not a scalar, vector value.
+
+342
+00:51:41.140 --> 00:51:58.959
+Chuan Wu: Okay, starting from the, one order above linear program. Also, linear program, where in the objective function, constraint functions are all affine. And here, in conjugatic program, we consider the objective function as a quadratic, complex quadratic function.
+
+343
+00:51:58.960 --> 00:52:11.080
+Chuan Wu: And regarding the constraints, if you check it out, you find out the constraints are the same as in the generic form of linear program, where we have affine inequality constraints and affine equality constraints.
+
+344
+00:52:11.610 --> 00:52:16.469
+Chuan Wu: Okay, and then if we require the objective function to be convex.
+
+345
+00:52:16.610 --> 00:52:23.910
+Chuan Wu: And then, what it implies is that P should be a positive semi-definite matrix.
+
+346
+00:52:24.800 --> 00:52:40.430
+Chuan Wu: Okay, so why? So let's consider, let's prove the objective function as, convex. So the objective function is a continuous, is a differentiable, actually twice differentiable continuous objective function.
+
+347
+00:52:40.900 --> 00:52:45.120
+Chuan Wu: Right, so do you still remember what a Haitian is?
+
+348
+00:52:46.630 --> 00:52:49.549
+Chuan Wu: So the Haotian matrix of the objective function.
+
+349
+00:52:50.120 --> 00:52:53.979
+Chuan Wu: So the Haotian matrix should exactly be the matrix peak?
+
+350
+00:52:54.860 --> 00:53:01.709
+Chuan Wu: Okay, the Haotian matrix is exactly the matrix P. And if P is a positive semi-definite.
+
+351
+00:53:02.240 --> 00:53:06.560
+Chuan Wu: Then, we know the objective function is Collects.
+
+352
+00:53:06.960 --> 00:53:18.540
+Chuan Wu: Okay, so that's our assumption. So here, when we consider this as a quadratic program, convex quadratic program, the objective function has to be… the P matrix has to be positive 7.
+
+353
+00:53:19.100 --> 00:53:38.999
+Chuan Wu: Okay, geometric illustration of optimality and feasibility set of contracting program. So, check on the feasibility set first. So, the feasibility set is decided by a set of affine inequalities and equalities, then the feasibility set of contracted improvement is, again, a polyfield.
+
+354
+00:53:39.460 --> 00:53:49.779
+Chuan Wu: Okay, polyhedral. So this is our polyhedral. Suppose this peak, okay, this peak, different from that peak. Okay, so this is… this polyhedral is our feasibility set.
+
+355
+00:53:50.100 --> 00:53:58.879
+Chuan Wu: And then, what the dotted curves represent, they represent the level curves of the objective function.
+
+356
+00:53:59.310 --> 00:54:04.530
+Chuan Wu: For chondratic objective function, their, sublevel sets are pretty much
+
+357
+00:54:05.840 --> 00:54:09.060
+Chuan Wu: In the shape of a board, okay, in the shape of boards.
+
+358
+00:54:09.170 --> 00:54:15.230
+Chuan Wu: And then the boundary, which are the level curves of the quadratic curve shape.
+
+359
+00:54:16.190 --> 00:54:23.660
+Chuan Wu: Okay, and then suppose this is the negative gradient direction of the objective function.
+
+360
+00:54:23.780 --> 00:54:31.650
+Chuan Wu: So we know the negative gradient direction is the direction where it's pointing to the direction where the objective function value is decreasing.
+
+361
+00:54:31.860 --> 00:54:32.690
+Chuan Wu: Right.
+
+362
+00:54:33.050 --> 00:54:48.890
+Chuan Wu: Okay, so therefore, actually, we want to find out optimal points, which is as much, is the most remote points in the field that we set along the direction of an active gradient objective function.
+
+363
+00:54:49.110 --> 00:54:52.280
+Chuan Wu: Right? And that point is here, in the Zinc bound.
+
+364
+00:54:52.990 --> 00:54:58.870
+Chuan Wu: So X star is the fastest point along the direction of negative gradient of the objective function.
+
+365
+00:54:59.400 --> 00:55:03.800
+Chuan Wu: And then, X star corresponds to the smallest objective function N.
+
+366
+00:55:04.520 --> 00:55:19.519
+Chuan Wu: And in this example, in this illustration, you can clearly see the optimal solution for a conjecture program may not happen on the vertex of the polyhedron. It could happen in the middle of an edge.
+
+367
+00:55:20.050 --> 00:55:22.710
+Chuan Wu: But it should have a lot of edge, in general.
+
+368
+00:55:23.120 --> 00:55:24.740
+Chuan Wu: Okay, alright.
+
+369
+00:55:29.650 --> 00:55:42.370
+Chuan Wu: Okay, let's… let's check out an example congenital program. This is a very simple conjuring program, and its form has been seen. We have actually seen it, on the slightly variant form before.
+
+370
+00:55:42.590 --> 00:55:48.210
+Chuan Wu: Okay, so here we have… what we formulate is a G value means the square problem.
+
+371
+00:55:48.370 --> 00:55:55.810
+Chuan Wu: Okay, objective function only, no explicit constraint. And objective function is some affunk functions, L2 norm squared.
+
+372
+00:55:56.390 --> 00:56:04.999
+Chuan Wu: Okay, and for such a contractual problem, actually we can solve it exactly in close form, so let's check it out.
+
+373
+00:56:05.230 --> 00:56:14.040
+Chuan Wu: So here, L2 norm squared is equivalent to the vector BX minus B's inner product with itself.
+
+374
+00:56:14.700 --> 00:56:21.900
+Chuan Wu: Okay, and expanding that form formula, we come up… All the way here, and…
+
+375
+00:56:22.400 --> 00:56:39.499
+Chuan Wu: We combine the common terms, what we come up is a quadratic function. Okay, so X transpose X, and with an inner matrix there, and here is a first-order term on X, affine term on X, and this is constant, B transpose V is a concavar constant.
+
+376
+00:56:40.000 --> 00:56:44.439
+Chuan Wu: quadratic function. So if you are minimizing a contractual function.
+
+377
+00:56:46.330 --> 00:56:55.270
+Chuan Wu: what, approach we take is, and it is unconstrained. Okay, unconstrained optimization, where we are minimizing a contracted function.
+
+378
+00:56:55.380 --> 00:57:05.020
+Chuan Wu: And so far, we have one simple, powerful technique to do that. We calculate radiant of the objective function, and we set it to zero.
+
+379
+00:57:05.300 --> 00:57:09.920
+Chuan Wu: And then, we come up with a set of equalities which we can solve for.
+
+380
+00:57:11.030 --> 00:57:18.329
+Chuan Wu: Okay, so this is our contracted objective function to minimize. We calculate its gradient and set the gradient to zero.
+
+381
+00:57:18.820 --> 00:57:23.820
+Chuan Wu: And upgrading the role, the solution may derive its optimal solution for the original problem.
+
+382
+00:57:24.620 --> 00:57:25.410
+Chuan Wu: Right.
+
+383
+00:57:25.870 --> 00:57:30.839
+Chuan Wu: So this is something we… some property we already provided and used earlier.
+
+384
+00:57:31.210 --> 00:57:39.100
+Chuan Wu: And how do we calculate the gradient? So the gradient of the quadratic term becomes 2 times the matrix and then X.
+
+385
+00:57:39.530 --> 00:57:47.169
+Chuan Wu: Right? And the gradient of the Xan term is exactly the value of the coefficient matrix, a coefficient vector.
+
+386
+00:57:47.490 --> 00:57:51.580
+Chuan Wu: or the gradient of the Xan term becomes 2 times B transpose B.
+
+387
+00:57:52.600 --> 00:57:54.429
+Chuan Wu: Okay, sending it to the role.
+
+388
+00:57:54.560 --> 00:58:10.170
+Chuan Wu: And then, we can come up with the analytical solution here. So, in fact, we move 2 times, so the 2 canceled, and then A transpose B moved to the right-hand side, and… okay, I can just write a little bit.
+
+389
+00:58:11.390 --> 00:58:18.469
+Chuan Wu: So what we have is A transpose AX equals… A plus also B.
+
+390
+00:58:18.880 --> 00:58:25.230
+Chuan Wu: Then we multiply A transpose A inverts on both sides of the equality.
+
+391
+00:58:27.150 --> 00:58:34.750
+Chuan Wu: Now, by the way, A transpose A is shown to be invertible if A has linear independent columns.
+
+392
+00:58:35.050 --> 00:58:45.939
+Chuan Wu: Okay, A doesn't have to be square. Matrix A doesn't have to be square, but A transpose A is square and invertible if A has linear independent collets.
+
+393
+00:58:46.450 --> 00:58:48.540
+Chuan Wu: Okay, I'll have food, Colin Ruck.
+
+394
+00:58:48.890 --> 00:58:59.860
+Chuan Wu: Okay, so left-hand side, right-hand side, left-hand side, this, inverse of matrix multiplies itself, so this becomes the identity matrix, and then…
+
+395
+00:59:00.640 --> 00:59:02.010
+Chuan Wu: Right-hand side?
+
+396
+00:59:02.460 --> 00:59:03.390
+Chuan Wu: is here.
+
+397
+00:59:04.540 --> 00:59:08.430
+Chuan Wu: So that's a solution, we leave other slides as well.
+
+398
+00:59:09.340 --> 00:59:10.130
+Chuan Wu: Okay.
+
+399
+00:59:10.280 --> 00:59:27.439
+Chuan Wu: Actually, if you compare the approach we adopt of the least square unconstrained, it's a square minimization problem here, with one of the examples we did together among one of the… our very first lectures, you will find out the idea is actually the same.
+
+400
+00:59:27.460 --> 00:59:40.590
+Chuan Wu: Except that, here, we just use the vector form, matrix form, vector form of the constraints, and to derive the solution. And we make use of the concept of gradient, and set gradient studio.
+
+401
+00:59:40.670 --> 00:59:48.959
+Chuan Wu: In one of our very first examples, where we are solving a laser square problem, what we did is, we calculated a partial derivative
+
+402
+00:59:49.480 --> 00:59:56.219
+Chuan Wu: Of the objective function with respect to every variable component, and then set it to zero.
+
+403
+00:59:57.170 --> 01:00:11.070
+Chuan Wu: Okay, and here we directly treat the partial derivatives with respect to each variable in the form of the gradient, because the gradient vector is consisting of partial derivative of the function with respect to every variable, right?
+
+404
+01:00:11.120 --> 01:00:29.679
+Chuan Wu: Okay, we just directly adopted the gradient vector form to come up with the solution. But the, the idea behind it is exactly like it. We just set the positive derivatives, or gradient to zero, and then we derive. We solve the linear equations, and we come up with the solution.
+
+405
+01:00:31.120 --> 01:00:32.000
+Chuan Wu: Okay.
+
+406
+01:00:33.170 --> 01:00:36.820
+Chuan Wu: In fact, here, what we have is a set of linear equations.
+
+407
+01:00:37.270 --> 01:00:38.120
+Chuan Wu: All day.
+
+408
+01:00:45.370 --> 01:00:59.410
+Chuan Wu: Okay, moving on, so the, next example is, catering tool, a concrete scenario where we are considering minimization of, objective involving random variables, okay, random vectors.
+
+409
+01:00:59.410 --> 01:01:05.679
+Chuan Wu: And then we found out we are able to convert the problem into a contracted program form.
+
+410
+01:01:05.680 --> 01:01:06.510
+Chuan Wu: Okay.
+
+411
+01:01:06.740 --> 01:01:10.419
+Chuan Wu: So the idea is here. We are looking at…
+
+412
+01:01:12.610 --> 01:01:32.109
+Chuan Wu: Okay, so we are minimizing… check out the constraints first. So the constraints are still following the standard form, okay? It appears in the generic standard form, or generic form of chondriatic program, as well as a linear program. So, and we know the constraints are just representing a polyhedral.
+
+413
+01:01:32.150 --> 01:01:42.920
+Chuan Wu: And then what different is… what diff… what differs is the objective function. So the objective function here, so we have, we have a…
+
+414
+01:01:44.700 --> 01:02:04.080
+Chuan Wu: affine function on X here, and we have a quadratic function on X as of the second term. Okay, so here's C. So C is considered as a coefficient vector, which we are doing in a product with X, with
+
+415
+01:02:04.520 --> 01:02:08.250
+Chuan Wu: And, the second term is,
+
+416
+01:02:08.860 --> 01:02:22.539
+Chuan Wu: Here, the matrix, the sigma, the big sigma symbol represent a matrix. And, there is a rationale behind this formulation, so that is, so if we consider the coefficient vector C,
+
+417
+01:02:22.540 --> 01:02:38.410
+Chuan Wu: to X in the linear term to be a random vector. Okay, so CB… C is an un-dimensional vector as well. When we say C is a random vector, it means that every one of the n components in C is a random variable.
+
+418
+01:02:38.750 --> 01:02:50.509
+Chuan Wu: Okay, and then consider its mean, it's C bar, and its coefficient in the matrix is this big sigma. Okay, so what is the big sigma matrix? It's here.
+
+419
+01:02:50.790 --> 01:02:52.150
+Chuan Wu: So, see.
+
+420
+01:02:52.570 --> 01:03:09.100
+Chuan Wu: C itself is a vector, column vector, C1 up to CF, and its mean random vector has mean and variance. Okay, and its mean is consisting of the mean of each component random variable.
+
+421
+01:03:09.750 --> 01:03:13.110
+Chuan Wu: Okay, and then what about that big sigma matrix?
+
+422
+01:03:13.340 --> 01:03:18.419
+Chuan Wu: So the big sigma matrix is the covariance matrix.
+
+423
+01:03:18.600 --> 01:03:21.840
+Chuan Wu: And, it's, N times n matrix.
+
+424
+01:03:22.530 --> 01:03:24.209
+Chuan Wu: So it's N times N.
+
+425
+01:03:24.860 --> 01:03:31.809
+Chuan Wu: And every component is in the form of, covariance of CI anesthesia.
+
+426
+01:03:31.980 --> 01:03:39.629
+Chuan Wu: So, covariance, C1, C1, And Colbert's… C1 seed tool.
+
+427
+01:03:40.070 --> 01:03:41.240
+Chuan Wu: And the soil.
+
+428
+01:03:42.220 --> 01:03:46.160
+Chuan Wu: Okay, then, covariance… CNCF.
+
+429
+01:03:47.960 --> 01:03:51.720
+Chuan Wu: Almost. So this is the definition of the coherence matrix.
+
+430
+01:03:52.190 --> 01:03:58.549
+Chuan Wu: and concrete way to calculate the coherence is here. So, from basic probability,
+
+431
+01:03:58.940 --> 01:04:09.480
+Chuan Wu: data ratio. Okay, so the covariance is, calculated as expectation of the, product CI and the CI bar, and the CJ and the CJ bar.
+
+432
+01:04:09.700 --> 01:04:15.300
+Chuan Wu: But this is the original definition of covariance between two random variables.
+
+433
+01:04:20.700 --> 01:04:21.670
+Chuan Wu: Okay.
+
+434
+01:04:21.860 --> 01:04:40.029
+Chuan Wu: All right, and then checking back on our objective function definition, the first term, C bar in the product X, so it's exactly the value of expect… expectation of, vector expectation of the quantity C transpose X.
+
+435
+01:04:40.340 --> 01:04:59.310
+Chuan Wu: Okay, because here, in C transpose X, only C is random, and the expectation will be working on C part and becomes C's mean, okay, the mean vector of C. And then, the second part, X transpose, sigma X, so that's exactly the variance of C transpose X.
+
+436
+01:04:59.640 --> 01:05:03.669
+Chuan Wu: So let me see if I have a derivation… yeah, here.
+
+437
+01:05:04.120 --> 01:05:04.950
+Chuan Wu: Okay.
+
+438
+01:05:05.330 --> 01:05:06.950
+Chuan Wu: Alright,
+
+439
+01:05:07.590 --> 01:05:23.969
+Chuan Wu: So as that, B transpose X is a random variable itself, considering it's actually the sum of all the random variables even up to CN, weighted by XIM up to XN. So its mean is C bar transpose X, and its variance is huge.
+
+440
+01:05:23.970 --> 01:05:32.069
+Chuan Wu: So, its variance… Y is variance is… can be expressed via the X transpose, covariance matrix, and X, so here is a derivation.
+
+441
+01:05:32.250 --> 01:05:48.110
+Chuan Wu: So, variance of the random variable. Okay, by definition, by the very original definition, it's here. So, it's expectation of C transpose X minus expectation of C transpose X, and then square. Okay, very original definition of variance, of random variable.
+
+442
+01:05:48.370 --> 01:05:49.180
+Chuan Wu: Excellent.
+
+443
+01:05:49.290 --> 01:05:51.750
+Chuan Wu: It's further equivalent of the tool here.
+
+444
+01:05:51.910 --> 01:06:03.580
+Chuan Wu: V… Remember, this expectation of C transpose X is equivalent to exactly C bar in our product X.
+
+445
+01:06:04.270 --> 01:06:07.610
+Chuan Wu: Okay, and then, you can…
+
+446
+01:06:08.210 --> 01:06:21.389
+Chuan Wu: do the, square calculation, and, you can try to work out based on the detailed step, which I'm not going to do. And, you will find out, inside here, what we exactly have is X transpose.
+
+447
+01:06:21.500 --> 01:06:24.729
+Chuan Wu: C minus Z bar and C minus Z bar transpose.
+
+448
+01:06:24.830 --> 01:06:33.960
+Chuan Wu: and the inner part. And the expectations, because X is not rendered, so X is not rendered, the random part is in the vector C.
+
+449
+01:06:34.050 --> 01:06:45.450
+Chuan Wu: So the expectation will be mainly work on… here, will be mainly work on the inner part, and the expectation is exactly the big sigma matrix.
+
+450
+01:06:57.560 --> 01:06:58.460
+Chuan Wu: Okay.
+
+451
+01:06:59.230 --> 01:07:00.310
+Chuan Wu: All right.
+
+452
+01:07:04.140 --> 01:07:16.419
+Chuan Wu: And this is how we derive the second part in the objective function. So the second part in the objective function represents exactly the variance of a random variable, C transpose X.
+
+453
+01:07:17.900 --> 01:07:20.060
+Chuan Wu: Okay, and then,
+
+454
+01:07:20.350 --> 01:07:34.069
+Chuan Wu: Implication of the objective function formulation above is, that the gamma, that the coefficient, scalar coefficient gamma, that we are multiplying the variance with can be considered as, some kind of a risk.
+
+455
+01:07:34.150 --> 01:07:46.110
+Chuan Wu: Aversion, a risk control parameter. If this value is larger, then we actually want smaller variance in objective function.
+
+456
+01:07:46.120 --> 01:07:59.919
+Chuan Wu: The objective function is minimization. Okay, intuitively, the objective function, means we are minimizing some expectation of a random variable value, plus the variance of that.
+
+457
+01:08:00.450 --> 01:08:01.980
+Chuan Wu: Run the variable value.
+
+458
+01:08:02.090 --> 01:08:17.339
+Chuan Wu: Okay, minimize expectation plus variance. So if gamma is larger, then meaning we want to minimize variance more. If gamma is smaller, it implies we want to minimize the expectation, or mu more.
+
+459
+01:08:17.729 --> 01:08:20.459
+Chuan Wu: Okay, so that's the, incubation.
+
+460
+01:08:24.500 --> 01:08:25.310
+Chuan Wu: Okay.
+
+461
+01:08:29.000 --> 01:08:45.419
+Chuan Wu: All right, so here, this is also shown as an example. So because, when you formulate the objective function in the above form, C trans… the C bar itself is determinedistic, and big sigma is deterministic.
+
+462
+01:08:45.779 --> 01:08:55.910
+Chuan Wu: mistake. So therefore, the objective function is just of, a standard conjunctive programs, objective objective function form.
+
+463
+01:08:56.680 --> 01:09:04.500
+Chuan Wu: And readiness has been hidden, okay, because we are animating between me, and, various work.
+
+464
+01:09:04.990 --> 01:09:10.609
+Chuan Wu: Represent the, randomness of the original variables.
+
+465
+01:09:11.149 --> 01:09:14.549
+Chuan Wu: original random quantitative.
+
+466
+01:09:15.560 --> 01:09:17.229
+Chuan Wu: Alright,
+
+467
+01:09:18.430 --> 01:09:29.329
+Chuan Wu: And in literature, people play the linear program with random cost, but you should know mathematically, the eventual formulation just to represent a quadratic program.
+
+468
+01:09:33.810 --> 01:09:50.290
+Chuan Wu: Okay, and then a closely related form to the quadratic program we have seen just now is this so-called quadratically constricted quadratic program. So intuitively, you know, now the quadratic function also happens in the constraint, and yes.
+
+469
+01:09:50.370 --> 01:10:07.499
+Chuan Wu: And in this, quadratically constrained program, objective function is quadratic, and constraints, inequality constraints, are all quadratic as well. Okay, are chondratic as well, and the, inequalities are, again, still are
+
+470
+01:10:07.700 --> 01:10:08.590
+Chuan Wu: Okay.
+
+471
+01:10:08.620 --> 01:10:21.360
+Chuan Wu: And, here we also require all the, matrices appearing in the quadratic objective function and the quadratic constraint function to be positive semidefinite.
+
+472
+01:10:21.360 --> 01:10:28.870
+Chuan Wu: Because only in that way, we are able to ensure the corresponding objective function and constraint function function is commence.
+
+473
+01:10:29.470 --> 01:10:33.960
+Chuan Wu: And, geometrical meaning of the, availability set.
+
+474
+01:10:34.100 --> 01:10:41.230
+Chuan Wu: We know the quadratic inequality actually corresponds to elixiris.
+
+475
+01:10:41.380 --> 01:10:51.580
+Chuan Wu: If you check back on the definition of ellipsoid sets, you will find out that they correspond to the chondraptic inequality. Okay, so therefore.
+
+476
+01:10:51.580 --> 01:11:03.210
+Chuan Wu: The, M, chondratic inequalities, represents, ellipsoids, M ellipsoids, and affine equalities, again, represent hyperpets.
+
+477
+01:11:03.410 --> 01:11:14.520
+Chuan Wu: And then, the feasibility set of such a quadrantically constrained program is intersection of ellipsoids and hyperlins.
+
+478
+01:11:14.660 --> 01:11:22.910
+Chuan Wu: And all the ellipsoids and hyperfins are convex, and their intersection is, again, a convex set.
+
+479
+01:11:25.330 --> 01:11:33.560
+Chuan Wu: Okay, here is a simple example of a quadratic equilatical string. Okay, here.
+
+480
+01:11:33.620 --> 01:11:53.240
+Chuan Wu: If you want to indicate, okay, if you want to indicate that our variable X is binary, okay, every component in X is binary, so when we put this down this form, it means X has n components, and every component, sorry, not binary, it's within the range of 0 and 1.
+
+481
+01:11:53.540 --> 01:12:04.079
+Chuan Wu: When we put it down in this form, it means X is an international vector, and every component variable in X is within the range from 0 to 1.
+
+482
+01:12:04.600 --> 01:12:10.589
+Chuan Wu: Okay, and we can express this condition into a quadratic constraint.
+
+483
+01:12:10.760 --> 01:12:17.310
+Chuan Wu: Okay, so that is, we say Xi multiplies XI minus 1 is smaller or equal to 0.
+
+484
+01:12:18.390 --> 01:12:19.270
+Chuan Wu: Okay.
+
+485
+01:12:19.480 --> 01:12:27.540
+Chuan Wu: And the only possibility for this product to be smaller or equal to 0 is Xi is within the range from 0 to 1.
+
+486
+01:12:28.620 --> 01:12:40.300
+Chuan Wu: Right. Okay, so equivalent. And, Xi multiply Xi minus 1, small or equal to 1, so that's exactly Xi squared minus Xi small to 0.
+
+487
+01:12:41.860 --> 01:12:43.900
+Chuan Wu: Right? Quadratic function.
+
+488
+01:12:48.130 --> 01:12:48.970
+Chuan Wu: Okay.
+
+489
+01:12:50.570 --> 01:12:57.100
+Chuan Wu: Alright, and then the next form of convex program is called second-order cone probe.
+
+490
+01:12:57.380 --> 01:13:09.709
+Chuan Wu: The objective function in a second-order cool program is R5. Okay, simpler. It's R5. So F is a coefficient vector, and we're doing a product between F and X.
+
+491
+01:13:09.950 --> 01:13:22.409
+Chuan Wu: And then what is special is regarding the, inequality constraints. And of course, the, inequality constraints still are affined, and what is special are the inequality constraints.
+
+492
+01:13:22.600 --> 01:13:34.950
+Chuan Wu: The F inequality constraints are in a special form as shown here. The left-hand side of the inequality is L2 norm of sub alpha function, and the right-hand side is sub-alpha function.
+
+493
+01:13:35.170 --> 01:13:36.010
+Chuan Wu: Okay.
+
+494
+01:13:36.130 --> 01:13:43.849
+Chuan Wu: And, in fact, for a constraint in exact form, they correspond to some, interesting convex set.
+
+495
+01:13:44.040 --> 01:13:57.279
+Chuan Wu: The definition is here. So we call… we call the, set a long cone. Okay, so here. So a non cone is defined this way, so X is an dimensional vector, T is a scalar.
+
+496
+01:13:57.700 --> 01:14:06.919
+Chuan Wu: value. Okay, and if a norm of X is no larger than t, then the set consisting of points X ts.
+
+497
+01:14:07.630 --> 01:14:09.970
+Chuan Wu: It's not normal.
+
+498
+01:14:10.520 --> 01:14:11.869
+Chuan Wu: Okay, example.
+
+499
+01:14:12.340 --> 01:14:13.870
+Chuan Wu: So, example here.
+
+500
+01:14:15.400 --> 01:14:24.890
+Chuan Wu: So consider X, in the general definition, is two-dimensional, including two components, X1 and X2, and T is sphere, right?
+
+501
+01:14:25.120 --> 01:14:40.989
+Chuan Wu: And according to the definition, suppose we are using L2 norm. Okay, so the norm in the general definition of norm, it doesn't have to be L2 norm. It can be any form of norm. But here, if we comparatize it to be L2 norm, the L2 norm of X
+
+502
+01:14:46.060 --> 01:14:53.339
+Chuan Wu: no larger than T. Okay, so L2 norm of X, when X has only two components.
+
+503
+01:14:53.540 --> 01:14:58.859
+Chuan Wu: is we drag it here. So it's square root of X minus square plus X2 squared, right?
+
+504
+01:14:58.970 --> 01:15:02.410
+Chuan Wu: Okay, so that is exactly the form here.
+
+505
+01:15:04.400 --> 01:15:10.560
+Chuan Wu: So the set defined here. So the set consisting of points in three-dimensional space.
+
+506
+01:15:11.210 --> 01:15:15.809
+Chuan Wu: Okay, and what does this 7 look like? So it's a buff.
+
+507
+01:15:16.580 --> 01:15:24.469
+Chuan Wu: It's a boundary of a second-order form. Okay, so what we show about is boundary of a second-order form.
+
+508
+01:15:25.060 --> 01:15:33.039
+Chuan Wu: So the second order cone set itself includes a laundry, which is a cone, like the ice cream cone, and all the points are left.
+
+509
+01:15:33.420 --> 01:15:35.900
+Chuan Wu: All the points being that they hear about another.
+
+510
+01:15:36.880 --> 01:15:38.440
+Chuan Wu: Right, okay.
+
+511
+01:15:38.700 --> 01:15:39.650
+Chuan Wu: Alright.
+
+512
+01:15:40.290 --> 01:15:56.649
+Chuan Wu: So therefore, from that intuitively, we know if the norm we use in defining a norm cone is L2 norm, equivalent to the Euclidean norm, then the cone is itself called second-order cone, chondratical cone, as green cone.
+
+513
+01:15:56.990 --> 01:15:57.870
+Chuan Wu: Okay.
+
+514
+01:16:00.460 --> 01:16:02.170
+Chuan Wu: Alright,
+
+515
+01:16:03.630 --> 01:16:23.329
+Chuan Wu: And we know that, then, checking back on the definition of the, constraints. So the, inequality constraints defined in the form of, the inequality in non-com definition is called second-order constraints. And over there, the norm we use is L to B.
+
+516
+01:16:23.440 --> 01:16:25.640
+Chuan Wu: Okay, second other cone constraint.
+
+517
+01:16:25.790 --> 01:16:30.319
+Chuan Wu: And we know the second-order cone constraint corresponds to a cone set.
+
+518
+01:16:30.660 --> 01:16:35.789
+Chuan Wu: Because we are easily, we are easily able to show second-order cones account access.
+
+519
+01:16:37.100 --> 01:16:41.420
+Chuan Wu: Okay, and then the, cost green.
+
+520
+01:16:41.560 --> 01:16:45.969
+Chuan Wu: It's composition of, affine function and the second order.
+
+521
+01:16:46.400 --> 01:16:50.199
+Chuan Wu: And then the accommodation will still result in some kind of accept.
+
+522
+01:16:51.200 --> 01:16:52.160
+Chuan Wu: Okay, please.
+
+523
+01:16:52.820 --> 01:16:55.110
+Chuan Wu: Alright, here.
+
+524
+01:16:55.390 --> 01:17:09.840
+Chuan Wu: So we say AIX plus PI, which is what appears in the L2 norm on the left-hand side of the second order cone constraint, and then CI inner product X plus PI is what appears on the right-hand side of the inequalities.
+
+525
+01:17:09.870 --> 01:17:17.829
+Chuan Wu: And, altogether, this point belongs to the second other cone, and… Of this dimension.
+
+526
+01:17:18.000 --> 01:17:25.279
+Chuan Wu: Okay, so the dimension is decided by AI's row dimension, plus 1. Okay, and I plus 1.
+
+527
+01:17:34.570 --> 01:17:40.000
+Chuan Wu: And by the way, how we directly know the second-order cone is a convex set?
+
+528
+01:17:48.670 --> 01:17:51.300
+Chuan Wu: It's epigraph of non-function.
+
+529
+01:17:51.970 --> 01:17:54.909
+Chuan Wu: Right. Apple grass of non-farmership.
+
+530
+01:17:55.160 --> 01:17:59.689
+Chuan Wu: So, a non-function is a convex function, so epigraph is always convex there.
+
+531
+01:18:00.890 --> 01:18:01.680
+Chuan Wu: Okay.
+
+532
+01:18:03.000 --> 01:18:04.210
+Chuan Wu: Alright.
+
+533
+01:18:06.420 --> 01:18:21.220
+Chuan Wu: Okay, in fact, the second-order cone program, the special case of second-order cone program is, contrasted constraint, contradictive program, and linear program. Okay, so that means,
+
+534
+01:18:22.520 --> 01:18:35.580
+Chuan Wu: In special cases, okay, in special cases, we are able to reduce a second-order cone program to either a linear program or a quadrantically constrained program. Okay, so for example, if, NI
+
+535
+01:18:35.610 --> 01:18:55.259
+Chuan Wu: all NI is unzero, okay, NI is unzero. So, meaning AIX part is gone, okay, in the second-order cone constraints, AIX part is gone, and left-hand side, there is only, then the left-hand side of the second-order cone program is just, constant valid.
+
+536
+01:18:55.370 --> 01:19:01.680
+Chuan Wu: And then the second order constraints just become linear constraints in that special extreme case.
+
+537
+01:19:02.230 --> 01:19:11.430
+Chuan Wu: And, on the other hand, if our CI equals zero, so meaning, on the right-hand side, the CI inner product X part is gone.
+
+538
+01:19:11.560 --> 01:19:14.240
+Chuan Wu: And then the right-hand side is just a constant.
+
+539
+01:19:14.650 --> 01:19:20.759
+Chuan Wu: Right? The right hand… when the right-hand side is simply the constant… constant here.
+
+540
+01:19:32.870 --> 01:19:37.020
+Chuan Wu: Then, the constraint is, quandrafic… constraint.
+
+541
+01:19:37.550 --> 01:19:38.420
+Chuan Wu: Why?
+
+542
+01:19:38.540 --> 01:19:42.610
+Chuan Wu: So the reason is we can do a square on both sides.
+
+543
+01:19:42.900 --> 01:19:46.980
+Chuan Wu: And then the left-hand side becomes… Quadratic function.
+
+544
+01:19:54.260 --> 01:20:02.600
+Chuan Wu: Okay, so you can expand the inner product calculation, you'll find out, and it is… becomes a quadratic function on X, right?
+
+545
+01:20:03.530 --> 01:20:04.370
+Chuan Wu: Okay.
+
+546
+01:20:04.530 --> 01:20:23.750
+Chuan Wu: So that means if, the, for one second-order cone constraint, if the CIA becomes… background becomes all zero, then that constraint becomes a chondratical constraint, and if all CIs are zero, then the whole program becomes a chondratically constrained probab.
+
+547
+01:20:25.670 --> 01:20:26.500
+Chuan Wu: Okay.
+
+548
+01:20:32.880 --> 01:20:34.270
+Chuan Wu: Okay, alright.
+
+549
+01:20:34.700 --> 01:20:44.579
+Chuan Wu: And then, following that, we are going to introduce a category of problems which people call as robust linear program.
+
+550
+01:20:44.770 --> 01:20:57.940
+Chuan Wu: So, although the name is talking about the linear program, you will find out on the different ways of analyzing and converting the program. Eventually, the final program being formulated is of quadratic form.
+
+551
+01:20:58.210 --> 01:20:58.990
+Chuan Wu: Okay.
+
+552
+01:20:59.140 --> 01:21:17.459
+Chuan Wu: And, this is not merely linear program, we call it robust linear program. So when there is this word, robust, pretty much, you know, there is some kind of randomness that would be introduced, or random variable, or random context input that is introduced in the problem formulation.
+
+553
+01:21:17.590 --> 01:21:32.650
+Chuan Wu: And, you know, in the eventual mathematical program formulation, including convex program, a non-convex program, linear program, or any type of convex program formats, we don't want anything to be rendered.
+
+554
+01:21:32.830 --> 01:21:50.029
+Chuan Wu: Okay, we want all the variable… we want the variable X to be a deterministic variable, and we want the coefficient vector C, or matrix B, or whatever input committee that appears in the program to be deterministic rather than random.
+
+555
+01:21:50.120 --> 01:22:03.579
+Chuan Wu: Even in the very original formulation or description of the problem, some quantities are random, we need to have analytical approach to convert that randomness into more deterministic descriptions.
+
+556
+01:22:03.770 --> 01:22:10.840
+Chuan Wu: Okay, so that's the idea behind this, category of, work, robust linear program.
+
+557
+01:22:11.090 --> 01:22:29.870
+Chuan Wu: Okay, so here. So to consider, we are facing a linear program. Okay, the very original form of the problem we are checking out is a linear program. Your objective function is a linear function of X, and the constraints are a set of affine inequality constraints.
+
+558
+01:22:29.900 --> 01:22:42.069
+Chuan Wu: But it looks pretty much normal, right? But what is troublesome is we consider some parameters in the linear program can be uncertain or random.
+
+559
+01:22:42.260 --> 01:22:50.339
+Chuan Wu: Okay, so parameters meaning we have quantities appearing in a problem except for the variable.
+
+560
+01:22:50.740 --> 01:23:01.360
+Chuan Wu: Okay, except the X, C, A, B, C, C, A, I, DI are all considered as parameters, or input among this, you know, of the problem.
+
+561
+01:23:01.490 --> 01:23:02.380
+Chuan Wu: Okay.
+
+562
+01:23:02.730 --> 01:23:22.149
+Chuan Wu: All right, then, if we do consider there is some uncertainty in possible C or AI or BI, then we need to have some analytical approach to kind of counter that uncertainty and come up with deterministic proper formulation. Okay, so let's show two, cases.
+
+563
+01:23:22.150 --> 01:23:29.370
+Chuan Wu: to handle and to limit the scope, just as a showcase. Here, we consider AI.
+
+564
+01:23:29.390 --> 01:23:36.799
+Chuan Wu: has some uncertainty. Okay, only AI. Okay, AI, in all the inequality constraints, AI has some uncertainty.
+
+565
+01:23:36.980 --> 01:23:45.110
+Chuan Wu: Okay, so AI uncertainty, there are two representative, categories of,
+
+566
+01:23:45.420 --> 01:24:00.679
+Chuan Wu: descriptions of AI's uncertainty. So one category is saying, which doesn't say that AI is not a very good determining value, but AI is possibly one value within a larger set, within a set, absolutely.
+
+567
+01:24:01.650 --> 01:24:02.320
+Chuan Wu: Bye.
+
+568
+01:24:10.590 --> 01:24:13.320
+Chuan Wu: Okay, that's no file, too.
+
+569
+01:24:16.440 --> 01:24:17.190
+Chuan Wu: Okay.
+
+570
+01:24:19.830 --> 01:24:22.049
+Chuan Wu: Alright, okay.
+
+571
+01:24:25.140 --> 01:24:32.770
+Chuan Wu: Alright, so consider AI is not a single value. So AI can be any value within a set F0I,
+
+572
+01:24:33.280 --> 01:24:48.890
+Chuan Wu: And, epsiloni consider it to be a continuous set, so that means AI can be any value, including the number of values from the set epime i. That is, one interpretation, or one way to represent some uncertainty of AI.
+
+573
+01:24:49.230 --> 01:25:04.740
+Chuan Wu: Okay, and in this case, we are able to analyze and show, eventually, this proof, and in that case, the problem is here. The original problem description is here. Minimize C in the product X subject to the constraints.
+
+574
+01:25:04.740 --> 01:25:13.619
+Chuan Wu: Except that we have M, such constraint, we also have the condition that AI can be any value from epilog i.
+
+575
+01:25:14.190 --> 01:25:15.070
+Chuan Wu: Okay.
+
+576
+01:25:15.170 --> 01:25:23.830
+Chuan Wu: We… For linear program in this form, we won't consider it as
+
+577
+01:25:24.120 --> 01:25:43.189
+Chuan Wu: We won't consider it as the final or standard or generic form of mathematical proof. So the reason is related to what I briefly mentioned earlier. So for mathematical proof and formulation, we want the number of variables and the number of constraints to be a finite number.
+
+578
+01:25:43.580 --> 01:25:50.729
+Chuan Wu: is script by next number. We don't want something like, we can have infinity mining such constraint, right?
+
+579
+01:25:50.870 --> 01:25:59.980
+Chuan Wu: Okay, for infinity by possible values of AI, we have to remove such uncertainty and come up with a finite number of final constructs.
+
+580
+01:26:00.590 --> 01:26:03.899
+Chuan Wu: Okay, so we will see how we do that on the next page.
+
+581
+01:26:04.250 --> 01:26:14.709
+Chuan Wu: And other than consider AI to be, choosing any value from a set epsilon i, we could also be possibly consider that,
+
+582
+01:26:14.870 --> 01:26:20.169
+Chuan Wu: AI is kind of, random, okay. Yeah, it's a random error.
+
+583
+01:26:20.320 --> 01:26:38.169
+Chuan Wu: So when AI is a random variable, it's pretty difficult to determine what it means AI interpret X is no larger than BI. So we have to somehow introduce the concept of probability when formulating a construct. So, for example, here.
+
+584
+01:26:38.170 --> 01:26:51.730
+Chuan Wu: So when we can consider… so when AI is a random variable, meaning it follows some distribution, and the distribution has length and variance, okay, so when AI is such a random variable, what we mean by
+
+585
+01:26:51.940 --> 01:27:04.089
+Chuan Wu: ensuring AI can impact X no larger than BI is from a probability listing view. What we want is the probability that this condition holds to be larger than some lower bound.
+
+586
+01:27:04.210 --> 01:27:14.720
+Chuan Wu: That is one way to interpret, the inequality constraint when one variable, involved, when one, quantity or parameter involved is random.
+
+587
+01:27:15.330 --> 01:27:16.160
+Chuan Wu: Okay.
+
+588
+01:27:16.380 --> 01:27:29.390
+Chuan Wu: All right, so although we can put down the inequality satisfaction in the probability sense in that way, this is, again, not a standard form of,
+
+589
+01:27:29.660 --> 01:27:45.489
+Chuan Wu: mathematical proof formulation. We still have to somehow remove this descriptor of probability, okay? We have to rely on what AI's concrete formula… concrete distribution it is following, and then we come up with concrete
+
+590
+01:27:45.490 --> 01:27:50.540
+Chuan Wu: Deterministic and explicit financed number of compilations here.
+
+591
+01:27:51.010 --> 01:28:09.610
+Chuan Wu: All right, okay, so basically we have two ways to, understand or analyze the uncertainty of AI, and we will see, in each case, the original linear program formulation will eventually become explicit quadratic program formulations.
+
+592
+01:28:11.290 --> 01:28:14.049
+Chuan Wu: Okay, so starting from the first case.
+
+593
+01:28:15.490 --> 01:28:29.530
+Chuan Wu: Okay, so in the first case, we assume AI is, non-determined, is, can take any value from a set, and we also assume, in our concrete scenario, those sets are elixoids.
+
+594
+01:28:29.840 --> 01:28:33.460
+Chuan Wu: Okay, so AI belongs to a unique soil, absolute F.
+
+595
+01:28:33.790 --> 01:28:50.109
+Chuan Wu: And as we saw earlier, so we can represent, ellipsoid in a form here. So we have AI bar plus BIU, and here U can be any value, any vector whose L2 naught is no larger than 1.
+
+596
+01:28:50.520 --> 01:29:03.149
+Chuan Wu: Okay, if you compare this formulation of ellipsoid with our definition of ellipsoid earlier, you will find out the AI bar here actually represents the S center of the ellipsoid set.
+
+597
+01:29:03.600 --> 01:29:11.259
+Chuan Wu: And the PI matrix is related to the length of semi-axis of the ellipsoid.
+
+598
+01:29:11.510 --> 01:29:21.669
+Chuan Wu: And more exactly, the semi-axis of the ephoid is square root of lambda i, and the lambda I's are eigenvalues of matrix PI squared.
+
+599
+01:29:22.370 --> 01:29:27.360
+Chuan Wu: Okay, in the original definition, we found out we have something like the A1 path matrix there.
+
+600
+01:29:27.550 --> 01:29:28.430
+Chuan Wu: Oh, heh.
+
+601
+01:29:28.890 --> 01:29:29.810
+Chuan Wu: All right.
+
+602
+01:29:30.530 --> 01:29:50.079
+Chuan Wu: Okay, and then what we are going to show is, if we do assume the sets that every AI belongs to is a linear, as defined above, we are able to convert the original formulation of a linear program form of problem into a second-order code program in the format below.
+
+603
+01:29:50.880 --> 01:29:59.009
+Chuan Wu: And how do we do the derivation? The derivation is here. Okay, on the next page, let's see the detailed step, one by one.
+
+604
+01:29:59.220 --> 01:30:15.760
+Chuan Wu: Okay, our challenge or difficulty of the robust linear program we are facing now lies in its constraints. So we have M constraints. The M constraints do, like, look like affine in quality constraints.
+
+605
+01:30:15.760 --> 01:30:23.019
+Chuan Wu: But the challenge lies in the coefficient vector AI is non-determined. Okay, it can take any value from the EV sort.
+
+606
+01:30:23.910 --> 01:30:41.789
+Chuan Wu: Okay, it can be any vector in the e-zoid. Okay, and then our major goal of converting such set of constraints is to kind of remove this uncertainty of native AI, and try to, come up with a finite number of constraints in there.
+
+607
+01:30:42.170 --> 01:30:59.919
+Chuan Wu: Okay, and then what we do is here… so we know AI is in the ellipsoid. So therefore, we can replace every AI by a point AI bar plus PIU. So this is a point from the ellipsoid, and where we can vary U.
+
+608
+01:30:59.970 --> 01:31:09.339
+Chuan Wu: Okay, so when we… and equivalently, varying AI from the unique side is equivalent to varying the value of the vector u.
+
+609
+01:31:09.610 --> 01:31:16.140
+Chuan Wu: I'm expressing AI in the form of AI par plus PIU, right? Prevalent.
+
+610
+01:31:16.640 --> 01:31:36.300
+Chuan Wu: And then, again, this is not the final form, because again, the new variable we introduced is a U, and the U's value can be nuclear-momatic possible values, right? Okay, again, we want to remove U, and how do we do that? We adopt a technique we actually have applied earlier.
+
+611
+01:31:36.340 --> 01:31:38.799
+Chuan Wu: In one of the earlier examples last time.
+
+612
+01:31:39.200 --> 01:31:55.319
+Chuan Wu: So here, so we want the left side to be no larger than the right-hand side for all U. That pretty much as long as we can ensure for the largest value of the left-hand side, where U varies is smaller than the right-hand side, then we are good.
+
+613
+01:31:55.410 --> 01:32:03.589
+Chuan Wu: Right? We just move this L2 long of U to more larger than 1 as the feasibility set of, embedded.
+
+614
+01:32:03.690 --> 01:32:04.810
+Chuan Wu: the prima.
+
+615
+01:32:04.950 --> 01:32:06.560
+Chuan Wu: Optimization in there.
+
+616
+01:32:06.820 --> 01:32:15.399
+Chuan Wu: Right, so suppression meaning the maximum value of the left-hand side, subject to that new L autonomous divided number.
+
+617
+01:32:16.670 --> 01:32:17.530
+Chuan Wu: Okay.
+
+618
+01:32:17.660 --> 01:32:24.740
+Chuan Wu: And then, we can calculate the supreme. Okay, so the supremen of the vector here… okay.
+
+619
+01:32:24.950 --> 01:32:36.149
+Chuan Wu: So, AI bar, inner product X, so this part is not related to you, so it can be safely moved outside from the,
+
+620
+01:32:36.300 --> 01:32:43.880
+Chuan Wu: Supreme operator. And then the supreme operator only works on the U transpose PI transpose S part.
+
+621
+01:32:44.510 --> 01:32:47.590
+Chuan Wu: So what is Liu transpose PI transpose X?
+
+622
+01:32:47.890 --> 01:32:49.820
+Chuan Wu: Our…
+
+623
+01:32:49.980 --> 01:32:59.980
+Chuan Wu: variable here, okay, in this Supreme operator calculation, the variable is U, not X. Okay, X is supposed to be given, and U is our variable here.
+
+624
+01:33:00.510 --> 01:33:01.230
+Chuan Wu: F?
+
+625
+01:33:01.510 --> 01:33:09.650
+Chuan Wu: And what, form of a function we are maximizing is? So the function here is an affine function on U.
+
+626
+01:33:10.060 --> 01:33:16.820
+Chuan Wu: And more concretely, it represents the inner product between vector U and the vector here.
+
+627
+01:33:17.640 --> 01:33:22.730
+Chuan Wu: Right. PI transpose X inherently be treated as a vector.
+
+628
+01:33:28.920 --> 01:33:29.770
+Chuan Wu: Okay.
+
+629
+01:33:30.130 --> 01:33:47.410
+Chuan Wu: So when we want to maximize the inner product between two vectors, what is our choice? So we have seen it before. So this is our vector PI transpose X. It's a vector, and it's supposedly given, and our yield can vary.
+
+630
+01:33:49.340 --> 01:33:57.020
+Chuan Wu: Okay, suppose that is the origin, okay, and the U can be any vector within the board, within the unique board.
+
+631
+01:33:57.320 --> 01:34:03.510
+Chuan Wu: And we want that vector to use inner product with an even vector T transpose X to be largest.
+
+632
+01:34:04.250 --> 01:34:06.109
+Chuan Wu: That would be its average coins.
+
+633
+01:34:09.550 --> 01:34:12.100
+Chuan Wu: Okay, our choice of view is here.
+
+634
+01:34:12.510 --> 01:34:17.360
+Chuan Wu: So the U should be along the same direction as vector PI transpose X.
+
+635
+01:34:17.640 --> 01:34:19.869
+Chuan Wu: And taking the maximal length of what?
+
+636
+01:34:20.130 --> 01:34:20.840
+Chuan Wu: Right.
+
+637
+01:34:21.180 --> 01:34:23.120
+Chuan Wu: So that's our optimal solution.
+
+638
+01:34:23.460 --> 01:34:25.000
+Chuan Wu: unit on the slide.
+
+639
+01:34:26.240 --> 01:34:33.270
+Chuan Wu: Okay, so the, inner product is largest when U is taking the direction of PI transpose X.
+
+640
+01:34:33.520 --> 01:34:37.410
+Chuan Wu: With a unique lens. Okay, so divided by the knob.
+
+641
+01:34:38.430 --> 01:34:39.220
+Chuan Wu: Right.
+
+642
+01:34:39.490 --> 01:34:42.290
+Chuan Wu: Because Yi's lens has to be no larger number.
+
+643
+01:34:42.760 --> 01:34:44.779
+Chuan Wu: So one is the largest possible?
+
+644
+01:34:46.190 --> 01:34:46.990
+Chuan Wu: Okay.
+
+645
+01:34:47.430 --> 01:34:51.599
+Chuan Wu: And then, from that, we solved the supreme operation.
+
+646
+01:34:51.950 --> 01:35:00.510
+Chuan Wu: And then we can plug in the value. If U is P, PI?
+
+647
+01:35:00.630 --> 01:35:11.060
+Chuan Wu: That's P-I-S… So that's our U. If we do U transpose… P.I.
+
+648
+01:35:11.960 --> 01:35:13.370
+Chuan Wu: principles asks.
+
+649
+01:35:13.530 --> 01:35:19.229
+Chuan Wu: Okay, this is… you… P, I transpose that.
+
+650
+01:35:25.760 --> 01:35:26.630
+Chuan Wu: Okay.
+
+651
+01:35:26.830 --> 01:35:37.080
+Chuan Wu: So we plug in the text value of blue here, what we come up with as a second term in the summation is exactly L to BI transpose S.
+
+652
+01:35:37.510 --> 01:35:38.290
+Chuan Wu: Right.
+
+653
+01:35:39.400 --> 01:35:40.430
+Chuan Wu: detailed.
+
+654
+01:35:43.040 --> 01:35:43.940
+Chuan Wu: Agree?
+
+655
+01:35:48.050 --> 01:35:48.920
+Chuan Wu: Okay.
+
+656
+01:35:49.090 --> 01:36:05.860
+Chuan Wu: This is our U transpose PI transpose X. So in the numerator, it's L2 norm squared of PI transpose X, and then one other consult means that in the denominator, so we have what remains is L2 norm of PI transpose X.
+
+657
+01:36:08.190 --> 01:36:09.110
+Chuan Wu: Okay.
+
+658
+01:36:09.830 --> 01:36:13.710
+Chuan Wu: All right, and then what would we come up with is here?
+
+659
+01:36:14.340 --> 01:36:20.310
+Chuan Wu: So here, what… let's go back. So what do we eventually come up with?
+
+660
+01:36:20.490 --> 01:36:26.390
+Chuan Wu: Okay, what we eventually come up with here is left-hand side of our inequality constraints.
+
+661
+01:36:26.840 --> 01:36:35.860
+Chuan Wu: Yeah, we removed the suprem operator, we removed the for u small equal to 1, and then our final form
+
+662
+01:36:36.210 --> 01:36:37.020
+Chuan Wu: Black.
+
+663
+01:36:37.130 --> 01:36:41.340
+Chuan Wu: And our final form of the constraints is here.
+
+664
+01:36:41.510 --> 01:36:55.070
+Chuan Wu: Okay, we have an affine term, we have this L2 number of PI transpose X, and right-hand side is PI, and the number of constraints is F. And nothing, like, for all AI or for all U appears here, right? We have
+
+665
+01:36:55.200 --> 01:36:59.670
+Chuan Wu: Explicitly, and second-order constraints.
+
+666
+01:37:00.370 --> 01:37:15.310
+Chuan Wu: Okay, think about the form of second-order cone constraint we introduced just now. If you move this alpha term to the right-hand side, then left-hand side is only L to normal of afflu function, so it's exactly a second-order cone constraint.
+
+667
+01:37:18.480 --> 01:37:19.360
+Chuan Wu: Okay.
+
+668
+01:37:21.250 --> 01:37:22.310
+Chuan Wu: All right.
+
+669
+01:38:00.380 --> 01:38:01.140
+Chuan Wu: Okay.
+
+670
+01:38:01.840 --> 01:38:07.769
+Chuan Wu: Yeah, we still have time, so we will finish up the, second case discussion, under
+
+671
+01:38:08.060 --> 01:38:09.710
+Chuan Wu: robust lean approval.
+
+672
+01:38:09.740 --> 01:38:23.739
+Chuan Wu: Okay, in the second case, we are still focusing on that AI is kind of uncertain, and here the assumption is AI is following a special distribution, so instead of AI belonging to a site set.
+
+673
+01:38:23.740 --> 01:38:37.810
+Chuan Wu: We assume AI is formula distribution, and in our example here, we just assume AI's distribution is Gaussian with mean of AI bar and covariance matrix theta, covariance matrix is sigma X.
+
+674
+01:38:38.430 --> 01:38:47.699
+Chuan Wu: And, and then, when AI is Gaussian, the AI transpose X itself, so AI itself is a vector.
+
+675
+01:38:47.720 --> 01:39:03.359
+Chuan Wu: dimensional. And AI transpose X is a scalar value, okay, scalar quantity. And that scalar quantity is Gaussian as well, and its mean is AI bar in the product X, and the experience is X transpose
+
+676
+01:39:03.360 --> 01:39:11.959
+Chuan Wu: sigma IS. So this is what we already showed in an earlier, example today. Okay.
+
+677
+01:39:12.110 --> 01:39:14.319
+Chuan Wu: And then, here.
+
+678
+01:39:14.550 --> 01:39:25.169
+Chuan Wu: So consider this 5X is a cumulative distribution function of a Gaussian function of zero mean and what unique variance.
+
+679
+01:39:25.600 --> 01:39:31.630
+Chuan Wu: Okay, so this has concrete form. Such a function has concrete form of adjusters in all the probability.
+
+680
+01:39:32.440 --> 01:39:36.209
+Chuan Wu: Courses, lecture… course material.
+
+681
+01:39:36.460 --> 01:39:46.889
+Chuan Wu: Okay, all right, so here, so the probability on that, using the definition of phi X, CDF function of that unit.
+
+682
+01:39:46.920 --> 01:40:02.060
+Chuan Wu: zero mean, unit variance Gaussian distribution. So we are able to formulate the, probability of AI transpose X no larger than BI into the particular value of the, CDF function.
+
+683
+01:40:02.600 --> 01:40:05.420
+Chuan Wu: Okay, so the rationale is here.
+
+684
+01:40:25.280 --> 01:40:26.090
+Chuan Wu: Okay.
+
+685
+01:40:26.500 --> 01:40:30.480
+Chuan Wu: So, AI… That's no longer than BR.
+
+686
+01:40:31.010 --> 01:40:34.910
+Chuan Wu: So we miners, AI bar?
+
+687
+01:40:35.450 --> 01:40:36.660
+Chuan Wu: Taylor for that.
+
+688
+01:40:37.040 --> 01:40:39.560
+Chuan Wu: XI, both sites.
+
+689
+01:40:43.920 --> 01:40:46.589
+Chuan Wu: And then, we did the wipe.
+
+690
+01:40:58.640 --> 01:41:02.169
+Chuan Wu: The, various stigma among sex.
+
+691
+01:41:03.790 --> 01:41:07.610
+Chuan Wu: Standard deviation, sorry, standard deviation on both sides.
+
+692
+01:41:09.550 --> 01:41:15.250
+Chuan Wu: So when our variance is X transpose big sigma X, Okay.
+
+693
+01:41:15.510 --> 01:41:20.290
+Chuan Wu: So remember, this is a scalar red. Okay, scalar red. So this is a variance.
+
+694
+01:41:20.490 --> 01:41:22.660
+Chuan Wu: And what is standard deviation?
+
+695
+01:41:23.070 --> 01:41:26.040
+Chuan Wu: Standard deviation is square root of the variance.
+
+696
+01:41:26.370 --> 01:41:30.399
+Chuan Wu: All variance is a square of standard deviation.
+
+697
+01:41:30.630 --> 01:41:31.390
+Chuan Wu: Right.
+
+698
+01:41:31.560 --> 01:41:39.170
+Chuan Wu: So if we use small secant to represent the standard deviation and the standard deviation in the form here.
+
+699
+01:41:40.360 --> 01:41:41.420
+Chuan Wu: Okay, thank you.
+
+700
+01:41:41.750 --> 01:41:44.160
+Chuan Wu: This was running out, I think.
+
+701
+01:41:45.190 --> 01:41:46.140
+Chuan Wu: Alright.
+
+702
+01:41:46.290 --> 01:41:49.789
+Chuan Wu: So what is that? If you use the sigma…
+
+703
+01:41:49.940 --> 01:41:55.689
+Chuan Wu: 1 half X. Okay, so consider this as the, vector.
+
+704
+01:42:00.990 --> 01:42:03.690
+Chuan Wu: Okay, hold up.
+
+705
+01:42:04.160 --> 01:42:12.500
+Chuan Wu: Sigma here is not a summation symbol, okay? It represents the standard… it represents a coherence matrix.
+
+706
+01:42:13.370 --> 01:42:14.270
+Chuan Wu: Okay.
+
+707
+01:42:14.520 --> 01:42:16.139
+Chuan Wu: Alright,
+
+708
+01:42:28.700 --> 01:42:29.530
+Chuan Wu: Okay.
+
+709
+01:42:32.340 --> 01:42:33.210
+Chuan Wu: Right?
+
+710
+01:42:38.260 --> 01:42:42.810
+Chuan Wu: Okay. And then what it equals is…
+
+711
+01:42:50.100 --> 01:43:00.990
+Chuan Wu: Okay, so what is in the square root operator? So this part is L2 num squared of the vector here. When we do a square root, it's only L2 non squared.
+
+712
+01:43:01.570 --> 01:43:02.300
+Chuan Wu: Bye.
+
+713
+01:43:04.820 --> 01:43:05.650
+Chuan Wu: Okay.
+
+714
+01:43:05.880 --> 01:43:16.530
+Chuan Wu: All right, so therefore, that is… that standard deviation, small sigma standard deviation, is what we are dividing on both sides of the inequality.
+
+715
+01:43:28.700 --> 01:43:29.470
+Chuan Wu: Right?
+
+716
+01:43:29.700 --> 01:43:30.530
+Chuan Wu: Okay.
+
+717
+01:43:30.910 --> 01:43:38.799
+Chuan Wu: So therefore, and check out this inequality. So here, AI is a random variable.
+
+718
+01:43:39.020 --> 01:43:53.920
+Chuan Wu: So what we are doing on the left-hand side is we are divide… we are doing the random variable, so AI transpose X, now we treat AI transpose X, the whole thing, as a random variable, scalar valued, and when we minus the,
+
+719
+01:43:53.970 --> 01:44:02.060
+Chuan Wu: its mean, and divided by the standard deviation. The left-hand side of the whole thing, becomes, zero.
+
+720
+01:44:03.080 --> 01:44:05.250
+Chuan Wu: You need bearings.
+
+721
+01:44:05.470 --> 01:44:06.540
+Chuan Wu: Run the variable.
+
+722
+01:44:06.750 --> 01:44:07.660
+Chuan Wu: Right.
+
+723
+01:44:07.880 --> 01:44:12.130
+Chuan Wu: Okay, the rolling unique variance, random variable.
+
+724
+01:44:12.580 --> 01:44:18.729
+Chuan Wu: And when is value… we want this random variable's value to be no larger than the right-hand side.
+
+725
+01:44:19.470 --> 01:44:27.040
+Chuan Wu: Okay, and that is exactly… can be given by the, CDF functions.
+
+726
+01:44:27.180 --> 01:44:30.009
+Chuan Wu: Evaluation on the right-hand side value.
+
+727
+01:44:30.330 --> 01:44:33.730
+Chuan Wu: So this is the right-hand side of the MV derived.
+
+728
+01:44:34.840 --> 01:44:36.500
+Chuan Wu: Right? Okay.
+
+729
+01:44:36.920 --> 01:44:37.930
+Chuan Wu: All right.
+
+730
+01:44:39.150 --> 01:44:39.910
+Chuan Wu: Eth?
+
+731
+01:44:40.180 --> 01:44:42.949
+Chuan Wu: Based on that.
+
+732
+01:44:43.010 --> 01:44:50.369
+Chuan Wu: and a number of new revision steps that I'm going to show on the next slide, we are able to show the,
+
+733
+01:44:50.370 --> 01:45:07.999
+Chuan Wu: linear program, or robust linear program, formulated in the original form here. So objective function is, determining some deterministic of a function, and constraints represents that probability of the original constraint to be satisfied is no smaller than eta. So eta is given.
+
+734
+01:45:08.110 --> 01:45:18.999
+Chuan Wu: Right? And under the assumption that AI is a Gaussian distribution, and using the definition of the CDF of a user development, you need
+
+735
+01:45:19.160 --> 01:45:32.769
+Chuan Wu: various Gaussian distribution, we are able to convert this, kind of non-deterministic robust linear program formulation into a second-order cone probe as well. Okay, again, a second-order cone probab.
+
+736
+01:45:33.530 --> 01:45:44.720
+Chuan Wu: And, and we need to have some assumption that eta there is larger than 1 half, so we'll see why we need that assumption for the resulting program to be exactly another con program.
+
+737
+01:45:53.120 --> 01:45:53.920
+Chuan Wu: Okay.
+
+738
+01:45:54.300 --> 01:46:01.429
+Chuan Wu: All right, so what we have above is, actually what I already shown on the, board.
+
+739
+01:46:01.510 --> 01:46:17.239
+Chuan Wu: So here, we consider AI transpose X a whole thing, as a random variable, and we call it U. And then U's mean is AI bar transpose X, and then sigma is the standard deviation, sigma squared is a variance.
+
+740
+01:46:17.720 --> 01:46:25.629
+Chuan Wu: And our Marin's standard deviation, as I also derived on the board, is taking the L2 norm of that vector.
+
+741
+01:46:26.750 --> 01:46:30.530
+Chuan Wu: Okay, then checking out our, constraint.
+
+742
+01:46:30.650 --> 01:46:45.019
+Chuan Wu: So using our simplified notation, using the… based on the notation substitution, so here, our constraint in the original robust linear program is here. So U is AI transpose X minus u bar.
+
+743
+01:46:45.130 --> 01:46:51.430
+Chuan Wu: Yuan by sigma, no larger than VI minus VI, Yuan sigma. So this derivation is simply
+
+744
+01:46:51.610 --> 01:46:56.499
+Chuan Wu: It's similar to what I did on the board here.
+
+745
+01:46:56.760 --> 01:47:02.910
+Chuan Wu: Except that here we use simplified the notation, U instead of AI transpose X.
+
+746
+01:47:03.320 --> 01:47:28.060
+Chuan Wu: Okay, so the probability of that inequality holds to be no larger than… no smaller than sigma, and here we know U minus u bar divided by standard deviation is a zero mean unit variance Gaussian variable. And then, similar to what I derived just now, the probability for this to hold equals the cumulative CDF functions evaluation
+
+747
+01:47:28.060 --> 01:47:29.870
+Chuan Wu: On the right-hand side value.
+
+748
+01:47:30.310 --> 01:47:31.090
+Chuan Wu: Yes.
+
+749
+01:47:31.590 --> 01:47:34.789
+Chuan Wu: We are tradition as the notion of standardization.
+
+750
+01:47:36.350 --> 01:47:38.860
+Chuan Wu: Standardization?
+
+751
+01:47:39.420 --> 01:47:42.920
+Chuan Wu: But it's a team. That's… the notion on TV.
+
+752
+01:47:44.850 --> 01:47:48.170
+Chuan Wu: So yeah, talking about the definition of CDF,
+
+753
+01:47:49.130 --> 01:47:56.900
+Chuan Wu: CDF is cumulative Distribution Function. Yeah, I mean, what is happening here is, like, I'm seeing it as the notion of standardization.
+
+754
+01:47:57.370 --> 01:48:06.649
+Chuan Wu: Standardization is a very generic term, so under what context are you thinking about that? Yeah, from the probability perspective.
+
+755
+01:48:07.290 --> 01:48:23.369
+Chuan Wu: Yeah. Basically, what we are doing here is to convert a Gaussian distribution variable into a zero mean. You need variance Gaussian variable, right? So do you consider this as a standardization? Oh, okay.
+
+756
+01:48:23.370 --> 01:48:35.090
+Chuan Wu: Yeah. That we're going to consider taking the mean from the actual value, and here we denote it as, the i transpose of X, and we divide by its standard attribution.
+
+757
+01:48:36.920 --> 01:48:44.039
+Chuan Wu: I kind of don't recall, it's called standardization, but I think your understanding, your understanding is correct.
+
+758
+01:48:48.810 --> 01:49:05.969
+Chuan Wu: Okay, all right. And then the CDF function of a dual mean unique variance Gaussian distribution is a non-decreasing… is a non-decreasing function. Actually, it's an increasing function, right? And then what we can simply come up with is, here.
+
+759
+01:49:05.990 --> 01:49:23.429
+Chuan Wu: The probability for, because what we want is this phi evaluated at BI minus u divided by sigma is logic to theta, and that's equivalent to bi minus u divided by sigma, no smaller than inverse function of phi.
+
+760
+01:49:23.430 --> 01:49:30.239
+Chuan Wu: evaluated at sigma. So this is based on that the CDF function is non-decreasing.
+
+761
+01:49:30.240 --> 01:49:31.609
+Chuan Wu: Increasing, actually.
+
+762
+01:49:32.430 --> 01:49:46.539
+Chuan Wu: All right, and then we can convert it, do the, conversion, so multiply phi on both sides, and move some variable to one… another side, and we come up with inequality there.
+
+763
+01:49:47.290 --> 01:50:08.579
+Chuan Wu: And then we can plug in the concrete value of sigma. So sigma, as derived above, is just the L2 norm of the vector here. So we replace sigma by the concrete form, also replace U bar by the original form of alpha function of X. And then what we come up with is an inequality here.
+
+764
+01:50:08.630 --> 01:50:20.990
+Chuan Wu: So in the inequality, if the eta value is larger equal to 1 half, then the inverse function's value is larger to zero. So this is according to the CDF.
+
+765
+01:50:22.270 --> 01:50:26.450
+Chuan Wu: Or distribution of, normal distribution.
+
+766
+01:50:30.730 --> 01:50:49.140
+Chuan Wu: Okay, so normal distribution, we know a zero means you need variance, normal distribution function is pretty much like this, right? Normal distribution, or Gaussian distribution, right? So the probability for the variable's value to be larger than zero is more than
+
+767
+01:50:49.620 --> 01:50:51.089
+Chuan Wu: Large equal to 1 half.
+
+768
+01:50:51.690 --> 01:50:52.450
+Chuan Wu: Right.
+
+769
+01:50:53.200 --> 01:50:57.940
+Chuan Wu: So the probability for the, random a Gaussian
+
+770
+01:50:58.070 --> 01:51:05.919
+Chuan Wu: Zero means you need variance Gaussian distribution variables value to be larger or equal to zero is larger or equal to 1 half.
+
+771
+01:51:06.350 --> 01:51:12.469
+Chuan Wu: Right, so that is what we have here. Consider that phi is CDF functions in words.
+
+772
+01:51:13.450 --> 01:51:19.390
+Chuan Wu: Okay, so therefore, if eta logical to 1 half, meaning the probability is logical to 1 half.
+
+773
+01:51:19.390 --> 01:51:32.800
+Chuan Wu: the inverse value should be 0. Okay, the random variable value is no smaller than 0. And, in that case, the coefficient here is a given coefficient, larger equal to 0.
+
+774
+01:51:32.800 --> 01:51:42.169
+Chuan Wu: And if we move the AI bar X to the right-hand side, the constraint here is exactly following the form of a second-order cone constraint.
+
+775
+01:51:43.030 --> 01:51:45.850
+Chuan Wu: Okay, and does that taste Y?
+
+776
+01:51:46.460 --> 01:51:58.910
+Chuan Wu: Here. So when eta is logical to 1 half, the probability way of formulating the constraint becomes concrete second-order constraints.
+
+777
+01:51:59.020 --> 01:51:59.790
+Chuan Wu: Here.
+
+778
+01:52:00.080 --> 01:52:17.329
+Chuan Wu: Okay, so again, here, AI bar is a deterministic, so the F1 function, part is deterministic, and the phi function is given, is the, CDF of, normal, Gaussian distribution, zero mean, unit variance.
+
+779
+01:52:17.490 --> 01:52:24.979
+Chuan Wu: And this is a logical to zero value, and here we have, alphan function on X, and right-hand side.
+
+780
+01:52:25.120 --> 01:52:39.100
+Chuan Wu: if we move AI bar transpose X to the right-hand side, the right-hand side is an alpha function, right? So therefore, what we result in is M, explicit deterministic second-order constraint.
+
+781
+01:52:40.330 --> 01:52:51.970
+Chuan Wu: Okay, I think we have to stop here before the next group comes in. Okay, thank you for your attention. If you do have questions on the derivation, do stay and we can talk outside the class.
+
+782
+01:53:12.930 --> 01:53:13.830
+Chuan Wu: From equal.
+
+783
+01:53:19.660 --> 01:53:23.389
+Chuan Wu: I don't think you fall on that, you can only be bosses.
+

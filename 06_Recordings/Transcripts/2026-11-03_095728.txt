@@ -1,0 +1,1152 @@
+COMP9602 Optimization — 2026-11-03 09:57:28
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/caPHOMvKCH9I48jxTtJ41uSgKiQwDTkGESk-SKUtOsJfur07sX2-fFGW4EUBOxG3.7Lj_1c_ijktlLoHq
+保存日期：2026-11-08
+
+[00:03:06.710] Chuan Wu: Alright, good morning, everyone. Welcome to today's class on optimization. Let's get started.
+
+[00:03:12.660] Chuan Wu: We are now working on the algorithms to solve convex programs. So, especially, we worked on algorithms, especially Newton's algorithms, working on, working to solve unconstrained convex program, equality constraint program, and now we are working on convex program with both equality constraints and inequality constraints.
+
+[00:03:33.780] Chuan Wu: And especially for the convex program with differentiable objective functions and the inequality constraint functions, now we are working on a family of algorithms called inferior point methods. And essentially, the core idea of inferior point methods is still
+
+[00:03:51.690] Chuan Wu: to convert our program and help into an equality constraint optimization program. And then, we are able to use Newton's algorithm to solve the equality constraint optimization.
+
+[00:04:03.270] Chuan Wu: And how do we move the inequality constraints into objectives? So here it is. So we are making use of a barrier method, which is in the… in the form of negative sum lock and the negative of the constraint function form.
+
+[00:04:18.740] Chuan Wu: And then, we have showed that when we change variance parameter T, okay, so when we increase P from a small value to a very large value, essentially we are approaching the optimal solution to the very original, differentiable convex program.
+
+[00:04:36.970] Chuan Wu: And we have been working on the basic version of interior point methods.
+
+[00:04:41.980] Chuan Wu: Which is called the barrier mass. It's corresponding to the barrier function we involve to move the inequality constraints into the objective function.
+
+[00:04:50.550] Chuan Wu: And here, a quick review of this array method. So we start with the feedable point X. Okay, so X is feedable, meaning satisfying the equality and inequality constraints, and then we start from some T0, which is not too large yet.
+
+[00:05:06.430] Chuan Wu: And then, in every iteration of the algorithm, the major step is a so-called centering step. In the centering step.
+
+[00:05:14.560] Chuan Wu: We solve an equality constraint of the addition problem, and here we invoke many iterations of Newton's algorithm.
+
+[00:05:22.950] Chuan Wu: And then we, found out this F star T to be optimizer of this century step optimization problem, and then we update T. Okay, we update T to scaling TF by a larger than one factor.
+
+[00:05:37.290] Chuan Wu: And then we check, we also check the stocking criteria, which is, measured in terms of, recipe protocol of T. So basically, when T is large enough, last time we showed that actually we are, we are satisfying the approximate KKD condition, that meaning when T is large enough, we find a close to optimal solution to the original problem.
+
+[00:05:59.540] Chuan Wu: Okay.
+
+[00:06:00.510] Chuan Wu: And then moving on, we will introduce another inferior point method, today, but before that, let's first finish up our discussion regarding the barrier method. So remember, the barrier method needs a feasible solution as a starting point.
+
+[00:06:17.470] Chuan Wu: Okay, and how to find out a feasible solution? We are fixing a feasibility problem here.
+
+[00:06:25.150] Chuan Wu: So, in the feasibility problem, we have the inequality constraints of the original program, and we have the equality constraints. And how we stop for a feasible solution, satisfying all the constraints are so-called phase 1, okay? Phase 1.
+
+[00:06:39.760] Chuan Wu: methods, the methods, okay? So the methods we use to find a feasible solution to the constraints are called Phase 1, methods. And essentially, solving for the feasible solution is a phase one, we need to handle before running the barrier inferior point methods.
+
+[00:06:58.860] Chuan Wu: Okay, so what Facebook methods do we have? So, starting from a very basic one. So, the basic one converts the feasibility problem into an optimization problem, okay? It introduces an observability variable S.
+
+[00:07:13.850] Chuan Wu: And the X is still the variable of the original problem. We want to find out feasible X, but here we have an auxiliary variable X.
+
+[00:07:21.760] Chuan Wu: And S is put on the right-hand side of each of the inequality constraints, and we also want to minimize S in the objective function.
+
+[00:07:30.440] Chuan Wu: Okay, so we are trying to push the upper bound of all the inequality constraints down, and then we see what this S is by solving this problem. So this problem,
+
+[00:07:44.310] Chuan Wu: this minimization problem itself, or check it out, check out this form. So basically, this is a general optimization problem with inequality constraints, and equality constraints
+
+[00:07:55.450] Chuan Wu: And so far, for the algorithms we are equipped with for solving such, inequality-equality constraint complex problem as inferior point method itself.
+
+[00:08:06.130] Chuan Wu: Okay, so we are so far only… we have so far only introduced a barrier method for solving such a general form complex problem.
+
+[00:08:14.800] Chuan Wu: And, using bare method to solve this problem itself is relatively easy, in the sense that an initial feasible starting point is very easy to find.
+
+[00:08:25.880] Chuan Wu: Yay. Okay.
+
+[00:08:28.050] Chuan Wu: So the reason is you can just find any X, satisfying the equality constraints, and then you track this X value into all the inequality constraints, and you try to identify an X, which is the upper bound of all the inequality constraint functions.
+
+[00:08:42.570] Chuan Wu: And then you come up with this readable solution to this problem. And then you can start the parallel method with that.
+
+[00:08:49.830] Chuan Wu: Okay, so that means this basic… in this basic Phase 1 method, the optimization we are trying to solve is easier to handle, is easier for the bearer method to handle.
+
+[00:09:01.340] Chuan Wu: Okay, and then after solving this optimization problem, we come up with some, X and the S.
+
+[00:09:07.950] Chuan Wu: And if our optimal X is smaller than 0, then what conclusions do we get? We know the corresponding X is a strictly feasible solution for our very original operation problem we are trying to solve.
+
+[00:09:21.910] Chuan Wu: Using a pair of method. Okay, well, S is smaller than zero.
+
+[00:09:25.790] Chuan Wu: Okay.
+
+[00:09:26.860] Chuan Wu: And if the, if we find out the S optimal value of this population, we call it ovalusion 2 as positive.
+
+[00:09:36.920] Chuan Wu: Then what do we get?
+
+[00:09:39.150] Chuan Wu: Our conclusion is the original problem 1 is infeasible, because we cannot find any X set dividing all the inequality constraints.
+
+[00:09:48.790] Chuan Wu: Because the smallest upper bound of the inequalifical string function, S, is quantitative, right? Okay, infusible.
+
+[00:09:56.900] Chuan Wu: And then the third case, okay, third case is, what is the optimal, value, which is actually optimal solution X of this operation 2, is a 0. Okay, if it is 0 and a tenth, a tenth meaning there is some X.
+
+[00:10:13.710] Chuan Wu: Making sure that X is smaller or equal to 0.
+
+[00:10:18.220] Chuan Wu: Okay, and then we know the problem 1 is feasible, we can find out some feasible X satisfying the constraints of the original problem, but that X is not a strictly feasible solution, because for some constraint function, FIX, it does attack the exact value.
+
+[00:10:38.730] Chuan Wu: Okay? Not smaller than the Earth.
+
+[00:10:41.580] Chuan Wu: Okay so that's the, the case here.
+
+[00:10:47.030] Chuan Wu: P, the S star, actually P bar star is S star, SS star is 0 and a tenth, then original problem is feedable, but not strictly featable. And the last case is saying that if our P bar star, which is a S star of problem 2, is 0 and not a tenth.
+
+[00:11:09.630] Chuan Wu: Okay, not a 10, meaning there isn't any, fix by night X, making sure alpha X small equal to 0.
+
+[00:11:19.170] Chuan Wu: Okay, and if it's not a 10th, the only possibility is we are approaching S… as it's approaching Europe from
+
+[00:11:30.340] Chuan Wu: Larger than zero direction, from the larger than zero direction.
+
+[00:11:35.140] Chuan Wu: Okay, so the last case, what it corresponds to is S is approaching 0, but approach 0 from S larger than zero direction, not S smaller than zero direction. Because if S smaller than zero, then pretty much you can push S a bit down further, right? Okay.
+
+[00:11:54.140] Chuan Wu: And then, problem one is infeasible.
+
+[00:11:57.560] Chuan Wu: Okay, infeasible, because FX is larger than zero.
+
+[00:12:01.470] Chuan Wu: Some have access larger than that.
+
+[00:12:04.610] Chuan Wu: Okay, so essentially, if we are solving problem 2 with an error message, according to the different situations of the results, optimal solutions, we can come up with either strictly feasible or feasible solution to the original opposition problem 1, or we know the original problem is feasible.
+
+[00:12:23.010] Chuan Wu: Okay, if we do come up with a strictly featable solution, we can use that, we can essentially strictly featable solution, we can use that to start the barrier method of the original problem.
+
+[00:12:36.910] Chuan Wu: Okay.
+
+[00:12:41.420] Chuan Wu: So that is a basic phase web method for us to identify featable… possible, strictly featable solution to the original problem.
+
+[00:12:49.660] Chuan Wu: And then the, second, phase 1 method we are introducing is called sum of infinibility phase one method.
+
+[00:12:56.930] Chuan Wu: And here, we are again solving a newly constructed optimization problem.
+
+[00:13:02.180] Chuan Wu: So check out this optimization problem. Here we have FX smaller or equal to Si, so similar to what we did in the previous phase 1 method, we introduced auxiliary variables. In the previous basic Phase 1 method, we introduced one scalar
+
+[00:13:20.360] Chuan Wu: auxiliary variable S, and we use that to represent the upper bound of all the inequality constraint functions. And here, differently, we introduce M asi variables.
+
+[00:13:32.150] Chuan Wu: So every SI is the upper bound of a corresponding inequality constraint function. So we have FIX more equal to Si, and we have M in equality constraints, so therefore, we have M scalar variables, and put them together, it's this vector S.
+
+[00:13:47.970] Chuan Wu: Okay, vector S here.
+
+[00:13:50.760] Chuan Wu: And we require the… every component in vector S, every SI is logic to 0. And then we also have the equality constraints, and objective function is to sum up all the SIs. One inner product S, vector 1 inner product vector S, meaning summing up all the elements in vector S.
+
+[00:14:10.470] Chuan Wu: Okay, right. And then we have different… we can solve this operation, again, using the barrier method we have introduced.
+
+[00:14:20.060] Chuan Wu: And again, a feasible solution to this problem is easy to identify. We just need to solve for X, and then we come up with every SI, which is the upper bound of FX,
+
+[00:14:31.580] Chuan Wu: And then that is feasible, and make sure as X is larger equal to 0, and then that is a feasible solution to the problem 3 here. And then we can use that to start the barrier method to solve it.
+
+[00:14:43.890] Chuan Wu: And then, according to the results of solving this so-called sum of infeasibility Phase 1 optimization problem, we have different cases. So, say if the optimal value of 3 is 0, meaning every SI is 0, and achieved
+
+[00:15:01.090] Chuan Wu: achieved, meaning there is corresponding X, making sure, constraints are satisfied, and SIs are attended, and then we know the problem 1 is feasible, because we can find out a feasible solution.
+
+[00:15:16.260] Chuan Wu: So, every SI is zero, then we can find out correspond and attend by some X, then that X is a feasible solution to the original problem. And this claim is both sufficient and necessary, so if the original problem is feasible, we can find out some SI equaling
+
+[00:15:35.700] Chuan Wu: zero, and some corresponding X, and that X is a feasible solution.
+
+[00:15:40.970] Chuan Wu: And pay attention here, what we found is only feasible solution, not necessarily a strictly featable solution.
+
+[00:15:49.720] Chuan Wu: Okay,
+
+[00:15:54.370] Chuan Wu: Right. And then you might wonder what is the use of solving this sum of feasibility based on record. So, first of all, if after solving it, if optimal value is zero and achieved, then we know that we find an feasible solution. Usually from the feasible solutions, by some small perturbation problem, we can find out
+
+[00:16:15.280] Chuan Wu: Strictly fields ownership.
+
+[00:16:17.760] Chuan Wu: And… but on the other hand, there is a major use of this, sum of invisibility methods. So that is, according to the optimal value of 3,
+
+[00:16:29.230] Chuan Wu: We are able to find out how many inequality constraints in the original problem are satisfiable, and how many else are non-satisfiable.
+
+[00:16:40.100] Chuan Wu: Okay, so say if we found out in the optimal solution, a few of the SIs are zero, and a few other SIs are non-zero, and those non-zero SIs are corresponding to non-satisfied
+
+[00:16:54.360] Chuan Wu: inequality constraints.
+
+[00:16:57.130] Chuan Wu: Because the corresponding alpha X would be a larger than zero value, except smaller equal to 0. So this is useful when the optimization problem you are solving is a complex one, compared to when you formulate it yourself according to your word situation.
+
+[00:17:14.089] Chuan Wu: And in that case, you might want to review your formulation of the application problem, or corresponding to the unsatisfied inequality constraints, and try to correct any single drop in there.
+
+[00:17:27.960] Chuan Wu: Okay.
+
+[00:17:29.290] Chuan Wu: All right, I'll propose some workaround to reformulate the original problem. Okay, so some of the invisibilities tells you more information in the sense that which inequality constraints are non-satisfiable.
+
+[00:17:44.880] Chuan Wu: Okay, and there is another Phase 1 method to identify featable solution to the original problem, where we are making use of the infeedable spot Newton's method.
+
+[00:17:55.300] Chuan Wu: And here, we express the original operation into a form as here.
+
+[00:18:01.060] Chuan Wu: And, check… the objective function remains the same, we are minimizing F0X, and the constraints CAX equaling B, equality constraints remain, and what is special is regarding the inequality constraints.
+
+[00:18:15.550] Chuan Wu: For the inequality constraints, we change the upper bound of 0 to S.
+
+[00:18:21.250] Chuan Wu: S is a newly introduced auxiliary… scalar auxiliary variable, and here we also restrict S to be 0. Okay, and you found out this optimization is exactly equivalent to our very original optimization problem.
+
+[00:18:40.520] Chuan Wu: Okay, very much equivalent. But what is special is for the optimization here, because we introduced the auxiliary variable S, we are able to convert it into a different form of the centering step optimization problem when we are solving the original… when we are solving this problem using the interior point method.
+
+[00:19:04.480] Chuan Wu: Okay, so check it out. So here, in the log barrier function, the inequality constraint function, instead of just being negative FIX, it now is S minus FIX.
+
+[00:19:18.480] Chuan Wu: And then, of course, we have additional equality constraint as equating 0 here.
+
+[00:19:23.460] Chuan Wu: And this is our centering step of addition problem.
+
+[00:19:27.930] Chuan Wu: Okay, and we know we are solving the centering step optimization problem in the barrier method using Newton's method to solve equality constraint optimization problem. And this, again, this still is an equality constraint optimization problem.
+
+[00:19:44.460] Chuan Wu: And we are able to solve it using infeasible start Newton's methods, as we introduced towards the end of the set of slides on optimization algorithm to solve equality constraint problem. Okay.
+
+[00:19:58.270] Chuan Wu: So, in speedable start, meaning we do not have to find a feasible solution, and then pretty much we just need to find out some S, find out some X satisfying… we just need to find any X and any S, making sure S minus FLX is larger than 0.
+
+[00:20:16.220] Chuan Wu: In order to run the algorithm.
+
+[00:20:19.400] Chuan Wu: We don't have to care for whether X satisfying AX equaling B, whether S satisfies X equaling 0.
+
+[00:20:27.860] Chuan Wu: And we can apply the infeitable start Newtons method here.
+
+[00:20:32.100] Chuan Wu: As long as we make sure S and X together satisfy the domain requirement of log function.
+
+[00:20:39.710] Chuan Wu: Okay, and, after running the infeitable start Newton's method.
+
+[00:20:45.260] Chuan Wu: We are able to, identify… eventually, when the algorithms converge, we are able to identify a feasible solution to the original problem.
+
+[00:20:55.220] Chuan Wu: Okay, S would be becoming zero when the algorithm converge, and corresponding X need to satisfy AX equaling B.
+
+[00:21:05.390] Chuan Wu: Okay.
+
+[00:21:08.430] Chuan Wu: Okay, all right, so this is the, phase one method, via, infieldable start Newton's method to solve this, converted centering step optimization problem.
+
+[00:21:24.630] Chuan Wu: Okay.
+
+[00:21:25.730] Chuan Wu: All right, so all these, Phase 1 methods are introduced for us to try to identify a featable starting point to the original problem, such that we can run the barrier method with, or start the barrier method with.
+
+[00:21:40.990] Chuan Wu: And then in the following, we are introducing another interior point method.
+
+[00:21:46.010] Chuan Wu: And, in the,
+
+[00:21:48.290] Chuan Wu: The other imperial point method is called a primal dual imperial point method, which is,
+
+[00:21:57.890] Chuan Wu: more reaches, incurnance of the drowning algorithm, it is more efficient than the,
+
+[00:22:06.810] Chuan Wu: It is more efficient than the parallel method we have just introduced, or we introduced last time, has just revised the
+
+[00:22:16.050] Chuan Wu: Okay, so recall, in the barrier method, we have outer iteration, and we have inner iteration. So outer iteration… in outer iteration, we are mainly updating T. After updating T, in every outer iteration, we have assembly step, and inside the summary step, we are exactly solving, equality constraint of a decent problem using a Newton's method, and use the Newton's step are called
+
+[00:22:40.610] Chuan Wu: inner iterations.
+
+[00:22:42.410] Chuan Wu: And, we have outer, we have inner, and here, in the primal viewer material point method, we kind of mixed the outer and inner integrations. We just have one major loop, and in every major loop, we update both the primal variable value, as well as the dual variable value, and eventually the algorithm will converge to both primal and the viewer automatically.
+
+[00:23:05.900] Chuan Wu: Okay, and what is the core idea of this primal dual inferior point method? So it is still surrounding, or based on the KKD conditions. And especially the approximate KKD conditions, we have summarized according to the steps or idea of inferior point method.
+
+[00:23:24.550] Chuan Wu: So check out the approximate or modified PK limitation.
+
+[00:23:28.240] Chuan Wu: So the first group of conditions is still the primal constraint. In equality constraints, at the X number larger than zero, equality constraints at x equaling B,
+
+[00:23:37.360] Chuan Wu: And then the second group is the, dual constraints. So, dual constraint, dual variable lambda is the, multiplier, variable associated with our inequality constraint, and lambda i, larger equal to 0.
+
+[00:23:50.780] Chuan Wu: And the third group of conditions under this modified KKT is here. So we have lambda i fax equaling negative 1 over T. So we have analyzed this last time, so we know in the standard KKT condition, this is complementary selectness, and it should be exactly zero.
+
+[00:24:08.600] Chuan Wu: And under barrier method, interior point method, we have analyzed and showed the product is negative 1 over T, and especially when T goes to a very large value, it's approximately zero.
+
+[00:24:23.360] Chuan Wu: And then the fourth group of conditions under KKT is the standard. So it means Lagrangian of the original problem, the gradient of the Lagrangian of the original problem vanishes at optimality. Okay, so gradients of the Lagrangian here.
+
+[00:24:40.050] Chuan Wu: Okay, and then the, input in the primal dual inferior point method, our core idea is this update of primal variable X and the dual variable lambda, and possibly also nu. So nu is the dual variable associated with the equality constraints.
+
+[00:24:58.400] Chuan Wu: And, we want to make sure the set of KKB conditions are eventually satisfied.
+
+[00:25:05.300] Chuan Wu: And the T goes to indigenity.
+
+[00:25:08.020] Chuan Wu: And then that means continuity condition, unmoldified. Original TKV condition or the original problem is satisfied, and then at convergence, we know our X level mu are primal at the D were optimal, respectively.
+
+[00:25:20.730] Chuan Wu: Okay, and following that core idea, here we formulate a residue function.
+
+[00:25:26.090] Chuan Wu: I mean, this is not the first time we introduce residue.
+
+[00:25:29.480] Chuan Wu: In the primal viewer Newton's message we introduced for solving equality constraint complex program, we also introduced the residue. And we know residue is just a representation of the KKD condition, some of the validity conditions under KKT, and when the residue is exactly zero, it means the whole set of KKD conditions
+
+[00:25:51.720] Chuan Wu: For the major set of kidney conditions, I satisfied. Okay, and then that also means optimality is achieved.
+
+[00:25:58.160] Chuan Wu: Okay, let's now take a look at what rescue function we can come up with according to the modified KBB conditions there.
+
+[00:26:07.170] Chuan Wu: Okay, here. We have the, gradient of the Lacrangian vanishments.
+
+[00:26:15.510] Chuan Wu: constellation here, and on the left-hand side of this equation is put down as a… in the… as the first row of the residue function here. Okay, so Nabla F0X, Nabla F0X, and here we use a concise form to represent the weighted sum of the gradient of the
+
+[00:26:38.750] Chuan Wu: Constraint functions. And here… our…
+
+[00:26:48.690] Chuan Wu: Notation-wise, BFX.
+
+[00:26:53.760] Chuan Wu: the derivative of a function FX. So FX is, here.
+
+[00:27:06.620] Chuan Wu: constraint. It includes all our constraint functions.
+
+[00:27:12.280] Chuan Wu: Okay, so it's a M-dimensional vector, and includes all our, includes all our…
+
+[00:27:25.510] Chuan Wu: constrained functions. So we, inequality constrained functions, we have M inequality constraints, so FX is a vector of M elements.
+
+[00:27:35.700] Chuan Wu: Okay, and then the derivative.
+
+[00:27:50.900] Chuan Wu: Okay, so this is our derivative,
+
+[00:28:11.340] Chuan Wu: wrong.
+
+[00:28:13.190] Chuan Wu: derivative matrix
+
+[00:28:55.420] Chuan Wu: Okay, yeah, that's it.
+
+[00:28:57.430] Chuan Wu: So the derivative FX is a matrix here, so every row is a corresponding, gradient, vector of the
+
+[00:29:09.490] Chuan Wu: constraint function FX.
+
+[00:29:11.890] Chuan Wu: Okay, and then, using this expression, our D…
+
+[00:29:20.630] Chuan Wu: FX.
+
+[00:29:22.130] Chuan Wu: Let's also love that.
+
+[00:29:24.480] Chuan Wu: S…
+
+[00:29:30.900] Chuan Wu: Dumb. I. Dumb the eye.
+
+[00:29:35.610] Chuan Wu: effects.
+
+[00:29:55.020] Chuan Wu: Let me double checking the dimension matches.
+
+[00:30:09.140] Chuan Wu: Yeah. Okay. Alright. Okay, and then, A transpose new, A transpose new A there.
+
+[00:30:18.310] Chuan Wu: All right, so therefore, the first row here, so you should know the first row is itself an dimensional vector. So the first row corresponds to the last group of conditions under KKT.
+
+[00:30:30.880] Chuan Wu: And then, the second row here corresponds to our approximate complementary slackness condition, and the diagonal lambda is,
+
+[00:30:48.470] Chuan Wu: Any tricks?
+
+[00:30:51.110] Chuan Wu: M times F.
+
+[00:30:54.760] Chuan Wu: Okay.
+
+[00:30:55.590] Chuan Wu: So then, gonna know lambda is our M times M dimensional matrix here, and it's a diagonal matrix, and then FX is, again, the FX is again the vector here, M-dimensional vector there, and multiplying them together, it's exactly, lambda I, FX, and then minus 1 over T.
+
+[00:31:17.970] Chuan Wu: multiply the, all one vector here.
+
+[00:31:21.160] Chuan Wu: And essentially, the second row in the relative function here itself is a M-dimensional vector, consisting of all the constraint functions in the M complementary selectness condition.
+
+[00:31:35.860] Chuan Wu: And then AX minus B, you know, it corresponds to the primal equality constrict.
+
+[00:31:43.100] Chuan Wu: So therefore, we found out all the equalities involved in the modified KKD conditions appear in the residue function there.
+
+[00:31:52.170] Chuan Wu: Okay, and then eventually, we want this residue function to be an all-0. The result is an all-zero vector, such that all the equality constraints under KKT are satisfied.
+
+[00:32:05.510] Chuan Wu: And then you might wonder, what about the inequality constraints? So the inequality constraints would need to be satisfied through the algorithm steps as well, which we will see.
+
+[00:32:16.280] Chuan Wu: Okay, so therefore, and further analyzing the components of the residue function.
+
+[00:32:23.540] Chuan Wu: We call EX minus B this term, as the primal residue, okay, primal residue function part, and then the first row in the residue function, we call it as dual residue function, because this is related to Lagrangian function, Lagrangian dual function.
+
+[00:32:40.630] Chuan Wu: And then the, the middle row here corresponds to the complementary slackness condition. We call it a centrality condition, okay? Centrality residue. And eventually, we want all the residue functions to result in a value of 0.
+
+[00:33:01.520] Chuan Wu: Okay, and,
+
+[00:33:04.370] Chuan Wu: After defining the residue functions, here are what our major goal is. So, from the residue functions, we want to introduce our… we want to calculate our primal and dual updated directions.
+
+[00:33:17.870] Chuan Wu: So still, the fundamental idea of this, underneath the… for primal and the dual variable update, underneath this primal dual interior point measure, is still update the primal dual variable along the Newton's direction.
+
+[00:33:32.130] Chuan Wu: And recall, in all the Newton's method we have introduced so far, the Newton's direction is calculated by finding the direction which solves the second-order approximation, or which solves the linearized version of the residue function.
+
+[00:33:49.540] Chuan Wu: Okay, so if you don't remember, check out the, Newton method we introduced towards the end of the set of slides on equality constraint validation algorithm.
+
+[00:33:59.670] Chuan Wu: Okay, at that time, we said funding the direction that solves the second-order approximation of the original problem is equivalent to find out the direction which solves the linear resolution of the residue function.
+
+[00:34:13.139] Chuan Wu: Okay, and here we are following the second idea. We linearize our residue function, and then we try to find out the updated direction, which makes the, linearize the residue function's value to be zero at the discomest step. Okay, so
+
+[00:34:29.080] Chuan Wu: So here the idea is, that we try to derive the Newton step, and here the Newton step involves both the delta X for the primal variable, as well as delta lambda and the delta nu for the dual variables. We try to derive the Newton's direction that makes the residual function to be zero at the current step, and we
+
+[00:34:52.170] Chuan Wu: And here, we need to make sure X makes FX smaller equal to 0, make every FX inequality constraint function smaller than 0, and make lambda larger than 0. Okay, and when these are satisfied, essentially, the inequality constraints in the KKD conditions are satisfied as well.
+
+[00:35:13.180] Chuan Wu: Okay, and some notation change. We use Y to represent, all sets of primal and dual variable, and then delta Y includes delta X, delta lambda, and delta nu.
+
+[00:35:26.500] Chuan Wu: And, to solve, to make sure, the residue function is zero at the current step, we consider a linearized version of the residue function, or first-order approximation of the residue function here. And, Y plus delta y residue function evaluated at Y plus delta y, the first order approximation is equivalent to residue function evaluated at Y,
+
+[00:35:51.300] Chuan Wu: and then the derivative of the residue function, then delta Y, equaling 0. So this is a so-called linearized version of the residue function, or first-order approximation of the residue function.
+
+[00:36:03.380] Chuan Wu: Okay, and then we can put down the concrete equation corresponding to this linearized version equaling of the residual function equaling 0. And here, the RTY part, according to our definition, so RTY includes the R duality residue.
+
+[00:36:24.980] Chuan Wu: and the centrality residue, and the primal residue. So RTY itself is our residue function, and we move it to the right-hand side of the equation, and then the left-hand side here would be the derivative of the residue function, multiplying the vector delta Y.
+
+[00:36:41.280] Chuan Wu: So delta by itself consists of delta X, delta, lambda, delta nu. And then what about this derivative of the residue function? The residue function's concrete form is here, so calculating derivative of it, it further leads us to the concrete form here.
+
+[00:36:59.780] Chuan Wu: Okay, we can do some simple verification, so AX minus B, a further residue, give us A delta X, the further derivative, derivative, AX minus B,
+
+[00:37:15.210] Chuan Wu: it gives us A, delta X,
+
+[00:37:19.390] Chuan Wu: give us a last zero. So this is a derivative, okay? AX minus B, the derivative with respect to X is A, and derivative with respect to lambda nu are both zeros.
+
+[00:37:31.160] Chuan Wu: And then, similarly for the…
+
+[00:37:34.690] Chuan Wu: centrality row, residue with, sorry, derivative with respect to X give us.
+
+[00:37:43.410] Chuan Wu: the, DFX here. So DFX is our, matrix defined on the board, and then, it's…
+
+[00:37:53.400] Chuan Wu: derivative. Okay, so…
+
+[00:37:57.400] Chuan Wu: So let me put it down on the board. It's too difficult to move back and forth.
+
+[00:38:03.050] Chuan Wu: Of the slides.
+
+[00:38:26.860] Chuan Wu: Okay, our dress review function.
+
+[00:39:01.440] Chuan Wu: Alright, then the,
+
+[00:39:04.010] Chuan Wu: complex matrix here is the derivative of our residue function there. And it's… it's 3 major rows, okay, three or three… its three major block rows corresponds to the derivative of each row of our residue function.
+
+[00:39:22.010] Chuan Wu: So what I was analyzing as I was starting from the simple, simple row, simpler row, and EX minus B. So for this function, its derivative with respect to X is A, and its derivative with respect to lambda nu are both zeros.
+
+[00:39:38.240] Chuan Wu: And then, checking out the middle row. For the middle row here, it's derivative with respect to X.
+
+[00:39:45.500] Chuan Wu: Give us negative paragraph matrix lambda, and then derivative of the function and dimensional function, fx.
+
+[00:39:55.630] Chuan Wu: F is, derivative with respect to lambda. Okay, so if lambda is variable and fx is fixed.
+
+[00:40:03.730] Chuan Wu: And, via… Eriviated becomes a negative diagonal matrix, with FIX as a diagonal entrance.
+
+[00:40:13.250] Chuan Wu: Okay.
+
+[00:40:14.390] Chuan Wu: If derivative with respect to lambda, F with respect to nu is 0 again, because mu doesn't appear in it.
+
+[00:40:21.940] Chuan Wu: Okay, and then check out the most complex, first row, block row of the residue function.
+
+[00:40:30.010] Chuan Wu: So for this row of function, it's a derivative with respect to X. So the first term
+
+[00:40:36.970] Chuan Wu: Gradient becomes pageant matrix.
+
+[00:40:39.930] Chuan Wu: And then, here we have showed the inner product of the derivative matrix of FX and lambda. It's exactly equivalent to
+
+[00:40:51.600] Chuan Wu: the sum…
+
+[00:40:54.370] Chuan Wu: sum of lambda i, and then gradient of eta X. The further derivative leads us to Hachian matrix with its sum of lambda i at the corresponding Hachian matrix.
+
+[00:41:07.150] Chuan Wu: Okay.
+
+[00:41:08.850] Chuan Wu: And that was the derivative of this function with respect to X. A derivative of this function with respect to lambda gives us the derivative matrix, BFX transpose.
+
+[00:41:22.400] Chuan Wu: Okay.
+
+[00:41:23.740] Chuan Wu: And derivative of this row with respect to mu give us A transpose.
+
+[00:41:30.330] Chuan Wu: Okay, remember this is derivative, so the derivative derivative and gradient has some transpose relation. Okay, so therefore we have some extra… we have the transpose.
+
+[00:41:41.090] Chuan Wu: Here at the there.
+
+[00:41:44.460] Chuan Wu: Alright,
+
+[00:41:46.960] Chuan Wu: So that said, this is how we derive this quite complex KKD matrix here. So this, again, is called KKD matrix.
+
+[00:41:56.320] Chuan Wu: And, the, at the current step, when X and lambda and news are given, essentially we can calculate the exact value of the KKT matrix here, and if the KKT matrix here is invertible, we are able to derive what the current delta X, delta, lambda, delta, delta nu's value are.
+
+[00:42:15.700] Chuan Wu: And those delta X, delta, lambda, delta nu are our Newton's directions to use in our primal dual algorithm for updating primal and dual variables, respectively.
+
+[00:42:27.040] Chuan Wu: Okay, so this is a core idea, and the core idea here is very consistent with the core idea of the primal dual Newton's methods that we introduced last time.
+
+[00:42:39.180] Chuan Wu: Okay.
+
+[00:42:40.630] Chuan Wu: In the last topic, under the last topic.
+
+[00:42:44.900] Chuan Wu: All right, so that's the core idea. So if the core idea is clear, now let's check out what our primal dual incubated point method is going.
+
+[00:42:57.010] Chuan Wu: Initially, we need to start the primal dual interior point method with strictly feasible solutions, satisfying the primal inequality constraints and the dual inequality constraint.
+
+[00:43:10.940] Chuan Wu: Okay, so here it shares some similarity with barrier method. We still want this X to be strictly feedable.
+
+[00:43:19.180] Chuan Wu: regarding the inequality constraints, but X doesn't have to be featable in the equality constraints, because the equality constraints are considered in our residue function and addressed in our update step of the Newton's method.
+
+[00:43:36.830] Chuan Wu: Okay, so X satisfies the inequality constraint strictly, lambda satisfying the dual inequality constraints strictly, and we start with some scaling factor mu larger than 1, and some tolerance factors.
+
+[00:43:51.320] Chuan Wu: And, in the major loop, in the loop here, the first step is we try to decide some value of T.
+
+[00:43:59.570] Chuan Wu: And we found out we are doing T, we are setting T in this way, and T is mu times m divided by eta hat. So what is this eta hat?
+
+[00:44:11.150] Chuan Wu: So the eta hat is, eta hat is, our so-called surrogate duality gap, calculated in this way.
+
+[00:44:21.270] Chuan Wu: And we will show that the t updated in this way is an approximation of our mu times t update formula that appeared in the basic barrier interior point method.
+
+[00:44:34.820] Chuan Wu: And then, the second step is we compute the primal dual search direction, delta Y, okay? Delta Y primal dual. So delta Y consists of delta X, delta lambda, and delta nu.
+
+[00:44:47.850] Chuan Wu: And then we do some line search, so we try to decide the step size as a unique line search, and we will analyze the line search step. You will find out it is a direct application of the backtracking line search we have introduced earlier.
+
+[00:45:03.370] Chuan Wu: And after deciding the search direction, delta Y, and deciding the search step S, we can do the update.
+
+[00:45:12.260] Chuan Wu: So this is a concise form to show that we are updating X, we are updating lambda, and we are updating nu by placing S times delta corresponding the Newton direction.
+
+[00:45:24.660] Chuan Wu: And we check termination of the algorithm to see if the primal residue and the dual residue and this eta hat would be, very small. And, essentially, the termination condition corresponding to all our residue entries in our residue functions are very close to zero, eventually.
+
+[00:45:46.660] Chuan Wu: Okay, all right, so there are quite some details within this algorithm that we are going to analyze next.
+
+[00:45:54.760] Chuan Wu: But before that, let's first check out the algorithm step again. So fundamentally, this algorithm step is more… so it appeared more like Newton's method than the barrier interior point method, right? So essentially, the core step is to update the prima and dual research and dual iterate.
+
+[00:46:17.310] Chuan Wu: According to the step length, according to the Newton's direction.
+
+[00:46:21.520] Chuan Wu: Okay, and what reflects the idea of interior point method mainly lies in the residues, and more essentially, it mainly lies in the centrality residue, which is kind of reflected, or underneath this update of eta hat, and checking whether eta hat is very small.
+
+[00:46:39.910] Chuan Wu: Okay.
+
+[00:46:40.960] Chuan Wu: And essentially, the algorithm step of this primal dual interior pointed method is quite, clean. Okay.
+
+[00:46:48.900] Chuan Wu: Recap it, so starting with primary feasible solution, X, which satisfies the inequality constraints strictly, okay, it doesn't have to satisfy the equality constraints, because equality constraint is reflected here in the termination condition.
+
+[00:47:06.630] Chuan Wu: And starting with lambda larger than 0, and then we decide some t, and this T is,
+
+[00:47:14.150] Chuan Wu: T is, and this T is, calculate… is updated according to this eta hat.
+
+[00:47:23.800] Chuan Wu: And we compute the primal dual Newton search direction, and then we do line search, deciding S, and then we update it. And eventually, all the, all the residue values should be close to zero.
+
+[00:47:38.340] Chuan Wu: Okay, I would definitely suggest you compare the algorithm step here with the inter… with the Newton's method we introduced under the last topic. You will find a lot of similarities there. The core idea is still the, we are making use of the, Newton's algorithm to… as our… to decide our update direction.
+
+[00:48:00.840] Chuan Wu: And the convergence and optimality is related to residue goes to very small value, and the residue reflects the KKD condition, and eventually we know at optimality the KKD conditions are satisfied.
+
+[00:48:16.260] Chuan Wu: Okay, and now let's go into a number of details.
+
+[00:48:21.540] Chuan Wu: And, yeah, first of all, we know here we only have one major loop, and there is no differentiation between inner and outer iterations, so this is different from the barrier interior point mass that we introduced earlier.
+
+[00:48:37.590] Chuan Wu: And, during the iterations, the primal iterated acts are not necessarily satisfying the equality constraints.
+
+[00:48:44.720] Chuan Wu: So therefore, we say they are not necessarily featable.
+
+[00:48:48.050] Chuan Wu: And then, here, the eta.
+
+[00:48:50.320] Chuan Wu: Okay, so the eta hat is a quantity. It appears in our E termination condition here, and how is this eta hat calculated? It is here. So it's calculated as an active and Fi transpose lambda. So the Fi transpose lambda
+
+[00:49:14.020] Chuan Wu: Is.
+
+[00:49:18.220] Chuan Wu: And drink here.
+
+[00:49:47.130] Chuan Wu: Okay.
+
+[00:49:49.970] Chuan Wu: So negative Fi transpose lambda, so it's negative sum of lambda i FIX.
+
+[00:49:56.440] Chuan Wu: And we know it appears in the approximate, complementary slackness condition.
+
+[00:50:02.750] Chuan Wu: Ed?
+
+[00:50:03.710] Chuan Wu: It's, value is here.
+
+[00:50:13.510] Chuan Wu: Okay, in the approximate complementary selectness foundation, lambda i FX is negative, lambda FX is, 1 over T, and here we have a sum over M, so its value is m divided by T.
+
+[00:50:29.470] Chuan Wu: Okay, remember in the barrier method, M divided with T is our termination condition.
+
+[00:50:36.310] Chuan Wu: Okay, because we know it represents the duality gap, as what we have analyzed earlier.
+
+[00:50:42.430] Chuan Wu: And therefore, our eta hat here is calculated to be approximating M divided by T.
+
+[00:50:53.040] Chuan Wu: And then we know it's related to duality gap as well, so that's why we currently have surrogate duality gap.
+
+[00:51:01.820] Chuan Wu: And when in our head value is very small, we know M divided and t is very small, and then we know we are close to optimality.
+
+[00:51:11.580] Chuan Wu: Okay, so that's the rationale why here we use eta hat in the termination condition in the place of centrality residue, and because either hat is exactly representing the centrality residue function.
+
+[00:51:27.480] Chuan Wu: Okay.
+
+[00:51:36.640] Chuan Wu: And with this calculation of eta hat, and then go back to our first row of updating T,
+
+[00:51:44.110] Chuan Wu: So T is updated to be mu times m divided by eta hat.
+
+[00:51:49.400] Chuan Wu: Okay, mu times I'm divided by eta hat, so eta hat is m divided by t, so essentially, it is.
+
+[00:51:58.210] Chuan Wu: mu times t. Okay, so the update formula is actually the same as, approximately the same as our update formula of T in the barrier method.
+
+[00:52:12.960] Chuan Wu: Okay, and then the last point we want to analyze is how we do the line search to decide the step length S.
+
+[00:52:20.570] Chuan Wu: And here we are using backtracking line search, and similar to the Newton's method we introduced earlier, we are doing backtracking line search on the norm of the residue function, instead of backtracking line search on the primal objective function value.
+
+[00:52:36.760] Chuan Wu: Okay, and the details of the backtracking line search goes as follows, and here we have many quantities, so the backtracking line search needs to take care of more factors.
+
+[00:52:47.500] Chuan Wu: And first of all, you need to, we are considering X, satisfying all the inequality constraints strictly, and the lambda satisfying the, your, constraint function, your constraint.
+
+[00:53:05.260] Chuan Wu: Okay, and, remember, this is how we do the update. So, our up X is updated along the, step size S, and the Newton's direction delta X, trying to do, and the lambda and the nu are updated similarly.
+
+[00:53:19.460] Chuan Wu: And, we, in order to make sure, after update, essentially, S, okay, as deadlines, the first criteria I need to satisfy is
+
+[00:53:31.590] Chuan Wu: It needs to make sure, after update, X plus is still strictly feasible in terms of the primal inequality constraints.
+
+[00:53:39.730] Chuan Wu: And, lambda is still durable feedable. And in order to ensure that, first of all, we want to make sure, we want to find out the largest possible step length as max.
+
+[00:53:52.050] Chuan Wu: That doesn't exceed 1, and also ensures, after update, lambda plus is still logic to 0.
+
+[00:54:00.270] Chuan Wu: And how to ensure that here is our consideration. So we want to make sure lambda plus S delta lambda is larger than 0, and S is in the range of 0 and 1. And what's that equivalent to? It's equivalent to here.
+
+[00:54:23.360] Chuan Wu: Right, so we have lambda plus… we want to make sure lambda plus S delta lambda times are equal to 0. So lambda itself is a vector.
+
+[00:54:33.740] Chuan Wu: And what we have is S delta lambda larger equal to 2, larger equal to negative lambda.
+
+[00:54:43.180] Chuan Wu: And, if, and then, it depends on whether,
+
+[00:54:50.930] Chuan Wu: Delta lambda is larger equal to 0, or smaller than zero. In the case of corresponding
+
+[00:55:01.180] Chuan Wu: A corresponding delta lambda X, lambda i is smaller than zero. What we have as S should be smaller equal to vector lambda…
+
+[00:55:14.100] Chuan Wu: Those are not that high.
+
+[00:55:23.600] Chuan Wu: Okay, and if… delta lambda I, larger than zero, As to be.
+
+[00:55:37.920] Chuan Wu: Okay, what we try to find out is the upper bound of X.
+
+[00:55:43.430] Chuan Wu: Okay, we want to… what we want to find out is the upper bound of S, That's why.
+
+[00:55:49.010] Chuan Wu: We have books we own.
+
+[00:55:51.330] Chuan Wu: this situation.
+
+[00:55:55.260] Chuan Wu: Okay.
+
+[00:56:02.140] Chuan Wu: Because S needs to be smaller equal to negative lambda i, delta lambda I, and that is the case that the delta lambda i is smaller than 0, so therefore the right-hand side here is still larger, larger than 0.
+
+[00:56:14.510] Chuan Wu: Okay, and that is the upper bound of S.
+
+[00:56:17.350] Chuan Wu: And I'll be…
+
+[00:56:19.880] Chuan Wu: that leads to the minimal of the upper bound part, so this is the minimal over all the Is, okay, on the… over the subscript I. So we try to find this… in this step, we are trying to find out the smallest upper bound of S value.
+
+[00:56:36.020] Chuan Wu: And that smallest upper bound should not exceed 1 as well. That leads to the minimization between 1 and that smallest upper bound again.
+
+[00:56:46.310] Chuan Wu: Okay, so we…
+
+[00:56:50.260] Chuan Wu: Right, so here, so to recap here, with the step here, what we try to find out is, large is the possible step length of S that doesn't make this lambda… that doesn't exceed 1, and still ensures lambda plus large equal to 0.
+
+[00:57:08.530] Chuan Wu: Okay.
+
+[00:57:18.470] Chuan Wu: All right, and,
+
+[00:57:21.010] Chuan Wu: So that is our… so that S max, it's our starting point of our second S, right?
+
+[00:57:29.660] Chuan Wu: And step… from that step length on, we will further scale S down, until our corresponding FX plus is, strictly featable. Okay, FX plus is strictly smaller than 0.
+
+[00:57:48.380] Chuan Wu: Essentially, the second step is to make sure our step length S ens ensures, their… the after update, X plus, still satisfy FX is strictly smaller than 0.
+
+[00:58:01.390] Chuan Wu: And then after the first two steps, we do our backtracking line search. We further scaling S down until the residue function's value is reduced to a certain extent.
+
+[00:58:15.310] Chuan Wu: Okay, so check out this formula. So this formula is very similar to the backtracking line search, stopping criteria, stopping inequality that appeared in the Newton's method we introduced under the last topic.
+
+[00:58:31.310] Chuan Wu: Right, so the rationale is still the same. The residue function through the primal dual interior point masses, the residue function's value is guaranteed to be decreasing.
+
+[00:58:42.500] Chuan Wu: And by scaling S down, we want to make sure at this step, with the steps length, as we are using, we are decreasing the residue function, to a certain extent.
+
+[00:58:54.840] Chuan Wu: After update.
+
+[00:58:57.800] Chuan Wu: Okay.
+
+[00:59:00.430] Chuan Wu: Alrighty.
+
+[00:59:02.650] Chuan Wu: To summarize and to recap, here, how we decide the steps lens has to use in our major update step of the primal dual interior point method, it follows three steps.
+
+[00:59:15.690] Chuan Wu: So the first step is to decide a step length S, which makes sure, after update, the dual variable is still satisfied in the dual constraint. Lambda plus is no smaller than zero.
+
+[00:59:29.530] Chuan Wu: And from that S on, we further try to decide a smaller S, which makes sure after update the primal, iterate to X+.
+
+[00:59:40.290] Chuan Wu: The primal inequality constraints are still strictly satisfied, because these criteria, lambda plus logical to 0, FX plus smaller than 0,
+
+[00:59:50.370] Chuan Wu: These are necessary to run a step in the, to run an algorithm iteration in the primal dual interior point method with
+
+[01:00:01.700] Chuan Wu: And then we do our formal backtracking line search, and the… we are doing backtracking line search on the residue function to make sure eventually, we find out a S that makes the residue functions to be, to… value to be reduced to a certain extent before and after update.
+
+[01:00:21.800] Chuan Wu: Okay, three steps. The first two steps are extract to make sure… to ensure the feasibility condition for primo iterates, and the third step is standard.
+
+[01:00:34.960] Chuan Wu: All right.
+
+[01:00:36.230] Chuan Wu: And that clarified how the backtracking line search took in… how the line search took inside the step lengths in primal dual iterate point answers are going.
+
+[01:00:47.160] Chuan Wu: And then, we check out the convergence curve of, a primal viewer… primal viewer interior point measure.
+
+[01:00:57.270] Chuan Wu: Using a concrete example.
+
+[01:01:02.150] Chuan Wu: Okay, the, the examples is the same.
+
+[01:01:07.710] Chuan Wu: Oss.
+
+[01:01:10.060] Chuan Wu: Yes, so the,
+
+[01:01:12.610] Chuan Wu: Optimization problem that we are trying to solve is the same, problem as what we, drone, using the variable assert.
+
+[01:01:23.510] Chuan Wu: And, you can check out the slides right before the first slide we start to introduce today, which we covered last time, to check out the concrete form of the accommodation. So that accommodation is a geometric program.
+
+[01:01:38.190] Chuan Wu: And how we are able to convert the general measure program to the correct form, and, last time we showed how the barrier methods convergence curve is like when solving that program, and now we show the, the convergence curve when we drawn the primal dual interior point method.
+
+[01:01:57.500] Chuan Wu: And here, we are showing different metrics. In the first figure, we show our eta hat.
+
+[01:02:03.410] Chuan Wu: So remember, eta half corresponds to our centrality residue, one part of the combination condition. At convergence, we want the eta half to be very small. And the right-hand side, we show the feasibility residue, the
+
+[01:02:20.170] Chuan Wu: Sorry, yeah, the feasibility condition, and we define the feasibility residue to be the sum, okay, to be a combination of the primal residue and the dual residue function we have defined earlier today.
+
+[01:02:33.700] Chuan Wu: And it's the, alto norm of the corresponding relative function, and then squares and square root. So basically, it represents the,
+
+[01:02:43.960] Chuan Wu: The joint combination of the primal and the residue functions, and this feasibility residue needs to be close to zero when convergence as well.
+
+[01:02:54.210] Chuan Wu: And the horizontal axis in the figures show the iteration number, and in primal dual inferior point measures, we don't have, outer… we don't have the distinction between inner iterations and outer iterations.
+
+[01:03:08.780] Chuan Wu: And then we just have the major loop, major iteration, how many times it is repeated, and how many times Primal Dure iterates are updated.
+
+[01:03:17.740] Chuan Wu: And, here. So we see the convergence is roughly following, chondriatic, residue drop.
+
+[01:03:26.250] Chuan Wu: And, if we compare this with what we showed earlier, under the barrier methods, so under the barrier methods, the convergence takes, 30 plus iterations total, accumulated iterations in total.
+
+[01:03:41.360] Chuan Wu: And here, we see when convergence, we take, less than 30 iterations in total. Okay, and this shows the, primal viewer
+
+[01:03:54.100] Chuan Wu: Interior point method is more efficient than the basic version barrier method, barrier interior point method we introduced the last time.
+
+[01:04:02.720] Chuan Wu: Okay, and this is more, this efficiency is more apparent when we are trying to attend higher athletes, meaning the tolerance is, even closer to zero.
+
+[01:04:14.830] Chuan Wu: Okay, if you check out the figure we showed last time, the duality gap tolerance, eventually we converge 2, it's 10 to the power negative 6. And here you see we are going to 10 to the power negative 10, or 10 to the power negative 50.
+
+[01:04:28.530] Chuan Wu: Or more accuracy, and more… less tolerance for… Ultimate.
+
+[01:04:39.670] Chuan Wu: All right, so what is the fundamental rationale? Why this primal view or interop methods is convergent, terms of convergence going to optimality is more efficient or faster than the bare zero-point method we introduced last time?
+
+[01:04:54.300] Chuan Wu: So the, the fundamental idea is, here we update the object over there.
+
+[01:05:03.190] Chuan Wu: In every outer iteration, we have a centering step, so in variable asset, we have centering step, and in centering step, we solve for the exact optimality, the exact optimal solution of the centering step of additional talk.
+
+[01:05:18.310] Chuan Wu: And every… you remember the spare case convergence curve there?
+
+[01:05:23.010] Chuan Wu: Okay, let me briefly draw it here.
+
+[01:05:47.890] Chuan Wu: Okay, iterations, and then M divided by T. So we… our convergence is like this, following some staircase.
+
+[01:05:56.480] Chuan Wu: Okay, in the barrier method. And what we are doing in the flat part of the staircase is we try to run multiple Newton's iterations to solve the centering step problem exactly.
+
+[01:06:11.140] Chuan Wu: Right.
+
+[01:06:12.310] Chuan Wu: And in the primordial update here, we don't have explicitly a centering of a centering step of addition problem to solve. The core idea you can consider is… so basically there, so we are doing update.
+
+[01:06:30.120] Chuan Wu: We are doing the update in a more consecutive manner.
+
+[01:06:35.230] Chuan Wu: We don't have to have solved the implicit, secondary step of addition to the exact optimality.
+
+[01:06:42.410] Chuan Wu: We are updating T, we are updating primal dual variable, all concurrently at the same time.
+
+[01:06:49.740] Chuan Wu: To put it a simple way, so over the primal dual interior point measure here, you can consider in every Newton iteration, we're updating T.
+
+[01:07:00.590] Chuan Wu: Okay, so we consecutively updated T together with our update of X and nu.
+
+[01:07:05.550] Chuan Wu: We don't have the procedure of fixing T and update X lambda nu to optimality. We're just consecutively keep chasing or keep solving a centering step problem with updated T in every update of X and the lambda nu.
+
+[01:07:22.960] Chuan Wu: So that's a core idea.
+
+[01:07:25.600] Chuan Wu: Okay, so roughly speaking, you can consider, in our current primary point method.
+
+[01:07:32.040] Chuan Wu: We just do one step of update, okay, in every staircase.
+
+[01:07:37.910] Chuan Wu: To make it converge faster.
+
+[01:07:40.840] Chuan Wu: Okay, so that's the, high-level rationale behind, and with that, we finished our discussion of the interior point methods.
+
+[01:07:49.320] Chuan Wu: So, interior point massers, in the literature is, in general considered to be a very efficient algorithm, especially the primal dual interior point massers.
+
+[01:07:58.750] Chuan Wu: And, it's kind of a default if you are… if the command program you are… you are… you are given has all the differentiable, twice-differentiable, objective function and constraint functions involved.
+
+[01:08:10.920] Chuan Wu: So essentially, if you have given such optimization problem, by default, you can just record the interior pointvisor to solve it.
+
+[01:08:17.760] Chuan Wu: And it's, considered to be a quite efficient algorithm in the literature.
+
+[01:08:23.560] Chuan Wu: All right, so with that, let's take a short break now, before we move on to the next topic of general algorithm to solve non-differentiable, potentially non-differentiable convex program.
+
+[01:08:39.770] Chuan Wu: Okay, let's take a short break, 3 minutes break.
+
+[01:12:39.960] Chuan Wu: All right, let's continue our class today, and we are moving on to the next major group category of algorithms, subgradient methods.
+
+[01:12:48.990] Chuan Wu: And, so far, the, Newton's methods for solving equality unconstrained equality constraints, convex problem, and the inferior point method for solving, equality and inequality constraint convex problem, all require all the functions involved are differentiable, and especially they have to be twice differentiable, because underlying is the Newton's method that works, and over there we have
+
+[01:13:13.590] Chuan Wu: the warm hash matrix, the, KDD matrix that needs to be inverted.
+
+[01:13:19.400] Chuan Wu: Okay, and what about the other,
+
+[01:13:23.830] Chuan Wu: optimization complexization problems, which involve non-differentiable objective functions or inequality constraint functions. And to solve those algorithms… to solve those type of problems, we have to rely on other algorithms, and subgradient methods is a major category.
+
+[01:13:42.370] Chuan Wu: Okay, so before we introduce what subgradient methods are like, let's first introduce a concept of sub-gradient and super gradient.
+
+[01:13:52.340] Chuan Wu: Okay, so let's check out what is subgrad.
+
+[01:13:55.060] Chuan Wu: So we consider G, a vector G, n-dimensional vector G, to be a subredient of the function X at X, so X is n-dimensional variable vector.
+
+[01:14:05.450] Chuan Wu: If this G satisfies the inequality here. So what does this inequality look like? So FY, like, FX plus G inner product Y minus X.
+
+[01:14:17.300] Chuan Wu: So it's pretty much like First Order Foundation of COMEX program.
+
+[01:14:21.560] Chuan Wu: Okay, so this inequality is pretty much like the, inequality appearing in the first order notation of convex function, where we assume the function is differentiable, right? Okay, and,
+
+[01:14:36.130] Chuan Wu: And remember, over there, what we have is here, the function S is differentiable, and the convex.
+
+[01:14:43.920] Chuan Wu: And the, first orbital condition is here.
+
+[01:14:52.730] Chuan Wu: Right? So basically, it says the first-order approximation is an underestimator of the function value.
+
+[01:14:58.790] Chuan Wu: Okay, so it's very much similar. It's only here in the place of gradient vector of function F, we do the sub-gradient G.
+
+[01:15:07.240] Chuan Wu: The rationale underneath is the,
+
+[01:15:10.580] Chuan Wu: Here, for first-order condition, we have to require a function f to be differentiable everywhere.
+
+[01:15:16.100] Chuan Wu: And here, we are considering, in general, F is not necessarily differentiable, not necessarily conex, but we define gene in that way. Okay?
+
+[01:15:28.850] Chuan Wu: All right, and a corresponding definition is about a super creative.
+
+[01:15:33.780] Chuan Wu: So the super gradient is, a vector G that is set it by the, E equality, but it's a reverse sign of the super gradient.
+
+[01:15:45.970] Chuan Wu: All right, and, let's check out the, some geometric illustration of the, subgradient.
+
+[01:15:54.110] Chuan Wu: So consider how our FX is the function curve here. So this is our FX function curve, and we see it is smooth everywhere except a special point at a special point X2 here. And, we can find the supporting hyperplan. So we can find supporting hyperplan to the function curve at all points along the function curve.
+
+[01:16:16.720] Chuan Wu: And we know the slope of the corresponding supporting hyperplan, or tangent line.
+
+[01:16:22.430] Chuan Wu: So if you consider a scalar function, a scalar variable X, then that's a tangent line, right? And in general, it's supporting hyperplan. And we know the slope of the tangent lines there. Actually, they are our subgradients.
+
+[01:16:39.800] Chuan Wu: Okay.
+
+[01:16:40.910] Chuan Wu: See here, for this function, the slope is G1, our supporting hyperplan's normal vector is G1, so G1 is our subgradient, and over here, at this shut point, you can find the many supporting hyperplanes, or tangent lines.
+
+[01:16:56.520] Chuan Wu: And for each one of them, the slope of the normal vector is a subgradient.
+
+[01:17:03.960] Chuan Wu: Okay.
+
+[01:17:05.780] Chuan Wu: All right, so more exactly at this point, we have only one supporting hyperplan, and its subgradient is G1. At this point, we have multiple supporting hyperplan, there are normal vector G2 and G3, they are all subgradients of the function FX at that corresponding point, sharp point.
+
+[01:17:26.830] Chuan Wu: Okay.
+
+[01:17:28.530] Chuan Wu: All right, and then, back to our first order condition here, that leads to our, first conclusion related to, connection between sub-gradient and the gradient of a differentiable function.
+
+[01:17:43.820] Chuan Wu: So if we know our function f is convex and differentiable, then the gradient fx is the unique subgradient of F at X.
+
+[01:17:53.220] Chuan Wu: Okay, so if F is coax differentiable, then this is satisfied.
+
+[01:17:58.270] Chuan Wu: And in the place of, subgradient, here we have gradient. And indeed, we can exactly verify the gradient of the function is the only subgradient of the function at that point.
+
+[01:18:11.540] Chuan Wu: Okay, so geometrically, we know if the function curve is smooth, differentiable everywhere, we will have one supporting hyperplan, and the normal vector of that one supporting hyperplan is the gradient, as well as the subredient.
+
+[01:18:25.540] Chuan Wu: Okay.
+
+[01:18:27.500] Chuan Wu: All right, and then for non-differentiable functions, there can be many choices for the sub-gradient. So again, in our geometry illustration just now, we found out there, at the sharp point, we can have many tangent lines, and the slope of every tangent line is a subgradient.
+
+[01:18:45.650] Chuan Wu: And extending that to higher dimensional space.
+
+[01:18:56.180] Chuan Wu: Okay, so level curves. Okay, level curves of function of, coax and, differentiable function.
+
+[01:19:06.130] Chuan Wu: So, at every point.
+
+[01:19:11.450] Chuan Wu: So at every point, we have one supporting hyperplan.
+
+[01:19:15.420] Chuan Wu: Okay, for smooth… okay, for smooth, level curves of, convex differentiable function. At every point, we have only one supporting hyperplan, and that one supporting hyperplan's gradient, the normal vector, is our gradient and sub-gradient.
+
+[01:19:31.930] Chuan Wu: And at, for non-differentiable function, its level curve could have shell points as well.
+
+[01:20:00.080] Chuan Wu: Okay, so suppose this is level curves.
+
+[01:20:18.690] Chuan Wu: At the shop point, we have many supporting hyperplan, right? And then, correspondingly, we have many sub-gradients.
+
+[01:20:30.560] Chuan Wu: Okay. All right, so sub-gradients, in this sense, can be considered as kind of extension of the notion of gradients into functions where it is not differentiable at every point.
+
+[01:20:43.230] Chuan Wu: Okay, so therefore, subgradient is useful in the place of a gradient in the algorithm designed for solving non-differentiable convex problems, and it is also useful in analyzing automatic conditions, dualities for non-differentiable convex programs as well.
+
+[01:21:02.480] Chuan Wu: So we will see.
+
+[01:21:03.870] Chuan Wu: Okay, a further example here.
+
+[01:21:06.470] Chuan Wu: Okay, so consider our function f to be the maximum between two functions F1 and F2, and the… both function F1 and F2 are convex and differentiable. Okay, the function curves up here.
+
+[01:21:21.920] Chuan Wu: So this is F1 differentiable convex, and F2 differentiable convex.
+
+[01:21:28.050] Chuan Wu: But F is defined to be the maximum of the two function values, and according to one of the rules, we know F is convex itself as well. Quantumized maximal of a number of, convex functions itself, right? So function F is, convex is here. So it includes part of, F1, and it includes part of F2.
+
+[01:21:52.240] Chuan Wu: 2.
+
+[01:21:52.980] Chuan Wu: Right, so it's a convex function, but it is not differentiable everywhere, especially at the intersection point here, it's a sharp point for FX. It's non-differentiable at this point.
+
+[01:22:03.720] Chuan Wu: Okay, and then let's analyze the subgradient that performs this command function at.
+
+[01:22:10.090] Chuan Wu: And in the region where F1X is larger than F2X, okay, where F1X is larger than F2X, so this is this part.
+
+[01:22:20.510] Chuan Wu: The… at every point in this part, we know the function fx has a unique gradient, or subgradient, so the subgradient is exactly the gradient of function F1.
+
+[01:22:33.860] Chuan Wu: And, in the region where F2 is larger than F1, okay, F2, here. So F2 is larger than F1, this part. The function FX has a unique subgradient, which is a gradient of function F2.
+
+[01:22:50.490] Chuan Wu: And at the intersection point, so intersection point here is where F1 equating F2.
+
+[01:22:56.740] Chuan Wu: The subgradient, there are many subgradients, and geometrically, we know there are many tangent lines, for FX at this point, at this intersection point.
+
+[01:23:08.160] Chuan Wu: And the subgradient actually forms a line segment, okay, forms a line segment. So any value, any vector value within this range is a subgradient of function fx.
+
+[01:23:21.370] Chuan Wu: Okay, starting from the gradient of F1X. So the gradient of F1X is the…
+
+[01:23:29.190] Chuan Wu: slope of the function curve F1x here.
+
+[01:23:35.090] Chuan Wu: And the gradient of F2X0 is the slope of the tangent line to function curve F2 here.
+
+[01:23:44.180] Chuan Wu: And consecutively, any slope of any… Consecutively, slope of any,
+
+[01:23:52.260] Chuan Wu: Lines, supporting lines, in between this range is a sub-gradient as well.
+
+[01:23:58.900] Chuan Wu: Okay, so that's why we say subgradients here form a line segment.
+
+[01:24:03.520] Chuan Wu: And especially when here, we are looking at a scalar-valued function, so the gradient, gradient, actually are scalar values, so it's a consecutive, slope value range.
+
+[01:24:19.390] Chuan Wu: Okay.
+
+[01:24:20.470] Chuan Wu: And, from the notion of subgradient, next we want to introduce what is sub-differential. So the set of four subgradients of a function at a particular point is called the sub-differential of the function. So, sub-differential is a set, or the sub-differential is a set.
+
+[01:24:39.890] Chuan Wu: And we use this, sign to represent it. So it's a partial derivative sign, but here we use it to denote the sub-differential of set of function fx.
+
+[01:24:54.330] Chuan Wu: And the sub-differential set of function FX is a closed convex set.
+
+[01:24:59.560] Chuan Wu: And a concrete example we just saw is here. So this is the sub-differential set of function fx at the particular point x0.
+
+[01:25:10.050] Chuan Wu: Okay, and in this example, it is a closed, line segment, includes two endpoints.
+
+[01:25:18.170] Chuan Wu: And in general, it is true, the sub-differential set is a close of that set.
+
+[01:25:25.210] Chuan Wu: blah, blah.
+
+[01:25:26.790] Chuan Wu: possibly non-differentiable function F.
+
+[01:25:33.040] Chuan Wu: Okay, for a function, COMEX function F.
+
+[01:25:41.690] Chuan Wu: Okay.
+
+[01:25:42.880] Chuan Wu: Here.
+
+[01:25:44.690] Chuan Wu: We know, if we are given a function f.
+
+[01:25:54.180] Chuan Wu: So, by the way, the sub-differential set is across the convex set, so it can be proven, okay, just to use a definition of convex sets.
+
+[01:26:03.590] Chuan Wu: So they just picked two points and found out their correct combination also satisfied the, inequality.
+
+[01:26:10.060] Chuan Wu: Okay, the, you know, definition of subreddance.
+
+[01:26:13.440] Chuan Wu: Okay.
+
+[01:26:14.850] Chuan Wu: All right, and then coming… so that… so that conclusion doesn't rely on whether F is convex or not. But if F is indeed convex, then we have the following conclusion,
+
+[01:26:27.560] Chuan Wu: the, sub-differential set is non-empty for any point in the interior of the function domain. Okay, non-empty.
+
+[01:26:35.300] Chuan Wu: And if function f is differentiable at the point X, then the sub-differential set contains only one element, which is the gradient of the function at that point.
+
+[01:26:47.710] Chuan Wu: So this also means the subgradient is uniquely just a gradient.
+
+[01:26:52.750] Chuan Wu: And, beef.
+
+[01:26:56.910] Chuan Wu: And the reverse of that is also claimed is also true. If our sub-differential set contains only one gradient, okay, one unique subgradient, then that unique subgradient is… has to be the gradient, and the function f is differentiable at that point.
+
+[01:27:16.380] Chuan Wu: Okay.
+
+[01:27:21.870] Chuan Wu: All right, and, we were saying that the, the notion of subgradient is kind of extension of the gradient, tool of functions which is not differentiable everywhere.
+
+[01:27:33.690] Chuan Wu: And it is useful in, convex analysis, analyzing the, optimality, computation, duality of those type of functions as well.
+
+[01:27:43.040] Chuan Wu: Okay, so here, we… let's check out the optimality condition for unk… Unconstrained optimization part.
+
+[01:27:57.460] Chuan Wu: Okay, now we assume F… in case that F is convex and differentiable, then we know the optimality condition is, is simply that the gradient of that convex differentiable function should be automatically zero at the optimal point.
+
+[01:28:14.110] Chuan Wu: Right, so this is, a conclusion we have been using for many times in analytically solving an unconstrual validation problem, as well as in designing gradient-descent methods in solving an unconstrual validation problem.
+
+[01:28:31.450] Chuan Wu: All right, and extending the notion…
+
+[01:28:39.780] Chuan Wu: Okay, and expanding the notion to non-differentiable complex function F, and the optimistic condition is here. So now we, again, are looking at the unconstrained optimization problem, where the function F to minimize is complex, but possibly not differentiable everywhere.
+
+[01:28:57.260] Chuan Wu: And the optimization is here. So this says 0 belongs to the sub-differential set of the function f at optimal point X star.
+
+[01:29:07.520] Chuan Wu: It is… it means, there is, on zero subgradient of a function f at X term.
+
+[01:29:17.740] Chuan Wu: Okay, so this is the extended motion here.
+
+[01:29:21.420] Chuan Wu: N,
+
+[01:29:24.230] Chuan Wu: We can easily prove this, this, result.
+
+[01:29:30.080] Chuan Wu: So here, at X star, if 0 is a subredient, then it satisfies the inequality here. So this is in the definition of subgradient.
+
+[01:29:41.750] Chuan Wu: And apparently, this inequality holds, because X star is a minimal point.
+
+[01:29:46.770] Chuan Wu: Bye.
+
+[01:29:56.790] Chuan Wu: Okay, and then check out the optimality conditions expression for constraint problem, where the functions involved may not necessarily be different… differentiable everywhere.
+
+[01:30:09.600] Chuan Wu: And here, we are minimizing objective function F0X, and subject to a set of inequality constraints, fx more than 0.
+
+[01:30:17.940] Chuan Wu: And here, we require all the function, objective function, and the inequality constraint function function to be complex, but they are not necessarily differentiable everywhere.
+
+[01:30:28.270] Chuan Wu: But once we have defined that FIX will be a convex, and then we can say it's sub-differentiable. Sub-differentiable meaning we, at every point X, we can find out at least the one subreddit, instead of reading.
+
+[01:30:43.350] Chuan Wu: And that is the general tool for complex robot.
+
+[01:30:46.450] Chuan Wu: As we showed earlier today.
+
+[01:30:48.620] Chuan Wu: Okay, and, if we,
+
+[01:30:56.530] Chuan Wu: And, strictly, feasibility is defined in a similar manner as we… Yep.
+
+[01:31:05.950] Chuan Wu: So strict feasibility is defined in a similar manner, as we understood earlier, and the automatic conviction for such a constraint when it's proven is at false.
+
+[01:31:16.780] Chuan Wu: So, X is X star is primal optimal, and correspondingly, lambda star is dual optimal, if and only if the following condition holds. The first group is saying the primal constraints are satisfied, the dual constraints are satisfied.
+
+[01:31:33.080] Chuan Wu: And then, complementary slackness as identified. And then, the gradient of the,
+
+[01:31:40.160] Chuan Wu: Lagrangian vanishes at X star not star is set aside as well, but express uni, sub-differential, and sub-gredients.
+
+[01:31:50.490] Chuan Wu: Right? Okay, so essentially this is, the extended version of the KKD foundation, right? KKD condition includes primal constraint, dual constraint, community slackness, and then gradient management.
+
+[01:32:02.930] Chuan Wu: Right. The, Lagrangian function for the problem.
+
+[01:32:08.260] Chuan Wu: It's here.
+
+[01:32:09.620] Chuan Wu: Lagrangian?
+
+[01:32:15.820] Chuan Wu: Then, in terms of gradient, if F, dura, F5 are all differentiable, so this is our gradient.
+
+[01:32:23.920] Chuan Wu: Okay, so this would be the foundation, the first group of PND foundation for differentiable comic function.
+
+[01:32:32.250] Chuan Wu: And for possibly non-differential kind of function, so what we have is, in the place of, non-la, or gradient. Here, what we have is subgradient or sub-differential.
+
+[01:32:44.480] Chuan Wu: So, sub-differential, and here sub-differential, and all together, it represents a sub-differential set, and then 0 belongs to the sub-differential set, meaning 0 is a subgradient of the Lagrange function.
+
+[01:33:02.350] Chuan Wu: Okay, generalized KBT for possibly non-differentiable, COMEX program.
+
+[01:33:14.860] Chuan Wu: Oh, all right, having introduced the notion subgradient and the sub-differential, in the following, let's check out the, category of methods called sub-gradient methods.
+
+[01:33:26.390] Chuan Wu: So the subgregate methods, as you will see soon, is pretty comparable to the gradient methods we introduced for solving unconstrained convex problems, with differentiable functions blocked.
+
+[01:33:39.430] Chuan Wu: And, it's a simple algorithm, and its purpose is designed to minimize non-differentiable complex programs or functions.
+
+[01:33:48.750] Chuan Wu: And when we introduced separated methods, we first introduced separated for solving unconstrained minimization problem, and then we expanded to equality constraints and inequality const… equality constraint complex program as well.
+
+[01:34:04.760] Chuan Wu: Okay, the major idea of sub-brid masters is pretty much like Bradian descent, a brilliant master we introduced earlier, and, that there are a few major differences.
+
+[01:34:16.380] Chuan Wu: The first one is, we know in the gradient methods, we update the, iterates using, descendant direction and a step lens.
+
+[01:34:26.490] Chuan Wu: And in step gradient methods, the step lens is not chosen using line search. Ingredient methods, we know the step lens is chosen using line search, either exactly line search or backtracking line search, but here, in sub-gredient methods, we are not doing line search to
+
+[01:34:43.580] Chuan Wu: to the step side lens, the major rationale behind is the subgrading method is not guaranteed to be a descent masses. From step X to the next step X class is possible objective function may
+
+[01:34:56.670] Chuan Wu: And the delay increase.
+
+[01:34:58.820] Chuan Wu: And we know the line search methods, the fundamental rationale behind this, the method has to be a descent method, such that the line search can converge.
+
+[01:35:08.290] Chuan Wu: Okay.
+
+[01:35:10.940] Chuan Wu: And, and as compared… as compared to the all the methods we have introduced so far, the solving, differentiable convex program, this sub-gradient method can be slower, and actually significantly slower.
+
+[01:35:27.290] Chuan Wu: Okay, because the algorithm is simple and not descending, but over long term, we are able to descend the objective function value, but in short term, its descending speed is really slow.
+
+[01:35:39.960] Chuan Wu: All right, but the, the, that's the counts, but the prompts are apparent as well. All the efficient algorithms we have introduced so far, Newton's methods, empirical point methods, they cannot be applied to non-differentiable functions involved.
+
+[01:35:54.790] Chuan Wu: And here, gradient methods can apply two methods with, functions involved that are not debatable everywhere.
+
+[01:36:03.080] Chuan Wu: Heb,
+
+[01:36:04.520] Chuan Wu: And because it's a very simple algorithm, so we will find out that its memory sprint is much slower, so it just only need to keep the sub-gradient vector values, not the Hessian matrix, not the inverse of the Hessian matrix. So in general computation, amount is much smaller, and the memory need for running an algorithm is for slowing intermediate parameters.
+
+[01:36:28.390] Chuan Wu: It's much smaller as well.
+
+[01:36:30.670] Chuan Wu: And, and the subgrade ambassadors,
+
+[01:36:34.140] Chuan Wu: It can be naturally combined with some,
+
+[01:36:37.790] Chuan Wu: some decomposition methods to deal with a large scale of problems that needs to be solved concurrently at collaboration among all people presenting units, GPUs, or GPUs, right? Okay, so therefore.
+
+[01:36:51.730] Chuan Wu: The, we will see, how the, subgrading methods are running, and eventually we will see how it can be combined with the composition method for, solving large-scale problems in, by parallelizing multiple processes.
+
+[01:37:08.990] Chuan Wu: Okay, so that said, let's take a look at the sketch of a sub-gradient algorithm.
+
+[01:37:17.810] Chuan Wu: Okay.
+
+[01:37:18.770] Chuan Wu: The, in the sub-gradient algorithm, and especially, we first start with sub-gradient algorithm to solve an unconstrained optimization problem. So, basically, we only have objective functions that we are trying to minimize.
+
+[01:37:32.230] Chuan Wu: And we start with a starting point.
+
+[01:37:34.580] Chuan Wu: And then we try to find, in every iteration of the algorithm, we try to find a subredient of the objective function at the current iterate, XK, and then we choose a set size, and then we do the update.
+
+[01:37:47.790] Chuan Wu: So the update is very much like the update we saw before. We do XK minus alpha K, step size, multiplying our subreddie, GK.
+
+[01:37:58.400] Chuan Wu: Until some stopping criteria are satisfied.
+
+[01:38:01.890] Chuan Wu: And here, XK is a case iterate, and GK is a subgradient of function at XK, and RK the step size.
+
+[01:38:11.150] Chuan Wu: Okay, so if you compare the sketch of this subgradient methods with the gradient descent method we introduced earlier, they are very much comparable.
+
+[01:38:20.090] Chuan Wu: Okay, the steps are almost exactly the same, except that we are doing subgradient, we are calculating sub-gradient as a descent, and then use negative subgradient as a direction to update iterate instead of negative gradient direction.
+
+[01:38:37.610] Chuan Wu: And, other major differences like being for deciding the step size, we are not doing the exact online backtracking line search. We have some fixed step size rules that people have summarized, that we are going to introduce soon.
+
+[01:38:51.230] Chuan Wu: And stopping criteria is similarly defined, by… and identified and defined by researchers, instead of some general stopping criteria, like the gradient becomes very small, or grid sub-gradient becomes very small. Not we have other stopping criteria.
+
+[01:39:09.170] Chuan Wu: All right, so that, said, and the major point is, subredient method is not a percent method. It's not guaranteed that from one step XK to XK plus 1, the objective function value is decreasing.
+
+[01:39:22.970] Chuan Wu: And… but the general trend is still decreasing, so therefore, we need to keep track of the best points so far. So the best point is defined to be the best objective function value, meaning the smallest objective function value across all the iterations we have run so far.
+
+[01:39:41.580] Chuan Wu: And then the corresponding XK should be kept as well.
+
+[01:39:46.610] Chuan Wu: Okay.
+
+[01:39:47.780] Chuan Wu: And then, let's, check out the, step size.
+
+[01:39:56.720] Chuan Wu: Let's check out the step size of, subgradient… step size… groups of subgradient methods. So, as I said, the step size is not identified using any line search method, but predefined.
+
+[01:40:08.740] Chuan Wu: And the people have defined, four major groups of step size rules that you can apply or adopt in longing or subgrade investors.
+
+[01:40:17.010] Chuan Wu: So the first step size rule is we just simply choose a constant step size, or if there's a truth replicate to a small constant R of R.
+
+[01:40:27.070] Chuan Wu: And later on, we will show that what the value of R value choose is related to convergence, how close, eventually, the operational has converged to optimality.
+
+[01:40:38.340] Chuan Wu: And the second step size rule is we choose a constant step length.
+
+[01:40:43.550] Chuan Wu: And the constant step length is defined to be the, constant gamma, divided by the, L2 norm of the current sub gradient, GK, current step sub gradient GK.
+
+[01:41:00.470] Chuan Wu: And in this way, if you're doing ARPA update, In this way.
+
+[01:41:08.810] Chuan Wu: If you're calculating alpha K that way.
+
+[01:41:12.770] Chuan Wu: Okay, remember our XK plus 1 equals XK minus alpha K3K.
+
+[01:41:21.380] Chuan Wu: Okay.
+
+[01:41:29.340] Chuan Wu: Okay, so this is our update formula.
+
+[01:41:32.160] Chuan Wu: And then…
+
+[01:41:37.620] Chuan Wu: If our alpha K is,
+
+[01:41:41.800] Chuan Wu: computed to be gamma, so gamma is, even a small constant positive.
+
+[01:41:52.810] Chuan Wu: outer norm of GK.
+
+[01:41:56.150] Chuan Wu: Okay.
+
+[01:41:58.160] Chuan Wu: And then, what we can get is XK plus 1 minus XK, Alpanol would be… Exactly.
+
+[01:42:18.450] Chuan Wu: Clare, that's the… That gives a goal? Yes, here.
+
+[01:42:24.040] Chuan Wu: Alanol.
+
+[01:42:26.800] Chuan Wu: Alright.
+
+[01:42:28.310] Chuan Wu: So that means if our alpha K is, chosen to be gamma divided by L2 norm of the subredient, what we know is the L2 norm of the two adjacent iterates would be a constant gamma.
+
+[01:42:45.060] Chuan Wu: So that's how the constant step lets a name comes from.
+
+[01:42:53.320] Chuan Wu: Okay, and then the third step size rule is, to find a sequence of, step sizes, which are square-summable, but not summable. So what does it mean here?
+
+[01:43:05.790] Chuan Wu: We're summable. So, meetings, for our sequence, unlimited sequence of, steps…
+
+[01:43:13.710] Chuan Wu: Like this, their square, sum of squares is, finagd.
+
+[01:43:19.460] Chuan Wu: But if we just set up all our steps… step sizes, k from 1 to infinity, the sum without squared is abundant.
+
+[01:43:32.420] Chuan Wu: Okay, and what is a sequence that is satisfied the square summable, but not summable?
+
+[01:43:38.640] Chuan Wu: condition, so here is an example. So if our ROK is chosen to be A divided by B plus K, your A is larger than 0, B larger than 0, then this sequence can be proven to satisfy the square summable but non-summable properties.
+
+[01:43:56.280] Chuan Wu: And then the… and following that, we have a pretty similar, force, set of step size rule. So it's, over here, we choose step sequence… step size sequence, which is non-summable, but at the diminished.
+
+[01:44:14.220] Chuan Wu: So now some of them, meaning if we sum up all the step sizes in the sequence, the value is unbounded, it's an infinite value. And, for the step size itself, RK, when K goes to infinity, the step size we choose to be going to Europe.
+
+[01:44:32.150] Chuan Wu: Related the so-called non-sumable in managing their flight sequence.
+
+[01:44:37.070] Chuan Wu: And the example is here. So if we choose alpha k to be a positive constant A divided by the square root of K, then this sequence is non-summable, diminished.
+
+[01:44:50.940] Chuan Wu: Okay?
+
+[01:44:54.080] Chuan Wu: All right, the, reasons why people
+
+[01:45:17.200] Chuan Wu: Okay, so the reason why people are choosing these steps and rule is, under each set and rule, we are able to show the sub-gradient algorithm can converge to optimality, or converge to a small neighborhood optimality.
+
+[01:45:32.120] Chuan Wu: Due to time limit, I will leave the discussion on how these different sets of steps and rules leads to different convergence results to the next election.
+
+[01:45:44.150] Chuan Wu: Okay.
+
+[01:45:45.360] Chuan Wu: All right, I'll just stop here, and we will continue with the discussion on Thursday.
+
+[01:45:57.470] Chuan Wu: Okay, if you've got any questions, you can stay and ask.

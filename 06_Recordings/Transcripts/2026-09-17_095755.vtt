@@ -1,0 +1,2994 @@
+WEBVTT
+
+1
+00:02:22.100 --> 00:02:27.139
+chuanwu: Alright, good morning, everyone. Welcome to our commoditization class today. Let's get started.
+
+2
+00:02:28.950 --> 00:02:38.499
+chuanwu: We are now working on complex program. So, especially what we have checked out at the end of last lecture is the standard form of optimization problem.
+
+3
+00:02:38.580 --> 00:02:52.720
+chuanwu: So essentially, in the standard form, or the default form, we formulate a mathematical optimization problem as a linearization problem. So we're minimizing objective function, usually we use a URL to be notate.
+
+4
+00:02:52.720 --> 00:02:59.649
+chuanwu: And then, we have a number of inequality constraints, and we have a number of equality constraints.
+
+5
+00:02:59.730 --> 00:03:19.479
+chuanwu: And we have differentiated two concepts last time. So when we are talking about optimal values, what we mean is the minimal value of the objective function, okay, not the optimal value of the variable. So optimal value refers to the optimal minimal value of the objective function, as defined here, p-star.
+
+6
+00:03:19.610 --> 00:03:29.230
+chuanwu: And then we talk about the optimal point. So essentially, the optimal point is a featable variable S, which is optimal
+
+7
+00:03:29.350 --> 00:03:33.619
+chuanwu: achieve it, after X equals D star.
+
+8
+00:03:33.910 --> 00:03:34.830
+chuanwu: Okay.
+
+9
+00:03:36.290 --> 00:03:50.799
+chuanwu: All right, so moving on, we'll be looking at more general forms of convex program, and then we'll be checking out the properties related to convex program as well, before we move on to say concrete forms of different convex program.
+
+10
+00:03:51.040 --> 00:03:58.859
+chuanwu: Okay, so the, next concept is related to suitability problem. So if we are just a demon.
+
+11
+00:04:01.330 --> 00:04:12.979
+chuanwu: So if we are just given a set of inequality constraints and equality constraint, we want to find out X, which satisfies those constraints, then this is a feasibility problem.
+
+12
+00:04:12.980 --> 00:04:32.019
+chuanwu: We do not have an objective to minimize or maximize, we just want to find out the endpoint in the feasible domain of the problem, as defined by the set of equality constraints and equality constraints. And of course, if we like, we can still convert a feasibility problem into the form of an optimization problem.
+
+13
+00:04:32.020 --> 00:04:40.609
+chuanwu: We just minimize some constant, okay, 0 or 1, or 2, or negative 1, or maximize the constant, it doesn't matter.
+
+14
+00:04:40.610 --> 00:04:52.480
+chuanwu: And then we have a set of constraints, and we can solve this problem using the optimization solver as well, and what we found is a feasible solution to the set of constraints.
+
+15
+00:04:52.930 --> 00:04:58.549
+chuanwu: And then, moving on to see what is the other form of complex product. Okay.
+
+16
+00:04:58.610 --> 00:05:14.640
+chuanwu: So, convex program send form is as listed on top of the slide here. Objective function, we are minimizing F0X. And here, we require F0 to be a convex function. And constraints. So, check out the step of inequality constraints.
+
+17
+00:05:14.640 --> 00:05:31.349
+chuanwu: So the set of inequality constraints is formulated in the generic form, so FIX no larger than 0. And here, we require everything on the left-hand side of the inequality sign to be a convex function. Okay, FIX means building a convex function.
+
+18
+00:05:31.860 --> 00:05:45.810
+chuanwu: And then moving on to see the equality constraints. In the specific definition of convex optimization problem, we have special requirements on the equality constraints. The equality constraints have to be R5.
+
+19
+00:05:46.100 --> 00:05:54.009
+chuanwu: Okay, so that means we have to have equality constraints in the form of AI inner product X equals TI.
+
+20
+00:05:54.130 --> 00:05:58.679
+chuanwu: And then we can have P, a number of p of such, we call it the constraints.
+
+21
+00:05:58.800 --> 00:06:07.519
+chuanwu: Okay, and if we put it down in the generic form or standard form, our equality constraints is like this.
+
+22
+00:06:11.120 --> 00:06:20.740
+chuanwu: Okay, left-hand side is an equality constraint function, and the equality constraint function has to be a linear function, or more generally speaking, a fine function.
+
+23
+00:06:21.160 --> 00:06:30.699
+chuanwu: Okay, and we can also lay down the equality constraints in the more, concise way. So we have, AX equals B.
+
+24
+00:06:31.860 --> 00:06:41.229
+chuanwu: So, A. So, every row of A is, is, Joe Lecter. So, A…
+
+25
+00:06:42.180 --> 00:06:45.640
+chuanwu: up to 8P. Okay, so we have P constraints.
+
+26
+00:06:49.950 --> 00:06:54.609
+chuanwu: So this is our matrix A. It's a P times N matrix.
+
+27
+00:06:55.000 --> 00:06:57.810
+chuanwu: Okay, so A… is…
+
+28
+00:06:57.910 --> 00:07:04.939
+chuanwu: P times F… okay, P rows in A, matrix A, and every row have an element.
+
+29
+00:07:06.060 --> 00:07:06.870
+chuanwu: Okay.
+
+30
+00:07:07.120 --> 00:07:19.909
+chuanwu: All right, and you might wonder, so in ZAP, in the most generic form of, of addition problem, equality constraints are formulated this way.
+
+31
+00:07:20.270 --> 00:07:28.810
+chuanwu: shouldn't we require that HIX to be convex? Then the whole… every function involved in the problem is convex, that is a convex program.
+
+32
+00:07:28.970 --> 00:07:42.029
+chuanwu: Ideally, it's like that, but unfortunately, people have found out, only when the equality constraints are of the F1 format can we have nice theory to solve such type of convex program.
+
+33
+00:07:42.150 --> 00:08:02.099
+chuanwu: If they call it the constraints, the constraint function is of more generic form, like a chondraptic function, nonlinear, non-alphan chondraptic function, or any… involving any of the log and other operators, then such a problem doesn't have… doesn't conform to the nice properties for solution, for efficient optimal solution boundary.
+
+34
+00:08:02.350 --> 00:08:21.499
+chuanwu: Okay, so therefore, in the whole domain of convex validation, or in the whole theory domain of complex validation, what we refer to as convex validation problem of the form on the slide? Okay, objective function convex, inequality constraint function convex, and equality constraint mind.
+
+35
+00:08:22.120 --> 00:08:22.980
+chuanwu: Okay.
+
+36
+00:08:23.240 --> 00:08:24.400
+chuanwu: Alright.
+
+37
+00:08:27.460 --> 00:08:32.370
+chuanwu: Okay, so when we have the, when we have the,
+
+38
+00:08:33.580 --> 00:08:46.040
+chuanwu: complex inequality constraint, and we have F1 equality constraint. An immediate nice probability that we have is the feasibility set of such a complex optimization problem is a convex set.
+
+39
+00:08:46.360 --> 00:08:55.399
+chuanwu: Why? So check out the inequality constraint. So the inequality constraint is a zero sublevel set of the corresponding constraint function.
+
+40
+00:08:56.220 --> 00:09:06.730
+chuanwu: Okay, so FIX, so pick any of the inequalities, so FIX smaller equals 0. FIX is… Callbacks.
+
+41
+00:09:07.000 --> 00:09:22.040
+chuanwu: Then, all X satisfied the constraint is in the C0 sublevel set of the convex function, and all sublevel sets of convex function are convex sets. So therefore, we know any X defined
+
+42
+00:09:22.140 --> 00:09:24.950
+chuanwu: Okay, NEX defined this way.
+
+43
+00:09:25.080 --> 00:09:33.499
+chuanwu: is in a connect set, and we have M inequality constraints corresponding to intersection of M connect sets.
+
+44
+00:09:34.090 --> 00:09:50.930
+chuanwu: And then, equality constraints. So equality constraints is, AI inner product X equals DI, so it defines a hyperpled, right? So every equality constraint, every affine equality constraint defines a hyperplad.
+
+45
+00:09:51.060 --> 00:09:53.100
+chuanwu: And we know hyperplains are complex.
+
+46
+00:09:53.690 --> 00:10:04.650
+chuanwu: Okay, so further intersecting with a set of hyperplains, we know the result, if the variability except, for X, satisfying all the constraints is in a correct set.
+
+47
+00:10:05.320 --> 00:10:07.869
+chuanwu: Okay, so that's a nice property that we have.
+
+48
+00:10:12.180 --> 00:10:19.130
+chuanwu: And that also partially explains why we can't have generic convex function in the equality constraint.
+
+49
+00:10:20.050 --> 00:10:26.629
+chuanwu: Right? So here, so HX equals zero. We cannot ensure such a set is always convex.
+
+50
+00:10:26.920 --> 00:10:33.239
+chuanwu: Such that we cannot ensure a problem defined on such a set is a convex program.
+
+51
+00:10:34.590 --> 00:10:35.420
+chuanwu: Okay.
+
+52
+00:10:36.280 --> 00:10:53.100
+chuanwu: All right, generalized inequality are also fine, who defined in defining slash comics forward. So say here, objective function is affine, variable vector X, and dimensional vector X, and how about the single inequality becomes ring?
+
+53
+00:10:53.100 --> 00:11:04.839
+chuanwu: So the single… in the single inequality constraint, X1 up to XN are N components in vector X, in variable vector X, and the A0, A1 up to AN are given.
+
+54
+00:11:04.890 --> 00:11:08.360
+chuanwu: So in 54, they were forced, the,
+
+55
+00:11:08.720 --> 00:11:16.420
+chuanwu: Matrix here is a symmetric matrix, or if we classify the matrix A0 after Ay metric matrices.
+
+56
+00:11:17.200 --> 00:11:22.240
+chuanwu: Okay, and here is a linear summation of an past 1.
+
+57
+00:11:24.010 --> 00:11:34.560
+chuanwu: matrices. Okay, so when we have a symmetric matrix on the left-hand side, and the right-hand side we put zero, and we use this generalized equality side, what does it mean?
+
+58
+00:11:37.350 --> 00:11:55.060
+chuanwu: Yes, it means negative of the left and Z matrix is positive semi-definite, or the matrix there is negative semi-definite, right? Okay, so this is considered as some, affine inequality matrix inequality, on X.
+
+59
+00:11:55.270 --> 00:11:58.390
+chuanwu: And, it is a convex constraint.
+
+60
+00:11:59.040 --> 00:11:59.950
+chuanwu: Okay.
+
+61
+00:12:00.930 --> 00:12:02.000
+chuanwu: Alright.
+
+62
+00:12:02.890 --> 00:12:10.850
+chuanwu: Okay, next, we'll be checking out a number of properties related to optimality, or optimal solution of, complex program.
+
+63
+00:12:11.310 --> 00:12:29.209
+chuanwu: And we say any locally optimal point of a convex program is globally optimal. So this is a very intuitive and a nice property. So it means if you have some algorithm to solve a convex program, and you find a local optimum point. So what is local optimum point?
+
+64
+00:12:29.210 --> 00:12:36.339
+chuanwu: Meaning, basically, if you move slightly away from this point at star, you're obviously result in less.
+
+65
+00:12:36.650 --> 00:12:37.720
+chuanwu: Manual.
+
+66
+00:12:38.000 --> 00:12:39.560
+chuanwu: objective function better.
+
+67
+00:12:39.670 --> 00:12:51.949
+chuanwu: Right, okay. And then, and then if you have ever identified a local optimal point, you can be rest assured that this is also a probable optimal point as well.
+
+68
+00:12:52.640 --> 00:13:03.569
+chuanwu: Okay, all right, so this prop data is pretty intuitive, and now let's check out, we actually can do a pretty rigorous proof on this, using some kind of contradiction.
+
+69
+00:13:03.730 --> 00:13:19.920
+chuanwu: Okay, so we can assume that a point X is local minimal, but there is another point in the featability set of the problem which achieves a smaller objective function value than X. Okay, F0 Y smaller than F0 X.
+
+70
+00:13:20.030 --> 00:13:33.000
+chuanwu: Okay, and then we are able to do some reconstruction, and we are able to show that a close-by point to X is also doing better than X as well, which would be a contradiction.
+
+71
+00:13:33.550 --> 00:13:34.430
+chuanwu: Okay.
+
+72
+00:13:35.010 --> 00:13:47.329
+chuanwu: All right, so what construction do we do? So we construct a convex combination point between X and Y. Okay, X is local optimal, we found, and Y is supposedly, better
+
+73
+00:13:47.550 --> 00:14:02.880
+chuanwu: solution, the X, achieving smaller F0 y. Okay, and then we construct a point in the middle. So theta here is, positive within the range of 0 and 1, and we just assume theta is small, such that
+
+74
+00:14:03.390 --> 00:14:06.680
+chuanwu: The point is closer to X than to Y.
+
+75
+00:14:06.830 --> 00:14:09.800
+chuanwu: So basically, D is in the neighborhood group of X.
+
+76
+00:14:10.350 --> 00:14:18.779
+chuanwu: Okay, and then we… what we further have is, because featibility set of convex program is a convex set.
+
+77
+00:14:18.830 --> 00:14:31.200
+chuanwu: Okay, meaning all the X, Y satisfies the constraints, they belong to a convex set, then convex combination point D also belongs to the convex set. So this is according to the definition of convex set.
+
+78
+00:14:31.710 --> 00:14:44.669
+chuanwu: And then, we have to put the derivation. So here, we evaluate the objective function value of the new point to Z. Okay, F0 Z equals F0, this is, how we construct Z.
+
+79
+00:14:44.670 --> 00:14:53.430
+chuanwu: And according to convex theory of F-Bureau, the Jason's inequality. So here is application of the Jason's inequality in the definition of convex function.
+
+80
+00:14:53.870 --> 00:14:58.970
+chuanwu: And then, what we have is here, So here, F0 Y.
+
+81
+00:14:59.220 --> 00:15:04.619
+chuanwu: smaller than F0X, and then the whole thing here is smaller than F0X.
+
+82
+00:15:04.930 --> 00:15:05.780
+chuanwu: Right.
+
+83
+00:15:07.060 --> 00:15:08.090
+chuanwu: Okay.
+
+84
+00:15:08.230 --> 00:15:18.880
+chuanwu: And what we have is a contradiction. So F0Z, what we actually derive is F0A is smaller than F0X.
+
+85
+00:15:19.200 --> 00:15:23.389
+chuanwu: Abdura Lee, Smaller than 0x, which is a contradiction.
+
+86
+00:15:23.730 --> 00:15:33.899
+chuanwu: Right? Because X is local optimal. If V is close enough to X, then F bureau Z cannot be smaller than F bureaux.
+
+87
+00:15:34.100 --> 00:15:36.689
+chuanwu: And this results in a contradiction.
+
+88
+00:15:37.410 --> 00:15:39.040
+chuanwu: Bye. Okay.
+
+89
+00:15:39.500 --> 00:15:40.450
+chuanwu: All right.
+
+90
+00:15:40.800 --> 00:15:44.020
+chuanwu: So I also want to draw something on board.
+
+91
+00:15:44.760 --> 00:15:49.499
+chuanwu: We'll show you, geometrically what this property implies.
+
+92
+00:16:19.060 --> 00:16:22.909
+chuanwu: Okay, so consider we are minimizing
+
+93
+00:16:23.100 --> 00:16:29.740
+chuanwu: objective function on the feasibility set C. Okay, so this is our feasibility set C.
+
+94
+00:16:29.940 --> 00:16:30.640
+chuanwu: End?
+
+95
+00:16:35.750 --> 00:16:38.279
+chuanwu: Making it sharp, slightly sharper.
+
+96
+00:16:48.710 --> 00:16:51.599
+chuanwu: Okay, so this is our feasibility Z.
+
+97
+00:16:51.700 --> 00:16:55.819
+chuanwu: And assuming we are minimizing objective function F0X,
+
+98
+00:16:56.760 --> 00:17:01.330
+chuanwu: In the form, or just for elaboration purpose, is a contracting function.
+
+99
+00:17:01.590 --> 00:17:10.049
+chuanwu: Okay, I'm here because I'm drawing the example on a… on a two-dimensional whiteboard, so our X is actually
+
+100
+00:17:10.319 --> 00:17:12.089
+chuanwu: E. R. Who?
+
+101
+00:17:12.589 --> 00:17:26.509
+chuanwu: Okay, and this is the feasibility set, decided by the set of inequality constraints in the, convex optimization problem, and our objective function is here, a conjectic function on X, and it is convex.
+
+102
+00:17:26.640 --> 00:17:28.619
+chuanwu: COMEX objective to minimize.
+
+103
+00:17:29.000 --> 00:17:30.830
+chuanwu: Okay, End?
+
+104
+00:17:31.970 --> 00:17:38.440
+chuanwu: So here, I want to introduce a concept, which is called sub-level sets, okay?
+
+105
+00:17:39.810 --> 00:17:47.970
+chuanwu: Yes, we already studied the concept of sub-level sets, and what the concept I want to introduce is about level curves.
+
+106
+00:17:48.070 --> 00:18:02.289
+chuanwu: Okay, level curves. So think about the sub-level sets. So if, for the sub-level sets, C, R5, it consists of all the X, such that X1 squared plus X2 squared, no larger than R5.
+
+107
+00:18:03.040 --> 00:18:03.820
+chuanwu: Right?
+
+108
+00:18:04.190 --> 00:18:11.619
+chuanwu: So this is the sub-level set, the concept we already started, right? So what is the sub-level set for such an objective function?
+
+109
+00:18:13.050 --> 00:18:14.490
+chuanwu: their circles.
+
+110
+00:18:14.820 --> 00:18:15.990
+chuanwu: of boards.
+
+111
+00:18:16.180 --> 00:18:17.870
+chuanwu: Containing the interior.
+
+112
+00:18:18.000 --> 00:18:21.949
+chuanwu: Right, okay. So let me draw it, draw part of it.
+
+113
+00:18:22.240 --> 00:18:34.340
+chuanwu: So this is a sublevel set enclosing the interior, right? And if alpha is larger, we have another sub-level set, okay, circle, right?
+
+114
+00:18:34.410 --> 00:18:44.199
+chuanwu: And if alpha is even larger, we have an even bigger sublevel set. Okay, all the sublevel sets should be both, or two-dimensional boards.
+
+115
+00:18:44.450 --> 00:18:47.810
+chuanwu: Right? Okay, the circle containing is interior.
+
+116
+00:18:48.110 --> 00:18:53.279
+chuanwu: Okay, and the notion I want to introduce is about a level curve.
+
+117
+00:18:53.640 --> 00:18:59.050
+chuanwu: Okay, so what is level curve? So basically, the circle I draw are all level curves.
+
+118
+00:18:59.190 --> 00:19:05.860
+chuanwu: Because all the points, all the points on those circles corresponds to the same objective function value.
+
+119
+00:19:06.400 --> 00:19:07.280
+chuanwu: Right.
+
+120
+00:19:07.470 --> 00:19:26.439
+chuanwu: Okay, so this, all the points on this, blue circle top of this circle corresponds to one alpha, right, objective function value alpha, and the larger circle, the dot corresponding to another alpha, larger alpha, and the larger circle is a larger level curve corresponding to a larger alpha.
+
+121
+00:19:26.620 --> 00:19:28.500
+chuanwu: Right. Okay.
+
+122
+00:19:28.850 --> 00:19:32.069
+chuanwu: Alright, then based on my drawing here.
+
+123
+00:19:32.940 --> 00:19:37.560
+chuanwu: So now tell me where does the, ophthalmoid point happen?
+
+124
+00:19:39.970 --> 00:19:44.470
+chuanwu: So if the level curves… so basically all the level curves are called centric.
+
+125
+00:19:44.580 --> 00:19:46.390
+chuanwu: circles, right?
+
+126
+00:19:46.810 --> 00:19:55.450
+chuanwu: So, based on my joy, can you tell me, and this is our feasibility set, so can you tell me where does the optimal point of the optimization problem happen?
+
+127
+00:20:03.190 --> 00:20:04.650
+chuanwu: It happens here.
+
+128
+00:20:07.140 --> 00:20:08.030
+chuanwu: Right?
+
+129
+00:20:10.280 --> 00:20:23.819
+chuanwu: So it is a point on the boundary of the feasibility set that touches upon the smallest possible… touches upon the level curve corresponding to the smallest ARVA.
+
+130
+00:20:24.320 --> 00:20:26.370
+chuanwu: Objective function value, right?
+
+131
+00:20:26.810 --> 00:20:39.020
+chuanwu: Okay, so based on what I construct, so pretty much we want the objective function to be as small as possible, so that is the direction, so that is the direction where the objective function value is reducing, right?
+
+132
+00:20:39.140 --> 00:20:43.780
+chuanwu: And these are… and all our points can only be chosen within ZCC.
+
+133
+00:20:44.020 --> 00:20:53.289
+chuanwu: So therefore, the touching point of this smallest level… the level curve corresponding to the smallest radius, or alpha.
+
+134
+00:20:54.450 --> 00:20:56.770
+chuanwu: is our optimal point, X star.
+
+135
+00:20:56.880 --> 00:20:57.810
+chuanwu: Right.
+
+136
+00:20:57.940 --> 00:21:00.840
+chuanwu: So here, X star happens.
+
+137
+00:21:02.630 --> 00:21:03.480
+chuanwu: Okay.
+
+138
+00:21:11.590 --> 00:21:14.989
+chuanwu: They'll give you some… a slightly more concrete value.
+
+139
+00:21:17.370 --> 00:21:25.680
+chuanwu: So here, F0X equals 0.2, for example, and here, F0X is 0.5.
+
+140
+00:21:25.820 --> 00:21:29.909
+chuanwu: And F0X equals 0.8, for example.
+
+141
+00:21:30.540 --> 00:21:35.709
+chuanwu: Okay, the level curves, the points, and those level curves corresponding to different objective function values.
+
+142
+00:21:36.520 --> 00:21:37.450
+chuanwu: Okay.
+
+143
+00:21:37.630 --> 00:21:39.660
+chuanwu: Alright, and then…
+
+144
+00:21:47.310 --> 00:21:50.770
+chuanwu: Okay, and then, this is,
+
+145
+00:21:51.450 --> 00:22:04.579
+chuanwu: perfect example to show us a local optimal point is global optimal, right? So X start here, as we analyze, is global optimal, and you can find out it's actually also local optimal, right?
+
+146
+00:22:05.070 --> 00:22:16.180
+chuanwu: Because if you move away, slightly away from this X star, move a bit here, move a bit there, as well as XC, you always fall on a level curve whose radius is larger.
+
+147
+00:22:16.290 --> 00:22:19.889
+chuanwu: Right, or objective function value is larger. Then they are not…
+
+148
+00:22:20.700 --> 00:22:25.360
+chuanwu: any more optimal, right? And X star is local optimal and global optimal.
+
+149
+00:22:26.030 --> 00:22:26.900
+chuanwu: Right.
+
+150
+00:22:27.230 --> 00:22:28.100
+chuanwu: Okay.
+
+151
+00:22:29.220 --> 00:22:30.710
+chuanwu: And,
+
+152
+00:22:31.060 --> 00:22:47.200
+chuanwu: This property is, using this, using a similar example, I want to show, this property, local optimal of a COMEX program is global optimal, doesn't hope if the program is not correct.
+
+153
+00:22:47.500 --> 00:23:05.539
+chuanwu: Okay, so if the program is not convex, local optimal may not be robo-optimal. Okay, so when we say a convex problem is not… when we say an optimization problem is not convex. So, in general, we have two cases. Number one, the objective function is not convex.
+
+154
+00:23:05.740 --> 00:23:10.090
+chuanwu: Number two, the feasibility set is not COMEX set.
+
+155
+00:23:10.300 --> 00:23:15.529
+chuanwu: Right, so two of the cases. Of course, it's not exhaustive cases, but the two representative cases.
+
+156
+00:23:15.910 --> 00:23:21.719
+chuanwu: Okay, so think about, think about a… example here.
+
+157
+00:23:28.330 --> 00:23:30.790
+chuanwu: Assuming this is a level curve.
+
+158
+00:23:31.430 --> 00:23:36.709
+chuanwu: Okay, level curve, where on top of which, F dual X is of the same value.
+
+159
+00:23:36.860 --> 00:23:54.649
+chuanwu: When the objective function is not convex, it's very likely the sublevel set is not convex set, so the level curve is not… level curve is the boundary of the sublevel set, and the level curve is not enclosing a convex set, right? So this is an example where it is…
+
+160
+00:23:54.970 --> 00:23:58.339
+chuanwu: So, level curve… Level curve.
+
+161
+00:23:59.850 --> 00:24:05.590
+chuanwu: Okay, so assuming we have three level curves corresponding to a non-convex objective function.
+
+162
+00:24:05.910 --> 00:24:09.139
+chuanwu: Okay, then how about our feasibility set?
+
+163
+00:24:09.710 --> 00:24:21.559
+chuanwu: So suppose our feasibility set is, half space, okay, half space decided by lines, decided by hyperplains, and on a two-dimensional plan, it is a line.
+
+164
+00:24:28.740 --> 00:24:32.500
+chuanwu: Okay, so suppose the feasibility set,
+
+165
+00:24:33.100 --> 00:24:37.169
+chuanwu: To the right-hand side of this hyperplifability side.
+
+166
+00:24:38.030 --> 00:24:44.490
+chuanwu: Okay, feasibility set… if feasibility set is a hyperplan… is half-space, and feasibility set is actually convex.
+
+167
+00:24:44.760 --> 00:24:50.579
+chuanwu: Right. Okay, so this is a contrived example where I won't be sure.
+
+168
+00:24:50.710 --> 00:24:52.319
+chuanwu: Zach…
+
+169
+00:24:54.670 --> 00:25:04.979
+chuanwu: that the local optimal point may not be global optimal in this case. Okay, this is the case where objective function is non-convex, but feasibility set is still a convex set.
+
+170
+00:25:05.390 --> 00:25:09.759
+chuanwu: Okay, all right, and the point I want to point out is here.
+
+171
+00:25:10.800 --> 00:25:17.750
+chuanwu: So this X, call it X0. So this X0 is a local optimal point.
+
+172
+00:25:17.930 --> 00:25:19.099
+chuanwu: Do you agree?
+
+173
+00:25:21.610 --> 00:25:35.879
+chuanwu: So how to tell if a point is local optimal point? You just need to move slightly away from this point and see if the point nearby falls on a level curve corresponding to larger objective function value or smaller objective function value.
+
+174
+00:25:36.240 --> 00:25:43.329
+chuanwu: Right? So if you move away from X star to the left to the right of 2, the interior of the feasibility set.
+
+175
+00:25:43.550 --> 00:25:49.899
+chuanwu: You'd result in points lying on level curves corresponding to larger objective function value.
+
+176
+00:25:50.150 --> 00:25:50.910
+chuanwu: Right.
+
+177
+00:25:51.660 --> 00:25:53.200
+chuanwu: Do you see this point?
+
+178
+00:25:53.820 --> 00:25:55.369
+chuanwu: Can you see this point.
+
+179
+00:25:55.750 --> 00:26:00.690
+chuanwu: Say if we move slightly over there, so that point would be lying on a…
+
+180
+00:26:01.000 --> 00:26:06.699
+chuanwu: Level curve like that, corresponding to a larger objective function value, right?
+
+181
+00:26:07.360 --> 00:26:08.330
+chuanwu: Agree?
+
+182
+00:26:11.810 --> 00:26:19.950
+chuanwu: Okay, and, so, we… what we should know is X0 is local optimal point.
+
+183
+00:26:20.530 --> 00:26:26.939
+chuanwu: Geometrically, you can try… you can figure it out. And is X zero, global optimal point?
+
+184
+00:26:27.520 --> 00:26:28.330
+chuanwu: No.
+
+185
+00:26:28.470 --> 00:26:32.539
+chuanwu: Okay, because actually, there are other points which is doing better.
+
+186
+00:26:34.080 --> 00:26:36.449
+chuanwu: For example, a point here.
+
+187
+00:26:37.320 --> 00:26:48.749
+chuanwu: So this X1, called X subscript superscript 1. So this X1 is lying on a Level curve corresponding to
+
+188
+00:26:49.490 --> 00:26:51.889
+chuanwu: Smaller objective function value.
+
+189
+00:26:55.980 --> 00:26:59.879
+chuanwu: Right? That X1 is in the feasibility set.
+
+190
+00:27:00.070 --> 00:27:05.460
+chuanwu: But lying on a level curve, corresponding to a smaller objective function value.
+
+191
+00:27:05.990 --> 00:27:08.870
+chuanwu: Right? So X1 is doing better.
+
+192
+00:27:10.700 --> 00:27:11.620
+chuanwu: Okay.
+
+193
+00:27:13.750 --> 00:27:20.470
+chuanwu: So what do I want to show you is into geometrically local optimal of non-convex program.
+
+194
+00:27:20.790 --> 00:27:26.159
+chuanwu: Local optimal of program with non-convex objective function may not be global optimal.
+
+195
+00:27:26.780 --> 00:27:36.819
+chuanwu: Right? If you understand the concept of, level curve, feasibility set, and so on. So, by the way, what the work, or the two,
+
+196
+00:27:38.370 --> 00:27:45.120
+chuanwu: Dimensional plan here is, what we draw is a domain of the problem.
+
+197
+00:27:45.670 --> 00:27:47.519
+chuanwu: Okay, domain of the problem.
+
+198
+00:27:47.720 --> 00:27:52.969
+chuanwu: So X is in R2, so here the two-dimensional plan here is the domain of the problem.
+
+199
+00:27:53.550 --> 00:28:00.150
+chuanwu: Okay, and the level curves, or sub-level sets, or featibility sets, they all lie within the domain.
+
+200
+00:28:00.700 --> 00:28:01.740
+chuanwu: area.
+
+201
+00:28:02.190 --> 00:28:05.309
+chuanwu: Domain set, or domain plan, of the problem.
+
+202
+00:28:06.510 --> 00:28:07.380
+chuanwu: Okay.
+
+203
+00:28:08.210 --> 00:28:09.750
+chuanwu: Another example.
+
+204
+00:28:09.900 --> 00:28:16.240
+chuanwu: All right, so, here, what we show is a case, the,
+
+205
+00:28:19.950 --> 00:28:23.169
+chuanwu: The level curve of sublevel sets are non-convex.
+
+206
+00:28:23.290 --> 00:28:42.490
+chuanwu: So, the second case is the level sets are still convex sets, okay, say, objective function is still the same as what we illustrated earlier. Say the object function is still of the graphic form, so the level curve or sub-level sets are both on two-dimensional plan.
+
+207
+00:28:43.040 --> 00:28:50.149
+chuanwu: Okay, so each blue… so the blue, dotted blue, or solid blue I drew corresponds to level curves.
+
+208
+00:28:51.520 --> 00:28:54.550
+chuanwu: Okay, and now consider feasibility set.
+
+209
+00:28:55.470 --> 00:29:02.400
+chuanwu: So if the non-convex program, its feasibility set is not a convex set.
+
+210
+00:29:02.530 --> 00:29:08.010
+chuanwu: Okay, no, connect set. And suppose the suppose the set looks like…
+
+211
+00:29:10.280 --> 00:29:14.129
+chuanwu: this. So let me draw one more level curve.
+
+212
+00:29:19.490 --> 00:29:22.189
+chuanwu: Okay, and the,
+
+213
+00:29:28.770 --> 00:29:29.620
+chuanwu: Okay.
+
+214
+00:29:29.770 --> 00:29:35.600
+chuanwu: Suppose the blue curve I drew enclosed the feasibility set.
+
+215
+00:29:36.080 --> 00:29:43.220
+chuanwu: Okay, boundary and interior is a feasibility set. It's… apparently, it's not convex set, right?
+
+216
+00:29:43.420 --> 00:29:44.800
+chuanwu: Okay.
+
+217
+00:29:44.980 --> 00:29:45.730
+chuanwu: Ent?
+
+218
+00:29:52.070 --> 00:29:58.630
+chuanwu: Okay, and we… Check out the point… the point here.
+
+219
+00:29:59.280 --> 00:30:01.000
+chuanwu: So, call it X0.
+
+220
+00:30:01.410 --> 00:30:04.459
+chuanwu: So is at zero a local optimal point?
+
+221
+00:30:05.830 --> 00:30:21.409
+chuanwu: In this example, yes, because you can again verify if we move away slightly from X0, but still remain in the feasibility set, any other nearby point would be lying on several level curves corresponding to larger objective function value.
+
+222
+00:30:21.910 --> 00:30:26.039
+chuanwu: Okay, but is WRO global optimal?
+
+223
+00:30:26.220 --> 00:30:29.439
+chuanwu: No. We actually have global optimal point here.
+
+224
+00:30:31.100 --> 00:30:39.559
+chuanwu: Okay, because this is a point, still in the feasibility set, that touches upon the smallest sublevel set.
+
+225
+00:30:40.220 --> 00:30:41.000
+chuanwu: Right.
+
+226
+00:30:42.050 --> 00:30:42.900
+chuanwu: Okay.
+
+227
+00:30:43.260 --> 00:30:44.350
+chuanwu: Alright.
+
+228
+00:30:45.610 --> 00:30:51.659
+chuanwu: So this is the geometric illustration I want to give, corresponding to the property here.
+
+229
+00:30:52.750 --> 00:31:02.959
+chuanwu: All right, moving on, we will see more properties related to optimality of COMEX programs. We call them optimality criteria for COMEX
+
+230
+00:31:03.490 --> 00:31:08.759
+chuanwu: Probably on convex function, and we start with the, case of, convex function.
+
+231
+00:31:09.160 --> 00:31:13.460
+chuanwu: And, we are given a function f0, X.
+
+232
+00:31:13.580 --> 00:31:25.000
+chuanwu: And, we consider X is the optimal point that minimizes this objective function if X is feasible, and, the inequality there holds.
+
+233
+00:31:25.060 --> 00:31:42.430
+chuanwu: Okay, we call it their host. So essentially, here, we are still dealing with a convex product, but our focus is on the objective function. Our objective function, for the properties we are discussing in the following few slides, we assume the objective function is a differentiable convex function.
+
+234
+00:31:42.430 --> 00:31:50.569
+chuanwu: Okay, differentiable function. And when we assume it's diminishable, you know we are going to introduce this gradient for…
+
+235
+00:31:51.280 --> 00:31:53.810
+chuanwu: I shall do that. Right.
+
+236
+00:31:53.940 --> 00:32:07.350
+chuanwu: And, how about constraints? So we assume there is a set of constraints for the problem, but the constraints are all combined into the set. And we just consider X is, featable, or satisfying all the constraints.
+
+237
+00:32:07.860 --> 00:32:14.619
+chuanwu: And then, what does this inequality mean? Okay, geometrically, it could be,
+
+238
+00:32:15.500 --> 00:32:28.430
+chuanwu: Either to understand if we check out more of the geometry illustration. So here, we are focusing on convex program. So that's the case here, feasibility set, convex, and the level, sublevel sets, convex sets.
+
+239
+00:32:28.680 --> 00:32:29.590
+chuanwu: Okay.
+
+240
+00:32:30.110 --> 00:32:33.010
+chuanwu: Alright, so what is the,
+
+241
+00:32:33.440 --> 00:32:44.860
+chuanwu: What is the, not like the X? It's gradient vector. Okay, gradient vector is pointing towards the direction where the objective function value is increasing.
+
+242
+00:32:46.110 --> 00:32:52.949
+chuanwu: Okay, increasing. So think about the gradient vector consists of partial derivative object function with respect to each variable.
+
+243
+00:32:53.060 --> 00:33:06.279
+chuanwu: So, in the two-dimensional plan, or the n-dimensional plan, in general, the gradient vector at X is pointing towards a direction where the object function value is increased.
+
+244
+00:33:06.770 --> 00:33:23.589
+chuanwu: Okay, and over here, where it… what is the direction along which the object function value is increased? So as pointed by the arrow I drew, the red arrow I drew, right? So that is the direction of gradient F0X.
+
+245
+00:33:26.220 --> 00:33:27.100
+chuanwu: Okay.
+
+246
+00:33:27.400 --> 00:33:35.480
+chuanwu: And, we say the inner product between this gradient vector and Y minus X is larger equal than 0.
+
+247
+00:33:36.030 --> 00:33:38.380
+chuanwu: Okay, so what is Y?
+
+248
+00:33:38.890 --> 00:33:41.730
+chuanwu: So, anyway, in the feasibility set.
+
+249
+00:33:42.680 --> 00:33:48.139
+chuanwu: So suppose our Y is here. So then, what is the direction of the vector y minus X?
+
+250
+00:33:48.820 --> 00:33:52.459
+chuanwu: So the vector I was drawing, drawing is Y minus X star.
+
+251
+00:33:52.620 --> 00:33:53.370
+chuanwu: Right.
+
+252
+00:33:53.930 --> 00:34:00.609
+chuanwu: Okay, so the property there is saying the inner product between the two vectors is larger than zero.
+
+253
+00:34:02.810 --> 00:34:07.200
+chuanwu: It also implies the angle in between the two vectors is acute angle.
+
+254
+00:34:07.690 --> 00:34:11.190
+chuanwu: Right. Okay, so that's the implication over there.
+
+255
+00:34:12.370 --> 00:34:22.910
+chuanwu: Okay, and it's pretty intuitive, right? The reason is, X star is, optimal. Okay, we are trying to establish X here, so X here.
+
+256
+00:34:23.179 --> 00:34:24.449
+chuanwu: is optimal.
+
+257
+00:34:24.550 --> 00:34:28.059
+chuanwu: Then, for any other way in the feasibility set.
+
+258
+00:34:28.250 --> 00:34:34.630
+chuanwu: the angle of, the, vector Y minus X, and the,
+
+259
+00:34:35.389 --> 00:34:39.000
+chuanwu: And the gradient vector should be a cued angle.
+
+260
+00:34:39.870 --> 00:34:46.429
+chuanwu: So that is… that also means the Y is more or less along the direction of increasing objective function value.
+
+261
+00:34:46.949 --> 00:34:48.249
+chuanwu: As compared to X.
+
+262
+00:34:48.530 --> 00:34:52.419
+chuanwu: So that's why X is smaller, which is the smallest objective function value.
+
+263
+00:34:54.330 --> 00:34:55.230
+chuanwu: Okay.
+
+264
+00:35:06.290 --> 00:35:18.469
+chuanwu: All right, so I hope you get the point. Geometrically, you can verify. So for any other Y, nearby X, or far away from X, as long as it is in a feasibility set.
+
+265
+00:35:18.560 --> 00:35:27.289
+chuanwu: You will find out Y minus X is pretty much along, or within an acute angle from the increasing direction of object contract.
+
+266
+00:35:28.210 --> 00:35:29.000
+chuanwu: Okay.
+
+267
+00:35:30.230 --> 00:35:40.459
+chuanwu: All right, so geometrically, that's how we understand this inequality, and mathematically, we can show the proof. So why this, inequality is,
+
+268
+00:35:40.680 --> 00:35:46.800
+chuanwu: necessary observation conditions to establish access global optimum for the COX program.
+
+269
+00:35:47.290 --> 00:35:50.780
+chuanwu: Here. Okay, so that briefly goes to the proof.
+
+270
+00:35:50.940 --> 00:36:09.039
+chuanwu: And, after convex division more, that first-order condition holds. Remember, we already established a few properties, a few, conditions, properties related to optimism related to convex function earlier. So that's the first order condition, which means the,
+
+271
+00:36:09.060 --> 00:36:12.539
+chuanwu: First-order approximation is an underestimated.
+
+272
+00:36:12.730 --> 00:36:15.619
+chuanwu: Okay, if you don't remember, go back to earlier slide.
+
+273
+00:36:15.900 --> 00:36:26.300
+chuanwu: And, here we are showing insufficiency of the condition to establish that, X is optimal, and this inequality holds between any pair of X and Y.
+
+274
+00:36:26.740 --> 00:36:34.480
+chuanwu: And here, assume we know, X is fixed, and for any Y, that's the equality in the, property holds.
+
+275
+00:36:34.790 --> 00:36:48.090
+chuanwu: And then, what we can get is here. Okay, because this part is negative to zero, and then removing it, what we get is F0 Y is not equal to F0X, right?
+
+276
+00:36:49.150 --> 00:36:56.660
+chuanwu: Okay, and this is true for any Y invisibility set, and this established access thermal minimum.
+
+277
+00:36:57.290 --> 00:36:58.100
+chuanwu: Right.
+
+278
+00:36:59.080 --> 00:37:01.370
+chuanwu: Okay, so I'm simple, and they need proof.
+
+279
+00:37:01.670 --> 00:37:06.530
+chuanwu: And then, following it, we show the necessity of the condition.
+
+280
+00:37:06.740 --> 00:37:13.339
+chuanwu: And next to the condition is, we try to establish if X is optimal, then the inequality holds.
+
+281
+00:37:13.750 --> 00:37:14.710
+chuanwu: Okay.
+
+282
+00:37:14.870 --> 00:37:34.600
+chuanwu: And here, we know X is optimal, so F dual X is minimal among all the F points in the problems of feasibility set, and we prove by contradiction. We assume, for some Y in the feasibility set, the inequality doesn't hold, okay, smaller than theore. Inner product is smaller than theore.
+
+283
+00:37:34.830 --> 00:37:42.270
+chuanwu: Okay, so meaning the Y point is, some dis… some distance away from X with,
+
+284
+00:37:42.970 --> 00:37:47.490
+chuanwu: Larger than 90 degrees, and go from the gradient vector's direction.
+
+285
+00:37:48.100 --> 00:37:56.229
+chuanwu: Okay, and then, again, we do a construction. We construct a convex combination point D between Y and X,
+
+286
+00:37:56.560 --> 00:38:02.630
+chuanwu: And then we try to make use, or we try to evaluate the,
+
+287
+00:38:03.220 --> 00:38:12.460
+chuanwu: derivative of S0 D with respect to how far away, how far away we move away, how far we move away from point X.
+
+288
+00:38:12.690 --> 00:38:26.320
+chuanwu: Okay, so D is correct combination between X and Y using the argument using the coefficient Theta. So F0D is essentially F0 Theta Y plus Y minus theta.
+
+289
+00:38:26.480 --> 00:38:27.610
+chuanwu: times X.
+
+290
+00:38:27.960 --> 00:38:40.670
+chuanwu: Theta y plus 1 minus theta times X, yes. Okay, so we calculate partial derivative. Okay, partial derivative of 0 Z with respect to theta, assuming X and Y are given.
+
+291
+00:38:41.630 --> 00:38:46.019
+chuanwu: And, what is this? So check out the concrete form here.
+
+292
+00:38:46.200 --> 00:39:02.740
+chuanwu: So, concrete form F0Z is F0 theta Y plus 1 minus theta X. So, essentially, this, if we make theta goes from 0, this partial derivative is actually so-called directional derivative of the,
+
+293
+00:39:03.000 --> 00:39:05.750
+chuanwu: the directional derivative of the M.
+
+294
+00:39:05.970 --> 00:39:08.920
+chuanwu: F0.
+
+295
+00:39:09.050 --> 00:39:10.339
+chuanwu: At the point.
+
+296
+00:39:12.610 --> 00:39:20.889
+chuanwu: Okay, and so this is not the first time that we see the definition of directional derivatives. Let me put down…
+
+297
+00:39:21.150 --> 00:39:23.859
+chuanwu: Slightly more comfortable.
+
+298
+00:39:24.690 --> 00:39:28.370
+chuanwu: So we'll, come, great.
+
+299
+00:39:28.680 --> 00:39:29.750
+chuanwu: I dear.
+
+300
+00:39:31.500 --> 00:39:33.490
+chuanwu: The V is…
+
+301
+00:39:56.400 --> 00:40:02.779
+chuanwu: Okay, so this is, equivalent, this is exactly…
+
+302
+00:40:07.110 --> 00:40:09.249
+chuanwu: Okay, I should be arriving at you.
+
+303
+00:40:10.260 --> 00:40:12.170
+chuanwu: with respect to CLAP,
+
+304
+00:40:24.820 --> 00:40:28.739
+chuanwu: So this factor, besides the direction.
+
+305
+00:40:28.940 --> 00:40:31.719
+chuanwu: Following which, we are moving away from X.
+
+306
+00:40:32.090 --> 00:40:42.379
+chuanwu: Okay, so here, so Z can be considered to be a vector that moves away from X by the amount of sigma along the direction of Y minus X, which is V.
+
+307
+00:40:42.950 --> 00:40:43.690
+chuanwu: Oh.
+
+308
+00:40:44.600 --> 00:40:56.309
+chuanwu: Okay, and now we make the theta very small, and the result here is considered to be the directional derivative of F0, FX, along the direction of Y minus X.
+
+309
+00:40:58.710 --> 00:40:59.590
+chuanwu: Okay.
+
+310
+00:40:59.780 --> 00:41:03.840
+chuanwu: I'll say that again. So here, this is our X.
+
+311
+00:41:04.050 --> 00:41:07.569
+chuanwu: And the directional derivative is computed
+
+312
+00:41:09.490 --> 00:41:14.149
+chuanwu: As computed this way, is the directional derivative.
+
+313
+00:41:14.440 --> 00:41:17.810
+chuanwu: as of F0, as X.
+
+314
+00:41:18.700 --> 00:41:22.759
+chuanwu: along the direction of Y minus X, along this direction.
+
+315
+00:41:24.270 --> 00:41:34.339
+chuanwu: Okay, and the definition is here. So, directional derivative of F and X in the direction of V, so in our concrete case, V is Y minus X.
+
+316
+00:41:34.680 --> 00:41:42.460
+chuanwu: Okay? It's defined this way. So, if the amount you are moving away from X, As decided by the
+
+317
+00:41:43.130 --> 00:41:47.069
+chuanwu: scalar value t, goes to zero.
+
+318
+00:41:47.220 --> 00:41:56.809
+chuanwu: Then, the value here, or the directional derivative value here, equivalent to inner product between the gradient vector at
+
+319
+00:41:57.170 --> 00:41:59.370
+chuanwu: X, under the direction.
+
+320
+00:42:01.940 --> 00:42:02.900
+chuanwu: Okay.
+
+321
+00:42:03.040 --> 00:42:11.050
+chuanwu: And to understand this further, Icon.
+
+322
+00:42:11.170 --> 00:42:13.800
+chuanwu: Put down more for you to understand.
+
+323
+00:42:13.910 --> 00:42:14.950
+chuanwu: Further.
+
+324
+00:42:16.440 --> 00:42:26.059
+chuanwu: Okay, so this is a directional derivative… this is a partial derivative called partial derivative force. So this is the partial derivative they are calculating, right?
+
+325
+00:42:26.170 --> 00:42:37.590
+chuanwu: Okay, if we multiply the direction Y minus X on both numerator and the denominator here, so it's still equivalent, right?
+
+326
+00:42:39.330 --> 00:42:40.180
+chuanwu: Okay.
+
+327
+00:42:40.400 --> 00:42:41.370
+chuanwu: F?
+
+328
+00:42:47.290 --> 00:42:49.100
+chuanwu: And we consider…
+
+329
+00:42:52.220 --> 00:42:53.859
+chuanwu: The whole theme here.
+
+330
+00:42:54.300 --> 00:42:55.890
+chuanwu: The whole thing here.
+
+331
+00:42:57.180 --> 00:42:58.640
+chuanwu: as Sigma.
+
+332
+00:42:58.760 --> 00:42:59.889
+chuanwu: It's a small cigaret.
+
+333
+00:43:00.000 --> 00:43:06.560
+chuanwu: Then, what we got is… X plus sigma.
+
+334
+00:43:07.730 --> 00:43:09.059
+chuanwu: Y minus X.
+
+335
+00:43:11.130 --> 00:43:12.150
+chuanwu: End?
+
+336
+00:43:12.480 --> 00:43:13.410
+chuanwu: See the left.
+
+337
+00:43:14.460 --> 00:43:21.390
+chuanwu: Okay, sigma is not only the quantity, but also the direction. Okay, sigma itself is a vector, right?
+
+338
+00:43:22.150 --> 00:43:23.070
+chuanwu: Okay.
+
+339
+00:43:23.430 --> 00:43:24.530
+chuanwu: All right.
+
+340
+00:43:26.490 --> 00:43:28.500
+chuanwu: What is the…
+
+341
+00:43:32.670 --> 00:43:33.919
+chuanwu: What is this?
+
+342
+00:43:35.510 --> 00:43:36.520
+chuanwu: complicated.
+
+343
+00:43:37.010 --> 00:43:39.789
+chuanwu: So this is actually the derivative.
+
+344
+00:43:41.070 --> 00:43:43.029
+chuanwu: of F2, or FX.
+
+345
+00:43:43.220 --> 00:43:44.360
+chuanwu: derivative.
+
+346
+00:43:44.580 --> 00:43:56.490
+chuanwu: And based on the connection between derivative and gradient, remember last time I put on the board, so derivative of a vector with respect to a vector.
+
+347
+00:43:57.250 --> 00:43:58.319
+chuanwu: You quills.
+
+348
+00:43:58.970 --> 00:44:00.760
+chuanwu: Greetings, transpose.
+
+349
+00:44:02.870 --> 00:44:11.619
+chuanwu: Okay, if you don't remember, check out what we talked last time, and especially check out maybe the Appendix 8.4 of the textbook.
+
+350
+00:44:11.780 --> 00:44:12.630
+chuanwu: Okay.
+
+351
+00:44:12.760 --> 00:44:16.700
+chuanwu: So that is exactly gradient transpose.
+
+352
+00:44:17.270 --> 00:44:21.089
+chuanwu: According to the connection between derivative and gradient.
+
+353
+00:44:22.420 --> 00:44:24.830
+chuanwu: Okay, derivative is a role vector.
+
+354
+00:44:25.330 --> 00:44:29.249
+chuanwu: And the gradient is a column vector, as I pointed out last time.
+
+355
+00:44:33.340 --> 00:44:39.930
+chuanwu: Okay, and this is exactly how we derive the directional derivative formula here.
+
+356
+00:44:43.470 --> 00:44:44.310
+chuanwu: Okay.
+
+357
+00:44:46.500 --> 00:45:02.790
+chuanwu: All right, so eventually what you should remember, understand and remember is here. The direction derivative function at X along a particular direction decided by a vector V is computed as inner product between the gradient vector and the direction.
+
+358
+00:45:03.960 --> 00:45:07.490
+chuanwu: And the detailed derivation of this formula is over there.
+
+359
+00:45:08.380 --> 00:45:11.640
+chuanwu: Okay, we just use the fundamental concept of the derivative.
+
+360
+00:45:12.090 --> 00:45:15.400
+chuanwu: And gradient, and set up the connection there.
+
+361
+00:45:18.050 --> 00:45:18.920
+chuanwu: Okay.
+
+362
+00:45:23.470 --> 00:45:33.430
+chuanwu: Alright, two special example or cases, a few, special cases of the, your action.
+
+363
+00:46:14.090 --> 00:46:16.660
+chuanwu: So consider two special directions.
+
+364
+00:46:30.160 --> 00:46:37.949
+chuanwu: Okay, if we consider two special directions, of course, in this example, we are considering X in R2.
+
+365
+00:46:38.330 --> 00:46:39.180
+chuanwu: Right.
+
+366
+00:46:39.810 --> 00:46:41.689
+chuanwu: Okay, so we…
+
+367
+00:46:42.720 --> 00:46:58.540
+chuanwu: vector 01, so what does it mean? So this is a horizontal axis, right? The direction is pointing towards… it is pointing along the horizontal axis. And for a direction in this way, it's pointing along there.
+
+368
+00:46:58.700 --> 00:47:04.959
+chuanwu: Hor… sorry. Vertical axis. Okay, horizontal axis, right?
+
+369
+00:47:05.530 --> 00:47:10.910
+chuanwu: Okay, and then the, directional derivative.
+
+370
+00:47:18.860 --> 00:47:28.580
+chuanwu: In the first case, what is it exactly like? It would be the partial derivative with respect to X2.
+
+371
+00:47:30.750 --> 00:47:32.410
+chuanwu: Right? Agreed?
+
+372
+00:47:34.150 --> 00:47:35.100
+chuanwu: Okay.
+
+373
+00:47:35.630 --> 00:47:38.719
+chuanwu: for V1, call it the V1, V2.
+
+374
+00:47:39.890 --> 00:47:42.209
+chuanwu: And a directional derivative.
+
+375
+00:47:42.860 --> 00:47:47.480
+chuanwu: along the direction of V2, It's exactly the
+
+376
+00:47:50.280 --> 00:47:53.539
+chuanwu: partial derivatives with respect to X1.
+
+377
+00:47:56.050 --> 00:47:56.980
+chuanwu: Agree?
+
+378
+00:47:58.870 --> 00:47:59.850
+chuanwu: Okay.
+
+379
+00:48:01.690 --> 00:48:13.349
+chuanwu: Yeah, because these are two special directions along the horizontal and vertical axis, okay, and then our directional derivative is exactly the partial derivative.
+
+380
+00:48:13.880 --> 00:48:18.319
+chuanwu: for X1 or X2, which is X1 or X2 that we are familiar with.
+
+381
+00:48:18.590 --> 00:48:22.669
+chuanwu: Okay. And the notion… oh, yeah.
+
+382
+00:48:22.920 --> 00:48:30.449
+chuanwu: General version of the directional derivative is just a generalization of that partial derivative concept.
+
+383
+00:48:32.190 --> 00:48:35.119
+chuanwu: Allow any direction defined by me.
+
+384
+00:48:38.500 --> 00:48:39.680
+chuanwu: Okay, it's…
+
+385
+00:48:48.040 --> 00:48:49.230
+chuanwu: All right.
+
+386
+00:48:58.460 --> 00:49:03.080
+chuanwu: Okay, if there is… No question, Amoa.
+
+387
+00:49:04.070 --> 00:49:17.460
+chuanwu: Okay, so here, what we are clarifying is, this, partial derivative of 0D with respect to theta is exactly the F-directional derivative of the,
+
+388
+00:49:17.540 --> 00:49:33.599
+chuanwu: function along the direction Y minus X. Okay, and according to our assumption, we assume this inert depth is smaller than zero. Okay, so when it's smaller than zero, it actually, points out a contradiction.
+
+389
+00:49:33.870 --> 00:49:41.149
+chuanwu: So when it's smaller than 0, once it is small, essentially we know F0XD is smaller than F0X.
+
+390
+00:49:41.920 --> 00:49:46.039
+chuanwu: Okay, steal back to the definition, here.
+
+391
+00:50:28.230 --> 00:50:29.410
+chuanwu: Hold it.
+
+392
+00:50:29.680 --> 00:50:36.060
+chuanwu: So the, derive it with respect to CETA, right?
+
+393
+00:50:37.860 --> 00:50:41.069
+chuanwu: Let me see which one I should point to.
+
+394
+00:50:55.130 --> 00:50:56.300
+chuanwu: Okay, here.
+
+395
+00:51:01.280 --> 00:51:12.689
+chuanwu: So the… now, what we derived is this partial derivative is smaller than 0. And lastly, the partial derivative, how is it calculated? It is calculated
+
+396
+00:51:13.480 --> 00:51:14.660
+chuanwu: this way.
+
+397
+00:51:27.350 --> 00:51:28.210
+chuanwu: All day.
+
+398
+00:51:36.210 --> 00:51:43.440
+chuanwu: Right? So this is the very fundamental definition of derivative over, scalar quantitative, right? Okay.
+
+399
+00:51:43.600 --> 00:51:51.980
+chuanwu: So, essentially, here we say C doesn't 0, we result in F0 of X. If we see that it's not 0, what we have is F0Z.
+
+400
+00:51:52.540 --> 00:51:59.189
+chuanwu: And if this is smaller than 0, it implies F0Z is smaller than F0X, right?
+
+401
+00:52:01.110 --> 00:52:02.040
+chuanwu: Agreed.
+
+402
+00:52:03.010 --> 00:52:03.880
+chuanwu: Okay.
+
+403
+00:52:04.310 --> 00:52:05.859
+chuanwu: So that's a contradiction.
+
+404
+00:52:11.380 --> 00:52:23.600
+chuanwu: Okay, and then, from all the analysis, what we have proven is both the sufficient and necessity of the condition to establish, X is, global optimal of the convex program.
+
+405
+00:52:40.050 --> 00:52:40.750
+chuanwu: Okay.
+
+406
+00:52:41.030 --> 00:52:51.160
+chuanwu: And then moving on, we will see more optimistic criteria for, differentiable, comments proven with, differentiable, objectivity.
+
+407
+00:52:51.460 --> 00:53:10.890
+chuanwu: And, here, let's now, the problem that we studied just now is for general convex problem, and here, we first limited our, attention to unconstrained problem. So for unconstrained problem, we only have a differentiable convex objective function at 0x to mean max.
+
+408
+00:53:10.890 --> 00:53:20.999
+chuanwu: We don't have any explicit constraint. And of course, as the overall function may have its domain. So, like, for a log function, we have to require domain to be larger, x to be larger than 0.
+
+409
+00:53:21.540 --> 00:53:33.860
+chuanwu: Okay, we know X is optimal if and only if x is in the domain of the objective function, and the gradient of the objective function at X is all zero vector.
+
+410
+00:53:33.990 --> 00:53:48.110
+chuanwu: So, essentially, this is a property we have made use of. This corresponds to a property we have made use of a few times so far, right? So, gradient vector consists of partial derivative of object function with respect to each variable.
+
+411
+00:53:48.110 --> 00:53:59.200
+chuanwu: So therefore, the gradient equals of zero vector is equivalent to a number of equalities, okay, setting the gradient to… has the derivatives to zero.
+
+412
+00:53:59.890 --> 00:54:09.239
+chuanwu: Okay, next, let's briefly check on the proof. Okay, proof of this property being sufficient necessary to establish as being optimal.
+
+413
+00:54:09.900 --> 00:54:13.669
+chuanwu: We show the necessity first, and,
+
+414
+00:54:13.670 --> 00:54:30.569
+chuanwu: Yes, so we assume X is optimal, so meaning X minimizes the objective function. Then, from the quantity we have established just now, so we know the limit protracted between the gradient vector and any directional vector moving away from X is subject to zero.
+
+415
+00:54:32.560 --> 00:54:42.620
+chuanwu: Okay, and, now we consider F0 is differentiable, and for differentiable function, its domain has to be, open. Okay.
+
+416
+00:54:45.430 --> 00:54:56.340
+chuanwu: And then, all Y. Consider any other point Y very close to X, so any point, very close to X should be fetal.
+
+417
+00:54:56.940 --> 00:55:01.100
+chuanwu: Okay, according to the, differentiability of the domain.
+
+418
+00:55:01.540 --> 00:55:03.720
+chuanwu: Even if we function on the domain.
+
+419
+00:55:04.240 --> 00:55:16.700
+chuanwu: And we construct a point Y. Okay, so Y is about moving away, some distance away from X, moving away by theta amount along the direction of the F gradient.
+
+420
+00:55:16.800 --> 00:55:18.330
+chuanwu: of the function of X.
+
+421
+00:55:20.250 --> 00:55:27.590
+chuanwu: And then, we make use of the inner product in this concrete case, because Y minus X is,
+
+422
+00:55:28.770 --> 00:55:40.300
+chuanwu: 1 minus X is negative theta gradient, and the inner product here will be equivalent to negative theta inner product of the gradient vector with itself.
+
+423
+00:55:41.130 --> 00:55:46.660
+chuanwu: And a vector in the product base itself equals the vectors L to norm squared.
+
+424
+00:55:47.010 --> 00:55:48.719
+chuanwu: Right? Okay.
+
+425
+00:55:49.000 --> 00:55:57.029
+chuanwu: And what we have is this quantitative is to be largely equal to zero, according to the problem that we established earlier.
+
+426
+00:55:58.060 --> 00:56:07.629
+chuanwu: Okay, but we do know L2 non-squared is likely equal to 0, theta is likely equal to 0, so negative of the whole thing should be smaller or equal to 0.
+
+427
+00:56:07.740 --> 00:56:08.530
+chuanwu: Right.
+
+428
+00:56:08.680 --> 00:56:15.120
+chuanwu: And we have it both being positive… larger equal to 0 and smaller equal to zero, then the only possibility is
+
+429
+00:56:15.240 --> 00:56:17.269
+chuanwu: The backstory is exactly zero.
+
+430
+00:56:18.460 --> 00:56:19.440
+chuanwu: Right?
+
+431
+00:56:20.400 --> 00:56:21.320
+chuanwu: Okay.
+
+432
+00:56:21.660 --> 00:56:23.210
+chuanwu: And Dutch.
+
+433
+00:56:24.760 --> 00:56:29.249
+chuanwu: And this show… this proves the ethnicity of motivation.
+
+434
+00:56:31.600 --> 00:56:37.540
+chuanwu: And moving on, we have other… I don't have sufficiency of the foundation.
+
+435
+00:56:37.890 --> 00:56:42.439
+chuanwu: Right, so the other direction of the tooth…
+
+436
+00:56:48.480 --> 00:56:52.129
+chuanwu: Okay, so the other direction of proof is easy to establish.
+
+437
+00:56:53.510 --> 00:56:58.259
+chuanwu: Right? Because then you're gonna be using the prop per day on the previous page.
+
+438
+00:56:58.500 --> 00:57:01.870
+chuanwu: Please definitely act as optimal in this unconscreen evaluation periods.
+
+439
+00:57:02.870 --> 00:57:03.750
+chuanwu: All right.
+
+440
+00:57:07.230 --> 00:57:12.819
+chuanwu: And moving on, next we check out convex program with equality constraints.
+
+441
+00:57:12.970 --> 00:57:27.799
+chuanwu: And convex program is equality constraints, meaning we are minimizing a convex objective function subject to a set of R5 equality constraints. Okay, remember, in convex program, the equality constraints have to be all R5.
+
+442
+00:57:28.380 --> 00:57:35.269
+chuanwu: Okay, what we… the problem that we have is here, X is optimal if and only if there exists a new
+
+443
+00:57:35.380 --> 00:57:47.380
+chuanwu: Such that X is in the function, and X is feasible, satisfying the quality constraint, and together with this equation that it is satisfied.
+
+444
+00:57:47.870 --> 00:57:48.680
+chuanwu: Okay.
+
+445
+00:57:48.820 --> 00:57:58.090
+chuanwu: The equation says the gradient, of X derived X plus A transpose mu for that mu is exactly 0.
+
+446
+00:57:59.590 --> 00:58:19.740
+chuanwu: So we will briefly, lay out the proof for this, but then, just to give you, actually brush you up of some fundamental knowledge from Linhe Algebra and others. But actually, later on, when we introduce the more generic optimality conditions for general science program, which is called KKT conditions.
+
+447
+00:58:19.740 --> 00:58:24.609
+chuanwu: Over there, we'll find out, this is just a special case.
+
+448
+00:58:24.670 --> 00:58:26.430
+chuanwu: of KG Foundations.
+
+449
+00:58:26.530 --> 00:58:30.710
+chuanwu: under… for… for college program, it's only called identical streets.
+
+450
+00:58:31.150 --> 00:58:32.040
+chuanwu: Okay.
+
+451
+00:58:32.470 --> 00:58:35.420
+chuanwu: Alright, so let's check out the…
+
+452
+00:58:37.640 --> 00:58:45.630
+chuanwu: Yeah, I'm also only showing the, necessity of the elevation, the other direction field, if we are.
+
+453
+00:58:45.780 --> 00:58:50.920
+chuanwu: you can try it. You can enjoy your exercise.
+
+454
+00:58:52.230 --> 00:58:53.180
+chuanwu: Alright.
+
+455
+00:58:55.270 --> 00:58:59.369
+chuanwu: Okay, what we want to establish now
+
+456
+00:59:00.130 --> 00:59:07.170
+chuanwu: is that X is outlaw, and then it will show that all the conditions are satisfied.
+
+457
+00:59:07.500 --> 00:59:12.049
+chuanwu: And, ZVAX is optimal, of course, it is,
+
+458
+00:59:12.400 --> 00:59:23.600
+chuanwu: Satisfied the equality constraints, and it is in the domain of objective function, and what we only need to establish is the last equality.
+
+459
+00:59:23.710 --> 00:59:32.970
+chuanwu: Okay, so the last equality actually contains 10 different equations. Consider the gradient vector itself is a vector.
+
+460
+00:59:34.560 --> 00:59:52.039
+chuanwu: Okay, okay. Now we make use of a property we have established before, assuming X is optimal. Then, for any Y that is feasible, the inner product between the gradient vector and the difference vector Y minus X should be non-active.
+
+461
+00:59:53.790 --> 00:59:56.939
+chuanwu: And we also know X is fetal.
+
+462
+00:59:57.070 --> 01:00:04.959
+chuanwu: And then, for any… we can express, any featable way, to be…
+
+463
+01:00:05.080 --> 01:00:07.930
+chuanwu: According to Acts and the new.
+
+464
+01:00:08.370 --> 01:00:21.390
+chuanwu: Okay, let's say that again. So, X is field, and Y is field, and we can set up, we can express Y using X plus mu, or sort of mu in the null space of matrix A.
+
+465
+01:00:21.560 --> 01:00:29.339
+chuanwu: Okay, so here's a vision of some linear algebra knowledge regarding null space of a matrix, or end.
+
+466
+01:00:29.520 --> 01:00:32.590
+chuanwu: The range of a matrix.
+
+467
+01:00:57.640 --> 01:00:59.349
+chuanwu: Do we use N8?
+
+468
+01:00:59.630 --> 01:01:03.249
+chuanwu: Rapid land, no space.
+
+469
+01:01:03.810 --> 01:01:06.640
+chuanwu: of matrix A. Okay, and A.
+
+470
+01:01:06.820 --> 01:01:12.790
+chuanwu: It's… containing all the X.
+
+471
+01:01:29.720 --> 01:01:34.420
+chuanwu: Okay, so the null space of a matrix is a set of vectors.
+
+472
+01:01:34.700 --> 01:01:38.169
+chuanwu: And for those vectors, AS equals 0.
+
+473
+01:01:38.880 --> 01:01:44.590
+chuanwu: Okay, and then the next notion is regarding range of a matrix.
+
+474
+01:01:58.520 --> 01:02:01.940
+chuanwu: Okay, so the range of a matrix, is of…
+
+475
+01:02:02.290 --> 01:02:08.699
+chuanwu: vector set as well. So those vector values can be achieved by A times some vector X.
+
+476
+01:02:09.630 --> 01:02:16.670
+chuanwu: Okay, so if A is… Adam comes… F?
+
+477
+01:02:17.010 --> 01:02:17.860
+chuanwu: Dad?
+
+478
+01:02:21.260 --> 01:02:24.629
+chuanwu: the, vector Vs are in M-dimensional space.
+
+479
+01:02:26.260 --> 01:02:27.630
+chuanwu: Okay, alright.
+
+480
+01:02:28.390 --> 01:02:48.210
+chuanwu: So we said Y, every feasible Y can be expressed as X plus mu, or some mu, in the null space of A. So the reason is, when Y equals X plus mu, if we do A, A, we multiply to the left, left multiply with matrix A,
+
+481
+01:02:48.280 --> 01:02:52.370
+chuanwu: The right-hand side is AX plus A mu.
+
+482
+01:02:53.070 --> 01:03:04.719
+chuanwu: AX equals B, that's what we want, because we want AY equals B, right? Because Y is feasible. And A mu is 0, because mu is in the known space of matrix A.
+
+483
+01:03:05.330 --> 01:03:06.860
+chuanwu: So that's the point, yeah.
+
+484
+01:03:18.950 --> 01:03:19.800
+chuanwu: Okay.
+
+485
+01:03:20.110 --> 01:03:30.319
+chuanwu: And now, we consider… we substitute Y by X plus mu, and then Y minus X is exactly, mu, right?
+
+486
+01:03:30.460 --> 01:03:42.070
+chuanwu: And we know, according to this inequality, we know the inner product between the gradient vector and the intricular for the space of A, right?
+
+487
+01:03:43.310 --> 01:03:44.050
+chuanwu: Eve?
+
+488
+01:03:44.180 --> 01:03:57.629
+chuanwu: On the other hand, negative mu also belongs… negative mu also belongs to the null space, and therefore, this inequality holds if we replace mu by negative mu as well.
+
+489
+01:03:58.340 --> 01:04:03.680
+chuanwu: Because A mu, negative A mu equals zero, plus equals zero, right?
+
+490
+01:04:04.230 --> 01:04:08.130
+chuanwu: Okay, so therefore, what we derive is the,
+
+491
+01:04:08.300 --> 01:04:15.020
+chuanwu: In the product in between, the gradient vector and that nu in the null space of A should be exactly zero.
+
+492
+01:04:15.680 --> 01:04:23.900
+chuanwu: So if the inner product between the two vectors is exactly zero, for any vector mu in a known space, then we know
+
+493
+01:04:24.510 --> 01:04:34.580
+chuanwu: The gradient vector is perpendicular to the null space. Perpendicular definition is the interconnect between this vector and all vector in the space is
+
+494
+01:04:34.730 --> 01:04:35.650
+chuanwu: viral.
+
+495
+01:04:36.350 --> 01:04:37.160
+chuanwu: Right.
+
+496
+01:04:38.260 --> 01:04:39.170
+chuanwu: Okay.
+
+497
+01:04:40.710 --> 01:04:46.040
+chuanwu: And then, the perpendicular space.
+
+498
+01:04:46.200 --> 01:04:52.489
+chuanwu: of no space of A is the range space of A transpose.
+
+499
+01:04:53.800 --> 01:04:59.240
+chuanwu: Okay, so staff can be… Established here.
+
+500
+01:05:04.040 --> 01:05:08.909
+chuanwu: the range of A… Or is there understanding?
+
+501
+01:05:13.710 --> 01:05:16.149
+chuanwu: Just make it press false.
+
+502
+01:05:16.400 --> 01:05:17.590
+chuanwu: principles.
+
+503
+01:05:35.700 --> 01:05:41.880
+chuanwu: Okay, so consider mu in the known space of A, and then consider B.
+
+504
+01:05:41.960 --> 01:05:55.790
+chuanwu: in a range of A transpose. So, when we say the two states are perpendicular to each other, what does it mean as mu transpose V to be 0.
+
+505
+01:06:00.330 --> 01:06:03.920
+chuanwu: Okay, U transpose… Meat should be zero.
+
+506
+01:06:07.190 --> 01:06:12.969
+chuanwu: And here we have AX equals mil. Sorry, A mil equals zero.
+
+507
+01:06:20.430 --> 01:06:32.679
+chuanwu: Okay, mu is in the known space of A, so A mu equals 0. And V is in the range of A transpose. That means there is A transpose D equals
+
+508
+01:06:33.140 --> 01:06:33.930
+chuanwu: V.
+
+509
+01:06:34.130 --> 01:06:34.920
+chuanwu: Right.
+
+510
+01:06:35.190 --> 01:06:43.040
+chuanwu: Okay, and, mu transpose, A transpose, ethos thereof.
+
+511
+01:06:43.240 --> 01:06:48.590
+chuanwu: And if we multiply… V on both sides is still there.
+
+512
+01:06:48.770 --> 01:06:51.150
+chuanwu: So what do we derive as indeed?
+
+513
+01:06:52.370 --> 01:07:00.020
+chuanwu: A transpose D is V. So what we derive is, indeed, mu transpose V equals 0.
+
+514
+01:07:00.820 --> 01:07:03.290
+chuanwu: Go ahead, just apply the,
+
+515
+01:07:03.480 --> 01:07:13.199
+chuanwu: definition of range and null space, and we can derive any vector V in the range of A transpose matrix.
+
+516
+01:07:13.350 --> 01:07:18.980
+chuanwu: is, perpendicular to any vector in the node space of A.
+
+517
+01:07:20.370 --> 01:07:21.260
+chuanwu: Okay.
+
+518
+01:07:22.020 --> 01:07:32.159
+chuanwu: All right, so this is established, then what we have is the gradient should be lamb productivity of A transpose matrix.
+
+519
+01:07:33.920 --> 01:07:47.100
+chuanwu: Because, it is conceivable, and with a space, containing all vectors potentially relative NA is our A transpose, so reading a vector belongs to a range of A transpose.
+
+520
+01:07:49.910 --> 01:07:53.829
+chuanwu: Okay, and then, according to definition of range.
+
+521
+01:07:54.090 --> 01:08:04.580
+chuanwu: as there, so there exists a sound factor nu, such that A transpose nu equals the, radiant vector.
+
+522
+01:08:05.230 --> 01:08:11.719
+chuanwu: And this will be exactly trans… can be exactly translated to the equation we want to show about.
+
+523
+01:08:22.720 --> 01:08:30.270
+chuanwu: Okay, so let's take a short break, 5 minutes break before we continue.
+
+524
+01:10:30.620 --> 01:10:31.500
+chuanwu: That's fine.
+
+525
+01:10:46.510 --> 01:10:47.760
+chuanwu: What is holding up?
+
+526
+01:10:51.200 --> 01:10:51.970
+chuanwu: this year.
+
+527
+01:11:28.720 --> 01:11:30.589
+chuanwu: the styles of money.
+
+528
+01:11:41.850 --> 01:11:42.550
+chuanwu: Beautiful.
+
+529
+01:12:14.820 --> 01:12:15.610
+chuanwu: Thank you, Paul.
+
+530
+01:12:32.810 --> 01:12:33.780
+chuanwu: Beautiful.
+
+531
+01:12:34.190 --> 01:12:35.700
+chuanwu: Absolutely.
+
+532
+01:13:18.740 --> 01:13:23.730
+chuanwu: All right, let's continue with our lecture today for the next half an hour or so.
+
+533
+01:13:23.960 --> 01:13:37.240
+chuanwu: Okay, so the next optimistic criteria is for complex objective function, to be minimized to subject to or over the non-necting offset. Okay.
+
+534
+01:13:37.240 --> 01:13:48.540
+chuanwu: So here, we are minimizing X with M0 X is differentiable from X, and our constraints require X larger than 0 when we generalize the equality.
+
+535
+01:13:48.630 --> 01:14:03.270
+chuanwu: So when we have a vector to the left-hand side, on one side of the generalized inequality sign, it means component-wise inequality. That also means X1, X2 after xn, all the components in X should be non-active.
+
+536
+01:14:03.270 --> 01:14:12.239
+chuanwu: Okay, so if X is in… all components of X is non-active, we know X is in the non-negative offset of the dimensional space.
+
+537
+01:14:12.530 --> 01:14:13.420
+chuanwu: Okay.
+
+538
+01:14:13.810 --> 01:14:28.130
+chuanwu: And, in this case, our operatic definition is here. So X is optimal if X is in a domain of the objective function, and that all the components in X is non-active, and we have that if the
+
+539
+01:14:28.130 --> 01:14:41.929
+chuanwu: ice component of the gradient vector here. So here, this denotes the ice component in the gradient vector, and what exactly it means is the partial derivative of X over X with respect to Xi.
+
+540
+01:14:42.800 --> 01:14:43.610
+chuanwu: Okay.
+
+541
+01:14:43.990 --> 01:14:44.840
+chuanwu: Here.
+
+542
+01:15:16.450 --> 01:15:21.050
+chuanwu: Okay, here, Nakla FX… Aye.
+
+543
+01:15:21.420 --> 01:15:26.740
+chuanwu: You should know it's equivalent to The partial derivative here.
+
+544
+01:15:28.080 --> 01:15:30.219
+chuanwu: Okay, just a different notation.
+
+545
+01:15:31.160 --> 01:15:42.550
+chuanwu: So the partial derivative… the partial derivative with respect to Xi is not active, then Xi has to be zero. If the partial derivative is zero, then Xi is larger than zero.
+
+546
+01:15:42.640 --> 01:15:54.360
+chuanwu: So pretty much according to the two, conditions you properly know, in fact, the Petro derivative multiplies Xi should be exactly zero. Okay, so we'll show that.
+
+547
+01:15:55.630 --> 01:16:01.990
+chuanwu: Here, again, we show necessarily the condition, and the other direction is left for your exercise.
+
+548
+01:16:02.480 --> 01:16:18.359
+chuanwu: So here, consider X is optimal. So X is optimal, X is feasible. Okay, and then for any feasible Y, okay, Y in a non-negative option, meaning Y is feasible, then the probability here holds, that's what we established earlier today.
+
+549
+01:16:18.780 --> 01:16:31.570
+chuanwu: And, here, the inner product between the gradient vector of F bigger of X and Y is…
+
+550
+01:16:31.760 --> 01:16:43.379
+chuanwu: unbounded below our Y. Okay, if you consider it as a linear function Y, it is unbounded below our y, unless the gradient vector is component-wise non-active.
+
+551
+01:16:44.940 --> 01:16:51.900
+chuanwu: Let me see… Okay, let me put down more detailed calculations over there.
+
+552
+01:16:55.150 --> 01:16:58.829
+chuanwu: So what is… The, inner product.
+
+553
+01:16:59.930 --> 01:17:00.800
+chuanwu: Here.
+
+554
+01:17:01.100 --> 01:17:05.449
+chuanwu: So that is exactly sum I partial derivative.
+
+555
+01:17:12.640 --> 01:17:31.539
+chuanwu: Okay, so this is a detailed way how we calculate the inner product between the gradient vector and vector y. If you consider this as a function on Y, okay, as a function on Y, especially it's a linear function on Y,
+
+556
+01:17:31.650 --> 01:17:38.539
+chuanwu: If we consider Y is larger to 0, meaning every component Yi is larger than 0.
+
+557
+01:17:38.840 --> 01:17:39.620
+chuanwu: Right.
+
+558
+01:17:40.000 --> 01:17:48.050
+chuanwu: The… We can vary what? We can vary all components in Y.
+
+559
+01:17:48.300 --> 01:17:52.150
+chuanwu: as well as Yi, every component is largest to zero.
+
+560
+01:17:52.310 --> 01:17:59.860
+chuanwu: And, this quantity, okay, this result quantity is unbounded. It's unbounded
+
+561
+01:18:01.660 --> 01:18:07.259
+chuanwu: Below, okay, unbounded below, meaning it can… its value can go to negative infinity.
+
+562
+01:18:07.440 --> 01:18:16.999
+chuanwu: If the coefficient here that we are multiplying every Yi component with, It's… Smaller equal to zero.
+
+563
+01:18:17.180 --> 01:18:19.300
+chuanwu: Right? Smaller than the world.
+
+564
+01:18:20.290 --> 01:18:22.310
+chuanwu: Okay, put that again.
+
+565
+01:18:27.640 --> 01:18:42.740
+chuanwu: So this is our coefficient to multiply Yi with. We know every Yi is not equal to 0. So if the coefficient here is smaller than zero, then we can make the corresponding Yi very, very large.
+
+566
+01:18:42.920 --> 01:18:46.739
+chuanwu: Then the product will be very, very negatively small, right?
+
+567
+01:18:47.170 --> 01:18:50.889
+chuanwu: And that would lead to the case that is unbounded below.
+
+568
+01:18:51.640 --> 01:18:52.570
+chuanwu: Okay.
+
+569
+01:18:52.760 --> 01:18:59.409
+chuanwu: Again, so here, we have this inequality.
+
+570
+01:19:05.940 --> 01:19:17.300
+chuanwu: when we set the Y to be exactly 0. So when Y is said to be an all-zero vector, what we get is here. So inner product between the gradient vector and inverse logic to zero.
+
+571
+01:19:17.910 --> 01:19:18.700
+chuanwu: Right.
+
+572
+01:19:40.390 --> 01:19:41.220
+chuanwu: Okay.
+
+573
+01:19:46.570 --> 01:19:59.400
+chuanwu: So, first of all, from the proper date, the inequality date there, so we know the interproductive tier shouldn't be unbounded below, right? Because it's aligned to zero.
+
+574
+01:20:01.100 --> 01:20:04.430
+chuanwu: This shouldn't be a millennial,
+
+575
+01:20:06.680 --> 01:20:12.410
+chuanwu: To ensure that we want the gradient vector here to be component-wise non-active.
+
+576
+01:20:13.400 --> 01:20:22.330
+chuanwu: So when the gradient vector here is component-wise non-active, and X is component-wise non-active, then their inner product is larger to zero.
+
+577
+01:20:23.830 --> 01:20:28.790
+chuanwu: But what we also collect is that their inner product is, smaller than zero.
+
+578
+01:20:29.020 --> 01:20:35.179
+chuanwu: When we set Y to be on 0, then the only possibility is the inner product between the two is exactly zero.
+
+579
+01:20:37.080 --> 01:20:39.819
+chuanwu: Okay, so that's the rationale we want to establish.
+
+580
+01:20:44.080 --> 01:20:44.940
+chuanwu: Okay.
+
+581
+01:20:45.740 --> 01:20:51.050
+chuanwu: It is exactly zero, component-wise, Here.
+
+582
+01:20:51.810 --> 01:21:01.920
+chuanwu: So the interproductive component-wise calculation is here. So partial derivative, pairwise partial derivative times the vector, times the component value that's sum up together.
+
+583
+01:21:02.220 --> 01:21:11.529
+chuanwu: And every entry is public… library to zero, because the gradient is logical to zero, every entry library goes zero, so therefore.
+
+584
+01:21:17.310 --> 01:21:21.660
+chuanwu: What we get is… Here.
+
+585
+01:21:22.390 --> 01:21:30.509
+chuanwu: So, product of every, so every product, okay, of the, hair is exactly zero.
+
+586
+01:21:30.610 --> 01:21:43.789
+chuanwu: So what is exactly zero as we get is here. If one component is likely to zero, then the other can be zero, and if one component is zero, and the other has to be larger than zero.
+
+587
+01:21:49.960 --> 01:21:50.760
+chuanwu: Bye.
+
+588
+01:21:52.090 --> 01:21:53.030
+chuanwu: Okay.
+
+589
+01:21:53.270 --> 01:21:56.580
+chuanwu: Paralyzed for Dr. Ecos evaluator.
+
+590
+01:22:19.750 --> 01:22:20.740
+chuanwu: Okay.
+
+591
+01:22:22.560 --> 01:22:41.309
+chuanwu: All right, so we have analyzed a few, automatically criteria to establish X being optimal, for convex programs of different cases, including general convex program, or COMEX program without constraints, with equality constraints, or with, constraint of non-lactive offset.
+
+592
+01:22:41.400 --> 01:22:43.710
+chuanwu: Essentially,
+
+593
+01:22:43.940 --> 01:22:56.109
+chuanwu: Later on, when we studied the KKB conditions, we would find out most of them have special cases of the general KKB conditions to establish optimal solution for a differentiable kind of probe.
+
+594
+01:22:57.100 --> 01:23:06.490
+chuanwu: Okay, all right, so moving up, we will, check out how we can convert a convex program across equivalent forms.
+
+595
+01:23:06.670 --> 01:23:23.220
+chuanwu: We say two programs are equivalent. If the solution of one can be readily obtained from the solution of the other, okay, vice versa, right? Okay, so then, briefly, we can have different techniques to convert two ones into equivalent form.
+
+596
+01:23:23.530 --> 01:23:34.279
+chuanwu: And, first the technique is we are able to eliminate equality constraints and, make the resulting program only inequality constraints.
+
+597
+01:23:34.440 --> 01:23:50.900
+chuanwu: Okay, and then you might wonder why we order to do that. So, say this is the original form, we have, inequality constraints, equality constraints. If we want, we can apply the technique here to come up with optimization problem with only inequality constraints.
+
+598
+01:23:50.950 --> 01:24:06.190
+chuanwu: And you might wonder why we bother to do this. So the reason is, therefore, optimization algorithms to solve complex problems exactly and numerically, some algorithms can only treat programs with only inequalified solutions.
+
+599
+01:24:06.190 --> 01:24:11.890
+chuanwu: And some… some program, some algorithm can treat general form complex program.
+
+600
+01:24:11.940 --> 01:24:28.969
+chuanwu: Okay, so if you only have some efficient algorithm to treat only inequality constraint problem, as the problem you have at times do have equality constraint, then you can apply some technique here to convert it to the form with only inequality constraints.
+
+601
+01:24:29.040 --> 01:24:40.790
+chuanwu: Okay, so that's the rationale. Okay, and then what is the technique to that? So the technique is pretty generic. So say we try to find a particular solution of AX equals B.
+
+602
+01:24:40.910 --> 01:24:56.310
+chuanwu: So we are equipped with knowledge to do that. EX equals P actually is a set of linear equations. How to solve one solution out from the set of linear equations is something we learned probably in high school, right? Okay, then we can find out F0.
+
+603
+01:24:56.520 --> 01:25:15.530
+chuanwu: And, then we try to find out, matrix F, whose range is a known space of A? For that, there is also a technique from linear algebra to do that, with some algorithm, some approach applied to come up with a matrix F, whose range is a known space of A.
+
+604
+01:25:16.130 --> 01:25:27.619
+chuanwu: And then, after we are equipped with X0 and X, we are able to convert the original program into the equivalent form without any explicit equality constraint.
+
+605
+01:25:27.740 --> 01:25:34.349
+chuanwu: So the objective function, in the objective function acts under the,
+
+606
+01:25:34.710 --> 01:25:54.000
+chuanwu: And the conversion is the length based on the substitution here. So, after obtaining X0, and after obtaining the X according to A, we are able to substitute original variable X by X0 plus F0. Okay.
+
+607
+01:25:54.060 --> 01:26:08.939
+chuanwu: And when X equals X0 plus FD, our new variable would be D. X0 is given, and F is given, our new variable would be D. Okay, and the dimension of the variable could change as well, depending on F's dimension.
+
+608
+01:26:09.320 --> 01:26:10.170
+chuanwu: Okay.
+
+609
+01:26:10.460 --> 01:26:27.850
+chuanwu: And the objective function, we directly replace X by FD plus X0. Inequality constraints, again, we directly replace X by FD plus X0, and inequality constraints are dropped. So the reason lies in the substitution here.
+
+610
+01:26:27.960 --> 01:26:33.519
+chuanwu: So if we multiply A on both sides of the substitution formula.
+
+611
+01:26:33.880 --> 01:26:36.099
+chuanwu: So what we get is fuel.
+
+612
+01:26:40.930 --> 01:26:41.780
+chuanwu: Okay.
+
+613
+01:26:41.920 --> 01:26:52.070
+chuanwu: We know X0 is a feasible solution to the problem, so AX0 would be B. And then what about AXD? According to
+
+614
+01:26:52.170 --> 01:27:03.769
+chuanwu: the, how we found F. F should be a matrix whose range is in the node space of A. And according to the definition of node space and range.
+
+615
+01:27:03.910 --> 01:27:10.220
+chuanwu: We actually know EF is exactly zero, regardless of what the status take.
+
+616
+01:27:10.610 --> 01:27:17.849
+chuanwu: You can verify according to the definition. So therefore, AFD is 0, and we know AX is D.
+
+617
+01:27:18.520 --> 01:27:19.340
+chuanwu: Right.
+
+618
+01:27:19.740 --> 01:27:30.629
+chuanwu: And this shows, using this substitution, AX equals B condition is incorrect, and there is no need to explicitly lay that again.
+
+619
+01:27:32.660 --> 01:27:33.530
+chuanwu: Okay.
+
+620
+01:27:35.280 --> 01:27:36.300
+chuanwu: All right.
+
+621
+01:27:36.530 --> 01:27:41.649
+chuanwu: So this is one technique to, convert the,
+
+622
+01:27:42.280 --> 01:27:46.159
+chuanwu: General form optimization into an inequality constrained forming.
+
+623
+01:27:46.210 --> 01:28:04.440
+chuanwu: And there are cases, where you might want to do things in the other way. So probably you are given a set of, optimization problems with a set of inequality constraints, and the inequality constraint is apparently some consolidation of function with F1.
+
+624
+01:28:04.440 --> 01:28:13.280
+chuanwu: functions, and then probably you want to make the problem meter, and then you can move the equality… the offline equalities out.
+
+625
+01:28:13.330 --> 01:28:21.130
+chuanwu: So by doing variable substitutions. So here, you use Yi equals AIX plus PI.
+
+626
+01:28:21.330 --> 01:28:37.140
+chuanwu: And then your objective function becomes some form of meter, we've got outbound mapping, and your inequality deconstrate becomes meter as well, but what you have is a set of extract, equality constricts, and a set of extract variables.
+
+627
+01:28:37.300 --> 01:28:44.299
+chuanwu: And you can configure the variable numerable Y and other binary variables, because original variable Rakuten solved for is only X.
+
+628
+01:28:44.930 --> 01:28:45.600
+chuanwu: Okay.
+
+629
+01:28:50.740 --> 01:28:51.560
+chuanwu: Okay.
+
+630
+01:28:51.810 --> 01:29:05.430
+chuanwu: Then, another technique, is to, is to introduce Slack variables to, Make linear inequalities equalities.
+
+631
+01:29:05.820 --> 01:29:18.970
+chuanwu: Okay, so here, the optimization we originally asked facing has a set of alpha inequality constraints. We can introduce additional variables as
+
+632
+01:29:18.970 --> 01:29:35.790
+chuanwu: Okay, so S dimension is decided by the number of inequalities or alpha inequalities you have. Suppose you have M, alpha inequalities, then the vector S has M components, or you have introduced the M new variables.
+
+633
+01:29:35.790 --> 01:29:47.280
+chuanwu: And using SI, we can add SI to the left-hand side of the inequality, and then the inequality becomes equality, as long as each SI is non-active.
+
+634
+01:29:48.080 --> 01:30:07.990
+chuanwu: Okay, so that is to say, by converting the inequalities, alpha inequalities to equalities, we not only introduce new variables, we also introduce a set of inequalities on the new variables as well. We have to specify SI is larger to 0 for all SIs.
+
+635
+01:30:08.770 --> 01:30:14.540
+chuanwu: Okay, and then you might wonder why we bother to do this. So, in cases,
+
+636
+01:30:15.750 --> 01:30:25.650
+chuanwu: So compare the new equilibrated program with the original one. We have upper inequalities, and we have a set of much simplified inequality constraints.
+
+637
+01:30:26.000 --> 01:30:33.010
+chuanwu: Okay, so the inequality constraints is only specifying SI should be in the non-active, S should be in the non-active also.
+
+638
+01:30:33.160 --> 01:30:42.319
+chuanwu: Right? And in cases, there are algorithms which make use of this property to treat the, inequality constraint in a simpler path.
+
+639
+01:30:42.820 --> 01:30:53.819
+chuanwu: Right? So that's, that's why, in some cases, we want to add rotational variables and constraints, just to make the problem equal.
+
+640
+01:30:54.020 --> 01:30:56.419
+chuanwu: And some algorithm treated them directly.
+
+641
+01:31:00.070 --> 01:31:00.920
+chuanwu: Okay.
+
+642
+01:31:01.250 --> 01:31:03.279
+chuanwu: And death,
+
+643
+01:31:03.380 --> 01:31:14.729
+chuanwu: Another standard form, of, transforming a complex program into equilibrium form, is called the Apple graph work. Okay, Apple graph work.
+
+644
+01:31:14.840 --> 01:31:19.789
+chuanwu: So, say here, our original objective is to linearize F0 rule X.
+
+645
+01:31:19.980 --> 01:31:38.499
+chuanwu: Now we introduce a scalar variable t, one additional scalar variable T, and we only specify T in the objective function. We are minimizing T as we add one extra inequality constraint. We specify that Xerox is no larger than t.
+
+646
+01:31:39.240 --> 01:31:51.490
+chuanwu: Okay, so apparently this is equivalent to the general form, generic form of CAX program, because now you are trying to push the objective function values down as much as possible.
+
+647
+01:31:51.860 --> 01:32:03.759
+chuanwu: Right? So you mean as T, and P is up bundle at 0x. And intuitively, what you are doing is you're trying to push the scalar resulting value of object function down as much as possible.
+
+648
+01:32:04.120 --> 01:32:04.920
+chuanwu: Right.
+
+649
+01:32:05.610 --> 01:32:11.229
+chuanwu: And then eventually the optimal point, at X and T is, objective function X.
+
+650
+01:32:12.480 --> 01:32:21.210
+chuanwu: So this is called epigraph block, because, you know, in epigraph, we specify, that Via.
+
+651
+01:32:21.590 --> 01:32:31.109
+chuanwu: function F to graph a function f0, F0X will be better than t, and Xt is the point, coordinates of the point in epigraph.
+
+652
+01:32:31.820 --> 01:32:32.550
+chuanwu: Right.
+
+653
+01:32:33.150 --> 01:32:34.090
+chuanwu: Okay.
+
+654
+01:32:38.130 --> 01:32:53.049
+chuanwu: Alright, and another form of a validation here. So suppose you have formulated a validation problem, and you found out that the objective function is on two sets of variables. So X1, X2 here can each be a vector.
+
+655
+01:32:53.240 --> 01:32:58.930
+chuanwu: And you found out your constraints are pretty much only on one set of variables among the two.
+
+656
+01:32:59.210 --> 01:33:05.379
+chuanwu: Okay, and then you can simplify the original problem to be a problem only on the
+
+657
+01:33:06.300 --> 01:33:26.090
+chuanwu: variables on the set of variables with constraints. So what we do is, we do an extra computation of objective function on X2 only. Okay, so here, when X… we assume X1 is fixed, and X2 is our variable, and we minimize objective function over X2.
+
+658
+01:33:26.240 --> 01:33:41.649
+chuanwu: And this problem itself, this subproblem itself, is an unconstrained optimization, because X doesn't have X policy constraint. And later you will find out there are, algorithms that only treat unconstrained optimization.
+
+659
+01:33:41.980 --> 01:33:57.210
+chuanwu: Okay, and then you can use those algorithms as typically circular, and you can apply that same polar algorithm to solve this unconstrual optimization first, and then you plug in the objective function value with respect to this X2 removed.
+
+660
+01:33:57.400 --> 01:34:02.760
+chuanwu: And then your new resulting objective, your new resulting problem is simpler.
+
+661
+01:34:02.880 --> 01:34:05.340
+chuanwu: a smaller set of variables.
+
+662
+01:34:10.270 --> 01:34:29.929
+chuanwu: Okay, so those are some typical techniques for us to convert noise program into equivalent form. As mentioned, sometimes it is for either treatment by a known or developed algorithm, and sometimes it's for your own, either analysis and observation of the resulting program.
+
+663
+01:34:30.800 --> 01:34:37.060
+chuanwu: Okay, so… And then next, I want to make a comment.
+
+664
+01:34:37.380 --> 01:34:50.520
+chuanwu: So the comment is, we are now, starting to… starting to focus on convex program. So we know in convex program, objective function is to minimize our convex function.
+
+665
+01:34:50.520 --> 01:35:06.590
+chuanwu: And the inequality constraints should be convexed as well, and inequality constraints have to be applied. And that is a specific form of the problem that the, core convex optimization theory, duality theory, and the KKB conditions can trip.
+
+666
+01:35:06.690 --> 01:35:19.910
+chuanwu: And there have been efficient algorithms designed by different researchers over the past decades that can solve unconstrained, constraint, and generically correct constraint validation.
+
+667
+01:35:20.060 --> 01:35:24.700
+chuanwu: Okay, and, beyond the standard form of COMEX program.
+
+668
+01:35:24.700 --> 01:35:42.100
+chuanwu: Any slight perturbation would make the problem unsolvable. Okay, unsolvable meaning either no… either finding the optimal solution takes exponential time to the problem spill, or there is no way to find the exact solution, right?
+
+669
+01:35:42.150 --> 01:35:43.030
+chuanwu: Okay.
+
+670
+01:35:43.150 --> 01:35:59.949
+chuanwu: All right, so for example, objective function should be a convex, and we are minimizing it. And on the other way, if we are maximizing convex from objective function, or we are minimizing concrete function, either case, we will make the resulting quota non-comvexed.
+
+671
+01:36:00.000 --> 01:36:03.689
+chuanwu: Okay, in our definition, because they are not efficiently solo.
+
+672
+01:36:03.910 --> 01:36:22.429
+chuanwu: And if we do have a non-convex function involved in the constraints, then that's a bad thing as well. And if we already call it the constraints, is not F, not affine, but involved convex function, that's a good idea as well, because in all those cases, we cannot guarantee.
+
+673
+01:36:22.430 --> 01:36:25.599
+chuanwu: That the availability set is coming to you.
+
+674
+01:36:25.600 --> 01:36:29.979
+chuanwu: And then, we cannot use a nice theory people have designed to solve that.
+
+675
+01:36:30.430 --> 01:36:31.340
+chuanwu: Okay.
+
+676
+01:36:35.660 --> 01:36:40.499
+chuanwu: Alright, and then, I mean, maybe that,
+
+677
+01:36:40.650 --> 01:36:48.489
+chuanwu: comment. The final part of this set of slides is on a close relative of comics store.
+
+678
+01:36:48.610 --> 01:36:53.549
+chuanwu: And that is related to what's causing our X function that we introduced earlier.
+
+679
+01:36:53.710 --> 01:37:08.610
+chuanwu: So here, the… in the form of the organization looks pretty much like the standard form of CAMEX program that we have, checked out, that we have looked at earlier today. The only difference lies in the objective function.
+
+680
+01:37:08.850 --> 01:37:18.990
+chuanwu: If the objective function is called the convex instead of being exactly convex, then the whole program here is called a quality convex optimization problem.
+
+681
+01:37:19.670 --> 01:37:29.360
+chuanwu: Okay, and because, and the object, the, functions in the inequality constraints are still complex, and the equalities are still at 5.
+
+682
+01:37:29.700 --> 01:37:33.849
+chuanwu: Only the objective function could be quasiconvex instead of convex.
+
+683
+01:37:34.190 --> 01:37:36.140
+chuanwu: Okay,
+
+684
+01:37:36.200 --> 01:37:55.599
+chuanwu: Then, we call this as some close relative to a convex analyzation problem, because actually, if you have a quasi-convex program in this form, we also have efficient algorithms to solve that, because it's pretty close to the convex program they are focusing on. Okay, we will see the connections for…
+
+685
+01:37:55.920 --> 01:38:11.280
+chuanwu: Okay, but before that, we can first check off some property, because we changed object function from being exactly convex to just a qui convex, and as we analyzed earlier, a quality convex function may not always be convex, right?
+
+686
+01:38:11.400 --> 01:38:29.230
+chuanwu: And then, on the very first problem that we introduced today related to a local optimal, global optimal of COMEX program is broken. So here, for a quasi COMEX program as a BAF in the form of BAF, it may have local optimal points that are not global optimal.
+
+687
+01:38:30.500 --> 01:38:35.609
+chuanwu: Okay, so this is very intuitive. The core reason is objective function is not.
+
+688
+01:38:35.980 --> 01:38:39.950
+chuanwu: Connex may not be connex. An example here.
+
+689
+01:38:48.500 --> 01:38:50.909
+chuanwu: Is this a quasic convex function curve?
+
+690
+01:38:53.040 --> 01:39:01.809
+chuanwu: Yes, because it's sub-level sets are all consecutive line segments along the x-axis, right? Okay. And then, the,
+
+691
+01:39:02.010 --> 01:39:02.840
+chuanwu: Points.
+
+692
+01:39:02.960 --> 01:39:07.430
+chuanwu: Okay, suppose this part is horizontal to the x-axis.
+
+693
+01:39:07.840 --> 01:39:17.979
+chuanwu: then any point here is local optimal, right? Because you move a bit left to the left, a bit to the right, the objective function value remains the same, right?
+
+694
+01:39:19.620 --> 01:39:20.620
+chuanwu: Oh, okay.
+
+695
+01:39:21.410 --> 01:39:24.820
+chuanwu: I need to… Joel Moore.
+
+696
+01:39:27.480 --> 01:39:33.589
+chuanwu: Heh, sorry, the, correct the example.
+
+697
+01:39:34.310 --> 01:39:35.600
+chuanwu: Paste here.
+
+698
+01:39:39.610 --> 01:39:40.550
+chuanwu: dropped.
+
+699
+01:39:46.800 --> 01:39:51.530
+chuanwu: Okay, so it's a new function curve, quasi-convex function curve.
+
+700
+01:39:54.180 --> 01:40:04.519
+chuanwu: The new function curve is still quasi-convex function curve, right? You can still show you the definition. The sublevel sets are all consecutive line segments in the x-axis. Okay.
+
+701
+01:40:04.570 --> 01:40:14.559
+chuanwu: And then, check out the points here. Suppose this part is horizontal, it's parallel to the x-axis. Then any point here is a local optimal.
+
+702
+01:40:14.560 --> 01:40:29.369
+chuanwu: Because moving a bit to the left or moving a bit to the right doesn't change your objective function value, right? But apparently, these points are only local optimal without being global optimal. And this is, at the bottom of the valley, it is a global optimal point.
+
+703
+01:40:29.880 --> 01:40:30.800
+chuanwu: Okay.
+
+704
+01:40:53.710 --> 01:41:00.489
+chuanwu: All right, and then, next, what we are, we are going to introduce some,
+
+705
+01:41:01.100 --> 01:41:14.609
+chuanwu: representation of a quality call convex function using a sequence or a family of convex functions. So this representation or kind of, equivist,
+
+706
+01:41:14.770 --> 01:41:30.950
+chuanwu: conversion between quasi-convex function and a sequence of convex functions are useful in terms of using convex optimization approaches to solve quasi-convex optimization problems. Okay, so let's check out what the conversion of representation is like.
+
+707
+01:41:31.100 --> 01:41:48.439
+chuanwu: We consider F0 to be a quasi-convex function, and then we can always find a family of convex function, or at least a partially convex function that satisfies the following properties.
+
+708
+01:41:48.650 --> 01:42:02.319
+chuanwu: So, the family of functions phiT is indexed by T. Okay, indexed by T. And we say phi tx is convex in X when NA t is fixed.
+
+709
+01:42:02.370 --> 01:42:10.609
+chuanwu: Okay, so phiTX has actually two sets of variables, X and T, and if t is fixed, then phiTX is convex in X.
+
+710
+01:42:10.960 --> 01:42:21.720
+chuanwu: And we also need to require that T sub-level set of function F0 is 0 sublevel set of phi i, okay?
+
+711
+01:42:21.960 --> 01:42:33.559
+chuanwu: Putting that into mathematical language, here it is. So if we have F0X no larger than t, then at the corresponding t, phi tx is no larger than 0.
+
+712
+01:42:34.130 --> 01:42:46.670
+chuanwu: Okay, then this is a representation we want to find out. So when we are given a quasiconvex function F0, this is a representation that we… the…
+
+713
+01:42:46.670 --> 01:42:52.210
+chuanwu: that we want to find out. And in fact, such a representation always exists.
+
+714
+01:42:52.210 --> 01:43:10.789
+chuanwu: There are a few standard ways to come out with such a representation, and there can be multiple representations corresponding to the same quasi-convex function. So here, let's see a few standard ways to convert a quasic convex function into the sequence of representations.
+
+715
+01:43:10.940 --> 01:43:12.070
+chuanwu: So here.
+
+716
+01:43:12.660 --> 01:43:16.189
+chuanwu: We define function phi tx.
+
+717
+01:43:16.440 --> 01:43:24.300
+chuanwu: Its value is 0 if corresponding F0X is no larger than t, and its value is a positive infinity otherwise.
+
+718
+01:43:25.360 --> 01:43:28.770
+chuanwu: Okay, for such a representation, you can verify.
+
+719
+01:43:28.880 --> 01:43:37.000
+chuanwu: So, first of all, you can verify that, it is, convex when T is fixed.
+
+720
+01:43:37.410 --> 01:43:45.359
+chuanwu: Okay, 1T is fixed, and F dual X satisfied this, and 5DX is, convex, because it's just a constant value.
+
+721
+01:43:45.860 --> 01:43:55.850
+chuanwu: And the, 1F0X smaller or equal to t, phi tx is exactly 0, so that means, phi tx is smaller or equal to 0 as well.
+
+722
+01:43:57.790 --> 01:44:04.680
+chuanwu: Okay. Another way of defining this, representation is here.
+
+723
+01:44:05.730 --> 01:44:17.160
+chuanwu: So we can define phiTX to be the distance between vector X and a set defined this way. So this is a sub t, sub-level set of function at zero.
+
+724
+01:44:18.120 --> 01:44:23.759
+chuanwu: Okay, two conditions it need to satisfy.
+
+725
+01:44:27.170 --> 01:44:32.380
+chuanwu: So phi TX is, convex in X when T is fixed.
+
+726
+01:44:35.240 --> 01:44:47.159
+chuanwu: Okay, so the distance between X and a convex set, so first of all, this is a sub-level set of the quasi-convex function, so the set here is a convex set.
+
+727
+01:44:47.360 --> 01:45:02.759
+chuanwu: So the distance between a vector and a convex set, the resulting function is a convex function, according to one of the rules, that minimization of… one of the rules that we introduced earlier, one of the operators we introduced earlier.
+
+728
+01:45:03.210 --> 01:45:11.819
+chuanwu: to come up with convex function. Okay. At that time, we exactly used a distance, example, distance function as an example.
+
+729
+01:45:12.130 --> 01:45:24.630
+chuanwu: Okay, and so therefore, phi tx is convex in X when T is fixed. And the second condition is T sublevel set of F0 should be the zero sublevel set of phi T.
+
+730
+01:45:24.640 --> 01:45:37.529
+chuanwu: So when F0Z smaller equal to T, when X is in the set, it satisfies F0X smaller equal to t, and when X is in the set, the distance is exactly 0.
+
+731
+01:45:37.810 --> 01:45:44.140
+chuanwu: Right, so therefore, T sublevel set of F0, is
+
+732
+01:45:44.450 --> 01:45:48.359
+chuanwu: Indeed, corresponding to a phi tx small equal to 0.
+
+733
+01:45:49.930 --> 01:45:50.760
+chuanwu: Okay.
+
+734
+01:45:51.340 --> 01:46:01.460
+chuanwu: All right, and then the third generic approach to define a representation that satisfies the two conditions, to the original
+
+735
+01:46:01.460 --> 01:46:14.639
+chuanwu: Cause economics function F0 is here. Suppose, and the third way of finding the representation, let's lay some requirement on the form of the original cosi convex function.
+
+736
+01:46:14.640 --> 01:46:36.839
+chuanwu: So suppose the original quality convex function F0X is some convex over concave function. So here, in the numerator, function P should be convex, and in the denominator, function Q should be concave. And we also require what we have in the denominator is larger than 0 on the domain of the function.
+
+737
+01:46:37.240 --> 01:46:46.270
+chuanwu: Okay, and then we can construct a phi TX as in this way. Our PhiTX is exactly PX minus TQX.
+
+738
+01:46:47.290 --> 01:46:54.160
+chuanwu: Okay, and then, when T is logical to 0, our phi t is convex in X.
+
+739
+01:46:54.630 --> 01:46:58.130
+chuanwu: Because here, P is convex, Q is concave.
+
+740
+01:46:58.550 --> 01:47:09.219
+chuanwu: And we also have that the T sublevel set of phi T… the zero sublevel set of phi TX is exactly…
+
+741
+01:47:09.220 --> 01:47:27.179
+chuanwu: corresponding to, F0X smaller equal to t. So because here, when phi tx is smaller or equal to 0, we know PX smaller or equal to TQX, and that is also equivalent to PX divided by QX, no larger than t, and the left-hand side is exactly F0X.
+
+742
+01:47:38.760 --> 01:47:39.640
+chuanwu: Okay.
+
+743
+01:47:39.770 --> 01:47:44.790
+chuanwu: All right, so this is the… these are a set of,
+
+744
+01:47:48.830 --> 01:48:03.890
+chuanwu: conversions that we can work, to make, quasi-convex, quasi-convex function represented by a family of, quasi, family of, convex function, X.
+
+745
+01:48:04.320 --> 01:48:20.800
+chuanwu: All right, probably I shouldn't rush to finish the algorithm to solve. I'll leave the algorithm discussion on solving quality convex optimization using convex optimization algorithm to the next lecture.
+
+746
+01:48:21.900 --> 01:48:24.719
+chuanwu: All right, okay, so we are…
+
+747
+01:48:24.990 --> 01:48:29.170
+chuanwu: Let's, let me stop here, and we will call it a day.
+
+748
+01:48:30.000 --> 01:48:30.959
+chuanwu: Thank you.
+

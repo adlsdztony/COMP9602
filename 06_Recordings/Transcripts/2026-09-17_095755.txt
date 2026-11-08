@@ -1,0 +1,1500 @@
+COMP9602 Optimization — 2026-09-17 09:57:55
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/TUp4LI0JXKfV7WsaZQyVvHK01vddWds6y_8FlroGHE1d_z2H_BNkq9JoaQsgllI9.e-0XAqD3U8hNoUl5
+保存日期：2026-11-08
+
+[00:02:22.100] chuanwu: Alright, good morning, everyone. Welcome to our commoditization class today. Let's get started.
+
+[00:02:28.950] chuanwu: We are now working on complex program. So, especially what we have checked out at the end of last lecture is the standard form of optimization problem.
+
+[00:02:38.580] chuanwu: So essentially, in the standard form, or the default form, we formulate a mathematical optimization problem as a linearization problem. So we're minimizing objective function, usually we use a URL to be notate.
+
+[00:02:52.720] chuanwu: And then, we have a number of inequality constraints, and we have a number of equality constraints.
+
+[00:02:59.730] chuanwu: And we have differentiated two concepts last time. So when we are talking about optimal values, what we mean is the minimal value of the objective function, okay, not the optimal value of the variable. So optimal value refers to the optimal minimal value of the objective function, as defined here, p-star.
+
+[00:03:19.610] chuanwu: And then we talk about the optimal point. So essentially, the optimal point is a featable variable S, which is optimal
+
+[00:03:29.350] chuanwu: achieve it, after X equals D star.
+
+[00:03:33.910] chuanwu: Okay.
+
+[00:03:36.290] chuanwu: All right, so moving on, we'll be looking at more general forms of convex program, and then we'll be checking out the properties related to convex program as well, before we move on to say concrete forms of different convex program.
+
+[00:03:51.040] chuanwu: Okay, so the, next concept is related to suitability problem. So if we are just a demon.
+
+[00:04:01.330] chuanwu: So if we are just given a set of inequality constraints and equality constraint, we want to find out X, which satisfies those constraints, then this is a feasibility problem.
+
+[00:04:12.980] chuanwu: We do not have an objective to minimize or maximize, we just want to find out the endpoint in the feasible domain of the problem, as defined by the set of equality constraints and equality constraints. And of course, if we like, we can still convert a feasibility problem into the form of an optimization problem.
+
+[00:04:32.020] chuanwu: We just minimize some constant, okay, 0 or 1, or 2, or negative 1, or maximize the constant, it doesn't matter.
+
+[00:04:40.610] chuanwu: And then we have a set of constraints, and we can solve this problem using the optimization solver as well, and what we found is a feasible solution to the set of constraints.
+
+[00:04:52.930] chuanwu: And then, moving on to see what is the other form of complex product. Okay.
+
+[00:04:58.610] chuanwu: So, convex program send form is as listed on top of the slide here. Objective function, we are minimizing F0X. And here, we require F0 to be a convex function. And constraints. So, check out the step of inequality constraints.
+
+[00:05:14.640] chuanwu: So the set of inequality constraints is formulated in the generic form, so FIX no larger than 0. And here, we require everything on the left-hand side of the inequality sign to be a convex function. Okay, FIX means building a convex function.
+
+[00:05:31.860] chuanwu: And then moving on to see the equality constraints. In the specific definition of convex optimization problem, we have special requirements on the equality constraints. The equality constraints have to be R5.
+
+[00:05:46.100] chuanwu: Okay, so that means we have to have equality constraints in the form of AI inner product X equals TI.
+
+[00:05:54.130] chuanwu: And then we can have P, a number of p of such, we call it the constraints.
+
+[00:05:58.800] chuanwu: Okay, and if we put it down in the generic form or standard form, our equality constraints is like this.
+
+[00:06:11.120] chuanwu: Okay, left-hand side is an equality constraint function, and the equality constraint function has to be a linear function, or more generally speaking, a fine function.
+
+[00:06:21.160] chuanwu: Okay, and we can also lay down the equality constraints in the more, concise way. So we have, AX equals B.
+
+[00:06:31.860] chuanwu: So, A. So, every row of A is, is, Joe Lecter. So, A…
+
+[00:06:42.180] chuanwu: up to 8P. Okay, so we have P constraints.
+
+[00:06:49.950] chuanwu: So this is our matrix A. It's a P times N matrix.
+
+[00:06:55.000] chuanwu: Okay, so A… is…
+
+[00:06:57.910] chuanwu: P times F… okay, P rows in A, matrix A, and every row have an element.
+
+[00:07:06.060] chuanwu: Okay.
+
+[00:07:07.120] chuanwu: All right, and you might wonder, so in ZAP, in the most generic form of, of addition problem, equality constraints are formulated this way.
+
+[00:07:20.270] chuanwu: shouldn't we require that HIX to be convex? Then the whole… every function involved in the problem is convex, that is a convex program.
+
+[00:07:28.970] chuanwu: Ideally, it's like that, but unfortunately, people have found out, only when the equality constraints are of the F1 format can we have nice theory to solve such type of convex program.
+
+[00:07:42.150] chuanwu: If they call it the constraints, the constraint function is of more generic form, like a chondraptic function, nonlinear, non-alphan chondraptic function, or any… involving any of the log and other operators, then such a problem doesn't have… doesn't conform to the nice properties for solution, for efficient optimal solution boundary.
+
+[00:08:02.350] chuanwu: Okay, so therefore, in the whole domain of convex validation, or in the whole theory domain of complex validation, what we refer to as convex validation problem of the form on the slide? Okay, objective function convex, inequality constraint function convex, and equality constraint mind.
+
+[00:08:22.120] chuanwu: Okay.
+
+[00:08:23.240] chuanwu: Alright.
+
+[00:08:27.460] chuanwu: Okay, so when we have the, when we have the,
+
+[00:08:33.580] chuanwu: complex inequality constraint, and we have F1 equality constraint. An immediate nice probability that we have is the feasibility set of such a complex optimization problem is a convex set.
+
+[00:08:46.360] chuanwu: Why? So check out the inequality constraint. So the inequality constraint is a zero sublevel set of the corresponding constraint function.
+
+[00:08:56.220] chuanwu: Okay, so FIX, so pick any of the inequalities, so FIX smaller equals 0. FIX is… Callbacks.
+
+[00:09:07.000] chuanwu: Then, all X satisfied the constraint is in the C0 sublevel set of the convex function, and all sublevel sets of convex function are convex sets. So therefore, we know any X defined
+
+[00:09:22.140] chuanwu: Okay, NEX defined this way.
+
+[00:09:25.080] chuanwu: is in a connect set, and we have M inequality constraints corresponding to intersection of M connect sets.
+
+[00:09:34.090] chuanwu: And then, equality constraints. So equality constraints is, AI inner product X equals DI, so it defines a hyperpled, right? So every equality constraint, every affine equality constraint defines a hyperplad.
+
+[00:09:51.060] chuanwu: And we know hyperplains are complex.
+
+[00:09:53.690] chuanwu: Okay, so further intersecting with a set of hyperplains, we know the result, if the variability except, for X, satisfying all the constraints is in a correct set.
+
+[00:10:05.320] chuanwu: Okay, so that's a nice property that we have.
+
+[00:10:12.180] chuanwu: And that also partially explains why we can't have generic convex function in the equality constraint.
+
+[00:10:20.050] chuanwu: Right? So here, so HX equals zero. We cannot ensure such a set is always convex.
+
+[00:10:26.920] chuanwu: Such that we cannot ensure a problem defined on such a set is a convex program.
+
+[00:10:34.590] chuanwu: Okay.
+
+[00:10:36.280] chuanwu: All right, generalized inequality are also fine, who defined in defining slash comics forward. So say here, objective function is affine, variable vector X, and dimensional vector X, and how about the single inequality becomes ring?
+
+[00:10:53.100] chuanwu: So the single… in the single inequality constraint, X1 up to XN are N components in vector X, in variable vector X, and the A0, A1 up to AN are given.
+
+[00:11:04.890] chuanwu: So in 54, they were forced, the,
+
+[00:11:08.720] chuanwu: Matrix here is a symmetric matrix, or if we classify the matrix A0 after Ay metric matrices.
+
+[00:11:17.200] chuanwu: Okay, and here is a linear summation of an past 1.
+
+[00:11:24.010] chuanwu: matrices. Okay, so when we have a symmetric matrix on the left-hand side, and the right-hand side we put zero, and we use this generalized equality side, what does it mean?
+
+[00:11:37.350] chuanwu: Yes, it means negative of the left and Z matrix is positive semi-definite, or the matrix there is negative semi-definite, right? Okay, so this is considered as some, affine inequality matrix inequality, on X.
+
+[00:11:55.270] chuanwu: And, it is a convex constraint.
+
+[00:11:59.040] chuanwu: Okay.
+
+[00:12:00.930] chuanwu: Alright.
+
+[00:12:02.890] chuanwu: Okay, next, we'll be checking out a number of properties related to optimality, or optimal solution of, complex program.
+
+[00:12:11.310] chuanwu: And we say any locally optimal point of a convex program is globally optimal. So this is a very intuitive and a nice property. So it means if you have some algorithm to solve a convex program, and you find a local optimum point. So what is local optimum point?
+
+[00:12:29.210] chuanwu: Meaning, basically, if you move slightly away from this point at star, you're obviously result in less.
+
+[00:12:36.650] chuanwu: Manual.
+
+[00:12:38.000] chuanwu: objective function better.
+
+[00:12:39.670] chuanwu: Right, okay. And then, and then if you have ever identified a local optimal point, you can be rest assured that this is also a probable optimal point as well.
+
+[00:12:52.640] chuanwu: Okay, all right, so this prop data is pretty intuitive, and now let's check out, we actually can do a pretty rigorous proof on this, using some kind of contradiction.
+
+[00:13:03.730] chuanwu: Okay, so we can assume that a point X is local minimal, but there is another point in the featability set of the problem which achieves a smaller objective function value than X. Okay, F0 Y smaller than F0 X.
+
+[00:13:20.030] chuanwu: Okay, and then we are able to do some reconstruction, and we are able to show that a close-by point to X is also doing better than X as well, which would be a contradiction.
+
+[00:13:33.550] chuanwu: Okay.
+
+[00:13:35.010] chuanwu: All right, so what construction do we do? So we construct a convex combination point between X and Y. Okay, X is local optimal, we found, and Y is supposedly, better
+
+[00:13:47.550] chuanwu: solution, the X, achieving smaller F0 y. Okay, and then we construct a point in the middle. So theta here is, positive within the range of 0 and 1, and we just assume theta is small, such that
+
+[00:14:03.390] chuanwu: The point is closer to X than to Y.
+
+[00:14:06.830] chuanwu: So basically, D is in the neighborhood group of X.
+
+[00:14:10.350] chuanwu: Okay, and then we… what we further have is, because featibility set of convex program is a convex set.
+
+[00:14:18.830] chuanwu: Okay, meaning all the X, Y satisfies the constraints, they belong to a convex set, then convex combination point D also belongs to the convex set. So this is according to the definition of convex set.
+
+[00:14:31.710] chuanwu: And then, we have to put the derivation. So here, we evaluate the objective function value of the new point to Z. Okay, F0 Z equals F0, this is, how we construct Z.
+
+[00:14:44.670] chuanwu: And according to convex theory of F-Bureau, the Jason's inequality. So here is application of the Jason's inequality in the definition of convex function.
+
+[00:14:53.870] chuanwu: And then, what we have is here, So here, F0 Y.
+
+[00:14:59.220] chuanwu: smaller than F0X, and then the whole thing here is smaller than F0X.
+
+[00:15:04.930] chuanwu: Right.
+
+[00:15:07.060] chuanwu: Okay.
+
+[00:15:08.230] chuanwu: And what we have is a contradiction. So F0Z, what we actually derive is F0A is smaller than F0X.
+
+[00:15:19.200] chuanwu: Abdura Lee, Smaller than 0x, which is a contradiction.
+
+[00:15:23.730] chuanwu: Right? Because X is local optimal. If V is close enough to X, then F bureau Z cannot be smaller than F bureaux.
+
+[00:15:34.100] chuanwu: And this results in a contradiction.
+
+[00:15:37.410] chuanwu: Bye. Okay.
+
+[00:15:39.500] chuanwu: All right.
+
+[00:15:40.800] chuanwu: So I also want to draw something on board.
+
+[00:15:44.760] chuanwu: We'll show you, geometrically what this property implies.
+
+[00:16:19.060] chuanwu: Okay, so consider we are minimizing
+
+[00:16:23.100] chuanwu: objective function on the feasibility set C. Okay, so this is our feasibility set C.
+
+[00:16:29.940] chuanwu: End?
+
+[00:16:35.750] chuanwu: Making it sharp, slightly sharper.
+
+[00:16:48.710] chuanwu: Okay, so this is our feasibility Z.
+
+[00:16:51.700] chuanwu: And assuming we are minimizing objective function F0X,
+
+[00:16:56.760] chuanwu: In the form, or just for elaboration purpose, is a contracting function.
+
+[00:17:01.590] chuanwu: Okay, I'm here because I'm drawing the example on a… on a two-dimensional whiteboard, so our X is actually
+
+[00:17:10.319] chuanwu: E. R. Who?
+
+[00:17:12.589] chuanwu: Okay, and this is the feasibility set, decided by the set of inequality constraints in the, convex optimization problem, and our objective function is here, a conjectic function on X, and it is convex.
+
+[00:17:26.640] chuanwu: COMEX objective to minimize.
+
+[00:17:29.000] chuanwu: Okay, End?
+
+[00:17:31.970] chuanwu: So here, I want to introduce a concept, which is called sub-level sets, okay?
+
+[00:17:39.810] chuanwu: Yes, we already studied the concept of sub-level sets, and what the concept I want to introduce is about level curves.
+
+[00:17:48.070] chuanwu: Okay, level curves. So think about the sub-level sets. So if, for the sub-level sets, C, R5, it consists of all the X, such that X1 squared plus X2 squared, no larger than R5.
+
+[00:18:03.040] chuanwu: Right?
+
+[00:18:04.190] chuanwu: So this is the sub-level set, the concept we already started, right? So what is the sub-level set for such an objective function?
+
+[00:18:13.050] chuanwu: their circles.
+
+[00:18:14.820] chuanwu: of boards.
+
+[00:18:16.180] chuanwu: Containing the interior.
+
+[00:18:18.000] chuanwu: Right, okay. So let me draw it, draw part of it.
+
+[00:18:22.240] chuanwu: So this is a sublevel set enclosing the interior, right? And if alpha is larger, we have another sub-level set, okay, circle, right?
+
+[00:18:34.410] chuanwu: And if alpha is even larger, we have an even bigger sublevel set. Okay, all the sublevel sets should be both, or two-dimensional boards.
+
+[00:18:44.450] chuanwu: Right? Okay, the circle containing is interior.
+
+[00:18:48.110] chuanwu: Okay, and the notion I want to introduce is about a level curve.
+
+[00:18:53.640] chuanwu: Okay, so what is level curve? So basically, the circle I draw are all level curves.
+
+[00:18:59.190] chuanwu: Because all the points, all the points on those circles corresponds to the same objective function value.
+
+[00:19:06.400] chuanwu: Right.
+
+[00:19:07.470] chuanwu: Okay, so this, all the points on this, blue circle top of this circle corresponds to one alpha, right, objective function value alpha, and the larger circle, the dot corresponding to another alpha, larger alpha, and the larger circle is a larger level curve corresponding to a larger alpha.
+
+[00:19:26.620] chuanwu: Right. Okay.
+
+[00:19:28.850] chuanwu: Alright, then based on my drawing here.
+
+[00:19:32.940] chuanwu: So now tell me where does the, ophthalmoid point happen?
+
+[00:19:39.970] chuanwu: So if the level curves… so basically all the level curves are called centric.
+
+[00:19:44.580] chuanwu: circles, right?
+
+[00:19:46.810] chuanwu: So, based on my joy, can you tell me, and this is our feasibility set, so can you tell me where does the optimal point of the optimization problem happen?
+
+[00:20:03.190] chuanwu: It happens here.
+
+[00:20:07.140] chuanwu: Right?
+
+[00:20:10.280] chuanwu: So it is a point on the boundary of the feasibility set that touches upon the smallest possible… touches upon the level curve corresponding to the smallest ARVA.
+
+[00:20:24.320] chuanwu: Objective function value, right?
+
+[00:20:26.810] chuanwu: Okay, so based on what I construct, so pretty much we want the objective function to be as small as possible, so that is the direction, so that is the direction where the objective function value is reducing, right?
+
+[00:20:39.140] chuanwu: And these are… and all our points can only be chosen within ZCC.
+
+[00:20:44.020] chuanwu: So therefore, the touching point of this smallest level… the level curve corresponding to the smallest radius, or alpha.
+
+[00:20:54.450] chuanwu: is our optimal point, X star.
+
+[00:20:56.880] chuanwu: Right.
+
+[00:20:57.940] chuanwu: So here, X star happens.
+
+[00:21:02.630] chuanwu: Okay.
+
+[00:21:11.590] chuanwu: They'll give you some… a slightly more concrete value.
+
+[00:21:17.370] chuanwu: So here, F0X equals 0.2, for example, and here, F0X is 0.5.
+
+[00:21:25.820] chuanwu: And F0X equals 0.8, for example.
+
+[00:21:30.540] chuanwu: Okay, the level curves, the points, and those level curves corresponding to different objective function values.
+
+[00:21:36.520] chuanwu: Okay.
+
+[00:21:37.630] chuanwu: Alright, and then…
+
+[00:21:47.310] chuanwu: Okay, and then, this is,
+
+[00:21:51.450] chuanwu: perfect example to show us a local optimal point is global optimal, right? So X start here, as we analyze, is global optimal, and you can find out it's actually also local optimal, right?
+
+[00:22:05.070] chuanwu: Because if you move away, slightly away from this X star, move a bit here, move a bit there, as well as XC, you always fall on a level curve whose radius is larger.
+
+[00:22:16.290] chuanwu: Right, or objective function value is larger. Then they are not…
+
+[00:22:20.700] chuanwu: any more optimal, right? And X star is local optimal and global optimal.
+
+[00:22:26.030] chuanwu: Right.
+
+[00:22:27.230] chuanwu: Okay.
+
+[00:22:29.220] chuanwu: And,
+
+[00:22:31.060] chuanwu: This property is, using this, using a similar example, I want to show, this property, local optimal of a COMEX program is global optimal, doesn't hope if the program is not correct.
+
+[00:22:47.500] chuanwu: Okay, so if the program is not convex, local optimal may not be robo-optimal. Okay, so when we say a convex problem is not… when we say an optimization problem is not convex. So, in general, we have two cases. Number one, the objective function is not convex.
+
+[00:23:05.740] chuanwu: Number two, the feasibility set is not COMEX set.
+
+[00:23:10.300] chuanwu: Right, so two of the cases. Of course, it's not exhaustive cases, but the two representative cases.
+
+[00:23:15.910] chuanwu: Okay, so think about, think about a… example here.
+
+[00:23:28.330] chuanwu: Assuming this is a level curve.
+
+[00:23:31.430] chuanwu: Okay, level curve, where on top of which, F dual X is of the same value.
+
+[00:23:36.860] chuanwu: When the objective function is not convex, it's very likely the sublevel set is not convex set, so the level curve is not… level curve is the boundary of the sublevel set, and the level curve is not enclosing a convex set, right? So this is an example where it is…
+
+[00:23:54.970] chuanwu: So, level curve… Level curve.
+
+[00:23:59.850] chuanwu: Okay, so assuming we have three level curves corresponding to a non-convex objective function.
+
+[00:24:05.910] chuanwu: Okay, then how about our feasibility set?
+
+[00:24:09.710] chuanwu: So suppose our feasibility set is, half space, okay, half space decided by lines, decided by hyperplains, and on a two-dimensional plan, it is a line.
+
+[00:24:28.740] chuanwu: Okay, so suppose the feasibility set,
+
+[00:24:33.100] chuanwu: To the right-hand side of this hyperplifability side.
+
+[00:24:38.030] chuanwu: Okay, feasibility set… if feasibility set is a hyperplan… is half-space, and feasibility set is actually convex.
+
+[00:24:44.760] chuanwu: Right. Okay, so this is a contrived example where I won't be sure.
+
+[00:24:50.710] chuanwu: Zach…
+
+[00:24:54.670] chuanwu: that the local optimal point may not be global optimal in this case. Okay, this is the case where objective function is non-convex, but feasibility set is still a convex set.
+
+[00:25:05.390] chuanwu: Okay, all right, and the point I want to point out is here.
+
+[00:25:10.800] chuanwu: So this X, call it X0. So this X0 is a local optimal point.
+
+[00:25:17.930] chuanwu: Do you agree?
+
+[00:25:21.610] chuanwu: So how to tell if a point is local optimal point? You just need to move slightly away from this point and see if the point nearby falls on a level curve corresponding to larger objective function value or smaller objective function value.
+
+[00:25:36.240] chuanwu: Right? So if you move away from X star to the left to the right of 2, the interior of the feasibility set.
+
+[00:25:43.550] chuanwu: You'd result in points lying on level curves corresponding to larger objective function value.
+
+[00:25:50.150] chuanwu: Right.
+
+[00:25:51.660] chuanwu: Do you see this point?
+
+[00:25:53.820] chuanwu: Can you see this point.
+
+[00:25:55.750] chuanwu: Say if we move slightly over there, so that point would be lying on a…
+
+[00:26:01.000] chuanwu: Level curve like that, corresponding to a larger objective function value, right?
+
+[00:26:07.360] chuanwu: Agree?
+
+[00:26:11.810] chuanwu: Okay, and, so, we… what we should know is X0 is local optimal point.
+
+[00:26:20.530] chuanwu: Geometrically, you can try… you can figure it out. And is X zero, global optimal point?
+
+[00:26:27.520] chuanwu: No.
+
+[00:26:28.470] chuanwu: Okay, because actually, there are other points which is doing better.
+
+[00:26:34.080] chuanwu: For example, a point here.
+
+[00:26:37.320] chuanwu: So this X1, called X subscript superscript 1. So this X1 is lying on a Level curve corresponding to
+
+[00:26:49.490] chuanwu: Smaller objective function value.
+
+[00:26:55.980] chuanwu: Right? That X1 is in the feasibility set.
+
+[00:27:00.070] chuanwu: But lying on a level curve, corresponding to a smaller objective function value.
+
+[00:27:05.990] chuanwu: Right? So X1 is doing better.
+
+[00:27:10.700] chuanwu: Okay.
+
+[00:27:13.750] chuanwu: So what do I want to show you is into geometrically local optimal of non-convex program.
+
+[00:27:20.790] chuanwu: Local optimal of program with non-convex objective function may not be global optimal.
+
+[00:27:26.780] chuanwu: Right? If you understand the concept of, level curve, feasibility set, and so on. So, by the way, what the work, or the two,
+
+[00:27:38.370] chuanwu: Dimensional plan here is, what we draw is a domain of the problem.
+
+[00:27:45.670] chuanwu: Okay, domain of the problem.
+
+[00:27:47.720] chuanwu: So X is in R2, so here the two-dimensional plan here is the domain of the problem.
+
+[00:27:53.550] chuanwu: Okay, and the level curves, or sub-level sets, or featibility sets, they all lie within the domain.
+
+[00:28:00.700] chuanwu: area.
+
+[00:28:02.190] chuanwu: Domain set, or domain plan, of the problem.
+
+[00:28:06.510] chuanwu: Okay.
+
+[00:28:08.210] chuanwu: Another example.
+
+[00:28:09.900] chuanwu: All right, so, here, what we show is a case, the,
+
+[00:28:19.950] chuanwu: The level curve of sublevel sets are non-convex.
+
+[00:28:23.290] chuanwu: So, the second case is the level sets are still convex sets, okay, say, objective function is still the same as what we illustrated earlier. Say the object function is still of the graphic form, so the level curve or sub-level sets are both on two-dimensional plan.
+
+[00:28:43.040] chuanwu: Okay, so each blue… so the blue, dotted blue, or solid blue I drew corresponds to level curves.
+
+[00:28:51.520] chuanwu: Okay, and now consider feasibility set.
+
+[00:28:55.470] chuanwu: So if the non-convex program, its feasibility set is not a convex set.
+
+[00:29:02.530] chuanwu: Okay, no, connect set. And suppose the suppose the set looks like…
+
+[00:29:10.280] chuanwu: this. So let me draw one more level curve.
+
+[00:29:19.490] chuanwu: Okay, and the,
+
+[00:29:28.770] chuanwu: Okay.
+
+[00:29:29.770] chuanwu: Suppose the blue curve I drew enclosed the feasibility set.
+
+[00:29:36.080] chuanwu: Okay, boundary and interior is a feasibility set. It's… apparently, it's not convex set, right?
+
+[00:29:43.420] chuanwu: Okay.
+
+[00:29:44.980] chuanwu: Ent?
+
+[00:29:52.070] chuanwu: Okay, and we… Check out the point… the point here.
+
+[00:29:59.280] chuanwu: So, call it X0.
+
+[00:30:01.410] chuanwu: So is at zero a local optimal point?
+
+[00:30:05.830] chuanwu: In this example, yes, because you can again verify if we move away slightly from X0, but still remain in the feasibility set, any other nearby point would be lying on several level curves corresponding to larger objective function value.
+
+[00:30:21.910] chuanwu: Okay, but is WRO global optimal?
+
+[00:30:26.220] chuanwu: No. We actually have global optimal point here.
+
+[00:30:31.100] chuanwu: Okay, because this is a point, still in the feasibility set, that touches upon the smallest sublevel set.
+
+[00:30:40.220] chuanwu: Right.
+
+[00:30:42.050] chuanwu: Okay.
+
+[00:30:43.260] chuanwu: Alright.
+
+[00:30:45.610] chuanwu: So this is the geometric illustration I want to give, corresponding to the property here.
+
+[00:30:52.750] chuanwu: All right, moving on, we will see more properties related to optimality of COMEX programs. We call them optimality criteria for COMEX
+
+[00:31:03.490] chuanwu: Probably on convex function, and we start with the, case of, convex function.
+
+[00:31:09.160] chuanwu: And, we are given a function f0, X.
+
+[00:31:13.580] chuanwu: And, we consider X is the optimal point that minimizes this objective function if X is feasible, and, the inequality there holds.
+
+[00:31:25.060] chuanwu: Okay, we call it their host. So essentially, here, we are still dealing with a convex product, but our focus is on the objective function. Our objective function, for the properties we are discussing in the following few slides, we assume the objective function is a differentiable convex function.
+
+[00:31:42.430] chuanwu: Okay, differentiable function. And when we assume it's diminishable, you know we are going to introduce this gradient for…
+
+[00:31:51.280] chuanwu: I shall do that. Right.
+
+[00:31:53.940] chuanwu: And, how about constraints? So we assume there is a set of constraints for the problem, but the constraints are all combined into the set. And we just consider X is, featable, or satisfying all the constraints.
+
+[00:32:07.860] chuanwu: And then, what does this inequality mean? Okay, geometrically, it could be,
+
+[00:32:15.500] chuanwu: Either to understand if we check out more of the geometry illustration. So here, we are focusing on convex program. So that's the case here, feasibility set, convex, and the level, sublevel sets, convex sets.
+
+[00:32:28.680] chuanwu: Okay.
+
+[00:32:30.110] chuanwu: Alright, so what is the,
+
+[00:32:33.440] chuanwu: What is the, not like the X? It's gradient vector. Okay, gradient vector is pointing towards the direction where the objective function value is increasing.
+
+[00:32:46.110] chuanwu: Okay, increasing. So think about the gradient vector consists of partial derivative object function with respect to each variable.
+
+[00:32:53.060] chuanwu: So, in the two-dimensional plan, or the n-dimensional plan, in general, the gradient vector at X is pointing towards a direction where the object function value is increased.
+
+[00:33:06.770] chuanwu: Okay, and over here, where it… what is the direction along which the object function value is increased? So as pointed by the arrow I drew, the red arrow I drew, right? So that is the direction of gradient F0X.
+
+[00:33:26.220] chuanwu: Okay.
+
+[00:33:27.400] chuanwu: And, we say the inner product between this gradient vector and Y minus X is larger equal than 0.
+
+[00:33:36.030] chuanwu: Okay, so what is Y?
+
+[00:33:38.890] chuanwu: So, anyway, in the feasibility set.
+
+[00:33:42.680] chuanwu: So suppose our Y is here. So then, what is the direction of the vector y minus X?
+
+[00:33:48.820] chuanwu: So the vector I was drawing, drawing is Y minus X star.
+
+[00:33:52.620] chuanwu: Right.
+
+[00:33:53.930] chuanwu: Okay, so the property there is saying the inner product between the two vectors is larger than zero.
+
+[00:34:02.810] chuanwu: It also implies the angle in between the two vectors is acute angle.
+
+[00:34:07.690] chuanwu: Right. Okay, so that's the implication over there.
+
+[00:34:12.370] chuanwu: Okay, and it's pretty intuitive, right? The reason is, X star is, optimal. Okay, we are trying to establish X here, so X here.
+
+[00:34:23.179] chuanwu: is optimal.
+
+[00:34:24.550] chuanwu: Then, for any other way in the feasibility set.
+
+[00:34:28.250] chuanwu: the angle of, the, vector Y minus X, and the,
+
+[00:34:35.389] chuanwu: And the gradient vector should be a cued angle.
+
+[00:34:39.870] chuanwu: So that is… that also means the Y is more or less along the direction of increasing objective function value.
+
+[00:34:46.949] chuanwu: As compared to X.
+
+[00:34:48.530] chuanwu: So that's why X is smaller, which is the smallest objective function value.
+
+[00:34:54.330] chuanwu: Okay.
+
+[00:35:06.290] chuanwu: All right, so I hope you get the point. Geometrically, you can verify. So for any other Y, nearby X, or far away from X, as long as it is in a feasibility set.
+
+[00:35:18.560] chuanwu: You will find out Y minus X is pretty much along, or within an acute angle from the increasing direction of object contract.
+
+[00:35:28.210] chuanwu: Okay.
+
+[00:35:30.230] chuanwu: All right, so geometrically, that's how we understand this inequality, and mathematically, we can show the proof. So why this, inequality is,
+
+[00:35:40.680] chuanwu: necessary observation conditions to establish access global optimum for the COX program.
+
+[00:35:47.290] chuanwu: Here. Okay, so that briefly goes to the proof.
+
+[00:35:50.940] chuanwu: And, after convex division more, that first-order condition holds. Remember, we already established a few properties, a few, conditions, properties related to optimism related to convex function earlier. So that's the first order condition, which means the,
+
+[00:36:09.060] chuanwu: First-order approximation is an underestimated.
+
+[00:36:12.730] chuanwu: Okay, if you don't remember, go back to earlier slide.
+
+[00:36:15.900] chuanwu: And, here we are showing insufficiency of the condition to establish that, X is optimal, and this inequality holds between any pair of X and Y.
+
+[00:36:26.740] chuanwu: And here, assume we know, X is fixed, and for any Y, that's the equality in the, property holds.
+
+[00:36:34.790] chuanwu: And then, what we can get is here. Okay, because this part is negative to zero, and then removing it, what we get is F0 Y is not equal to F0X, right?
+
+[00:36:49.150] chuanwu: Okay, and this is true for any Y invisibility set, and this established access thermal minimum.
+
+[00:36:57.290] chuanwu: Right.
+
+[00:36:59.080] chuanwu: Okay, so I'm simple, and they need proof.
+
+[00:37:01.670] chuanwu: And then, following it, we show the necessity of the condition.
+
+[00:37:06.740] chuanwu: And next to the condition is, we try to establish if X is optimal, then the inequality holds.
+
+[00:37:13.750] chuanwu: Okay.
+
+[00:37:14.870] chuanwu: And here, we know X is optimal, so F dual X is minimal among all the F points in the problems of feasibility set, and we prove by contradiction. We assume, for some Y in the feasibility set, the inequality doesn't hold, okay, smaller than theore. Inner product is smaller than theore.
+
+[00:37:34.830] chuanwu: Okay, so meaning the Y point is, some dis… some distance away from X with,
+
+[00:37:42.970] chuanwu: Larger than 90 degrees, and go from the gradient vector's direction.
+
+[00:37:48.100] chuanwu: Okay, and then, again, we do a construction. We construct a convex combination point D between Y and X,
+
+[00:37:56.560] chuanwu: And then we try to make use, or we try to evaluate the,
+
+[00:38:03.220] chuanwu: derivative of S0 D with respect to how far away, how far away we move away, how far we move away from point X.
+
+[00:38:12.690] chuanwu: Okay, so D is correct combination between X and Y using the argument using the coefficient Theta. So F0D is essentially F0 Theta Y plus Y minus theta.
+
+[00:38:26.480] chuanwu: times X.
+
+[00:38:27.960] chuanwu: Theta y plus 1 minus theta times X, yes. Okay, so we calculate partial derivative. Okay, partial derivative of 0 Z with respect to theta, assuming X and Y are given.
+
+[00:38:41.630] chuanwu: And, what is this? So check out the concrete form here.
+
+[00:38:46.200] chuanwu: So, concrete form F0Z is F0 theta Y plus 1 minus theta X. So, essentially, this, if we make theta goes from 0, this partial derivative is actually so-called directional derivative of the,
+
+[00:39:03.000] chuanwu: the directional derivative of the M.
+
+[00:39:05.970] chuanwu: F0.
+
+[00:39:09.050] chuanwu: At the point.
+
+[00:39:12.610] chuanwu: Okay, and so this is not the first time that we see the definition of directional derivatives. Let me put down…
+
+[00:39:21.150] chuanwu: Slightly more comfortable.
+
+[00:39:24.690] chuanwu: So we'll, come, great.
+
+[00:39:28.680] chuanwu: I dear.
+
+[00:39:31.500] chuanwu: The V is…
+
+[00:39:56.400] chuanwu: Okay, so this is, equivalent, this is exactly…
+
+[00:40:07.110] chuanwu: Okay, I should be arriving at you.
+
+[00:40:10.260] chuanwu: with respect to CLAP,
+
+[00:40:24.820] chuanwu: So this factor, besides the direction.
+
+[00:40:28.940] chuanwu: Following which, we are moving away from X.
+
+[00:40:32.090] chuanwu: Okay, so here, so Z can be considered to be a vector that moves away from X by the amount of sigma along the direction of Y minus X, which is V.
+
+[00:40:42.950] chuanwu: Oh.
+
+[00:40:44.600] chuanwu: Okay, and now we make the theta very small, and the result here is considered to be the directional derivative of F0, FX, along the direction of Y minus X.
+
+[00:40:58.710] chuanwu: Okay.
+
+[00:40:59.780] chuanwu: I'll say that again. So here, this is our X.
+
+[00:41:04.050] chuanwu: And the directional derivative is computed
+
+[00:41:09.490] chuanwu: As computed this way, is the directional derivative.
+
+[00:41:14.440] chuanwu: as of F0, as X.
+
+[00:41:18.700] chuanwu: along the direction of Y minus X, along this direction.
+
+[00:41:24.270] chuanwu: Okay, and the definition is here. So, directional derivative of F and X in the direction of V, so in our concrete case, V is Y minus X.
+
+[00:41:34.680] chuanwu: Okay? It's defined this way. So, if the amount you are moving away from X, As decided by the
+
+[00:41:43.130] chuanwu: scalar value t, goes to zero.
+
+[00:41:47.220] chuanwu: Then, the value here, or the directional derivative value here, equivalent to inner product between the gradient vector at
+
+[00:41:57.170] chuanwu: X, under the direction.
+
+[00:42:01.940] chuanwu: Okay.
+
+[00:42:03.040] chuanwu: And to understand this further, Icon.
+
+[00:42:11.170] chuanwu: Put down more for you to understand.
+
+[00:42:13.910] chuanwu: Further.
+
+[00:42:16.440] chuanwu: Okay, so this is a directional derivative… this is a partial derivative called partial derivative force. So this is the partial derivative they are calculating, right?
+
+[00:42:26.170] chuanwu: Okay, if we multiply the direction Y minus X on both numerator and the denominator here, so it's still equivalent, right?
+
+[00:42:39.330] chuanwu: Okay.
+
+[00:42:40.400] chuanwu: F?
+
+[00:42:47.290] chuanwu: And we consider…
+
+[00:42:52.220] chuanwu: The whole theme here.
+
+[00:42:54.300] chuanwu: The whole thing here.
+
+[00:42:57.180] chuanwu: as Sigma.
+
+[00:42:58.760] chuanwu: It's a small cigaret.
+
+[00:43:00.000] chuanwu: Then, what we got is… X plus sigma.
+
+[00:43:07.730] chuanwu: Y minus X.
+
+[00:43:11.130] chuanwu: End?
+
+[00:43:12.480] chuanwu: See the left.
+
+[00:43:14.460] chuanwu: Okay, sigma is not only the quantity, but also the direction. Okay, sigma itself is a vector, right?
+
+[00:43:22.150] chuanwu: Okay.
+
+[00:43:23.430] chuanwu: All right.
+
+[00:43:26.490] chuanwu: What is the…
+
+[00:43:32.670] chuanwu: What is this?
+
+[00:43:35.510] chuanwu: complicated.
+
+[00:43:37.010] chuanwu: So this is actually the derivative.
+
+[00:43:41.070] chuanwu: of F2, or FX.
+
+[00:43:43.220] chuanwu: derivative.
+
+[00:43:44.580] chuanwu: And based on the connection between derivative and gradient, remember last time I put on the board, so derivative of a vector with respect to a vector.
+
+[00:43:57.250] chuanwu: You quills.
+
+[00:43:58.970] chuanwu: Greetings, transpose.
+
+[00:44:02.870] chuanwu: Okay, if you don't remember, check out what we talked last time, and especially check out maybe the Appendix 8.4 of the textbook.
+
+[00:44:11.780] chuanwu: Okay.
+
+[00:44:12.760] chuanwu: So that is exactly gradient transpose.
+
+[00:44:17.270] chuanwu: According to the connection between derivative and gradient.
+
+[00:44:22.420] chuanwu: Okay, derivative is a role vector.
+
+[00:44:25.330] chuanwu: And the gradient is a column vector, as I pointed out last time.
+
+[00:44:33.340] chuanwu: Okay, and this is exactly how we derive the directional derivative formula here.
+
+[00:44:43.470] chuanwu: Okay.
+
+[00:44:46.500] chuanwu: All right, so eventually what you should remember, understand and remember is here. The direction derivative function at X along a particular direction decided by a vector V is computed as inner product between the gradient vector and the direction.
+
+[00:45:03.960] chuanwu: And the detailed derivation of this formula is over there.
+
+[00:45:08.380] chuanwu: Okay, we just use the fundamental concept of the derivative.
+
+[00:45:12.090] chuanwu: And gradient, and set up the connection there.
+
+[00:45:18.050] chuanwu: Okay.
+
+[00:45:23.470] chuanwu: Alright, two special example or cases, a few, special cases of the, your action.
+
+[00:46:14.090] chuanwu: So consider two special directions.
+
+[00:46:30.160] chuanwu: Okay, if we consider two special directions, of course, in this example, we are considering X in R2.
+
+[00:46:38.330] chuanwu: Right.
+
+[00:46:39.810] chuanwu: Okay, so we…
+
+[00:46:42.720] chuanwu: vector 01, so what does it mean? So this is a horizontal axis, right? The direction is pointing towards… it is pointing along the horizontal axis. And for a direction in this way, it's pointing along there.
+
+[00:46:58.700] chuanwu: Hor… sorry. Vertical axis. Okay, horizontal axis, right?
+
+[00:47:05.530] chuanwu: Okay, and then the, directional derivative.
+
+[00:47:18.860] chuanwu: In the first case, what is it exactly like? It would be the partial derivative with respect to X2.
+
+[00:47:30.750] chuanwu: Right? Agreed?
+
+[00:47:34.150] chuanwu: Okay.
+
+[00:47:35.630] chuanwu: for V1, call it the V1, V2.
+
+[00:47:39.890] chuanwu: And a directional derivative.
+
+[00:47:42.860] chuanwu: along the direction of V2, It's exactly the
+
+[00:47:50.280] chuanwu: partial derivatives with respect to X1.
+
+[00:47:56.050] chuanwu: Agree?
+
+[00:47:58.870] chuanwu: Okay.
+
+[00:48:01.690] chuanwu: Yeah, because these are two special directions along the horizontal and vertical axis, okay, and then our directional derivative is exactly the partial derivative.
+
+[00:48:13.880] chuanwu: for X1 or X2, which is X1 or X2 that we are familiar with.
+
+[00:48:18.590] chuanwu: Okay. And the notion… oh, yeah.
+
+[00:48:22.920] chuanwu: General version of the directional derivative is just a generalization of that partial derivative concept.
+
+[00:48:32.190] chuanwu: Allow any direction defined by me.
+
+[00:48:38.500] chuanwu: Okay, it's…
+
+[00:48:48.040] chuanwu: All right.
+
+[00:48:58.460] chuanwu: Okay, if there is… No question, Amoa.
+
+[00:49:04.070] chuanwu: Okay, so here, what we are clarifying is, this, partial derivative of 0D with respect to theta is exactly the F-directional derivative of the,
+
+[00:49:17.540] chuanwu: function along the direction Y minus X. Okay, and according to our assumption, we assume this inert depth is smaller than zero. Okay, so when it's smaller than zero, it actually, points out a contradiction.
+
+[00:49:33.870] chuanwu: So when it's smaller than 0, once it is small, essentially we know F0XD is smaller than F0X.
+
+[00:49:41.920] chuanwu: Okay, steal back to the definition, here.
+
+[00:50:28.230] chuanwu: Hold it.
+
+[00:50:29.680] chuanwu: So the, derive it with respect to CETA, right?
+
+[00:50:37.860] chuanwu: Let me see which one I should point to.
+
+[00:50:55.130] chuanwu: Okay, here.
+
+[00:51:01.280] chuanwu: So the… now, what we derived is this partial derivative is smaller than 0. And lastly, the partial derivative, how is it calculated? It is calculated
+
+[00:51:13.480] chuanwu: this way.
+
+[00:51:27.350] chuanwu: All day.
+
+[00:51:36.210] chuanwu: Right? So this is the very fundamental definition of derivative over, scalar quantitative, right? Okay.
+
+[00:51:43.600] chuanwu: So, essentially, here we say C doesn't 0, we result in F0 of X. If we see that it's not 0, what we have is F0Z.
+
+[00:51:52.540] chuanwu: And if this is smaller than 0, it implies F0Z is smaller than F0X, right?
+
+[00:52:01.110] chuanwu: Agreed.
+
+[00:52:03.010] chuanwu: Okay.
+
+[00:52:04.310] chuanwu: So that's a contradiction.
+
+[00:52:11.380] chuanwu: Okay, and then, from all the analysis, what we have proven is both the sufficient and necessity of the condition to establish, X is, global optimal of the convex program.
+
+[00:52:40.050] chuanwu: Okay.
+
+[00:52:41.030] chuanwu: And then moving on, we will see more optimistic criteria for, differentiable, comments proven with, differentiable, objectivity.
+
+[00:52:51.460] chuanwu: And, here, let's now, the problem that we studied just now is for general convex problem, and here, we first limited our, attention to unconstrained problem. So for unconstrained problem, we only have a differentiable convex objective function at 0x to mean max.
+
+[00:53:10.890] chuanwu: We don't have any explicit constraint. And of course, as the overall function may have its domain. So, like, for a log function, we have to require domain to be larger, x to be larger than 0.
+
+[00:53:21.540] chuanwu: Okay, we know X is optimal if and only if x is in the domain of the objective function, and the gradient of the objective function at X is all zero vector.
+
+[00:53:33.990] chuanwu: So, essentially, this is a property we have made use of. This corresponds to a property we have made use of a few times so far, right? So, gradient vector consists of partial derivative of object function with respect to each variable.
+
+[00:53:48.110] chuanwu: So therefore, the gradient equals of zero vector is equivalent to a number of equalities, okay, setting the gradient to… has the derivatives to zero.
+
+[00:53:59.890] chuanwu: Okay, next, let's briefly check on the proof. Okay, proof of this property being sufficient necessary to establish as being optimal.
+
+[00:54:09.900] chuanwu: We show the necessity first, and,
+
+[00:54:13.670] chuanwu: Yes, so we assume X is optimal, so meaning X minimizes the objective function. Then, from the quantity we have established just now, so we know the limit protracted between the gradient vector and any directional vector moving away from X is subject to zero.
+
+[00:54:32.560] chuanwu: Okay, and, now we consider F0 is differentiable, and for differentiable function, its domain has to be, open. Okay.
+
+[00:54:45.430] chuanwu: And then, all Y. Consider any other point Y very close to X, so any point, very close to X should be fetal.
+
+[00:54:56.940] chuanwu: Okay, according to the, differentiability of the domain.
+
+[00:55:01.540] chuanwu: Even if we function on the domain.
+
+[00:55:04.240] chuanwu: And we construct a point Y. Okay, so Y is about moving away, some distance away from X, moving away by theta amount along the direction of the F gradient.
+
+[00:55:16.800] chuanwu: of the function of X.
+
+[00:55:20.250] chuanwu: And then, we make use of the inner product in this concrete case, because Y minus X is,
+
+[00:55:28.770] chuanwu: 1 minus X is negative theta gradient, and the inner product here will be equivalent to negative theta inner product of the gradient vector with itself.
+
+[00:55:41.130] chuanwu: And a vector in the product base itself equals the vectors L to norm squared.
+
+[00:55:47.010] chuanwu: Right? Okay.
+
+[00:55:49.000] chuanwu: And what we have is this quantitative is to be largely equal to zero, according to the problem that we established earlier.
+
+[00:55:58.060] chuanwu: Okay, but we do know L2 non-squared is likely equal to 0, theta is likely equal to 0, so negative of the whole thing should be smaller or equal to 0.
+
+[00:56:07.740] chuanwu: Right.
+
+[00:56:08.680] chuanwu: And we have it both being positive… larger equal to 0 and smaller equal to zero, then the only possibility is
+
+[00:56:15.240] chuanwu: The backstory is exactly zero.
+
+[00:56:18.460] chuanwu: Right?
+
+[00:56:20.400] chuanwu: Okay.
+
+[00:56:21.660] chuanwu: And Dutch.
+
+[00:56:24.760] chuanwu: And this show… this proves the ethnicity of motivation.
+
+[00:56:31.600] chuanwu: And moving on, we have other… I don't have sufficiency of the foundation.
+
+[00:56:37.890] chuanwu: Right, so the other direction of the tooth…
+
+[00:56:48.480] chuanwu: Okay, so the other direction of proof is easy to establish.
+
+[00:56:53.510] chuanwu: Right? Because then you're gonna be using the prop per day on the previous page.
+
+[00:56:58.500] chuanwu: Please definitely act as optimal in this unconscreen evaluation periods.
+
+[00:57:02.870] chuanwu: All right.
+
+[00:57:07.230] chuanwu: And moving on, next we check out convex program with equality constraints.
+
+[00:57:12.970] chuanwu: And convex program is equality constraints, meaning we are minimizing a convex objective function subject to a set of R5 equality constraints. Okay, remember, in convex program, the equality constraints have to be all R5.
+
+[00:57:28.380] chuanwu: Okay, what we… the problem that we have is here, X is optimal if and only if there exists a new
+
+[00:57:35.380] chuanwu: Such that X is in the function, and X is feasible, satisfying the quality constraint, and together with this equation that it is satisfied.
+
+[00:57:47.870] chuanwu: Okay.
+
+[00:57:48.820] chuanwu: The equation says the gradient, of X derived X plus A transpose mu for that mu is exactly 0.
+
+[00:57:59.590] chuanwu: So we will briefly, lay out the proof for this, but then, just to give you, actually brush you up of some fundamental knowledge from Linhe Algebra and others. But actually, later on, when we introduce the more generic optimality conditions for general science program, which is called KKT conditions.
+
+[00:58:19.740] chuanwu: Over there, we'll find out, this is just a special case.
+
+[00:58:24.670] chuanwu: of KG Foundations.
+
+[00:58:26.530] chuanwu: under… for… for college program, it's only called identical streets.
+
+[00:58:31.150] chuanwu: Okay.
+
+[00:58:32.470] chuanwu: Alright, so let's check out the…
+
+[00:58:37.640] chuanwu: Yeah, I'm also only showing the, necessity of the elevation, the other direction field, if we are.
+
+[00:58:45.780] chuanwu: you can try it. You can enjoy your exercise.
+
+[00:58:52.230] chuanwu: Alright.
+
+[00:58:55.270] chuanwu: Okay, what we want to establish now
+
+[00:59:00.130] chuanwu: is that X is outlaw, and then it will show that all the conditions are satisfied.
+
+[00:59:07.500] chuanwu: And, ZVAX is optimal, of course, it is,
+
+[00:59:12.400] chuanwu: Satisfied the equality constraints, and it is in the domain of objective function, and what we only need to establish is the last equality.
+
+[00:59:23.710] chuanwu: Okay, so the last equality actually contains 10 different equations. Consider the gradient vector itself is a vector.
+
+[00:59:34.560] chuanwu: Okay, okay. Now we make use of a property we have established before, assuming X is optimal. Then, for any Y that is feasible, the inner product between the gradient vector and the difference vector Y minus X should be non-active.
+
+[00:59:53.790] chuanwu: And we also know X is fetal.
+
+[00:59:57.070] chuanwu: And then, for any… we can express, any featable way, to be…
+
+[01:00:05.080] chuanwu: According to Acts and the new.
+
+[01:00:08.370] chuanwu: Okay, let's say that again. So, X is field, and Y is field, and we can set up, we can express Y using X plus mu, or sort of mu in the null space of matrix A.
+
+[01:00:21.560] chuanwu: Okay, so here's a vision of some linear algebra knowledge regarding null space of a matrix, or end.
+
+[01:00:29.520] chuanwu: The range of a matrix.
+
+[01:00:57.640] chuanwu: Do we use N8?
+
+[01:00:59.630] chuanwu: Rapid land, no space.
+
+[01:01:03.810] chuanwu: of matrix A. Okay, and A.
+
+[01:01:06.820] chuanwu: It's… containing all the X.
+
+[01:01:29.720] chuanwu: Okay, so the null space of a matrix is a set of vectors.
+
+[01:01:34.700] chuanwu: And for those vectors, AS equals 0.
+
+[01:01:38.880] chuanwu: Okay, and then the next notion is regarding range of a matrix.
+
+[01:01:58.520] chuanwu: Okay, so the range of a matrix, is of…
+
+[01:02:02.290] chuanwu: vector set as well. So those vector values can be achieved by A times some vector X.
+
+[01:02:09.630] chuanwu: Okay, so if A is… Adam comes… F?
+
+[01:02:17.010] chuanwu: Dad?
+
+[01:02:21.260] chuanwu: the, vector Vs are in M-dimensional space.
+
+[01:02:26.260] chuanwu: Okay, alright.
+
+[01:02:28.390] chuanwu: So we said Y, every feasible Y can be expressed as X plus mu, or some mu, in the null space of A. So the reason is, when Y equals X plus mu, if we do A, A, we multiply to the left, left multiply with matrix A,
+
+[01:02:48.280] chuanwu: The right-hand side is AX plus A mu.
+
+[01:02:53.070] chuanwu: AX equals B, that's what we want, because we want AY equals B, right? Because Y is feasible. And A mu is 0, because mu is in the known space of matrix A.
+
+[01:03:05.330] chuanwu: So that's the point, yeah.
+
+[01:03:18.950] chuanwu: Okay.
+
+[01:03:20.110] chuanwu: And now, we consider… we substitute Y by X plus mu, and then Y minus X is exactly, mu, right?
+
+[01:03:30.460] chuanwu: And we know, according to this inequality, we know the inner product between the gradient vector and the intricular for the space of A, right?
+
+[01:03:43.310] chuanwu: Eve?
+
+[01:03:44.180] chuanwu: On the other hand, negative mu also belongs… negative mu also belongs to the null space, and therefore, this inequality holds if we replace mu by negative mu as well.
+
+[01:03:58.340] chuanwu: Because A mu, negative A mu equals zero, plus equals zero, right?
+
+[01:04:04.230] chuanwu: Okay, so therefore, what we derive is the,
+
+[01:04:08.300] chuanwu: In the product in between, the gradient vector and that nu in the null space of A should be exactly zero.
+
+[01:04:15.680] chuanwu: So if the inner product between the two vectors is exactly zero, for any vector mu in a known space, then we know
+
+[01:04:24.510] chuanwu: The gradient vector is perpendicular to the null space. Perpendicular definition is the interconnect between this vector and all vector in the space is
+
+[01:04:34.730] chuanwu: viral.
+
+[01:04:36.350] chuanwu: Right.
+
+[01:04:38.260] chuanwu: Okay.
+
+[01:04:40.710] chuanwu: And then, the perpendicular space.
+
+[01:04:46.200] chuanwu: of no space of A is the range space of A transpose.
+
+[01:04:53.800] chuanwu: Okay, so staff can be… Established here.
+
+[01:05:04.040] chuanwu: the range of A… Or is there understanding?
+
+[01:05:13.710] chuanwu: Just make it press false.
+
+[01:05:16.400] chuanwu: principles.
+
+[01:05:35.700] chuanwu: Okay, so consider mu in the known space of A, and then consider B.
+
+[01:05:41.960] chuanwu: in a range of A transpose. So, when we say the two states are perpendicular to each other, what does it mean as mu transpose V to be 0.
+
+[01:06:00.330] chuanwu: Okay, U transpose… Meat should be zero.
+
+[01:06:07.190] chuanwu: And here we have AX equals mil. Sorry, A mil equals zero.
+
+[01:06:20.430] chuanwu: Okay, mu is in the known space of A, so A mu equals 0. And V is in the range of A transpose. That means there is A transpose D equals
+
+[01:06:33.140] chuanwu: V.
+
+[01:06:34.130] chuanwu: Right.
+
+[01:06:35.190] chuanwu: Okay, and, mu transpose, A transpose, ethos thereof.
+
+[01:06:43.240] chuanwu: And if we multiply… V on both sides is still there.
+
+[01:06:48.770] chuanwu: So what do we derive as indeed?
+
+[01:06:52.370] chuanwu: A transpose D is V. So what we derive is, indeed, mu transpose V equals 0.
+
+[01:07:00.820] chuanwu: Go ahead, just apply the,
+
+[01:07:03.480] chuanwu: definition of range and null space, and we can derive any vector V in the range of A transpose matrix.
+
+[01:07:13.350] chuanwu: is, perpendicular to any vector in the node space of A.
+
+[01:07:20.370] chuanwu: Okay.
+
+[01:07:22.020] chuanwu: All right, so this is established, then what we have is the gradient should be lamb productivity of A transpose matrix.
+
+[01:07:33.920] chuanwu: Because, it is conceivable, and with a space, containing all vectors potentially relative NA is our A transpose, so reading a vector belongs to a range of A transpose.
+
+[01:07:49.910] chuanwu: Okay, and then, according to definition of range.
+
+[01:07:54.090] chuanwu: as there, so there exists a sound factor nu, such that A transpose nu equals the, radiant vector.
+
+[01:08:05.230] chuanwu: And this will be exactly trans… can be exactly translated to the equation we want to show about.
+
+[01:08:22.720] chuanwu: Okay, so let's take a short break, 5 minutes break before we continue.
+
+[01:10:30.620] chuanwu: That's fine.
+
+[01:10:46.510] chuanwu: What is holding up?
+
+[01:10:51.200] chuanwu: this year.
+
+[01:11:28.720] chuanwu: the styles of money.
+
+[01:11:41.850] chuanwu: Beautiful.
+
+[01:12:14.820] chuanwu: Thank you, Paul.
+
+[01:12:32.810] chuanwu: Beautiful.
+
+[01:12:34.190] chuanwu: Absolutely.
+
+[01:13:18.740] chuanwu: All right, let's continue with our lecture today for the next half an hour or so.
+
+[01:13:23.960] chuanwu: Okay, so the next optimistic criteria is for complex objective function, to be minimized to subject to or over the non-necting offset. Okay.
+
+[01:13:37.240] chuanwu: So here, we are minimizing X with M0 X is differentiable from X, and our constraints require X larger than 0 when we generalize the equality.
+
+[01:13:48.630] chuanwu: So when we have a vector to the left-hand side, on one side of the generalized inequality sign, it means component-wise inequality. That also means X1, X2 after xn, all the components in X should be non-active.
+
+[01:14:03.270] chuanwu: Okay, so if X is in… all components of X is non-active, we know X is in the non-negative offset of the dimensional space.
+
+[01:14:12.530] chuanwu: Okay.
+
+[01:14:13.810] chuanwu: And, in this case, our operatic definition is here. So X is optimal if X is in a domain of the objective function, and that all the components in X is non-active, and we have that if the
+
+[01:14:28.130] chuanwu: ice component of the gradient vector here. So here, this denotes the ice component in the gradient vector, and what exactly it means is the partial derivative of X over X with respect to Xi.
+
+[01:14:42.800] chuanwu: Okay.
+
+[01:14:43.990] chuanwu: Here.
+
+[01:15:16.450] chuanwu: Okay, here, Nakla FX… Aye.
+
+[01:15:21.420] chuanwu: You should know it's equivalent to The partial derivative here.
+
+[01:15:28.080] chuanwu: Okay, just a different notation.
+
+[01:15:31.160] chuanwu: So the partial derivative… the partial derivative with respect to Xi is not active, then Xi has to be zero. If the partial derivative is zero, then Xi is larger than zero.
+
+[01:15:42.640] chuanwu: So pretty much according to the two, conditions you properly know, in fact, the Petro derivative multiplies Xi should be exactly zero. Okay, so we'll show that.
+
+[01:15:55.630] chuanwu: Here, again, we show necessarily the condition, and the other direction is left for your exercise.
+
+[01:16:02.480] chuanwu: So here, consider X is optimal. So X is optimal, X is feasible. Okay, and then for any feasible Y, okay, Y in a non-negative option, meaning Y is feasible, then the probability here holds, that's what we established earlier today.
+
+[01:16:18.780] chuanwu: And, here, the inner product between the gradient vector of F bigger of X and Y is…
+
+[01:16:31.760] chuanwu: unbounded below our Y. Okay, if you consider it as a linear function Y, it is unbounded below our y, unless the gradient vector is component-wise non-active.
+
+[01:16:44.940] chuanwu: Let me see… Okay, let me put down more detailed calculations over there.
+
+[01:16:55.150] chuanwu: So what is… The, inner product.
+
+[01:16:59.930] chuanwu: Here.
+
+[01:17:01.100] chuanwu: So that is exactly sum I partial derivative.
+
+[01:17:12.640] chuanwu: Okay, so this is a detailed way how we calculate the inner product between the gradient vector and vector y. If you consider this as a function on Y, okay, as a function on Y, especially it's a linear function on Y,
+
+[01:17:31.650] chuanwu: If we consider Y is larger to 0, meaning every component Yi is larger than 0.
+
+[01:17:38.840] chuanwu: Right.
+
+[01:17:40.000] chuanwu: The… We can vary what? We can vary all components in Y.
+
+[01:17:48.300] chuanwu: as well as Yi, every component is largest to zero.
+
+[01:17:52.310] chuanwu: And, this quantity, okay, this result quantity is unbounded. It's unbounded
+
+[01:18:01.660] chuanwu: Below, okay, unbounded below, meaning it can… its value can go to negative infinity.
+
+[01:18:07.440] chuanwu: If the coefficient here that we are multiplying every Yi component with, It's… Smaller equal to zero.
+
+[01:18:17.180] chuanwu: Right? Smaller than the world.
+
+[01:18:20.290] chuanwu: Okay, put that again.
+
+[01:18:27.640] chuanwu: So this is our coefficient to multiply Yi with. We know every Yi is not equal to 0. So if the coefficient here is smaller than zero, then we can make the corresponding Yi very, very large.
+
+[01:18:42.920] chuanwu: Then the product will be very, very negatively small, right?
+
+[01:18:47.170] chuanwu: And that would lead to the case that is unbounded below.
+
+[01:18:51.640] chuanwu: Okay.
+
+[01:18:52.760] chuanwu: Again, so here, we have this inequality.
+
+[01:19:05.940] chuanwu: when we set the Y to be exactly 0. So when Y is said to be an all-zero vector, what we get is here. So inner product between the gradient vector and inverse logic to zero.
+
+[01:19:17.910] chuanwu: Right.
+
+[01:19:40.390] chuanwu: Okay.
+
+[01:19:46.570] chuanwu: So, first of all, from the proper date, the inequality date there, so we know the interproductive tier shouldn't be unbounded below, right? Because it's aligned to zero.
+
+[01:20:01.100] chuanwu: This shouldn't be a millennial,
+
+[01:20:06.680] chuanwu: To ensure that we want the gradient vector here to be component-wise non-active.
+
+[01:20:13.400] chuanwu: So when the gradient vector here is component-wise non-active, and X is component-wise non-active, then their inner product is larger to zero.
+
+[01:20:23.830] chuanwu: But what we also collect is that their inner product is, smaller than zero.
+
+[01:20:29.020] chuanwu: When we set Y to be on 0, then the only possibility is the inner product between the two is exactly zero.
+
+[01:20:37.080] chuanwu: Okay, so that's the rationale we want to establish.
+
+[01:20:44.080] chuanwu: Okay.
+
+[01:20:45.740] chuanwu: It is exactly zero, component-wise, Here.
+
+[01:20:51.810] chuanwu: So the interproductive component-wise calculation is here. So partial derivative, pairwise partial derivative times the vector, times the component value that's sum up together.
+
+[01:21:02.220] chuanwu: And every entry is public… library to zero, because the gradient is logical to zero, every entry library goes zero, so therefore.
+
+[01:21:17.310] chuanwu: What we get is… Here.
+
+[01:21:22.390] chuanwu: So, product of every, so every product, okay, of the, hair is exactly zero.
+
+[01:21:30.610] chuanwu: So what is exactly zero as we get is here. If one component is likely to zero, then the other can be zero, and if one component is zero, and the other has to be larger than zero.
+
+[01:21:49.960] chuanwu: Bye.
+
+[01:21:52.090] chuanwu: Okay.
+
+[01:21:53.270] chuanwu: Paralyzed for Dr. Ecos evaluator.
+
+[01:22:19.750] chuanwu: Okay.
+
+[01:22:22.560] chuanwu: All right, so we have analyzed a few, automatically criteria to establish X being optimal, for convex programs of different cases, including general convex program, or COMEX program without constraints, with equality constraints, or with, constraint of non-lactive offset.
+
+[01:22:41.400] chuanwu: Essentially,
+
+[01:22:43.940] chuanwu: Later on, when we studied the KKB conditions, we would find out most of them have special cases of the general KKB conditions to establish optimal solution for a differentiable kind of probe.
+
+[01:22:57.100] chuanwu: Okay, all right, so moving up, we will, check out how we can convert a convex program across equivalent forms.
+
+[01:23:06.670] chuanwu: We say two programs are equivalent. If the solution of one can be readily obtained from the solution of the other, okay, vice versa, right? Okay, so then, briefly, we can have different techniques to convert two ones into equivalent form.
+
+[01:23:23.530] chuanwu: And, first the technique is we are able to eliminate equality constraints and, make the resulting program only inequality constraints.
+
+[01:23:34.440] chuanwu: Okay, and then you might wonder why we order to do that. So, say this is the original form, we have, inequality constraints, equality constraints. If we want, we can apply the technique here to come up with optimization problem with only inequality constraints.
+
+[01:23:50.950] chuanwu: And you might wonder why we bother to do this. So the reason is, therefore, optimization algorithms to solve complex problems exactly and numerically, some algorithms can only treat programs with only inequalified solutions.
+
+[01:24:06.190] chuanwu: And some… some program, some algorithm can treat general form complex program.
+
+[01:24:11.940] chuanwu: Okay, so if you only have some efficient algorithm to treat only inequality constraint problem, as the problem you have at times do have equality constraint, then you can apply some technique here to convert it to the form with only inequality constraints.
+
+[01:24:29.040] chuanwu: Okay, so that's the rationale. Okay, and then what is the technique to that? So the technique is pretty generic. So say we try to find a particular solution of AX equals B.
+
+[01:24:40.910] chuanwu: So we are equipped with knowledge to do that. EX equals P actually is a set of linear equations. How to solve one solution out from the set of linear equations is something we learned probably in high school, right? Okay, then we can find out F0.
+
+[01:24:56.520] chuanwu: And, then we try to find out, matrix F, whose range is a known space of A? For that, there is also a technique from linear algebra to do that, with some algorithm, some approach applied to come up with a matrix F, whose range is a known space of A.
+
+[01:25:16.130] chuanwu: And then, after we are equipped with X0 and X, we are able to convert the original program into the equivalent form without any explicit equality constraint.
+
+[01:25:27.740] chuanwu: So the objective function, in the objective function acts under the,
+
+[01:25:34.710] chuanwu: And the conversion is the length based on the substitution here. So, after obtaining X0, and after obtaining the X according to A, we are able to substitute original variable X by X0 plus F0. Okay.
+
+[01:25:54.060] chuanwu: And when X equals X0 plus FD, our new variable would be D. X0 is given, and F is given, our new variable would be D. Okay, and the dimension of the variable could change as well, depending on F's dimension.
+
+[01:26:09.320] chuanwu: Okay.
+
+[01:26:10.460] chuanwu: And the objective function, we directly replace X by FD plus X0. Inequality constraints, again, we directly replace X by FD plus X0, and inequality constraints are dropped. So the reason lies in the substitution here.
+
+[01:26:27.960] chuanwu: So if we multiply A on both sides of the substitution formula.
+
+[01:26:33.880] chuanwu: So what we get is fuel.
+
+[01:26:40.930] chuanwu: Okay.
+
+[01:26:41.920] chuanwu: We know X0 is a feasible solution to the problem, so AX0 would be B. And then what about AXD? According to
+
+[01:26:52.170] chuanwu: the, how we found F. F should be a matrix whose range is in the node space of A. And according to the definition of node space and range.
+
+[01:27:03.910] chuanwu: We actually know EF is exactly zero, regardless of what the status take.
+
+[01:27:10.610] chuanwu: You can verify according to the definition. So therefore, AFD is 0, and we know AX is D.
+
+[01:27:18.520] chuanwu: Right.
+
+[01:27:19.740] chuanwu: And this shows, using this substitution, AX equals B condition is incorrect, and there is no need to explicitly lay that again.
+
+[01:27:32.660] chuanwu: Okay.
+
+[01:27:35.280] chuanwu: All right.
+
+[01:27:36.530] chuanwu: So this is one technique to, convert the,
+
+[01:27:42.280] chuanwu: General form optimization into an inequality constrained forming.
+
+[01:27:46.210] chuanwu: And there are cases, where you might want to do things in the other way. So probably you are given a set of, optimization problems with a set of inequality constraints, and the inequality constraint is apparently some consolidation of function with F1.
+
+[01:28:04.440] chuanwu: functions, and then probably you want to make the problem meter, and then you can move the equality… the offline equalities out.
+
+[01:28:13.330] chuanwu: So by doing variable substitutions. So here, you use Yi equals AIX plus PI.
+
+[01:28:21.330] chuanwu: And then your objective function becomes some form of meter, we've got outbound mapping, and your inequality deconstrate becomes meter as well, but what you have is a set of extract, equality constricts, and a set of extract variables.
+
+[01:28:37.300] chuanwu: And you can configure the variable numerable Y and other binary variables, because original variable Rakuten solved for is only X.
+
+[01:28:44.930] chuanwu: Okay.
+
+[01:28:50.740] chuanwu: Okay.
+
+[01:28:51.810] chuanwu: Then, another technique, is to, is to introduce Slack variables to, Make linear inequalities equalities.
+
+[01:29:05.820] chuanwu: Okay, so here, the optimization we originally asked facing has a set of alpha inequality constraints. We can introduce additional variables as
+
+[01:29:18.970] chuanwu: Okay, so S dimension is decided by the number of inequalities or alpha inequalities you have. Suppose you have M, alpha inequalities, then the vector S has M components, or you have introduced the M new variables.
+
+[01:29:35.790] chuanwu: And using SI, we can add SI to the left-hand side of the inequality, and then the inequality becomes equality, as long as each SI is non-active.
+
+[01:29:48.080] chuanwu: Okay, so that is to say, by converting the inequalities, alpha inequalities to equalities, we not only introduce new variables, we also introduce a set of inequalities on the new variables as well. We have to specify SI is larger to 0 for all SIs.
+
+[01:30:08.770] chuanwu: Okay, and then you might wonder why we bother to do this. So, in cases,
+
+[01:30:15.750] chuanwu: So compare the new equilibrated program with the original one. We have upper inequalities, and we have a set of much simplified inequality constraints.
+
+[01:30:26.000] chuanwu: Okay, so the inequality constraints is only specifying SI should be in the non-active, S should be in the non-active also.
+
+[01:30:33.160] chuanwu: Right? And in cases, there are algorithms which make use of this property to treat the, inequality constraint in a simpler path.
+
+[01:30:42.820] chuanwu: Right? So that's, that's why, in some cases, we want to add rotational variables and constraints, just to make the problem equal.
+
+[01:30:54.020] chuanwu: And some algorithm treated them directly.
+
+[01:31:00.070] chuanwu: Okay.
+
+[01:31:01.250] chuanwu: And death,
+
+[01:31:03.380] chuanwu: Another standard form, of, transforming a complex program into equilibrium form, is called the Apple graph work. Okay, Apple graph work.
+
+[01:31:14.840] chuanwu: So, say here, our original objective is to linearize F0 rule X.
+
+[01:31:19.980] chuanwu: Now we introduce a scalar variable t, one additional scalar variable T, and we only specify T in the objective function. We are minimizing T as we add one extra inequality constraint. We specify that Xerox is no larger than t.
+
+[01:31:39.240] chuanwu: Okay, so apparently this is equivalent to the general form, generic form of CAX program, because now you are trying to push the objective function values down as much as possible.
+
+[01:31:51.860] chuanwu: Right? So you mean as T, and P is up bundle at 0x. And intuitively, what you are doing is you're trying to push the scalar resulting value of object function down as much as possible.
+
+[01:32:04.120] chuanwu: Right.
+
+[01:32:05.610] chuanwu: And then eventually the optimal point, at X and T is, objective function X.
+
+[01:32:12.480] chuanwu: So this is called epigraph block, because, you know, in epigraph, we specify, that Via.
+
+[01:32:21.590] chuanwu: function F to graph a function f0, F0X will be better than t, and Xt is the point, coordinates of the point in epigraph.
+
+[01:32:31.820] chuanwu: Right.
+
+[01:32:33.150] chuanwu: Okay.
+
+[01:32:38.130] chuanwu: Alright, and another form of a validation here. So suppose you have formulated a validation problem, and you found out that the objective function is on two sets of variables. So X1, X2 here can each be a vector.
+
+[01:32:53.240] chuanwu: And you found out your constraints are pretty much only on one set of variables among the two.
+
+[01:32:59.210] chuanwu: Okay, and then you can simplify the original problem to be a problem only on the
+
+[01:33:06.300] chuanwu: variables on the set of variables with constraints. So what we do is, we do an extra computation of objective function on X2 only. Okay, so here, when X… we assume X1 is fixed, and X2 is our variable, and we minimize objective function over X2.
+
+[01:33:26.240] chuanwu: And this problem itself, this subproblem itself, is an unconstrained optimization, because X doesn't have X policy constraint. And later you will find out there are, algorithms that only treat unconstrained optimization.
+
+[01:33:41.980] chuanwu: Okay, and then you can use those algorithms as typically circular, and you can apply that same polar algorithm to solve this unconstrual optimization first, and then you plug in the objective function value with respect to this X2 removed.
+
+[01:33:57.400] chuanwu: And then your new resulting objective, your new resulting problem is simpler.
+
+[01:34:02.880] chuanwu: a smaller set of variables.
+
+[01:34:10.270] chuanwu: Okay, so those are some typical techniques for us to convert noise program into equivalent form. As mentioned, sometimes it is for either treatment by a known or developed algorithm, and sometimes it's for your own, either analysis and observation of the resulting program.
+
+[01:34:30.800] chuanwu: Okay, so… And then next, I want to make a comment.
+
+[01:34:37.380] chuanwu: So the comment is, we are now, starting to… starting to focus on convex program. So we know in convex program, objective function is to minimize our convex function.
+
+[01:34:50.520] chuanwu: And the inequality constraints should be convexed as well, and inequality constraints have to be applied. And that is a specific form of the problem that the, core convex optimization theory, duality theory, and the KKB conditions can trip.
+
+[01:35:06.690] chuanwu: And there have been efficient algorithms designed by different researchers over the past decades that can solve unconstrained, constraint, and generically correct constraint validation.
+
+[01:35:20.060] chuanwu: Okay, and, beyond the standard form of COMEX program.
+
+[01:35:24.700] chuanwu: Any slight perturbation would make the problem unsolvable. Okay, unsolvable meaning either no… either finding the optimal solution takes exponential time to the problem spill, or there is no way to find the exact solution, right?
+
+[01:35:42.150] chuanwu: Okay.
+
+[01:35:43.150] chuanwu: All right, so for example, objective function should be a convex, and we are minimizing it. And on the other way, if we are maximizing convex from objective function, or we are minimizing concrete function, either case, we will make the resulting quota non-comvexed.
+
+[01:36:00.000] chuanwu: Okay, in our definition, because they are not efficiently solo.
+
+[01:36:03.910] chuanwu: And if we do have a non-convex function involved in the constraints, then that's a bad thing as well. And if we already call it the constraints, is not F, not affine, but involved convex function, that's a good idea as well, because in all those cases, we cannot guarantee.
+
+[01:36:22.430] chuanwu: That the availability set is coming to you.
+
+[01:36:25.600] chuanwu: And then, we cannot use a nice theory people have designed to solve that.
+
+[01:36:30.430] chuanwu: Okay.
+
+[01:36:35.660] chuanwu: Alright, and then, I mean, maybe that,
+
+[01:36:40.650] chuanwu: comment. The final part of this set of slides is on a close relative of comics store.
+
+[01:36:48.610] chuanwu: And that is related to what's causing our X function that we introduced earlier.
+
+[01:36:53.710] chuanwu: So here, the… in the form of the organization looks pretty much like the standard form of CAMEX program that we have, checked out, that we have looked at earlier today. The only difference lies in the objective function.
+
+[01:37:08.850] chuanwu: If the objective function is called the convex instead of being exactly convex, then the whole program here is called a quality convex optimization problem.
+
+[01:37:19.670] chuanwu: Okay, and because, and the object, the, functions in the inequality constraints are still complex, and the equalities are still at 5.
+
+[01:37:29.700] chuanwu: Only the objective function could be quasiconvex instead of convex.
+
+[01:37:34.190] chuanwu: Okay,
+
+[01:37:36.200] chuanwu: Then, we call this as some close relative to a convex analyzation problem, because actually, if you have a quasi-convex program in this form, we also have efficient algorithms to solve that, because it's pretty close to the convex program they are focusing on. Okay, we will see the connections for…
+
+[01:37:55.920] chuanwu: Okay, but before that, we can first check off some property, because we changed object function from being exactly convex to just a qui convex, and as we analyzed earlier, a quality convex function may not always be convex, right?
+
+[01:38:11.400] chuanwu: And then, on the very first problem that we introduced today related to a local optimal, global optimal of COMEX program is broken. So here, for a quasi COMEX program as a BAF in the form of BAF, it may have local optimal points that are not global optimal.
+
+[01:38:30.500] chuanwu: Okay, so this is very intuitive. The core reason is objective function is not.
+
+[01:38:35.980] chuanwu: Connex may not be connex. An example here.
+
+[01:38:48.500] chuanwu: Is this a quasic convex function curve?
+
+[01:38:53.040] chuanwu: Yes, because it's sub-level sets are all consecutive line segments along the x-axis, right? Okay. And then, the,
+
+[01:39:02.010] chuanwu: Points.
+
+[01:39:02.960] chuanwu: Okay, suppose this part is horizontal to the x-axis.
+
+[01:39:07.840] chuanwu: then any point here is local optimal, right? Because you move a bit left to the left, a bit to the right, the objective function value remains the same, right?
+
+[01:39:19.620] chuanwu: Oh, okay.
+
+[01:39:21.410] chuanwu: I need to… Joel Moore.
+
+[01:39:27.480] chuanwu: Heh, sorry, the, correct the example.
+
+[01:39:34.310] chuanwu: Paste here.
+
+[01:39:39.610] chuanwu: dropped.
+
+[01:39:46.800] chuanwu: Okay, so it's a new function curve, quasi-convex function curve.
+
+[01:39:54.180] chuanwu: The new function curve is still quasi-convex function curve, right? You can still show you the definition. The sublevel sets are all consecutive line segments in the x-axis. Okay.
+
+[01:40:04.570] chuanwu: And then, check out the points here. Suppose this part is horizontal, it's parallel to the x-axis. Then any point here is a local optimal.
+
+[01:40:14.560] chuanwu: Because moving a bit to the left or moving a bit to the right doesn't change your objective function value, right? But apparently, these points are only local optimal without being global optimal. And this is, at the bottom of the valley, it is a global optimal point.
+
+[01:40:29.880] chuanwu: Okay.
+
+[01:40:53.710] chuanwu: All right, and then, next, what we are, we are going to introduce some,
+
+[01:41:01.100] chuanwu: representation of a quality call convex function using a sequence or a family of convex functions. So this representation or kind of, equivist,
+
+[01:41:14.770] chuanwu: conversion between quasi-convex function and a sequence of convex functions are useful in terms of using convex optimization approaches to solve quasi-convex optimization problems. Okay, so let's check out what the conversion of representation is like.
+
+[01:41:31.100] chuanwu: We consider F0 to be a quasi-convex function, and then we can always find a family of convex function, or at least a partially convex function that satisfies the following properties.
+
+[01:41:48.650] chuanwu: So, the family of functions phiT is indexed by T. Okay, indexed by T. And we say phi tx is convex in X when NA t is fixed.
+
+[01:42:02.370] chuanwu: Okay, so phiTX has actually two sets of variables, X and T, and if t is fixed, then phiTX is convex in X.
+
+[01:42:10.960] chuanwu: And we also need to require that T sub-level set of function F0 is 0 sublevel set of phi i, okay?
+
+[01:42:21.960] chuanwu: Putting that into mathematical language, here it is. So if we have F0X no larger than t, then at the corresponding t, phi tx is no larger than 0.
+
+[01:42:34.130] chuanwu: Okay, then this is a representation we want to find out. So when we are given a quasiconvex function F0, this is a representation that we… the…
+
+[01:42:46.670] chuanwu: that we want to find out. And in fact, such a representation always exists.
+
+[01:42:52.210] chuanwu: There are a few standard ways to come out with such a representation, and there can be multiple representations corresponding to the same quasi-convex function. So here, let's see a few standard ways to convert a quasic convex function into the sequence of representations.
+
+[01:43:10.940] chuanwu: So here.
+
+[01:43:12.660] chuanwu: We define function phi tx.
+
+[01:43:16.440] chuanwu: Its value is 0 if corresponding F0X is no larger than t, and its value is a positive infinity otherwise.
+
+[01:43:25.360] chuanwu: Okay, for such a representation, you can verify.
+
+[01:43:28.880] chuanwu: So, first of all, you can verify that, it is, convex when T is fixed.
+
+[01:43:37.410] chuanwu: Okay, 1T is fixed, and F dual X satisfied this, and 5DX is, convex, because it's just a constant value.
+
+[01:43:45.860] chuanwu: And the, 1F0X smaller or equal to t, phi tx is exactly 0, so that means, phi tx is smaller or equal to 0 as well.
+
+[01:43:57.790] chuanwu: Okay. Another way of defining this, representation is here.
+
+[01:44:05.730] chuanwu: So we can define phiTX to be the distance between vector X and a set defined this way. So this is a sub t, sub-level set of function at zero.
+
+[01:44:18.120] chuanwu: Okay, two conditions it need to satisfy.
+
+[01:44:27.170] chuanwu: So phi TX is, convex in X when T is fixed.
+
+[01:44:35.240] chuanwu: Okay, so the distance between X and a convex set, so first of all, this is a sub-level set of the quasi-convex function, so the set here is a convex set.
+
+[01:44:47.360] chuanwu: So the distance between a vector and a convex set, the resulting function is a convex function, according to one of the rules, that minimization of… one of the rules that we introduced earlier, one of the operators we introduced earlier.
+
+[01:45:03.210] chuanwu: to come up with convex function. Okay. At that time, we exactly used a distance, example, distance function as an example.
+
+[01:45:12.130] chuanwu: Okay, and so therefore, phi tx is convex in X when T is fixed. And the second condition is T sublevel set of F0 should be the zero sublevel set of phi T.
+
+[01:45:24.640] chuanwu: So when F0Z smaller equal to T, when X is in the set, it satisfies F0X smaller equal to t, and when X is in the set, the distance is exactly 0.
+
+[01:45:37.810] chuanwu: Right, so therefore, T sublevel set of F0, is
+
+[01:45:44.450] chuanwu: Indeed, corresponding to a phi tx small equal to 0.
+
+[01:45:49.930] chuanwu: Okay.
+
+[01:45:51.340] chuanwu: All right, and then the third generic approach to define a representation that satisfies the two conditions, to the original
+
+[01:46:01.460] chuanwu: Cause economics function F0 is here. Suppose, and the third way of finding the representation, let's lay some requirement on the form of the original cosi convex function.
+
+[01:46:14.640] chuanwu: So suppose the original quality convex function F0X is some convex over concave function. So here, in the numerator, function P should be convex, and in the denominator, function Q should be concave. And we also require what we have in the denominator is larger than 0 on the domain of the function.
+
+[01:46:37.240] chuanwu: Okay, and then we can construct a phi TX as in this way. Our PhiTX is exactly PX minus TQX.
+
+[01:46:47.290] chuanwu: Okay, and then, when T is logical to 0, our phi t is convex in X.
+
+[01:46:54.630] chuanwu: Because here, P is convex, Q is concave.
+
+[01:46:58.550] chuanwu: And we also have that the T sublevel set of phi T… the zero sublevel set of phi TX is exactly…
+
+[01:47:09.220] chuanwu: corresponding to, F0X smaller equal to t. So because here, when phi tx is smaller or equal to 0, we know PX smaller or equal to TQX, and that is also equivalent to PX divided by QX, no larger than t, and the left-hand side is exactly F0X.
+
+[01:47:38.760] chuanwu: Okay.
+
+[01:47:39.770] chuanwu: All right, so this is the… these are a set of,
+
+[01:47:48.830] chuanwu: conversions that we can work, to make, quasi-convex, quasi-convex function represented by a family of, quasi, family of, convex function, X.
+
+[01:48:04.320] chuanwu: All right, probably I shouldn't rush to finish the algorithm to solve. I'll leave the algorithm discussion on solving quality convex optimization using convex optimization algorithm to the next lecture.
+
+[01:48:21.900] chuanwu: All right, okay, so we are…
+
+[01:48:24.990] chuanwu: Let's, let me stop here, and we will call it a day.
+
+[01:48:30.000] chuanwu: Thank you.

@@ -1,0 +1,3034 @@
+WEBVTT
+
+1
+00:02:19.200 --> 00:02:24.900
+chuanwu: Alright, good morning, everyone. Welcome to today's class on optimization. Let's get started.
+
+2
+00:02:26.200 --> 00:02:46.100
+chuanwu: We have been working on quality convex optimization. So especially what we have been trying to do is to establish a connection between quality convex optimization problem and complex problem. And then you will find out there is a simple and neat algorithm which we can apply to solve a cozy convex problem.
+
+3
+00:02:46.450 --> 00:02:49.179
+chuanwu: Okay, so let's first revise.
+
+4
+00:02:51.020 --> 00:02:53.650
+chuanwu: Let me tune the voice down a bit.
+
+5
+00:02:55.430 --> 00:03:14.849
+chuanwu: Let's first revise what a quality convex optimization problem looks like. So, essentially, the constraints, inequality constraints have to be convex, and the equality constraints have to be affine, so that means, regarding the constraints, they are the same as required by convex program.
+
+6
+00:03:14.880 --> 00:03:27.900
+chuanwu: And the difference lies in the objective. So here, the objective function is a quantity convex of an objective function, instead of being convex. We know a function being quantity convex doesn't mean it is convex.
+
+7
+00:03:28.290 --> 00:03:48.290
+chuanwu: Okay, and then last time, we already established some connection or conversion between callig convex functions and a sequence of convex functions, and here it is. So essentially, every CLD convex function can be represented by a sequence of convex functions indexed by 2.
+
+8
+00:03:48.290 --> 00:03:53.809
+chuanwu: Okay, so X is still the original variable, and the new variable introduced is P.
+
+9
+00:03:54.030 --> 00:04:03.489
+chuanwu: And the equivalence is established based on the two conditions. Essentially, we want that 5TX to be convex in X for fixed T.
+
+10
+00:04:03.560 --> 00:04:17.329
+chuanwu: So, by the way, a function being convex in individual variable doesn't mean when the other variable is fixed, doesn't mean it is convex. Okay, so a simple example is here.
+
+11
+00:04:18.910 --> 00:04:19.890
+chuanwu: Or…
+
+12
+00:04:29.010 --> 00:04:44.640
+chuanwu: Okay, so consider a function on two-dimensional variable, X1 and X2. So the, product of X1, X2, this function isn't complex. You can try to verify or try to prove, and… but if we consider X2 fixed.
+
+13
+00:04:44.640 --> 00:04:50.960
+chuanwu: the function is convexing X1, right? If X1 is fixed, the function is convexing X2.
+
+14
+00:04:51.820 --> 00:05:01.900
+chuanwu: So that means when some part of the variable is fixed, and the function being convexed in the other part of the variables, doesn't mean the function is convex.
+
+15
+00:05:02.030 --> 00:05:10.250
+chuanwu: Entirely. Okay, for a function being convex entirely, we have to say it is convex on all the variables.
+
+16
+00:05:10.970 --> 00:05:25.230
+chuanwu: Not fixing any part of it. Okay, so therefore, here, when we say phiTX is convex in X for a fixed of t, so that means t fixed, then 5TX is convex in X. But 5TX in general may not be convexed.
+
+17
+00:05:25.400 --> 00:05:29.170
+chuanwu: Because it may not be complex on teeth as well.
+
+18
+00:05:29.400 --> 00:05:39.429
+chuanwu: Right? Okay, and then we require that the t sublevel set of function F0X is equivalent to the 0 sublevel set of phi t.
+
+19
+00:05:39.700 --> 00:05:56.919
+chuanwu: So we have seen a few examples of how to construct such a sequence of function phi dx, and essentially, the sequence of function phi dx corresponding to a given cognitive function is not unique. You have multiple ways to construct such 5DX, satisfying all the conditions.
+
+20
+00:05:57.750 --> 00:06:07.030
+chuanwu: Okay, now we assume. We are given a quality convex program, and then we already find it's a sequence of phi TX.
+
+21
+00:06:07.170 --> 00:06:15.810
+chuanwu: Okay, and then we have an algorithm, or an approach that we can apply to solve quisulation problems
+
+22
+00:06:16.680 --> 00:06:26.499
+chuanwu: Exactly, using, by solving a sequence of a complex program, and more exactly, by solving a sequence of complex feasibility problems.
+
+23
+00:06:26.640 --> 00:06:27.520
+chuanwu: Okay.
+
+24
+00:06:27.930 --> 00:06:36.170
+chuanwu: And they're… Okay, and what the availability problem is, looking like. So here it is.
+
+25
+00:06:36.360 --> 00:06:39.709
+chuanwu: And here, we have a set of constraints.
+
+26
+00:06:43.270 --> 00:06:59.210
+chuanwu: The, later two parts of the, later two sets of the, the debated problem are the original constraints. FIX no larger than 0, and AX equals B. So those two are from the original Kobe economics program.
+
+27
+00:06:59.450 --> 00:07:05.020
+chuanwu: And what is new in the set of constraints is this pi tx is no larger than 0.
+
+28
+00:07:05.410 --> 00:07:10.719
+chuanwu: Okay, so if I tx no larger than 0, what is its equivalent of 2?
+
+29
+00:07:11.750 --> 00:07:13.140
+chuanwu: So, FICX,
+
+30
+00:07:14.360 --> 00:07:24.410
+chuanwu: no larger than 0, exactly equivalent to 2x0x, no larger than T. So that's required when we come up with the IDX functions.
+
+31
+00:07:24.690 --> 00:07:25.470
+chuanwu: Right.
+
+32
+00:07:25.650 --> 00:07:36.110
+chuanwu: Okay, and then, what this, set of, what this featability problem means is we try to find out feedable X.
+
+33
+00:07:36.420 --> 00:07:47.080
+chuanwu: original variable value, such that the original inequality constraints are satisfied, and the objective function value is no larger than t.
+
+34
+00:07:47.300 --> 00:07:49.440
+chuanwu: And consider T as given.
+
+35
+00:07:51.280 --> 00:07:57.949
+chuanwu: And the feasibility solution to one of such… to such a feasibility problem, what does it imply?
+
+36
+00:07:58.630 --> 00:08:11.609
+chuanwu: So when we are given T, if we can find out X, satisfying all the constraints, the implication is exactly… we have some X, making the objective function value no larger than the given T.
+
+37
+00:08:12.030 --> 00:08:12.870
+chuanwu: Right.
+
+38
+00:08:13.390 --> 00:08:20.379
+chuanwu: And then, our rationale is, and if we cannot find a feasible solution satisfying all the constraints.
+
+39
+00:08:20.900 --> 00:08:27.669
+chuanwu: Then we know the objective function of the object function value of the original problem.
+
+40
+00:08:28.130 --> 00:08:30.780
+chuanwu: But it's by no means smaller than T.
+
+41
+00:08:31.060 --> 00:08:32.970
+chuanwu: That has to be life-lived.
+
+42
+00:08:33.700 --> 00:08:34.549
+chuanwu: Right?
+
+43
+00:08:35.090 --> 00:08:48.750
+chuanwu: And then the rationale is, for solving the, original COMEX program is, called the COMEX program is, we kind of try to push TDA as much as possible.
+
+44
+00:08:49.700 --> 00:08:56.370
+chuanwu: Until the smallest T, which makes the feasibility problem non-feasible.
+
+45
+00:08:57.520 --> 00:08:58.390
+chuanwu: Right?
+
+46
+00:08:58.830 --> 00:09:12.449
+chuanwu: And then, at the kind of boundary point, we know that T is a minimal achievable objective function value of the original problem, and the corresponding X is the optimal solution to the original problem.
+
+47
+00:09:13.490 --> 00:09:16.780
+chuanwu: So that's the high-level idea and the rationale.
+
+48
+00:09:17.930 --> 00:09:18.770
+chuanwu: Right?
+
+49
+00:09:18.930 --> 00:09:20.490
+chuanwu: Okay,
+
+50
+00:09:20.740 --> 00:09:29.029
+chuanwu: And how do we find out the T, that minimal T, that still makes the feasibility problem feasible?
+
+51
+00:09:29.280 --> 00:09:35.049
+chuanwu: we use an algorithm, I believe most of you already know, we use bisexual.
+
+52
+00:09:35.860 --> 00:09:49.829
+chuanwu: Okay, so we start from within a range. We start with the range, lower bound L, upper bound U, known to contain our possible P star of optimal T star, right, optimal T, minimal T.
+
+53
+00:09:49.890 --> 00:09:59.059
+chuanwu: You can start the range… start the range from a large one, and then eventually, using bisection, the range is going to be cut half and half until very small.
+
+54
+00:09:59.510 --> 00:10:00.300
+chuanwu: Right?
+
+55
+00:10:00.430 --> 00:10:17.959
+chuanwu: Okay, so the bisection algorithm is pretty standard. So here, we start with a range, lower bound to L, upper bound in U, and we consider tolerance a very small value, epilog, and we pick that T to be the middle point of the range.
+
+56
+00:10:17.960 --> 00:10:25.310
+chuanwu: L up to U. So, P equals… L plus U divideda 2.
+
+57
+00:10:29.940 --> 00:10:36.749
+chuanwu: Okay, and then we use that, fix the T to solve the complex feasibility problem.
+
+58
+00:10:37.530 --> 00:10:38.310
+chuanwu: Right.
+
+59
+00:10:38.750 --> 00:10:45.629
+chuanwu: And, if the feasibility problem is feasible, then we know that the T is attainable.
+
+60
+00:10:46.110 --> 00:10:47.560
+chuanwu: Okay, attainable.
+
+61
+00:10:47.950 --> 00:10:52.279
+chuanwu: And that means we still have space to put, push P down.
+
+62
+00:10:52.710 --> 00:11:02.120
+chuanwu: And in order to push T down, by way of the bisection algorithm, we move the upper bound of the range that contains P star to exactly T.
+
+63
+00:11:03.040 --> 00:11:10.540
+chuanwu: Otherwise, if the feasibility problem is… becomes non-feasible, that means our community is too small.
+
+64
+00:11:10.830 --> 00:11:17.449
+chuanwu: Right? And then we move the lower bound of our, you know, our optimal value range to T.
+
+65
+00:11:18.500 --> 00:11:25.200
+chuanwu: And this repeats until our range containing P-star becomes very small.
+
+66
+00:11:25.350 --> 00:11:28.399
+chuanwu: That means new menace are out no larger than epsilon.
+
+67
+00:11:29.170 --> 00:11:29.920
+chuanwu: Right.
+
+68
+00:11:30.180 --> 00:11:32.710
+chuanwu: Okay, so this is exactly by section.
+
+69
+00:11:33.130 --> 00:11:35.110
+chuanwu: Okay, I'll start from…
+
+70
+00:11:35.370 --> 00:11:51.789
+chuanwu: L and U. We know our P star is here, and we choose our T as a middle point, and we solve the feasibility problem. If it's suitable, we move U down here. Okay, and then remove the right-hand half of the range.
+
+71
+00:11:51.950 --> 00:12:03.040
+chuanwu: And we pick another T as a middle point, and if using this key, the feasibility problem becomes infeasible, we move the lower bound to T.
+
+72
+00:12:03.710 --> 00:12:17.090
+chuanwu: Okay, so the range becomes smaller and smaller, and eventually we consider it's within the tolerance range of epsilon, then we just consider it's just a single point, and the middle point of that very small range becomes our optimal P star.
+
+73
+00:12:17.850 --> 00:12:22.700
+chuanwu: And corresponding X becomes our, optimal solution.
+
+74
+00:12:23.490 --> 00:12:24.370
+chuanwu: Right.
+
+75
+00:12:24.740 --> 00:12:34.209
+chuanwu: Okay, right, so this is a general algorithm, and how many iterations it might require, so we know…
+
+76
+00:12:35.710 --> 00:12:39.280
+chuanwu: We are pushing, the range down.
+
+77
+00:12:39.600 --> 00:12:40.550
+chuanwu: End.
+
+78
+00:12:43.940 --> 00:12:52.570
+chuanwu: And how many, iterations will it eventually… converge, okay? So, if,
+
+79
+00:12:53.440 --> 00:13:09.140
+chuanwu: So the… for one iteration, for every iteration, we are cutting U and L, the range of U minus L, by half, right? And when it is the case iteration, we are cutting it 2 to the hard case.
+
+80
+00:13:09.670 --> 00:13:16.870
+chuanwu: Right? Of the original range. And eventually, the range, tolerance becomes smaller than the tolerance.
+
+81
+00:13:17.030 --> 00:13:19.950
+chuanwu: And then, our CAIC.
+
+82
+00:13:20.480 --> 00:13:25.420
+chuanwu: should be… Larger than that values.
+
+83
+00:13:29.380 --> 00:13:35.119
+chuanwu: Okay, move absolutely to the left-hand side, 2 to the power k to the right-hand side, and you come up with that K.
+
+84
+00:13:35.300 --> 00:13:46.100
+chuanwu: be the value here, lower bound base, by log base 2U minus L divided by absolute. So that's the number of iterations this bisection will be drawn in order to converge.
+
+85
+00:13:48.630 --> 00:14:04.320
+chuanwu: Okay, so this is a generic algorithm, so it's pretty nice and neat, and in the sense that it is, in general, applicable to solve a given cognitive program, as long as you find out that 5DX you can use this to solve.
+
+86
+00:14:04.830 --> 00:14:24.029
+chuanwu: Right? And we know for convex optimization problem, or feasibility optimality problem, we have efficient algorithm to be introduced by the end of the… in the second half of the semester. So, the second step, solving the convex featability problem, is efficiently solvable, exactly efficiently.
+
+87
+00:14:24.030 --> 00:14:25.080
+chuanwu: solvable.
+
+88
+00:14:25.160 --> 00:14:29.610
+chuanwu: And then the whole algorithm runs, you know, Evicial Party.
+
+89
+00:14:31.160 --> 00:14:32.070
+chuanwu: Okay.
+
+90
+00:14:33.150 --> 00:14:39.270
+chuanwu: Alright, so some of… I believe some of you might have a question.
+
+91
+00:14:39.450 --> 00:14:53.979
+chuanwu: Why do we bother to use the iterative bisection algorithm to decide the T? Shouldn't we be able to directly solve for T by solving a validation problem with T as objective to minimize?
+
+92
+00:14:54.350 --> 00:14:57.939
+chuanwu: And all the constraints to be satisfied.
+
+93
+00:15:01.570 --> 00:15:09.669
+chuanwu: Okay, so consider these constraints. They are from the feasibility problem, right? And we are… which we are solving in step 2 there.
+
+94
+00:15:09.890 --> 00:15:15.420
+chuanwu: And what we're trying to do is we're trying to find out the T that make us feel, right?
+
+95
+00:15:15.520 --> 00:15:26.450
+chuanwu: Wouldn't it be more direct if we just solved the optimization problem this way, minimize T, try to push T down as much as possible to make sure there is feasible solution?
+
+96
+00:15:26.640 --> 00:15:27.500
+chuanwu: Right.
+
+97
+00:15:27.700 --> 00:15:37.169
+chuanwu: So there is an issue with such a more appealing, more straightforward, original solution. So the key issue lies in here.
+
+98
+00:15:37.550 --> 00:15:46.650
+chuanwu: So phiTX function. So this function is on two sets of variables. One is X, the original set of variables, and the other is T, a scalar variable.
+
+99
+00:15:46.920 --> 00:16:06.520
+chuanwu: If 5TS is entirely convex on all… on the whole set of variables, then this becomes a convex inequality constraint. And the whole problem is a convex program. And then, yes, there is efficient algorithm to solve exactly for the optimal solution in polynomial, inefficient time.
+
+100
+00:16:06.920 --> 00:16:11.380
+chuanwu: But 5TX may not be entirely complex.
+
+101
+00:16:12.130 --> 00:16:21.939
+chuanwu: It is ensured to be convex when T is fixed, convex on X, but if you put T together into the set of variables, the whole thing by DX may not be convex.
+
+102
+00:16:22.250 --> 00:16:28.370
+chuanwu: If it's not coax, this way of solution doesn't work, but the bisection approach still works.
+
+103
+00:16:29.870 --> 00:16:30.810
+chuanwu: Okay.
+
+104
+00:16:31.410 --> 00:16:32.390
+chuanwu: Alright.
+
+105
+00:16:33.550 --> 00:16:42.060
+chuanwu: Okay, so that is a generic algorithm to solve the so-called close relative problem of COMEX program, which is called the COMEX program.
+
+106
+00:16:56.920 --> 00:17:01.360
+chuanwu: Okay, and then moving on, the following topic.
+
+107
+00:17:03.830 --> 00:17:04.829
+chuanwu: Okay.
+
+108
+00:17:04.849 --> 00:17:17.780
+chuanwu: And moving on, in the next few lectures, we'll be looking at more specific forms of convex program, starting from linear program, which is a very fundamental, type of, programs
+
+109
+00:17:17.780 --> 00:17:27.780
+chuanwu: Using the category commence program. And moving on from here, we will see a contractor program, geometric program, and many other more higher order forms of the
+
+110
+00:17:28.040 --> 00:17:38.450
+chuanwu: program. Okay, linear program. So, from the name, you know, so basically everything involved, all the functions to involve should be linear, or more formally, I'm fine.
+
+111
+00:17:38.770 --> 00:17:48.049
+chuanwu: The objective function needs to be affine, the inequality constraint needs to be affine, and the equality constraints, no choice, have to be affine as well.
+
+112
+00:17:48.130 --> 00:17:56.170
+chuanwu: Okay, so here, what we put down here can be considered as a generic form of linear programming.
+
+113
+00:17:56.180 --> 00:18:11.499
+chuanwu: And here, X is an dimensional vector, and C is an embeddimensional vector, because we are doing interproduct between C and X. And that D is kind of X track, because you can safely remove it from the objective function without changing the solution.
+
+114
+00:18:11.650 --> 00:18:17.100
+chuanwu: Okay, and then the, G here, peak G here is a matrix.
+
+115
+00:18:17.210 --> 00:18:30.249
+chuanwu: So if G is P times N, that means there are P inequality constraints, inequality linear… linear inequality constraints in there, and H will be correspondingly a P-dimensional vector.
+
+116
+00:18:30.760 --> 00:18:42.599
+chuanwu: And DX equals B, so similarly, is a coefficient matrix, and depending on the dimension of A, if A is M times N, then B is a n-dimensional vector.
+
+117
+00:18:43.020 --> 00:18:43.880
+chuanwu: Okay.
+
+118
+00:18:44.280 --> 00:18:53.509
+chuanwu: And then… The, what does, what does the feasibility set of a linear program?
+
+119
+00:18:53.740 --> 00:18:55.310
+chuanwu: Looks… look like.
+
+120
+00:18:55.660 --> 00:19:07.760
+chuanwu: So we know the feasibility set is a set composed by the constraints, right? All the points satisfied in the constraints belong to the feasibility set.
+
+121
+00:19:07.900 --> 00:19:22.119
+chuanwu: And for linear program, the constraints represent common sets. So, like the linear qualitative constraints, linear and unequality constraints corresponds to have spaces.
+
+122
+00:19:22.590 --> 00:19:27.999
+chuanwu: And the affine equality constraints corresponds to hyperplits.
+
+123
+00:19:28.300 --> 00:19:40.059
+chuanwu: And then, essentially, the set of inequality and equality constraints, the intersection set, represent the intersection of a number of
+
+124
+00:19:40.420 --> 00:19:42.680
+chuanwu: Half spaces, and hyper plants.
+
+125
+00:19:43.260 --> 00:19:52.279
+chuanwu: And what shape does a set of half-space… intersection of half-spaces and hyperglins represent?
+
+126
+00:19:52.670 --> 00:19:57.640
+chuanwu: So that exactly corresponds to the definition of polyhedral.
+
+127
+00:19:57.990 --> 00:20:10.709
+chuanwu: So we know polyhedron is intersection of a number of up spaces and hyperplits. So therefore, the feasibility set of linear program is exactly a polyhedron, and of course, coax.
+
+128
+00:20:10.840 --> 00:20:14.049
+chuanwu: Right, featibility set of all COMEX programs are COMEX.
+
+129
+00:20:14.760 --> 00:20:15.840
+chuanwu: Essentially.
+
+130
+00:20:16.260 --> 00:20:26.380
+chuanwu: Okay, all right, here, P is our polyhedral, visibility set. And the dotted straight lines, what do they represent?
+
+131
+00:20:27.340 --> 00:20:31.169
+chuanwu: they correspond to a notion that I introduced
+
+132
+00:20:31.290 --> 00:20:36.109
+chuanwu: Earlier, sometime last week, by drawing something on board.
+
+133
+00:20:37.030 --> 00:20:42.949
+chuanwu: Okay, so the parallel dotted lines represent level curves.
+
+134
+00:20:43.730 --> 00:20:46.059
+chuanwu: Of the objective function values.
+
+135
+00:20:46.520 --> 00:20:49.510
+chuanwu: That means all points on each.
+
+136
+00:20:49.620 --> 00:20:53.730
+chuanwu: Dotted line corresponds to the same objective functionality.
+
+137
+00:20:55.080 --> 00:21:00.460
+chuanwu: So here, why I said the top lines here represent the same,
+
+138
+00:21:00.600 --> 00:21:14.700
+chuanwu: Every line represents the same objective function value. So here, check off that C. So C is a normal vector of the hyperplan, denoted by C transpose X plus D, equaling 0, equaling
+
+139
+00:21:15.100 --> 00:21:16.310
+chuanwu: some value.
+
+140
+00:21:17.110 --> 00:21:26.299
+chuanwu: Okay, so C transpose plus D. So those hyperplas corresponding to such a fun function, they are normal vectors, a vector C.
+
+141
+00:21:27.110 --> 00:21:32.579
+chuanwu: And the C points to the direction where the objective function value is increasing.
+
+142
+00:21:33.580 --> 00:21:40.699
+chuanwu: Because if you calculate the gradient of the objective function, what exactly is that? A gradient of a function
+
+143
+00:21:42.320 --> 00:21:48.539
+chuanwu: C transpose X plus D. The gradient of that is exactly vector C.
+
+144
+00:21:49.050 --> 00:21:56.719
+chuanwu: Right? Vector C. And that also means C points to the direction where the objective function value is increasing.
+
+145
+00:21:57.990 --> 00:22:06.170
+chuanwu: And we are minimizing… we are trying to minimize objective function value, so therefore, we are more interested in the direction of the matte.
+
+146
+00:22:06.950 --> 00:22:12.480
+chuanwu: So next if C points to the direction where the objective function value is decreasing.
+
+147
+00:22:13.680 --> 00:22:27.169
+chuanwu: Okay, so therefore, the different parallel lines here corresponding to level curves, each one of them, the normal vector is the same C. Okay, normal vector of each of these hyperplanes or lines, are C.
+
+148
+00:22:27.590 --> 00:22:28.660
+chuanwu: is C.
+
+149
+00:22:29.080 --> 00:22:42.679
+chuanwu: And the value of C transpose X plus D, of course, D is even our world. Okay, let's just talk about C transpose X. So the value of C transpose X is decreasing towards that direction.
+
+150
+00:22:43.230 --> 00:22:46.099
+chuanwu: And increasing towards the other direction.
+
+151
+00:22:46.620 --> 00:22:52.599
+chuanwu: So therefore, we are more interested in level curves towards the negative C direction.
+
+152
+00:22:53.650 --> 00:22:58.690
+chuanwu: And the level curve that still touches upon the feasibility ZFP.
+
+153
+00:22:59.640 --> 00:23:03.170
+chuanwu: The remote… the most… the remotest.
+
+154
+00:23:03.390 --> 00:23:04.810
+chuanwu: The most remote.
+
+155
+00:23:04.950 --> 00:23:06.260
+chuanwu: Level curve.
+
+156
+00:23:06.420 --> 00:23:13.329
+chuanwu: towards the direction that can see, that still touch upon the feasibility set would decide an optimal solution.
+
+157
+00:23:13.960 --> 00:23:15.899
+chuanwu: That is X star over there.
+
+158
+00:23:17.550 --> 00:23:18.480
+chuanwu: Okay.
+
+159
+00:23:19.200 --> 00:23:26.959
+chuanwu: So, actually, the geometric illustration here follows the same idea as what I illustrated on board last week.
+
+160
+00:23:26.960 --> 00:23:42.150
+chuanwu: So we have feasibility set, and we can draw level curves in the same domain as where the feasibility set lies in. We know every point on each level curve corresponds to the same objective function value. And for linear program, the level curves are just hyperplits.
+
+161
+00:23:42.540 --> 00:23:52.810
+chuanwu: And the most remote hyperplan along the direction of negative C that still touches upon the feasibility set, give us the optimal point.
+
+162
+00:23:53.000 --> 00:23:54.000
+chuanwu: X star.
+
+163
+00:23:54.170 --> 00:24:01.680
+chuanwu: Because X star defines the point along the negative C direction that still lies within the feasibility set.
+
+164
+00:24:01.880 --> 00:24:02.740
+chuanwu: Right.
+
+165
+00:24:03.450 --> 00:24:23.330
+chuanwu: Okay, so optimal point. So, in fact, there are, theory, okay, there are theory regarding linear program that rigorously show the optimal point of a linear program happens either on vertices or on edges, boundary edges of the feasibility set.
+
+166
+00:24:24.370 --> 00:24:39.579
+chuanwu: Okay, so that can be strictly proven, but here we intuitively can see. So here, this identifies the vertex of the polyhedral, and the optimal solution is here. And if the level curve becomes parallel.
+
+167
+00:24:39.580 --> 00:24:44.759
+chuanwu: to one of the edges. So, for example, if the level curve is parallel to this edge.
+
+168
+00:24:44.760 --> 00:24:50.479
+chuanwu: Then we would know all the points along this boundary edge are optimal solutions.
+
+169
+00:24:52.810 --> 00:25:03.919
+chuanwu: Okay, so in either case, it justifies the optimal solution of a linear program happens either on one of the vertices of the polyhedron or along edges of a polyhedral.
+
+170
+00:25:05.660 --> 00:25:08.020
+chuanwu: Okay, alright.
+
+171
+00:25:09.230 --> 00:25:25.269
+chuanwu: And then moving up, we have seen… what we're seeing is so-called generic form of linear program, and let's see two other forms of linear program that are often used or cited in later regions. So the first form is so-called standard form.
+
+172
+00:25:25.300 --> 00:25:41.090
+chuanwu: In standard form, objective function is pretty much the same. We are minimizing in the product between our coefficient vector C and our variable vector X, and constraints, the equality constraints are F5, as in the generic form, AX greater than B,
+
+173
+00:25:41.090 --> 00:25:54.060
+chuanwu: And the inequality constraints are, you know, simple and need for X logical to 0 using a generalized inequality sign. And it implies every component in the variable X should be non-active.
+
+174
+00:25:54.590 --> 00:25:56.489
+chuanwu: Okay, step number four.
+
+175
+00:25:57.250 --> 00:26:07.540
+chuanwu: And then, the second form often used, cited in literature is so-called canonical form of linear program. Objective function remains the same, and the checking of the constraints
+
+176
+00:26:07.540 --> 00:26:25.629
+chuanwu: There is no explicit inequality constraints, and there are only inequality constraints. A general set of inequality constraints, AX logic to B, component-wise inequality, and then X logic to 0, and every component in equality.
+
+177
+00:26:25.960 --> 00:26:36.229
+chuanwu: Okay, so in fact, all the, different forms can be convertible to each other, okay, by adding some other variables, like, variable, and so on.
+
+178
+00:26:36.490 --> 00:26:50.709
+chuanwu: Right? And they are convertible to the canonical form. The generic form we introduced on the previous slide can be converted to these forms as well, and these forms are convertible to each other as well.
+
+179
+00:26:50.790 --> 00:26:58.850
+chuanwu: So let me show you some conversions to get you started, and you can try to work out, or try out the other conversions yourself.
+
+180
+00:27:16.480 --> 00:27:18.610
+chuanwu: Okay, generic form.
+
+181
+00:27:20.750 --> 00:27:33.560
+chuanwu: So essentially, all the different forms, they mostly differ in the constraints. So we just work on how the constraints can be converted to each other, among each other, and the objective functions.
+
+182
+00:27:33.970 --> 00:27:36.439
+chuanwu: agreement. Laterally remained.
+
+183
+00:27:49.590 --> 00:27:52.630
+chuanwu: Okay, so this is the,
+
+184
+00:27:52.750 --> 00:27:56.119
+chuanwu: generic form, I just removed the plus D part.
+
+185
+00:27:56.340 --> 00:28:05.630
+chuanwu: So minimizing C in the black of X subjects to inequality constraints, alpha inequality constraints, and alpha equality constraints.
+
+186
+00:28:06.230 --> 00:28:12.249
+chuanwu: And now, we try to convert that form to the standard form we show on the top of this slide.
+
+187
+00:28:12.390 --> 00:28:28.880
+chuanwu: And we know AX equals B pretty much can remain, right? And what we try to figure out is how we convert the generic set of inequality constraints into that single neat inequality constraint format, X logic to 0, right?
+
+188
+00:28:29.000 --> 00:28:35.529
+chuanwu: And here, we make use of, some technique of variable substitution.
+
+189
+00:28:49.770 --> 00:28:51.569
+chuanwu: Not a little step yet.
+
+190
+00:28:54.430 --> 00:29:06.829
+chuanwu: Okay, so the first step is we introduce some slack variable to convert the generic set of inequality constraints into equality constraint.
+
+191
+00:29:10.530 --> 00:29:20.230
+chuanwu: Okay, so slack variable. Introducing slack variable to make inequality constraints into equality constraints, that is a technique we introduced last time.
+
+192
+00:29:20.550 --> 00:29:25.089
+chuanwu: Oh, he forgot to look back on the COMEX program wet set of slides.
+
+193
+00:29:25.660 --> 00:29:30.809
+chuanwu: Okay, so here, S is component Why is non-negative?
+
+194
+00:29:31.560 --> 00:29:39.099
+chuanwu: Okay, and we add it to the left-hand side of this set of inequality constraints, then the inequality constraint becomes equality constraint.
+
+195
+00:29:39.520 --> 00:29:40.940
+chuanwu: Okay, equivalent.
+
+196
+00:29:42.750 --> 00:29:46.089
+chuanwu: And then, we do a further step of conversion.
+
+197
+00:29:46.370 --> 00:30:01.910
+chuanwu: So pretty much here, you know, if we check out… check this against the form of standard form to come at the linear program, we found out we pretty much have to make sure this X satisfies X logical to 0 as well.
+
+198
+00:30:02.670 --> 00:30:08.649
+chuanwu: Right? And then, we are pretty much conforming to the, constraint form math of,
+
+199
+00:30:08.700 --> 00:30:18.309
+chuanwu: form of linear program. But in general, in the original program, X can be component-wise logical to 0, or equal to 0, or a mixture.
+
+200
+00:30:18.310 --> 00:30:29.639
+chuanwu: It's possible, right? And then the technique we apply is, again, do a variable substitution. We consider X to be the difference between two
+
+201
+00:30:29.840 --> 00:30:30.920
+chuanwu: variables.
+
+202
+00:30:31.040 --> 00:30:34.499
+chuanwu: two variable vectors, X plus and X minus.
+
+203
+00:30:34.830 --> 00:30:38.129
+chuanwu: So, when X is a n-dimensional vector.
+
+204
+00:30:38.250 --> 00:30:45.870
+chuanwu: Our X plus itself is an undimensional vector, and X minus itself is an undimensional vector as well.
+
+205
+00:30:46.130 --> 00:30:50.420
+chuanwu: So the difference… S becomes a difference vector between the two vectors.
+
+206
+00:30:50.990 --> 00:30:59.880
+chuanwu: Okay, and then we require X plus and X minus to be component-wise.
+
+207
+00:31:01.490 --> 00:31:02.760
+chuanwu: non-active.
+
+208
+00:31:08.580 --> 00:31:09.460
+chuanwu: Okay.
+
+209
+00:31:13.300 --> 00:31:19.499
+chuanwu: So X plus and X minus, so they each are component-wise non-negative.
+
+210
+00:31:19.640 --> 00:31:28.810
+chuanwu: But that difference could be positive, zero, or negative, right? Corresponding to X. Component-wise, X can be positive, negative, or zero.
+
+211
+00:31:29.420 --> 00:31:30.200
+chuanwu: Right.
+
+212
+00:31:30.550 --> 00:31:37.210
+chuanwu: Okay, so therefore, after this conversion, what we come up with is, in the new optimization problem.
+
+213
+00:31:37.320 --> 00:31:42.710
+chuanwu: the variable contains X plus, X minus, and X.
+
+214
+00:31:43.370 --> 00:31:48.239
+chuanwu: So this is an entire variable set of the new COMEX program.
+
+215
+00:31:48.970 --> 00:31:57.440
+chuanwu: And based on this news… based on this extended set of variables, the standard form It's both.
+
+216
+00:31:57.600 --> 00:31:58.510
+chuanwu: Okay.
+
+217
+00:31:58.620 --> 00:32:06.040
+chuanwu: So… Alpha ecology constraints and component-wise non-active on all the variables.
+
+218
+00:32:06.700 --> 00:32:15.589
+chuanwu: Right, okay. And of course, if you are considering the objective function, it needs to be converted to the equivalent form as well.
+
+219
+00:32:15.890 --> 00:32:19.990
+chuanwu: So it becomes C transpose X plus minus X minus.
+
+220
+00:32:21.060 --> 00:32:21.820
+chuanwu: Right.
+
+221
+00:32:24.080 --> 00:32:25.060
+chuanwu: Okay, cool.
+
+222
+00:32:26.040 --> 00:32:29.930
+chuanwu: So beyond this, applying a few techniques of,
+
+223
+00:32:30.520 --> 00:32:37.650
+chuanwu: Equivalence conversion, we are able to convert generic form linear form into the standard form.
+
+224
+00:32:40.620 --> 00:32:43.310
+chuanwu: Okay, and then,
+
+225
+00:32:43.660 --> 00:32:53.500
+chuanwu: Next, I can show you how we can convert the economical form linear program into the corresponding standard form as well.
+
+226
+00:32:53.640 --> 00:32:56.730
+chuanwu: Okay, applying a set of, critique.
+
+227
+00:32:56.930 --> 00:32:58.740
+chuanwu: similar technique.
+
+228
+00:33:07.790 --> 00:33:12.690
+chuanwu: Okay, we have culam Lego form, program.
+
+229
+00:33:14.890 --> 00:33:16.230
+chuanwu: B, X?
+
+230
+00:33:16.360 --> 00:33:27.040
+chuanwu: Component-wise, non-active, and X, component-wise, non-active. So this is our canonical, canonical form, AX, like, B.
+
+231
+00:33:27.870 --> 00:33:39.129
+chuanwu: Okay, we might want to convert it to the standard form. So the major difference between the canonical form and standard form lies in the canonic form doesn't have equality constraints.
+
+232
+00:33:39.390 --> 00:33:43.629
+chuanwu: But in the standard form, we do have a set of equality constricts.
+
+233
+00:33:44.150 --> 00:33:49.679
+chuanwu: Then, how to convert a set of inequality constraints into equality constraints?
+
+234
+00:33:50.020 --> 00:33:54.299
+chuanwu: Again, we can make use of the technique of adding slack variables.
+
+235
+00:33:55.390 --> 00:33:56.290
+chuanwu: Okay.
+
+236
+00:33:59.320 --> 00:34:07.559
+chuanwu: So, our AX… larger equal to B becomes AX minus S, equaling B.
+
+237
+00:34:08.020 --> 00:34:13.570
+chuanwu: So if A is a M times N matrix, S is a M-dimensional vector.
+
+238
+00:34:13.969 --> 00:34:14.719
+chuanwu: Right?
+
+239
+00:34:14.840 --> 00:34:20.119
+chuanwu: And then we have X larger or equal to 0, and S larger equal to 0.
+
+240
+00:34:22.360 --> 00:34:23.569
+chuanwu: Then we add that.
+
+241
+00:34:24.480 --> 00:34:35.790
+chuanwu: Very simple technique to apply, and now we come up with the optimization problem. In the standard form.
+
+242
+00:34:36.219 --> 00:34:42.440
+chuanwu: F1 equality constraint, and alpha inequality and external non-negativity.
+
+243
+00:34:42.739 --> 00:34:46.500
+chuanwu: Constraint on every component of the variables.
+
+244
+00:34:47.980 --> 00:34:51.519
+chuanwu: Right, so that is exactly the standard for linear program.
+
+245
+00:34:54.179 --> 00:34:54.980
+chuanwu: Right.
+
+246
+00:34:56.650 --> 00:35:10.280
+chuanwu: Okay, so there are other ways, way around conversion, which you can try out. So the major technique we can apply, as what we have introduced and applied here.
+
+247
+00:35:19.130 --> 00:35:20.679
+chuanwu: Alright, okay.
+
+248
+00:35:20.780 --> 00:35:37.149
+chuanwu: So we have played around with different forms of linear program, and moving on, we'll be checking out quite a number of different examples of linear program. More exactly, we'll be looking at the linear program formulation of some pretty much well-known algorithmic problems.
+
+249
+00:35:37.570 --> 00:35:41.199
+chuanwu: Okay, so in fact, we already see a few examples, yes.
+
+250
+00:35:42.630 --> 00:35:43.740
+chuanwu: I'll wait till later.
+
+251
+00:35:44.610 --> 00:35:50.569
+chuanwu: And on the platform, too. What happens if we add a Slack variable?
+
+252
+00:35:51.140 --> 00:35:53.950
+chuanwu: What happens if we rather add a Slack variable?
+
+253
+00:35:54.300 --> 00:36:04.680
+chuanwu: If we don't… If we add it here, we are subtracting the slack variable from the S. Yeah, we add the slack variable, the set of slack variable S. Yeah, so I can see the…
+
+254
+00:36:05.280 --> 00:36:07.190
+chuanwu: We should sign with that.
+
+255
+00:36:07.600 --> 00:36:12.940
+chuanwu: when a stagnant is limited. So I'm asking, what happens if we aren't ceiling slots?
+
+256
+00:36:13.540 --> 00:36:14.679
+chuanwu: of class.
+
+257
+00:36:15.120 --> 00:36:23.690
+chuanwu: We need to use minus. So the reason is here. AX, component-wise, let's equal to B. So B minus a non-active quantitative B times B.
+
+258
+00:36:28.630 --> 00:36:37.950
+chuanwu: All right, regarding examples of linear program, we already, formulated a few, interesting
+
+259
+00:36:38.090 --> 00:36:48.870
+chuanwu: I hope you found interesting linear problems in the very first lecture. So one is a linear diode problem, and the other are some different variations of natural flow problems.
+
+260
+00:36:49.030 --> 00:36:54.039
+chuanwu: And we are not going to repeat that, but we are going to see more examples in the following.
+
+261
+00:36:54.360 --> 00:37:00.650
+chuanwu: Okay, the first example is a problem regarding piecewise linear minimization.
+
+262
+00:37:00.960 --> 00:37:06.849
+chuanwu: So consider we have a set of afflon functions, AI in a product X plus BI,
+
+263
+00:37:06.960 --> 00:37:18.840
+chuanwu: And, at every point at, we try to maximize the amount, the values of those alpha functions, and then we try to find out the minimal
+
+264
+00:37:19.750 --> 00:37:25.399
+chuanwu: Value. Okay. Minimal value of the F3 dot function by varying X.
+
+265
+00:37:26.180 --> 00:37:37.059
+chuanwu: So therefore, you see here in the optimization problem, we have a mixture of operators. We are minimizing maximizable value. It's a so-called mean-max problem.
+
+266
+00:37:37.200 --> 00:37:54.149
+chuanwu: So this will be the last time you'll see me max problem. You will see it later again, where we do a very brief introduction to game theory, and when we saw the game series, bureau Sum Games, being your program formulation. Okay, over there we'll see Minax, maxing problem.
+
+267
+00:37:54.810 --> 00:38:00.079
+chuanwu: Okay, so here we have minimized the maximal value among a set of linear functions.
+
+268
+00:38:00.220 --> 00:38:14.340
+chuanwu: And, when we have mixture of operators in the, objective function, mean max or max-min, we, typically need to, move… convert it to more standard form. In a standard form linear program or standard form operation.
+
+269
+00:38:14.340 --> 00:38:21.459
+chuanwu: mathematical optimization problems, we only have one operating objective, either minimize or maximize.
+
+270
+00:38:21.770 --> 00:38:24.169
+chuanwu: Okay, so we kind of have to remove the other.
+
+271
+00:38:24.400 --> 00:38:32.329
+chuanwu: Okay, and we have some standard techniques to do the equivalent conversion to remove one operator from the objective function.
+
+272
+00:38:32.480 --> 00:38:34.300
+chuanwu: Okay, so here it is.
+
+273
+00:38:34.410 --> 00:38:41.450
+chuanwu: So what we do here is, the whole idea is, variable substitution.
+
+274
+00:38:41.560 --> 00:38:52.069
+chuanwu: So we… Assign whatever, assign the part, starting with the max operator, and yeah.
+
+275
+00:38:53.690 --> 00:39:00.850
+chuanwu: functions behind the max operator, the whole thing, assign the value, assign it to a variable t.
+
+276
+00:39:01.500 --> 00:39:09.710
+chuanwu: So maximum of that A transpose X plus B, the value is a scalar value. So our T variable here is a scalar variable.
+
+277
+00:39:09.930 --> 00:39:14.999
+chuanwu: Okay, and with this, variable substitution.
+
+278
+00:39:15.640 --> 00:39:18.900
+chuanwu: Our objective function becomes much simpler.
+
+279
+00:39:19.360 --> 00:39:29.179
+chuanwu: Okay, because whatever following maximize has been assigned to a value t, a variable value T. So in our objective function, we only have minimizing T.
+
+280
+00:39:29.910 --> 00:39:37.520
+chuanwu: And the Z equivalent assignment, E equals maximized A transpose F plus B, becomes a constraint.
+
+281
+00:39:38.960 --> 00:39:39.920
+chuanwu: Okay.
+
+282
+00:39:40.520 --> 00:39:50.859
+chuanwu: All right, so this is not a new technique either. We actually introduced its idea or principle among last lecture's content.
+
+283
+00:39:51.150 --> 00:39:55.530
+chuanwu: So what is this called? This is so-called epigraph transformation.
+
+284
+00:39:55.890 --> 00:40:08.590
+chuanwu: We consider T to be the largest… to be the value, behind the maximal minimization operator, and then we are minimizing T, and in the constraint, we try to decide
+
+285
+00:40:08.950 --> 00:40:10.979
+chuanwu: T's small is the value.
+
+286
+00:40:11.420 --> 00:40:16.659
+chuanwu: Right, okay, Apple Graph 4. We are converting the origin problem into the so-called Applegraph 4.
+
+287
+00:40:17.360 --> 00:40:33.859
+chuanwu: Okay, and then we are not done yet. So here, in our equality constraint, so here, apparently, we have one, equality constraint, and… but the equality constraint has a maximization operator inside.
+
+288
+00:40:33.960 --> 00:40:39.980
+chuanwu: We don't allow such complex operator appearing in our… constraints.
+
+289
+00:40:40.230 --> 00:40:54.799
+chuanwu: in either an inequality constraint or equality constraint. We have to somehow remove the maximal operator and make the equality or inequality resulting equality or inequality constraint in simple closed swap, so-called simple closed swap.
+
+290
+00:40:55.710 --> 00:41:09.290
+chuanwu: Okay, and how do we remove the maximal operator? And the reason why we need to remove the maximal operator is, if we do have a maximal operator among our constraint, that means there is an embedded authorization problem there.
+
+291
+00:41:10.020 --> 00:41:20.840
+chuanwu: Right? And we have to somehow solve the embedded optimization problem, come up with more close-form, simple form expression of the equality or inequality constraint.
+
+292
+00:41:21.230 --> 00:41:33.599
+chuanwu: And this is the first time we see it today, but soon, in another example, we will practice this principle again, by removing maximal operator from constraints to make the constraints in more explicit close form.
+
+293
+00:41:34.690 --> 00:41:42.030
+chuanwu: Okay, and how do we remove the maximum operator from the constraint? So, actually, it's pretty simple and intuitive.
+
+294
+00:41:42.330 --> 00:41:49.829
+chuanwu: So we are maximizing the value, the alpha function value, among possible i. So when i varies
+
+295
+00:41:50.440 --> 00:41:57.360
+chuanwu: There is a BI, right? So when i varies, it means we have different F1 functions here.
+
+296
+00:41:57.980 --> 00:42:03.279
+chuanwu: Right, multiple FM function here, and here I is from 1 to F.
+
+297
+00:42:03.540 --> 00:42:11.479
+chuanwu: So we are maximizing, we are finding the largest value, and fixed the X among M, different alpha function values.
+
+298
+00:42:12.260 --> 00:42:20.249
+chuanwu: Right? And pretty intuitively or straightforwardly, we can convert this maximal operator into
+
+299
+00:42:20.870 --> 00:42:23.650
+chuanwu: A set of constraints in this form.
+
+300
+00:42:27.000 --> 00:42:29.669
+chuanwu: Okay, well, I is from 1 to M.
+
+301
+00:42:32.600 --> 00:42:33.540
+chuanwu: Okay.
+
+302
+00:42:33.730 --> 00:42:39.460
+chuanwu: We just separate a single equality into M inequalities.
+
+303
+00:42:40.080 --> 00:42:49.660
+chuanwu: Making sure the t's value is no larger than every possible value than any one of the n possible value of the corresponding affine functions.
+
+304
+00:42:53.310 --> 00:43:02.549
+chuanwu: Okay, should be larger equal group. Okay, T is maximum, so T should be no smaller than the value of any of the X1 function's value.
+
+305
+00:43:03.750 --> 00:43:04.545
+chuanwu: Right.
+
+306
+00:43:07.440 --> 00:43:13.439
+chuanwu: Okay, if you think deeper, if you… we don't check out the objective function, we only look at constraint.
+
+307
+00:43:13.570 --> 00:43:28.079
+chuanwu: So T equals maximal value of AI transpose X plus BI isn't exactly equivalent to T is largely equal to every one of the alpha function values, because T can be a larger upper bound than the exact maximum value.
+
+308
+00:43:28.420 --> 00:43:29.280
+chuanwu: Right.
+
+309
+00:43:29.950 --> 00:43:39.510
+chuanwu: That only when the form of the inequality constraints here work together with the objective function, we can ensure the conversion is exactly equivalent.
+
+310
+00:43:40.270 --> 00:43:43.030
+chuanwu: Because the objective function is to minimize T.
+
+311
+00:43:43.260 --> 00:43:46.780
+chuanwu: try to push T's value to be as small as possible.
+
+312
+00:43:47.030 --> 00:43:53.089
+chuanwu: And then you have the constraint here. T is lower bounded by all the possible values of the FM functions.
+
+313
+00:43:53.730 --> 00:44:01.739
+chuanwu: And then, combining both together, object, function, and constraints, we come up with equivalence of the original
+
+314
+00:44:01.780 --> 00:44:17.450
+chuanwu: objective function and the constraint here. Because the only possible choice of T by solving this problem, I mean, the eventual choice of T by solving the problem, would be the smallest upper bound, or maximal value of all the alpha function values.
+
+315
+00:44:19.080 --> 00:44:20.729
+chuanwu: Right. Okay.
+
+316
+00:44:21.620 --> 00:44:40.460
+chuanwu: All right, so that said, this is how we convert the piecewise linear minimization problem into the equivalent linear program here. We have a simple objective function T to minimize, and then we have M inequality constraint.
+
+317
+00:44:41.310 --> 00:44:49.310
+chuanwu: Which would push T's value to the smallest as possible among all values of alpha functions.
+
+318
+00:44:51.910 --> 00:45:02.170
+chuanwu: Okay, so remember this technique we would be using and applying it, for quite a few times, as in examples in the course. I…
+
+319
+00:45:02.390 --> 00:45:06.329
+chuanwu: Personally, she always find out it's a simple need.
+
+320
+00:45:06.830 --> 00:45:07.940
+chuanwu: useful.
+
+321
+00:45:08.250 --> 00:45:09.180
+chuanwu: Okay.
+
+322
+00:45:11.040 --> 00:45:20.850
+chuanwu: All right, and then in the next exactly, in the next example, you will see we will apply similar technique, and let's see what the next example looks like.
+
+323
+00:45:21.390 --> 00:45:38.190
+chuanwu: So in the next example, we are given a polyhedron. Okay, so the outer shape represents a polyhedron. And then the problem at hand is, we try to find out the largest sphere on board inside this given polyhedron.
+
+324
+00:45:38.860 --> 00:45:46.200
+chuanwu: And the polyhedron is described by the set of inequality constraints, and the polyhedron is a set of P.
+
+325
+00:45:46.660 --> 00:45:51.439
+chuanwu: Okay, P is intersection of M, different inequality constraint.
+
+326
+00:45:51.630 --> 00:45:58.479
+chuanwu: Equivalently, here's the intersection of M, different hyperplits, half spaces, half spaces.
+
+327
+00:45:59.780 --> 00:46:01.520
+chuanwu: Okay, end.
+
+328
+00:46:04.280 --> 00:46:15.810
+chuanwu: In fact, if we are able to find out the largest bore inside a given polyhedron, the center of the largest sphere has a name.
+
+329
+00:46:15.960 --> 00:46:19.670
+chuanwu: Officially, it's called the Championship center of the polyhedron.
+
+330
+00:46:19.950 --> 00:46:29.700
+chuanwu: The aggravated rock can actually have center of an even polyhedrome in the center of the largest sphere, or more content exactly within the polyhedron?
+
+331
+00:46:30.540 --> 00:46:31.420
+chuanwu: Okay.
+
+332
+00:46:31.500 --> 00:46:45.730
+chuanwu: All right, and then how do we describe a bore, a sphere? So we know this is a bore, a sphere is a fundamental convex set, and we know there are different ways to describe it, and this is one of them.
+
+333
+00:46:45.800 --> 00:46:58.969
+chuanwu: So the bore is decided by its center and the radius. When center radius are fixed, then the bore is fixed, right? And center is XC, and the radius is R.
+
+334
+00:46:58.970 --> 00:47:08.309
+chuanwu: And we can represent formally, a bore in the form here as vectors Xe plus U, and U's length is no longer than the radius R.
+
+335
+00:47:08.560 --> 00:47:10.840
+chuanwu: Right, so this is the form we saw earlier.
+
+336
+00:47:11.810 --> 00:47:25.670
+chuanwu: All right, and then, thinking about our optimization problem at hand, language-wise, description of the problem is, we try to find out that is the board contend exactly within a given polyhedrobe.
+
+337
+00:47:26.180 --> 00:47:40.920
+chuanwu: Right? And then, think about how to formulate it into mathematical optimization problem. And as we, discussed earlier, the number one step is usually to decide what are our variables attached that we are automated.
+
+338
+00:47:41.090 --> 00:47:46.569
+chuanwu: And then we try to put down the objective function, and then we try to lay down all the constraints.
+
+339
+00:47:47.290 --> 00:47:47.970
+chuanwu: Right.
+
+340
+00:47:48.150 --> 00:47:58.229
+chuanwu: Okay, so here, for finding the largest sphere inside a given polyhedral, our variables are intuitively clear.
+
+341
+00:47:58.440 --> 00:48:03.590
+chuanwu: Our variables include the center of the sphere and the radius of the sphere.
+
+342
+00:48:03.940 --> 00:48:10.200
+chuanwu: Right? Because when center and radius of sphere are decided, the whole sphere is decided.
+
+343
+00:48:10.960 --> 00:48:12.670
+chuanwu: Right. Okay.
+
+344
+00:48:12.870 --> 00:48:20.659
+chuanwu: So therefore, our variables are here. XC, representing center of lots of fear, R represents the radius.
+
+345
+00:48:20.810 --> 00:48:23.130
+chuanwu: They are our two sets of variables.
+
+346
+00:48:24.110 --> 00:48:28.610
+chuanwu: Okay, and XC is a dimensional vector, R is a scalar vector.
+
+347
+00:48:29.040 --> 00:48:32.369
+chuanwu: And then, objective functions and constraints.
+
+348
+00:48:33.090 --> 00:48:41.440
+chuanwu: So, screening from the problem, we try to find out the largest sphere. Largest is represented by the largest possible R.
+
+349
+00:48:41.550 --> 00:48:50.739
+chuanwu: Right, so we are largest, the linear radius largest. So, objective function is pretty easy to follow up. We just try to maximize R.
+
+350
+00:48:51.570 --> 00:48:53.090
+chuanwu: Right, maximize R.
+
+351
+00:48:53.410 --> 00:48:54.719
+chuanwu: Then constraints.
+
+352
+00:48:54.920 --> 00:49:04.140
+chuanwu: Okay, in fact, what we show here on the slide is an eventual derived form of the constraint. It's not our initial constraint to pull down.
+
+353
+00:49:04.630 --> 00:49:11.429
+chuanwu: Our initial constraint to put down should be a direct translation from the language description of the constraint.
+
+354
+00:49:12.120 --> 00:49:24.000
+chuanwu: So what is our language material of the constraint? Our language determined of the description of the constraint is the sphere should be compact within the polyhedral.
+
+355
+00:49:24.820 --> 00:49:25.640
+chuanwu: Right.
+
+356
+00:49:26.050 --> 00:49:27.720
+chuanwu: So that's our foundation.
+
+357
+00:49:27.920 --> 00:49:43.390
+chuanwu: Our conditional constraint to find the largest R is our eventual… after setting XC, after setting R, our eventual sphere should be entirely contained within the polyhope, not outside.
+
+358
+00:49:44.420 --> 00:49:49.010
+chuanwu: Okay, none of the points of the board should be lined outside the polyhedral.
+
+359
+00:49:49.580 --> 00:50:00.480
+chuanwu: Right? Okay, in fact, for the problem here, we do have one single language description of the constraint foundation.
+
+360
+00:50:01.040 --> 00:50:06.760
+chuanwu: And if we put the language description of the condition.
+
+361
+00:50:07.040 --> 00:50:10.550
+chuanwu: Or constraint down in mathematical form.
+
+362
+00:50:10.710 --> 00:50:15.659
+chuanwu: The first step, what do we have, is possibly, like, what I have on the slide.
+
+363
+00:50:16.210 --> 00:50:28.340
+chuanwu: Right? So we want every point in the sphere as in the polyhedral. How do we describe every point in the bore or sphere?
+
+364
+00:50:28.560 --> 00:50:30.369
+chuanwu: X C plus U.
+
+365
+00:50:31.170 --> 00:50:38.810
+chuanwu: Okay, so XC plus U for all UL whose L2 norm is larger than R.
+
+366
+00:50:38.920 --> 00:50:42.400
+chuanwu: So that gives us one point in the sphere.
+
+367
+00:50:42.940 --> 00:50:47.900
+chuanwu: And we want that point to be within the polyhedron P.
+
+368
+00:50:49.030 --> 00:51:01.260
+chuanwu: Okay, so pretty much this is a straightforward laydown of mathematics… using more… more or less mathematical functions and symbols to describe our condition.
+
+369
+00:51:02.300 --> 00:51:07.700
+chuanwu: Right? So that's our number one step, but it's not our final form of the constraint yet.
+
+370
+00:51:07.750 --> 00:51:19.449
+chuanwu: So the reason is, so basically, we can't have something like a belonging operator in the constraint. In the constraint, we only allow small equal, larger equal, or equality.
+
+371
+00:51:19.450 --> 00:51:35.799
+chuanwu: Right? And we cannot have these choices among an unlimited number of vectors. So U can be… the number of vectors of U can be unlimited, if we consider U to be a variable.
+
+372
+00:51:36.140 --> 00:51:46.469
+chuanwu: Right? And if U's number is unlimited, this problem pretty… and U is part of the constraints, pretty much this problem is not polynomial time solvable.
+
+373
+00:51:46.850 --> 00:51:55.119
+chuanwu: We cannot allow unlimited number of choices for a variable. So therefore, we more or less have to remove the variable U.
+
+374
+00:51:55.600 --> 00:51:57.989
+chuanwu: From the constraint, okay.
+
+375
+00:51:58.780 --> 00:52:11.430
+chuanwu: All right, so let's work towards that direction of converting the direct translated constraint into a standard form constraint formulation of mathematical program.
+
+376
+00:52:11.740 --> 00:52:25.270
+chuanwu: Okay, so what we do is here, so think about, the, how we understand that, XC plus U should be… belong to P. We know P is defined by M in equality constraints.
+
+377
+00:52:25.430 --> 00:52:37.850
+chuanwu: So for every point XC plus U within P, essentially, it means XC plus U, this point, has to satisfy all the M inequalities in P's definition.
+
+378
+00:52:38.410 --> 00:52:49.540
+chuanwu: Okay, so here it is. So, AI vector in the product of a point XC plus U should be no larger than BI, and I should be ranging from 1 to F.
+
+379
+00:52:51.020 --> 00:53:09.890
+chuanwu: Okay, so now we are closer to the more standard form of, constraint formulation. So because here you see we have affine. Here, if you treat XC and U as variables, then here we have affine inequalities, and a finite number, M of affine inequalities.
+
+380
+00:53:09.900 --> 00:53:11.060
+chuanwu: Which is good.
+
+381
+00:53:11.380 --> 00:53:15.929
+chuanwu: But which is not good is still here. Our U has too many choices.
+
+382
+00:53:16.640 --> 00:53:21.880
+chuanwu: Okay, not discrete number of choices, but unlimited number of choices.
+
+383
+00:53:22.290 --> 00:53:30.530
+chuanwu: Here. Okay, not finite number of choices for you. So we have to somehow remove that,
+
+384
+00:53:31.080 --> 00:53:40.390
+chuanwu: many choices of U, and try to fix, convert the constraint into one which, only concrete form of U is involved.
+
+385
+00:53:40.650 --> 00:53:51.449
+chuanwu: Okay, further conversion. So here, for every inequality constraint, left-hand side becomes AI in the product XC plus AI in the product U, no larger than BI.
+
+386
+00:53:51.990 --> 00:54:07.690
+chuanwu: Right? And, this set of inequality constraints, how many inequality constraints here we have, actually, it's unlimited many. Okay, regarding I, we have M choices, but regarding U, we have unlimited number of choices.
+
+387
+00:54:07.690 --> 00:54:21.959
+chuanwu: Right, so that's not what we want. Eventually, in a mathematical program, or convex program, or linear program, the number of constraints, the number of explicit constraints, equality and inequality, has to be finite.
+
+388
+00:54:22.160 --> 00:54:25.530
+chuanwu: Cannot be unlimited, has to be finite.
+
+389
+00:54:25.630 --> 00:54:40.909
+chuanwu: Okay, and then let's analyze what we are resulting with in this step. So basically, u can vary as long as U's L2 norm is no larger than R, and then if we ensure when U varies the M inequality constraint as
+
+390
+00:54:40.910 --> 00:54:48.999
+chuanwu: always satisfied, then that's equivalent to consider that if the AI transpose use
+
+391
+00:54:49.000 --> 00:54:58.430
+chuanwu: value is largest. When we choose U, such that AI inner product use value is largest, then the M inequality
+
+392
+00:54:58.650 --> 00:55:02.570
+chuanwu: ME colleagues are still satisfied, then we are pretty much good.
+
+393
+00:55:03.120 --> 00:55:18.150
+chuanwu: Right, I'll say that again. So here, when we vary U, okay, when we vary U, for all U whose autonom is no larger than R, as long as we can ensure this inner product's value
+
+394
+00:55:18.160 --> 00:55:28.649
+chuanwu: largest possible value of this inner product by varying U. It's still lower bounded by BI minus AI transpose XC, then we are good.
+
+395
+00:55:29.630 --> 00:55:45.980
+chuanwu: Right? Okay, so here, then, we pretty much convert this number, unlimited number of conditions into a finite number of conditions here by introducing a maximization of supreme calculation operator.
+
+396
+00:55:46.510 --> 00:56:05.640
+chuanwu: Okay, so here, AI in the product U converted to suprem, or largest possible value of AI transpose U, subject to L2 norm of U no larger than R. So if this suprem satisfied the M inequality constraints, then the
+
+397
+00:56:05.920 --> 00:56:12.580
+chuanwu: the original, formulated constraints are also satisfied, right? Okay.
+
+398
+00:56:12.800 --> 00:56:20.240
+chuanwu: Okay, that's… then let's, then at least now we have M, a finite number of inequalities.
+
+399
+00:56:20.480 --> 00:56:25.950
+chuanwu: Okay, and a finite M number of, inequalities.
+
+400
+00:56:26.350 --> 00:56:33.399
+chuanwu: And still, the problem is, within the inequality itself, there is a maximization operator involved.
+
+401
+00:56:33.400 --> 00:56:47.799
+chuanwu: And that is not what we want. We have to calculate the maximization and come up with a form which doesn't involve any supreme or infamous or maximization or minimization in there. And how do we do that?
+
+402
+00:56:48.780 --> 00:56:52.850
+chuanwu: Okay, so check out what we are maximizing here.
+
+403
+00:57:04.310 --> 00:57:08.780
+chuanwu: We are maximizing the inner product, AI transpose U.
+
+404
+00:57:09.430 --> 00:57:14.600
+chuanwu: So U is an in-dimensional vector. AI is an indimensional vector as well.
+
+405
+00:57:15.020 --> 00:57:16.680
+chuanwu: And AI is given.
+
+406
+00:57:16.850 --> 00:57:21.479
+chuanwu: So in n-dimensional space… okay, so say this is our region.
+
+407
+00:57:21.610 --> 00:57:24.189
+chuanwu: And although Raptor AI is here.
+
+408
+00:57:24.860 --> 00:57:32.430
+chuanwu: And what is the vector, u, whose inner product with AI is the largest?
+
+409
+00:57:34.270 --> 00:57:38.819
+chuanwu: So Z factor U has to be along the same direction.
+
+410
+00:57:39.620 --> 00:57:43.610
+chuanwu: as where… what the CI vector is pointing.
+
+411
+00:57:43.880 --> 00:57:44.750
+chuanwu: Right.
+
+412
+00:57:44.960 --> 00:57:48.040
+chuanwu: So for two vectors in the product to be the largest.
+
+413
+00:57:48.270 --> 00:57:53.520
+chuanwu: So the one vector given and the other vector has to be along the same direction.
+
+414
+00:57:54.340 --> 00:58:03.219
+chuanwu: And you know how the inner product is calculated, right? It's a length of vector multiplied the length of the other vector plus cosine of the
+
+415
+00:58:04.440 --> 00:58:11.180
+chuanwu: angle in between, right? So when the angle is exactly zero, then cosine is what?
+
+416
+00:58:11.810 --> 00:58:12.700
+chuanwu: Right.
+
+417
+00:58:13.120 --> 00:58:20.899
+chuanwu: Okay, so therefore, you has to be yielding the direction of AI.
+
+418
+00:58:22.150 --> 00:58:39.469
+chuanwu: So how do we describe the direction of AI? So here it is. So AI vector divided by L2 norm of AI. So pretty much what you are dividing out, or normalized out, is the length of the vector. And the vector here is a unitless vector, and it keeps the direction of original vector AI.
+
+419
+00:58:40.130 --> 00:58:49.179
+chuanwu: to you, The best you give the largest in the product with AI has to take the same direction
+
+420
+00:58:49.280 --> 00:58:50.760
+chuanwu: as Vector AI.
+
+421
+00:58:51.390 --> 00:58:56.109
+chuanwu: And the lens of U has to be the largest possible lens of U.
+
+422
+00:58:56.440 --> 00:58:59.750
+chuanwu: And what is the largest possible length of you?
+
+423
+00:59:00.430 --> 00:59:02.230
+chuanwu: That is the radius hub.
+
+424
+00:59:03.890 --> 00:59:04.720
+chuanwu: Right.
+
+425
+00:59:05.080 --> 00:59:08.240
+chuanwu: Okay, directional device lens.
+
+426
+00:59:08.390 --> 00:59:11.890
+chuanwu: And this decides our best vector youth.
+
+427
+00:59:12.940 --> 00:59:15.490
+chuanwu: Okay, that's what we need from here.
+
+428
+00:59:15.660 --> 00:59:22.019
+chuanwu: So AI in a productive view is largest when that U is this quantity.
+
+429
+00:59:23.620 --> 00:59:24.440
+chuanwu: Okay.
+
+430
+00:59:24.680 --> 00:59:35.110
+chuanwu: And then, you can substitute the U star into the independent calculation. What we have, here is AI transpose U.
+
+431
+00:59:35.390 --> 00:59:37.420
+chuanwu: Okay, AI transpose U.
+
+432
+00:59:37.620 --> 00:59:40.819
+chuanwu: So we know AI transpose AI?
+
+433
+00:59:43.140 --> 00:59:45.720
+chuanwu: So, AI transpose new star.
+
+434
+00:59:49.770 --> 00:59:54.030
+chuanwu: So AI transpose AI is, L2 non squared.
+
+435
+00:59:54.170 --> 00:59:56.250
+chuanwu: Okay, L to non square.
+
+436
+01:00:01.220 --> 01:00:08.700
+chuanwu: Okay, and then the autonom in the denominator cancels one order of the autonom in the…
+
+437
+01:00:08.800 --> 01:00:15.519
+chuanwu: Numerator and the second term on the left-hand side of the inequality constraint.
+
+438
+01:00:15.710 --> 01:00:20.700
+chuanwu: becomes exactly… What we have here.
+
+439
+01:00:21.550 --> 01:00:29.409
+chuanwu: So AI in the product at C plus R times L to the norm of AI, and no larger than VI.
+
+440
+01:00:30.320 --> 01:00:37.559
+chuanwu: Okay, and then we finally come up with the explicit form of our being a ruler.
+
+441
+01:00:37.890 --> 01:00:47.479
+chuanwu: Okay, why is a linear product? The reason is, XI… XC is variable, R is variable, and AI is given.
+
+442
+01:00:48.360 --> 01:00:54.340
+chuanwu: Although we have out too long of AI, that's still the value is just a communication multiplying R.
+
+443
+01:00:55.550 --> 01:00:58.489
+chuanwu: And the constraints are M, alpha.
+
+444
+01:00:58.650 --> 01:01:01.400
+chuanwu: Including strips of X, D, and R.
+
+445
+01:01:03.330 --> 01:01:04.160
+chuanwu: Okay.
+
+446
+01:01:04.790 --> 01:01:05.930
+chuanwu: Alright.
+
+447
+01:01:07.410 --> 01:01:15.520
+chuanwu: So basically, we work through the whole derivation step of, formulating the linear program for the given
+
+448
+01:01:15.930 --> 01:01:17.350
+chuanwu: Optilization problem.
+
+449
+01:01:17.540 --> 01:01:28.729
+chuanwu: Okay, so through the step I want to show you, we cannot stop just at the appearingly explicit form of the constraints. We have to
+
+450
+01:01:28.730 --> 01:01:38.529
+chuanwu: Be able to move down all the way to a form that… where the number of variables and the number of constraints are explicit and finite in the formulation.
+
+451
+01:01:39.630 --> 01:01:48.280
+chuanwu: And removing any supreme and maximal, minimize the inflement or minimization operator from possible constraint formulation.
+
+452
+01:01:49.080 --> 01:01:57.219
+chuanwu: Okay, that said, it's a good timing for us to take a short break. Okay, 5 minutes break before we continue.
+
+453
+01:05:47.860 --> 01:05:48.820
+chuanwu: Go ahead, edit.
+
+454
+01:06:04.690 --> 01:06:05.889
+chuanwu: We're safe in the gym.
+
+455
+01:06:06.810 --> 01:06:10.990
+chuanwu: All right, let's continue with our class today.
+
+456
+01:06:11.280 --> 01:06:20.530
+chuanwu: Coming up, we will see some kind of cross relative to a linear program as well, and which is called integer linear program.
+
+457
+01:06:20.820 --> 01:06:39.340
+chuanwu: So the integer linear program, the objective function, the inequality constraints, equality constraints are all R5, the same as in linear program. And the additional requirement we lay on the program is we require all the variables to be integers.
+
+458
+01:06:39.340 --> 01:06:42.680
+chuanwu: Or variables have only take integer atoms.
+
+459
+01:06:42.690 --> 01:06:57.280
+chuanwu: So the integer can be an active integer, can be a positive integer, but later you will find out, in many of the problems we are formulating, the integers are more or less binary, so meaning their values are zero, with a zero over.
+
+460
+01:06:57.280 --> 01:07:02.809
+chuanwu: But in the general definition of integer linear improvement, the variables can take any individual values.
+
+461
+01:07:03.570 --> 01:07:12.149
+chuanwu: Okay, and, geometric illustration of, integer of a linear program with integer optimization variable values. Here.
+
+462
+01:07:12.170 --> 01:07:29.709
+chuanwu: So think about the polyhedron. So the polyhedron here is, again, our feasibility set, but it is our feasibility set, considering the inequality and equality constraints, except the integrity constraint condition.
+
+463
+01:07:29.770 --> 01:07:47.650
+chuanwu: And, if we further consider the, all the variables has to take integer values, essentially we have a discrete set of possible variable values, and indicated by all the dots, all the dots in the feasibility set, feasibility polyhedral.
+
+464
+01:07:48.110 --> 01:07:56.359
+chuanwu: Okay, so that is to say, the feasibility set of the integer linear program contains all the
+
+465
+01:07:56.580 --> 01:07:59.640
+chuanwu: Discrete dots in the polyhedron.
+
+466
+01:08:00.490 --> 01:08:09.819
+chuanwu: And again, the dotted lines represent the level curves, and axis C points to the direction where the objective function value is decreasing.
+
+467
+01:08:10.060 --> 01:08:21.769
+chuanwu: Okay, and then, intuitively, if we only consider the polyhedron as a feasibility set, this dot as the vertex of the polyhedron is optimal point.
+
+468
+01:08:22.130 --> 01:08:36.129
+chuanwu: But if we consider it is an integer linear program, that the objective… that the variable, optimal variable values can only be integers, then the optimal point is here. It's the…
+
+469
+01:08:37.710 --> 01:08:41.060
+chuanwu: It's an integer point closest to our…
+
+470
+01:08:41.550 --> 01:08:44.350
+chuanwu: Optimal point of the original polyhedral.
+
+471
+01:08:45.460 --> 01:09:05.189
+chuanwu: Okay, all right, and where… and then, where do we need, integer linear program? So, under one situation, we are formulating the addition problem into integer linear program. So, often, integer linear programs are formulated to describe combinatorial problems.
+
+472
+01:09:05.410 --> 01:09:13.789
+chuanwu: So what is combinatorial accommodation problems? So this is a kind of a classic, a classic, computer science,
+
+473
+01:09:14.300 --> 01:09:25.200
+chuanwu: concept. Okay, so combined power optimization problems, who, optimization problems for the feasibility set, contains finite number of
+
+474
+01:09:25.380 --> 01:09:29.219
+chuanwu: Solutions, or finance and transfer of inevitable solutions.
+
+475
+01:09:29.880 --> 01:09:33.740
+chuanwu: Okay, not continuous, solutions.
+
+476
+01:09:34.700 --> 01:09:47.129
+chuanwu: All right, we… actually, we will see, the, we will… actually, we will see, quite a few examples of, classical complex factorial optimization problems in the following.
+
+477
+01:09:47.270 --> 01:09:59.539
+chuanwu: And by the way, so if we, some of you might consider, the four-way. If the, feasibility set of combinatorial organization problems contains, finite, or discrete.
+
+478
+01:09:59.750 --> 01:10:03.870
+chuanwu: Discrete or finite number of possible solutions.
+
+479
+01:10:04.260 --> 01:10:07.499
+chuanwu: Isn't this possible that we just use some kind of search?
+
+480
+01:10:07.770 --> 01:10:12.370
+chuanwu: To search across me a finite number of points among these optimal solution.
+
+481
+01:10:13.420 --> 01:10:26.949
+chuanwu: So that is actually not possible, but consider the number of usable points in a combinatorial addition problems feasibility set could be exponential to the problem scale.
+
+482
+01:10:27.410 --> 01:10:34.770
+chuanwu: Exponential to the problem still as well, such that your search algorithm, exhaustive search algorithm may not be efficient.
+
+483
+01:10:35.430 --> 01:10:36.360
+chuanwu: Okay.
+
+484
+01:10:36.790 --> 01:10:38.720
+chuanwu: Alright,
+
+485
+01:10:39.730 --> 01:10:56.199
+chuanwu: And then, let's check out a few, classical commentatorial position problems, where we are formulating the problem into a hidden derivative program. So the first problem is actually what we see, and we saw and formulated in the very first lecture of the course.
+
+486
+01:10:56.290 --> 01:11:09.870
+chuanwu: So, which is the shortest path problem. So, in shortest path problem, you are given a directive graph, okay, G, and you try to find out a path, a single pass from the source S to the sink tip.
+
+487
+01:11:10.160 --> 01:11:17.469
+chuanwu: Okay, so let's not as students think about the team, and such that the past cost is the smallest possible.
+
+488
+01:11:17.630 --> 01:11:31.619
+chuanwu: Right? And this is the exact formulation we saw in the first… in the lecture slides of the first lecture. And over here, you know, we have flow conservation constraints, and we require all the Xi's to be binary.
+
+489
+01:11:31.730 --> 01:11:47.940
+chuanwu: Okay, XI is either 0 or 1, 0 meaning that edge is taken as part of the pass. If XIJ is 1, that means that edge IJ is taken as part of the pass, and if XIJ is 0, meaning this edge is not taken.
+
+490
+01:11:48.190 --> 01:11:48.930
+chuanwu: Right.
+
+491
+01:11:49.770 --> 01:11:58.190
+chuanwu: Okay, so I'm not going through the formulation again, and you should try to remember how we formulated in the first sentence.
+
+492
+01:11:58.790 --> 01:12:09.100
+chuanwu: Okay, and then the next competitive power optimization problem that we are going to formulate today is here. So it's a so-called minimum vertex power problem.
+
+493
+01:12:09.390 --> 01:12:16.020
+chuanwu: So it's actually, if you have ever taken some computer science algorithm course, you know it's a classical ND hard problem.
+
+494
+01:12:16.630 --> 01:12:28.229
+chuanwu: Okay, and what the problem is saying is we are given an undirected graph G. So here, V is a vertex set, and E is edge set of the graph.
+
+495
+01:12:28.230 --> 01:12:39.709
+chuanwu: And we try to find the smallest subset of vertices in this graph, such that this set contains at least the one endpoint of every edge in the graph.
+
+496
+01:12:40.890 --> 01:12:43.579
+chuanwu: Okay, minimal vertex cover problem.
+
+497
+01:12:43.940 --> 01:13:00.270
+chuanwu: So probably in your previous study of the course of the problem, you didn't see a mathematical optimization formulation of the problem, and that's exactly what we are going to do today, and you will find out it is actually an integer linear program.
+
+498
+01:13:02.070 --> 01:13:12.169
+chuanwu: Okay, so given the optimization problem, when we are formulating it, again, the number one step is to decide how we formulate the variable.
+
+499
+01:13:12.910 --> 01:13:15.339
+chuanwu: To optimize, to solve for.
+
+500
+01:13:15.600 --> 01:13:16.740
+chuanwu: In the province.
+
+501
+01:13:17.050 --> 01:13:26.229
+chuanwu: Okay, so here on the, problems description cells, we try to find out the smallest subset of vertices in the graph.
+
+502
+01:13:27.500 --> 01:13:33.690
+chuanwu: So, the variable should be more or less related to some subset of the vertices.
+
+503
+01:13:34.480 --> 01:13:40.589
+chuanwu: Right? And how do we mathematically describe a subset of vertices?
+
+504
+01:13:41.910 --> 01:13:45.479
+chuanwu: Okay, so if you are given this vertex set.
+
+505
+01:13:45.600 --> 01:13:51.830
+chuanwu: B. So B is the entire set of the vertex… vertices in the graph.
+
+506
+01:13:52.030 --> 01:13:56.830
+chuanwu: And consider the subset. Okay. Subset.
+
+507
+01:13:57.910 --> 01:14:00.209
+chuanwu: And how many subsets do we have?
+
+508
+01:14:00.550 --> 01:14:07.630
+chuanwu: That's a combinatorial problem, right? So we could have C if we have, V?
+
+509
+01:14:07.930 --> 01:14:12.810
+chuanwu: Vertices, and the subset can be, many choices.
+
+510
+01:14:13.180 --> 01:14:16.819
+chuanwu: We choose one, we choose two, choose different numbers of…
+
+511
+01:14:17.770 --> 01:14:20.880
+chuanwu: Nodes to be content in the eventual set, right?
+
+512
+01:14:21.210 --> 01:14:28.529
+chuanwu: Okay, all right, so therefore, So think about… the,
+
+513
+01:14:28.700 --> 01:14:48.329
+chuanwu: Yeah, what I'm trying to do, I'm trying to analyze our chain of thought of formulating the problem, right? So reading from the original language description of the problem, we are trying to find out some subset. If you do formulate variables related to subset, then the number of variables is large.
+
+514
+01:14:48.640 --> 01:14:49.600
+chuanwu: Right.
+
+515
+01:14:49.740 --> 01:14:54.480
+chuanwu: The number of variables is kind of exponential to the number of vertices.
+
+516
+01:14:55.140 --> 01:15:05.680
+chuanwu: Right? So that's not very desirable. So in our formulation, we want the variables to be a simple need and a polynomial to the problem scale as well.
+
+517
+01:15:05.960 --> 01:15:06.890
+chuanwu: Okay.
+
+518
+01:15:07.220 --> 01:15:16.300
+chuanwu: So the more smarter way of formulating variables is to associate a variable, an individual variable, with each vertex.
+
+519
+01:15:17.160 --> 01:15:31.270
+chuanwu: And actually, typically, for a graph-related optimization problem, our variable formulations are usually either associate one variable with one vertex of the graph, or associate one variable with one hash of the graph.
+
+520
+01:15:32.010 --> 01:15:42.839
+chuanwu: vertex or graph, or edge. And here, in our minimum vertex hover problem, pretty much our optimization is related to vertexes.
+
+521
+01:15:43.070 --> 01:15:45.750
+chuanwu: Okay, deciding whether the word is, is…
+
+522
+01:15:45.850 --> 01:15:55.669
+chuanwu: in our eventual small subset, or not in our eventual smallest subset, right? So it's pretty intuitive that we formulate a variable.
+
+523
+01:15:55.860 --> 01:15:57.930
+chuanwu: With every vertex.
+
+524
+01:15:58.470 --> 01:15:59.749
+chuanwu: And let's try it.
+
+525
+01:16:00.010 --> 01:16:10.599
+chuanwu: Okay, so that here we formulate a variable Xi related to our vertex i. Okay, i in vertex I, and…
+
+526
+01:16:10.600 --> 01:16:30.249
+chuanwu: We say this, is a binary variable. Its value is either 0 or 1. If it's zero, it means Xi doesn't belong to the eventual smallest subset of vertices, and if Xi equals 1, it means X vertex i belongs to the final smallest subset.
+
+527
+01:16:32.480 --> 01:16:38.009
+chuanwu: Okay, so that's our number one step, vertex form, variable formulation.
+
+528
+01:16:38.480 --> 01:16:43.969
+chuanwu: And then, we need to come up with the objective function and the constraints.
+
+529
+01:16:44.140 --> 01:17:03.620
+chuanwu: So objective function formulation is here. We, what we are trying to minimize or maximize, so we need to decide whether it's a minimization problem or maximization problem, fundamentally. And here, we try to find the smallest subset, so it leads in from the keyword smallest, it should be a minimization problem.
+
+530
+01:17:03.870 --> 01:17:04.750
+chuanwu: Right.
+
+531
+01:17:05.040 --> 01:17:15.340
+chuanwu: Okay, so we are minimizing the sum of Xi. So what is the sum of Xi? So, sum of Xi is the number of vertices in the final set.
+
+532
+01:17:15.970 --> 01:17:30.079
+chuanwu: Because if vertex i is in the final set, it contributes 1 to the objective function value. And if vertex i is not in the set, it contributes 0 to the objective function value.
+
+533
+01:17:32.430 --> 01:17:36.809
+chuanwu: By the way, is this what I'm analyzing pretty straightforward to all you guys?
+
+534
+01:17:39.350 --> 01:17:41.369
+chuanwu: So I can move faster, right?
+
+535
+01:17:42.110 --> 01:17:53.060
+chuanwu: Okay, so the reason I'm trying to show you the channel of sorts is from a previous year's teaching and final exam, I found students do have difficulty formulating a validation problem.
+
+536
+01:17:53.380 --> 01:17:59.930
+chuanwu: Or even my students, after taking the course. But in real research, they don't really know how to formulate the problem well.
+
+537
+01:18:00.330 --> 01:18:07.070
+chuanwu: So that's why in the… from the simple examples, point of view, I want to show you how we think about.
+
+538
+01:18:07.560 --> 01:18:13.050
+chuanwu: The logic flow, the channels are, how we really formulate the problem from the original description.
+
+539
+01:18:13.350 --> 01:18:14.309
+chuanwu: All right.
+
+540
+01:18:16.970 --> 01:18:19.920
+chuanwu: Okay, and then,
+
+541
+01:18:20.100 --> 01:18:36.129
+chuanwu: And then, the key point is, not only you understand what… how the final formulation of the problem comes from, but you should know, you know, for very first place, how yourself could be formulating the problem.
+
+542
+01:18:36.650 --> 01:18:48.549
+chuanwu: So I… one of the vision I had is, in this age of AI, so there are many… a lot of information around, so students are… people are pretty good at understanding what others have already given.
+
+543
+01:18:48.750 --> 01:19:00.960
+chuanwu: But if you want to do some original work, want to formulate everything, develop everything from scratch, I think some logic training and analytical skills are still missing there.
+
+544
+01:19:01.470 --> 01:19:02.300
+chuanwu: Okay.
+
+545
+01:19:02.580 --> 01:19:15.619
+chuanwu: All right, so over here, so we come up with objective function, and then how about the constraint? So the constraint should reflect what the second half of the sentence on the slide is saying.
+
+546
+01:19:15.690 --> 01:19:23.520
+chuanwu: So it says the, set should contain at least the one endpoint of every edge in the graph.
+
+547
+01:19:23.830 --> 01:19:29.099
+chuanwu: Okay, so for every edge, IJ, so IJ is an edge.
+
+548
+01:19:29.470 --> 01:19:37.279
+chuanwu: So now we already formulated two variables, Xi and XJ, associated with each endpoint of the edge.
+
+549
+01:19:37.480 --> 01:19:39.410
+chuanwu: And then,
+
+550
+01:19:39.610 --> 01:19:56.990
+chuanwu: So how do we describe? The eventual set contains a list of one endpoint of every edge in the graph. Every edge is here. Okay, so essentially that, tells us we should formulate a constraint associated with every edge, okay, for every edge I j.
+
+551
+01:19:57.100 --> 01:20:04.470
+chuanwu: And we have two variables to manipulate, 0 and 1. Okay, they can take the value 0 and 1,
+
+552
+01:20:04.810 --> 01:20:13.749
+chuanwu: Okay, so Xi can be 0, 1, and XJ can be 0 and 1. So, and then in total, there are 4 combinations of their possible values.
+
+553
+01:20:14.160 --> 01:20:25.050
+chuanwu: And how do we formulate a function to describe amount between Xi and XJ to describe that at least the one at the point of every edge is content?
+
+554
+01:20:25.830 --> 01:20:29.740
+chuanwu: In the smallest… Vortex cover set.
+
+555
+01:20:30.980 --> 01:20:37.489
+chuanwu: Okay, so let's check it out. The first case is not what we want.
+
+556
+01:20:37.640 --> 01:20:41.980
+chuanwu: Right? We cannot have both Xi and the XJ equating zero.
+
+557
+01:20:42.240 --> 01:20:44.869
+chuanwu: Because that means the edge IJ is not…
+
+558
+01:20:45.310 --> 01:20:48.020
+chuanwu: Covered by the minimum vortex cover.
+
+559
+01:20:48.240 --> 01:20:49.030
+chuanwu: Right.
+
+560
+01:20:50.040 --> 01:20:51.010
+chuanwu: Agreed.
+
+561
+01:20:54.650 --> 01:20:59.510
+chuanwu: Okay, and then the second case is okay. Third case and fourth case are all okay.
+
+562
+01:20:59.820 --> 01:21:05.050
+chuanwu: Because the second case means both X and XJ are in the vertex cover set.
+
+563
+01:21:05.220 --> 01:21:10.320
+chuanwu: And third and fourth case means when the point is in the vertex 100%.
+
+564
+01:21:10.740 --> 01:21:11.440
+chuanwu: Right.
+
+565
+01:21:12.340 --> 01:21:19.230
+chuanwu: So therefore, we need to have a formulation to describe the last three cases are allowed, but the first case is not allowed.
+
+566
+01:21:20.380 --> 01:21:36.659
+chuanwu: And what choices do we have? So usually, between two variables, your function to formulate includes class, minus, and multiplication. We seldom use division, because any variable appearing in the denominator would make the whole function difficult.
+
+567
+01:21:37.070 --> 01:21:38.020
+chuanwu: Have a cold beers.
+
+568
+01:21:39.050 --> 01:21:39.870
+chuanwu: Right.
+
+569
+01:21:40.120 --> 01:21:40.960
+chuanwu: Okay.
+
+570
+01:21:41.120 --> 01:21:47.640
+chuanwu: And in this, problem, what we are choosing is the plus.
+
+571
+01:21:49.080 --> 01:21:59.840
+chuanwu: Okay, so using XI plus XJ, if the value is larger than 1, then we return the last three cases, but exclude the first case.
+
+572
+01:22:01.100 --> 01:22:02.649
+chuanwu: Right, so we use class.
+
+573
+01:22:02.750 --> 01:22:04.670
+chuanwu: But you yourself can track.
+
+574
+01:22:04.790 --> 01:22:07.390
+chuanwu: What if you use violence? Or what if you use…
+
+575
+01:22:07.760 --> 01:22:10.790
+chuanwu: Multiplication. Do they work, or do they not work?
+
+576
+01:22:11.840 --> 01:22:14.390
+chuanwu: Yeah, you should yourself think about that.
+
+577
+01:22:15.700 --> 01:22:16.570
+chuanwu: Okay.
+
+578
+01:22:17.520 --> 01:22:34.429
+chuanwu: All right, and then that's how we formulate the, inequality constraints. We have one inequality constraint associated with every edge, then we have the, integrity indicator constraints on Xi, and then…
+
+579
+01:22:34.640 --> 01:22:36.499
+chuanwu: We are done with the formulation.
+
+580
+01:22:38.110 --> 01:22:43.070
+chuanwu: Does anyone of you see this formulation before, when you're studying in a vertex tower problem?
+
+581
+01:22:44.340 --> 01:22:45.140
+chuanwu: No.
+
+582
+01:22:45.310 --> 01:22:57.490
+chuanwu: Okay, then this should be something new to most of you. And in fact, many of the classical computer science combinatorial optimization problems can be formulated using
+
+583
+01:22:57.840 --> 01:23:10.349
+chuanwu: And then, there is a branch of researchers who are applying ResNet's goal of addition-related theory to solve, to try to provide an approximate solution to solve them.
+
+584
+01:23:10.660 --> 01:23:22.900
+chuanwu: So I'll talk about that. So although we can formulate the linear power in pretty neat format into the integer linear program, that doesn't mean the problem can be solved efficiently exactly in quite a lot of time.
+
+585
+01:23:23.460 --> 01:23:30.009
+chuanwu: The minimum vertex cover is a classical, NP-complete problem, meaning no efficient solution.
+
+586
+01:23:30.320 --> 01:23:45.340
+chuanwu: So then, equivalent delay here, what we are saying is, although linear program is a classical type of convex program, and have efficient solution algorithm to solve for the exact solution, but it's close relative, integer linear program is not.
+
+587
+01:23:45.590 --> 01:23:47.570
+chuanwu: Okay, individual email program.
+
+588
+01:23:48.420 --> 01:23:56.730
+chuanwu: Depending on whether it satisfies some property or not. So many of them are not solvable in polynomial time deviation today.
+
+589
+01:23:57.290 --> 01:24:02.830
+chuanwu: Okay, and those problems usually correspond to NPH combinatorial validation problem.
+
+590
+01:24:03.790 --> 01:24:04.640
+chuanwu: Okay.
+
+591
+01:24:05.260 --> 01:24:10.800
+chuanwu: All right, so that point will be mentioned again later, but I'll bring it up first here.
+
+592
+01:24:11.050 --> 01:24:15.469
+chuanwu: All right, that's a very closely related,
+
+593
+01:24:16.010 --> 01:24:20.609
+chuanwu: Complementary problem is regarding maximum independent set.
+
+594
+01:24:20.840 --> 01:24:32.910
+chuanwu: So, maximum independent set aims to find the largest subset of vertices in a given undirected graph, such that no two vertices in the subset are connected by an edge in the graph.
+
+595
+01:24:33.470 --> 01:24:38.630
+chuanwu: Okay, alright, I just realized probably I should draw an example first.
+
+596
+01:24:38.810 --> 01:24:39.859
+chuanwu: But your truth.
+
+597
+01:24:40.420 --> 01:24:42.300
+chuanwu: Understanding the pattern.
+
+598
+01:25:02.760 --> 01:25:08.969
+chuanwu: Tell me, what is the minimum vertex cover? Minimum vertex cover for this example graph?
+
+599
+01:25:09.850 --> 01:25:15.020
+chuanwu: So how many vertices are in the minimal vertex cover of this problem?
+
+600
+01:25:36.000 --> 01:25:37.950
+chuanwu: Okay, 2 or 3?
+
+601
+01:26:09.880 --> 01:26:13.490
+chuanwu: And then, related, maximal independent set.
+
+602
+01:26:13.770 --> 01:26:23.349
+chuanwu: So, what is a maximum independent set? So, maximum independent set definition is the largest subset of vertices in the graph.
+
+603
+01:26:23.660 --> 01:26:27.209
+chuanwu: Such that no two vertices in the subset are connected.
+
+604
+01:26:31.730 --> 01:26:34.569
+chuanwu: So what is a maximal independence set here?
+
+605
+01:26:44.740 --> 01:26:45.870
+chuanwu: Tool, right?
+
+606
+01:26:46.520 --> 01:26:50.420
+chuanwu: So maximum independent set contains at most two vertices.
+
+607
+01:26:50.670 --> 01:26:53.720
+chuanwu: And then back to the minimal vertex cover.
+
+608
+01:26:56.450 --> 01:26:57.470
+chuanwu: Okay.
+
+609
+01:26:58.120 --> 01:27:00.480
+chuanwu: So, minimal workman's cover.
+
+610
+01:27:05.660 --> 01:27:08.230
+chuanwu: I say that is a minimum vortex cover.
+
+611
+01:27:08.860 --> 01:27:09.700
+chuanwu: Right?
+
+612
+01:27:10.380 --> 01:27:16.230
+chuanwu: So the, for the three nodes in red, They cover every edge.
+
+613
+01:27:16.480 --> 01:27:20.100
+chuanwu: So for every edge, at least the one endpoint is in the set.
+
+614
+01:27:20.920 --> 01:27:21.690
+chuanwu: Right?
+
+615
+01:27:22.360 --> 01:27:23.300
+chuanwu: Agree?
+
+616
+01:27:24.300 --> 01:27:30.470
+chuanwu: And then, maximal independent set, the remaining two are maximal independent set.
+
+617
+01:27:31.460 --> 01:27:32.330
+chuanwu: Ray.
+
+618
+01:27:33.120 --> 01:27:45.810
+chuanwu: Okay, in fact, the maximum independent set and minimal vortex cover are indeed connected this way. They are complementary sets, and the resulting problem are complementary problems.
+
+619
+01:27:46.420 --> 01:28:00.489
+chuanwu: If you are able to find out a minimum vertex cover in a graph, then you are in the… you can directly come up with maximum independent set, because maximum independent set is the remaining set of vertexes.
+
+620
+01:28:01.320 --> 01:28:08.739
+chuanwu: Okay, and actually, both are anti-half, anti-complete of addition, anti-complete of addition problems.
+
+621
+01:28:09.630 --> 01:28:16.779
+chuanwu: Yeah, meaning there is no efficient algorithms that have been identified, or actually they are proven.
+
+622
+01:28:17.450 --> 01:28:22.569
+chuanwu: There is… it is proven that there is more efficient algorithms of them in polynomial time.
+
+623
+01:28:23.770 --> 01:28:31.630
+chuanwu: Okay, but that doesn't prevent them to be, conveniently expressed using integer lining program.
+
+624
+01:28:31.660 --> 01:28:43.419
+chuanwu: Okay, so now let's see how we formulate maximum independent set. So as similar to the minimum vertex cover problem, so here we are kind of trying to find a subset of vertices.
+
+625
+01:28:43.450 --> 01:28:52.119
+chuanwu: So, a straightforward way of formulating a variable is to create one variable to be associated with one vertex.
+
+626
+01:28:52.220 --> 01:29:05.019
+chuanwu: Okay, so still here, Xi, associated with this vertex I. And then, the conditions. So the conditions are saying we want that no two vertices in the subset are connected by an edge.
+
+627
+01:29:05.160 --> 01:29:17.399
+chuanwu: Okay, no two vertices in the subset connected by edge. And then, think about possible choices of our XI and XJ combinations of their values.
+
+628
+01:29:17.950 --> 01:29:22.339
+chuanwu: Okay, the, first, though, case.
+
+629
+01:29:25.760 --> 01:29:27.669
+chuanwu: It's okay, right?
+
+630
+01:29:27.950 --> 01:29:37.119
+chuanwu: So, I and J, neither of them in the Z is fine. So, meaning edge IJ is not connected, and the two vertices in the Z, right?
+
+631
+01:29:37.980 --> 01:29:49.220
+chuanwu: Agreed? Okay. And then the second situation is not okay, right? XI1, XJ1, and XIJ are connected by two vertices intercept.
+
+632
+01:29:49.580 --> 01:29:52.620
+chuanwu: And the third case is fine, fourth case is fine.
+
+633
+01:29:52.860 --> 01:30:10.520
+chuanwu: Right? Okay. And then corresponding values are here. So basically, the value of 2 is not okay, but the value of 0 and 1 are fine, right? So how do we describe that? If we use a plus operator, so we know X plus XJ, Xi plus XJ should be no larger than 1.
+
+634
+01:30:10.910 --> 01:30:12.610
+chuanwu: So that's our condition.
+
+635
+01:30:14.080 --> 01:30:19.469
+chuanwu: So again, I do encourage you to come up, try if we do minus the baseline.
+
+636
+01:30:19.750 --> 01:30:28.279
+chuanwu: And usually, we do not do a product either, because we are XI multiplying XJ, it doesn't give us linear program.
+
+637
+01:30:28.690 --> 01:30:30.780
+chuanwu: It's non-convex, constricted.
+
+638
+01:30:31.560 --> 01:30:33.280
+chuanwu: Right. Okay.
+
+639
+01:30:33.920 --> 01:30:46.879
+chuanwu: All right, so those are very simple case. In a later example, we've used similar technique to figure out how we can formulate our constraints, based on analysis of different
+
+640
+01:30:47.010 --> 01:30:49.830
+chuanwu: situations of XI, XJ values.
+
+641
+01:30:52.030 --> 01:30:53.000
+chuanwu: Okay.
+
+642
+01:30:53.450 --> 01:30:56.419
+chuanwu: Alright, I'm having things,
+
+643
+01:30:56.870 --> 01:31:06.039
+chuanwu: Difficult or antihive problem. And in the following, we will see a few individual problems, which actually corresponds to non-emptive problems.
+
+644
+01:31:06.140 --> 01:31:10.840
+chuanwu: And the next example is regarding maximal weighted bipartite matching.
+
+645
+01:31:11.030 --> 01:31:13.650
+chuanwu: So we are given a bipartite graph.
+
+646
+01:31:14.660 --> 01:31:17.549
+chuanwu: So, do we know what is a heart attack graph?
+
+647
+01:31:19.330 --> 01:31:20.500
+chuanwu: No idea.
+
+648
+01:31:20.710 --> 01:31:26.510
+chuanwu: Okay, so by… in a biparti graph on the, edges.
+
+649
+01:31:26.900 --> 01:31:27.770
+chuanwu: Okay.
+
+650
+01:31:28.790 --> 01:31:30.790
+chuanwu: So the, vertices.
+
+651
+01:31:31.140 --> 01:31:33.589
+chuanwu: Can be divided into two sets.
+
+652
+01:31:34.230 --> 01:31:39.440
+chuanwu: And the edges only exist across the two sets.
+
+653
+01:31:44.730 --> 01:31:55.189
+chuanwu: Okay, so this is a bipartite graph. So clearly, the vertices can be divided into two sets, and edges only exist across the sets, not within a set.
+
+654
+01:31:55.830 --> 01:31:59.039
+chuanwu: Within a subset of the, graph.
+
+655
+01:31:59.510 --> 01:32:18.299
+chuanwu: Okay, and then, for this maximum weighted biparta matching problem, what we want is, we want to… we are given the biparta graph with edges and the nodes, or vertices. We try to find the subset of edges in a graph, such that the,
+
+656
+01:32:18.380 --> 01:32:22.760
+chuanwu: Total weight of edges in the subset is largest.
+
+657
+01:32:22.910 --> 01:32:30.740
+chuanwu: And, the… every vertex is insufficient to only, or exactly one edge in the subset.
+
+658
+01:32:31.560 --> 01:32:39.779
+chuanwu: Okay, in the… Original definition of bipartite graph, yes, it's possible.
+
+659
+01:32:41.480 --> 01:32:47.220
+chuanwu: Okay, it's possible the, a node has multiple
+
+660
+01:32:47.350 --> 01:32:52.090
+chuanwu: Edges going out, and the node has multiple edges coming in.
+
+661
+01:32:52.520 --> 01:32:55.189
+chuanwu: Okay. Alright.
+
+662
+01:32:57.050 --> 01:33:07.229
+chuanwu: What we want is to find out a subset of edges such that the… every vertex is incidental to exactly one edge in the subset.
+
+663
+01:33:07.390 --> 01:33:09.050
+chuanwu: They're going double here.
+
+664
+01:33:26.510 --> 01:33:27.370
+chuanwu: Okay.
+
+665
+01:33:27.560 --> 01:33:41.259
+chuanwu: So the, four, red edges, they correspond to, bipartite matching, because every vertex is, incident to exactly one of the red edges, right?
+
+666
+01:33:42.800 --> 01:33:51.309
+chuanwu: Okay, and now we also consider that the edges associated with weights, okay, call it WIJ.
+
+667
+01:33:52.300 --> 01:34:00.180
+chuanwu: So WIGN weights are all the edges, no matter whether the edge is chosen or not chosen in the final set, the,
+
+668
+01:34:01.280 --> 01:34:10.450
+chuanwu: There are weights. There is a weight associated with every, with every… etch.
+
+669
+01:34:12.160 --> 01:34:18.040
+chuanwu: And by the way, the biparted graph is by default undirected. All the edges are undirected.
+
+670
+01:34:24.090 --> 01:34:30.440
+chuanwu: Okay, all right, so I hope you now understand what is a bipartite matching problem.
+
+671
+01:34:31.420 --> 01:34:33.559
+chuanwu: Okay, so what,
+
+672
+01:34:41.980 --> 01:34:50.690
+chuanwu: In fact, in general, the funding of bipartite matching from a given biparted graph may not always be featable.
+
+673
+01:34:52.000 --> 01:34:59.060
+chuanwu: Okay, so it's possible, based on the given beta type graph, we cannot find out such a nice bite-padette matching.
+
+674
+01:35:00.410 --> 01:35:19.639
+chuanwu: And feasibility problem, so when we are given a bipartite graph, and under what condition would we be able to find out at least the one feasible by 5 matching? So those conditions, those sufficiency conditions are given by a so-called algorithm, which is called Host, marriage theorem.
+
+675
+01:35:20.810 --> 01:35:29.799
+chuanwu: So, think about what background damaging is like. It's really like the marriage problem in real world, right? So, boys, girls.
+
+676
+01:35:29.970 --> 01:35:43.199
+chuanwu: Okay, you could know multiple girls, a girl might know multiple boys, and eventually when you get married under the current law, okay, you have to find only one, right? And you cannot find two, and then…
+
+677
+01:35:43.570 --> 01:35:55.529
+chuanwu: it's not always feasible, right? It's possible someone have too many connections, but someone has too few connections, and your connection is married to another one. Okay, all right, so you understand it.
+
+678
+01:35:56.080 --> 01:35:57.200
+chuanwu: Okay.
+
+679
+01:35:57.300 --> 01:36:15.009
+chuanwu: All right, so now what we are trying to do is to formulate some maximum weighted bipartim matching problem. We further consider we need to find out the feasible solution of our biparton matching, but further we want the total weight of a differential matching to be largest.
+
+680
+01:36:15.490 --> 01:36:22.990
+chuanwu: Okay, and in this problem, we are checking out a subset of… we are looking at, a subset of edges.
+
+681
+01:36:23.230 --> 01:36:32.059
+chuanwu: And pretty intuitively, as I analyzed, now we associate one variable, or we will create one variable to be associated with one edge.
+
+682
+01:36:32.460 --> 01:36:40.189
+chuanwu: Okay, so IJ, we use IJ to represent the edge, so we use XIJ to be the variable associated with that edge.
+
+683
+01:36:40.370 --> 01:36:54.379
+chuanwu: And objective function is, we want to make sure that in the eventual bipartis matching, the chosen subset of edges, our total weight is the largest. So this is a so-called maximum weight.
+
+684
+01:36:54.380 --> 01:37:02.930
+chuanwu: Large is the total weight, and we formulated using sum over all the edges, and then the product of WIJ and XIJ.
+
+685
+01:37:03.260 --> 01:37:17.380
+chuanwu: So if XIJ is 1, meaning Xij is chosen in the final bipartite matching, and XIJ will contribute WIJ to the objective function value. If XIJ is 0, it doesn't contribute to objective function value.
+
+686
+01:37:18.390 --> 01:37:26.069
+chuanwu: And then constraint. So the constraint should be translated from the last part of the sentence.
+
+687
+01:37:26.320 --> 01:37:37.299
+chuanwu: Such that each vertex is inserted to exactly one edge in the subset. Okay, perfect, the back of the matching. And how do we describe that? So it's here.
+
+688
+01:37:37.500 --> 01:37:49.150
+chuanwu: So that constraint is formulated for every edge, formulated for every vertex, okay, every vertex I, no matter whether it's in the left-hand part or the right-hand part.
+
+689
+01:37:49.300 --> 01:38:02.560
+chuanwu: And, then here, we sum up all the outgoing, edges, okay? Sum up the value XIJ over all the outgoing edges from this
+
+690
+01:38:02.560 --> 01:38:12.430
+chuanwu: vertex I, and the degree, or the number of edges that we've chosen in the final subset should be exactly what?
+
+691
+01:38:13.420 --> 01:38:24.320
+chuanwu: Okay, so sum of outgoing degree from a vertex I, and the sum should be exactly what, meaning you only choose at most what to appear in the final
+
+692
+01:38:24.710 --> 01:38:26.989
+chuanwu: subset of edges. Oh.
+
+693
+01:38:27.370 --> 01:38:28.989
+chuanwu: Bipart had a matching set.
+
+694
+01:38:30.390 --> 01:38:41.609
+chuanwu: Okay, so again, the formulation of this weighted, maximum weighted pattern matching is pretty neat, and it's, integer linear program.
+
+695
+01:38:41.770 --> 01:38:54.230
+chuanwu: What is nice is, later we will show you that, because this operation problem follows some property, such that, actually, the problem is polynomial time exactly solvable.
+
+696
+01:38:54.540 --> 01:39:01.569
+chuanwu: And that also means it is the maximal weighted better banded matching problem is not an empty hat problem.
+
+697
+01:39:04.120 --> 01:39:08.280
+chuanwu: Okay, and then a following example is here.
+
+698
+01:39:13.660 --> 01:39:32.319
+chuanwu: The following example is the so-called maximal weight B matching. So it's just a slight variation from the maximal weight matching problem we saw just now. Here, we want to find out the subset of edges in an undirected graph with the largest total weight.
+
+699
+01:39:32.320 --> 01:39:42.960
+chuanwu: Such that every vertex is incidental to at most B edges in the subset. Okay, so pretty much we extend a degree for every vertex to maximally B.
+
+700
+01:39:45.200 --> 01:39:46.010
+chuanwu: Okay.
+
+701
+01:39:46.090 --> 01:39:54.400
+chuanwu: So here, it is a formulation. So in this formulation, essentially, we also formulate one variable to be associated with one edge.
+
+702
+01:39:54.400 --> 01:40:10.510
+chuanwu: And here, I purposely use a slightly different, way of formulation here. Instead of using IJ to denote an edge in the edge set, we just use a small E to denote an edge in the edge set of the graph.
+
+703
+01:40:10.640 --> 01:40:30.239
+chuanwu: And then, our symbol, variable symbol, becomes XE subscribed by E. And then, again, it is binary. If XE is 1, meaning it contributes, or it belongs to the final subset of edges, or B matching set. And if it is 0, meaning the edge doesn't belong to that.
+
+704
+01:40:30.480 --> 01:40:32.360
+chuanwu: And then, the…
+
+705
+01:40:32.360 --> 01:40:52.140
+chuanwu: variable, then the objective function and constraints are pretty much formulated the same way as what we did in the previous example, except that the notation slightly changed. And here, we are maximizing the weighted sum of all Xe instead of XIJ, weighted sum of XE.
+
+706
+01:40:52.140 --> 01:41:09.339
+chuanwu: And then the inequality constraints are similar. So here, we sum up all the incident edges on every node, every vertex V, and we want the degree from the vertex V to be no larger than B.
+
+707
+01:41:09.880 --> 01:41:14.379
+chuanwu: Considering all the edges we chose, incident edges we chose.
+
+708
+01:41:14.680 --> 01:41:28.489
+chuanwu: So you can compare the formulation here and the formulation there. The only difference lies in here. So instead of equaling 1, we want the degree of every vertex to be no larger than B.
+
+709
+01:41:29.630 --> 01:41:32.930
+chuanwu: In view of the final, matching set.
+
+710
+01:41:34.070 --> 01:41:35.150
+chuanwu: Okay.
+
+711
+01:41:35.750 --> 01:41:53.989
+chuanwu: All right, so according to the similarity of this maximum weight B matching and the matching problem we saw earlier, so we actually… we actually know this, maximum weight B-matching problem can also be solved if it's delayed in polynomial time, and it is not an empty heart problem.
+
+712
+01:41:59.910 --> 01:42:17.629
+chuanwu: All right, in summary, so we have seen a few examples, of, formulating concrete combinatorial optimization problems into integer linear programs. So here is a summary discussion about the happiness of integer linear program. So when the, the,
+
+713
+01:42:17.640 --> 01:42:20.819
+chuanwu: the category of theorem and,
+
+714
+01:42:21.010 --> 01:42:25.959
+chuanwu: concepts related to integer linear program is called integer problem, okay?
+
+715
+01:42:26.290 --> 01:42:38.739
+chuanwu: So in general, integer programming problems, or integer linear problems, and in general, and we have, because often they are used to describe NPH recommended for optimization problems.
+
+716
+01:42:38.740 --> 01:42:50.229
+chuanwu: And, for example, the maximum vortex cover, I mean, the maximum independent set, minimum vortex cover problems, they are complementary, and we have problems.
+
+717
+01:42:50.230 --> 01:43:07.159
+chuanwu: And, for the other, individual problems, which are not going to be had, including the imaging weighted, the other imaging, which is past problems related, in fact, they satisfy some common properties that we are going to introduce, towards the,
+
+718
+01:43:07.160 --> 01:43:11.030
+chuanwu: End of this set of slides. Probably we cannot cover it today.
+
+719
+01:43:11.790 --> 01:43:23.530
+chuanwu: Alright, so, in general, okay, in general, what is our idea of solving integer lean your progress.
+
+720
+01:43:23.790 --> 01:43:34.259
+chuanwu: We assume we know algorithm computation based off integer pro… linear programs. Okay, so that's what we are going to do in the second half of the semester.
+
+721
+01:43:34.460 --> 01:43:37.960
+chuanwu: Check out the different algorithms to solve problems.
+
+722
+01:43:38.100 --> 01:43:49.209
+chuanwu: And, assuming we are given equation algorithm to solve, integer programs, and then, do we have some general idea for solving integer linear programs as well?
+
+723
+01:43:49.470 --> 01:43:57.890
+chuanwu: So the idea lies of… the natural idea lies in the connection between integer linear program and corresponding linear program.
+
+724
+01:43:59.030 --> 01:44:04.249
+chuanwu: The idea is, we can always relax the integrity constraints.
+
+725
+01:44:04.390 --> 01:44:08.870
+chuanwu: allow X to take any real values.
+
+726
+01:44:09.050 --> 01:44:11.180
+chuanwu: Instead of just the integers.
+
+727
+01:44:11.300 --> 01:44:15.760
+chuanwu: And then, we come up with a so-called relaxed linear toga.
+
+728
+01:44:16.110 --> 01:44:24.570
+chuanwu: Or that we call the linear program by removing integer constraints from either linear program, the relaxed linear program.
+
+729
+01:44:24.840 --> 01:44:29.459
+chuanwu: And then, we can solve the relaxed linear period.
+
+730
+01:44:29.670 --> 01:44:34.669
+chuanwu: And then we come up with optimal solution to the relaxed linear program.
+
+731
+01:44:34.730 --> 01:44:49.680
+chuanwu: And then, the next question is, how do we derive integer solution to the original integer linear program from the optimal solution to the relaxed linear program? So that's usually the key question.
+
+732
+01:44:49.750 --> 01:45:01.020
+chuanwu: Okay, so before we check, before we analyze the connection, so here, I'd like to illustrate and introduce a few concepts first.
+
+733
+01:45:01.160 --> 01:45:01.950
+chuanwu: Okay.
+
+734
+01:45:02.230 --> 01:45:12.749
+chuanwu: So check out the example of geometric elaboration here. So again, the polyhedrons there represent the feasibility set of the relaxed linear program.
+
+735
+01:45:13.750 --> 01:45:26.530
+chuanwu: And then, the dots on the axis and inside the polyhedral, they represent the integer, possible integer solutions to the original integer linear program.
+
+736
+01:45:26.870 --> 01:45:27.790
+chuanwu: Okay.
+
+737
+01:45:27.890 --> 01:45:43.009
+chuanwu: And if we relax, if we consider the polyhedron as a feasibility set, we know the optimal solution is here, the red dot. So the red dot represents optimal solution of the relaxed linear program.
+
+738
+01:45:43.490 --> 01:46:02.820
+chuanwu: But what is the true optimal solution of the original integer linear program? We have to choose among the dots. And the purple dot here is the last dot, because it defines the point in the polyhedral that was a direction of negative C, as we analyzed a few times today.
+
+739
+01:46:03.300 --> 01:46:21.549
+chuanwu: All right, and then, we have a notion, which is called integrity gap, to describe the difference between the original integer linear program's optimal solution and the relaxed linear program's optimal solution. So integrated
+
+740
+01:46:21.550 --> 01:46:23.599
+chuanwu: TAP is defined this way.
+
+741
+01:46:23.840 --> 01:46:32.939
+chuanwu: So here, OPTI is the… is representing the optimal value of the integer linear program.
+
+742
+01:46:32.940 --> 01:46:45.710
+chuanwu: So recall what we say as optimal value is the optimal objective function value of the integer linear program. And OPTFI is the optimal value of the relaxed linear program.
+
+743
+01:46:46.180 --> 01:46:49.330
+chuanwu: Okay, and then the…
+
+744
+01:46:49.520 --> 01:47:02.390
+chuanwu: Integrity gap is defined to be the maximum ratio between OPTI and OPTFI over all possible instances of the problem.
+
+745
+01:47:02.420 --> 01:47:11.350
+chuanwu: Okay, then in the problem, this matrix A, the vector B, matrix G, vector H can take all kinds of different values.
+
+746
+01:47:11.470 --> 01:47:20.129
+chuanwu: And this is the upper bound of ratio. And this ratio is defined to be integrity app of this particular integer linear program.
+
+747
+01:47:20.970 --> 01:47:22.090
+chuanwu: Okay.
+
+748
+01:47:25.710 --> 01:47:43.319
+chuanwu: Okay, so the gap usually exists. Okay, so this gap usually exists, meaning the optimal solution to the integer linear program and optimal solution to the relaxed linear program in… often… often do not overlap.
+
+749
+01:47:43.410 --> 01:47:47.310
+chuanwu: They are different points in the solution space.
+
+750
+01:47:47.340 --> 01:48:06.669
+chuanwu: Okay, and then, by solving the relaxed linear program, we can come up with the optimal point here, the red point here. But if we do want to recover the optimal point of the integer linear program, we somehow have to migrate or move from the red dot to the purple point.
+
+751
+01:48:07.000 --> 01:48:25.760
+chuanwu: Because the purple point is our eventual optimal solution. And the key question here is, if we are given the optimal solution to the relaxed linear program, how do we navigate in the solution space to eventually arrive at the optimal solution of the
+
+752
+01:48:25.980 --> 01:48:28.140
+chuanwu: Original integer program.
+
+753
+01:48:28.430 --> 01:48:47.370
+chuanwu: So, and more concretely put, because the solution to the original integer linear program have to take integer values, this is kind of like how we round the non-integer solution values to a nearby integer solution value.
+
+754
+01:48:48.660 --> 01:49:02.529
+chuanwu: Okay, so this is fundamentally a rounding problem, and how do we round the fractional non-integer solution to nearby integer solution? So this problem itself is a hard problem.
+
+755
+01:49:02.650 --> 01:49:12.729
+chuanwu: The reason is, surrounding this node, this fractional solution, there can be 2 to the power of n many integer solutions.
+
+756
+01:49:12.850 --> 01:49:17.979
+chuanwu: And choosing which one you move to is the hard problem itself in many cases.
+
+757
+01:49:18.430 --> 01:49:26.300
+chuanwu: Okay, alright, because time is running up, I'll stop, let me see…
+
+758
+01:49:26.810 --> 01:49:33.579
+chuanwu: Yeah, so I'll stop here, and we will continue on Thursday instead. Okay, thank you. That's totally the date.
+

@@ -1,0 +1,20 @@
+# Personal coursework stays local.
+/03_Assignments/Assignment_1/My_Submission/
+/03_Assignments/Assignment_1/Feedback/
+**/My_Submission/
+**/Feedback/
+/download_manifest.csv
+/06_Recordings/Audio_64kbps/_processing/
+/.local-private/
+/tools/
+/07_Assignment_2_Lab/research/
+/_site/
+**/__pycache__/
+*.pyc
+*.log
+*.progress
+*.partial.*
+*.crdownload
+.env
+.env.*
+.DS_Store

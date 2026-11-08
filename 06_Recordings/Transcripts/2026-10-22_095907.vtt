@@ -1,0 +1,2494 @@
+WEBVTT
+
+1
+00:02:28.910 --> 00:02:34.140
+Chuan Wu: All right, good morning, everyone. Welcome to today's lecture on optimization. Let's get started.
+
+2
+00:02:34.620 --> 00:02:40.150
+Chuan Wu: We are now working on the, very last part of duality.
+
+3
+00:02:44.400 --> 00:03:02.829
+Chuan Wu: Okay, so especially, we have been looking at a number of properties related to duality, and we are going to first wrap it up today. At the beginning of today's lecture, we are going to first wrap it up, and then we'll be moving on, talking start to talk about the algorithms to solve complex problems.
+
+4
+00:03:03.140 --> 00:03:22.540
+Chuan Wu: Okay, so here, what we, want to introduce is, we have been seeing how to derive the dual problem and the, duality-related properties for pretty standard mathematical problem. And now we want to tend to the, mathematical problem to include the generalized inequality.
+
+5
+00:03:22.540 --> 00:03:30.119
+Chuan Wu: So, especially here, what we are looking at is a minimization problem. Okay, so we are minimizing a scalar objective function.
+
+6
+00:03:30.120 --> 00:03:45.809
+Chuan Wu: And then we have constraints. And the equality constraints are similar as before, so we have HIX of equality constraint functions, and we want it to be the double zero. And what is special is about the inequality constraint.
+
+7
+00:03:45.810 --> 00:03:52.620
+Chuan Wu: So we have this sign. Okay, we have this special… this generalized inequality sign.
+
+8
+00:03:53.170 --> 00:03:58.770
+Chuan Wu: Okay, so we have this generalized inequality design, we also have the subscript Ki.
+
+9
+00:03:58.780 --> 00:04:14.960
+Chuan Wu: So what does it indicate? So essentially, these notations happen when we introduce generalized inequality. And here, we are saying that this FX is no larger than zero, according to the proper KX.
+
+10
+00:04:14.960 --> 00:04:18.829
+Chuan Wu: And the PI is in the, more PI-dimensional space.
+
+11
+00:04:19.050 --> 00:04:26.919
+Chuan Wu: And essentially, what does that mean is, FIS should belong to the, proper home API.
+
+12
+00:04:26.920 --> 00:04:42.619
+Chuan Wu: Okay, so that is what the generalized inequality means, and as before, we have been basically mainly focused on two special pieces from our bone. One is a non-active acid, and the other is a set of positive semi-deminative matrices.
+
+13
+00:04:42.620 --> 00:04:49.180
+Chuan Wu: Right? But, in general, you know, we can define the generalized inequality on top of any proper call.
+
+14
+00:04:49.660 --> 00:05:04.900
+Chuan Wu: Okay, and then, we… when our gen… when our inequalities involve the generalizing inequality, we have the corresponding definition of Lagrange duo problem, and the steps of deriving the dual.
+
+15
+00:05:04.900 --> 00:05:10.700
+Chuan Wu: And essentially, the definition of the Lagrange core are pretty parallel to the scalar picks, okay?
+
+16
+00:05:10.880 --> 00:05:30.440
+Chuan Wu: So, first of all, when we derive the dual problem, we need to introduce Lagrange multipliers. And here, when we introduce multipliers, our lambda i is a vector. Essentially, for every generalized inequality constraint, we introduce a multiplier, which is a vector, lambda i, in the Ki dimensional space.
+
+17
+00:05:30.910 --> 00:05:45.379
+Chuan Wu: And then, when we compose the Lagrangian function, so we know the Lagrangian function is the augmentation of the primal objective function with weighted sum and a weighted sum of the equality and inequality constraint functions.
+
+18
+00:05:45.460 --> 00:06:00.800
+Chuan Wu: And the check about here. So here, the primal objective function is still the same as in the scalar case, and the weighted sum of the equality constraint functions are also similar to what we have seen before, and what is specialized here.
+
+19
+00:06:00.870 --> 00:06:14.829
+Chuan Wu: Okay, so here, FYX is a function. Okay, it's actually a vector in the, cone, KF, okay, inside the cone KF. So therefore, it is in the Ki dimensional space.
+
+20
+00:06:14.930 --> 00:06:24.449
+Chuan Wu: And the lambda i is also a vector in the Ki-dimensional space, so therefore, their kind of weighted sum is produced using inner product.
+
+21
+00:06:24.680 --> 00:06:29.200
+Chuan Wu: Okay, inner product between the two actors. So lambda ISIX.
+
+22
+00:06:29.710 --> 00:06:31.260
+Chuan Wu: Okay.
+
+23
+00:06:31.360 --> 00:06:46.920
+Chuan Wu: All right, and then, what about our viewer function? So our viewer function is defined in exactly the same manner as in the scalar case. It is computed by minimizing the Lagrangian function on top of X within the domain.
+
+24
+00:06:47.410 --> 00:06:52.730
+Chuan Wu: Within the domain of the problem, okay? Within the domain of the problem, see here.
+
+25
+00:06:52.910 --> 00:06:59.960
+Chuan Wu: Okay, so this is how we define the Rangian fuel in when we have the generalized inequality.
+
+26
+00:07:00.060 --> 00:07:18.530
+Chuan Wu: Okay, and then your problem. Okay, so having defined the Bureau function and checking out, what the problem is like, so the dual problem objective function is built to maximize the Bureau function, okay? The dual problem objective function is to maximize G, okay?
+
+27
+00:07:19.220 --> 00:07:26.520
+Chuan Wu: And over there, lambda y up to lambda m are the M vectors associated with our M generates the inequality.
+
+28
+00:07:27.210 --> 00:07:33.070
+Chuan Wu: And mu is the multiplier associated with our equality constraints in the primal problem.
+
+29
+00:07:33.190 --> 00:07:43.610
+Chuan Wu: Okay, and, what is, special is regarding the, constraint, lambda I's. So here, we have lambda i larger equal to Ki.
+
+30
+00:07:44.470 --> 00:07:51.380
+Chuan Wu: star, zero. So what does it mean? So it means lambda should belong to the dual cone of cone Ki.
+
+31
+00:07:52.050 --> 00:07:56.949
+Chuan Wu: Okay, Dior Kong of Kung Kea. Okay, by the way, I think I…
+
+32
+00:07:57.250 --> 00:08:01.110
+Chuan Wu: Made a mistake. So here, so when we have FIX,
+
+33
+00:08:01.270 --> 00:08:13.550
+Chuan Wu: no larger than Ki, 0. So it means negative FX is in the cone, okay, in the cone Ki, right? And when we know that lambda i.
+
+34
+00:08:13.690 --> 00:08:16.430
+Chuan Wu: S… In the dual cone.
+
+35
+00:08:19.010 --> 00:08:20.150
+Chuan Wu: of chaot.
+
+36
+00:08:20.290 --> 00:08:29.190
+Chuan Wu: So what does that imply? So, according to the definition of dual cone, we know the inner product of lambda i and fax.
+
+37
+00:08:29.600 --> 00:08:32.250
+Chuan Wu: Should be a smaller equal to 0.
+
+38
+00:08:33.580 --> 00:08:39.150
+Chuan Wu: Right? Okay, so we know negative FIX is in con KF.
+
+39
+00:08:39.650 --> 00:08:42.050
+Chuan Wu: And then, lambda I,
+
+40
+00:08:45.430 --> 00:08:49.139
+Chuan Wu: as in the dual cone of Kunta.
+
+41
+00:08:49.610 --> 00:09:00.819
+Chuan Wu: And the two vectors' inner product should be larger equal to 0. And if we cancel the negative sign, we know the inner product between lambda i and other X should be smaller or equal to 0.
+
+42
+00:09:01.260 --> 00:09:05.380
+Chuan Wu: Right, okay, so that is what we want to, guarantee.
+
+43
+00:09:06.450 --> 00:09:10.899
+Chuan Wu: Okay, and the recall, he, the,
+
+44
+00:09:11.060 --> 00:09:15.109
+Chuan Wu: scalar case for all the lambda i of that X.
+
+45
+00:09:15.870 --> 00:09:21.490
+Chuan Wu: We also know Yeah, Lambda and the activities normally go to the Europe.
+
+46
+00:09:21.670 --> 00:09:26.009
+Chuan Wu: both primal and the dual-feetable lambda i and X, right?
+
+47
+00:09:26.600 --> 00:09:38.360
+Chuan Wu: Okay, all right, so then the duracone definition, the duracone constraint on lambda i is able to ensure similar property as in the scalar case.
+
+48
+00:09:39.270 --> 00:09:54.219
+Chuan Wu: Okay, all right. And then other than the steps of deriving the dual problem, which are pretty parallel to the scalar case, there are similar properties related to weak duality, strong duality, when the generalized inequality is involved.
+
+49
+00:09:54.220 --> 00:10:05.110
+Chuan Wu: Okay, first the property is about lower bound property. So essentially, if we know this lambda i is leading the dual cone of 4KI,
+
+50
+00:10:05.140 --> 00:10:10.829
+Chuan Wu: Then, our viewer objective function is a lower bound of the primal modality.
+
+51
+00:10:11.240 --> 00:10:19.170
+Chuan Wu: So that can be easily derived, based on the property as what we derived, including lambda ice in the product with
+
+52
+00:10:19.340 --> 00:10:33.769
+Chuan Wu: Fi is smaller or equal to 0. Okay, using the Lagrangian functions involved in deriving theore, we can easily derive the conclusion that the G is a lower bound of primal optimal value.
+
+53
+00:10:34.870 --> 00:10:36.640
+Chuan Wu: And weak duality.
+
+54
+00:10:36.900 --> 00:10:40.669
+Chuan Wu: Okay, so we always have P star rather than go to D star.
+
+55
+00:10:41.160 --> 00:10:48.449
+Chuan Wu: in the optimization involving generalized inequality as well. And strong utility also told.
+
+56
+00:10:48.460 --> 00:10:56.310
+Chuan Wu: If the contact… if we are looking at a complex program, and it satisfies consumer qualification.
+
+57
+00:10:56.310 --> 00:11:11.379
+Chuan Wu: So similarly, Slater's constraint qualification, if Slater's constraint qualification is satisfied, meaning if there is a strictly featable solution, satisfying all the primal constraints, including the generalized inequalities.
+
+58
+00:11:11.390 --> 00:11:12.240
+Chuan Wu: That?
+
+59
+00:11:12.360 --> 00:11:16.180
+Chuan Wu: we have strong duality for the current LX program.
+
+60
+00:11:20.110 --> 00:11:24.089
+Chuan Wu: Okay, and there are also other similar properties.
+
+61
+00:11:24.340 --> 00:11:35.219
+Chuan Wu: like, complementary slack instability conditions also hope, or under our generalized inequality-based Lagrangian Dior derivation.
+
+62
+00:11:36.140 --> 00:11:37.200
+Chuan Wu: Okay.
+
+63
+00:11:37.800 --> 00:11:52.849
+Chuan Wu: All right, and then that said, let's, take a look at a concrete example, where generalized inequality is blocked. And essentially, here, we are looking at a primal problem, which is essentially a semi-definite program.
+
+64
+00:11:52.850 --> 00:12:08.239
+Chuan Wu: And we know in recall, in a semi-definite program, our objective function is commonly an alpha function, a variable X. Okay, and our inequality, our constraints, usually involve a linear matrix inequality.
+
+65
+00:12:08.520 --> 00:12:24.990
+Chuan Wu: So in the linear matrix inequality here, X is a variable, including different scalar variables, and, you see we have a generalized inequality. Okay, so that generalized inequality symbol just represents
+
+66
+00:12:24.990 --> 00:12:33.400
+Chuan Wu: That the right-hand side minus the left-hand side is resulting in a matrix which is positive semi-definite.
+
+67
+00:12:33.630 --> 00:12:40.809
+Chuan Wu: Okay, so that means our generalizing quality here is defined on the set of positive semide matrices.
+
+68
+00:12:41.290 --> 00:12:56.170
+Chuan Wu: All right, and then, we can derive the doer for this, primal, SVT together. And essentially, this primal SDT is an example where we involve generalized inequality.
+
+69
+00:12:56.940 --> 00:13:00.090
+Chuan Wu: Okay, and here, Lagrange and OP 5.
+
+70
+00:13:00.220 --> 00:13:03.430
+Chuan Wu: As we know, the, holds.
+
+71
+00:13:03.660 --> 00:13:12.529
+Chuan Wu: Yeah, positive semi-definite form is, divide on the set of, K times K symmetric matrix.
+
+72
+00:13:12.720 --> 00:13:23.929
+Chuan Wu: And then, is pure cone. So we know the, when we introduced the concept of pure cone, at the time, we actually derived that positive semi-definite cone. Stuart cone is itself.
+
+73
+00:13:24.170 --> 00:13:28.190
+Chuan Wu: Okay, it's exactly like the, book.
+
+74
+00:13:28.370 --> 00:13:33.020
+Chuan Wu: proper cone of, magnetic acid also is pure cone itself as well.
+
+75
+00:13:33.100 --> 00:13:50.810
+Chuan Wu: Okay, so therefore, we consider a matrix, we consider a Lagrange multiplier, which is in the dual cone, okay, which is in the dual cone, so therefore, multiplier is a matrix itself, and the symmetric matrix, K times K symmetric matrix.
+
+76
+00:13:51.060 --> 00:13:56.749
+Chuan Wu: And then, when we are calculating inner product between two matrices.
+
+77
+00:13:56.980 --> 00:14:02.080
+Chuan Wu: Okay, so our lambda i is, Matrix.
+
+78
+00:14:02.300 --> 00:14:08.889
+Chuan Wu: and Fi is a matrix as well, then the inner product is actually defined in a special manner.
+
+79
+00:14:09.100 --> 00:14:17.240
+Chuan Wu: So the inner product between two matrices is computed as trace of the product matrix of the
+
+80
+00:14:17.960 --> 00:14:23.689
+Chuan Wu: Okay, so trace meaning summing up all the diagonal elements, and the value is the trace.
+
+81
+00:14:24.080 --> 00:14:24.930
+Chuan Wu: Okay.
+
+82
+00:14:25.350 --> 00:14:32.889
+Chuan Wu: All right, so according to that definition, we are able to derive our Latron James option as that Lagrange zero function.
+
+83
+00:14:32.950 --> 00:14:45.609
+Chuan Wu: So the protein function is objective function, and then augmented by inner product between the multiplier and the matrix, matrix function, either in equality.
+
+84
+00:14:45.850 --> 00:15:02.779
+Chuan Wu: constraint. And the matrix function is the left-hand side, X1, F1, all the way up to XFN minus Q. Okay, so inner product between the two matrices, as our definition, equals the trace of the product of two matrices.
+
+85
+00:15:03.140 --> 00:15:06.150
+Chuan Wu: Okay, so therefore, that is all our groundshade function.
+
+86
+00:15:06.430 --> 00:15:18.729
+Chuan Wu: And then for the deriving the Dure function, the Dure function is derived by minimizing the Lagrangian over X. Okay, and in order to see how we minimize over X,
+
+87
+00:15:18.950 --> 00:15:20.240
+Chuan Wu: We can.
+
+88
+00:15:32.630 --> 00:15:33.720
+Chuan Wu: All the nuts.
+
+89
+00:15:33.900 --> 00:15:38.070
+Chuan Wu: all the terms related to X from our Lagrangian functions.
+
+90
+00:15:38.560 --> 00:15:48.070
+Chuan Wu: So we have C transpose X in the Lagrangian function, and we have trace of, that's one Z.
+
+91
+00:15:48.710 --> 00:15:52.400
+Chuan Wu: F1… all the way at A.
+
+92
+00:15:52.550 --> 00:15:53.530
+Chuan Wu: Cool.
+
+93
+00:15:55.200 --> 00:15:56.520
+Chuan Wu: accident.
+
+94
+00:15:56.670 --> 00:15:57.530
+Chuan Wu: V.
+
+95
+00:15:57.950 --> 00:16:01.900
+Chuan Wu: F… minus… Lead G.
+
+96
+00:16:02.150 --> 00:16:03.130
+Chuan Wu: Okay.
+
+97
+00:16:10.440 --> 00:16:18.369
+Chuan Wu: All right, and then, according to the distributive law of trace calculation, so what we have is exactly
+
+98
+00:16:22.590 --> 00:16:23.390
+Chuan Wu: Here.
+
+99
+00:16:40.890 --> 00:16:41.760
+Chuan Wu: Okay.
+
+100
+00:16:42.390 --> 00:16:51.540
+Chuan Wu: All right, and then further consider that P transpose X is a sum of CIXI. Okay, sum of CIXI.
+
+101
+00:16:51.710 --> 00:16:54.210
+Chuan Wu: And essentially,
+
+102
+00:16:58.570 --> 00:17:06.299
+Chuan Wu: When we organize all the terms related to X1, What we have is here.
+
+103
+00:17:23.339 --> 00:17:24.210
+Chuan Wu: Okay.
+
+104
+00:17:24.410 --> 00:17:29.420
+Chuan Wu: So we can exactly see the, Lagrangian function as an alpha function on X.
+
+105
+00:17:29.660 --> 00:17:31.149
+Chuan Wu: Okay, iPhone, X.
+
+106
+00:17:32.510 --> 00:17:40.860
+Chuan Wu: Okay, so what we are minimizing an affine function of X, So, especially,
+
+107
+00:17:46.820 --> 00:17:47.790
+Chuan Wu: I'll get…
+
+108
+00:17:48.690 --> 00:18:00.210
+Chuan Wu: So essentially, when we are… we know alpha function could be unbinded, okay, alpha function could be unbinded, if the coefficient that we are multiplying the variables with is non-zero.
+
+109
+00:18:00.240 --> 00:18:16.329
+Chuan Wu: Right? If any of the coefficients C1 plus trace of matrix ZF1, CI plus trace of DFI is non-zero, then we can set the corresponding Xi to be either positive infinity or negative infinity.
+
+110
+00:18:16.470 --> 00:18:19.250
+Chuan Wu: To make the term very, very small.
+
+111
+00:18:19.390 --> 00:18:21.680
+Chuan Wu: Right, unbundled below.
+
+112
+00:18:22.020 --> 00:18:27.950
+Chuan Wu: So therefore, the Lagrangian function here is only finite.
+
+113
+00:18:28.060 --> 00:18:33.320
+Chuan Wu: If all the coefficients multiplying our variables are exactly zero.
+
+114
+00:18:33.460 --> 00:18:36.260
+Chuan Wu: complex BI, of trace of FIC.
+
+115
+00:18:36.590 --> 00:18:44.630
+Chuan Wu: So we know trees of FIC equals trees of DFI, so that is the probability of trees calculation.
+
+116
+00:18:46.350 --> 00:18:49.330
+Chuan Wu: Okay, when all the coefficients are zeros.
+
+117
+00:18:49.480 --> 00:18:55.209
+Chuan Wu: Remains is a lesser term, which is negative trace of VG, or negative trace of GV.
+
+118
+00:18:55.570 --> 00:18:57.940
+Chuan Wu: Okay, so that is the only bounded case.
+
+119
+00:18:58.380 --> 00:19:05.669
+Chuan Wu: Otherwise, in all other cases, we can always choose the corresponding Xi to make the happen function very, very small.
+
+120
+00:19:05.800 --> 00:19:07.290
+Chuan Wu: Very, very versatile.
+
+121
+00:19:07.780 --> 00:19:08.820
+Chuan Wu: Okay.
+
+122
+00:19:09.340 --> 00:19:24.949
+Chuan Wu: All right, so then we have two cases for the Lagrange dealer function, as similar as before, because the Durer problem is to maximize the Durer function, so therefore we do not go into the connecting definitive branch.
+
+123
+00:19:25.150 --> 00:19:27.889
+Chuan Wu: And we only consider the first of all that piece.
+
+124
+00:19:28.270 --> 00:19:38.709
+Chuan Wu: And then, our objective function in a pure problem is to maximize active trees of GD, and then our constraints includes the conditions there.
+
+125
+00:19:39.000 --> 00:19:45.200
+Chuan Wu: as well as W should belong to the dual pool of the positive semi-definite matrix form.
+
+126
+00:19:45.530 --> 00:19:50.260
+Chuan Wu: And that also means D belongs to… and D is a positive.
+
+127
+00:19:50.700 --> 00:19:52.509
+Chuan Wu: Some definite matrix.
+
+128
+00:19:53.690 --> 00:19:58.780
+Chuan Wu: Okay And that completes our derivation of the dual probability.
+
+129
+00:20:06.470 --> 00:20:17.859
+Chuan Wu: Okay, the primal problem is a semi-definite program. We know a semi-definite program is, one special case of COMEX program, or semi-definite program is COMEX program.
+
+130
+00:20:17.960 --> 00:20:25.969
+Chuan Wu: So therefore, if we know that primal problems satisfy Slater's constraint qualification, then strong derivative holds.
+
+131
+00:20:26.180 --> 00:20:42.510
+Chuan Wu: And when does the primal problem satisfies later's constricted correlation? So, essentially, if we have solution X, make the linear matrix inequality strictly featable, or strictly featable, meaning
+
+132
+00:20:42.670 --> 00:20:49.260
+Chuan Wu: The matrix of G minus the left-hand side is a positive definite matrix.
+
+133
+00:20:49.820 --> 00:21:00.050
+Chuan Wu: Okay, in that case, yeah, S primal SPD is strictly featable, and we have strong duity between the primal problem and the pure problem we have just derived.
+
+134
+00:21:01.700 --> 00:21:02.580
+Chuan Wu: Okay.
+
+135
+00:21:05.510 --> 00:21:06.630
+Chuan Wu: All right.
+
+136
+00:21:08.500 --> 00:21:14.920
+Chuan Wu: And that, completes what we want to introduce related to the core duality theory.
+
+137
+00:21:33.610 --> 00:21:51.080
+Chuan Wu: Okay, you can see we have, finished the first major half of the, contents we want to introduce in the course, including the fundamentals of complex analysis, different types of convex programs, and the core theory of duality.
+
+138
+00:21:51.080 --> 00:22:01.499
+Chuan Wu: And moving on, in the later half of the semester, what we want to introduce, briefly, the algorithms people have designed to solve CAIC program.
+
+139
+00:22:01.830 --> 00:22:12.880
+Chuan Wu: And we will start from the simplest case, where we are looking at a complex program without explicit constraint, and we call that unconstrual.
+
+140
+00:22:13.010 --> 00:22:24.489
+Chuan Wu: And then moving up, we'll be checking out quantifying the program with equality constraints. We know the equality constraints in Bonsai program are all outbound constraints, and we have algorithms to solve that.
+
+141
+00:22:24.490 --> 00:22:39.940
+Chuan Wu: And still further moving out, we check on the more generic forms of complex program, based on politic constraints and other political constraints, and we'll be discussing… we'll be introducing a set of methods to solve the problem of different forms of different properties.
+
+142
+00:22:39.940 --> 00:22:53.770
+Chuan Wu: For example, we start with, general convex program, where all the functions involved are differentiable, then we'll be moving on to algorithms which can deal with, parallel programs where some functions are not differentiable.
+
+143
+00:22:53.920 --> 00:23:09.019
+Chuan Wu: Okay, and you will find out the idea of designing all the algorithms are typically focusing on, or based on the very important activity conditions that we have introduced as the,
+
+144
+00:23:09.670 --> 00:23:14.200
+Chuan Wu: We have introduced and discussed in detail in the last of your lectures.
+
+145
+00:23:15.530 --> 00:23:28.450
+Chuan Wu: All right, so starting with our unconstrained optimization, solution algorithm design. Okay, so what we are looking at is a simple minimization of an object function as a constraint.
+
+146
+00:23:28.500 --> 00:23:47.830
+Chuan Wu: Okay, no expiry constraint, meaning there is no additional constraint beyond the domain of function fx. So domain of a function fx, for example, if fx involves a function, then we would require whatever happens following the log sign to be positive. Okay, so that there's part of the domain of the function fx.
+
+147
+00:23:48.310 --> 00:23:57.310
+Chuan Wu: Okay, and here we require F to be commax and differentiable, and more especially, we want it to be price continuously differentiable.
+
+148
+00:23:57.590 --> 00:24:10.969
+Chuan Wu: Okay, so that implies the domain of function F is open. So because if the domain of function F is bounded, then at the boundary point, those, we do not have differential validity at the boundary points of the domain.
+
+149
+00:24:10.970 --> 00:24:18.570
+Chuan Wu: Right? Okay. And we also assume that the optimal value is a tenth at some 5 max value of X.
+
+150
+00:24:18.770 --> 00:24:23.210
+Chuan Wu: Okay, we could find some finite value of X being related to the objective publishing.
+
+151
+00:24:23.590 --> 00:24:35.799
+Chuan Wu: Okay, and then, how do we solve this minimization problem? So, actually, so far, we are already equipped with a major idea of solving such a single
+
+152
+00:24:36.030 --> 00:24:38.390
+Chuan Wu: Complex function minimization problem.
+
+153
+00:24:38.620 --> 00:24:42.369
+Chuan Wu: That is, we can calculate the gradient
+
+154
+00:24:42.580 --> 00:24:45.399
+Chuan Wu: Of the function, and set it to zero.
+
+155
+00:24:45.520 --> 00:24:51.069
+Chuan Wu: So that is a property, or we have made use… introduced and made use of many times when we have
+
+156
+00:24:51.080 --> 00:25:09.000
+Chuan Wu: solving some example programs so far, right? So what we want is, we can calculate the gradient of the objective function. So when X is an undimensional vector, we know the gradient actually consists of partial derivative of X with respect to every element of variable X.
+
+157
+00:25:09.050 --> 00:25:10.570
+Chuan Wu: And sell it to the rock.
+
+158
+00:25:10.910 --> 00:25:15.360
+Chuan Wu: Right? And in total here, we have Earth equalities.
+
+159
+00:25:15.460 --> 00:25:17.450
+Chuan Wu: Of the early part is in this.
+
+160
+00:25:17.690 --> 00:25:22.190
+Chuan Wu: In this, equality representation.
+
+161
+00:25:22.750 --> 00:25:39.859
+Chuan Wu: Okay, and yes, exactly the solution idea of solving such an unconstrained complex minimization problem is to find… try to find a solution which satisfies the N equations underneath the gradient equating zero equality.
+
+162
+00:25:40.780 --> 00:25:52.199
+Chuan Wu: Okay, and you would think that this is pretty straightforward and simple. Yes, so it is straightforward and simple if our FX is quadratic function.
+
+163
+00:25:52.310 --> 00:26:06.369
+Chuan Wu: Because what FX is contracting function, it's first-order gradient, first-order partial derivative with respect to every X, results in, alphine function, right? And then what we have underneath here would be
+
+164
+00:26:07.200 --> 00:26:12.889
+Chuan Wu: And, linear equations. And we all know how to solve a system of linear equations.
+
+165
+00:26:13.030 --> 00:26:16.329
+Chuan Wu: Right? Okay, so that would be fairly solvable.
+
+166
+00:26:16.380 --> 00:26:29.569
+Chuan Wu: But, if F is of more complex of 4, its gradient may not be of alpha function 4, it can be higher order, or can be in complex of 4, involving log, involving exponential function, and so on.
+
+167
+00:26:29.580 --> 00:26:37.509
+Chuan Wu: And then, you know, when we have any equations there, we are not equipped with any analytical solution algorithm to solve them exactly.
+
+168
+00:26:37.530 --> 00:26:46.029
+Chuan Wu: And what we can do is we can apply numerical algorithms to find the final optimal solution iterated.
+
+169
+00:26:46.450 --> 00:26:54.630
+Chuan Wu: Okay, so that is the idea. Okay, so we need, usually need a derivative algorithm to solve these inequities.
+
+170
+00:26:54.810 --> 00:27:08.750
+Chuan Wu: And the high-level idea of the iterative algorithm is, every time we try to produce, we start with X0, or X1, okay, we start with X1 in the domain of the function X,
+
+171
+00:27:08.890 --> 00:27:17.190
+Chuan Wu: And then, in every step, we try to find out a better X2, X3, up to XP.
+
+172
+00:27:17.370 --> 00:27:31.420
+Chuan Wu: Such that, eventually, when we don't have run the algorithm for many steps, our objective function, evaluated at that iterate XK, will be close to the minimum value of FX.
+
+173
+00:27:32.020 --> 00:27:46.930
+Chuan Wu: Okay, and when we say FXK approaches minimum value of X, that is equivalent to say that the freedom of function f evaluated at iterate X to K would be going to feel close to 0.
+
+174
+00:27:47.250 --> 00:27:49.999
+Chuan Wu: Okay, because that is cognitive condition.
+
+175
+00:27:50.860 --> 00:27:51.760
+Chuan Wu: Okay.
+
+176
+00:27:52.310 --> 00:27:54.070
+Chuan Wu: Alright,
+
+177
+00:27:54.690 --> 00:28:06.329
+Chuan Wu: And by the way, as I said, for a few times, many of the algorithms, optimization algorithms to solve our problematic problems or payment forms are based on PKD conditions.
+
+178
+00:28:06.640 --> 00:28:10.079
+Chuan Wu: Right? And for this very,
+
+179
+00:28:10.180 --> 00:28:17.559
+Chuan Wu: meet a mineralization property without constraints. Essentially, that is a totally meaningful PAB condition.
+
+180
+00:28:17.880 --> 00:28:20.300
+Chuan Wu: meaningful conditions under KPP.
+
+181
+00:28:20.900 --> 00:28:26.849
+Chuan Wu: Right? So think about primal constraints, no primal constraints. Dual constraints, no dual constraints.
+
+182
+00:28:27.150 --> 00:28:30.460
+Chuan Wu: Right? And complementary stackness naturally happens.
+
+183
+00:28:30.570 --> 00:28:38.159
+Chuan Wu: And then, it's only the fourth set of conditions under KTV that is happening. That is, the Lagrangian
+
+184
+00:28:38.430 --> 00:28:44.249
+Chuan Wu: The Lagrangian's gradient, gradient of Lagrangian function vanishes at optimality.
+
+185
+00:28:44.370 --> 00:28:58.299
+Chuan Wu: And for this randomization problem without constraints, the Lagrangian is exactly the objective function, right? So therefore, this also is indeed the first set of conditions under KKT conditions.
+
+186
+00:28:59.000 --> 00:28:59.940
+Chuan Wu: Okay.
+
+187
+00:29:00.410 --> 00:29:04.210
+Chuan Wu: Alright, here.
+
+188
+00:29:04.340 --> 00:29:18.560
+Chuan Wu: So we have introduced the major idea of the iterative algorithm to solve that, thinned equations, that system of thin equations, and usually, we want to iterate many iterations up to a threshold, or tolerance.
+
+189
+00:29:18.670 --> 00:29:27.730
+Chuan Wu: So when our current objective value is, pretty close to the minimum objective value, then we are good. We can start the algorithm.
+
+190
+00:29:27.730 --> 00:29:44.169
+Chuan Wu: But the number one question is, how do we know what the minimal value is? If you do know the minimal objective value, probably don't bother to stop around all the iterations, right? So therefore, that is conceptual combination foundation in practice in the algorithm, particular space here.
+
+191
+00:29:44.390 --> 00:29:52.010
+Chuan Wu: We tell whether the gradient of objective function evaluated at the current iterate XK is very small already.
+
+192
+00:29:52.150 --> 00:29:56.719
+Chuan Wu: Smaller-than-us, horrid. That we can stop the outbreak.
+
+193
+00:29:57.260 --> 00:30:03.069
+Chuan Wu: Okay, when calculating the gradient here, we don't need to know what is the minimum objective value.
+
+194
+00:30:03.980 --> 00:30:04.960
+Chuan Wu: Okay.
+
+195
+00:30:05.450 --> 00:30:14.160
+Chuan Wu: All right, so that is the high-level idea of the, algorithm, iterative algorithm, to solve, unconstrained convex minimization problem.
+
+196
+00:30:14.320 --> 00:30:15.790
+Chuan Wu: L?
+
+197
+00:30:16.090 --> 00:30:26.550
+Chuan Wu: And high-level idea. And to execute the high-level idea, we also need to know how we move on, how we move from,
+
+198
+00:30:26.630 --> 00:30:42.419
+Chuan Wu: XK to the next iterate XK plus 1. That is how we update the current iterate XK to the next XK plus 1, and hoping XK plus 1 is closer to the optimal solution. So that relies on how we design the update formula.
+
+199
+00:30:42.690 --> 00:31:02.389
+Chuan Wu: And the simple update formula is here. So when we run the hour range starting from X0, in every step, or every iteration, we update the current iterate using this much amount. Okay, so this amount, within this amount, the TK is called a step size for step lengths.
+
+200
+00:31:02.710 --> 00:31:13.870
+Chuan Wu: And the delta XP, the TK in the sphere array. And the delta XP is an optic direction, or we call it the step or search direction.
+
+201
+00:31:14.370 --> 00:31:30.110
+Chuan Wu: Okay, and when we do this update, we hope the objective function value, evaluated at the next iterate, XP plus 1, is smaller. The objective function evaluated at the current iterate XP.
+
+202
+00:31:30.290 --> 00:31:49.360
+Chuan Wu: Okay, so for this simple update formula, there are different ways to represent it. So we can use this, or we can use X plus to denote after update, X value after update, and X is, iterate before update. Or we can use this assignment symbol to indicate this update as well.
+
+203
+00:31:49.470 --> 00:31:50.340
+Chuan Wu: Okay.
+
+204
+00:31:51.090 --> 00:31:52.860
+Chuan Wu: Alright,
+
+205
+00:31:55.060 --> 00:32:04.010
+Chuan Wu: Okay, so in every step, when we need, when after update, we want this,
+
+206
+00:32:04.210 --> 00:32:05.810
+Chuan Wu: Objective manual asks.
+
+207
+00:32:06.030 --> 00:32:14.760
+Chuan Wu: XK plus 1 to be smaller than FXP, so what does that imply? So actually, this actually can give us
+
+208
+00:32:14.760 --> 00:32:26.729
+Chuan Wu: The inner product between the gradient vector of X evaluated at the current iterate X, and the delta X, which is the search reaction, should be smaller than zero.
+
+209
+00:32:26.770 --> 00:32:38.009
+Chuan Wu: If our function f is a complex function. Okay, so how do we derive that? We can readily derive that based on first-order condition of
+
+210
+00:32:38.280 --> 00:32:39.520
+Chuan Wu: complex function.
+
+211
+00:33:05.840 --> 00:33:11.659
+Chuan Wu: Okay, so I'll use X task to represent the after update iterate value.
+
+212
+00:33:12.790 --> 00:33:13.660
+Chuan Wu: Okay.
+
+213
+00:33:13.970 --> 00:33:20.209
+Chuan Wu: So, using… so, first order foundation, so this is what we have.
+
+214
+00:33:25.260 --> 00:33:30.360
+Chuan Wu: Okay, so first-order first-order condition of COMEX, differentiable COMEX.
+
+215
+00:33:30.480 --> 00:33:37.960
+Chuan Wu: function is saying that the first-order approximation is an underestimator of the function value.
+
+216
+00:33:39.830 --> 00:33:52.359
+Chuan Wu: Okay, and within our algorithm, when we want this F as fast, will be smaller, Then, FX.
+
+217
+00:34:00.240 --> 00:34:09.290
+Chuan Wu: What we exactly can derive is the second term on the right-hand side of the generalized inequality should be smaller than zero, right?
+
+218
+00:34:10.679 --> 00:34:16.050
+Chuan Wu: that should be smaller than 0, and X plus minus X is our delta X.
+
+219
+00:34:20.310 --> 00:34:21.150
+Chuan Wu: Okay.
+
+220
+00:34:37.940 --> 00:34:46.429
+Chuan Wu: intuitively, okay? Intuitively, if we consider the, Level curves.
+
+221
+00:34:48.290 --> 00:34:52.729
+Chuan Wu: Okay, so if we consider the level curves of our function fx.
+
+222
+00:34:52.739 --> 00:35:10.969
+Chuan Wu: Okay, so remember, in our previous geometry illustration, we know the level curve of a convex function represents the, along one level curve of the, of a function, the points achieved the same functionality. So that is our level curve, right?
+
+223
+00:35:11.040 --> 00:35:17.639
+Chuan Wu: Okay, so if I'm drawing the function FX at level curving this way, so what is the direction of…
+
+224
+00:35:18.350 --> 00:35:22.319
+Chuan Wu: NABLA FX. So, NABLA FX is pointing
+
+225
+00:35:22.780 --> 00:35:26.739
+Chuan Wu: To the direction where the function value is increasing, right?
+
+226
+00:35:28.280 --> 00:35:44.730
+Chuan Wu: Okay, and then what about our delta X? So if we want our delta X inner product base, nebula fx is smaller than 0, that means our delta X should be a direction pointing more or less in the reverse direction, or a direction
+
+227
+00:35:44.730 --> 00:35:49.379
+Chuan Wu: with more than 90 degree angle, with the NABLA FX direction.
+
+228
+00:35:49.730 --> 00:35:50.510
+Chuan Wu: Right.
+
+229
+00:35:50.710 --> 00:35:57.829
+Chuan Wu: And intuitively, delta X is pointing towards the direction where objective function value is decreased.
+
+230
+00:35:58.490 --> 00:36:11.890
+Chuan Wu: Okay, all right. And, that's why we say in this approach, the delta axis should be an exact direction, except in terms of decreasing of the function value FX.
+
+231
+00:36:14.040 --> 00:36:24.699
+Chuan Wu: Okay, and from all the, analyses, we can summarize, general descent method to solve the unconstrained convex linearization problem.
+
+232
+00:36:25.350 --> 00:36:32.709
+Chuan Wu: So we start with a starting point in the domain of the function, and then we can determine an exact direction.
+
+233
+00:36:32.850 --> 00:36:39.919
+Chuan Wu: And if that reaction satisfied, that is, inner product, which the gradient factor is smaller than 0.
+
+234
+00:36:40.170 --> 00:36:56.879
+Chuan Wu: And then, we can decide our staff size. And how do we decide the step size? There are different approaches that we are introducing, but in general, those approaches for deciding the step size are called line search methods. We'll introduce two representative line search methods on the later page.
+
+235
+00:36:57.120 --> 00:37:14.799
+Chuan Wu: And then, when T is decided, delta X is decided, we can update X using the update formula, and then we are done with this iteration of the algorithm, and then we can repeat. And until the stopping criteria evaluated using gradient of the current X,
+
+236
+00:37:14.800 --> 00:37:19.080
+Chuan Wu: It's very small, okay, until that stopping criteria is set up.
+
+237
+00:37:19.870 --> 00:37:24.039
+Chuan Wu: Okay, so this is a sketch of a general descent method.
+
+238
+00:37:24.210 --> 00:37:42.590
+Chuan Wu: And as said, I'm going to introduce major, approaches for deciding the two major factors in such a descent method. Number one, we should decide the descent direction delta X, what it exactly is like. And secondly, we should decide a step size.
+
+239
+00:37:43.430 --> 00:37:49.650
+Chuan Wu: And how do we decide the, how do we decide the descendant reaction?
+
+240
+00:37:49.780 --> 00:37:54.879
+Chuan Wu: So what we eventually want is that delta X
+
+241
+00:38:15.430 --> 00:38:16.310
+Chuan Wu: Okay.
+
+242
+00:38:16.420 --> 00:38:27.910
+Chuan Wu: What we eventually found is, the inner product between our design direction and the gradient of the function F at the current iterate is smaller than zero.
+
+243
+00:38:28.660 --> 00:38:36.140
+Chuan Wu: And an intuitive way to decide such a delta X is exactly to choose it as negative, of…
+
+244
+00:38:36.280 --> 00:38:37.390
+Chuan Wu: the gradient.
+
+245
+00:38:37.620 --> 00:38:38.560
+Chuan Wu: Back to…
+
+246
+00:38:39.320 --> 00:38:53.400
+Chuan Wu: Okay, so when delta X is negative of a gradient vector, so here, so if delta X is directly along the negative direction of the gradient vector, we know that inner project is definitely a negative value.
+
+247
+00:38:53.800 --> 00:38:57.009
+Chuan Wu: Right, as long as the grading factor is not zero.
+
+248
+00:38:57.630 --> 00:39:10.999
+Chuan Wu: So that satisfies the foundation here. And when we do choose a delta X, the descent reaction will be the negative of the gradient vector. This method becomes a gradient descent method.
+
+249
+00:39:11.150 --> 00:39:12.850
+Chuan Wu: Okay, gradient accepted.
+
+250
+00:39:13.100 --> 00:39:16.289
+Chuan Wu: Our descent direction is an effective radiant direction.
+
+251
+00:39:17.000 --> 00:39:17.950
+Chuan Wu: Okay.
+
+252
+00:39:18.080 --> 00:39:23.910
+Chuan Wu: And, and the gradient descent method is widely used in practice.
+
+253
+00:39:24.280 --> 00:39:27.999
+Chuan Wu: Okay? And then, how do we choose the step size?
+
+254
+00:39:28.260 --> 00:39:29.969
+Chuan Wu: So the,
+
+255
+00:39:30.380 --> 00:39:45.340
+Chuan Wu: The method for two-step sites are called line search methods, and there are two representative line search methods. The first one is to do exact line search, so exact line search, meaning that at the current iterate X,
+
+256
+00:39:45.600 --> 00:39:47.880
+Chuan Wu: When given the descendant's direction.
+
+257
+00:39:48.010 --> 00:39:57.109
+Chuan Wu: We tried to find out a step length, or step size T, which minimized the function value evaluated at the next iterator.
+
+258
+00:39:58.260 --> 00:40:02.299
+Chuan Wu: So what we have in the parenthesis is the value of the next iterate, X.
+
+259
+00:40:02.640 --> 00:40:03.860
+Chuan Wu: the X class.
+
+260
+00:40:04.250 --> 00:40:10.270
+Chuan Wu: And we choose T to make sure the function value F evaluated at the next iterate is the smallest.
+
+261
+00:40:11.330 --> 00:40:16.750
+Chuan Wu: Okay, and that means our move around the direction delta X is the best.
+
+262
+00:40:16.950 --> 00:40:20.309
+Chuan Wu: To reduce, to minimize the functionality.
+
+263
+00:40:21.060 --> 00:40:33.810
+Chuan Wu: Okay, so therefore, if we try to design a thing this way, it's so-called indexed line search, and we actually see there is an organization problem involved as well when designing this.
+
+264
+00:40:34.470 --> 00:40:47.649
+Chuan Wu: Okay, because we try to minimize P when X delta X is fixed. So this problem is usually of similar difficulty as the very original problem we are trying to solve during the descent method.
+
+265
+00:40:47.880 --> 00:40:51.519
+Chuan Wu: Right, because in the very original problem is to minimize that X.
+
+266
+00:40:52.280 --> 00:40:58.320
+Chuan Wu: But it's slightly simpler, because now our variable is only T, a scalar variable.
+
+267
+00:40:58.440 --> 00:41:00.970
+Chuan Wu: Instead of a vector variable paths.
+
+268
+00:41:01.490 --> 00:41:18.670
+Chuan Wu: Okay, but still, solving this minimization would be taking time. If it happens in every step of our iterate gradient method, iterate sends a method, then it adds on to complexity of the algorithm execution. So that's why…
+
+269
+00:41:18.950 --> 00:41:27.660
+Chuan Wu: People have designed another, more efficient line search method to design the key, and that is so-called backtracking line search.
+
+270
+00:41:28.140 --> 00:41:36.910
+Chuan Wu: So the backtracking line search is designing a step size T using a few iterations, a number of iterations, rather than exactly solving a main validation problem.
+
+271
+00:41:37.030 --> 00:41:49.930
+Chuan Wu: And the idea is here. So we start with T equating what? And at every step, we try to reduce T by a factor beta. So beta is in the range of 0 and 1.
+
+272
+00:41:50.060 --> 00:41:52.840
+Chuan Wu: Until this economy holds.
+
+273
+00:41:54.410 --> 00:42:09.610
+Chuan Wu: Okay, and the high… I'm going to do some geometric illustrations to show what this means. At a high level, I hear is the T we choose by repeating this a few times until the holiday here holds would be a T good enough.
+
+274
+00:42:09.660 --> 00:42:16.440
+Chuan Wu: to ensure, after update here, the function value is smaller than FS27 fully detected.
+
+275
+00:42:17.150 --> 00:42:26.390
+Chuan Wu: Okay, observe the condition here. So FX plus P delta X is the function evaluated at the next iterate, after update.
+
+276
+00:42:26.710 --> 00:42:36.990
+Chuan Wu: And FX is, reverse concurrent function value, objective function value, and the right-hand side… and the second term here is,
+
+277
+00:42:37.360 --> 00:42:38.569
+Chuan Wu: Not too bad.
+
+278
+00:42:39.480 --> 00:42:48.100
+Chuan Wu: Native value, because interproduction between the two, according to how we choose the indecent reaction, to be negative, Right.
+
+279
+00:42:48.250 --> 00:42:57.929
+Chuan Wu: And T is positive, and R phi is in that range, a positive value. So therefore, the term here is an active value.
+
+280
+00:42:58.060 --> 00:43:15.230
+Chuan Wu: And the implication here is our T to be decided, would ensure, after update, the iterate's function value is smaller than the previous iterate's function value by some extent decided by this negative value.
+
+281
+00:43:17.210 --> 00:43:18.070
+Chuan Wu: Alright.
+
+282
+00:43:18.260 --> 00:43:19.220
+Chuan Wu: Okay.
+
+283
+00:43:19.780 --> 00:43:22.560
+Chuan Wu: Okay, geometric illustration…
+
+284
+00:44:34.040 --> 00:44:37.609
+Chuan Wu: Okay, so what I'm drawing here is the,
+
+285
+00:44:38.170 --> 00:44:42.490
+Chuan Wu: Horizontal axes represent our, step size T.
+
+286
+00:44:43.100 --> 00:45:01.449
+Chuan Wu: And the value of drawing according… using the vertical axis is the value of function f, value evaluated at x plus t delta X. Now, t and delta X are all given and fixed, and T is our… X and delta X are both fixed, T is our variable.
+
+287
+00:45:01.680 --> 00:45:10.109
+Chuan Wu: Okay, so one function f is a convex function, so actually we can pretty much show that F is on convex on T as well.
+
+288
+00:45:10.770 --> 00:45:17.630
+Chuan Wu: Okay, all right, and then, remember now, all X, delta X,
+
+289
+00:45:17.880 --> 00:45:21.199
+Chuan Wu: fixed, and the T is our variable.
+
+290
+00:45:21.450 --> 00:45:23.429
+Chuan Wu: And then, we can…
+
+291
+00:45:29.800 --> 00:45:40.470
+Chuan Wu: Okay, so we can draw a supporting line, a tangent line, a supporting hyperplan to the function curve, going through this, point on the vertical axis.
+
+292
+00:45:40.580 --> 00:45:42.180
+Chuan Wu: And this…
+
+293
+00:45:51.960 --> 00:46:00.640
+Chuan Wu: Okay, and this line's formula is here. Okay, so especially this point, the value is FX, because T is 0.
+
+294
+00:46:00.970 --> 00:46:04.419
+Chuan Wu: T is 0, TS0, so that point is FX.
+
+295
+00:46:04.610 --> 00:46:15.399
+Chuan Wu: And fx plus t multiplying, the inner product between… the inner product between gradient vector and delta X, so this is, the slope.
+
+296
+00:46:16.400 --> 00:46:19.150
+Chuan Wu: So that is the slope? Negative slope?
+
+297
+00:46:19.550 --> 00:46:21.710
+Chuan Wu: And the T is our variable.
+
+298
+00:46:22.130 --> 00:46:26.349
+Chuan Wu: And that is a tangent line here, representing a tangent line here.
+
+299
+00:46:27.290 --> 00:46:31.459
+Chuan Wu: And if we scale the tangent line scope by alpha.
+
+300
+00:46:31.780 --> 00:46:40.550
+Chuan Wu: So, alpha is, smaller than 1, okay, especially, in fact, if people use, like, alpha in the range from 0 to 1 half.
+
+301
+00:46:41.110 --> 00:46:43.830
+Chuan Wu: So when alpha is smaller than 1?
+
+302
+00:46:43.940 --> 00:46:52.749
+Chuan Wu: And if we… scale the slope by alpha, we come up with another line, so that line would be
+
+303
+00:46:53.300 --> 00:46:56.139
+Chuan Wu: A bit upper to the attention line.
+
+304
+00:46:56.470 --> 00:47:01.810
+Chuan Wu: Because the slope becomes flatter when we multiply the negative slope by alpha.
+
+305
+00:47:02.280 --> 00:47:03.569
+Chuan Wu: Smaller than what?
+
+306
+00:47:04.580 --> 00:47:10.439
+Chuan Wu: Okay, so that is another line, yielding the formula here.
+
+307
+00:47:17.890 --> 00:47:18.810
+Chuan Wu: Okay.
+
+308
+00:47:18.950 --> 00:47:23.850
+Chuan Wu: All right, and then, through the, backtracking line search procedure.
+
+309
+00:47:24.320 --> 00:47:30.100
+Chuan Wu: We start with T equating what? Okay, so suppose T equating 1 is here.
+
+310
+00:47:35.600 --> 00:47:40.650
+Chuan Wu: Okay, T equaling 1 is here. Okay, at this point.
+
+311
+00:47:41.160 --> 00:47:50.369
+Chuan Wu: We found out FX plus t delta X is no smaller than fx plus t arba in the product.
+
+312
+00:47:50.660 --> 00:47:55.270
+Chuan Wu: Because the blue dot here is higher than the upper.
+
+313
+00:47:56.050 --> 00:47:57.200
+Chuan Wu: red line.
+
+314
+00:47:57.850 --> 00:48:02.439
+Chuan Wu: And then we scale T by beta. Beta smaller than 1.
+
+315
+00:48:02.560 --> 00:48:03.500
+Chuan Wu: So what?
+
+316
+00:48:03.870 --> 00:48:10.369
+Chuan Wu: After scaling, probably we come up to a T value here.
+
+317
+00:48:11.010 --> 00:48:12.690
+Chuan Wu: Okay, called T prime.
+
+318
+00:48:13.540 --> 00:48:21.360
+Chuan Wu: So when T becomes a T prime value after scaling using beta, let's say it's beta… eat it.
+
+319
+00:48:23.820 --> 00:48:26.290
+Chuan Wu: Okay, just call it T prime.
+
+320
+00:48:28.030 --> 00:48:36.499
+Chuan Wu: And then the iteration in backtracking line search can stop, because at this point, the blue dot
+
+321
+00:48:36.620 --> 00:48:46.670
+Chuan Wu: along the line… along the curve of FX plus T delta X is lower than the upper breadth Life.
+
+322
+00:48:46.900 --> 00:48:51.859
+Chuan Wu: And then that means the inequality there is satisfied, and then we can stop.
+
+323
+00:48:54.570 --> 00:48:56.920
+Chuan Wu: So, geometrically, the idea
+
+324
+00:48:57.580 --> 00:49:05.340
+Chuan Wu: of that tracking line search step is to try to find out the T such that the T was within the range.
+
+325
+00:49:07.590 --> 00:49:14.539
+Chuan Wu: Corresponding to the… blue curve here falls into this range. Okay, the defaults into that range.
+
+326
+00:49:17.240 --> 00:49:22.949
+Chuan Wu: And why do we want that T to fall into a function value in that range?
+
+327
+00:49:23.400 --> 00:49:33.199
+Chuan Wu: The purpose is to make sure, after update, function value is smaller than the previous function value by some extent, at this much amount of extent.
+
+328
+00:49:35.370 --> 00:49:36.260
+Chuan Wu: Okay.
+
+329
+00:49:49.690 --> 00:50:04.450
+Chuan Wu: And from, from the geometric elimination, we actually can know this, the repeating to ensure the inequality here holes, because it will always terminate or stop, because you are always repeating,
+
+330
+00:50:04.660 --> 00:50:08.600
+Chuan Wu: P down, and eventually it will fall into this range.
+
+331
+00:50:08.880 --> 00:50:09.670
+Chuan Wu: Right.
+
+332
+00:50:11.900 --> 00:50:12.770
+Chuan Wu: Okay.
+
+333
+00:50:20.960 --> 00:50:34.229
+Chuan Wu: call these intersection points corresponding T to be T0. Okay, so eventually, we want our T to fall within the range from 0 to up to T0, and then the backtracking license will stop.
+
+334
+00:50:39.820 --> 00:50:41.040
+Chuan Wu: Alright.
+
+335
+00:50:45.740 --> 00:51:02.530
+Chuan Wu: Okay, so having seen some concrete ways to decide the, subsides and, the, search reaction, we can come up, especially when we use the search reaction delta X as an acting of the gradient.
+
+336
+00:51:02.730 --> 00:51:08.470
+Chuan Wu: factor of what we come up with is a gradient descent maximum, okay?
+
+337
+00:51:08.470 --> 00:51:17.240
+Chuan Wu: So the gradient descent method is very like the general design method, except that we complexize the search reaction to be an active of the gradient reaction.
+
+338
+00:51:17.240 --> 00:51:32.169
+Chuan Wu: And then we also choose the step size T, where one of the backtracking line search methods, we have one of the line search methods we have introduced, either exact or backtracking line search, and then the update formula exactly the same.
+
+339
+00:51:32.260 --> 00:51:37.249
+Chuan Wu: Okay, and then this is simply our gradient descent method.
+
+340
+00:51:43.710 --> 00:51:44.610
+Chuan Wu: Okay.
+
+341
+00:51:44.670 --> 00:51:57.630
+Chuan Wu: And then let's check out the performance of such a gradient design method, which is actually pretty simple. And now we are working on an objective function to minimize F on two variables, okay, X1 and X2.
+
+342
+00:51:57.630 --> 00:52:07.790
+Chuan Wu: And you can see function f is in the exponential function 4, okay? And then, when we are bound in the, reading the second methods.
+
+343
+00:52:07.880 --> 00:52:09.370
+Chuan Wu: Here.
+
+344
+00:52:09.420 --> 00:52:25.910
+Chuan Wu: And this is a so-called convergence curve. So the horizontal axis represents the number of iterations we run for the algorithm, and the vertical, axis represent how close we are to automatically. And here, with just the ICO layers 2, we know what P-star is.
+
+345
+00:52:25.950 --> 00:52:37.799
+Chuan Wu: And then we put the difference here. And you know, in fact, it's often we just evaluate the gradient, evaluate the contact state as the termination condition to show on the vertical axis.
+
+346
+00:52:38.870 --> 00:52:41.040
+Chuan Wu: All right, and
+
+347
+00:52:41.450 --> 00:52:50.720
+Chuan Wu: Depending on whether we use, exact line search or abstract line search to decide the step size in every step, the conversion speed would differ.
+
+348
+00:52:50.780 --> 00:53:05.110
+Chuan Wu: So if we use exactly line search, you see both we converge faster. Okay, within about 15 iterations, we can make the error to be down to 10 to the power of negative 10, but if we use vector in line search, it takes slightly longer.
+
+349
+00:53:05.430 --> 00:53:25.190
+Chuan Wu: So it's pretty understandable, because for exact line search, for every step, you make sure that T leads to the optimal minimal function value after update, right? But for… when we use backtracking line search, we just ensure after update, you reduce object function to some good amount, but not really minimal.
+
+350
+00:53:25.350 --> 00:53:37.659
+Chuan Wu: Right? Okay, so we have a factoring line search takes longer, but as we said, factoring line search, in every iteration of factoring… every iteration of creating this anniversary, if you are using factoring line search.
+
+351
+00:53:37.660 --> 00:53:45.579
+Chuan Wu: That iteration takes a shorter time to run, okay, because you don't have to solve an exact optimal solution… optimization problem.
+
+352
+00:53:46.130 --> 00:53:47.080
+Chuan Wu: Okay.
+
+353
+00:53:47.810 --> 00:54:00.770
+Chuan Wu: Of course, here we do not show the walk time between the horizontal axis, we only show the iteration. Okay, if we do show the walk time, translate that the tracking line search is taking longer than backtracking line search.
+
+354
+00:54:09.800 --> 00:54:10.740
+Chuan Wu: Okay.
+
+355
+00:54:10.910 --> 00:54:27.569
+Chuan Wu: All right, we have been using negative of the gradient vector as our incentive reaction. People have been trying to figure out whether we have better ZMDF reaction than the negative of the gradient factor.
+
+356
+00:54:27.640 --> 00:54:40.169
+Chuan Wu: If we do, if we are able to find the so-called steepest descent direction, then the corresponding method will be calling, will be called as steepest descent method.
+
+357
+00:54:40.240 --> 00:54:56.179
+Chuan Wu: And how can we find out if the state is the descent direction? This is our rationale. So we try to find out direction B, at our descent direction, such that the inner production between the gradient vector and the B is as small as possible.
+
+358
+00:54:56.850 --> 00:55:00.950
+Chuan Wu: Okay, but from the,
+
+359
+00:55:01.540 --> 00:55:14.279
+Chuan Wu: formula here to calculate the steepest direction, we can actually still readily see that connected of the gradient directions is indeed the status direction.
+
+360
+00:55:14.460 --> 00:55:30.120
+Chuan Wu: Okay, intuitively here, we want a direction within the gradient direction to be the smallest possible, right? Then what direction do we choose? We, of course, just choose the exactly inverse direction of nebula FX.
+
+361
+00:55:30.730 --> 00:55:38.729
+Chuan Wu: Right? So, in the product, for the one this delta X less, vector less, speaks to be what?
+
+362
+00:55:39.120 --> 00:55:44.140
+Chuan Wu: That direction is a direction leading to the smallest inner product width.
+
+363
+00:55:44.600 --> 00:55:45.810
+Chuan Wu: blah, FX.
+
+364
+00:55:46.630 --> 00:55:47.540
+Chuan Wu: Okay.
+
+365
+00:55:47.840 --> 00:56:05.829
+Chuan Wu: So that is to say, the gradient direction, gradient descent direction that we were using is indeed the steepest descent direction with respect to, Euclidean norm, okay, Euclidean norm, because when the norm here is Euclidean norm,
+
+366
+00:56:08.230 --> 00:56:12.529
+Chuan Wu: Our analysis is of the inner product holds.
+
+367
+00:56:14.580 --> 00:56:28.549
+Chuan Wu: Okay, so therefore, actually, the performance of yielding any steepest descent direction in the descent method would be exactly the same as the gradient descent method we have just introduced.
+
+368
+00:56:31.050 --> 00:56:33.680
+Chuan Wu: Okay, alright,
+
+369
+00:56:34.000 --> 00:56:49.069
+Chuan Wu: So, therefore, gradient descent, so that is our first introduction of a simple algorithm to solve an unconstrained complex minimization problem, so which belongs to the category of gradient descent method.
+
+370
+00:56:49.340 --> 00:57:01.209
+Chuan Wu: So, in fact, as what you have seen, gradient descent method is very simple and kind of neat, right? Although its performance is mediocre in terms of that.
+
+371
+00:57:01.210 --> 00:57:15.790
+Chuan Wu: When we describe the convertible curve in this way, where horizontal axes represent iterations, and vertical, vertical axes represent the arrow, in terms of a geometric sequence. Okay.
+
+372
+00:57:15.850 --> 00:57:21.580
+Chuan Wu: Harold presented himself on the job, fantastic series.
+
+373
+00:57:22.020 --> 00:57:27.720
+Chuan Wu: The forward convergence curving this way, we call the algorithm as following linear convergence.
+
+374
+00:57:28.530 --> 00:57:37.780
+Chuan Wu: And moving up, we'll be introducing another, more efficient algorithm, where the convergence is actually pulling a chondratic drop pattern.
+
+375
+00:57:37.990 --> 00:57:54.569
+Chuan Wu: And over there, we are seeing that its convergence is quadratic rather than linear. Okay, quadratic, when the curve bends to bend further, when the region falls more, goes on more, then that makes the convergence faster.
+
+376
+00:57:54.820 --> 00:57:55.680
+Chuan Wu: Okay.
+
+377
+00:57:56.080 --> 00:57:57.680
+Chuan Wu: Alright,
+
+378
+00:57:58.240 --> 00:58:09.900
+Chuan Wu: So, but however, radiant descent does there a lot of practice value, because it's simple and neat, and one of the important application scenarios of gradient
+
+379
+00:58:10.510 --> 00:58:15.950
+Chuan Wu: You send the message, it's, for motion learning, model training.
+
+380
+00:58:17.140 --> 00:58:17.970
+Chuan Wu: Right.
+
+381
+00:58:18.370 --> 00:58:28.760
+Chuan Wu: So we know a fundamental algorithm for functional model learning, neural network model learning, is to use a sarcastic gradient descent.
+
+382
+00:58:28.920 --> 00:58:38.619
+Chuan Wu: SGD. So SGD's formula is exactly similar to what we have seen in the simple presentation method here.
+
+383
+00:58:49.260 --> 00:59:01.089
+Chuan Wu: Okay, all right, so here W represents the model weight for all the parameters in the neural network model, and, we are doing the update along, gradient direction.
+
+384
+00:59:01.090 --> 00:59:09.530
+Chuan Wu: So that's the gradient of the, dot function here, okay, divided the current… at the current, weight of model weight.
+
+385
+00:59:09.670 --> 00:59:11.889
+Chuan Wu: And EPA is our staff site.
+
+386
+00:59:12.610 --> 00:59:19.309
+Chuan Wu: Okay, so exactly this is the gradient design method, because our search queue action is negative of the gradient.
+
+387
+00:59:21.540 --> 00:59:22.430
+Chuan Wu: Okay.
+
+388
+00:59:22.790 --> 00:59:42.420
+Chuan Wu: All right, and why it's called stochastic gradient descent rather than gradient des… general gradient descent method we have introduced here. It's because when we calculate the gradient and do the update, we are doing it in a stochastic manner, using samples to update, rather than use all the data to update altogether.
+
+389
+00:59:42.690 --> 00:59:58.269
+Chuan Wu: That's the core idea of stochastic gradient descent, SGD, in machine learning nowadays. Okay, so now you should know its root of foundation is exactly the simple gradient descent method we have introduced today.
+
+390
+01:00:03.420 --> 01:00:14.289
+Chuan Wu: All right, so that said, it's good timing for us to take a short break, a 3-minute break, before we continue looking at a more efficient algorithm than gradient descent.
+
+391
+01:04:33.010 --> 01:04:46.650
+Chuan Wu: Okay, let's continue with our class today, and moving on, we'll be introducing a more efficient algorithm that can lead to a contract, nonlinear contracted convergence of the algorithm.
+
+392
+01:04:46.790 --> 01:05:03.939
+Chuan Wu: Okay, so here, this method is called a Newton's method. So what you usually find out is, the Newton's method is actually kind of an extension from the, descent method we have introduced just now, and choosing different descent direction, and choosing possibly different stopping criteria.
+
+393
+01:05:03.940 --> 01:05:11.779
+Chuan Wu: And then that will ensure the, after iterations of updates, the conversions to the same presentation will be faster.
+
+394
+01:05:11.890 --> 01:05:28.570
+Chuan Wu: Okay, and the descent direction under the Newton's method is called Newton's direction. So the Newton's direction is defined this way. So we use delta X to represent the descent direction, and we use a subscript NT to represent the Newton's direction.
+
+395
+01:05:28.640 --> 01:05:36.709
+Chuan Wu: And it's calculated as negative inverse of the Hashan matrix of the objective function, then multiplying the gradient factor.
+
+396
+01:05:36.710 --> 01:05:50.280
+Chuan Wu: Okay, and over here, you know, not only, we not only need to calculate the, gradient vector, we also need to calculate the Hessian matrix of the objective function in order to derive the Newton's direction.
+
+397
+01:05:50.560 --> 01:06:01.989
+Chuan Wu: Okay, so what is the rationale of coming up with such a Newton's direction? So the idea is here. So still back to our gradient descent method.
+
+398
+01:06:02.110 --> 01:06:16.170
+Chuan Wu: So in our gradient descent method, so we have shown this first-order condition. So we have this first-order condition here, or we kind of can consider, after update, our
+
+399
+01:06:16.480 --> 01:06:31.420
+Chuan Wu: After update, we are using a linear formula to approximate our, function value evaluated at the next iterate, X dot. And our direction is here, so X plus minus X,
+
+400
+01:06:31.610 --> 01:06:35.209
+Chuan Wu: So that's the fraction of, delta X.
+
+401
+01:06:37.040 --> 01:06:52.490
+Chuan Wu: When we are using, kind of yielding a first-order approximation to approximate our function value at the next iterate, our best direction delta X is to be the direction which minimizes the inner productivity.
+
+402
+01:06:52.550 --> 01:06:59.579
+Chuan Wu: And we have shown that reaction which minimizes the inner product here is indeed an active of the gradient reaction.
+
+403
+01:06:59.690 --> 01:07:18.749
+Chuan Wu: So that's kind of the rationale of the descended direction in the gradient descent. And now, in Newton's method, we move it one step further. Instead of considering first-order approximation of the function value at the next iterate, we use second-order approximation.
+
+404
+01:07:19.280 --> 01:07:27.419
+Chuan Wu: Okay, second order period approximation here. Okay, so FX plus first order, and then a second order term.
+
+405
+01:07:27.610 --> 01:07:33.280
+Chuan Wu: Okay, we use this to approximate the function value after update.
+
+406
+01:07:33.460 --> 01:07:52.549
+Chuan Wu: And when we decide the direction, we only consider the update direction as a matter of V here. We don't consider the step size T. Step size T here is considered just to be what? Similar here. When we focus on the direction, we consider the step size to be T in the T equally what in the update.
+
+407
+01:07:52.740 --> 01:08:07.599
+Chuan Wu: Okay, and this is exactly the second-order Taylor approximation, and our direction delta X and T is actually the optimal solution to make the value, second-order approximation value smallest.
+
+408
+01:08:08.470 --> 01:08:13.680
+Chuan Wu: Okay, so how do we, how do we come up with that? So this is a second-law approximation.
+
+409
+01:08:13.850 --> 01:08:21.090
+Chuan Wu: And consider X is valid, so X is currently iterated value, and B is our next updated direction. B is a variable.
+
+410
+01:08:21.300 --> 01:08:29.290
+Chuan Wu: And how do we choose V to minimize the second-order approximation function here? So the second-order approximation function here is a conjugic function.
+
+411
+01:08:29.430 --> 01:08:39.849
+Chuan Wu: And then we can set the gradient of this second-order approximation function to be 0, and then we can come up with V spent. Okay, so let's do it together.
+
+412
+01:08:40.090 --> 01:08:53.110
+Chuan Wu: So here, remember, B is our variable. So therefore, gradient, when we calculate the gradient of the function here on B, the first term is gone, and the second term results in
+
+413
+01:08:54.200 --> 01:08:55.220
+Chuan Wu: gradient?
+
+414
+01:08:55.500 --> 01:09:06.080
+Chuan Wu: And then, the third terms… Gradient is exactly 2 times… the Hasher matrix… Beep.
+
+415
+01:09:07.920 --> 01:09:12.559
+Chuan Wu: Right? So this is the gradient of the second-order approximation function.
+
+416
+01:09:12.870 --> 01:09:13.890
+Chuan Wu: a week.
+
+417
+01:09:14.370 --> 01:09:17.310
+Chuan Wu: Okay, and then setting it to zero.
+
+418
+01:09:18.220 --> 01:09:25.170
+Chuan Wu: So after setting it to zero, and solve for V, V is exactly native.
+
+419
+01:09:27.600 --> 01:09:32.520
+Chuan Wu: gradient, and then multiplying the reverse of the Hessian matrix.
+
+420
+01:09:32.720 --> 01:09:33.950
+Chuan Wu: almost sucks.
+
+421
+01:09:35.910 --> 01:09:38.880
+Chuan Wu: Okay, so this is exactly our base value.
+
+422
+01:09:39.130 --> 01:09:43.029
+Chuan Wu: And you see this V-style is exactly the Newton's direction that it.
+
+423
+01:09:43.970 --> 01:09:45.200
+Chuan Wu: We have to buy.
+
+424
+01:09:46.189 --> 01:10:01.799
+Chuan Wu: Okay, so therefore, to recap, the idea is delta X and P, the Newton's direction, is exactly the fastest descent direction that minimizes second-order approximation of the function value after this iteration.
+
+425
+01:10:04.430 --> 01:10:05.300
+Chuan Wu: Okay.
+
+426
+01:10:06.020 --> 01:10:07.779
+Chuan Wu: Alright,
+
+427
+01:10:09.190 --> 01:10:18.589
+Chuan Wu: And, when we know function F is, collapsed, so people have observed for collapsed function F.
+
+428
+01:10:18.670 --> 01:10:31.509
+Chuan Wu: The quadratic, or second block approximation is actually pretty close to the original form of the function, especially when x is close to optimality.
+
+429
+01:10:36.580 --> 01:10:38.609
+Chuan Wu: Okay, geometrically…
+
+430
+01:10:56.030 --> 01:11:00.070
+Chuan Wu: Okay, so suppose this is our function curve for FX.
+
+431
+01:11:00.290 --> 01:11:05.350
+Chuan Wu: And, optimal solution is here, X star.
+
+432
+01:11:06.830 --> 01:11:09.039
+Chuan Wu: So, second order approximation.
+
+433
+01:11:10.900 --> 01:11:14.700
+Chuan Wu: Would be the second order curve here.
+
+434
+01:11:15.870 --> 01:11:27.499
+Chuan Wu: So the second order curve would be pretty close to the original function curve, especially when we are moving closer to X star, when X is moving closer to X star.
+
+435
+01:11:28.140 --> 01:11:28.960
+Chuan Wu: Okay.
+
+436
+01:11:30.120 --> 01:11:38.450
+Chuan Wu: So that is considered to be… Yeah, second order function, composed.
+
+437
+01:11:38.940 --> 01:11:42.270
+Chuan Wu: at the X, okay, close to X star.
+
+438
+01:11:42.410 --> 01:11:51.849
+Chuan Wu: So when X is moving closer to X star, the blue curve will be very close, or overlap a lot with our original function curve FX.
+
+439
+01:11:52.160 --> 01:11:54.069
+Chuan Wu: So that is the rationale.
+
+440
+01:11:54.520 --> 01:12:08.580
+Chuan Wu: Okay, so therefore, if the second-order curve is very close to the original function curve, then, when we update X, 2 along the direction of delta X and T,
+
+441
+01:12:08.740 --> 01:12:10.710
+Chuan Wu: What we've come up with.
+
+442
+01:12:10.930 --> 01:12:13.200
+Chuan Wu: As a point here.
+
+443
+01:12:14.150 --> 01:12:22.249
+Chuan Wu: So we are updating… so the blue curve is what we are… is what the second-order approximation represents.
+
+444
+01:12:22.410 --> 01:12:30.850
+Chuan Wu: And by minimization after update, this is a… that is a point of X plus delta X and T.
+
+445
+01:12:31.860 --> 01:12:36.089
+Chuan Wu: So that is the lowest point along the second-order approximation curve.
+
+446
+01:12:36.260 --> 01:12:44.149
+Chuan Wu: And, you know, after this one step of update from X to X plus delta and t, we are moving significantly closer to X star.
+
+447
+01:12:44.880 --> 01:12:53.140
+Chuan Wu: So that is the rationale behind the Newton's direction, and also this, hints why, using Newton's method, convergence is much faster.
+
+448
+01:12:53.510 --> 01:12:55.430
+Chuan Wu: Because every time.
+
+449
+01:12:55.950 --> 01:13:08.300
+Chuan Wu: The Newton's direction leads us to the lowest point of this current second-order approximation curve, and that curve is close to the original curve, especially when we are moving closer to optimality.
+
+450
+01:13:08.560 --> 01:13:14.090
+Chuan Wu: And then, after one step update, we are moving a lot to the optimality.
+
+451
+01:13:16.630 --> 01:13:33.779
+Chuan Wu: Okay, and that would interpret why, the convergence curve that we will see is conjecture curve. When the iteration becomes more, the accuracy… the accuracy drops more substantially. The precision drops more substantially.
+
+452
+01:13:35.300 --> 01:13:44.490
+Chuan Wu: Okay, so that is, important quantity in Newton's method, and another important quantity in Newton's method is, called Newton's secret method.
+
+453
+01:13:44.560 --> 01:14:02.660
+Chuan Wu: So we use lambda X, a function of X, to represent the Newton's increment. So the Newton's increment is calculated in that way. It's a scalar value, a square root of, gradient transpose the attachment inverse and then gradient. Okay, but we measure them back, they were just a scalar value.
+
+454
+01:14:02.840 --> 01:14:22.349
+Chuan Wu: So this lambda X, as people have investigated, that it can be used to measure how close our current iter X rate X is to optimal X star. We don't know what X star is, but this lambda X can tell us how far away our current iterate X is to X star.
+
+455
+01:14:22.980 --> 01:14:37.480
+Chuan Wu: So the rationale is here. If we consider the second order approximation function, as we showed on the previous slide here, and implement of the second-order approximity function, to decide.
+
+456
+01:14:37.480 --> 01:14:43.580
+Chuan Wu: the direction of B, so in fact, with the best of B is our direction as being derived the test now.
+
+457
+01:14:43.730 --> 01:14:48.910
+Chuan Wu: So the literacy between function F, a function divided as
+
+458
+01:14:49.010 --> 01:14:57.489
+Chuan Wu: And the value of the approximation function value is exactly described by 1 half of lambda X squared.
+
+459
+01:14:58.230 --> 01:15:04.420
+Chuan Wu: Go ahead. We had shown this Exactly.
+
+460
+01:15:04.700 --> 01:15:06.180
+Chuan Wu: Bye, Kathy King.
+
+461
+01:15:06.340 --> 01:15:08.569
+Chuan Wu: Nika. Yes, you.
+
+462
+01:15:08.980 --> 01:15:20.690
+Chuan Wu: Okay, so implement of, second logger approximation function, over the possible direction, as we analyze if the passive B is our Newton's reaction here.
+
+463
+01:15:20.700 --> 01:15:36.710
+Chuan Wu: So therefore, the calculation on the left-hand side becomes exactly FX minus segment of the approximation evaluated at X plus delta XP, and if you plug in X plus delta XP's concrete value into the
+
+464
+01:15:40.520 --> 01:15:45.180
+Chuan Wu: function here, replace V by delta XT's concrete value.
+
+465
+01:15:45.460 --> 01:15:51.840
+Chuan Wu: And what you can derive is the right-hand side. Okay, right-hand side…
+
+466
+01:15:53.820 --> 01:16:00.400
+Chuan Wu: Yeah, the right-hand side is before we plug in the concrete value of delta X and P, and if we do
+
+467
+01:16:04.860 --> 01:16:07.809
+Chuan Wu: put in the concrete value of X and T,
+
+468
+01:16:15.440 --> 01:16:18.139
+Chuan Wu: The right-hand side becomes the following.
+
+469
+01:16:22.520 --> 01:16:24.450
+Chuan Wu: Excellent, he is here.
+
+470
+01:16:34.170 --> 01:16:37.640
+Chuan Wu: Finals… Van hat starts.
+
+471
+01:16:40.130 --> 01:16:42.020
+Chuan Wu: Transupposed…
+
+472
+01:17:09.320 --> 01:17:23.220
+Chuan Wu: Okay, so what I'm putting down here is the calculation on the right-hand side. I'm plugging in the concrete value of delta X and T here. This is exactly our delta X and T.
+
+473
+01:17:28.520 --> 01:17:29.420
+Chuan Wu: Okay.
+
+474
+01:17:29.610 --> 01:17:34.610
+Chuan Wu: And then the signs, some signs canceled, and the universe, and the…
+
+475
+01:17:35.510 --> 01:17:38.860
+Chuan Wu: Multiply the matrix itself, and so…
+
+476
+01:17:39.160 --> 01:17:42.250
+Chuan Wu: And, what we eventually get…
+
+477
+01:17:50.270 --> 01:17:53.409
+Chuan Wu: It's one half, yeah, it's one half.
+
+478
+01:17:58.970 --> 01:18:01.360
+Chuan Wu: One half of the survey.
+
+479
+01:18:13.330 --> 01:18:14.120
+Chuan Wu: Yup.
+
+480
+01:18:14.340 --> 01:18:23.199
+Chuan Wu: 1 half of this value, this value is, lambda squared, right? Okay. The right-hand side, 1 half of lambda squared.
+
+481
+01:18:30.900 --> 01:18:31.950
+Chuan Wu: Okay.
+
+482
+01:18:32.900 --> 01:18:47.490
+Chuan Wu: So therefore, what we showed is the, lambda X is, describing how far away the actual function value and the approximation, secondary approximation value is.
+
+483
+01:18:47.960 --> 01:18:50.190
+Chuan Wu: Off our window from each other.
+
+484
+01:18:54.250 --> 01:19:04.930
+Chuan Wu: And, another way to integrate this lambda is that lambda is actually also the directional derivative in the new fixed direction.
+
+485
+01:19:04.950 --> 01:19:14.919
+Chuan Wu: Okay, the reason is negative lambda squared equals the inner product between the gradient vector and the limpex descent interaction.
+
+486
+01:19:15.120 --> 01:19:17.869
+Chuan Wu: Okay, so we can exactly show that.
+
+487
+01:19:18.080 --> 01:19:23.680
+Chuan Wu: Based on… what our Newton's reaction should not be like.
+
+488
+01:19:29.660 --> 01:19:33.220
+Chuan Wu: Okay, so this is our newest direction.
+
+489
+01:19:33.810 --> 01:19:34.560
+Chuan Wu: Ed?
+
+490
+01:19:35.260 --> 01:19:37.809
+Chuan Wu: That is exactly negative.
+
+491
+01:19:44.200 --> 01:19:45.050
+Chuan Wu: Obi.
+
+492
+01:19:45.520 --> 01:19:48.030
+Chuan Wu: And we know this is not that squared.
+
+493
+01:19:49.330 --> 01:19:50.360
+Chuan Wu: Okay.
+
+494
+01:19:50.540 --> 01:19:51.790
+Chuan Wu: But I'm not square.
+
+495
+01:19:52.780 --> 01:20:02.909
+Chuan Wu: And why we say, this is Newton's, directional derivative around Newton's direction, this is according to the definition of directional derivative.
+
+496
+01:20:03.460 --> 01:20:09.969
+Chuan Wu: So directional derivative is defined to be the inner product between,
+
+497
+01:20:10.330 --> 01:20:19.139
+Chuan Wu: New directional derivative along a particular direction is defined to be the inner product between the gradient vector and that direction.
+
+498
+01:20:19.580 --> 01:20:24.309
+Chuan Wu: Okay, so this is the definition we have actually introduced twice before in the course.
+
+499
+01:20:25.700 --> 01:20:26.550
+Chuan Wu: Okay.
+
+500
+01:20:27.720 --> 01:20:34.830
+Chuan Wu: All right, so therefore, no matter we trade, what we are trying to show is,
+
+501
+01:20:34.980 --> 01:20:41.410
+Chuan Wu: This lambda is, an estimate of how close we are to
+
+502
+01:20:41.510 --> 01:20:45.810
+Chuan Wu: Of course, X is to X star.
+
+503
+01:20:53.410 --> 01:20:54.310
+Chuan Wu: Okay.
+
+504
+01:20:54.320 --> 01:21:09.190
+Chuan Wu: And then, using the two important components introduced, Newton's step and Newton's different than that, we are able to boost the gradient, the descent method sketch we have introduced today.
+
+505
+01:21:09.190 --> 01:21:14.370
+Chuan Wu: to the Newton's password. Okay, so let's check out how Newton's method works.
+
+506
+01:21:14.440 --> 01:21:26.409
+Chuan Wu: So we start from a starting point X, and then we consider tolerance at 0. And in every iteration, we calculate the Newton's step and the Newton's increment quantities.
+
+507
+01:21:26.690 --> 01:21:46.289
+Chuan Wu: And then, we check if the stocking criteria is satisfied. So, I set lambda rather than the stocking criteria, because it measures how close X is to X star. So, if the, X squared, one half of X squared is smaller than our tolerance, let me just stop. Otherwise, we continue.
+
+508
+01:21:46.290 --> 01:22:00.050
+Chuan Wu: When we continue, we still use the major update formula here, except that our delta… our search direction is our Newton's direction, and our step size is chosen at tracking line search.
+
+509
+01:22:00.270 --> 01:22:08.099
+Chuan Wu: Okay, backtracking line search is more commonly used than back online search because of its efficiency as a back solution.
+
+510
+01:22:09.590 --> 01:22:14.200
+Chuan Wu: Okay, and then,
+
+511
+01:22:14.380 --> 01:22:30.099
+Chuan Wu: So there are many different variations of Newton's method, and especially here, we are introducing the Newton's method for solving unconstrained convex manifestation problem, and next time, we'll be introducing Newton's method to solve equality-constrained, convex problem.
+
+512
+01:22:30.200 --> 01:22:44.829
+Chuan Wu: And, even under the, Newton spacer to solve unconditional validation problem, we have many variants. So, for example, if, in the Newton spacer, we do not design search. We just simply takes the sheet to be 1.
+
+513
+01:22:45.010 --> 01:22:51.320
+Chuan Wu: Then, this is a simplified version of Guilton's password. In the literature, it's called a pure guiltons faster.
+
+514
+01:22:51.440 --> 01:23:00.060
+Chuan Wu: And if we do have the line search step in the algorithm, then the algorithm is called dent or guarded multispector.
+
+515
+01:23:00.180 --> 01:23:15.250
+Chuan Wu: For that unguarded Milton's password, it can converge, guaranteed to converge. But if we do the proper Newton's mass search as a fixed step size to be 1, then the algorithm may not converge. The rationale is,
+
+516
+01:23:15.340 --> 01:23:21.369
+Chuan Wu: Because you need to keep building one, we may not be able to be sure,
+
+517
+01:23:21.930 --> 01:23:23.570
+Chuan Wu: It's a descent method.
+
+518
+01:23:24.580 --> 01:23:27.789
+Chuan Wu: came with, after update of slowly functional.
+
+519
+01:23:29.140 --> 01:23:31.790
+Chuan Wu: The functionality may not necessarily decrease.
+
+520
+01:23:32.490 --> 01:23:40.790
+Chuan Wu: Okay, all right, and then let's take a look at the, convergence performance of applying the Newton spacer.
+
+521
+01:23:41.130 --> 01:23:50.830
+Chuan Wu: Okay, and the, function we are minimizing it here. So, it's a composition of, outcome function and an active, locker, a negative lock.
+
+522
+01:23:51.020 --> 01:23:53.719
+Chuan Wu: Ed? We…
+
+523
+01:23:54.890 --> 01:24:12.109
+Chuan Wu: Still, in the coincidence curve, the horizontal axis represent the iterations the algorithm runs, instead of work-round time, not walk-on time. And vertical axis represents how close we are to optimality, just assuming we know what P-star is, for the problem here.
+
+524
+01:24:12.110 --> 01:24:20.889
+Chuan Wu: And we should notice that the vertical axis is usually presented as a dramatic, sequence series.
+
+525
+01:24:20.950 --> 01:24:27.610
+Chuan Wu: Okay, so it's not like 1, 2, 3, 4, it's just a 10th hour of, active.
+
+526
+01:24:27.910 --> 01:24:29.029
+Chuan Wu: That opinion.
+
+527
+01:24:29.820 --> 01:24:49.379
+Chuan Wu: All right, okay, so we can see, so again, if we apply exactly the line search or backtracking line search in the Newton's method, exact line search works is faster in terms of the number of iterations, and backtracking line search is likely slower in terms of convergence, number of, iterations.
+
+528
+01:24:49.900 --> 01:24:51.890
+Chuan Wu: Okay, F,
+
+529
+01:24:52.560 --> 01:25:09.719
+Chuan Wu: And we can see the curve is, currently is initially going down slowly, but when the iteration goes more, meaning while we are closer to optimal solution, the, conversion goes down faster. Okay, and we call the two phases differently.
+
+530
+01:25:09.720 --> 01:25:25.079
+Chuan Wu: So the first phase here, corresponding to relatively flatter over the curve, so it's called the depth Newton phase. And usually, those are steps where, in most iterations, we require a backtracking
+
+531
+01:25:25.080 --> 01:25:29.799
+Chuan Wu: steps to come up with, step size T, which is smaller than 1.
+
+532
+01:25:30.240 --> 01:25:38.819
+Chuan Wu: Okay, recalling our back recognizers, we have T squared down by beta t, and Q, that inequality is satisfied.
+
+533
+01:25:38.930 --> 01:25:46.750
+Chuan Wu: Okay, I think the initial stage, probably we need a few iterations to scale team down from 1 to arrive in that…
+
+534
+01:25:47.090 --> 01:25:54.960
+Chuan Wu: What we showed earlier on the board, to arrive at that range, make sure objective functionality is increased to some extent in every step.
+
+535
+01:25:55.130 --> 01:26:13.510
+Chuan Wu: But when we are closer to optimality, the observation is, often, it just becomes, well, maybe we do not need any backtracking step. Well, we can already guarantee that after the update, you need X plus delta X and T. The,
+
+536
+01:26:13.610 --> 01:26:17.389
+Chuan Wu: African-line search speed equality is already satisfied.
+
+537
+01:26:18.260 --> 01:26:25.330
+Chuan Wu: Okay. Alright, and that phase corresponds to the fungraphicola convergent phase.
+
+538
+01:26:25.480 --> 01:26:33.730
+Chuan Wu: And over there, the, convergence speed to, 0 for the gradient vector is calculated.
+
+539
+01:26:34.420 --> 01:26:42.829
+Chuan Wu: Okay, meaning more effectively is a number of corrective digits, of… Doubles at every iteration.
+
+540
+01:26:50.430 --> 01:26:51.420
+Chuan Wu: Okay.
+
+541
+01:26:55.410 --> 01:27:13.940
+Chuan Wu: Okay, so as compared to the gradient descent method whose convergence we showed earlier today. We found out here, using Newton's method, the convergence is in general faster on length than linear convergence, and is contracting contracting when we are closer to automatic.
+
+542
+01:27:14.300 --> 01:27:19.660
+Chuan Wu: So that means, in terms of convergence speed, Newton's method is more efficient.
+
+543
+01:27:19.840 --> 01:27:30.229
+Chuan Wu: But this benefit does come with some downside. The downside is the computation in every iteration of the Newton's method is more intensive.
+
+544
+01:27:30.370 --> 01:27:42.760
+Chuan Wu: Because over here, we not… when we are calculating Newton's direction and the increment, we not only need to calculate the gradient of function F, we also need to calculate passion matrix of the function.
+
+545
+01:27:42.760 --> 01:27:58.499
+Chuan Wu: of their function, and inverse matrix of a hashing matrix of function. And the calculation takes, time, and, those matrices need to be stored as well. Sometimes the matrix needs to be stored as well, so making it conceal for storage, memory.
+
+546
+01:27:58.530 --> 01:27:59.700
+Chuan Wu: During that time.
+
+547
+01:28:00.270 --> 01:28:01.150
+Chuan Wu: Okay.
+
+548
+01:28:06.440 --> 01:28:07.920
+Chuan Wu: Alright,
+
+549
+01:28:12.620 --> 01:28:15.190
+Chuan Wu: Alright, so that's what we,
+
+550
+01:28:16.170 --> 01:28:27.929
+Chuan Wu: Okay, so a final note here, so because of the, pros and cons of Newton's method, actually, we see, and nowadays, at least in the machine learning,
+
+551
+01:28:28.480 --> 01:28:38.860
+Chuan Wu: Motion learning, domain, motion learning, communication. So mostly, they are using just a simple version of gradient descent method.
+
+552
+01:28:39.060 --> 01:28:55.680
+Chuan Wu: train their neural network, right? So, using the simple formula that we have shared earlier. And new dispenser is known to be more efficient, but due to the significant efforts of building matrix, storing matrix, and doing matrix conversion, so it's not really quite the link.
+
+553
+01:28:55.820 --> 01:29:07.050
+Chuan Wu: adopt in machine learning model training, right? Because machine learning model training over there, you have many, many variables, huge amount of variables, and then that renders high, very high dimension of the matrices.
+
+554
+01:29:07.220 --> 01:29:10.770
+Chuan Wu: And the overhead is non-involorable, okay?
+
+555
+01:29:12.050 --> 01:29:19.389
+Chuan Wu: All right, so that's what I want to talk about the method for solving,
+
+556
+01:29:22.570 --> 01:29:24.650
+Chuan Wu: unconstrained convex.
+
+557
+01:29:26.480 --> 01:29:28.010
+Chuan Wu: Minimization problem.
+
+558
+01:29:39.160 --> 01:29:44.870
+Chuan Wu: Okay, yes, so in the rest of the day, It's too small.
+
+559
+01:29:46.480 --> 01:29:47.899
+Chuan Wu: Yeah, just use this.
+
+560
+01:29:48.140 --> 01:30:06.689
+Chuan Wu: Okay, in the rest of today's lecture, what I, I hope I won't cover the next seven slides, but I want to briefly introduce a major assessment of the course, so which is a project, the course. So, as you are aware, so we have three assignments, as a, yeah, in-course assessment.
+
+561
+01:30:06.690 --> 01:30:13.440
+Chuan Wu: And we also have a project, and eventually we have a final exam. So the final exam date has been, has been…
+
+562
+01:30:13.480 --> 01:30:19.379
+Chuan Wu: should have been released to students, right? So it's, in the morning of December 15th.
+
+563
+01:30:19.730 --> 01:30:31.619
+Chuan Wu: Right, and, this project is kind of a major assessment, and it is… we do not have anything, like, minimum exam, so this project is,
+
+564
+01:30:32.150 --> 01:30:43.699
+Chuan Wu: It's kind of, corresponding to a mid-term exam requirement. And what we want you to work out in the project is we want, really want you to,
+
+565
+01:30:44.030 --> 01:31:01.090
+Chuan Wu: Exercise, what you have learned in the course, to actually involve a practical optimization problem in your research domain, and try to design or apply some algorithm to solve your optimization problem, and eventually do evaluation of experiments, and draw a convergence curve.
+
+566
+01:31:01.160 --> 01:31:05.349
+Chuan Wu: Okay, so basically, apply everything you learned in the course.
+
+567
+01:31:05.700 --> 01:31:07.090
+Chuan Wu: Ed?
+
+568
+01:31:07.230 --> 01:31:27.130
+Chuan Wu: So the, project eventually requires you to deliver a report. So that report will be in the paper form. Okay, we require 5 pages. In earlier years, I required 6 pages, and later I just reduced to 5 pages. Okay, 5 pages, pretty easy to come up with. And then, the whole report should be written down.
+
+569
+01:31:27.130 --> 01:31:30.979
+Chuan Wu: a similar format as a research paper. Okay.
+
+570
+01:31:31.020 --> 01:31:41.550
+Chuan Wu: So, let's, briefly go through the requirements here. So, by the way, the project requirements here should have been posted by the TA, our model site this morning.
+
+571
+01:31:41.740 --> 01:31:50.779
+Chuan Wu: Okay, so first of all, you need to decide a research topic, a research area that you are working on.
+
+572
+01:31:50.780 --> 01:32:09.299
+Chuan Wu: Preferably, that's the area you're working on in your study, and then you try to find out an optimization problem that is driven to your research, or to your research area, and then you try to formulate the problem and solve it, and eventually come up with a final report.
+
+573
+01:32:10.710 --> 01:32:14.189
+Chuan Wu: Okay, and the requirement of the topic to choose.
+
+574
+01:32:14.190 --> 01:32:33.909
+Chuan Wu: So this should be a relatively new opposition problem that is of interest and important, and has not been solved by any existing literature. And then you can model the problem into a convex program. I understand some of you may come up with program that is pretty complex, not convex.
+
+575
+01:32:33.910 --> 01:32:48.049
+Chuan Wu: Okay, that's also acceptable, as long as you have some algorithm you design, intuitive algorithm you design to solve it, and eventually you can draw the, analyze the result. That is done, that is good enough.
+
+576
+01:32:48.900 --> 01:33:06.449
+Chuan Wu: Okay, and when you design the algorithm, and you implement the algorithm, you can use, either Python or MATLAB. Yeah, so most of students will do it in Python, as some of, you from,
+
+577
+01:33:07.360 --> 01:33:25.020
+Chuan Wu: might still sleep demand, so both are acceptable. And actually, especially in the last assignment, of course, we also have a programming… some programming, problems, and over there, you can also use either Python or Metallab. And,
+
+578
+01:33:25.160 --> 01:33:37.719
+Chuan Wu: And when you come up with the algorithm and do your experiments, you can verify the correctness of your algorithm in finding the optimal solution, or close approximate optimal solution.
+
+579
+01:33:37.720 --> 01:33:45.819
+Chuan Wu: And you can analyze the, or show the performance of your algorithm in terms of number of iterations it takes to converge to optimal.
+
+580
+01:33:46.030 --> 01:34:04.249
+Chuan Wu: Okay, and regarding topic selection, over the years, I usually encourage students to choose some topic that is closely related to the research you're working on, such that what you probably have modeled or evaluated in the course project can be part of your upcoming paper.
+
+581
+01:34:04.250 --> 01:34:08.469
+Chuan Wu: Okay, so then that will align your efforts well, if you are…
+
+582
+01:34:08.470 --> 01:34:23.749
+Chuan Wu: That could align your course efforts well with your research. And you are also encouraged to talk to your supervisor in identifying such a position problem to solve and formulate when you are doing your research discussion with your supervisor.
+
+583
+01:34:23.940 --> 01:34:43.629
+Chuan Wu: Right? And, and when you have, if it ever happened that what you have worked out in the course project becomes part of your research paper, don't worry, I don't want to claim any co-authorship, okay? You just publish the paper yourself, or with your supervisor, that is good enough.
+
+584
+01:34:44.240 --> 01:34:45.330
+Chuan Wu: Alrighty.
+
+585
+01:34:47.050 --> 01:35:05.230
+Chuan Wu: Okay, and the eventual report, as said, will be 5 pages long, and, the IEE double colon 10-point form, and you can download any template, to, use, and… or any template, that you have used for your paper salvation.
+
+586
+01:35:05.390 --> 01:35:25.339
+Chuan Wu: And, regarding whether this is individual or group projects, so, actually, we allow a group of, at most two students, to work on the same report together, but, that said, we do encourage individual projects, and we do have some bonus reading scheme if we are working on it.
+
+587
+01:35:25.470 --> 01:35:26.940
+Chuan Wu: To ourself.
+
+588
+01:35:27.090 --> 01:35:42.719
+Chuan Wu: For my students, you don't have choice. Everyone has to be producing an individual report. Okay, no grouping. Okay. All right, for other students, I don't mind if you do group up together and produce one report together.
+
+589
+01:35:43.010 --> 01:35:57.050
+Chuan Wu: All right, and then here we list some details about how to come up with the report, and if essentially you can find out it's exactly following the format of a research paper.
+
+590
+01:35:57.500 --> 01:36:04.039
+Chuan Wu: In previous years, sometimes if the students are taking my course as a first course in the first semester.
+
+591
+01:36:04.120 --> 01:36:17.749
+Chuan Wu: after they have registered their PhD here in Hong Kong, you probably am trying to use this as the first opportunity, I think, to come up with a paper. But nowadays, I know many of you have already published substantially before you come.
+
+592
+01:36:17.750 --> 01:36:28.859
+Chuan Wu: Okay, then, probably then you are more fluent in coming up with a paper format report here. But in case, if you indeed have never published or write a…
+
+593
+01:36:28.970 --> 01:36:34.069
+Chuan Wu: Regional Paper, then this is a good opportunity for you to practice that.
+
+594
+01:36:35.130 --> 01:36:47.300
+Chuan Wu: All right, so we have title, we have abstract, and the introduction, related work, and then followed by the model section, algorithm section, evaluation section. Okay, and then eventually a conclusion.
+
+595
+01:36:47.300 --> 01:36:56.420
+Chuan Wu: And we do want the whole report to be complete. You should clearly cite all the technical articles, papers, websites.
+
+596
+01:36:56.420 --> 01:37:01.160
+Chuan Wu: That you are referring to. And double-check there is no hallucination.
+
+597
+01:37:01.550 --> 01:37:17.929
+Chuan Wu: Okay, so you know, in this university, there was a famous event that when, paper was published without a professor checking all the references, and eventually found out the published paper has a lot of hallucinated references.
+
+598
+01:37:18.210 --> 01:37:25.909
+Chuan Wu: Okay, I don't hope that to happen, and none of the supervisors want that to happen. Okay, all right.
+
+599
+01:37:26.700 --> 01:37:45.499
+Chuan Wu: Okay, so here, timeline of projected deliverable. So we first want you to indicate your topic selection and group formation by, mid of next month. And you can indicate those by emailing to our TA. So this is another TA problem that here we commonly,
+
+600
+01:37:45.800 --> 01:37:53.810
+Chuan Wu: post the summit and others, but that TA, who is another PhD student of mine, will be responsible for project marking.
+
+601
+01:37:54.270 --> 01:38:03.979
+Chuan Wu: And, then, after that, we, want you to deliver the final project report, by, late December.
+
+602
+01:38:04.650 --> 01:38:12.630
+Chuan Wu: Okay, so that is one week after the final exam to allow you slightly more time to work out the report for the labor.
+
+603
+01:38:13.230 --> 01:38:21.840
+Chuan Wu: Okay, and in your first deliverable of sending the email, make sure your email includes the members in your group and their value ID,
+
+604
+01:38:21.840 --> 01:38:38.079
+Chuan Wu: And also, your candidate title, actually description. A few sentences will do. And often students may ask whether they can change topic and others later. Yes, we do allow some change of possible title and what they are working on.
+
+605
+01:38:38.080 --> 01:38:46.079
+Chuan Wu: But the purpose of sending this first email is for you, for you to start thinking about what you are trying to work out.
+
+606
+01:38:46.170 --> 01:38:51.589
+Chuan Wu: Okay, not wait until after final exam. We think that one week you'll try to work out the report.
+
+607
+01:38:51.660 --> 01:39:08.420
+Chuan Wu: Right? Because anyway, I want this… what you study in the course, to be useful in your research. We just try to find a topic in your… from your research, a subproblem from your research, and try to formulate a problem mathematically, and then solve it using what we have introduced here.
+
+608
+01:39:09.470 --> 01:39:14.339
+Chuan Wu: Okay, then greetings, so the email notification,
+
+609
+01:39:14.540 --> 01:39:24.250
+Chuan Wu: is, worth 5% of the final mark, and then your subtliness of the labor of ZRA, 15%,
+
+610
+01:39:24.250 --> 01:39:34.999
+Chuan Wu: probably also need to add whether there is hallucination there. It is, yeah, I think I'll ask the TA to check hallucination as well. And… and then,
+
+611
+01:39:35.000 --> 01:39:43.950
+Chuan Wu: The, formal modeling, 15%, already did that behind some 50%, the average 15%, English writing, 15%.
+
+612
+01:39:44.010 --> 01:39:55.160
+Chuan Wu: And, completeness, including the reference, 5%. Or if you are working on an individual report, you'll get $10 mark, upper bounded by 100.
+
+613
+01:39:56.540 --> 01:40:08.459
+Chuan Wu: Okay, all right, so that's a basic requirement for the project, that I want to introduce, and you can start thinking about your project workout now, and talk to your supervisor, potentially.
+
+614
+01:40:09.360 --> 01:40:12.270
+Chuan Wu: Okay, any question regarding the project here?
+
+615
+01:40:14.330 --> 01:40:15.460
+Chuan Wu: Yes, please.
+
+616
+01:40:15.690 --> 01:40:17.170
+Chuan Wu: A patient can be speaking to?
+
+617
+01:40:19.430 --> 01:40:20.270
+Chuan Wu: Yes.
+
+618
+01:40:20.960 --> 01:40:27.789
+Chuan Wu: But actually, nowadays, I should have moved it out, because speakerphone,
+
+619
+01:40:29.280 --> 01:40:33.489
+Chuan Wu: That would be flexible there. If you want to exclude the references, bye.
+
+620
+01:40:34.000 --> 01:40:39.800
+Chuan Wu: Yeah, I know nowadays people can easily find tons of reference.
+
+621
+01:40:41.160 --> 01:40:44.140
+Chuan Wu: Okay, good question. Yeah, what else?
+
+622
+01:40:47.660 --> 01:40:51.359
+Chuan Wu: Okay, so if there is no more questions, we are good for the day.
+
+623
+01:40:51.710 --> 01:40:55.730
+Chuan Wu: We'll call it a day, and we'll continue, next Tuesday.
+

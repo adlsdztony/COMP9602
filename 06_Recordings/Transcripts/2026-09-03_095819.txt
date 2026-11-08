@@ -1,0 +1,1582 @@
+COMP9602 Optimization — 2026-09-03 09:58:19
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/dLyiRcSMkEAtxEGTTYWVQmU6glpIGIGMq0lBB7Hwr26z4XkG4QNjIZLjVsmhoxlO.BhcbYVrtnwRt7Xir
+保存日期：2026-11-08
+
+[00:04:35.740] chuanwu: Alright, good morning, everyone.
+
+[00:04:39.540] chuanwu: Okay, is my voice volume 5?
+
+[00:04:41.930] chuanwu: Okay, good. At the time, we just used one projector here.
+
+[00:04:47.190] chuanwu: Okay, all right, because I want to leave this part of the whiteboard for writing, putting something down on the board. Okay, all right, good morning, everyone. Welcome to today's, lecture of, optimization.
+
+[00:05:00.780] chuanwu: Okay, we are working on a mathematical problem. So especially, I've been saying, the focus of our course is on coax program, and we have included a few examples. So here's a quick revision of how we formulate our optimization problem into the mathematical probe problem form.
+
+[00:05:17.530] chuanwu: So essentially, in a mathematical program, we have an objective function.
+
+[00:05:21.450] chuanwu: and F0X here. And in the standard form, we specify an optimization problem in a minimization form. So we are minimizing F0X. You know, if we do have a maximization problem, we can always change the objective into minimize negative of that original objective.
+
+[00:05:38.240] chuanwu: And then we have a set of, inequality constraints. Actually, here we can have equality constraints as well, and we put them down into the format of some constraint functions more or equal to some constant on the right-hand side of the inequalities.
+
+[00:05:52.860] chuanwu: And, we, as we were saying that, we focus on the subclass of mathematical program, whereas the objective function and constraint functions are all commands, or alpha, so we will see the definition in detail later on.
+
+[00:06:08.990] chuanwu: So we have seen a few examples of, complex programs, especially linear program, and today we are going to continue. We'll be checking out two more examples before we move on to talk about fundamentals of complex analysis, including convex sets, convex functions.
+
+[00:06:27.950] chuanwu: Okay, so the first example we are discussing today is about line fitting.
+
+[00:06:34.300] chuanwu: So, say, we are given a number of measurement points, okay, denoted by the stars in this, two-dimensional coordinate system.
+
+[00:06:45.330] chuanwu: And the metal points have, each point has two coordinates. Like, the first of point, like, the point here, XIYI, becomes a pair of coordinates for this point.
+
+[00:06:56.280] chuanwu: And to be given a set of measured points, our goal is to find out a fast line that can fit the points the best.
+
+[00:07:08.060] chuanwu: Okay, so for example, here we have a string line here, and supposing lay properly, these, all these points, corresponds to observations along that line. Okay, so it's a very typical line-feeling product. I believe some of you have saw it as,
+
+[00:07:25.950] chuanwu: or formulated in your previous study. Okay, so how would we formulate this into an optimization problem?
+
+[00:07:35.190] chuanwu: So essentially, we want to find out a line, and how do we describe a line in a dimensional space, a two-dimensional plan?
+
+[00:07:44.480] chuanwu: Okay, so here it is how we formulate a line.
+
+[00:07:48.020] chuanwu: So a line is formulated this way. Y is the Y coordinate, so here we use Y hat to distinguish it with that given observation's Y. And Y hat equals AX plus P.
+
+[00:08:01.760] chuanwu: Okay, so here, A and B… A is a slope, and B is an intersect, Y intercept, right? As long as A and B are given, we know this line's formula is given.
+
+[00:08:14.210] chuanwu: And that means our variable in this optimization problem would be A and B, right? Because as long as A and B are decided, this line is decided, and we want to find out the line.
+
+[00:08:26.360] chuanwu: Right, okay, so now the variables are given a loan, and then what is the objective? We want this line to fit a point's two types.
+
+[00:08:35.870] chuanwu: So that means the distance between the lines as a leaf, between the line and the dots points should be the smallest possible, right? Okay, then we say the line… the dots are mostly lying around the… on the line, right? Okay.
+
+[00:08:51.950] chuanwu: And how do we describe the distance between the observation points and the lines?
+
+[00:08:58.000] chuanwu: Okay, so here it is what we do. So we measure the distance between the line and the measured points along the y-axis.
+
+[00:09:08.020] chuanwu: Okay, Y distance?
+
+[00:09:10.160] chuanwu: Okay, so here.
+
+[00:09:12.450] chuanwu: So, Yi is the ovulation points, the Y coordinate of every ovulation point. And what is Y at hat? So, Y hi, can be calculated this way, Y at hat is a corresponding dot, corresponding point on the line, corresponding to the observation Xi.
+
+[00:09:34.540] chuanwu: Okay, so here. So say here, we have augmentation dot with two coordinates XI and Yi, and corresponding to the X coordinate Xi, what is the Y coordinate on a corresponding dot on the line? It's this… this is the dot on the line, on the line that we are deciding.
+
+[00:09:54.310] chuanwu: And its Y coordinate is calculated this way, and will be denoted as divided by i hat.
+
+[00:10:01.590] chuanwu: Okay, and what we want is, we want the distance between the observation point and the point on the line to be the smallest along the line.
+
+[00:10:11.120] chuanwu: Access.
+
+[00:10:12.770] chuanwu: Okay, 4 people distance will be the smallest possible. Okay.
+
+[00:10:17.220] chuanwu: And we formulated that this way. So we, do the difference between Yan and Yan fact, then we do square, and then we sum them up together, then this is the total distance of four observation points with their corresponding point on the line.
+
+[00:10:32.810] chuanwu: Okay, and, what is hidden here, so there is a hidden condition that we say the Y I have here is calculated using the lines formula, using the X coordinate of the patient point, so AXI plus
+
+[00:10:46.670] chuanwu: Right.
+
+[00:10:48.000] chuanwu: Okay, and then pretty much this overlap problem is stopped.
+
+[00:10:52.710] chuanwu: Okay, recap, recall what I was saying, the three key factors of formulating an optimization problem. Number one, variables. And we are clear now the variables are A and B, because when A and B is not known, the lines formula is fixed.
+
+[00:11:08.410] chuanwu: Okay, and then objective. Objective may be nice at distance, wide distance, beginning of the mission point, and the line of 5.
+
+[00:11:16.370] chuanwu: Right, and then we formulate a mutualization problem, summing up all the distance, wide distances for all of the vision points, and how about constraint? So constraint is kind of, in fact, here.
+
+[00:11:28.830] chuanwu: Okay, constraint is an equality constraint, it is confined, and in the constraint, there is a theory variable introduced, which is why I had
+
+[00:11:39.640] chuanwu: Okay, so therefore, more strictly speaking, in this optimization problem, we actually have three sets of variables, A, B, and Y hat.
+
+[00:11:49.090] chuanwu: And what I have here is not our final variable. It is kind of an auxiliary variable.
+
+[00:11:55.820] chuanwu: That we use in the… In the intermediate stage of our calculation.
+
+[00:12:02.050] chuanwu: Right? Okay, and what happens is used informally in the objective function?
+
+[00:12:06.840] chuanwu: Okay, and of course, you can put it down in a more concise way, Like… this.
+
+[00:12:13.430] chuanwu: So your operation problem can simply be minimized sum over i, and then Yi miners AXI, that's P.
+
+[00:12:27.160] chuanwu: Square.
+
+[00:12:28.680] chuanwu: Right? And in this way, you just remove all the other variables. And your automation problem becomes a mean by addition problem without any constraints.
+
+[00:12:39.250] chuanwu: And we call it unconstrained abandoned problem.
+
+[00:12:43.370] chuanwu: Okay.
+
+[00:12:44.500] chuanwu: All right And, how do we solve this unconstrained validation problem?
+
+[00:12:51.200] chuanwu: Okay, in fact, for unconstrained optimization problem, if they have some nice property, like when the objective function is a convex function, exactly is the case here. So it, in fact, it is a convex function, it's a quandraphic function, on A and the B.
+
+[00:13:11.210] chuanwu: And what is exactly a contracted function? We will introduce more later on. Okay, well, you know, why… what is a con… what is a contracted function? I mean, all of you know, and why contracted function is convex, we will introduce a little bit more later on.
+
+[00:13:26.770] chuanwu: Okay.
+
+[00:13:28.030] chuanwu: All right, okay, so this is, our unconstrained objective problem to solve minimization of, on traffic function.
+
+[00:13:38.320] chuanwu: And we call it least square problem. Least corresponds to mechanization form of the problem, and the square corresponds to the graphic form of the function.
+
+[00:13:47.550] chuanwu: Okay, at least the square is proper.
+
+[00:13:49.640] chuanwu: And in fact, for such unconstricted convex optimization problem, there are some nice properties we can exploit to solve the problem exactly.
+
+[00:14:00.110] chuanwu: And here, let's, take a look at the simple approach to solve this simple unconstrained minimization theta squared problem. Okay, so here, we use J to denote the objective function here. So that J is exactly as what I formulated on the board here.
+
+[00:14:18.280] chuanwu: And we are minimizing J in this optimization problem.
+
+[00:14:21.660] chuanwu: And how do we minimize this, contracted objective? We actually make use of web over there, and most of us have learned it before.
+
+[00:14:30.500] chuanwu: We calculate the derivative, or partial derivative, of the function with respect to each variable.
+
+[00:14:37.360] chuanwu: And we sent it to Europe.
+
+[00:14:39.660] chuanwu: And then we solve the equations, and we come up with basic data solutions for AI.
+
+[00:14:45.200] chuanwu: Right.
+
+[00:14:46.130] chuanwu: Okay, so let's follow that approach to solve it here. The partial derivative of objective function with respect to B equals 0 with respect to A equaling 0. And then we plug in all the concrete, value… concrete, formula.
+
+[00:15:02.690] chuanwu: Okay, partial derivative of that quadratic function here, okay, with respect to B, is calculated this way.
+
+[00:15:09.910] chuanwu: So all of you know how to calculate that, right? So it's a kind of, a function square, a composition function square, and then if you can pass two times that composition function, and then partial derivative of
+
+[00:15:22.760] chuanwu: what is inside Francis with respect to V. So that gives us money as well, right? Because of the world.
+
+[00:15:33.860] chuanwu: And then, similarly here.
+
+[00:15:36.320] chuanwu: So we have partial equation partial derivatives of objective functions with respect to A, so similar way of calculating. Okay, so here we are… when we are doing partial derivatives of functions inside the parentheses with respect to A, it does match your X out, right? Okay, and then we have two equations.
+
+[00:15:55.740] chuanwu: Okay, two equations and two variables, A and B. So it's a system of equations. Actually, it's exactly a system of two linear equations, right? And we all know how to solve them.
+
+[00:16:08.030] chuanwu: Right? And after solving, we have the exact solution here. So A.
+
+[00:16:14.980] chuanwu: Okay. All right, so this is a very simple example, where what I want to show are two points. So, number one, so by setting the
+
+[00:16:24.370] chuanwu: derivative.
+
+[00:16:26.080] chuanwu: of the gradient. Okay, later we will introduce the code notion of gradients. By setting the gradient or partial derivatives of the contracted function that we are minimizing to zero with respect to each of the variables inside.
+
+[00:16:41.290] chuanwu: we can solve for the optimal solution. So that is actually a special case of a first-order condition of convex functions that we're introducing, probably next week.
+
+[00:16:54.530] chuanwu: Okay, a special case. So I'll mention you this, probably then again, of this special example again, when we introduce our first
+
+[00:17:02.900] chuanwu: further condition of complex functions later on. The second point is, this is an example where we actually get some nice cross-form solution to the problem.
+
+[00:17:14.760] chuanwu: So what is closed form solution? So this notion is in kind of thing contrasted to numerical solution.
+
+[00:17:20.650] chuanwu: So, Cov…
+
+[00:17:22.000] chuanwu: So, Carlos form solution, or equivalently analytical solution, meaning we can find out the optimal solution, optimal variable values of our organization problem that is expressed in ways of mathematical functions, and the quantities, simple level quantities.
+
+[00:17:40.310] chuanwu: Back in this way, without placking any concrete by it.
+
+[00:17:44.110] chuanwu: CrossFit Solutions.
+
+[00:17:46.100] chuanwu: Okay, so if we're expressing a solution using a set of… well, no, if we are able to express the solution of our population problem using a set of events, generate accepted mathematical operations and functions, then that solution is called an analytical or close-form solution.
+
+[00:18:05.710] chuanwu: And you see here, what we are looking at, kind of four symbols. Okay, let's talk about operations and functions, and there is no concrete value needed for faculty, right?
+
+[00:18:16.940] chuanwu: And in another case, if you cannot find such prosform solution, and you can only derive a numerical solution to the problem when given corporate input values, like XIY values, then the solution we derived is called numerical solutions.
+
+[00:18:34.650] chuanwu: Okay, in fact, deriving cross-form solutions is very difficult. In most cases, especially for algorithms we are introducing, starting from later part of the semester, or
+
+[00:18:46.090] chuanwu: algorithms are deriving numerical solutions. In your given concrete instances, concrete input values to all the quantities of the problem, then you derive some numerical solutions.
+
+[00:18:56.720] chuanwu: That… these concrete values.
+
+[00:18:59.160] chuanwu: Okay, and those algorithms are called numerical algorithms as well.
+
+[00:19:03.570] chuanwu: Okay.
+
+[00:19:05.210] chuanwu: Alright.
+
+[00:19:07.370] chuanwu: And by the way, in cross-form solution, as I mentioned, only generally accepted, simple form of mathematical operations and functions are allowed.
+
+[00:19:17.320] chuanwu: So, like, if you involve some complicated, operations, like infinite calculation, that solution is not really caught by analytical concept.
+
+[00:19:28.330] chuanwu: Okay, OLIP, that sounds exponential, and all those are very general. They accept it, the simple functions are locked.
+
+[00:19:38.700] chuanwu: Alright, so that is a list of squares,
+
+[00:19:41.970] chuanwu: This is the first problem. And moving on, the last example I want to show you in this set of slides is related to maximal likelihood estimation.
+
+[00:19:51.040] chuanwu: So this, maximum likelihood estimation, or MLE in short, is very popular nowadays, because it's kind of a fundamental of machine learning. Okay.
+
+[00:20:02.120] chuanwu: So what is, it is used before? So this maximum likelihood estimation is to estimate the parameter values,
+
+[00:20:11.180] chuanwu: Among a set of parametric distributions, given a set of observations, given a set of random observations or realizations of variables.
+
+[00:20:23.020] chuanwu: Okay, so here we are given a family of probability distributions, and you use the density functions PX to denote that. Okay, so PX is, PX…
+
+[00:20:37.560] chuanwu: is, every PX is, probability distribution, and we have a set of probability distributions indexed by X. That means X can vary, and X there is the parameter there, and X can be an dimensional vector as well.
+
+[00:20:56.950] chuanwu: Okay, and then we are, the observation is based off a random variable Y, and that Y can be a factor as well, not just a single scalar, random variable. It can be a factor of random variables. So, for example.
+
+[00:21:15.320] chuanwu: Okay, back to random variables, we'll see them for later.
+
+[00:21:19.220] chuanwu: Okay, so what we want to do in this maximal likelihood estimation is we want to estimate the concrete… we want to identify or estimate the concrete probability distribution, PXY, based on a set of given observations.
+
+[00:21:38.550] chuanwu: And here we have Yi, Y2 after YF to denote the odd associations.
+
+[00:21:44.150] chuanwu: and M of the regions. In fact, every one of them would be a vector as well, but in the example we are showing, we simply say Y each Y by i, up Y1 up to YM is a scalar value.
+
+[00:21:57.940] chuanwu: every YI is a vector as well, dimensional vector, for example.
+
+[00:22:07.980] chuanwu: Okay, all right, complete example here. So, say we are given a family of normal distributions. So we are familiar with normal distributions, right? Or Gaussian distributions.
+
+[00:22:20.480] chuanwu: And here, so we say this is a density function of the abnormal distribution, and a parameterized by mu and sigma.
+
+[00:22:31.080] chuanwu: Mu is a mean, sigma is standard deviation.
+
+[00:22:34.460] chuanwu: Okay, and this is a concrete form of the normal distribution, and maybe most of us are very familiar with it, right? Okay, and in this example, corresponding to our notation.
+
+[00:22:47.020] chuanwu: Notion uses the best.
+
+[00:22:49.630] chuanwu: The, two parameters together with mean and standard deviation. Together, they decide the concrete form of the normal explosion, and it corresponds to our vector X in the last notion.
+
+[00:23:04.280] chuanwu: Okay.
+
+[00:23:05.590] chuanwu: And then, suppose now we have… because we are choosing from a family of number of distributions. So suppose our mu and sigma is chosen from a set, or simply, like, in the simple example, just choose from two choices.
+
+[00:23:20.270] chuanwu: Okay, X1, X2. So you should know X1 corresponds to mu1, sigma1, X2 corresponds to mu to sigma2. Each X is actually a vector, two-dimensional vector, in our concrete case.
+
+[00:23:32.920] chuanwu: F, so here we are given the F, probability distribution's concrete value. Okay, so I can say we are given some concrete values here.
+
+[00:23:42.890] chuanwu: So, if, the, distribution is parameterized as what?
+
+[00:23:48.730] chuanwu: And the probability of observing a value of 1
+
+[00:23:53.840] chuanwu: Which is why? Okay, observing Y equals 1 is 0.2.
+
+[00:23:58.690] chuanwu: probability of observing y equals 2 is 0.3, and so on. And following the second distribution, parameterized on X2.
+
+[00:24:08.990] chuanwu: So the probability of Y equaling 1 is 0.1, Y equaling 3 is 0.4, and so on.
+
+[00:24:15.260] chuanwu: Okay, so those are given. We're supposedly when they are given.
+
+[00:24:19.090] chuanwu: And, we are also given a set of 5 observed values for Y heat.
+
+[00:24:25.370] chuanwu: Okay, so that Y1, the first observation of Y, then the variable Y is 1, the second observation is 2, third observation is 2, fourth observation is 2, 6th observation is 3.
+
+[00:24:38.750] chuanwu: Okay, alright, and then we are able to formulate a maximum likelihood estimation problem to actually decide between
+
+[00:24:49.210] chuanwu: The two, each versions, which one is the best, that describe the observations.
+
+[00:24:55.060] chuanwu: on which one, which one, on Earth, which one,
+
+[00:25:00.600] chuanwu: Yes, which one, conforms best to the observations?
+
+[00:25:06.180] chuanwu: Okay. All right.
+
+[00:25:09.800] chuanwu: So here…
+
+[00:25:11.080] chuanwu: So, let's introduce the, some other key concept of maximum likelihood estimation. The first concept is lock likelihood function. Okay, lock likelihood function. So, if we do lock.
+
+[00:25:27.770] chuanwu: Okay, if we do log on each of the probability distribution,
+
+[00:25:35.210] chuanwu: If we do lock of the,
+
+[00:25:38.970] chuanwu: on PIYI. So Yi is a particular observation of probability distribution PX.
+
+[00:25:46.780] chuanwu: Okay, if we do lock on the observed… on the probability of the…
+
+[00:25:53.710] chuanwu: probability density function on Yi, and then we sum up all the log functions over all choices of Yi observations. The whole thing is called a log likelihood function.
+
+[00:26:08.480] chuanwu: Okay, lock likelihood function.
+
+[00:26:11.820] chuanwu: And this log likelihood function has a nice property.
+
+[00:26:16.710] chuanwu: That if you do sum of log, it's actually equivalent to log of a factor.
+
+[00:26:23.550] chuanwu: Right? Some unlock, including block of her time.
+
+[00:26:27.760] chuanwu: Okay, and if we use as such defined log likelihood function as objective, and if you are minimizing that, meaning that we are maximizing that, this becomes a maximum likelihood estimation problem.
+
+[00:26:43.490] chuanwu: And what is a variable? The variable is actually the parameter in the probability density functions.
+
+[00:26:51.020] chuanwu: And the probability density function PXY is parameterized on X.
+
+[00:26:57.090] chuanwu: And of which we have different choices, and we'll ask.
+
+[00:27:00.360] chuanwu: And we specify the condition, or the scope, or the moment of the S using a general set of C.
+
+[00:27:07.880] chuanwu: Using a general ZC, so X can be chosen among all the possible parameter values, semantic values in ZCC.
+
+[00:27:16.580] chuanwu: And our goal is to maximize the not likelihood function on that particular density function PX.
+
+[00:27:26.730] chuanwu: using the observation values YR.
+
+[00:27:31.630] chuanwu: Okay, alright, recall in our, counts.
+
+[00:27:35.930] chuanwu: Concrete example, even on the previous slide, our setC is simply containing only two sets of values, two set of parameters.
+
+[00:27:46.260] chuanwu: So X only has choices among X1 and X2, but that's the simplest case. In general, then C has B, a complex, a quite complicated set.
+
+[00:27:57.770] chuanwu: And we can have concrete, constraints on X, and C is reflected by a set of inequalities and equalities on X, but we just, in general, use C to tell the domain, or the scope of X, of universities and of X.
+
+[00:28:15.780] chuanwu: So we will use this notion again, again, again, later in the semester.
+
+[00:28:22.720] chuanwu: Okay.
+
+[00:28:23.890] chuanwu: In fact, C just corresponds to the constraint set. Okay, C just corresponds to the string set of Okay.
+
+[00:28:33.950] chuanwu: All right, and then, this is a general form of a maximum likelihood estimation problem, and, using the example on the previous page, we actually can calculate, which parameter is a faster solution to the problem. Okay, when
+
+[00:28:53.730] chuanwu: This PX is, is a normal distribution, and the X is tutoring between the two values in a set visibility of the sets.
+
+[00:29:04.610] chuanwu: All right, so how do we calculate that? Okay, in this, very simple example, we can calculate it numerically by using some simple symbol approach.
+
+[00:29:15.730] chuanwu: So check out the objective. As we said, sum of luck equals lock of product.
+
+[00:29:21.450] chuanwu: Okay, then from here is just the calculated product under each one of the possible traces of X.
+
+[00:29:28.020] chuanwu: So here, we do product of PX1 on all different observations, and on the second row, we calculate the product of PX2, okay, probability values on different observations by X.
+
+[00:29:41.100] chuanwu: And, how does, and we… we'll find out, on the previous page, so if you can turn back to the previous page…
+
+[00:29:54.290] chuanwu: So, in the row of, PX what? Okay, in the row of PX what? Y1, Y1 is what? PX11?
+
+[00:30:04.140] chuanwu: is durable.
+
+[00:30:07.530] chuanwu: Although I need to come back and assure you.
+
+[00:30:18.070] chuanwu: Okay, so here, what I'm doing, how do I do the product calculation, is just packing all the comfort value here, and corresponding to what our, what is the exact observation we are given here.
+
+[00:30:32.790] chuanwu: Okay, so the first observation.
+
+[00:30:36.820] chuanwu: So the first observation, Yi, Y1, is 1, and following the first diffusion, PX1, PX11 is 0.2, and the second observed value is Y2 is 2.
+
+[00:30:49.490] chuanwu: And the PX1 is 0.3.
+
+[00:30:52.690] chuanwu: And the third observation is, again, Y is 2. And then PX12 is 2.3 again.
+
+[00:31:00.470] chuanwu: And the force of derivation Y equaling 2 again, and PX12 is 0.3, and the force of the fifth observation is Y 5 equaling 3, and the PX15… PX13 is 0.12.
+
+[00:31:16.790] chuanwu: And then the product is 0.00108. And similarly here, following, following probability density function PX2.
+
+[00:31:29.330] chuanwu: We can track in all the different probability values corresponding to each of the observed values Y, and then the product is eventually 0.00032.
+
+[00:31:42.220] chuanwu: Okay, so which one can be truth?
+
+[00:31:46.190] chuanwu: The first one, right? Because the product of the probability values is larger. That means the objective function, which is stock likelihood functions value, is larger, if we choose X1.
+
+[00:32:01.410] chuanwu: Right, if X equals X1.
+
+[00:32:04.670] chuanwu: Okay, so that's how we solve the maximum likelihood destination problem under the very simple scenario we introduced on the previous slide.
+
+[00:32:15.180] chuanwu: Okay, of course, in practice, or in more complex machine learning problems, that's more likely to be just a foundation, and over here, how you choose the X, how you choose a domain set of X, it depends on how you populate it, how the constraints, and so on. There'll be a lot more complex than what we do here.
+
+[00:32:34.970] chuanwu: Alright,
+
+[00:32:37.230] chuanwu: Another aspect we want to mention is, here, the general form of maximum likelihood function is a maximum likelihood estimation problem is in the maximization form.
+
+[00:32:49.800] chuanwu: And, we know if the optimization is in the minimization form. We are minimizing an objective function, and if the object function is, to be minimized, it's complex, then the whole thing is pretty much a COMEX problem.
+
+[00:33:03.600] chuanwu: And… and here, when we have the problem in the maximization form, if what's the objective function we are maximizing is a concave function. Okay, so here. A function is conquest, it's negative x is convex.
+
+[00:33:18.800] chuanwu: If you are maximizing our company function.
+
+[00:33:21.580] chuanwu: If the constraint cell is convex as well, then the whole thing is a COMEX profile as well.
+
+[00:33:28.210] chuanwu: Okay, so that under what page, the, objective function is, Okay. Okay, so here.
+
+[00:33:38.070] chuanwu: If our log of the probability density function is concave of X, okay, so pay attention, X is our variable. Y eyes up will be given, okay, given input values. X is our variable. So if the log function is concave of X,
+
+[00:33:55.740] chuanwu: Then, the sum of log is concave also. Later, we will introduce summation of your perceived convexity of the functions. Okay, so sum of log would be concave as well. The next binding concave, leading to these two, convex automation problem.
+
+[00:34:14.550] chuanwu: Okay.
+
+[00:34:16.960] chuanwu: Yes? I want to be clarified with something in the example.
+
+[00:34:22.520] chuanwu: Yes.
+
+[00:34:28.219] chuanwu: In the last one likelihood estimation for lack of income.
+
+[00:34:32.060] chuanwu: Let's suppose you take the log, of the product of the density pattern. I don't think the log… your point is we don't involve log here, right? So the reason it's not preserved the, the,
+
+[00:34:48.350] chuanwu: If the function is increasing, the log function's result is also… the value is also increased.
+
+[00:35:00.360] chuanwu: Yeah, because luck is an increasing function, again, on a conical decreasing function.
+
+[00:35:06.450] chuanwu: All right.
+
+[00:35:08.520] chuanwu: Okay, okay.
+
+[00:35:10.750] chuanwu: Okay.
+
+[00:35:12.050] chuanwu: further moving, move on, okay, but just now we see a very simple, eventual. Pretty much, we just have some, like, discrete… sorry.
+
+[00:35:23.680] chuanwu: So here, we have some discrete values of PX in the density, function. It's a simple example. And moving on, we see a slightly more complex example, a slightly more complicated example of the maximal likelihood destination problem.
+
+[00:35:41.230] chuanwu: And in the second setting here, we considered a linear measurement model. Okay, Yi equals, AI plus X,
+
+[00:35:50.940] chuanwu: class, BI. And here, AI, so YI, AI, BIs are all factors.
+
+[00:35:59.270] chuanwu: Okay, all that.
+
+[00:36:02.110] chuanwu: Oh, okay. So why are AI…
+
+[00:36:04.860] chuanwu: Y and the VI are scalar values, and the AI and X are vectors. So X is an dimensional vector of unknown parameters.
+
+[00:36:15.520] chuanwu: Okay, in our data booking for, X is a vector as well.
+
+[00:36:25.090] chuanwu: So X is mu and sigma in our previous example, and here we just consider X to be some general indimensional primary vector. Okay, and AI is a vector in-dimensional as well, and here we use AI
+
+[00:36:44.300] chuanwu: transpose XI to indicate an inner product between AI and Xi.
+
+[00:36:50.460] chuanwu: So, do we all know how to calculate inner product between two vectors?
+
+[00:36:55.340] chuanwu: Oh, okay, so pretty much that equals the component-wise product.
+
+[00:37:02.230] chuanwu: of elements in the vectors and sum up them together, right? So basically, for all the fundamentals of linear algebra, if you forgot any part of it, you are encouraged to check out appendix or textbook.
+
+[00:37:15.210] chuanwu: So the appendix textbook has some very concise summary of personal knowledge on linear algebra, and to brush up your memory.
+
+[00:37:22.800] chuanwu: To, prepare you for, notions, notations that are building in the course, okay, in the lecture slides.
+
+[00:37:31.600] chuanwu: All right, and here, so we consider that, PI is,
+
+[00:37:39.460] chuanwu: IID, measurement of noise, and its density, probability density function is PTP.
+
+[00:37:45.820] chuanwu: Alright, so here, every BI is a scalar variable. Every BI is a scalar variable, okay? So IID means, identically, independent learning distributed noise.
+
+[00:38:01.550] chuanwu: Then, our YI is a measurement. Okay, Yi is a measurement, and every YI is a scalar quantity, scalar quantity, scalar measured quantitative.
+
+[00:38:11.250] chuanwu: And, suppose we have, different observations or different measurements, and here this Y is a vector.
+
+[00:38:20.290] chuanwu: n-dimensional vector. Okay, by the way, when we use notations like our, exponent M, exponent N, it means, n-dimensional vector space, or n-dimensional vector space.
+
+[00:38:35.310] chuanwu: Okay.
+
+[00:38:36.780] chuanwu: Okay, and, so here.
+
+[00:38:43.230] chuanwu: We know Yi equals AI inner product Xi.
+
+[00:38:48.400] chuanwu: the Productor X.
+
+[00:38:51.980] chuanwu: you know, product X plus VI.
+
+[00:38:55.420] chuanwu: Okay, and here, X is some, is the parameter, variable we are trying to decide in maximal likelihood estimation, and the AI is considered given, some given n-dimensional vector. And VIs are random noise.
+
+[00:39:12.620] chuanwu: So the randomness of the observation resides on the randomness of VI.
+
+[00:39:19.150] chuanwu: Okay, and if we know the density function of VI is PZ, okay, and if we transform the equation
+
+[00:39:30.850] chuanwu: Into the following one, Okay.
+
+[00:39:34.170] chuanwu: So then, our PBI, will be corresponding to P.
+
+[00:39:41.230] chuanwu: AI transpose X minus Yi.
+
+[00:39:45.090] chuanwu: Okay, it's just some variable, equivalence transformation.
+
+[00:39:51.520] chuanwu: And a variable replacement.
+
+[00:39:54.940] chuanwu: Okay, all right, so what I want to say is… okay, I just have to pull little space in between.
+
+[00:40:02.270] chuanwu: Alright.
+
+[00:40:04.530] chuanwu: Okay.
+
+[00:40:06.300] chuanwu: And based on that transformation, what we get is here.
+
+[00:40:10.390] chuanwu: So if we consider the,
+
+[00:40:13.250] chuanwu: Density, okay, the probability density function of, random observation Y.
+
+[00:40:19.810] chuanwu: parameterized, X, okay, PXY. So here, Y is considered as the, run the marathon.
+
+[00:40:29.430] chuanwu: with, of the realized observations, my old measurements, and this PXY would be equivalent to product of that peak.
+
+[00:40:40.020] chuanwu: Where in the parenthesis, we replace VI by YI meant as AI transpose X.
+
+[00:40:45.920] chuanwu: That might ramped this up.
+
+[00:40:48.530] chuanwu: Right, I'm gonna grow, obviously.
+
+[00:40:53.700] chuanwu: lines.
+
+[00:40:59.440] chuanwu: Okay.
+
+[00:41:00.420] chuanwu: So VI equals YI Yi minus AI transpose X.
+
+[00:41:10.390] chuanwu: Okay.
+
+[00:41:11.970] chuanwu: Alright.
+
+[00:41:26.650] chuanwu: Okay.
+
+[00:41:28.460] chuanwu: Over here, Y is a vector, n-dimensional vector, consisting of different observations of Y ands.
+
+[00:41:36.620] chuanwu: Okay, and here, for every YI, the density function, density value is P, Yi minus A transpose X, based on the density function of BI.
+
+[00:41:48.730] chuanwu: Because we… because the source of the disease of YI is due to VI. BI is embedded noise.
+
+[00:41:57.940] chuanwu: Okay, and then we have… we'll have different operations. We use product to describe the total distribution probability.
+
+[00:42:06.000] chuanwu: of NAQ and Y.
+
+[00:42:08.010] chuanwu: Okay, so therefore, the density function of, Y parameterized by X can be expressed in this way.
+
+[00:42:18.970] chuanwu: Oh, okay, all right. And then, what is… what about our maximum likelihood estimation?
+
+[00:42:24.520] chuanwu: So, the general form of maximal likelihood estimation function is the sum of log on different random variable observations, right? And what is forwarding log is a density function of, density function of each observation Yi.
+
+[00:42:39.850] chuanwu: So each density function on each omnivision Yi is actually PYI minus AI transpose F.
+
+[00:42:48.160] chuanwu: What we do is actually doing a log of this.
+
+[00:42:51.660] chuanwu: That's in function, but… Okay, so luck of productivity sum of luck.
+
+[00:43:00.450] chuanwu: That's how we come up with a concrete form of the maximum likeable destination objective function here.
+
+[00:43:09.090] chuanwu: Okay, and then we, and here, we don't lay any constraint on X.
+
+[00:43:15.630] chuanwu: you just say that X is,
+
+[00:43:19.240] chuanwu: an indimensional vector, or the X-dimensional vector. So it means we don't have a complete set of C.
+
+[00:43:26.050] chuanwu: Ink the problem here.
+
+[00:43:29.260] chuanwu: All right, and, if we consider the P is, the density function of the measurement noise is following a Gaussian distribution.
+
+[00:43:42.560] chuanwu: Okay, Gaussian distribution. And, and especially it's a zero mean, sigma squared deviation, Gaussian distribution, and the concrete form is here. Okay, so when the mean mu is zero, the concrete form of the Gaussian distribution density function is here.
+
+[00:44:01.890] chuanwu: And we can plug the complete form of P into the maximal likelihood estimation objective function. We come up with a complete form of the objective function LX, call it LX.
+
+[00:44:14.020] chuanwu: Okay, so that's… Becomes a concrete floor.
+
+[00:44:17.930] chuanwu: And in a concrete form, M is given, okay, M is given, M different observation, parent observations, and sigma is given because the Gaussian distribution is given.
+
+[00:44:29.950] chuanwu: Sigma is given, and AI is given, Yi are the given measurement observations, and the only variable is X.
+
+[00:44:39.900] chuanwu: And again, X is an dimensional vector. And by doing the inner product here, A transpose… AI transpose X becomes the scalar value.
+
+[00:44:49.340] chuanwu: But X originally itself is a three-dimensional vector.
+
+[00:44:53.380] chuanwu: Okay.
+
+[00:44:54.570] chuanwu: All right, and if you are maximizing the object with object here, X, It's maxlighting negative of…
+
+[00:45:05.580] chuanwu: contracted function of X.
+
+[00:45:07.860] chuanwu: or a contracted function on X.
+
+[00:45:10.060] chuanwu: It's equivalent to minimizing this part of the quadratic function of X.
+
+[00:45:16.320] chuanwu: Minimizing a contract function on a function of the original variable, it is a form of the least squares problem, again.
+
+[00:45:25.670] chuanwu: Okay, least corresponds to minimization, squares corresponds to the project informed variable.
+
+[00:45:34.540] chuanwu: Okay, so therefore, in this, particular setting, under the assumption that the demand noise is, Gaussian zero-min, Gaussian distribution, it's following theromin Gaussian distribution.
+
+[00:45:48.120] chuanwu: The maximum likelihood estimation problem we eventually formulate is another resource problem.
+
+[00:45:55.040] chuanwu: And a decent squares problem is a very simple, neat work of a convex problem, and in most of the cases, they can be solved analytically.
+
+[00:46:06.050] chuanwu: Okay.
+
+[00:46:07.340] chuanwu: Alright.
+
+[00:46:11.120] chuanwu: All right, so this is, another example to show you you can formulate some concrete, optimization problem into a convex optimization form.
+
+[00:46:23.950] chuanwu: Okay, so we have seen the here program, we have seen this square problem, where the objective to minimize is quadratic on the variables, and these two are the simplest form of convex programs, and we will see a lot more later on, a lot more different forms of convex programs later on.
+
+[00:46:43.650] chuanwu: All right, so the, last note of this first set of slides of the course is…
+
+[00:46:49.270] chuanwu: In general, solving complex ovulation problems, doesn't mean we can find their analytical or cross-sport solutions. In most cases, we don't.
+
+[00:46:59.150] chuanwu: Okay, and what we want is, in most of the cases, is some reliable, efficient numerical algorithms to derive numerical solutions, even concrete input values of the problem instance.
+
+[00:47:11.870] chuanwu: Okay, and, Zach's idea of the, location type. We saw a given complex optimization problem, in the standard form on the right top corner is here. So it's related to the number of variables, and it's the number of variables.
+
+[00:47:29.540] chuanwu: And, M is a number of optional strings.
+
+[00:47:33.090] chuanwu: And the F is the cost of evaluating all the functions involved, including the objective function and the constraint functions.
+
+[00:47:42.580] chuanwu: And, evaluating not only the functions, but also their first and second order derivatives.
+
+[00:47:49.520] chuanwu: So in our discussion on first-order condition, second-order condition, probabilities related to complex functions, you will have, that we are going to do later next week.
+
+[00:48:01.030] chuanwu: You will have a concrete idea of why you become invited first-order and second-order derivatives on the functions, because they are typically bulk in our little steps of solving the problem.
+
+[00:48:13.480] chuanwu: Okay.
+
+[00:48:15.000] chuanwu: All right, so this is, and this finished our first set of slides.
+
+[00:48:31.690] chuanwu: Okay, as I learned, we should take a short break, because I'm going to drag beyond 11.30. Okay, so let's take a short break, 5 minutes break now, and get prepared for the next hour.
+
+[00:54:13.340] chuanwu: That's deep.
+
+[00:54:14.420] chuanwu: Testing.
+
+[00:54:18.990] chuanwu: Testing.
+
+[00:54:23.950] chuanwu: All right, let's continue with our, lecture today, and moving on, we'll be working on the part of the theory that traditionally belongs to… belongs to convex analysis, this part in the theory community. Okay, so essentially, convex analysis includes convex sets and convex functions.
+
+[00:54:43.700] chuanwu: All right, so we start with correct set. So this part includes a lot of concepts, and the last example as what we did the previous part from today's lecture. And I'm going to go through the concepts relatively faster, or relatively faster, because it's easy, relatively easy to understand.
+
+[00:55:03.110] chuanwu: Alright, so let's define some, fundamental concepts. So how do we mathematically describe a line segment between two points? So we know when we are given two points, we are able to draw a line, and the two points can decide the line.
+
+[00:55:16.890] chuanwu: And here, when we talk about line segment and points, all the quantities we consider are in the n-dimensional real coordinate space, or the n-dimensional. So every point X1 and X2 here are n-dimensional vectors.
+
+[00:55:32.900] chuanwu: Okay, all right. We describe a point, in the following way. So, theta X plus S1 minus theta X.
+
+[00:55:42.310] chuanwu: And, the new point X could be a point to the line segment as well.
+
+[00:55:48.300] chuanwu: Okay, so that's how… and all the points satisfy the combination between X1 and X2, and here theta is a coefficient within the range of 0 and 1, and we know that X is, pointing the line.
+
+[00:56:04.160] chuanwu: And in fact, this type of combination of two points with coefficients send up to what? We call it a convex combination of the two points.
+
+[00:56:15.460] chuanwu: And then, using the definition of line segment in the international space, we are able to define, formally introduce what is a convex set. So a COMEX set is a set that contains all the line segments between any two points in the set.
+
+[00:56:34.040] chuanwu: Okay, between two… at least two points in the set. And by the way, the above definition is about line segment. Okay.
+
+[00:56:42.210] chuanwu: So, X1, X2, so the line segment between them is exactly the line.
+
+[00:56:49.600] chuanwu: the part of the line connecting that. Okay.
+
+[00:56:52.640] chuanwu: Alright, here.
+
+[00:56:55.770] chuanwu: So if a staff contains… volume down a bit.
+
+[00:57:06.110] chuanwu: Okay, so if a set contains… if you pick any two points from a set, and if you… and you draw a line set from connecting the two points, if the entire line is connect… if the entire line segment is connected in the set, then the set is a connect set.
+
+[00:57:23.940] chuanwu: Okay, so that's the concept, and let's method, we can prove it or verify it this way. So we pick any two points in the set, and we pick a coefficient, within the range of 0 and 1, and we do a convex combination of two points, and the left-hand side is a new point.
+
+[00:57:41.610] chuanwu: And if the new point also belongs to the set, then we are good. Then the set is complex.
+
+[00:57:47.140] chuanwu: Okay, and following the definition, let's see, if you can tell, any of the example sets I'm showing here is convex or not.
+
+[00:58:02.760] chuanwu: Okay, so the first step here.
+
+[00:58:05.870] chuanwu: It's a polygon, right? It's a polygon set, polygon-shaped set. So, is this a conact set?
+
+[00:58:13.160] chuanwu: Yes, because whatever people points you pick, you draw a line segment, the whole line segment is intercept, right? And the second set here, is it a connect set?
+
+[00:58:24.360] chuanwu: No, because if you pick one point here, pick another one there, you draw a line segment, part of the line segment is not exact.
+
+[00:58:31.370] chuanwu: And the third step is a square with some dots from point to U, from the boundaries.
+
+[00:58:37.970] chuanwu: So, is this set, complex set?
+
+[00:58:41.120] chuanwu: No, because if you choose two points on the… one of the edges, or on the ring, then you draw a line step on the part on the line segment is not in a set. Good.
+
+[00:58:50.290] chuanwu: And after seeing that, the next concept is related to affine set. And before we see the definition of affine set, another concept comes up is how we define a line in the dimensional real cognitive space.
+
+[00:59:05.460] chuanwu: We know when we have two points, X and X1 and X2, if we extend.
+
+[00:59:12.060] chuanwu: In each direction, beyond X1 and X2, we come up with a whole line instead of line 7.
+
+[00:59:18.950] chuanwu: And then you have to really help you describe a point in such a lot as a laugh.
+
+[00:59:25.390] chuanwu: So the formula of coming up with any point X in the line is the same as how we define the point in the line segment as on the previous slide. The difference lies in the coefficient.
+
+[00:59:37.600] chuanwu: So, previously, in defining a line segment, we wanted the coefficients to be in the range of 0 and 5.
+
+[00:59:44.500] chuanwu: And if we expand the coefficient Theta's value. So theta itself is a scalar value, or scalar parameter or scalar coefficient. And in theta, I can pick any value, any real number.
+
+[00:59:57.990] chuanwu: Yes. Shoes.
+
+[01:00:00.740] chuanwu: Oh, okay.
+
+[01:00:16.010] chuanwu: Okay.
+
+[01:00:17.390] chuanwu: Alright, so if that is tree hat.
+
+[01:00:28.710] chuanwu: Okay.
+
+[01:00:29.920] chuanwu: Two points, X1 and X2.
+
+[01:00:32.710] chuanwu: If our C hat is, again, in the range of 0 and 1, we will, using the combination of that, we are able to come up with all points in the line segment.
+
+[01:00:43.100] chuanwu: And in CTA, it goes beyond the range of 0 and 1. So, like, when CTA equals 1.2, or CTA can even take an active value, then we actually can come up with points.
+
+[01:00:54.400] chuanwu: Expanding young expert and expertama.
+
+[01:00:58.510] chuanwu: Okay, so, and when we verify that in, in the whole real coordinate space, then we come up with all the points in the V kind of line.
+
+[01:01:07.590] chuanwu: And then, coming up the definition of alpha itself.
+
+[01:01:11.190] chuanwu: So the advanced step is a set that contains the line going through any two different points in the set.
+
+[01:01:19.960] chuanwu: So it means, when you're given a set, you pick two points, every two different points in the set, and you draw a line. If the entire line, extending infinitely in both directions, is content in the set, then the set is an affine set.
+
+[01:01:37.660] chuanwu: Okay.
+
+[01:01:38.890] chuanwu: All right, so, what are examples of affine sets? For example, you are given a set of linear equations expressed this way. So X is an dimensional vector, A is a m times n dimensional matrix.
+
+[01:01:54.620] chuanwu: And B is an n-dimensional vector. Then, this is a very concise way to show a set of linear equations, which we'll be seeing again and again in this course.
+
+[01:02:05.460] chuanwu: So here, AX equals B represents F, different linear equations.
+
+[01:02:10.690] chuanwu: Okay, so the X solution set of the set of linear equations is, alpha set.
+
+[01:02:19.600] chuanwu: Right? You can easily verify that.
+
+[01:02:22.240] chuanwu: So you pick any two different points, X1 and X2.
+
+[01:02:29.470] chuanwu: Okay, you know A…
+
+[01:02:36.290] chuanwu: You know, AX1 equals B. You know, AX2 equals B. By the way, X2 are both in-dimensional vectors.
+
+[01:02:46.910] chuanwu: And easy to show that A times theta X1 plus 1 minus theta X2 equals B?
+
+[01:02:56.060] chuanwu: as well.
+
+[01:02:57.420] chuanwu: Zeta can be any real number, right? So then it means any point in the line
+
+[01:03:03.890] chuanwu: going across X1 and X2 is in the Z, because Z is by AX equals B.
+
+[01:03:11.230] chuanwu: Right. Okay.
+
+[01:03:13.060] chuanwu: All right, and, any other example of, affine set?
+
+[01:03:18.550] chuanwu: So think about this flip.
+
+[01:03:20.810] chuanwu: So this plane is a two-dimensional real-coordinated space.
+
+[01:03:25.620] chuanwu: Right? And in this plan, it contains all the lines.
+
+[01:03:30.220] chuanwu: No matter what two points you pick, like XY and X2, you draw a line, it's contained in this play.
+
+[01:03:36.290] chuanwu: Right, and you have to pick any other two points, draw a line, it's content.
+
+[01:03:41.110] chuanwu: Right, so therefore, the three-dimensional drill coordinate space is an alpine set as well.
+
+[01:03:48.780] chuanwu: Okay.
+
+[01:03:50.280] chuanwu: Alright.
+
+[01:04:20.470] chuanwu: Alright.
+
+[01:04:21.560] chuanwu: Okay.
+
+[01:04:23.470] chuanwu: Moving on.
+
+[01:04:29.030] chuanwu: The next notion is about, complex combination. We actually have seen the simple reason form of complex combination, between two points. We actually can do complex combination among
+
+[01:04:42.100] chuanwu: a number of points. We'll say P points, X1 up to X p. And the combination is done this way, so we multiply each of the… each point with a coefficient.
+
+[01:04:53.340] chuanwu: And the coefficient here sum up to what? And every coefficient is not active. Then, the combination here to come up with the X is called a convex combination.
+
+[01:05:06.400] chuanwu: It's mostly relies on that the coefficient truth somehow.
+
+[01:05:10.460] chuanwu: Okay, now negative coefficient 75 to 1.
+
+[01:05:14.500] chuanwu: Okay, and, then, the next notion related to convex code. Okay, we, convex code is constructed based on a given set. Okay, so if we are given a set S, we denote its convex code using the notion of CO and V representing convex.
+
+[01:05:34.160] chuanwu: Okay, the whole thing here is a Vandler set.
+
+[01:05:37.420] chuanwu: And that set contains all convex combination points of any number of points in a given set S.
+
+[01:05:46.330] chuanwu: best mandatory is expressed this way. So, set S is given, and you choose, any number of points, okay, like, up to S. And, and you do correct combination among those points.
+
+[01:06:00.400] chuanwu: And, the…
+
+[01:06:02.520] chuanwu: Resulting point here, or the convex combination point, should belong to the convex hull of the set.
+
+[01:06:10.790] chuanwu: Okay, more concrete idea will be coming up if you see the examples.
+
+[01:06:16.390] chuanwu: So, say, if we are given a set S. So set S itself doesn't have to be specified to be a connect set, non-commac set, or it doesn't have to be a continuous set as well. In the first example here, set S contains all the discrete points, all the discrete points.
+
+[01:06:35.650] chuanwu: Okay, and then, when we construct a convex code, in fact, the convex code is eventually the minimal convex set containing all the original points in set S.
+
+[01:06:49.060] chuanwu: No matter what set essays left.
+
+[01:06:51.550] chuanwu: Okay, here, all the dots corresponds, it is in the original set S.
+
+[01:06:58.060] chuanwu: And the convex hull is the polygon shape set that we drew here.
+
+[01:07:04.760] chuanwu: Okay, so the reason is, you pick any points and do complex combination. For example, you pick these two points, okay, two points, do complex combination, what you come up with is the… all the points along the line segment.
+
+[01:07:18.540] chuanwu: Right.
+
+[01:07:19.680] chuanwu: And if you took these two points, come examination, come up with a line segment.
+
+[01:07:24.790] chuanwu: And if you do more combination, eventually this feedback is similar. So basically, you see
+
+[01:07:31.480] chuanwu: the, convex hole is, enclosing on the original set. It's the smallest shape that enclosed original points.
+
+[01:07:42.210] chuanwu: And the shape is guaranteed to be the boundary of our command set.
+
+[01:07:50.100] chuanwu: Okay,
+
+[01:07:51.960] chuanwu: The, regarding the notion, let's see more example here, okay? So, say, for example, our original set is this.
+
+[01:08:01.200] chuanwu: Seth S.
+
+[01:08:02.660] chuanwu: Okay, the set is in here, and you know this is not a convex set.
+
+[01:08:07.460] chuanwu: Right, because it is exactly corresponds to a counter example we saw on the previous slide, right? And what about its convex hull? Its convex hull is a set enclosed by the outer contour of the whole shape here.
+
+[01:08:21.950] chuanwu: Okay, this is a convex hole.
+
+[01:08:24.180] chuanwu: So intuitively, you'll know if you pick two points here and draw a line, so that line should be contained in the comments column.
+
+[01:08:32.350] chuanwu: So that's why the outer contour includes everything, and some extra points from the original set, right? And the contour here is of convex… is a contour of a convex set.
+
+[01:08:50.430] chuanwu: If you have more examples, I'll get two, just be 2.
+
+[01:08:54.350] chuanwu: Okay, all right. If you're given,
+
+[01:08:58.990] chuanwu: Concrete example of a set S. It's pretty easy to find out the convex hole, because you just close all everything, and yeah, eventually the set would be a convex, because you can prove it by contradiction.
+
+[01:09:13.319] chuanwu: Okay, okay, so the key point is, convex code is guaranteed to be a convex set, no matter whether the original set is convex or not, discrete or continuous.
+
+[01:09:25.290] chuanwu: So that can be very easily proven by contradiction.
+
+[01:09:29.350] chuanwu: Okay.
+
+[01:09:30.460] chuanwu: If the connect score is not a connect set, that means you can pick two points and draw a line, and some point on the line is not in the set, right? And that will be a contradiction to that the connect score contains the combination of any number of points, including two points.
+
+[01:09:47.470] chuanwu: Right Okay.
+
+[01:09:49.960] chuanwu: So if that is… if you are convinced by that, then the next question is.
+
+[01:09:55.080] chuanwu: Why do I say that COMEX goal is as small as the comeback set of the dealer set?
+
+[01:10:00.570] chuanwu: That part actually can also be proven by contradiction.
+
+[01:10:04.050] chuanwu: You just assume there is another, even smaller one. The one about the extra one, the X one, must be conforming to the form here as well, right? That will be computation.
+
+[01:10:13.660] chuanwu: Okay, so the second part of what I was saying just now appeared in one of the early final exams.
+
+[01:10:20.130] chuanwu: At that time, I was saying only in the class… I was saying that in the class without having ideas fully, and then, you know, final exam, I was testing students and all that, and most of the students got it right, because it's pretty intuitive.
+
+[01:10:34.310] chuanwu: the shots, okay? So if you are not clear why COMEX goal is a minimal COMEX set of any given set, make sure you figure out the idea that.
+
+[01:10:44.700] chuanwu: All good.
+
+[01:10:52.580] chuanwu: Alright, so the next form of command set is related to, codes.
+
+[01:10:59.250] chuanwu: Okay.
+
+[01:11:01.030] chuanwu: So, cones, how do we define a cone? We say a set is a cone if, when we are… when we pick any point in the set and any non-negative coefficient, theta, we have theta times S, the point also belongs to the set.
+
+[01:11:18.950] chuanwu: Okay, and here is the default here. So suppose X1 and X2 are two points, and then here 0 is unreached in this dimensional real coordinate space.
+
+[01:11:32.450] chuanwu: As the sheikh, I told… Okay, my… oh, it doesn't show up here.
+
+[01:11:41.300] chuanwu: So I have… yeah, I do have shaker.
+
+[01:11:45.090] chuanwu: Yeah, if you,
+
+[01:11:47.540] chuanwu: If you check out the slide, or the two screens there, you will see the shape. Somehow here, this projection underneath the shape. The visual abstraction in the, between the two lines, two grids.
+
+[01:11:59.680] chuanwu: Okay, and the shaded area corresponds to a concept.
+
+[01:12:04.830] chuanwu: So the reason is, if you pick any two point or any single point in a set, and then you draw… you do the ray, starting from the origin, and shooting towards, and shooting beyond that point, the whole ray belongs to the set.
+
+[01:12:21.380] chuanwu: The Z is described by theta X, where theta is positive, non-negative value.
+
+[01:12:27.960] chuanwu: Right.
+
+[01:12:29.040] chuanwu: Okay.
+
+[01:12:30.380] chuanwu: Alright, then, what is about convex codes?
+
+[01:12:37.200] chuanwu: So, a set is a convex cone. First of all, it is a cone, and it is convex.
+
+[01:12:44.170] chuanwu: Okay.
+
+[01:12:45.160] chuanwu: And, the, mathematical, verification of the definition is if you pick any two points in a set, and the two coefficients, non-active coefficients, ZVA1 and Zeta2.
+
+[01:12:58.990] chuanwu: And you combine the payment points into a new point, theta, what, X what, theta, 2X2, then the new point should belong to theta.
+
+[01:13:09.710] chuanwu: So, if this convention is satisfied, it's easy to verify the sales key, first of all, is a quote.
+
+[01:13:17.800] chuanwu: And then, second, it is collapsed.
+
+[01:13:21.610] chuanwu: It's very easy to verify, so I…
+
+[01:13:25.890] chuanwu: leave it to you if you don't believe it. Okay, all right,
+
+[01:13:31.640] chuanwu: So from the example here, so the call.
+
+[01:13:36.700] chuanwu: Here, with the shape in the tree. Okay, just think about the ice cream cone, or the McDonald ice cream cone. Okay, so the cone here is a comic form, right?
+
+[01:13:47.050] chuanwu: Because it is a cone, and it is complex, because if you pick any two points, then the line section is content. So the first example here is a max call.
+
+[01:13:56.240] chuanwu: Then, the last thing is… Oh, it's interesting.
+
+[01:14:01.540] chuanwu: I need to change the shape color of the other one, so this part is also showing.
+
+[01:14:08.380] chuanwu: Alright, so in the second example.
+
+[01:14:11.240] chuanwu: So the whole set consists of two pieces.
+
+[01:14:14.670] chuanwu: So the purple cone part, the end of this shaded part.
+
+[01:14:19.790] chuanwu: Alright, and for this set, it is a quote.
+
+[01:14:23.790] chuanwu: No problem, right?
+
+[01:14:26.130] chuanwu: Because it contains all the risks going through any point.
+
+[01:14:29.950] chuanwu: But it is not a convex home.
+
+[01:14:33.700] chuanwu: The reason is, if you pick one point there, another point here.
+
+[01:14:37.470] chuanwu: Then, apparently, the line segment in between is not entirely compatible.
+
+[01:14:42.790] chuanwu: So this is an example where I want to show the whole set here. It's two pieces together, it's cone, not convex cone.
+
+[01:14:56.190] chuanwu: All right, and then it comes up, and the definition cone brings up a notion. The notion is about conic combination. Konic combination is also called non-active combination, it's here. So again, it's combination between two points, and actually more points.
+
+[01:15:15.990] chuanwu: And the, the, what is, special is related to the,
+
+[01:15:20.950] chuanwu: coefficients. So here, we require every coefficient to be non-active.
+
+[01:15:26.320] chuanwu: But we don't require that to be somehow to what?
+
+[01:15:29.150] chuanwu: Okay, and then this is, colic, so-called colic combination.
+
+[01:15:34.540] chuanwu: All right, and following up, we have the notion concept related to proper code.
+
+[01:15:41.890] chuanwu: So the proper cone is, first of all, a convex cone.
+
+[01:15:46.160] chuanwu: Okay, we use space to represent that. It's a subset in a… it's a set in an undimensional real quantitative space, so we use…
+
+[01:15:57.760] chuanwu: Yes.
+
+[01:15:58.670] chuanwu: Okay, so self-set, so it just means k is in the set, in the interdimensional space.
+
+[01:16:05.830] chuanwu: Okay.
+
+[01:16:07.020] chuanwu: Alright, and if this, convex Home K is closed, Meaning, it contains its boundary.
+
+[01:16:14.620] chuanwu: And it is solid, meaning it has non-empty interior. Okay, it has some points in the… it has some points in the interior, and has some points on the boundary, possibly.
+
+[01:16:26.290] chuanwu: And then he is pointed. Pointed meaning it contains no line.
+
+[01:16:32.500] chuanwu: It only can contain half-life, which is called the break.
+
+[01:16:37.040] chuanwu: Okay, it can contain half-life type of risk moving towards one direction out of both directions.
+
+[01:16:42.790] chuanwu: And that's practically how to be sure that
+
+[01:16:45.230] chuanwu: So you're saying if a point in K that's negative of the point in K, then the only possibility for this point is the origin.
+
+[01:16:56.350] chuanwu: Okay.
+
+[01:16:57.340] chuanwu: Under that origin, it can only contains a grade. Okay.
+
+[01:17:00.890] chuanwu: That was my direction.
+
+[01:17:03.500] chuanwu: Alright, so if the three conditions are satisfied, this complex cone is called a proper cone.
+
+[01:17:11.860] chuanwu: So the notion of purple is useful in our definition of a generalized inequality that is coming up.
+
+[01:17:19.860] chuanwu: Alright, but first, let's see some concrete and primers, and both will be heavily used example of proper code in the course.
+
+[01:17:28.100] chuanwu: Okay.
+
+[01:17:29.450] chuanwu: Longactive offset.
+
+[01:17:33.230] chuanwu: So, also the equivalent for quadrant.
+
+[01:17:36.200] chuanwu: Okay.
+
+[01:17:37.710] chuanwu: All right.
+
+[01:17:39.950] chuanwu: And, non-negative offset, okay, expressed this way, R plus N. So what does R plus N mean? Here is an interpretation. So R plus N includes all the n-dimensional vectors.
+
+[01:17:56.210] chuanwu: Where every coordinate of the vector is non-active.
+
+[01:18:03.190] chuanwu: Okay, so here it is an example of R plus 2.
+
+[01:18:08.340] chuanwu: So, on the plan here, we draw a… it is a two-dimensional coordinate state, a two-dimensional plan.
+
+[01:18:15.510] chuanwu: Okay, and the non-active offset is this part.
+
+[01:18:20.380] chuanwu: Roman sounds here.
+
+[01:18:22.060] chuanwu: Okay, because before, I usually want students there to understand what is an offset, a quadrant. Okay.
+
+[01:18:29.870] chuanwu: Okay, you're not, right?
+
+[01:18:33.390] chuanwu: All right. So here, so R plus 2, this part, okay, non-negative, awesome, What was that?
+
+[01:18:42.780] chuanwu: Okay, because, every point in this part of the M plan, the point to the coordinate is X1 and X4 are all nonmeting.
+
+[01:18:53.790] chuanwu: Okay, and, including the two positive, part of the two axis, including all the points in the, in this closet, the whole thing is our definition of the non-negative process.
+
+[01:19:07.880] chuanwu: And the non-active also is a convection, and it is also a proper…
+
+[01:19:14.160] chuanwu: So, it is a quote for the work, right? It's needed to verify.
+
+[01:19:18.380] chuanwu: So this one fourth of the core, and it is… is it whereby it's a coax term?
+
+[01:19:24.860] chuanwu: And we can also verify it's a proper call. So it is closed because it contains a boundary.
+
+[01:19:30.950] chuanwu: between positive access.
+
+[01:19:33.120] chuanwu: Okay.
+
+[01:19:34.320] chuanwu: And then it is solid, because it contains points in its interior, not onto the boundary, right? And it is pointed, because, any point satisfied the negative the point is also in is the origin, the only point is the origin.
+
+[01:19:51.200] chuanwu: So, it's a typical example of a proper flow.
+
+[01:19:55.790] chuanwu: And the next example is related to the matrix set.
+
+[01:20:00.520] chuanwu: Okay, so here, the positive semi-definite cone here is, Or purple as well.
+
+[01:20:08.120] chuanwu: Yes, so, in order to understand what is a positive semi-definite cone, the notion is on the next slide.
+
+[01:20:17.420] chuanwu: So here, in the context of textbook, and also in the context of the whole course, so we use S to represent the set of symmetric n times n matrices.
+
+[01:20:29.980] chuanwu: Okay, N times N matrices.
+
+[01:20:32.260] chuanwu: And if we add a further subscript, Okay, plus.
+
+[01:20:36.880] chuanwu: Then, it means the set of positive semi-definite n times n negative.
+
+[01:20:42.880] chuanwu: Okay, positive, semi-definite. And the notion, is here.
+
+[01:20:48.750] chuanwu: So X, big X there is a positive semi-definite matrix.
+
+[01:20:56.850] chuanwu: And if we use a specialized null, symbol, inequality symbol, X.
+
+[01:21:07.200] chuanwu: Larger equal to zero. The larger cosine is slightly different.
+
+[01:21:15.910] chuanwu: So we call it the generalized inequality side, and if one side of the generalized inequality is a symmetric matrix.
+
+[01:21:24.440] chuanwu: The notion, the whole notion here is X is a positive semi-definite matrix.
+
+[01:21:31.440] chuanwu: Okay, positive 7 definite matrix. And S plus N is a set of positive 7 definite matrix.
+
+[01:21:38.870] chuanwu: Probably, many of you haven't seen this motion before, but after you have got familiar with it, it will actually become pretty straightforward.
+
+[01:21:48.920] chuanwu: And we'll likely use it again and again in examples, discussions in the course.
+
+[01:21:55.130] chuanwu: Okay, and if you forget what positive semi-definite matrix means, so here is a revision.
+
+[01:22:01.600] chuanwu: So if X belongs to X plus N, meaning X is a positive semi-density matrix, then what it concretely means is, if you choose any vector D, n-dimensional vector D, and you calculate D transpose XD,
+
+[01:22:16.160] chuanwu: The result is a scalar value, and that scalar value is not active.
+
+[01:22:20.500] chuanwu: Well, and they need?
+
+[01:22:22.550] chuanwu: So that's the definition of positive semi-definatrix.
+
+[01:22:25.940] chuanwu: I believe most of you learned it before.
+
+[01:22:28.500] chuanwu: Okay, here, it's just a revision.
+
+[01:22:33.680] chuanwu: Okay, and further moving on, we add another plus sign.
+
+[01:22:37.890] chuanwu: In a subscript. And what it means is, that is a set. What it means is, that is a set containing all the positive, definite matrix.
+
+[01:22:48.860] chuanwu: Matrices.
+
+[01:22:50.810] chuanwu: Okay, and similarly here, if X is, n times n symmetric matrix, and we say X larger than 0 using this specialized important design, larger sign.
+
+[01:23:04.280] chuanwu: it means the idea is X is a positive definite matrix.
+
+[01:23:11.190] chuanwu: I'll be patient.
+
+[01:23:12.600] chuanwu: The positive definite matrix definition is there. So for any Z other than all 0 vector Z, D transpose XZ should be larger than 0.
+
+[01:23:23.220] chuanwu: Right.
+
+[01:23:25.040] chuanwu: That's a definition, positive dynamic matrix.
+
+[01:23:28.080] chuanwu: Okay, back to our notion of proper comb. So we were saying S plus F, the set of positive semi-definite matrices, or positive semi-definite cone.
+
+[01:23:40.660] chuanwu: is, proper.
+
+[01:23:43.220] chuanwu: Okay, powerful.
+
+[01:23:44.790] chuanwu: So why is the… sorry.
+
+[01:23:51.790] chuanwu: Here. So, verify the definitions. So why is a proper cone? So, first of all, it is, then we need to be clear what is on the boundary and what is, what is, in the interior of that positive semi-definite.
+
+[01:24:08.940] chuanwu: So, for positive semi-definite cone, the interior of the cone contains all the positive definite matrices.
+
+[01:24:19.570] chuanwu: They need full rack matrices.
+
+[01:24:22.320] chuanwu: Okay, full wrapped matrices.
+
+[01:24:24.490] chuanwu: And, what about the,
+
+[01:24:27.850] chuanwu: What about the, points?
+
+[01:24:31.110] chuanwu: On the boundary of the positive semi-dynamic cone.
+
+[01:24:35.840] chuanwu: So the boundary points of a positive 71 cone corresponds to a singular positive semi-definite matrices, meaning the matrices would have at least one zero valued eigenvalue, or at least one of the eigenvalues of the matrix is 0.
+
+[01:24:56.650] chuanwu: Okay.
+
+[01:24:58.080] chuanwu: So it's not too bad.
+
+[01:25:00.820] chuanwu: Alright, okay,
+
+[01:25:03.330] chuanwu: So using that notion, based on that notion, we can verify. So the positive cognitive cone contains this, boundary, because boundary corresponds to a single or positive 7-depth matrix with at least one zero value n value.
+
+[01:25:17.040] chuanwu: Right? And it has not anti-interior, because its interiors, consist of positive definite matrices.
+
+[01:25:24.450] chuanwu: And that means there are many positive damage.
+
+[01:25:28.500] chuanwu: And it's pointed. So, pointed meaning, if, X, belongs to S plus F, okay, X is a matrix.
+
+[01:25:39.090] chuanwu: the metric matrix. And the negative X belongs to S plus F.
+
+[01:25:44.500] chuanwu: The only choice is X is an all 0.
+
+[01:25:48.500] chuanwu: Matrix.
+
+[01:25:50.760] chuanwu: all zero matrix. It's easy to verify, because X cannot be in positive semi-designate or an active semi-designate concurrently, other than at this all zero matrix.
+
+[01:26:04.790] chuanwu: Okay, so that can be verified using a very basic definition of positive settings.
+
+[01:26:10.810] chuanwu: Okay.
+
+[01:26:12.650] chuanwu: Alright.
+
+[01:26:14.380] chuanwu: So therefore, we know S plus N is a proper call.
+
+[01:26:20.180] chuanwu: And why we bother to spend such much time talking about
+
+[01:26:24.090] chuanwu: proper code. The reason is, proper code is very important and neat to use in defining generalized inequality.
+
+[01:26:32.740] chuanwu: Okay, so what is an inequality for something wrong? So we all know what is an inequality in R+. So what is R plus? So R plus contains all the scalar points. Those values are not active.
+
+[01:26:47.210] chuanwu: Okay, and, if we do this, our class.
+
+[01:26:52.010] chuanwu: As more intuitive is it?
+
+[01:26:54.650] chuanwu: What is our class?
+
+[01:26:57.870] chuanwu: So we draw axis, And this is our region.
+
+[01:27:03.170] chuanwu: So, our class?
+
+[01:27:04.560] chuanwu: Contains all the points on the positive half of the axis.
+
+[01:27:10.560] chuanwu: And, we picked two points.
+
+[01:27:13.080] chuanwu: X and Y in our class.
+
+[01:27:16.840] chuanwu: Let's say… X… The earth?
+
+[01:27:20.470] chuanwu: And the Y there.
+
+[01:27:22.660] chuanwu: Okay, X and Y are both scalar fads.
+
+[01:27:26.550] chuanwu: And we know if X is smaller to black.
+
+[01:27:30.520] chuanwu: I would suppose X modeling from Y. Then, equivalently, what it means is, Why…
+
+[01:27:43.740] chuanwu: So X small or equal to Y, equivalent to 2.
+
+[01:27:48.070] chuanwu: Y minus X logic to 0.
+
+[01:27:51.520] chuanwu: Right.
+
+[01:27:53.230] chuanwu: And it also means Y minus X belongs to our class.
+
+[01:28:00.760] chuanwu: Okay, so this is from what we already know.
+
+[01:28:04.080] chuanwu: And why we bother to express it so clearly, and based on the notion of our past and so on, the reason is we want to generalize.
+
+[01:28:13.180] chuanwu: Okay, generalize it.
+
+[01:28:14.870] chuanwu: So, say, X…
+
+[01:28:17.890] chuanwu: Here, we have X smaller to Y, and this is a generalized inequality defined on top of a given proper concave.
+
+[01:28:27.640] chuanwu: So, say here, we specify K as a subscript of the generalized inequality sign. So you should notice this sign is different. Okay, in latex, you use a different command to type it, rather than smaller equal, okay, rather than the general…
+
+[01:28:42.960] chuanwu: Smaller equal. And then,
+
+[01:28:46.610] chuanwu: Y in generalized inequalities more or equal to Y is equivalent to say Y minus X belongs to con k.
+
+[01:28:55.610] chuanwu: And here, Y and X can be n-dimensional vectors.
+
+[01:29:00.740] chuanwu: And if we say X, in terms of generalized inequality defined on K is smaller than Y, that is… that means, equivalently, Y minus X is a point in the interior of cone K.
+
+[01:29:19.110] chuanwu: Okay.
+
+[01:29:20.670] chuanwu: All right. So here we… this is a definition of generalized inequality, but if you map it using the very simple inequality we are all familiar with, in R+, what we know as, this inequality is defined in R+. Okay, R+.
+
+[01:29:39.990] chuanwu: Non-negative offset, you know, one-dimensional coordinate space is a proper cone, right? R plus, first of all, is a proper cone, that's what we already established. And,
+
+[01:29:51.850] chuanwu: Then, exactly what we define here is corresponding… is a concrete example of the generalized inequality, if our K is exactly that R+.
+
+[01:30:03.820] chuanwu: Okay, and moving on, if not just the R plus, if we have, K equals R plus N. So R plus N is exactly the non-negative offset example we drew on one of the earlier slide… slides.
+
+[01:30:19.920] chuanwu: Okay, if the generalized inequality is defined, R non-active offset, R plus N.
+
+[01:30:28.360] chuanwu: And that's equivalent to say…
+
+[01:30:43.870] chuanwu: X.
+
+[01:30:48.670] chuanwu: R. That's F.
+
+[01:30:50.930] chuanwu: Why? Okay, so that would be equivalent to that Y minus X belongs to our class F.
+
+[01:31:01.940] chuanwu: Right? So Y minus X is a point in R plus a non-active offset.
+
+[01:31:07.820] chuanwu: Okay, and, Y is, n-dimensional… n-dimensional vector?
+
+[01:31:16.680] chuanwu: And S is a n-dimensional vector.
+
+[01:31:23.260] chuanwu: So this, the difference vector is in R plus F.
+
+[01:31:28.440] chuanwu: According to the definition of R plus F,
+
+[01:31:31.850] chuanwu: Every coordinate. Okay, so the result is here.
+
+[01:31:40.090] chuanwu: Okay.
+
+[01:31:41.180] chuanwu: So if this new point, the dimensional point, is in R plus N, what does that imply? It's…
+
+[01:31:49.220] chuanwu: Every coordinate in the vector.
+
+[01:31:53.270] chuanwu: It's largely equal to zero, right? Because for every point in the non-active offset, every coordinate of it is non-active.
+
+[01:32:01.390] chuanwu: Right? And does that exactly give us…
+
+[01:32:05.040] chuanwu: Yi, larger equal to Xi. And then the logical here is the
+
+[01:32:11.750] chuanwu: Later ego sign, we are familiar with.
+
+[01:32:14.790] chuanwu: For scalar, between two scalar values.
+
+[01:32:17.880] chuanwu: Right.
+
+[01:32:19.140] chuanwu: So that is how we derive Yeah, the prevalence here.
+
+[01:32:24.290] chuanwu: So, if we define a vector X as no larger than a vector Y in the un-dimensional space.
+
+[01:32:32.240] chuanwu: Then, what we exactly have is every component
+
+[01:32:36.950] chuanwu: in the vector X is no larger than the corresponding component in vector 1.
+
+[01:32:42.590] chuanwu: And we call it component-wise inequality.
+
+[01:32:46.470] chuanwu: Right.
+
+[01:32:47.890] chuanwu: I believe most of you are thinking, oh, this is intuitive, because in some of your previous course, or in your study, you already know, if you compare two vectors, what we are doing is we actually compare component-wise.
+
+[01:33:02.760] chuanwu: Hi.
+
+[01:33:04.090] chuanwu: Yes, exactly this is conforming to what we already know, and this is a more systematic way of defining this generalized inequality. The reason is, we not only can define generalized inequality in an undimensional real coordinate space, or on top of a non-active offset in a new dimensional real coordinate space.
+
+[01:33:23.780] chuanwu: We could also define
+
+[01:33:25.470] chuanwu: the, inequality on top of other… in other spaces, for example, in, positive semi-depth matrix codes.
+
+[01:33:34.050] chuanwu: Always look here, it sucks.
+
+[01:33:36.050] chuanwu: Alright, so if you're comparing full matrices.
+
+[01:33:39.630] chuanwu: Okay, using a generalized inequality defined on the positive semi-definite matrix cone, so here it is.
+
+[01:33:48.000] chuanwu: So ask, first of all, when we consider… so, essentially, most of the matrices, or almost all the matrices we consider in the course are symmetric matrices. Okay, symmetric matrices. And, and then the,
+
+[01:34:03.610] chuanwu: When we define the generalized inequality on top of what the positive semi-depth matrix column, what it is equivalent to is, Y minus X, the difference matrix between two given symmetric matrices.
+
+[01:34:18.560] chuanwu: It's a positive semi-definite matrix.
+
+[01:34:22.130] chuanwu: Okay, so this is also conforming to our definition, above.
+
+[01:34:33.880] chuanwu: Alright, so we have big acts.
+
+[01:34:37.050] chuanwu: Generalized inequality, S plus M. Why?
+
+[01:34:42.780] chuanwu: Equivalent to 2.
+
+[01:34:44.860] chuanwu: Why?
+
+[01:34:46.200] chuanwu: minus X.
+
+[01:34:47.940] chuanwu: belongs to us plus it.
+
+[01:34:51.620] chuanwu: And Y minus X is a new symmetric matrix. It belongs to S plus N links. Y minus X is a positive semi-definite matrix.
+
+[01:35:02.590] chuanwu: Okay.
+
+[01:35:05.770] chuanwu: Alright!
+
+[01:35:07.010] chuanwu: In fact, these two types of generalized inequality are so common that when we denote the two types of generalized inequality, we can commonly drop the subscript.
+
+[01:35:20.840] chuanwu: Okay, so that means, at least in the context of the course, and actually also in most of the open meditation-related literature.
+
+[01:35:28.930] chuanwu: If you'll see.
+
+[01:35:30.740] chuanwu: two vectors, okay, two vectors, X and Y usually put down units.
+
+[01:35:35.900] chuanwu: Lowercase, default, letters.
+
+[01:35:39.010] chuanwu: If you say people are saying this, okay, generalizing equality design, X module to Y,
+
+[01:35:45.000] chuanwu: That means we are doing component-wise comparison.
+
+[01:35:49.130] chuanwu: Between the two vectors.
+
+[01:35:50.970] chuanwu: And if you'll see two matrices, X and the Y hat.
+
+[01:35:55.700] chuanwu: Okay.
+
+[01:35:57.050] chuanwu: and symmetric matrices. If people put down a less generalized inequality between the two matrices.
+
+[01:36:05.000] chuanwu: What you should know is the difference matrix, right-hand side minus left-hand side, is a positive semi-definite matrix.
+
+[01:36:12.350] chuanwu: Okay, in both cases, we just drop the case.
+
+[01:36:16.170] chuanwu: Okay, because they are commonly accepted.
+
+[01:36:23.090] chuanwu: Okay.
+
+[01:36:24.160] chuanwu: And, the last…
+
+[01:36:27.640] chuanwu: point. Okay, the last notion related to generalized inequality is, above, we define generalized inequality on top of a proper quote.
+
+[01:36:38.380] chuanwu: And this is such generalized inequality, defined on a proper code, is in general not a total artery.
+
+[01:36:47.060] chuanwu: Meaning, you pick any two points in the quotes. It's likely you cannot really compare that. It's not like one is smaller than the other, or one is larger than the other.
+
+[01:36:59.960] chuanwu: Okay, concrete example.
+
+[01:37:04.570] chuanwu: So, in effect, for… the,
+
+[01:37:10.630] chuanwu: Comparation defined in real coordinate space, one-dimensional real coordinate space, is a total arbitrary, because along the single axis, you pick two points, you can always compare that.
+
+[01:37:22.010] chuanwu: one is smaller, the other is bigger, or the other way around, right? But what if it extends to n-dimensional real coordinate space, or the matrix spaces.
+
+[01:37:32.940] chuanwu: It's very common that two points are not comparable.
+
+[01:37:36.960] chuanwu: Okay, so for example, X, is a vector field.
+
+[01:37:42.420] chuanwu: And why is, vector there?
+
+[01:37:47.540] chuanwu: Which was… Oh, it's not this, yes.
+
+[01:37:59.280] chuanwu: So each letter is bigger? We don't know, right? Not comparable object. Component-wise comparison doesn't come up with a consistent conclusion, right?
+
+[01:38:09.950] chuanwu: And when it comes to the matrix space, you are given any two, positive, any two symmetric matrix. It's very likely a different matrix is not positive semi-depth, negative semi-depth. It's just nothing, right? Okay, all right.
+
+[01:38:27.750] chuanwu: Okay, that's an idea.
+
+[01:38:49.160] chuanwu: Okay, I'll give you expectations, we will stop at 1150.
+
+[01:38:54.280] chuanwu: Alright.
+
+[01:38:55.900] chuanwu: Okay, let's continue.
+
+[01:38:59.320] chuanwu: Yeah, hypermit!
+
+[01:39:01.370] chuanwu: So in the n-dimensional space, so we know in the two-dimensional space, we can draw a line. Extending the notion to n-dimensional space, we have hyperplane. Okay, hyperplane.
+
+[01:39:13.540] chuanwu: So the hypertension is defined this way. So hypervalence contains all the points, X, and dimensional vectors, whose inner project with a given vector, A, which we call normal vector is a fixed constant B.
+
+[01:39:30.570] chuanwu: Okay, A transpose X equals B.
+
+[01:39:33.460] chuanwu: And here A is normal vector, it shouldn't make viral, and, the,
+
+[01:39:39.980] chuanwu: We have a plan. It's actually just, like, a plan in an dimensional space, on a two-dimensional space, it is just a lot.
+
+[01:39:50.040] chuanwu: All the normal vector about that.
+
+[01:39:58.600] chuanwu: And then, using that definition, we come up with phosphates.
+
+[01:40:03.140] chuanwu: So, if, in the definition of a hyperplan, we change the, equality to inequality, then we come up with a definition of half states. So, first of all, this is a hyperplan, defined by the normal vector and the constant P.
+
+[01:40:19.520] chuanwu: And if we have A transpose X larger equal to B, it points to this part of the tent, this part of the space, half space. And if we have A transpose X module to B, it points to the other half of the space, half space.
+
+[01:40:36.940] chuanwu: Okay.
+
+[01:40:38.140] chuanwu: So half spaces are complex, you can easily verify.
+
+[01:40:42.720] chuanwu: Okay, and hyperplanes are convex as well, and also are fine. We can verify those using definitions.
+
+[01:41:04.300] chuanwu: Okay, and then, another… the other example of convex set is, other examples of convex sets include Euclidean bores and the elif soils.
+
+[01:41:16.210] chuanwu: All right, so how do we define a fourth? We know, it's a simple extension from the notion or definition of four, from, two-dimensional space in two-dimensional space.
+
+[01:41:29.870] chuanwu: So when we define a board in an dimensional space, we need to be given two quantities. One is the center of the board, and the other is the radius of the board. Okay, center radius defined, the board is defined.
+
+[01:41:41.880] chuanwu: And mathematically, this is how we define it. So the bore on center XC and the radius R is defined to be all points, satisfying that the Euclidean distance between X and XC is no larger than R.
+
+[01:41:58.980] chuanwu: Okay, or equivalently, we can come up with all the points in the board in the way of XC plus RU, where XC is given, R is given, and U can vary.
+
+[01:42:11.660] chuanwu: U is a factor whose naught is no larger than 12.
+
+[01:42:16.360] chuanwu: Okay, for this, I can show you some geometrical illustration.
+
+[01:42:39.240] chuanwu: Okay, so we just… we show the case, in a two-dimensional space.
+
+[01:42:46.400] chuanwu: Alright, so this is our region, and that is the center, and and what about you?
+
+[01:42:56.990] chuanwu: So U is, vector, okay, two-dimens. In this example, XC is two-dimensional vector, U is two-dimensional vector. We say U's norm is no… the norm, L2 norm, is no larger than 1.
+
+[01:43:12.100] chuanwu: Meaning the length of the vector, geometrically, is no longer than 1.
+
+[01:43:17.820] chuanwu: Okay.
+
+[01:43:18.770] chuanwu: Alright, so you can feel vector pointing towards any direction.
+
+[01:43:23.190] chuanwu: So you can be a vector shooting there, you can be a vector, slightly shorter vector shooting up, another vector shooting downwards, another vector no matter what, right?
+
+[01:43:34.110] chuanwu: So as long as the,
+
+[01:43:38.520] chuanwu: The length of vacuum in draft.
+
+[01:43:41.940] chuanwu: It's no longer than what should we vary all the possible vectors, and then the resulting vector?
+
+[01:43:56.020] chuanwu: Okay.
+
+[01:43:57.540] chuanwu: So, first of all, this is XC, where XC is, and if we drew it geometrically, we know it's a vector shooting from the origin towards that point. So that is XC.
+
+[01:44:09.650] chuanwu: And if this is a particular U, Okay, Doctor, you.
+
+[01:44:15.220] chuanwu: We move its starting point from the origin to FC.
+
+[01:44:18.870] chuanwu: But then you're actually decided by the vector itself.
+
+[01:44:22.160] chuanwu: And what about the vector sphere?
+
+[01:44:27.500] chuanwu: If you connect the origin with the end point of view.
+
+[01:44:32.780] chuanwu: This corresponds to the vector of XC plus You… Right, XC plus U.
+
+[01:44:40.620] chuanwu: Okay, and in coming up with all the dots, all the points in the board.
+
+[01:44:46.040] chuanwu: So here, you can be skilled. You itself, the lens is no longer than what?
+
+[01:44:51.830] chuanwu: And we can skill you by the radius up.
+
+[01:44:55.630] chuanwu: Right? And then, geometrically, you can see X plus RU can be a point, would be a point in the ball.
+
+[01:45:04.120] chuanwu: And when we vary, you become a vector of all different lenses within one, and of shooting towards all different directions, we come up with all the points in the ball.
+
+[01:45:16.930] chuanwu: Okay.
+
+[01:45:21.980] chuanwu: And ellipsoid. Okay, so enlipsoid is just a different shape from the board. And ellipsoid is defined by more parameters.
+
+[01:45:33.590] chuanwu: And we at least have a center, and hopefully have a center of a helix circle.
+
+[01:45:39.670] chuanwu: And we also need to know the length of semi-made axis of the ellipsoid in its definition, and the length of the semi…
+
+[01:45:51.550] chuanwu: axis of, ellipsoid is captured by the, matrix P there.
+
+[01:45:59.250] chuanwu: So P is a symmetric positive definite matrix. So most of the matrices we encountering, of course, is symmetric.
+
+[01:46:07.920] chuanwu: So, PSA metric, positive definite matrix.
+
+[01:46:11.380] chuanwu: And we can express an ellipsoid in undimensional space in this way. So X minus XC, vector transpose P inwards, P inactive 1 means P is inwards, then X minus XC.
+
+[01:46:24.890] chuanwu: So P is positive definite, so a full round matrix is converted positive definite matrix is not all invertible.
+
+[01:46:32.500] chuanwu: Alright, we'll concretely get how
+
+[01:46:40.020] chuanwu: We have examples to show how to concrete the gap is related to the length of semi-axis of the, elixoid is here. So, in fact, left eye is, eigenvalue…
+
+[01:46:53.160] chuanwu: So if he is undimensional, then, the enixoid
+
+[01:46:58.080] chuanwu: If the enixoid is in the n-dimensional space, that means X is the dimensional vector, P is times the symmetric positive detonate matrix, and the ellipsoid would have a semi-axis.
+
+[01:47:12.370] chuanwu: Okay, in this, you've done four full-dimensional.
+
+[01:47:16.530] chuanwu: full semi-axis.
+
+[01:47:18.470] chuanwu: of God.
+
+[01:47:19.610] chuanwu: electroly to decide its shape. In n-dimensional space, we have N semi-axis.
+
+[01:47:26.180] chuanwu: Okay.
+
+[01:47:27.450] chuanwu: And the peer has the…
+
+[01:47:30.000] chuanwu: different. P has react different. So P has non-zero eigenvalues.
+
+[01:47:37.540] chuanwu: Okay, see, lambda I is one of them.
+
+[01:47:40.390] chuanwu: And that the ideal virus corresponds to the length of the semi-axis.
+
+[01:47:44.600] chuanwu: So, square foot of that.
+
+[01:47:47.710] chuanwu: Okay.
+
+[01:47:52.340] chuanwu: All right, we'll soon see a complete example how he is related to a semi-axis lens on the next page, but here, let's draw another, generalize the formulation of the invisoid as well.
+
+[01:48:05.410] chuanwu: So here, if XC is the center of the exploit, and A is a square and a non-singcular matrix related to peak, okay, A squared, meaning it's, it's, N times N.
+
+[01:48:19.300] chuanwu: And, non-slever, meaning it's invert, or invertible.
+
+[01:48:25.560] chuanwu: And P is actually, P, A is actually P's, square root, okay, or P1 half. What does it mean?
+
+[01:48:35.110] chuanwu: So A equals P1 half a square root is equivalent to, say, A times 8.
+
+[01:48:43.680] chuanwu: equals P.
+
+[01:48:45.840] chuanwu: Okay, 80 multiplied itself equals P.
+
+[01:48:50.730] chuanwu: So when… if we know P there, we can come up with A. And u can be any vector whose length is no longer than 1.
+
+[01:48:59.660] chuanwu: And we formulate all the thoughts, all the points conforming to this, but where in youth, we come up with soil as well.
+
+[01:49:09.310] chuanwu: Okay, it is comparable to the formulation of the board, comparable to the formulation of XC plus RU con activation point in the board. Here, XC plus AU comes up to a point there in soy.
+
+[01:49:27.380] chuanwu: Okay, so those are all generalized notions, and let's use a two-dimensional example to show you completely what P is like, what A is like in this example.
+
+[01:49:39.320] chuanwu: Alright, so this is the EXOID. I think most of us started it in, you know, school, that's class.
+
+[01:49:46.310] chuanwu: My center is the origin, and the two semi-axis say one is R1, and the other is R2.
+
+[01:49:53.300] chuanwu: And we actually also know,
+
+[01:49:56.330] chuanwu: from our high school textbook. This is the formula.
+
+[01:50:00.530] chuanwu: Deciding that he'll swipe.
+
+[01:50:02.680] chuanwu: Right.
+
+[01:50:03.800] chuanwu: Okay.
+
+[01:50:04.810] chuanwu: So X1 squared, two coordinates of every point here. So X1 squared minus X, divided by R1 squared plus X2 squared divided by R2 squared to 1, this is the formula deciding the elixoid. Or, every point in the elixoid
+
+[01:50:23.390] chuanwu: The one that conforms to this thing you call it, right?
+
+[01:50:27.450] chuanwu: Okay.
+
+[01:50:28.430] chuanwu: And then, in our generalized denotion,
+
+[01:50:32.110] chuanwu: Using our formulation on the previous page.
+
+[01:50:35.190] chuanwu: So here, XC is zero, and the peak, our peak, is here.
+
+[01:50:40.880] chuanwu: He has a positive semi-depth matrix.
+
+[01:50:43.440] chuanwu: And then you can see its, eigenvalue would be…
+
+[01:50:47.400] chuanwu: So, I mean, that's access to that little square.
+
+[01:50:51.340] chuanwu: And P inverse is here, very easy to show, this is P inverse, and then our A is here. A times A equals P, you can daily verify.
+
+[01:51:01.180] chuanwu: Okay, so if you plug in piece of plane tricks value here into the our… sorry.
+
+[01:51:14.810] chuanwu: General formulation here.
+
+[01:51:17.310] chuanwu: You will exactly come up with the inequality that we studied in middle school, you know?
+
+[01:51:24.390] chuanwu: Right.
+
+[01:51:26.450] chuanwu: Okay, and then bores are special cases of elf soils.
+
+[01:51:30.970] chuanwu: So where all the semi-axis lens is the same as the radius?
+
+[01:51:36.080] chuanwu: And our P equals R squared.
+
+[01:51:39.530] chuanwu: Hence, identity matrix.
+
+[01:51:43.020] chuanwu: Okay, so you can indeed verify that.
+
+[01:51:46.540] chuanwu: All right, I think I already go beyond 11.50. So I'll stop here, and we will continue with our lecture next.
+
+[01:51:55.950] chuanwu: He was sick.
+
+[01:52:00.540] chuanwu: Holy cow.

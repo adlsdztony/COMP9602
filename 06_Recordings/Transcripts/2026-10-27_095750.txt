@@ -1,0 +1,1344 @@
+COMP9602 Optimization — 2026-10-27 09:57:50
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/OnBVRFuux_mKCCjs94eyXgBK6YVH6NanQCDc1jPKWpXg-g7daxrfca1-4poWuLcm.LSHdc5CMzM6iCrTA
+保存日期：2026-11-08
+
+[00:02:35.220] Chuan Wu: Alright, good morning, everyone. Welcome to today's optimization class. Let's get started.
+
+[00:02:40.740] Chuan Wu: We have been working on the algorithms to solve COMEX program. So, especially, we have been talking about the core theory, which is underlying most of the algorithms that we are introducing in the course, which is about strong duality, duality Innovations.
+
+[00:02:56.040] Chuan Wu: And we've been looking at how we have applied the CRA in designing the algorithm for unconstrained validation. And moving on, we'll be looking at more and more complex convex program, and looking at how we can design algorithms to solve them. So, especially the next step is to look at equality-constrained convex program.
+
+[00:03:15.860] Chuan Wu: And then we'll be moving on to your art.
+
+[00:03:19.290] Chuan Wu: generic convex program with equality and non-equality constraint. And we will be also looking at the programs with differentiable functions, objective constraint functions, as well as those without differentiable functions involved.
+
+[00:03:35.630] Chuan Wu: Okay, so moving on, we check out this equality constraint convex program. So here, objective function FX is convex.
+
+[00:03:44.090] Chuan Wu: And especially for the set of algorithms we are introducing, they still require that the function to be differentiable. And especially, we require it to be twice continuously differentiating. When we check out this condition, probably it reminds you of, Hashimatrix.
+
+[00:04:00.100] Chuan Wu: And yes, because we're calculating passion metrics, so we have to, assume that it's price differentiable, continuously differentiable.
+
+[00:04:08.200] Chuan Wu: And then, we have constraints. We know in convex program, the constraints have to be affined. So here we have AX equaling B, and A is a P times N matrix. So N is corresponding to the variable dimension, and P is corresponding to the number of equalities in the set of equality constraints.
+
+[00:04:27.760] Chuan Wu: And here, we just assume A's rank equaling P. Okay, so P equalities, and the rank of the constraint matrix A is P. That implies the, those equalities, the, the linear independent.
+
+[00:04:41.930] Chuan Wu: Okay, so each one of them is useful. Okay, and then we assume the optimal value, P-star, is finite and attacked, meaning we can indeed find out the optimal solution, X, achieving the minimum FX, subject to AX equaling B.
+
+[00:04:57.990] Chuan Wu: Okay.
+
+[00:04:58.890] Chuan Wu: So for such a problem, what is the optimization? So we have… we have a complex program, and all the functions involved are differentiable.
+
+[00:05:08.180] Chuan Wu: Then, naturally, kcating conditions are the set of sufficient and the necessary conditions to establish optimality, optimal… we can solve… we can set up, put down the kitting conditions, and then we can solve it, and then that is, optimal X star we can derive, and probably some…
+
+[00:05:25.670] Chuan Wu: your optimal value as well, optimal solution as well. Okay, so for such a equally constrained mitigation problem, we want to add the FKV conditions, so think about it.
+
+[00:05:36.650] Chuan Wu: So we know under TKD, there are four rules of conditions. So the first group is the primal constraints. Okay, primal constraint here.
+
+[00:05:45.580] Chuan Wu: Okay, so AX star equating B, primal constraint. And then the second group is dual constraint. So we know dual constraint is we have lambda larger than the… larger equal to zero, and lambda should be associated with inequality constraint. And for the primal problem we are checking out here, it doesn't have
+
+[00:06:02.660] Chuan Wu: inequality constraint group. So therefore, the viewer constraint is none. Okay, no. Okay, the second group is none. How about the third group? So the third group of KKD Foundation is saying complementary slackness.
+
+[00:06:14.970] Chuan Wu: When we only have equality constraints, the complementary slackness is naturally satisfied.
+
+[00:06:20.500] Chuan Wu: Right? Okay, so therefore, the third book is apparently also kind of…
+
+[00:06:25.600] Chuan Wu: Eden under AX star equaling B. And then the fourth group. So the fourth group of condition, as we saw in a few examples before, it is often the most unusable condition, set of conditions.
+
+[00:06:38.140] Chuan Wu: that we can apply, that we can exploit to solve the, COMEX program, okay, or more solutions.
+
+[00:06:45.720] Chuan Wu: Yeah, so for the, you call it the constraint.
+
+[00:06:49.410] Chuan Wu: Okay, for this equality constraint,
+
+[00:06:54.300] Chuan Wu: convex program, so let's assume mu. Okay, so this mu variable, p-dimensional, is associated with the equality constraint. Then what is Lagarangian looking like?
+
+[00:07:06.350] Chuan Wu: So this is its Lagrangian function, right? And then the fourth group of KKD condition is saying the gradient of the Lagarangian is all zero vector, right? So what is the gradient of this? So FX gradient is negla FX,
+
+[00:07:24.130] Chuan Wu: And U transpose AX. The gradient is A transpose mu.
+
+[00:07:30.500] Chuan Wu: Right, so the coefficient vector, which is in the projecting X wave, so that is the gradient, A transpose nu, so A transpose nu.
+
+[00:07:38.990] Chuan Wu: Okay, so gradient of the Lagrangian equating bureau.
+
+[00:07:42.620] Chuan Wu: So that is our, last group of optimality conditions.
+
+[00:07:47.260] Chuan Wu: Okay, so therefore, for equality constraint from X through 1 here, we essentially have two sets of
+
+[00:07:54.330] Chuan Wu: conditions, automatic conditions. I'll have to be summarized there.
+
+[00:07:58.900] Chuan Wu: Okay, so do these automatic conditions appear familiar to you?
+
+[00:08:04.460] Chuan Wu: So actually, we derived it, showed it earlier, when we talked about complex program. So you can check out that page, you can find out exactly the same condition there, but when we introduce the optimality foundation for equality computing optimization problem, we haven't touched the KKD condition yet.
+
+[00:08:21.790] Chuan Wu: But at that point, we use another way to direct a probability, where such a quality constraint comes through well. At that time, I briefly mentioned, actually, that is a special case of KD reconvation as well.
+
+[00:08:34.870] Chuan Wu: And yes, just now we derived the two sets of conditions that are based on the generic set of KGU combinations.
+
+[00:08:41.870] Chuan Wu: Okay, alright.
+
+[00:08:43.530] Chuan Wu: So once we have optimality conditions, that is good, because we have a target. So we know we can solve for X star, mu star, satisfying the set of optimality conditions.
+
+[00:08:55.350] Chuan Wu: then we are sure they are primal and the pure optimal recession, right? So that's our high-level idea of designing the algorithm to solve equality constraint complex program.
+
+[00:09:07.040] Chuan Wu: So we just try to find a solution to that many equations, and how many equations are there? So over here, we have N, and over there, AX star equating B, we have P. So in total, we have n plus P equations.
+
+[00:09:22.190] Chuan Wu: Okay, and plastic equations to solve.
+
+[00:09:24.830] Chuan Wu: And if we happen to know all the… if it happens that all the equations are linear equations, so, like, when FX is, quadratic, right, and then probably we can just use the algorithm to solve the system equations to solve it exactly.
+
+[00:09:40.700] Chuan Wu: Right? Okay. But often, F may not be quadratic, it can be other form of complex problem. So therefore, we still need numerical algorithm to solve the N plus P equations. And that comes to our algorithm, numerical algorithm design.
+
+[00:09:58.180] Chuan Wu: But anyway, before that, let's first check out one case where the objective function is indeed quadratic, and then we actually can exactly solve for the system of linear equations.
+
+[00:10:11.940] Chuan Wu: analytically, exactly.
+
+[00:10:14.270] Chuan Wu: Okay, so let's check it out. So here, objective function is quadratic.
+
+[00:10:19.400] Chuan Wu: It's a quadratic function, and P is a positive semi-definite matrix, and make sure the objective function is quadratic complex.
+
+[00:10:27.900] Chuan Wu: And then equality constraints, and then if we put down the optimality condition for this exact… for this exact problem. So what do we have?
+
+[00:10:41.060] Chuan Wu: Okay.
+
+[00:10:46.800] Chuan Wu: So that is a generic form of optimality condition. So we have derived on the previous slide. And for this concrete objective function, so what it becomes. So the objective function's gradient. So what is it? So the objective function's gradient is exactly here.
+
+[00:11:18.780] Chuan Wu: Okay, so this is the concrete set of optimality conditions for the given quadratic program.
+
+[00:11:25.760] Chuan Wu: Hmm. Okay.
+
+[00:11:27.300] Chuan Wu: And putting it down in the matrix form is exactly as what we have here. So, P multiply… sorry.
+
+[00:11:39.550] Chuan Wu: Okay, so P multiply X, and then plus A transpose mu equating negative Q, so Q can move to the right hands of the equation, and the second row, we have AX star equating B, so AX equating B.
+
+[00:11:54.760] Chuan Wu: Okay, so the… this is just a concept form, a matrix form, of expressing the MPAS P equations we derive as optimality conditions for the problem here.
+
+[00:12:05.010] Chuan Wu: Okay.
+
+[00:12:06.100] Chuan Wu: Alright, and then when we are looking at the optimality conditions expressed in this way, the coefficient matrix here has a name. It's called KKT matrix.
+
+[00:12:17.040] Chuan Wu: Why? Because the root of this set of conditions is KKD condition.
+
+[00:12:23.450] Chuan Wu: Okay, KKD matrix. And then, if the KKD matrix is non-singular, meaning it's invertible, then we can solve for X star new star uniquely.
+
+[00:12:35.310] Chuan Wu: And the exact ballet.
+
+[00:12:36.960] Chuan Wu: And in closed form.
+
+[00:12:38.870] Chuan Wu: Okay, kind of close form. Okay, all right.
+
+[00:12:43.250] Chuan Wu: Okay, so this is a special case to show, again, solving the, set of equalities, solving a set of optimality conditions, leading to the primal and your optimal solutions.
+
+[00:12:57.810] Chuan Wu: Okay, then in a more generic case, when F is not necessarily quadratic complex, we have to have numerical algorithm, so we cannot just inverse that KDV matrix and derive the unique optimal solution.
+
+[00:13:13.110] Chuan Wu: And then, what approaches do we have?
+
+[00:13:15.930] Chuan Wu: Okay, so we actually have a few groups of approaches. So the high-level idea, for the first approach is we already, learned about algorithm to solve unconstrained complex program. And here we have recorded the constraints.
+
+[00:13:32.360] Chuan Wu: Using that means we can actually remove the equality constraints, and then we can result in an unconstrained problem. And then we can just apply whatever we said the last time to solve the unconstrained complex problem.
+
+[00:13:44.520] Chuan Wu: And then we can recover solution to the, to the equality constraint program. Okay, so that's the idea of the first approach.
+
+[00:13:52.850] Chuan Wu: Okay, so how do we eliminate net equality constraints?
+
+[00:13:57.110] Chuan Wu: So, we talked about… we touched upon
+
+[00:14:00.010] Chuan Wu: Conversion of complex program to equivalent form for a few times in the course, and here it is another place that we apply the similar technique.
+
+[00:14:08.640] Chuan Wu: Okay.
+
+[00:14:09.600] Chuan Wu: So here, AX equating B, we can represent the solution in an equivalent form here.
+
+[00:14:17.330] Chuan Wu: Okay, so we have X satisfying AX equaling B, so the set is corresponding to FC plus X hat.
+
+[00:14:26.780] Chuan Wu: Okay, so that means we are replacing X by FZ plus X hat, and what are these FZ plus X hat?
+
+[00:14:36.910] Chuan Wu: X hat here is any particular solution satisfying AX hat equaling B.
+
+[00:14:43.890] Chuan Wu: And F is such a matrix that its range is no space of A.
+
+[00:14:50.860] Chuan Wu: Okay, its range is no space of A. So we introduced, or we revised the concept of range and the no space earlier, and here we know if the range of matrix F is no space of A, then we have AF equaling 0.
+
+[00:15:08.050] Chuan Wu: If you don't remember, you can always look up the background in the appendix of the textbook.
+
+[00:15:15.290] Chuan Wu: Okay, and here we require F's, is, F's rank is N minus P, and so this is because we assume the matrix F, F, which is of N times n minus P dimensional, has full calling rank.
+
+[00:15:32.890] Chuan Wu: Okay, it has full colon rank, yeah. And then, we hear the rank of A plus rank of F should be exactly N.
+
+[00:15:42.770] Chuan Wu: Okay, so by this assumption, what do we actually get?
+
+[00:15:54.530] Chuan Wu: So essentially, what we are doing is, we are replaying F, XD plus X hat. X hat is any particular solution. F is the matrix that we can construct, such that AF equaling 0.
+
+[00:16:10.400] Chuan Wu: And, Z is our new variable here. And Z dimension is changed. X is n-dimensional, and Z here is N-P dimensional.
+
+[00:16:20.990] Chuan Wu: And using this substitution, what we are sure is here. We will be sure by this construction for LED,
+
+[00:16:29.900] Chuan Wu: the constructed X is still satisfying the equality constraint.
+
+[00:16:34.810] Chuan Wu: Okay, so AX equaling AEFD plus A SHEC.
+
+[00:16:42.640] Chuan Wu: And we know AF equaling 0, and this is where we apply that F's known space is… the range of F is the known space of A.
+
+[00:16:50.640] Chuan Wu: And then, a heck.
+
+[00:16:53.550] Chuan Wu: AX hat, X hat is a particular solution to the equality, so therefore, we have AX hat equaling B. Okay, so therefore, we know AX equaling B.
+
+[00:17:05.760] Chuan Wu: Okay, so therefore, so as long as we can find out the solution for Z, we can recover a solution of X.
+
+[00:17:13.780] Chuan Wu: Right. Okay.
+
+[00:17:16.010] Chuan Wu: All right, so using this, conversion of variable, we can convert the original equality constraint optimization into an unconstrained optimization. So basically, the, X becomes FD plus X hat, and objective function becomes, function of D, and our equality constraints are gone.
+
+[00:17:35.840] Chuan Wu: Because by this construction, by default, we have that A as the class X hat equaling B.
+
+[00:17:45.100] Chuan Wu: Okay.
+
+[00:17:46.230] Chuan Wu: All right, then this is an unconstrained problem with new set of variable Z minus P dimensional.
+
+[00:17:53.560] Chuan Wu: And for unconstrained, complex program, we introduced the gradient descent and Newton's method to solve it.
+
+[00:18:01.440] Chuan Wu: And then, supposedly, we can solve it using one of the methods, and then we find out the optimal solution this star. From this star, we can recover X star in this way.
+
+[00:18:12.290] Chuan Wu: And if we like, we can also recover the optimal dual solution, Noon star, as well.
+
+[00:18:19.950] Chuan Wu: Okay, and to verify why NuSTAR is that way, we actually… or how we recover New Star, it's here.
+
+[00:18:30.770] Chuan Wu: So, we have daily transpose new, equaling
+
+[00:18:39.840] Chuan Wu: Negative FX.
+
+[00:18:42.520] Chuan Wu: Okay, and then we can multiply A, both sides, and then multiply A A transpose…
+
+[00:18:54.960] Chuan Wu: In words, on both sides.
+
+[00:19:00.350] Chuan Wu: On both sides?
+
+[00:19:01.990] Chuan Wu: and the left-hand side becomes mu, and the right hand side becomes exactly a transpose inverse.
+
+[00:19:10.490] Chuan Wu: A, blah, blah, FX.
+
+[00:19:13.240] Chuan Wu: Okay, so this is how we derive new stuff, by solving the first set of equalities in optimality condition.
+
+[00:19:22.040] Chuan Wu: Okay, so the purpose of multiplying AA transpose inverse is, if A has full draw drag, then AA transpose is guaranteed to be invertible. So we just need something invertible to cancel out the matrix in front of mu.
+
+[00:19:38.320] Chuan Wu: And then we can recover new.
+
+[00:19:43.190] Chuan Wu: Okay.
+
+[00:19:44.590] Chuan Wu: All right, so this is approach number one. So we just convert our new problem into an old problem that we have solution for, then we can solve the old problem and recover solution to the new problem.
+
+[00:19:57.200] Chuan Wu: Okay.
+
+[00:20:02.270] Chuan Wu: Yeah, so example, concrete example here.
+
+[00:20:05.420] Chuan Wu: So here we have, objective function, which is sum of a number of, convex functions together, and then we have just the one linear equality constraint. Okay, so saying that all the XIs sum up to P.
+
+[00:20:21.270] Chuan Wu: And we consume this condom resource allocation problem. We have a total amount of results B, I will give it to different variables, and variables, and then we hope the corresponding
+
+[00:20:32.030] Chuan Wu: Utility or whatever constitu function related to that variable, sum up to a smallest value.
+
+[00:20:40.950] Chuan Wu: Okay, we can reduce the program for an unconstrained program. So this is kind of straightforward, because we can just take,
+
+[00:20:52.820] Chuan Wu: XN. Okay, so we take XN, equating, we convert the equality constraint.
+
+[00:21:49.090] Chuan Wu: Okay, I don't need to write, it's here.
+
+[00:21:51.670] Chuan Wu: Okay, this is our equality constraint, and, we still follow the same… the approach idea introduced on the previous slide, and here, our constructed feasible solution as fact is B times this, vector.
+
+[00:22:11.740] Chuan Wu: And we have verified that It is satisfied the,
+
+[00:22:18.270] Chuan Wu: It incensify the… you call it the constraint.
+
+[00:22:24.210] Chuan Wu: So X hat here, so basically X hat is, Factor of this form.
+
+[00:22:30.890] Chuan Wu: 0 and only last entry is B. And then, on the matrix of X hat, sum up to exactly.
+
+[00:22:39.030] Chuan Wu: Okay, so X hat satisfies the equilatical string. And how… for our matrix F,
+
+[00:22:45.350] Chuan Wu: So F is constructed that way, so it's an identity matrix, and then calculated by this, negative 1 transpose a joule vector consisting of all the, negative words.
+
+[00:22:59.490] Chuan Wu: And then, we have, AF equating 0. So we come every 5. So what is our A? So our A…
+
+[00:23:16.170] Chuan Wu: over F…
+
+[00:23:23.260] Chuan Wu: Okay, so our A is, dual vector as well. Our F is n times n minus 1 dimensional.
+
+[00:23:31.310] Chuan Wu: And then Okay, AICleaning Bureau.
+
+[00:23:36.300] Chuan Wu: We can verify.
+
+[00:23:37.850] Chuan Wu: Alright, and then we… our objective function… where we replaced X equaling SV?
+
+[00:23:50.590] Chuan Wu: plus X hat.
+
+[00:24:02.400] Chuan Wu: Okay, F… V?
+
+[00:24:07.850] Chuan Wu: Thus.
+
+[00:24:13.640] Chuan Wu: Okay, so this is our variable substitution.
+
+[00:24:28.120] Chuan Wu: Okay, so that is our variable substitution, and essentially, it's to be exactly following the form here, right?
+
+[00:24:36.940] Chuan Wu: Okay.
+
+[00:24:48.090] Chuan Wu: All right.
+
+[00:24:49.380] Chuan Wu: Okay, so that is the approach… the first approach.
+
+[00:24:53.860] Chuan Wu: Ed,
+
+[00:24:55.860] Chuan Wu: Let's going beyond. So, other than just exploit what we have learned before, let's check out if there are new methods that we have applied to directly solve such a quality constraint coming forward.
+
+[00:25:07.570] Chuan Wu: So when the primal problem, okay, when the primal problem only have equality constraints.
+
+[00:25:13.630] Chuan Wu: And then, we can think about its viewer.
+
+[00:25:17.180] Chuan Wu: Before we introduce that, we can make use of your identity, derive the doer, and solve the Durer problem, and somehow recover the primal optimal solution.
+
+[00:25:26.640] Chuan Wu: And when we have only equality constraints in the primal problem, so this makes it more feasible.
+
+[00:25:32.840] Chuan Wu: So why? So, number one, when we only have equality constraints, then the dual platform is pretty much derivable, in the sense that, actually, it is the, conjugate function that is involved in the derivation step that will become part of the, dual function.
+
+[00:25:50.350] Chuan Wu: Number two, when the primal problem only has the equality constraints, then the dual problem possibly has no constraints.
+
+[00:25:57.860] Chuan Wu: Because for the dual program, the explicit constraint in the default form is lambda logical to 0, and lambda is multiplier associated with inequality constraint, but if the primal problem doesn't have inequality constraint, then it's likely that the dual problem doesn't have constraint. If the dual problem doesn't have constraint, that is a good news.
+
+[00:26:16.810] Chuan Wu: Because your program becomes an unconstrument program, and we already… we are already equipped with our resources of education.
+
+[00:26:25.310] Chuan Wu: Right? Okay. So therefore, based on the two points, let's check out how we can carry out our year of deriving the viewer, solving the viewer, and then we cover the primal optimal solution.
+
+[00:26:36.680] Chuan Wu: Okay, so let's see what the, Lagrange viewer of the,
+
+[00:26:43.260] Chuan Wu: Ecology constraint, how it's proven, what is that looking like?
+
+[00:26:48.040] Chuan Wu: So this is a Lagrangian. Okay, we already derived that that is a Lagrangit of the,
+
+[00:26:55.270] Chuan Wu: Equality constraint commands fluent.
+
+[00:26:59.090] Chuan Wu: Okay, that is a Lagrangian. Then, how do we derive the Lagrange viewer? So, Lagrange viewer is to minimize the Lagrangian over X.
+
+[00:27:07.330] Chuan Wu: Right?
+
+[00:27:08.220] Chuan Wu: So over here, we group the terms in the Lagrangian, which is related to X, so which is FX plus nu transpose AX.
+
+[00:27:17.780] Chuan Wu: And the term that is not relevant to X goes out, so that is negative B nu transpose B, or B transpose nu, so it's here. This is a Lagrangian function.
+
+[00:27:28.720] Chuan Wu: And then we can convert the Lagrangian's infam calculator part here. It's very relevant to a calculation of conjugate function of F.
+
+[00:27:38.110] Chuan Wu: And we convert it to the form more conforming to how we calculated the conjugate function, so it's here.
+
+[00:27:44.360] Chuan Wu: So we replace infinite over X by supreme over X of the negative. Okay, negative of the supreme of the function over X, and the function here needs to be additively negative as well, okay?
+
+[00:27:58.590] Chuan Wu: So here, we have a negative FX, and then we have negative A nu transpose AX here.
+
+[00:28:05.860] Chuan Wu: And then, this supremum part is pretty much conforming to the conjugate function's calculation form, and it is exactly the conjugate function of F evaluated at negative A transpose nu.
+
+[00:28:19.270] Chuan Wu: So recall in the formula deriving a conjugate function, this is a vector Y part, and Y is negative A transpose nu in our formulation here.
+
+[00:28:29.750] Chuan Wu: Okay.
+
+[00:28:30.820] Chuan Wu: And then, if we do know the conjugate function of function f, or it's readily derivable by yourself, or already derived in the literature, then we can put down the actual form of the dual function.
+
+[00:28:44.880] Chuan Wu: And then the Dior problem is to maximize the Dior function.
+
+[00:28:48.750] Chuan Wu: Without, possibly without, explicit constraint.
+
+[00:28:54.060] Chuan Wu: Okay, so in the default form of dual program formulation, so if the primal constraint… a primal problem doesn't have inequality constraints, then indeed we don't have explicit constraints in the dual problem.
+
+[00:29:07.050] Chuan Wu: But often, when we are deriving the conjugate function, some condition may appear, and those conditions may appear as part of the Durer constraint.
+
+[00:29:16.210] Chuan Wu: Right? Okay, so therefore, that's what we say. Possibly the dual problem is unconstrained. If the dual problem is indeed unconstrained.
+
+[00:29:24.960] Chuan Wu: Then, we can solve it using the algorithm we introduced earlier, because we know any dual problem is going to need to be convexproof.
+
+[00:29:33.470] Chuan Wu: And if we further know the Durer function here is twice differentiable, then we can apply our descent, or Newton's descent, gradient descent methods.
+
+[00:29:45.350] Chuan Wu: To solve it exactly.
+
+[00:29:47.240] Chuan Wu: And then what we have solved for is optimal solution, new star to the dual problem. And then how do we recover the primal program? The primal program's optimal solution?
+
+[00:29:59.020] Chuan Wu: So we exploit strong duality. So we know for equality constraint convex program, strong duality always holds.
+
+[00:30:07.160] Chuan Wu: So think about Slater's constraint codification. So Slater's constraint codification is saying that we have to have a strictly feasible primal solution for it to hold, right? But we said a strictly feasible condition is kind of exempted for equality constraints.
+
+[00:30:24.600] Chuan Wu: Right, okay. So therefore, that also implies for CAX program, with only quality constraints, strong duality always holds.
+
+[00:30:33.770] Chuan Wu: So once strong duality holds, we have a nice property to recover the primal optimal solution, because the primal optimal solution is the X that minimizes Lagrangian at the dual optimal solution nil star.
+
+[00:30:48.330] Chuan Wu: And this property is not new, either. We introduced… we actually derived it earlier.
+
+[00:30:54.240] Chuan Wu: Okay, so when we introduce complementary slackness KKD condition, so one of the other properties we have shown, derived and shown, is that X star is a minimizer of the Lagrangian at the new star. If you don't remember, go back to check it out, our slides, because this is a very important property.
+
+[00:31:13.190] Chuan Wu: related to strong duality that we are making use of here, when solving equality constraint convex program. And actually, not only equality constraint convex program, this property in general holds, and even for equality and inequality constraint convex program, we can use this property to recover primer optimal solution once we know the dual optimal solution, and once we know strong duality holds
+
+[00:31:37.930] Chuan Wu: For the current program, we are.
+
+[00:31:40.010] Chuan Wu: working on.
+
+[00:31:41.860] Chuan Wu: Okay, so therefore, this is, approach number two.
+
+[00:31:46.770] Chuan Wu: To some extent, this approach still makes use of what we have, you know, the algorithm we have known, because here, what we want to exploit is the dual program is unconstrained, and we already introduced our reason to solve unconstrained complex program, so we can apply it to solve the dual program here.
+
+[00:32:05.260] Chuan Wu: Okay.
+
+[00:32:06.900] Chuan Wu: All right, example. So here we are minimizing a negative sum of log objective function. So we know negative sum of log is convex function. We are minimizing a convex objective function subject to equality constraints.
+
+[00:32:23.570] Chuan Wu: And, supposing that we know what the conjugate or objective function is, so we can derive it. Actually, textbook also gives it, and if you like, you can also
+
+[00:32:38.140] Chuan Wu: using that exercise to try to derive the Lagrangian, okay? We know the Lagrangian is there, and therefore, we can directly put down the dual program score, okay? The dual program is maximized negative B transpose new, plus the
+
+[00:32:56.600] Chuan Wu: conjugate, negative of the conjugate function, evaluated at H transpose nu. So that is what we derived on the previous slide.
+
+[00:33:11.140] Chuan Wu: Right. What we are doing here is just plugging in a concrete form of F star.
+
+[00:33:16.960] Chuan Wu: evaluated as an active A transpose mode.
+
+[00:33:20.740] Chuan Wu: Elf? And in this example.
+
+[00:33:24.700] Chuan Wu: nicely that we do not have explicit constraint for the Dural program. We do have a domain for the dual objective function, because anything following log has to be positive, right? But we don't really have explicit data. Other than that, we don't have explicit constraint.
+
+[00:33:43.540] Chuan Wu: And then we can solve the dual probab using the same methods that we have introduced earlier, and suppose we can solve for optimal mu star. And after solving the dual work, we can recover the primal optimal solution.
+
+[00:33:59.280] Chuan Wu: And because the primal optimal solution would be the one that is, minimizing the, Lagrams here.
+
+[00:34:07.910] Chuan Wu: And for the program here, what is the… not wrong yet? Like…
+
+[00:34:22.889] Chuan Wu: The Lagrangian is here.
+
+[00:34:38.590] Chuan Wu: This is a Lagrangian of our concrete propagation program here.
+
+[00:34:43.739] Chuan Wu: And we want to find out
+
+[00:34:46.260] Chuan Wu: X that is minimizing X, and the optimal solution new to the program.
+
+[00:34:54.699] Chuan Wu: And how do we solve this problem, this minimization problem?
+
+[00:34:59.480] Chuan Wu: So again, this minimization program is, unconstrained.
+
+[00:35:04.390] Chuan Wu: Ed?
+
+[00:35:05.440] Chuan Wu: Unconstrained complex.
+
+[00:35:08.130] Chuan Wu: And then we can apply the technique of deriving its Lagarangian, deriving its gradient, and setting the gradient to zero.
+
+[00:35:15.100] Chuan Wu: And then we can cover it.
+
+[00:35:17.230] Chuan Wu: Okay.
+
+[00:35:19.390] Chuan Wu: So, or more particularly, we can calculate the partial derivative of the function with respect to every Xi, and set it to 0.
+
+[00:35:29.520] Chuan Wu: And then we can recover every XI, respectively.
+
+[00:35:33.260] Chuan Wu: Okay.
+
+[00:35:34.410] Chuan Wu: And what is the partial derivative of the function there?
+
+[00:35:47.290] Chuan Wu: So, Asian exposed newly subscript I represented the ice component in the co-inhibition vector there.
+
+[00:35:55.280] Chuan Wu: and then sending it to Lero.
+
+[00:35:58.650] Chuan Wu: And we can recover that X equals 1 over A transpose mu i squared.
+
+[00:36:09.800] Chuan Wu: Okay
+
+[00:36:14.370] Chuan Wu: All right, so then we actually have a close form connection between, dual solution nu and the primal optimal solution X star, Xi, and then when we know mu, we can plug it in, and we can recover optimal Xi.
+
+[00:36:29.190] Chuan Wu: to the Primal Program.
+
+[00:36:40.070] Chuan Wu: Alright, I hope this is clear.
+
+[00:36:44.550] Chuan Wu: So that's the second approach of solving the quality constraint convex program. And moving on, we'll be looking at more methods which apply more directly to solve the primal nucleality constraint convex program.
+
+[00:36:57.210] Chuan Wu: Okay, rather than exploiting what we already learned before, we just can reintroduce new methods that directly work on solving the equality constraint, validation program.
+
+[00:37:08.230] Chuan Wu: COMEX robot.
+
+[00:37:09.700] Chuan Wu: Okay, and the new method we are introducing is still under the umbrella of Newton's methods, or they belong to the family of Newton's methods.
+
+[00:37:20.090] Chuan Wu: Okay, we introduced Newton's methods as a more efficient algorithm to solve, unconstrained convex program, and, if you still remember, so it incurs a conjecting convergence when close to optimality, so more efficient than a gradient descent method.
+
+[00:37:39.040] Chuan Wu: And in Newton's method, there are two important quantities. So one is Newton's decrement, and one is Newton's direction, and the other is Newton's decrement.
+
+[00:37:49.020] Chuan Wu: And here we introduce additional Newton's method to directly work on equality constraint optimization, and again, the two important quantities still exist. And we will check out that they are following different forms from the two important quantities we introduced last time.
+
+[00:38:08.300] Chuan Wu: Okay, then before we see concrete Newton's decrement, Newton's direction, and let's introduce the general idea of this Newton's method to solve, we call it the constrained convex program.
+
+[00:38:22.260] Chuan Wu: And, we… the algorithm starts with a feedable X.
+
+[00:38:26.720] Chuan Wu: They're the first iterate.
+
+[00:38:29.030] Chuan Wu: And, featable meaning AX0 equaling B. Satisfied the inequality constraints.
+
+[00:38:36.690] Chuan Wu: And in then, in every iteration, what we know, what we do is, we find out a Newton's direction for the current step.
+
+[00:38:46.210] Chuan Wu: Okay, so feasible direction.
+
+[00:38:48.750] Chuan Wu: And Newton's direction, or Newton's step for this current iteration, is to be a feasible direction. So what does it mean by being a feasible direction?
+
+[00:38:58.960] Chuan Wu: So basically, we know if we find out Newton's direction in this way, delta X and T, and we do the update of the iterating in this way, we multiply the Newton's direction by a step less, or step size T.
+
+[00:39:13.100] Chuan Wu: And then we increment XK, the case iterate by 8, and then we come up with, XK plus 1, the K plus 1's iterate.
+
+[00:39:22.360] Chuan Wu: And we always require that after update, the new iterate still satisfy AX equity.
+
+[00:39:30.040] Chuan Wu: That means, in this Newton's method, we want to introduce, from beginning to end, all the iterate. Every iterate, X0, X1, X2, X, up to XK, satisfy the equality constraints. So that's why we call it kind of a feasible.
+
+[00:39:46.840] Chuan Wu: Nope.
+
+[00:39:48.740] Chuan Wu: You can's message.
+
+[00:39:50.270] Chuan Wu: Okay, so when we, what does it imply? That, XK plus P delta X and T still satisfy X equaling B. We can immediately derive
+
+[00:40:03.860] Chuan Wu: that we… what we want is exactly AX.
+
+[00:40:09.120] Chuan Wu: A multiplying Newton's direction is 0.
+
+[00:40:24.570] Chuan Wu: Okay, so we won't… that's equaling 8, multiplying that updated iterate, equaling B.
+
+[00:40:33.230] Chuan Wu: And that gives us AXP plus T times A delta X in P equaling B.
+
+[00:40:42.430] Chuan Wu: Because XK is a feasible solution.
+
+[00:40:45.700] Chuan Wu: So therefore, we know AXK equaling B.
+
+[00:40:49.690] Chuan Wu: And then what the results is A times delta X and T has to be exactly 0.
+
+[00:40:56.320] Chuan Wu: Okay.
+
+[00:40:58.770] Chuan Wu: Alright, so in this feasible Newton's methods,
+
+[00:41:05.240] Chuan Wu: And then, there's a high-level idea, okay? The, we will put up a sketch of the Newton's algorithm. It appears very much like the Newton's methods we have introduced last time.
+
+[00:41:16.040] Chuan Wu: And the difference lies in over Newton's direction. If Newton's decrement, the two most important quantities in Newton's vanity would change. Only all the way of derivation would change as well.
+
+[00:41:28.520] Chuan Wu: Okay, so how do we find out the, Newton's reaction here?
+
+[00:41:32.520] Chuan Wu: So the Newton's direction here… so the high-level idea is similar as before. Before, when we introduced, delta X and T in Newton's method without X basic, solving unconstrained optimization problem, we say that the delta X and T should be the Newton's direction.
+
+[00:41:51.390] Chuan Wu: That is minimize the second-order approximation of the objective function.
+
+[00:41:57.440] Chuan Wu: Okay, so X plus delta X and T should be a minimizer of the second-order approximation of the convex program.
+
+[00:42:06.640] Chuan Wu: objective function in the unconstrained case. And similar idea applies here. Now, on our…
+
+[00:42:14.590] Chuan Wu: Our projective function is still FX.
+
+[00:42:17.060] Chuan Wu: And we are still doing second-order approximation here. Okay, so we use F hat to represent the second-order approximation of the objective function, convex of objective function we have, and then this is the second-order Taylor approximation.
+
+[00:42:31.160] Chuan Wu: And constraints. So what's in addition is we want, after update, X plus X delta X and T, the new iterate is still feasible. Okay, constraint. So therefore, the second-order approximation program that we are
+
+[00:42:49.900] Chuan Wu: that we are solving to come up with the best Newton's direction would be a constrained quadratic program.
+
+[00:42:59.030] Chuan Wu: Okay, constraint contracted program.
+
+[00:43:02.720] Chuan Wu: And how do we solve for this constraint contracted problem? So this chondriatic program, objective function, and then constraints is exactly conforming to the,
+
+[00:43:15.280] Chuan Wu: To the constraint.
+
+[00:43:17.500] Chuan Wu: quadratic.
+
+[00:43:18.810] Chuan Wu: convex program that we already derived a KKT matrix standard and solution method for.
+
+[00:43:26.610] Chuan Wu: A while ago. Okay, so here, the problem of deriving delta X and T is to solve this, COMEX program.
+
+[00:43:36.450] Chuan Wu: And we know it's, and we can derive its KKD condition or optimality condition, and its optimality condition is, expressed this way, and if you check it back.
+
+[00:43:49.720] Chuan Wu: If you check it back, the… what we have on slide 4, this is just another concrete form of the same, of, quadratic objective function with,
+
+[00:44:04.240] Chuan Wu: You call it a constraint?
+
+[00:44:11.720] Chuan Wu: Or putting it down in slightly more detail.
+
+[00:44:25.250] Chuan Wu: the program here, okay, check out objective function. So now, X is given… our variable is V. So V optimal solution would be our delta X and T, the Newton's direction for update to the optimal… the primal iterate with.
+
+[00:44:42.210] Chuan Wu: And, V is our, V is our variable, and X is known, and, how…
+
+[00:44:51.010] Chuan Wu: And in the constraint, similarly, X is known, and V is our variable. And if you'll go back to slide 4, the fourth slide that we introduced today.
+
+[00:45:04.070] Chuan Wu: And…
+
+[00:45:08.990] Chuan Wu: Yep, we don't have to go back to that. We can directly derive the, directly derive the KG&E matrix and automatically notation here.
+
+[00:45:21.630] Chuan Wu: Okay, so put the objective function down.
+
+[00:45:24.770] Chuan Wu: Again?
+
+[00:45:26.350] Chuan Wu: Our variable is V.
+
+[00:45:44.200] Chuan Wu: And all the number FX, Haian matrix FX and FX are given, okay, because now we know X, and the variable is V.
+
+[00:45:53.540] Chuan Wu: And then we have Amy.
+
+[00:45:57.380] Chuan Wu: equally.
+
+[00:46:02.090] Chuan Wu: Nactive AX.
+
+[00:46:04.770] Chuan Wu: That's B.
+
+[00:46:07.940] Chuan Wu: 4?
+
+[00:46:11.480] Chuan Wu: Okay, so that's our equality constraint.
+
+[00:46:14.450] Chuan Wu: And, like, around you.
+
+[00:46:18.470] Chuan Wu: So, Lagrangian, And secure. So suppose nothing's not blue.
+
+[00:46:25.050] Chuan Wu: Actually, omega. We just call it W. The W is the multiplier.
+
+[00:46:32.910] Chuan Wu: Associate with a set of…
+
+[00:46:38.790] Chuan Wu: With a set of equalistic constraints there.
+
+[00:46:41.710] Chuan Wu: And this is our last round jip.
+
+[00:46:44.270] Chuan Wu: Right, so this is our Lagrangian puncture.
+
+[00:46:48.200] Chuan Wu: And, Lagrangian functions, gradient should vanish, so gradient, calculation.
+
+[00:46:55.190] Chuan Wu: of the Lagrangian function with respect to Me.
+
+[00:47:00.080] Chuan Wu: What does it give is… The first term…
+
+[00:47:05.010] Chuan Wu: becomes 1 half, multiply 2 times the matrix in the middle, and then V.
+
+[00:47:10.090] Chuan Wu: And then, nebula FX for invisible vector, And then…
+
+[00:47:17.340] Chuan Wu: A transpose W as the coefficient vector to me.
+
+[00:47:21.820] Chuan Wu: That is our background kit.
+
+[00:47:25.140] Chuan Wu: gradient of the Labrangian, which result to B. So again, X is given now, V is our variable.
+
+[00:47:32.000] Chuan Wu: Okay.
+
+[00:47:33.070] Chuan Wu: And then we have, optimize the condition.
+
+[00:47:38.410] Chuan Wu: One set, and the other set optimized condition for that program.
+
+[00:47:43.700] Chuan Wu: is, the equality constraint. The equality constraint is exactly…
+
+[00:47:49.560] Chuan Wu: A times X plus B equals C.
+
+[00:47:53.730] Chuan Wu: Okay.
+
+[00:47:54.970] Chuan Wu: And, you will find out the…
+
+[00:47:59.510] Chuan Wu: The concise matrix form of expression here is exactly the two sets of optimality conditions we just derived. So we have hash matrix, FX multiplied V plus, A plus
+
+[00:48:15.100] Chuan Wu: A transpose W, and then,
+
+[00:48:18.660] Chuan Wu: Nebula FX moves to the right-hand side, becomes negative FX. And then the second row here is exactly AEW equating 0. Okay, AW equating 0, where does it come from?
+
+[00:48:33.230] Chuan Wu: So, AX plus A… B, eQuery.
+
+[00:48:40.390] Chuan Wu: B. So we know AX equaling B. So what we have is AB equals 0.
+
+[00:48:47.940] Chuan Wu: Okay. AV equaling zero.
+
+[00:48:52.290] Chuan Wu: Okay, and of course, you can also derive the same equality here, equation here, by plugging the concrete matrix and other values into the form on slide 4 as well. Slide 4 is treating a program of exactly the same general form.
+
+[00:49:12.340] Chuan Wu: Okay, and again, the coefficient matrix here is called the KKD matrix, and we can reverse it and, come up with the optimal solution, V and W.
+
+[00:49:25.560] Chuan Wu: And, in this Newton's method we are introducing here, we do not make use of W. W is just kind of the dual variable to the… to this second-order approximation program, and it's auxiliary. And what we exactly want is, V.
+
+[00:49:42.420] Chuan Wu: And, Newton's step or Newton's direction is, derived by inverting the KKD matrix.
+
+[00:49:49.940] Chuan Wu: And, Newton's step is only defined at points where the KKD matrix is invertible.
+
+[00:49:56.930] Chuan Wu: Okay, invert the KKD matrix and come up with, optimal B as our delta X and T, and use that delta X and T in our Newton step.
+
+[00:50:08.430] Chuan Wu: Okay.
+
+[00:50:10.300] Chuan Wu: So this is how… that's how we derive the Newton's direction.
+
+[00:50:16.190] Chuan Wu: in this Newton's method to solve the constraint complex program.
+
+[00:50:20.350] Chuan Wu: And the rationale. Okay, so again, the rationale is similar as before. Why we solve Newton's direction as the best direction, then we update X with that minimized second-order approximation of the objective function.
+
+[00:50:35.470] Chuan Wu: The rationale is again here. So when, F is near quadratic.
+
+[00:50:41.780] Chuan Wu: And usually for near optimality, near optimal solution at star, the function curve is pretty quadratic, pretty much like the curve of quadratic curve.
+
+[00:50:53.080] Chuan Wu: X plus X is near quadratic, X plus delta X and T is a good estimate of X star.
+
+[00:51:00.230] Chuan Wu: And W is a good estimate of the optimal drawer value, new scarf.
+
+[00:51:06.490] Chuan Wu: So the same rationale as before, as what we have introduced.
+
+[00:51:15.630] Chuan Wu: Okay, Newton's direction, or step, is an important quantity in Newton's methods, and then the other important quantity is Newton's frequent.
+
+[00:51:25.790] Chuan Wu: And in the, current Newton's method, we are introducing for solving equality constraint complex problem, the, Newton's increment is defined as on the
+
+[00:51:37.440] Chuan Wu: As, as a way here.
+
+[00:51:39.600] Chuan Wu: So it's… it has two ways of calculation. So the first way of calculating entry is the relate… the two-way calculation is mostly related to the Newton's increment, the Newton's direction, delta X and T.
+
+[00:51:53.660] Chuan Wu: And, you will find out if you compare this definition of Newton's decrement with what we introduced last time, the Newton's decrement definition.
+
+[00:52:06.280] Chuan Wu: for Newton's method to solve unconstrained appendation. You will find out the…
+
+[00:52:16.370] Chuan Wu: The first way of defining nucleus decrement as a function of delta X and T is the same as what we defined earlier.
+
+[00:52:25.370] Chuan Wu: And because delta X and T are calculated differently, here in the Newton's method here, and in the Newton's method we introduced last time, so therefore, the lambda X's actual values would change, would be different.
+
+[00:52:39.400] Chuan Wu: between the two methods, between the two Newton's methods.
+
+[00:52:43.680] Chuan Wu: Okay,
+
+[00:52:56.060] Chuan Wu: Okay, what I was saying is here. So this, representation of Newton's decrement is like what we introduced earlier, and then for the second step of,
+
+[00:53:09.130] Chuan Wu: alternate… second step of approach to calculate lambda X, why the first, approach here is equivalent. So it's exactly based on the, step, how we derive the Newton's, direction.
+
+[00:53:27.370] Chuan Wu: Here, for the first of the melody condition.
+
+[00:53:33.980] Chuan Wu: From the first optimality condition, what we know?
+
+[00:53:38.650] Chuan Wu: S… Okay, so replacing V by delta X and T, we know that it's always satisfied.
+
+[00:53:47.900] Chuan Wu: And if we multiply in delta X and T,
+
+[00:53:56.110] Chuan Wu: Transpose for all the entries.
+
+[00:53:59.960] Chuan Wu: in there.
+
+[00:54:01.820] Chuan Wu: Okay, so the, first entry is…
+
+[00:54:10.040] Chuan Wu: Like that. And the second entry is inner product.
+
+[00:54:14.190] Chuan Wu: between… Athletics?
+
+[00:54:18.830] Chuan Wu: Ed?
+
+[00:54:21.850] Chuan Wu: Zelda, excellent.
+
+[00:54:24.780] Chuan Wu: And then, the third entry is gone.
+
+[00:54:28.080] Chuan Wu: Why? Because the third entry is exactly A,
+
+[00:54:39.330] Chuan Wu: S and P.
+
+[00:54:41.660] Chuan Wu: transpose W.
+
+[00:54:44.750] Chuan Wu: And we know A delta X and Z is 0.
+
+[00:54:48.560] Chuan Wu: As we derived earlier today, so the last entry is gone. And then what we have is this…
+
+[00:54:55.350] Chuan Wu: Newton's reaction transpose Hessian matrix.
+
+[00:54:58.600] Chuan Wu: Newton's direction equals vectors of the inverse reduction between the gradient vector and delta axon.
+
+[00:55:06.780] Chuan Wu: So that's what… how we derive the third… the second equation here.
+
+[00:55:13.610] Chuan Wu: Okay, because this entry equals negative of that entry, as we direct.
+
+[00:55:25.650] Chuan Wu: Okay.
+
+[00:55:27.170] Chuan Wu: Alright,
+
+[00:55:28.870] Chuan Wu: And, why do we need a Newton's increment? As in the Newton's method we introduced earlier, we know the lambda X Newton's increment is related to how close we are to optimality.
+
+[00:55:42.870] Chuan Wu: Or it renders a quantitative that you can evaluate how close our showing solution is to optimal solution.
+
+[00:55:51.260] Chuan Wu: And that is based on two rationales. So the first rationale is, it gives this lambda X, Newton's decrement, gives an estimate.
+
+[00:56:01.230] Chuan Wu: Ugh, SX.
+
+[00:56:06.740] Chuan Wu: of FX minus P star. So FX evaluated the current iterate, if we are using quadratic approximation. So the idea is here, so FX minus P star, evaluated using quadratic approximation of F hat, is this.
+
+[00:56:24.600] Chuan Wu: So, our P-star primal optimist optimal value is F hat… F hat evaluated from the current point X plus the Newton's direction plus a direction, subject to the, constraints.
+
+[00:56:42.190] Chuan Wu: And, we are able to show the difference here is 1 half of lambda squared.
+
+[00:56:50.110] Chuan Wu: Okay.
+
+[00:56:52.090] Chuan Wu: So essentially, the minimization problem here is a minimization problem we are solving when deriving Newton's direction. That means optimal solution V-star here is our Newton's direction.
+
+[00:57:06.720] Chuan Wu: And, FX minus F hat X plus delta X in t, based on the formula of,
+
+[00:57:14.910] Chuan Wu: second-order approximation, so we know, this is exactly FX plus all the entry here, and FX minus 8, then FX
+
+[00:57:25.140] Chuan Wu: Entry is canceled, and what we are remaining with is the right-hand side.
+
+[00:57:32.870] Chuan Wu: Okay, and the right-hand side, according to the definition of lambda X, and what we have derived, is pretty much just one half of lambda squared. Okay, you can plug in lambda squared, and then, you know, this equals that.
+
+[00:57:49.720] Chuan Wu: And then…
+
+[00:57:55.480] Chuan Wu: Right.
+
+[00:57:57.880] Chuan Wu: So, one half of, lambda squared remains.
+
+[00:58:03.100] Chuan Wu: Okay, so what I was saying is how we derive the right-hand side. When it's equivalent to 1 half lambda squared, you can just plug in the lambda X here.
+
+[00:58:18.350] Chuan Wu: I don't need to do the detailed derivation, right?
+
+[00:58:22.210] Chuan Wu: Okay, it's quite straightforward here.
+
+[00:58:25.270] Chuan Wu: Okay, so that's the first approach of interpreting lambda X, how it is relevant to how close we are to optimality. So the second approach is here. The lambda… negative lambda squared is directional derivative of the objective function in the Newton's direction.
+
+[00:58:44.300] Chuan Wu: So basically, the two interpretations here are consistent with what we introduced
+
+[00:58:48.970] Chuan Wu: for lambda X in the Newton's method for solving unconstrained optimization. What is the directional derivative? So, concrete definition of directional derivative is here.
+
+[00:59:02.680] Chuan Wu: Okay, so X moved away from X by a small amount of T along the Newton's direction. Its concrete calculation is here, so F evaluated after X update minus FX divided by T.
+
+[00:59:17.540] Chuan Wu: And we hope that t goes to a very small value. So that is a very original definition of directional derivative.
+
+[00:59:24.210] Chuan Wu: And also, as what we introduced earlier, the directional derivative equals the function's gradient in a productive direction.
+
+[00:59:35.160] Chuan Wu: Okay.
+
+[00:59:36.150] Chuan Wu: Blah, FX inner product with…
+
+[00:59:43.960] Chuan Wu: Delta X and T is exactly negative lambda squared, okay? Lambda squared negative is the inner product here, and the inner product here is a directional derivative.
+
+[00:59:58.730] Chuan Wu: Okay. All right,
+
+[01:00:02.120] Chuan Wu: And, interpretation of lambda X is the same as before, but what we need to pay attention is the lambda X we define here, doesn't… isn't equal… isn't equaling the lambda X concrete form expressed in the Haotian matrix and the gradient matrix of X, as we derived
+
+[01:00:25.070] Chuan Wu: for lambda X in the earlier Newton's methods.
+
+[01:00:27.770] Chuan Wu: If you check back the slide introducing Newton's decrement of the
+
+[01:00:32.850] Chuan Wu: earlier Newton's method introduced, you found out that this is a concrete calculation of that lambda X, and of course, it is, it also has a delta X and T best calculation. What we want to say is the delta X and T based calculation is the same between the two lambda X of the… in the two Newton's methods.
+
+[01:00:53.960] Chuan Wu: But… lambda X here isn't equaling lambda X calculated in the concrete way that we introduced earlier.
+
+[01:01:03.290] Chuan Wu: Okay.
+
+[01:01:05.580] Chuan Wu: Alright…
+
+[01:01:07.950] Chuan Wu: So once we have introduced the two important quantities involved in a Newton's methods, let's check out the sketch of the current Newton's methods. The current Newton's methods to solve the quality constraint comes forward, we call… we just call it the Newton's method with equality constraint.
+
+[01:01:27.280] Chuan Wu: And, checking out the step.
+
+[01:01:31.680] Chuan Wu: In this Newton's method, we start with X, predictable point. Okay, we have to ask AX equaling B. And in every iteration, we calculate Newton's step and decrement, delta X, NT and lambda X, and we check if the stopping criteria is satisfied or no.
+
+[01:01:49.900] Chuan Wu: And if the stopping criteria is not satisfied, we continue with our update. We first decide the step size T by backtracking line search. So remember, backtracking line search is a more efficient line search way of deciding the step length we have introduced. And then we do the update. And the update formula looks here exactly the same as before.
+
+[01:02:13.990] Chuan Wu: Right, okay, and the main difference lies in how we calculate the delta X and t and the lambda X.
+
+[01:02:19.500] Chuan Wu: And essentially, the whole algorithm here appears very similar to the Newton's method for solving unconstrained we introduced last time.
+
+[01:02:28.250] Chuan Wu: The only difference lies in how we calculate the delta X and D and lambda X, and also lies in that we require the initial starting point to be a feasible point, satisfying AX equaling B.
+
+[01:02:40.700] Chuan Wu: And first of all, how do you derive a feasible solution, or any feasible solution of AX equaling B?
+
+[01:02:47.190] Chuan Wu: So remember, AX equaling B is P equations.
+
+[01:02:51.360] Chuan Wu: For a system equation, we have been equipped with a method of solving as the one featable solution, right? As long as our concrete A, concrete B is given, are given.
+
+[01:03:02.880] Chuan Wu: Okay, so therefore, satisfying the initial featable point condition is kind of straightforward.
+
+[01:03:10.580] Chuan Wu: Alright, and, for this Newton's methods, it has a few nice properties.
+
+[01:03:19.590] Chuan Wu: Like, it is, actually a feedable descend method. Feedable meaning, in every iteration, we always ensure the current iterate XKE satisfies the equality constraint.
+
+[01:03:31.190] Chuan Wu: Descend method, meaning it ensures when we update from XK to XK plus 1, the objective function value is decreasing.
+
+[01:03:41.410] Chuan Wu: So both are nice property, and we are able to guarantee.
+
+[01:04:19.760] Chuan Wu: Okay, feasibility insurance, we already showed that, through the steps, we are able to ensure XK is feasible, so that is how… that is what we are guaranteeing when we are deriving the delta X and T. But for the second, property here, why is a descent method?
+
+[01:04:39.100] Chuan Wu: And while it's a descent method is also guaranteed when we are calculating the, by showing our calculation of the directional derivative.
+
+[01:04:50.950] Chuan Wu: So, as shown on the previous slide, our directional derivative equaling negative lambda squared. So that means our directional derivative value along the Newton's direction is always negative.
+
+[01:05:04.180] Chuan Wu: negative, okay, according to the concrete derivation here, what does it imply?
+
+[01:05:08.860] Chuan Wu: It implies, after we update X along the Newton's direction, the new iterate achieves a smaller objective function value.
+
+[01:05:17.450] Chuan Wu: Okay, so therefore, the probability that XK is always feasible, and when updating from XK to XK plus 1, it's always decreased in the objective function, both of them are guaranteed through our way of calculating delta X and T and lambda X.
+
+[01:05:35.480] Chuan Wu: Okay, so in general, these are nice properties, to have, because we are in, it, well.
+
+[01:05:45.800] Chuan Wu: Sure, when the algorithm converts, we come up with a feasible solution, minimizing the objective function.
+
+[01:05:55.030] Chuan Wu: Okay, and,
+
+[01:05:59.970] Chuan Wu: And from what we have introduced, you actually see there is a strong similarity between the Newton's method, which is equality constrained, and the Newton's method to solve the unconstrained,
+
+[01:06:12.790] Chuan Wu: And actually, yes, we actually can formally establish correspondence between the two algorithms, and the correspondence is exactly based on our conversion of the constrained program to unconstrained probab.
+
+[01:06:31.360] Chuan Wu: And the white universal.
+
+[01:06:43.500] Chuan Wu: Okay, so earlier today, we showed that we can convert,
+
+[01:06:50.260] Chuan Wu: constraint, equality constraint convex program into the unconstrained program, universal substitution this way. So our X in the equality constraint program is replaced by FD plus X hat. So where X is an ineffable solution to AX equaling B, and F is such a matrix whose rank is minus P, and A times F equaling 0.
+
+[01:07:15.440] Chuan Wu: And then the correspondence would be as follows.
+
+[01:07:19.060] Chuan Wu: For Newton's method to solve the converted equivalent unconstrained optimization program, we start from a solution Z0, and we generate iterations ZK. And for Newton's method with explicit equality constraints, we start… our starting X0 is… it would just be FD
+
+[01:07:43.460] Chuan Wu: 0 plus X hat.
+
+[01:07:45.250] Chuan Wu: And then, our iterate has a foreign correspondence as well. So every iterate XK is F times ZK plus X hat.
+
+[01:07:56.240] Chuan Wu: So that is the correspondence.
+
+[01:07:59.530] Chuan Wu: And, here. So when you start with X0 constructed by the value of FD0 plus X hat, we know it satisfies AX0 equaling B.
+
+[01:08:10.830] Chuan Wu: Based on how we, come up with the variable substitution formula FD plus X hat.
+
+[01:08:18.080] Chuan Wu: Okay, so therefore, the, we can actually establish such a nice correspondence between the two Newton's methods, and that said, the, convergence performance of the, current Newton's method with the quality constraint would be exactly similar to the Newton's method we introduced last time.
+
+[01:08:37.540] Chuan Wu: Because of this exact correspondence between folks.
+
+[01:08:44.600] Chuan Wu: Okay.
+
+[01:08:45.760] Chuan Wu: All right, and now let's take a short break, 5 minutes break, before we move on to another Newton's method.
+
+[01:09:50.479] Chuan Wu: It's just in pain.
+
+[01:09:52.069] Chuan Wu: I think I should say, it encounters history.
+
+[01:10:37.860] Chuan Wu: Okay, I don't see them.
+
+[01:10:53.260] Chuan Wu: That's absolutely a bunch of ugly excuse possible.
+
+[01:10:57.300] Chuan Wu: They're just following it.
+
+[01:11:12.880] Chuan Wu: What's complicated.
+
+[01:12:52.640] Chuan Wu: Okay, all right, let's continue with our lecture today. Yeah, I understand that the classroom is kind of friendly. Okay.
+
+[01:13:00.020] Chuan Wu: I also feel cold, although I keep moving, right? I believe they set the temp, but unfortunately, the temperature is actually controlled. I didn't want any switch inside the room. And, I believe they set the room according to full capacity of the room. Set the temperature according to full capacity, right?
+
+[01:13:17.070] Chuan Wu: Therefore, to solve the problem, two solutions. Number one, bring your jacket. Number two, encourage more people to come. All right.
+
+[01:13:30.070] Chuan Wu: Okay, so let's continue.
+
+[01:13:32.650] Chuan Wu: So the, next Newton's method that I want to introduce, is, infeedible start Newton's method. So, infeedable start, intuitively. That means the starting point, X0, doesn't have to satisfy AX equaling B, okay?
+
+[01:13:49.250] Chuan Wu: Alright,
+
+[01:13:51.590] Chuan Wu: So, while EX doesn't… AX0 doesn't equal in B, it's possible X1 also doesn't satisfy, they call it the constraint X2, and so on, right? And yes.
+
+[01:14:03.930] Chuan Wu: So even in case our initial point and some of the initial iterates do not satisfy the quality constraint.
+
+[01:14:11.490] Chuan Wu: Here is a new method, still under the Newton's method, that can ensure, eventually, at algorithm convergence, our iterate, set design equality constraint, and achieve minimal, approach the minimal optimal solution.
+
+[01:14:26.500] Chuan Wu: Okay.
+
+[01:14:27.490] Chuan Wu: And, let's assume X is an infeitable starting point.
+
+[01:14:32.050] Chuan Wu: And for any of the infeasible iterates in the middle of the Newton's iterations in one of the intermediate Newton's iterations.
+
+[01:14:41.160] Chuan Wu: And, again, in… because this is a Newton's method, we still have to deal with the most Newton field, important directional update, which is a Newton's direction, delta X and T. We also have to deal with the termination condition, so we will see what the termination condition is like later on.
+
+[01:14:59.420] Chuan Wu: And then, number one, number one question is, how do we find out the Newton's, direction?
+
+[01:15:07.850] Chuan Wu: Delta X and Q, and they're completable interrace.
+
+[01:15:11.420] Chuan Wu: So the rationale is still the same. So we want to find out the delta action in the Newton's direction, such that
+
+[01:15:19.160] Chuan Wu: at the current iterate, or current step X, using the current iterate X. X plus delta X and P is still the optimal solution to the second-order approximation of our original program.
+
+[01:15:33.690] Chuan Wu: Okay, so still the same rationale. So remember what is the, the,
+
+[01:15:41.050] Chuan Wu: Lagrangian. What is a Lagrangian?
+
+[01:15:47.040] Chuan Wu: Okay, so what is the Lagrangian of the second-order approximation? We still have it here. Okay, if you don't remember, go back to slide 10 to see what the second-order approximation problem is like. So this is the Lagrangian of the second-order approximation problem.
+
+[01:16:06.620] Chuan Wu: And, we put down this,
+
+[01:16:09.980] Chuan Wu: optimality condition. Okay, still the optimality condition has two parts. One part is the, Lagrangian of the, gradient of the Lagrangian vanishes, and the second is the, equality constrict.
+
+[01:16:26.300] Chuan Wu: So let me put this down again.
+
+[01:16:42.800] Chuan Wu: Okay, so this is the first of the metadic conditions.
+
+[01:16:46.870] Chuan Wu: Ed?
+
+[01:16:53.720] Chuan Wu: So that is a second, optimality condition.
+
+[01:16:58.970] Chuan Wu: Okay, yeah.
+
+[01:17:00.650] Chuan Wu: Ed?
+
+[01:17:07.710] Chuan Wu: Alright, check out the first row.
+
+[01:17:10.710] Chuan Wu: And at the end, W is the multiplier associated with the equality constraint in the approximation problem.
+
+[01:17:19.500] Chuan Wu: And checking out the first row, the first row is saying, the Haotian matrix multiplying delta X and T,
+
+[01:17:26.570] Chuan Wu: Oh, sorry.
+
+[01:17:28.780] Chuan Wu: It should be.
+
+[01:17:36.930] Chuan Wu: Okay, so the hash matrix multiplying
+
+[01:17:40.270] Chuan Wu: delta X and T, okay, which is V there, plus A transpose W. So A transpose W is there, and right-hand side is, negative of, FX. Okay, so that… the first row here is corresponding to our first computation.
+
+[01:17:56.380] Chuan Wu: On the board. And the second row… second row is saying A, delta X and T.
+
+[01:18:02.970] Chuan Wu: A delta X and T equals B minus AX, B minus AX. Okay, so AX part is moved to the right-hand side.
+
+[01:18:12.240] Chuan Wu: All right.
+
+[01:18:13.770] Chuan Wu: And if you compare
+
+[01:18:16.190] Chuan Wu: If you compare the, the concise form of expressing the optimality condition here for deriving delta X and T with what we have showed on slide 10.
+
+[01:18:31.890] Chuan Wu: You will find out the major difference lies in here, okay? So over slide 10, at this corner, we have a zero vector.
+
+[01:18:40.840] Chuan Wu: And over here, we have AX minus B.
+
+[01:18:45.030] Chuan Wu: So both equalities are derived from automatic condition of the second-order approximation program, and why… and the difference here lies in that our initial value and iterate in the current Newton's method is not guaranteed to be featable.
+
+[01:19:01.670] Chuan Wu: So AX minus B may not be exactly zero, while in the earlier Newton's method we just introduced, we guarantee all the X are feasible.
+
+[01:19:10.620] Chuan Wu: Right, okay, so therefore, we have this AX minus B kind of residual value still here.
+
+[01:19:16.320] Chuan Wu: Okay, but that doesn't affect our calculation of Newton's direction, delta X and T, because if the KKD matrix here is invertible, we can still invert it, and then we can come up with a concrete value of delta X and T, Newton's direction.
+
+[01:19:33.580] Chuan Wu: Regardless of whether AX minus B is zero or null.
+
+[01:19:37.470] Chuan Wu: Right. Okay.
+
+[01:19:39.970] Chuan Wu: All right, Ed. Ed?
+
+[01:19:44.210] Chuan Wu: And in our Newton's method, introducing here, which is called Invisible Start Newton's method, we actually not only make use of primal updates, meaning updating X to X plus T delta X and T, we also make use of the doer update.
+
+[01:20:00.670] Chuan Wu: The doer value, what is the dealer?
+
+[01:20:03.640] Chuan Wu: value here. So the dual variable is, W, okay? Dual variable is W. In our previous Newton's method, we actually can calculate W's value as well, but we just do not explicitly use it.
+
+[01:20:18.200] Chuan Wu: And for the infeitable third Newton's master we are introducing here, both the primal variable, X is update, and the dual variable.
+
+[01:20:26.890] Chuan Wu: Okay, dual variable new is updated as well. So what is the connection between new and the W? So it's just some notations.
+
+[01:20:39.590] Chuan Wu: It is just some donation, difference. So we use W here to be consistent with the automatic condition we showed earlier, but, what we should know is, the dual variable we are used in the following derivation would be new, still.
+
+[01:21:01.400] Chuan Wu: Okay.
+
+[01:21:02.650] Chuan Wu: Here.
+
+[01:21:05.700] Chuan Wu: Right, we now replace W by… New.
+
+[01:21:10.910] Chuan Wu: And especially, new is dual variable to be updated, and again, we apply similar idea of applying primal variable here. Primal variable is updated from X to X plus delta X and T, and the dual variable is updated from new to new plus delta nu and T. So delta nu NT is the Newton's direction on the
+
+[01:21:34.790] Chuan Wu: Working on the doer, variable.
+
+[01:21:38.740] Chuan Wu: And therefore, we…
+
+[01:21:41.070] Chuan Wu: Moving from this slide to the next slide, we know the W is just used to be consistent with W we used earlier, but now we switch back to new, and in the place of W, we do have new star, a new class. New class is after update your value.
+
+[01:22:00.280] Chuan Wu: And, we further replace nu plus by nu plus delta nu nt, because delta nu nt is eventually our Newton's direction to be applied to dual variable update.
+
+[01:22:14.350] Chuan Wu: And, after this, Variable substitution, we come up with a new, equality, optimality condition equality.
+
+[01:22:37.640] Chuan Wu: Okay, booting down a bit more of the details.
+
+[01:23:26.260] Chuan Wu: All right, so this is automatically the condition we have derived for solving for delta X and T. What I did is variable substitution. We make use of the dual variable as well, and we consider the dual variable value to be the previous value plus an update along the dual Newton's direction.
+
+[01:23:44.670] Chuan Wu: Okay.
+
+[01:23:49.420] Chuan Wu: Alright,
+
+[01:23:51.350] Chuan Wu: If you expand this new plus delta nunt term, and move the relative term to the right-hand side, do a little bit of math, you will find out it's equivalent to the, equivalent to the equality here.
+
+[01:24:07.910] Chuan Wu: you can double-check verify. So basically, the Haian FX multiplying delta X and T,
+
+[01:24:14.030] Chuan Wu: Plus A transpose delta nu and T equaling the negative A transpose nu, so A new A transpose new part here is multiplied to the… is moved to the right-hand side, and then the other entries would remain.
+
+[01:24:33.230] Chuan Wu: All right, so what you should know is the equality here exact represents the exact optimality solution to solving the quadratic approximation of the original program.
+
+[01:24:47.780] Chuan Wu: And by setting up the equation here, what we want to derive is if the KKD matrix there is invertible, what we can exactly derive is a concrete value of primal Newton's direction and dual Newton's direction.
+
+[01:25:02.700] Chuan Wu: And this is to enable a concurrent primal and dual variable update in the Newton's iterative algorithm.
+
+[01:25:12.860] Chuan Wu: Okay,
+
+[01:25:15.210] Chuan Wu: And what we have introduced so far is we know how to derive the primal dual Newton stat, but with an idea, just extend and introduce the dual variable, durap-based formulary exactly.
+
+[01:25:28.210] Chuan Wu: And then, what we want to further introduce is regarding termination condition.
+
+[01:25:34.170] Chuan Wu: And in this infinible star to Newton's methods, we do not exactly have a Newton's increment, lambda X derived to use as termination condition. Instead, we treat the determination condition from the more fundamental optimization
+
+[01:25:52.110] Chuan Wu: On the view.
+
+[01:25:53.540] Chuan Wu: And we know this?
+
+[01:25:57.370] Chuan Wu: at the left-hand side of our optimality condition for the original, we call it the constraint optimization program, right? That is, shared, that is,
+
+[01:26:09.430] Chuan Wu: used.
+
+[01:26:11.070] Chuan Wu: and introduced at the very beginning today. So, what is our very original optimization?
+
+[01:26:24.330] Chuan Wu: what is our original, optimization we are dealing with today, so that is it. Okay, and for this original, optimizing
+
+[01:26:34.330] Chuan Wu: A validation probe.
+
+[01:26:36.160] Chuan Wu: It's,
+
+[01:26:42.880] Chuan Wu: Lagrangian is here. Okay, Lagrangian is here, and its optimality conditions has two set.
+
+[01:26:49.820] Chuan Wu: One set is there.
+
+[01:26:52.550] Chuan Wu: gradient of the Lagrangian vanish.
+
+[01:27:02.270] Chuan Wu: And the other is a primal constraint.
+
+[01:27:05.890] Chuan Wu: Okay, so recall, this is the very original set of optimal conditions for the, our original equality concrete optimization we are dealing with.
+
+[01:27:15.900] Chuan Wu: And, we found out… we found a vector here.
+
+[01:27:20.200] Chuan Wu: So the first part of the vector is left-hand side of the first automatic decondation, and the second part of the
+
+[01:27:28.970] Chuan Wu: Factor there is the left-hand side of the second set of optimality conditions.
+
+[01:27:34.340] Chuan Wu: And essentially, our residue function R on both primal variable X and the nu is a vector consisting of all the functions in the optimality condition.
+
+[01:27:46.800] Chuan Wu: And we know when X and the D are primal and the D are optimal, respectively, the… the…
+
+[01:27:56.380] Chuan Wu: Vector R here should be close to zero. Close to all zero vector.
+
+[01:28:01.950] Chuan Wu: Right? And that is the rationale of designing the termination condition.
+
+[01:28:07.030] Chuan Wu: For the infeasible start Newton's method, its termination condition is related to the residue vector here.
+
+[01:28:13.610] Chuan Wu: And also, that's the reason why it's called a residue vector. We want the residue vector to be an all-zero vector.
+
+[01:28:21.190] Chuan Wu: Right.
+
+[01:28:22.710] Chuan Wu: And when it's all zero, meaning optimally the condition of the original program are satisfied, and then we are good.
+
+[01:28:31.020] Chuan Wu: Okay, so that's the rationale.
+
+[01:28:33.950] Chuan Wu: And we also can separate the two parts of the residue vector. One part is called dual residue, and the other is called primal residue. We know the primal residue is related to the primal equality constraints.
+
+[01:28:48.330] Chuan Wu: constraints, and the fuel residue is related to the hatching of the Lagarov gel.
+
+[01:28:53.660] Chuan Wu: Okay, both radios need to be close to zero, okay? Both radios have to be close to zero in order for the X and mu to be primal and dual optimal, respectively.
+
+[01:29:07.560] Chuan Wu: Okay, and by the way, when we present a vector in this way, as we mentioned in one of our early lectures, you should know, this is one way to present a column vector.
+
+[01:29:20.160] Chuan Wu: A more concrete lay over RX mu is a column vector in this lay.
+
+[01:29:30.370] Chuan Wu: One part is…
+
+[01:29:37.380] Chuan Wu: N?
+
+[01:29:38.990] Chuan Wu: Okay, we want it to be zero. Okay, column vector expressed in the row form, it would be using a parenthesis instead of square brackets, and then use comma.
+
+[01:29:50.100] Chuan Wu: Comma in here.
+
+[01:29:54.010] Chuan Wu: Okay.
+
+[01:29:56.760] Chuan Wu: Alright,
+
+[01:29:59.290] Chuan Wu: In fact, so far, we have known how to derive the Newton's direction, and we have come up with a residual vector, and both of them can be used in our invisible start Newton's method to construct the algorithm flow.
+
+[01:30:14.040] Chuan Wu: two major quantities in algorithm flow. But before that, I still want to introduce an alternative way how we derive the primary Newton direction for primal-Doh-Newton step, and, how…
+
+[01:30:29.030] Chuan Wu: By way of making use of our, you know, foreign address residue there. Okay.
+
+[01:30:35.520] Chuan Wu: And, in our residue function, our variable consists of X and nu, primal and dual variables, and let's say the residue function is on variable Y. So Y is a vector of X and nu. So again, so this is a real form to represent a thousand vector.
+
+[01:30:54.860] Chuan Wu: Our wife's definition more exactly is here.
+
+[01:30:58.390] Chuan Wu: Okay, concatenate X and the new, to come up with a column vector Y.
+
+[01:31:03.890] Chuan Wu: Okay, and our optimalistic condition is the residue function on Y. Vector y should be exactly an all zero vector, or zero vector. And,
+
+[01:31:16.490] Chuan Wu: And we can work on the function R on Y. We linearizing it. So what does it mean, linearizing 8? Another way to say it is we come up with first-order approximation of function RY.
+
+[01:31:30.410] Chuan Wu: Okay, first order approximation of function RY on a vector can be expressed this way. So it's approximately RY plus a derivative of a function RY,
+
+[01:31:42.170] Chuan Wu: And then delta Y.
+
+[01:31:44.760] Chuan Wu: Okay, so this is first the order approximation. And, putting in concrete, values, the R…
+
+[01:31:55.340] Chuan Wu: Y plus delta Y.
+
+[01:31:58.820] Chuan Wu: The RY plus… oh, okay, let me…
+
+[01:32:03.630] Chuan Wu: The R… let's start with this part.
+
+[01:32:06.740] Chuan Wu: So the…
+
+[01:32:08.670] Chuan Wu: RY part is, here. So RY, exactly our two sets of optimality conditions, and then the left-hand side is,
+
+[01:32:24.800] Chuan Wu: Basically, here we have RY plus DRY delta Y equaling 0. This is our optimality condition expressed by way of first-order approximation of our optimality conditions.
+
+[01:32:36.670] Chuan Wu: And RY, moving to the right-hand side, is negative of the set of optimality conditions here, functions in optimality condition, and then DRY, delta Y part. So delta Y is exactly consisting of delta X and T and delta nunt, and then the DRY part is what we have here.
+
+[01:32:57.730] Chuan Wu: Okay, so derivative of our Y function.
+
+[01:33:01.530] Chuan Wu: You can double check, okay? Derivative of the function RY here is the gradient becomes Haian, and then A transpose Nuels, gradient is A, then derivative. Okay, derivative is further transpose of gradient, so you can double check, and then you will find out the coefficient
+
+[01:33:20.580] Chuan Wu: vector coefficient matrix here, or the so-called KKD matrix here, is corresponding to our derivative of function RY.
+
+[01:33:30.320] Chuan Wu: And, then, if we further consider new plans, it's the after update during iterate.
+
+[01:33:38.220] Chuan Wu: And then it is equivalent to the equivalent form here, okay, by variable substitution. And again, the two formulas are already what we derived earlier. And here is just the alternate way to deriving it.
+
+[01:33:54.620] Chuan Wu: Okay, all right, so the, core rationale underneath the alternative way of derivation is the first-order approximation of gradient. Okay, first-order approximation of gradient is,
+
+[01:34:12.030] Chuan Wu: The same as second-order approximation of the original optimality condition.
+
+[01:34:18.260] Chuan Wu: Okay, second order approximation of the original.
+
+[01:34:22.190] Chuan Wu: Problem… objective function.
+
+[01:34:28.670] Chuan Wu: Okay.
+
+[01:34:36.930] Chuan Wu: Okay, say that again. So here, definition of R is already related to gradient of the Lagrange jth, right? So essentially, when we do one other linearization or first-order approximation of the gradient.
+
+[01:34:51.220] Chuan Wu: is actually the same as the second-order approximation of the original Lagrangian function.
+
+[01:34:58.850] Chuan Wu: So that's a fundamental rationale why eventually we come up with the same optimality condition, the same equation to solve for primal dio Newton's direction.
+
+[01:35:26.230] Chuan Wu: All right, and then let's check out, after knowing how we, derived the primal viewer Newton step, and, knowing we can use the… make use of the residue to evaluate whether the algorithm can terminate, or no.
+
+[01:35:43.020] Chuan Wu: Instead of any of these Newton statement here. So we can check out the sketch of this infeedable start Newton's method.
+
+[01:35:51.440] Chuan Wu: So for infeasible Star-Newton's method, we start with the starting point X, okay, and the new. And we do not assume X satisfies the equality constraint, and then we have tolerance and a few parameters used in the algorithm step.
+
+[01:36:06.930] Chuan Wu: And first step is, still, we calculate Newton's direction. And now, in this infeasible start, Newton's methods, it's a primal dual approach, meaning we are updating both primal variable and dual variable in every algorithm step, and therefore, we calculate both primal and dual Newton steps by inverting the KKD matrix following the equality we derived.
+
+[01:36:31.640] Chuan Wu: And then, we do backtracking line search. Backtracking line search is to decide the step size T to use in primal and dual update. And now, differently, the backtracking line search is to work on the residue vectors L2 knob.
+
+[01:36:49.550] Chuan Wu: Instead of on FX.
+
+[01:36:51.930] Chuan Wu: So I'll tell the rationale. Let's finish the algorithm step first.
+
+[01:36:56.840] Chuan Wu: And backtracking line search step, following the standard backtracking line search step, we start from some T equaling 1, and then we iteratively try to find out scaling T down by a smaller than 1 factor beta, and we try to eventually ensure the residue after update is larger than 1 minus alpha T times of the previous residue.
+
+[01:37:21.350] Chuan Wu: It's smaller equal, okay, smaller equal to that, because it terminates. It's… the iteration continues when the relation is still larger. Okay, so the idea is we try to come up with a T, which makes sure, after update, the residue is smaller than before.
+
+[01:37:40.500] Chuan Wu: And then, by this line search, identify the T, we can update primal variable X and nu to the next iterate along the direction of primal dual Newton's direction, respectively.
+
+[01:37:53.140] Chuan Wu: And then the termination conditions are here. First of all, we need to ensure the residue is very small, okay? The residue consists of two parts, as we know. One is a gradient equating zero, and the other is the primal equality constraint.
+
+[01:38:09.060] Chuan Wu: By making sure it's very small doesn't make sure that X satisfies the equality constraint, so therefore we have to explicitly require AX equaling B.
+
+[01:38:20.740] Chuan Wu: Okay, and pretty much, essentially, the residue vector, only the first part remains in the second termination condition.
+
+[01:38:31.750] Chuan Wu: Okay, so there are a few important aspects to analyze in this infeasible start Newton's method.
+
+[01:38:40.410] Chuan Wu: First, let's analyze why. We are doing backtracking line search on the residue vector function, residue functions L to norm, instead of the primal constraint.
+
+[01:38:52.160] Chuan Wu: In all the other Newton's methods, we were saying we do backtracking line search on FX. The main rationale lies in, we know, in those Newton's methods, they are, their descent method in the sense that when updating from XK to XK plus 1, our objective function value is decreasing. So that's… then that ensures, through the backtracking line search.
+
+[01:39:17.100] Chuan Wu: step, we are able to… the backtracking line search step is… steps are able to converge or stop at a certain value of T. But in the current infeedable start Newtons method, it is fundamentally not,
+
+[01:39:31.900] Chuan Wu: a descent method. That means when we update XK to XK plus 1, it's possible, that FXK plus 1 in this step is larger.
+
+[01:39:43.190] Chuan Wu: Okay, then that makes the backtracking line search on FX difficult to converge or stop.
+
+[01:39:50.070] Chuan Wu: Okay, why? Why in the current infeasible Star Newton's method is not a descent method? We are not able to guarantee after update, FXK plus 1 is smaller. So the rationale is here.
+
+[01:40:04.250] Chuan Wu: So before we analyze the Newton's method, we call it a constraint, showing it's a descent method using the concept of directional derivative, along the Newton's direction. And yes, now we are doing it again here in our… analyze that the current inflatable star Newton's method is not a descent method.
+
+[01:40:24.180] Chuan Wu: The calculation of directional derivative is here. So the definition is the inner product between the gradient vector and Newton's direction.
+
+[01:40:36.070] Chuan Wu: And, using the derivation step of optimality condition, okay, actually, still from our derivation of the optimality condition, we are able to show this is equivalent to the following. Okay, so to show that…
+
+[01:40:51.410] Chuan Wu: quickly, delta X and T in the product NABA FX equaling,
+
+[01:40:58.380] Chuan Wu: delta X and T inner product vector here. So the rationale is exactly here.
+
+[01:41:06.280] Chuan Wu: Solomon.
+
+[01:41:08.180] Chuan Wu: Nebula effect, brilliant vector involves negative passion.
+
+[01:41:13.320] Chuan Wu: Matrix?
+
+[01:41:14.460] Chuan Wu: of delta X and T, negative transports W.
+
+[01:41:19.180] Chuan Wu: Okay, just what we are making use of is exactly the first optimality condition there in our derivation of delta X and T. Okay, and then, distribute the inner product to the two terms.
+
+[01:41:34.510] Chuan Wu: And the, and also… Making use of the second optimality condition. Death. AX.
+
+[01:41:44.420] Chuan Wu: minus D equals… Negative 8, multiplying delta X and T.
+
+[01:41:50.760] Chuan Wu: Okay, we come up with the second term here, and,
+
+[01:41:56.660] Chuan Wu: And what we know is, X is not guaranteed to be a feasible solution, so therefore the second entry may not be, exactly zero. When the second entry is not exactly zero, we don't know whether the result here is positive or negative.
+
+[01:42:14.590] Chuan Wu: If the second entry is completely zero, when x is a feasible solution, we know the first entry is always smaller equal to 0, because the Haotian matrix of function fx is positive semi-definite, right?
+
+[01:42:30.330] Chuan Wu: Okay, so therefore, we don't know whether the directional derivative is positive or negative, so therefore, it's possible that after update along the Newton's direction, our function value increases.
+
+[01:42:47.700] Chuan Wu: Okay, but on the other hand.
+
+[01:42:59.100] Chuan Wu: Right, on the other hand, if we consider the, if we consider the…
+
+[01:43:07.670] Chuan Wu: function of the norm of residue, okay? This is our residue function, we consider its norm.
+
+[01:43:16.220] Chuan Wu: That function is always decreasing in the Newton's direction, and we are able to show that. When that function R… when the function of the norm of R is always decreasing in the Newton's direction, we can safely use it in the line search to find out the T, which ensures that equality
+
+[01:43:35.880] Chuan Wu: holds. So I'll also show you how that inequality can hold.
+
+[01:43:42.220] Chuan Wu: All right, let's see some step of derivation of the,
+
+[01:43:48.950] Chuan Wu: let's see some… let's see how we are able to show the norm of R. That function's value is decreasing in the Newton's direction. So again, we make use of the directional derivative of that function, and the function I was saying is
+
+[01:44:06.630] Chuan Wu: the function here.
+
+[01:44:10.480] Chuan Wu: Okay, so the function… what we are trying to show next is the norm of the… this function… this function is decreasing the Newton's direction by showing its, directional derivative along the Newton's direction is smaller than zero.
+
+[01:44:27.140] Chuan Wu: Okay, so our Y is concatenation of XV, as we know, and this is a calculation of the directional derivative of the norm function along the Newton's direction.
+
+[01:44:40.420] Chuan Wu: And we are able to show it's equivalent to negative of the norm of RY.
+
+[01:44:46.490] Chuan Wu: And how? Okay, so it's here, detailed derivation here.
+
+[01:44:51.460] Chuan Wu: we, instead of calculating the directional derivative of L2,
+
+[01:44:58.130] Chuan Wu: norm of the residue function R, we calculate the directional derivative of
+
+[01:45:04.420] Chuan Wu: of the L2 norm squared function of R.
+
+[01:45:08.720] Chuan Wu: And using… this is a vector out to norm square. It's equivalent to the functions in the product with itself.
+
+[01:45:17.170] Chuan Wu: And, further make use of the Chuan rule of, derivative calculation. So we are able to come up with this, this is a quadratic form of the function, and it… the derivative becomes 2 times the functions, transpose, and then derivative of the function again.
+
+[01:45:36.780] Chuan Wu: Using change rule of derailed calculation.
+
+[01:45:40.820] Chuan Wu: And then, here we calculate the derivative when T goes to 0. When t goes to 0, the first entry becomes 2 times RY transpose, and the second entry becomes exactly the,
+
+[01:45:54.680] Chuan Wu: the derivative RY multiplying delta y. So again, here we make use of the definition of directional derivative. So recall, directional derivative equals the gradient of the function in a product with the direction. And the gradient of the vector transpose equals the derivative of the vector.
+
+[01:46:17.130] Chuan Wu: Okay.
+
+[01:46:18.970] Chuan Wu: And then, you're making use of the, optimize the conditions, we… Make use when deriving
+
+[01:46:32.580] Chuan Wu: the Lagrangian, deriving the Newton's direction.
+
+[01:46:36.990] Chuan Wu: We make use of RY to put DRY, Delta Y equaling 0.
+
+[01:46:44.100] Chuan Wu: Okay.
+
+[01:46:45.260] Chuan Wu: And… plug that in, our DRY delta Y part becomes negative RY, okay, because negative RY,
+
+[01:46:54.170] Chuan Wu: And, so therefore, here, the right-hand side is just the negative 2 times of L2 norm squared of vector RY.
+
+[01:47:03.390] Chuan Wu: And we further take derivative of the square and the,
+
+[01:47:09.500] Chuan Wu: Left-hand side here, okay, go back to the very left-hand side of the, steps of derivation. The leftmost
+
+[01:47:19.690] Chuan Wu: part entry here becomes 2 times taking derivative of that. It becomes 2 times the vector, and then derivative of the vector over DT. And the right-hand side here is still,
+
+[01:47:36.870] Chuan Wu: negative 2, L2 norm square of RY.
+
+[01:47:41.710] Chuan Wu: Okay, and what we want to show is, left-hand side, when T goes to 0, there is one order of L2 norm of RY, which cancels with the one order of L2 norm of RY on the right-hand side, and eventually we are able to derive the equality above.
+
+[01:48:00.850] Chuan Wu: Here.
+
+[01:48:03.120] Chuan Wu: Okay, so you can check out the detailed derivation.
+
+[01:48:07.090] Chuan Wu: And, when we have the conclusion here, what we are able to ensure is the norm of R is indeed decreasing in the Newton's direction, because the norm of,
+
+[01:48:19.130] Chuan Wu: R's, because the directional derivative of the norm of R function is a negative value. Negative L to norm is negative value.
+
+[01:48:31.300] Chuan Wu: Okay, all right, so due to time limit, I'll just stop here, and based on this result, I will show you, at the beginning of the next lecture, what I want to show you is,
+
+[01:48:45.210] Chuan Wu: The backtracking line search, making use of R2, established on what we derived earlier, is really… is able to terminate after a few steps.
+
+[01:48:55.730] Chuan Wu: Okay.
+
+[01:48:57.090] Chuan Wu: Alrighty!
+
+[01:49:00.030] Chuan Wu: We'll call it a day. Bring your jacket next time.

@@ -1,0 +1,2854 @@
+WEBVTT
+
+1
+00:01:36.880 --> 00:01:37.550
+Chuan Wu: Oh.
+
+2
+00:01:37.800 --> 00:01:39.429
+Chuan Wu: That's another one there.
+
+3
+00:01:40.480 --> 00:01:46.630
+Chuan Wu: without Is that… principal
+
+4
+00:01:49.630 --> 00:01:52.670
+Chuan Wu: But you You're welcome.
+
+5
+00:01:53.410 --> 00:01:54.070
+Chuan Wu: Okay.
+
+6
+00:02:10.100 --> 00:02:10.990
+Chuan Wu: Testing.
+
+7
+00:02:11.690 --> 00:02:16.649
+Chuan Wu: Good morning, everyone. Welcome to today's optimization class. Let's get started.
+
+8
+00:02:16.650 --> 00:02:33.740
+Chuan Wu: We are now working on different convex programs. So, especially, we are working on contracting program, we also look at the robust linear program, which essentially can be converted to different forms of contracting program or semi-definite program.
+
+9
+00:02:33.740 --> 00:02:43.649
+Chuan Wu: And today we are going to move on and we are going to finish up the discussion on convex program before we move on to the next important topic on duality theory.
+
+10
+00:02:44.000 --> 00:02:56.029
+Chuan Wu: Okay, the next type of convex program is called geometric program. And before we check out the concrete form of geometric program, let's first look at a few, definitions, or concepts.
+
+11
+00:02:56.060 --> 00:03:14.849
+Chuan Wu: So the first concept is about monomial function, okay, monomial function. So monomial function fx is defined in such a way, so here we have a coefficient of C, which should be positive, and then we have X1 up to Xn, so that's the product of X.
+
+12
+00:03:14.940 --> 00:03:26.770
+Chuan Wu: 1 up to XN's power together, and the X1, XN, each one of them is a scalar variable, and in total, the variable X is an N-dimensional vector.
+
+13
+00:03:26.810 --> 00:03:38.369
+Chuan Wu: And here, we also require the X1 up to XN, the N components, to be positive. So that's why here we specify the domain is R plus plus N.
+
+14
+00:03:38.770 --> 00:03:50.259
+Chuan Wu: And here we have exponent alpha i's, and alpha i's can be any real number, positive, fractional, negative, fractional, all kinds of real numbers.
+
+15
+00:03:50.650 --> 00:03:57.769
+Chuan Wu: Okay? And then the next destination. Okay, the next destination. Probably when you check out the
+
+16
+00:03:57.840 --> 00:04:04.280
+Chuan Wu: definition of monomial function. It reminds you of some other form of function, and we'll talk about that later.
+
+17
+00:04:04.320 --> 00:04:18.059
+Chuan Wu: And the next function we are looking at is called polynomial function. And the polynomial function's definition is based on the definition of monomial functions, because it is just the sum of monomial functions. Okay.
+
+18
+00:04:18.320 --> 00:04:29.350
+Chuan Wu: So, as said, okay, as said, the name of these functions, or the form of these functions may appear familiar to you, right?
+
+19
+00:04:30.020 --> 00:04:39.879
+Chuan Wu: Okay, may appear familiar to you because their form is very closely related to a so-called polynomial function.
+
+20
+00:04:40.000 --> 00:04:55.069
+Chuan Wu: Okay, polynomial function. I believe most of you know what is polynomial function, right? And in general, the polynomial function's definition, the form, is very much just like the form of monomic function, or polynomial function, you consider some of them, right?
+
+21
+00:04:55.070 --> 00:05:08.819
+Chuan Wu: And the major difference lies in the definition of a polynomial function. Usually, we require the exponent alpha 1 or alpha 2 up to alpha n to be a positive integer.
+
+22
+00:05:09.430 --> 00:05:19.679
+Chuan Wu: in polynomial functions definition, they should be positive integers, and, on the other hand, they do not require C to be positive. C can be positive, negative.
+
+23
+00:05:19.830 --> 00:05:21.769
+Chuan Wu: As well, right?
+
+24
+00:05:21.770 --> 00:05:41.249
+Chuan Wu: Okay, so that's the concept of polynomial function that we are familiar with. And to some extent, you can consider our current introduction of monomial function and the polynomial function to be some type of extension or some variation of the concept of polynomial function that we are familiar with.
+
+25
+00:05:41.590 --> 00:05:54.060
+Chuan Wu: Okay, and these functions are mainly used to serve in the form of the so-called geometric program. Okay, so a geometric program itself is a mathematical program.
+
+26
+00:05:54.060 --> 00:06:04.599
+Chuan Wu: And the objective function is similar as before, minimizing F0X, and the objective… and the constraints. We have a set of inequality constraints, FIX no larger than
+
+27
+00:06:04.690 --> 00:06:05.550
+Chuan Wu: What?
+
+28
+00:06:05.760 --> 00:06:19.649
+Chuan Wu: Okay, that's a difference from the, standard, form of mathematical program, right? In standard form, typically we have something to do zero on the right-hand side, right? And the, set of.
+
+29
+00:06:19.920 --> 00:06:25.030
+Chuan Wu: You call it the constraints, which are actually creating 1 instead of 0 as well.
+
+30
+00:06:25.200 --> 00:06:29.679
+Chuan Wu: Okay, so there is a reason, because soon we are going to take lotteries on both sides.
+
+31
+00:06:29.890 --> 00:06:40.279
+Chuan Wu: Okay, and here the form, the generic form of geometric program looks very much like the generic form of mathematical program we were looking at.
+
+32
+00:06:40.280 --> 00:06:50.920
+Chuan Wu: Pay attention, I'm not saying it's pretty much like a convex program. No, because soon we will find out geometrical program in its original form, it is not a convex program.
+
+33
+00:06:51.500 --> 00:07:03.230
+Chuan Wu: Okay, so the reason lies in here, the FIs in objective function, as well as inequality function, we require them to be polynomial functions. Positonomials.
+
+34
+00:07:03.630 --> 00:07:11.229
+Chuan Wu: and the HIX appearing in the equality constraints, we require them to be monomial functions.
+
+35
+00:07:11.800 --> 00:07:18.869
+Chuan Wu: Okay, monomial functions. Recall in the standard definition of form of connex program, the.
+
+36
+00:07:19.280 --> 00:07:38.730
+Chuan Wu: the equality constraints has to be affine, and here we haven't arrived at some affine form of the problem yet. Okay. And, geometric program, so therefore we know geometric program by itself, in its very original form, is not actually a convex program.
+
+37
+00:07:38.850 --> 00:07:56.039
+Chuan Wu: But the nice thing is, a geometrical program based on some variable substitution, some operator applied to the constraint inequality constraints, we are able to convert all geometric programs into convex program mode.
+
+38
+00:07:56.170 --> 00:08:05.170
+Chuan Wu: Okay, so let's take a look at how this conversion is, being done. So, first of all, we consider variable YIs.
+
+39
+00:08:05.330 --> 00:08:09.540
+Chuan Wu: So every YI is corresponding to log XI.
+
+40
+00:08:09.770 --> 00:08:12.559
+Chuan Wu: Xi is the original variable.
+
+41
+00:08:12.800 --> 00:08:23.090
+Chuan Wu: the ice component of the original variable X. And then we take logarithm of the objective function as well as a constraint functions.
+
+42
+00:08:24.520 --> 00:08:35.339
+Chuan Wu: Okay, then, what we get is here. So let's 1st check out in general, if we do the variable substitution, and what can we convert the monomial function into?
+
+43
+00:08:35.350 --> 00:08:52.879
+Chuan Wu: So monomial function's original form is CX1 power alpha 1, multiplied all the way up to XN, alpha N, and then we are able to convert it into the, the form there, okay, based on the variable substitution and taking logarithm.
+
+44
+00:08:55.670 --> 00:08:56.580
+Chuan Wu: Okay.
+
+45
+00:08:56.700 --> 00:09:00.290
+Chuan Wu: So, our… F. X.
+
+46
+00:09:00.860 --> 00:09:06.200
+Chuan Wu: Okay, it's, C… X what?
+
+47
+00:09:06.390 --> 00:09:14.630
+Chuan Wu: So what is, X1? So if we consider YI is, block XI.
+
+48
+00:09:15.440 --> 00:09:20.659
+Chuan Wu: So that's equivalent to XI is E to the power of YI.
+
+49
+00:09:21.020 --> 00:09:26.659
+Chuan Wu: Right? Okay. And then function F's form becomes the following.
+
+50
+00:09:29.100 --> 00:09:41.470
+Chuan Wu: It's C multiplying E to the power of alpha 1, Y1, E, alpha 2, Y2, and all the way E, alpha N, YN.
+
+51
+00:09:42.250 --> 00:09:48.059
+Chuan Wu: Right? So this is the first step, variable substitution. And then we take logarithm.
+
+52
+00:09:48.520 --> 00:09:52.920
+Chuan Wu: So if you take log reason, log F, It helps.
+
+53
+00:09:53.650 --> 00:09:54.970
+Chuan Wu: So log C.
+
+54
+00:09:55.510 --> 00:09:59.479
+Chuan Wu: Plus, alpha 1Y1, alpha 2Y3.
+
+55
+00:09:59.600 --> 00:10:06.709
+Chuan Wu: All the way, adding up to alpha n by n, based on the distributive log of doing log computation.
+
+56
+00:10:07.120 --> 00:10:21.379
+Chuan Wu: Okay, then what is the right-hand side is like? So these parts altogether become… it's an alpha form of the variable Y, alpha function on Y. So we use, alpha
+
+57
+00:10:22.570 --> 00:10:23.700
+Chuan Wu: the State.
+
+58
+00:10:24.610 --> 00:10:35.230
+Chuan Wu: Okay, that's A. Okay, anyway. So the coefficient vector in the product Y plus a constant B. And B is equaling our original
+
+59
+00:10:35.390 --> 00:10:36.480
+Chuan Wu: Lost.
+
+60
+00:10:36.890 --> 00:10:39.660
+Chuan Wu: Right, C is constant, log C constant, D is constant.
+
+61
+00:10:40.680 --> 00:10:54.610
+Chuan Wu: Okay, so then you are able… we are able to actually convert a monomial function based on variable substitution and logarithm operators of my application. We are able to convert a monomial function into a function.
+
+62
+00:10:55.230 --> 00:10:56.140
+Chuan Wu: Okay.
+
+63
+00:10:57.010 --> 00:10:58.000
+Chuan Wu: Okay.
+
+64
+00:10:58.310 --> 00:11:12.990
+Chuan Wu: All right, and we know the monomial function appearing in the equality constraints in geometric program, and then you will find out, actually, we can convert the equality constraints in geometric program into affine functions, affine equalities.
+
+65
+00:11:13.910 --> 00:11:30.810
+Chuan Wu: Okay, next, moving on, we are going to work on polynomials. And similarly, we apply variable substitution, X convert to Y, and then we take logarithm of the function. And, the, for polynomial function, every…
+
+66
+00:11:32.170 --> 00:11:34.170
+Chuan Wu: item in the summation.
+
+67
+00:11:34.280 --> 00:11:37.040
+Chuan Wu: is… in the form here.
+
+68
+00:11:39.980 --> 00:11:44.999
+Chuan Wu: after variable substitution. Okay, of course, now we have many more variables.
+
+69
+00:11:45.220 --> 00:11:53.110
+Chuan Wu: So we have, let's… let me still use ARPA here. ARPA1… Okay. One, okay.
+
+70
+00:11:53.870 --> 00:11:54.750
+Chuan Wu: Okay.
+
+71
+00:11:55.880 --> 00:11:59.639
+Chuan Wu: Okay, okay, then this is the PIP.
+
+72
+00:12:02.140 --> 00:12:21.930
+Chuan Wu: Alright, so this is the i-th monomial in the sum of the original polynomial function. After we do the variable substitution, converting Xi's to Yi's, every monomial in the summation becomes a form here. And then for a polynomial function, we further have sum over K.
+
+73
+00:12:22.570 --> 00:12:24.970
+Chuan Wu: Okay, some over picked.
+
+74
+00:12:27.900 --> 00:12:35.870
+Chuan Wu: Okay, so then this is, our polynomial function after variable substitution, and then if you take logarithm.
+
+75
+00:12:36.180 --> 00:12:38.200
+Chuan Wu: So, lock. Lock.
+
+76
+00:12:39.020 --> 00:12:40.040
+Chuan Wu: Okay.
+
+77
+00:12:40.170 --> 00:12:50.579
+Chuan Wu: So we cannot distribute a lock into the sum, so lock stays outside, okay, outer operator, the outermost operator. So we have a function over there.
+
+78
+00:12:51.460 --> 00:13:01.290
+Chuan Wu: Okay, and then, of course, we can, combine the, exponents of, E?
+
+79
+00:13:07.830 --> 00:13:15.499
+Chuan Wu: Okay. And… So that further give us the, vector.
+
+80
+00:13:18.290 --> 00:13:23.850
+Chuan Wu: Okay, so exponent can be expressed in the concise form in the
+
+81
+00:13:24.050 --> 00:13:28.459
+Chuan Wu: form of a vector in the product Y plus a constant.
+
+82
+00:13:28.770 --> 00:13:36.900
+Chuan Wu: Okay, so what is a constant? So the constant comes from comes from, CK.
+
+83
+00:13:47.070 --> 00:13:53.140
+Chuan Wu: Okay, so CK equals E power log.
+
+84
+00:13:53.300 --> 00:13:54.400
+Chuan Wu: Okay.
+
+85
+00:13:55.250 --> 00:14:02.570
+Chuan Wu: Okay. And then… We come up with E, Lock. C. K.
+
+86
+00:14:03.300 --> 00:14:04.190
+Chuan Wu: class.
+
+87
+00:14:06.140 --> 00:14:10.159
+Chuan Wu: A1K in a product Y.
+
+88
+00:14:12.450 --> 00:14:13.340
+Chuan Wu: Okay.
+
+89
+00:14:13.710 --> 00:14:26.820
+Chuan Wu: And, further to a constant, substitution, so we, assume we let log CK to be BK, so the exponent in every entry
+
+90
+00:14:27.210 --> 00:14:31.120
+Chuan Wu: Here, is alpha 4.
+
+91
+00:14:31.780 --> 00:14:32.460
+Chuan Wu: Right.
+
+92
+00:14:33.320 --> 00:14:34.240
+Chuan Wu: Okay.
+
+93
+00:14:34.510 --> 00:14:44.209
+Chuan Wu: Alright, and then, in this way, we are able to convert the polynomial function into a log-sum exponential function form. Hmm.
+
+94
+00:14:44.340 --> 00:14:58.759
+Chuan Wu: So the log exponential form actually is a convex function form, as one example we introduced earlier. We didn't introduce the proof, and we asked you to check our textbook for the detailed proof.
+
+95
+00:14:59.020 --> 00:15:10.130
+Chuan Wu: Okay, I hope you did. If you don't, and if you're interested, make sure you check out the proof. But in general, we know log sum exponential function is a convex function.
+
+96
+00:15:10.300 --> 00:15:17.359
+Chuan Wu: And then further composing it with an alpha function, the resulting function here is, again, convex.
+
+97
+00:15:18.550 --> 00:15:27.099
+Chuan Wu: Okay, using the above transformations, we are able to transform the geometric program.
+
+98
+00:15:29.400 --> 00:15:45.710
+Chuan Wu: the geometric program into the following form. The objective function, we are minimizing a polynomial function, and based on our variable substitution and log application of log operator, we come up with a log sum exponential form of the objective function on Y.
+
+99
+00:15:45.710 --> 00:15:59.950
+Chuan Wu: And constraints, the inequality constraints, the left-hand side constraint functions now all become log sum exponential functions, because the left-hand side are all polynomial functions, and the right-hand side becomes zero.
+
+100
+00:15:59.950 --> 00:16:07.469
+Chuan Wu: Why? Because in the original inequality constraints, right-hand side is, 0, is 1, and the log of 1 is 0.
+
+101
+00:16:07.590 --> 00:16:12.540
+Chuan Wu: Right? So essentially, we are taking logarithm on both sides of the
+
+102
+00:16:12.700 --> 00:16:18.639
+Chuan Wu: original inequalities for both the inequality and equality constraints.
+
+103
+00:16:19.830 --> 00:16:33.380
+Chuan Wu: And then the equality constraints, so as I said, equality constraints, left-hand side, are all monomial functions, and based on our transformation, the monomial functions becomes
+
+104
+00:16:33.940 --> 00:16:41.820
+Chuan Wu: monomial functions become affine function right? And again, right hand side, one after taking log becomes 0.
+
+105
+00:16:42.520 --> 00:16:54.630
+Chuan Wu: So therefore, we actually have a set of affine functions here, and this GY plus D is a concise way to express a set of affine functions in there, affine equalities in there.
+
+106
+00:16:55.780 --> 00:16:56.570
+Chuan Wu: Right.
+
+107
+00:16:56.950 --> 00:17:03.309
+Chuan Wu: Okay, all right, so I hope this is clear, just some application of transformations.
+
+108
+00:17:03.310 --> 00:17:18.869
+Chuan Wu: And now, we check out the new program form here. Objective function convex, and the inequality constraints convex, and the equality constraints are fine, so therefore, this geometrical program has been converted into a convex program.
+
+109
+00:17:19.089 --> 00:17:26.569
+Chuan Wu: and convex program can be treated by all the efficient algorithms that we are introducing in later half of the semester.
+
+110
+00:17:28.480 --> 00:17:47.900
+Chuan Wu: Okay, so that is geometrical program, and how it can be converted to a complex program. And essentially, in your problem study, so when you're facing some optimization problem in your research, if you figured that you can formulate the problem into a geometric program, then you're pretty much good.
+
+111
+00:17:47.900 --> 00:17:59.429
+Chuan Wu: Because the first step is to formulate the geometric program, and then you can apply all the transformation conversion techniques here to convert it to a convex form, and then solve it efficiently.
+
+112
+00:18:00.080 --> 00:18:09.640
+Chuan Wu: Okay, so following that, let's check out one simple example where we can formulate a concrete problem into a geometric program.
+
+113
+00:18:09.810 --> 00:18:18.979
+Chuan Wu: Okay, so the problem is to maximize the volume of a box-shaped structure. So it's a very simple optimization problem.
+
+114
+00:18:18.980 --> 00:18:38.110
+Chuan Wu: And, what our optimization variables at hands are. So basically, when we try to decide a box shape structure, pretty much we just need to know its height, its width and its depth. Right after three dimensions are decided, the box shape is completely fixed.
+
+115
+00:18:38.340 --> 00:18:44.579
+Chuan Wu: Okay, so then we have three variables, the height, and the width, and the depth.
+
+116
+00:18:44.830 --> 00:19:03.749
+Chuan Wu: And then, we can formulate our objective function and constraints. So our objective function is to maximize the volume of the structure. So we know how to describe the volume of a box shape, right? So the volume is just the product of the three dimensions.
+
+117
+00:19:03.910 --> 00:19:08.610
+Chuan Wu: Right, so the object function is just the product of HWD.
+
+118
+00:19:08.730 --> 00:19:32.649
+Chuan Wu: And we have a number of, constraints that is, that are given. So, first of all, we want there to be a limit on the total wall area, and there is a limit on the floor area, and there are lower upper bounds on the aspect ratio, H divided by W, and there are lower and upper bounds on the aspect ratio of D divided by W.
+
+119
+00:19:32.750 --> 00:19:51.640
+Chuan Wu: So essentially, we just need to convert all the language described constraints into a mathematical formula, one by one, and that should be pretty straightforward. So they are here. Okay, wall area. So given HWD, how do we describe the wall area? So the wall H…
+
+120
+00:19:51.690 --> 00:20:08.309
+Chuan Wu: Multiply W is one side of the wall, right? And H multiplied W is one side of the wall area, and HD, another side of the wall area, right? And add together times 2, because we have 4 walls.
+
+121
+00:20:08.310 --> 00:20:13.960
+Chuan Wu: Right, okay. And then no larger than the given upper bound A. So A is given.
+
+122
+00:20:14.450 --> 00:20:28.470
+Chuan Wu: And then a limit on the floor area. Floor area is WD with multiply, depth, and no larger than a given upper bound B, and aspect ratio, lower upper bound, aspect ratio, lower upper bound.
+
+123
+00:20:28.590 --> 00:20:29.480
+Chuan Wu: Okay.
+
+124
+00:20:29.580 --> 00:20:40.700
+Chuan Wu: And then, pretty much, we are done with this optimization. And of course, you might ask, shouldn't we have a constraint like HWD, large equal to zero?
+
+125
+00:20:40.750 --> 00:21:02.809
+Chuan Wu: Yes, we should, but to some extent, they are implied, right? And because we are maximizing HWD, of course, we won't be taking any value equaling or smaller than zero, right? Okay. And then, provided all the A, B, C, D, E, F are given numbers, given bond numbers are all positive.
+
+126
+00:21:03.240 --> 00:21:16.160
+Chuan Wu: Okay, and therefore, this is a very simple optimization problem that we have formulated, and if you check out the form of the optimization we formulated, indeed, they do not look like convex program.
+
+127
+00:21:16.360 --> 00:21:26.740
+Chuan Wu: Because objective function is to maximize the products of three variables. Whenever there are products of more than two variables, that becomes a function mostly not
+
+128
+00:21:26.860 --> 00:21:27.800
+Chuan Wu: Coax.
+
+129
+00:21:28.390 --> 00:21:34.099
+Chuan Wu: Right, okay. All right. And here we.
+
+130
+00:21:34.100 --> 00:21:50.690
+Chuan Wu: But the nice thing is, actually, it can be of the form of geometrical program, because in geometric program, it involves a lot of polynomials, monomials, and you know the polynomials, monomials are involving a lot of the functions.
+
+131
+00:21:50.690 --> 00:21:56.149
+Chuan Wu: the variables products or products of more than one variables and tools.
+
+132
+00:21:56.210 --> 00:21:58.000
+Chuan Wu: different exponents.
+
+133
+00:21:58.330 --> 00:22:18.029
+Chuan Wu: Right, but actually, in the very original form of what we have formulated, it is not the standard form of geometric program either, but we can very simply convert them into the standard form of geometrical program. So, first of all, objective function, we need to make it a minimization problem instead of maximization.
+
+134
+00:22:18.140 --> 00:22:27.210
+Chuan Wu: Okay, and as mentioned before, to convert a maximization problem into minimization, we pretty much can do minimize negative.
+
+135
+00:22:27.350 --> 00:22:31.730
+Chuan Wu: of the objective function, right? So that is so-called additive reverse.
+
+136
+00:22:32.290 --> 00:22:38.140
+Chuan Wu: Okay, but here, when we try to convert a problem into the geometrical program 4, we cannot do that.
+
+137
+00:22:38.610 --> 00:22:41.920
+Chuan Wu: Okay, we can do reciprocal instead.
+
+138
+00:22:42.160 --> 00:22:50.499
+Chuan Wu: of a reciprocal of the original objective function. So maximizing something equally minimizes the reciprocal of the original objective function.
+
+139
+00:22:50.640 --> 00:22:57.259
+Chuan Wu: Right? So the reason is we don't want to add a sign. We just want to change the exponent.
+
+140
+00:22:57.330 --> 00:23:11.719
+Chuan Wu: to still make it fulfill the form of monomial or posynomial functions, right? Okay, so reciprocal of HWD become H inverse, W inverse, D inverse, or reciprocal of HWD.
+
+141
+00:23:12.660 --> 00:23:28.799
+Chuan Wu: And then, constraints. So, constraints, we just need to do some simple conversion to make it, to make them conforming to the form of constraints in geometric program. So, for example, the first constraint, we divide DA on both sides.
+
+142
+00:23:28.800 --> 00:23:33.920
+Chuan Wu: And then the left-hand side, the first constraint becomes.
+
+143
+00:23:33.920 --> 00:23:38.520
+Chuan Wu: Poissonomial function. And then one is left on the right-hand side.
+
+144
+00:23:38.690 --> 00:23:53.330
+Chuan Wu: And similarly, we always divide the right-hand side constant to the other side, or if the… and then we always come up with the polynomial functions.
+
+145
+00:23:53.750 --> 00:24:06.039
+Chuan Wu: We always come up… in the concrete example here, we always come up with monomial functions on the left-hand side, so all the way, all the conversion. Okay, so it may look a bit weird.
+
+146
+00:24:06.630 --> 00:24:23.510
+Chuan Wu: From the, for intuitive interpretation. But they do become products of variables. We have, using different exponents that can be positive or negative. And then they are all conforming to the form of monomial or polynomial functions.
+
+147
+00:24:23.850 --> 00:24:35.989
+Chuan Wu: And then we are done. Okay, then this is equivalent in the program, and it is conforming to the geometric program form, and then we can rest assured that this can be converted to a
+
+148
+00:24:36.290 --> 00:24:38.279
+Chuan Wu: Connex program for solving.
+
+149
+00:24:40.030 --> 00:24:42.549
+Chuan Wu: Okay, so a very simple example here.
+
+150
+00:24:48.030 --> 00:24:58.099
+Chuan Wu: All right, so then that is about the geometric program. And then the next form of convex program, or actually the, should be the…
+
+151
+00:25:00.420 --> 00:25:04.179
+Chuan Wu: Okay, and the last form of.
+
+152
+00:25:04.400 --> 00:25:13.149
+Chuan Wu: skill, right? Objective function based program is here. So it is called semi-definite program or Sdp in short.
+
+153
+00:25:13.350 --> 00:25:33.149
+Chuan Wu: So, a semi-definite program, so where do we learn a semi-definite something? So basically, that is about semi-definite matrix of definite matrix, right? Then, you know, pretty much we are involving matrix in our formulation. And where do the matrix happen? Do the matrix happen in the inequality constraint?
+
+154
+00:25:33.320 --> 00:25:44.220
+Chuan Wu: Okay, so check out the objective function first. The object function is actually mostly the simplest form of convex proof, which is an affine function to minimize.
+
+155
+00:25:44.280 --> 00:25:58.410
+Chuan Wu: And, constraints, of course, all the equality constraints have to be affine, and then what is unique is regarding the inequality constraint. And here, in the default form, we consider just the one inequality constraint.
+
+156
+00:25:58.410 --> 00:26:14.110
+Chuan Wu: And that inequality constraint is defined on generalized inequality. Okay, check out the sign. So this sign is the so-called generalized inequality sign, different from the equality sign, where we always use straight dashes, right? This is curly dash.
+
+157
+00:26:14.450 --> 00:26:16.870
+Chuan Wu: Right, and then.
+
+158
+00:26:16.940 --> 00:26:30.450
+Chuan Wu: Right, so that implies, pretty much we're doing generalized inequality, and check out the left-hand side. Left-hand side, all the big letters represent the symmetric matrices.
+
+159
+00:26:30.450 --> 00:26:48.619
+Chuan Wu: And the left-hand side is the kind of weighted sum of a number of symmetric matrix, and eventually the result on the left-hand side is a symmetric matrix as well. And the symmetric matrix molecule to zero, what does it, using this generalized inequality sign, what does it imply?
+
+160
+00:26:51.570 --> 00:26:53.209
+Chuan Wu: The matrix is…
+
+161
+00:26:56.810 --> 00:27:02.440
+Chuan Wu: Negative, semi-definite, or inverse of the left-hand matrix is
+
+162
+00:27:02.560 --> 00:27:17.410
+Chuan Wu: positive, semi-definite, right? Okay, so we can just describe it using the positive semi-definite way, so we can say this, a matrix smaller than zero implies negative of the matrix is positive semi-definite.
+
+163
+00:27:18.940 --> 00:27:28.739
+Chuan Wu: Okay. Alright, And then this single inequality constraint has a name. It's called linear matrix inequality.
+
+164
+00:27:28.740 --> 00:27:44.040
+Chuan Wu: So the main major reason calling it a linear is the left hand side. The constraint function is weighted sum of a number of even matrices. So by the way, all the matrices give in appearing in the inequality constraints are all given.
+
+165
+00:27:44.140 --> 00:27:49.629
+Chuan Wu: And what are variables? The variables are still an n-dimensional vector, X.
+
+166
+00:27:49.740 --> 00:27:54.600
+Chuan Wu: or x, 1, x, 2 up to Xn. They're still our variables to solve for.
+
+167
+00:27:54.980 --> 00:28:07.410
+Chuan Wu: Right? And when we do the, the vector, when we do a scalar value multiplier matrix, the calculation is done by multiplying X1 into every component in F1.
+
+168
+00:28:08.130 --> 00:28:12.480
+Chuan Wu: right? You know that if you can recall that.
+
+169
+00:28:13.250 --> 00:28:24.430
+Chuan Wu: Okay, so there… and eventually, it is, among X1, X2, XNs, there are still linear relations among each other, linear combination among them. Okay.
+
+170
+00:28:25.100 --> 00:28:38.540
+Chuan Wu: Okay, so then it will be good to understand how we come up with a linear matrix inequality formulation using concrete example, and here it is 1.
+
+171
+00:28:38.650 --> 00:28:47.399
+Chuan Wu: Okay, so this is an example problem where we want to minimize the maximal eigenvalue of a matrix.
+
+172
+00:28:47.650 --> 00:29:11.410
+Chuan Wu: Okay, so what are the matrix is, like? The matrix is AX. From this formulation, the big A represents a matrix, and X is a variable. You know it is pretty much a function on X, and the result value is a matrix. So AX is consisting of A0 plus X1, A1 plus all the way to XNAN, and all the AI.
+
+173
+00:29:11.410 --> 00:29:15.080
+Chuan Wu: Big AIs are given symmetric matrix.
+
+174
+00:29:15.380 --> 00:29:26.039
+Chuan Wu: Okay, okay, I hope you still remember the bold letter S, superscript K, meaning K times K symmetric matrix set.
+
+175
+00:29:26.320 --> 00:29:45.379
+Chuan Wu: Okay. Alright, so the result, you know, would be a symmetric matrix as well. So AX itself is a symmetric matrix, and now what we want to do is, we want to find out its largest eigenvalue. So here, lambda max represents an operation.
+
+176
+00:29:45.380 --> 00:29:56.850
+Chuan Wu: And the operation is to find the largest eigenvalue of the matrix here, and we further want to minimize this largest eigenvalue of the matrix AX on X.
+
+177
+00:29:57.490 --> 00:29:59.940
+Chuan Wu: Okay, so that is our problem at hand.
+
+178
+00:30:00.380 --> 00:30:09.389
+Chuan Wu: So, first of all, from the description of the problem, we know it is another example of a min-max problem.
+
+179
+00:30:09.820 --> 00:30:26.150
+Chuan Wu: Okay, min-max problem. So we actually have already seen some briefly, some example in the form of a min-max problem. Basically, we want to minimize maximum of something, so it's kind of embedded two-level operator there, min and max.
+
+180
+00:30:26.150 --> 00:30:51.009
+Chuan Wu: Okay. And in the original form here, it doesn't conform to any of our standard convex or non-convex programs form. So the first step is actually to do some variable substitution and make it more aligned with our known form of mathematical program in default form of mathematical program or generic form of mathematical program in the object function, we should only have one operator.
+
+181
+00:30:51.350 --> 00:31:06.620
+Chuan Wu: either minimization or maximization. We do not have mixture embedding of both. If we do have, we pretty much just do a simple technique using some kind of a verbal substitution, and then convert it to
+
+182
+00:31:07.030 --> 00:31:11.729
+Chuan Wu: just the one operator and converted the other operator into the constraint.
+
+183
+00:31:11.950 --> 00:31:30.920
+Chuan Wu: And yes, here we are applying that simple technique again. Okay, so what technique we're applying is, we can simply introduce a new variable. We can call it auxiliary variable, because that is not our original variable, okay? And this auxiliary variable T, scalar variable, and we assign
+
+184
+00:31:30.990 --> 00:31:34.600
+Chuan Wu: T equals Lambda Max.
+
+185
+00:31:35.340 --> 00:31:37.999
+Chuan Wu: Okay, T equals lambda max.
+
+186
+00:31:38.200 --> 00:31:39.450
+Chuan Wu: Yes.
+
+187
+00:31:41.080 --> 00:31:48.380
+Chuan Wu: And using this substitution, the objective function can simply becomes minimizing T.
+
+188
+00:31:48.960 --> 00:31:51.859
+Chuan Wu: And then we have this in the constraint.
+
+189
+00:31:52.280 --> 00:31:55.160
+Chuan Wu: Okay, have this in the constraint.
+
+190
+00:31:55.330 --> 00:32:13.490
+Chuan Wu: And usually we do not use equality. So the reason is equality is a little bit difficult to formulate in eventual convex program, because eventually in convex program, we want the equality that only are fine, right? Okay, and we can safely change
+
+191
+00:32:14.290 --> 00:32:19.230
+Chuan Wu: the inequalities, the equality side into a inequality side.
+
+192
+00:32:19.740 --> 00:32:24.040
+Chuan Wu: So we can say T is larger equal to lambda max AX.
+
+193
+00:32:25.130 --> 00:32:38.199
+Chuan Wu: And together with the objective function, where we are minimizing T, we know, actually, at optimality, T will definitely be equaling lambda max AX.
+
+194
+00:32:38.330 --> 00:32:39.120
+Chuan Wu: Right.
+
+195
+00:32:39.580 --> 00:32:48.730
+Chuan Wu: Okay, so therefore, that's how we come up with the equivalent form here. We minimize T, and the T is larger equal to lambda max AX.
+
+196
+00:32:50.230 --> 00:33:13.650
+Chuan Wu: Okay, so this is one step further, but we are not done, definitely not done yet. So the reason is, in our inequality constraint formulated here, left-hand side constraint function does involve an operator. Lambda max is actually a maximization problem. There is a hidden optimization problem here, or we say there is a maximization operator hidden here.
+
+197
+00:33:14.030 --> 00:33:24.809
+Chuan Wu: Right? So therefore, the function on the left-hand side is not of the closed form or explicit form that we expect in a standard convex or mathematical program.
+
+198
+00:33:25.290 --> 00:33:27.040
+Chuan Wu: And we need to resolve it.
+
+199
+00:33:27.630 --> 00:33:47.190
+Chuan Wu: And how to resolve that? Okay, so we can do analysis, conversion, and apply some techniques, and eventually we are able to come up with a linear matrix inequality. That is, that is equivalent to our very original inequality constraint here.
+
+200
+00:33:47.510 --> 00:33:57.439
+Chuan Wu: That is to say, maximal eigenvalue of AX no larger equal to T is equivalent to the linear matrix inequality here.
+
+201
+00:33:57.760 --> 00:34:10.279
+Chuan Wu: So here, AX is a matrix calculated using Xi's as coefficient linear sum of a number of matrix A0 up to AN, and the Ti. Ti is the matrix here.
+
+202
+00:34:10.670 --> 00:34:13.669
+Chuan Wu: So I is identity matrix.
+
+203
+00:34:13.949 --> 00:34:23.409
+Chuan Wu: And the TI… Basically, we multiply T into all the diagonal elements, and all the off-diagonal elements are zeros.
+
+204
+00:34:23.690 --> 00:34:24.489
+Chuan Wu: Right.
+
+205
+00:34:24.989 --> 00:34:26.409
+Chuan Wu: So this is Ti.
+
+206
+00:34:27.270 --> 00:34:44.879
+Chuan Wu: T big I. So itself is a symmetric matrix. Okay, so the right-hand side of the inequality sign is a symmetric matrix, and why we say it's, of course, you can easily convert it to the standard form of a linear matrix inequality.
+
+207
+00:34:46.000 --> 00:34:49.429
+Chuan Wu: You can just move Pi to the left hand side.
+
+208
+00:34:49.650 --> 00:34:59.850
+Chuan Wu: Then what we have is AX minus TI, generalized inequality is more equal to zero, and then that is a standard linear matrix inequality.
+
+209
+00:35:00.890 --> 00:35:14.039
+Chuan Wu: Okay, and then the key now lies in how we convert this, max… how we resolve the maximization operator in here, and come up with a linear matrix inequality down here.
+
+210
+00:35:14.400 --> 00:35:18.710
+Chuan Wu: So we are going to do the detailed derivation step on the next page.
+
+211
+00:35:19.460 --> 00:35:20.310
+Chuan Wu: Okay.
+
+212
+00:35:21.170 --> 00:35:36.599
+Chuan Wu: All right, so we know AX is a symmetric matrix. Okay, for a symmetric matrix, from knowledge we learned in linear algebra, we know we can do eigenvalue decomposition, or eigen-dependent composition.
+
+213
+00:35:37.610 --> 00:35:39.620
+Chuan Wu: of a symmetric matrix.
+
+214
+00:35:39.890 --> 00:35:54.700
+Chuan Wu: Okay, so I can decomposition. So it relies on the matrix. Q is a orthogonal matrix, or Q itself is orthogonal matrix, meaning Q inverse equals Q transpose. Right? Okay.
+
+215
+00:35:54.870 --> 00:36:02.710
+Chuan Wu: And, eigen decomposition looks like that. So Q, the orthogonal matrix, multiplying a diagonal matrix.
+
+216
+00:36:02.920 --> 00:36:07.400
+Chuan Wu: The diagonal matrix along the main diagonal, lambda up to lambda N.
+
+217
+00:36:07.650 --> 00:36:12.119
+Chuan Wu: All the values are eigenvalues of A, matrix AX.
+
+218
+00:36:13.180 --> 00:36:18.550
+Chuan Wu: and then multiplying Q transpose. So this is a so-called Eigen decomposition.
+
+219
+00:36:19.170 --> 00:36:20.120
+Chuan Wu: Okay.
+
+220
+00:36:20.650 --> 00:36:22.380
+Chuan Wu: And here.
+
+221
+00:36:23.730 --> 00:36:40.480
+Chuan Wu: And then, here we try to show that lambda max AX is no larger than T, is equaling our linear matrix, inequality here. We just try to show that kind of backwards, in a backward way.
+
+222
+00:36:40.480 --> 00:36:44.769
+Chuan Wu: So we start with a x minus t i no larger than zero.
+
+223
+00:36:44.770 --> 00:36:56.439
+Chuan Wu: Okay, then what eventually we will figure out, this inequality is exactly equaling to saying that every eigen… the maximal eigenvalue of AX is no larger than T.
+
+224
+00:36:56.440 --> 00:37:10.750
+Chuan Wu: Okay. All right, so now we use eigendecomposition of AX. So eigendecomposition of AX is Q diagonal matrix Q transpose. And then the TI part becomes…
+
+225
+00:37:11.040 --> 00:37:22.449
+Chuan Wu: We moved it in the middle, yielding the property that Q multiply Q transpose is the identity matrix. Okay, so these are properties of orthogonal matrix.
+
+226
+00:37:23.970 --> 00:37:34.330
+Chuan Wu: Okay, and then, we, we multiply negative 1 to both sides, we change the sign to make it simpler to process.
+
+227
+00:37:35.580 --> 00:37:51.930
+Chuan Wu: And then, we, try to… we make use of that, when we reverse the sign, it means the left-hand side, the resulting matrix on the left-hand side is positive semi-definite matrix, right?
+
+228
+00:37:52.480 --> 00:37:58.999
+Chuan Wu: And using the definition of positive semi-definite matrix, we know for any vector V.
+
+229
+00:37:59.000 --> 00:38:21.249
+Chuan Wu: If we come up, we adopt any vector V, we do V transpose the matrix, then V, the value should be larger to zero. And here, H matrix in the middle is what the complex, a little bit slightly complex matrix here, in the middle here. So H is TI minus the diagonal matrix.
+
+230
+00:38:21.920 --> 00:38:25.340
+Chuan Wu: And then, convert… combining
+
+231
+00:38:25.480 --> 00:38:37.969
+Chuan Wu: what the TI is like, we actually come up with that H is a diagonal matrix, and along the main diagonal, the values are T minus lambda 1 up to T minus lambda N.
+
+232
+00:38:38.900 --> 00:38:50.639
+Chuan Wu: Right? And we know V transpose QHQ transpose V for NAV should be larger equal to 0, based on that this matrix is positive semi-definite.
+
+233
+00:38:52.260 --> 00:39:09.260
+Chuan Wu: Okay, and to simplify our notation, we further introduce another variable, another vector U. So U equaling Q transpose V, and then what we have is U transpose HU should be larger equal to 0.
+
+234
+00:39:10.220 --> 00:39:11.050
+Chuan Wu: Right.
+
+235
+00:39:11.680 --> 00:39:17.299
+Chuan Wu: Okay, and then for all U, because for all B now becomes for all U.
+
+236
+00:39:17.490 --> 00:39:19.160
+Chuan Wu: And then.
+
+237
+00:39:19.470 --> 00:39:27.059
+Chuan Wu: what we have is here, H is a diagonal matrix up there. Okay, H is a diagonal matrix.
+
+238
+00:39:30.880 --> 00:39:33.639
+Chuan Wu: Okay, right, a little bit on the board.
+
+239
+00:39:49.010 --> 00:39:51.410
+Chuan Wu: So this is our matrix H.
+
+240
+00:39:51.550 --> 00:39:55.450
+Chuan Wu: And we have Liu transpose U here.
+
+241
+00:39:55.550 --> 00:39:59.980
+Chuan Wu: So U transpose U Okay.
+
+242
+00:40:09.230 --> 00:40:25.299
+Chuan Wu: All right, so we know vector transpose a matrix, and then… and U, eventually it will be some, kind of some I, some J, UI, UJ, and every entry in the matrix, right? And because of the, offs.
+
+243
+00:40:31.640 --> 00:40:37.220
+Chuan Wu: Because all the off-diagonal elements in the matrix.
+
+244
+00:40:37.610 --> 00:40:38.920
+Chuan Wu: bureaus.
+
+245
+00:40:39.090 --> 00:40:41.690
+Chuan Wu: Okay, everything else are zeros.
+
+246
+00:40:44.720 --> 00:40:51.570
+Chuan Wu: if you do the product, and eventually that is equivalent to Sigma I.
+
+247
+00:40:52.830 --> 00:40:55.500
+Chuan Wu: H I I U I.
+
+248
+00:40:55.640 --> 00:41:03.420
+Chuan Wu: What is HII? So the I's entry, and this is HN, and that is H11.
+
+249
+00:41:04.080 --> 00:41:09.479
+Chuan Wu: Okay, so HII represented the diagonal element in the matrix in the middle.
+
+250
+00:41:09.910 --> 00:41:14.879
+Chuan Wu: Right? So after doing the product, eventually we come up with.
+
+251
+00:41:15.020 --> 00:41:20.549
+Chuan Wu: the, sum I, H-I-I, UI squared, sorry, UI squared.
+
+252
+00:41:22.280 --> 00:41:26.620
+Chuan Wu: because all the Ui uj product terms are gone.
+
+253
+00:41:26.860 --> 00:41:31.219
+Chuan Wu: because corresponding HIJ in the matrix in the middle are all zeros.
+
+254
+00:41:34.130 --> 00:41:37.210
+Chuan Wu: Okay, then what does that imply?
+
+255
+00:41:37.420 --> 00:41:43.819
+Chuan Wu: Because the diagonal element HII just equals T minus lambda I.
+
+256
+00:41:44.290 --> 00:41:52.840
+Chuan Wu: So if we know, so here, the weighted sum of HIIs as up to positive… a non-negative value.
+
+257
+00:41:53.220 --> 00:42:00.160
+Chuan Wu: And for every entry in the sum, UI squared is larger equal to zero, right?
+
+258
+00:42:00.870 --> 00:42:13.099
+Chuan Wu: So if UI square is larger equal to 0, and the overall sum are larger equal to 0, the only possibility is the coefficient HIIs are all larger equal to 0.
+
+259
+00:42:14.000 --> 00:42:14.810
+Chuan Wu: Right.
+
+260
+00:42:17.480 --> 00:42:23.460
+Chuan Wu: Okay? Because here Ui can be any value. But the Ui square are always electrical to 0.
+
+261
+00:42:23.750 --> 00:42:29.960
+Chuan Wu: Okay, so therefore, what we conclude is HIIs are larger or equal to zero.
+
+262
+00:42:30.180 --> 00:42:33.509
+Chuan Wu: And what does that it converting to?
+
+263
+00:42:36.930 --> 00:42:37.700
+Chuan Wu: Cool.
+
+264
+00:42:39.090 --> 00:42:47.039
+Chuan Wu: HII's T minus lambda i's are all larger to zero, so that means T larger equal to lambda i.
+
+265
+00:42:47.310 --> 00:42:48.630
+Chuan Wu: for OI.
+
+266
+00:42:51.450 --> 00:42:52.290
+Chuan Wu: Right.
+
+267
+00:42:52.870 --> 00:43:01.189
+Chuan Wu: Okay, so if T is larger equal to lambda i for all i, then we know T is larger equal to maximal among all the lambda i's.
+
+268
+00:43:03.000 --> 00:43:07.939
+Chuan Wu: And the maximal of among all the lambda i's are exactly lambda max AX.
+
+269
+00:43:08.650 --> 00:43:09.530
+Chuan Wu: Right.
+
+270
+00:43:12.770 --> 00:43:26.289
+Chuan Wu: Okay, so what we showed is, all the way, all the conversions are double-sided equality, or equivalence, have double-sided equivalence. So therefore, all the way down, what we derive is.
+
+271
+00:43:26.290 --> 00:43:39.050
+Chuan Wu: T is indeed larger equal to all the eigenvalues, or largest eigenvalues of matrix AX, and then T larger equal to lambda max AX, that is the constraint in our formulation.
+
+272
+00:43:40.200 --> 00:43:40.940
+Chuan Wu: Okay.
+
+273
+00:43:42.160 --> 00:43:43.080
+Chuan Wu: Okay.
+
+274
+00:43:54.610 --> 00:43:56.700
+Chuan Wu: Alrighty, so I hope…
+
+275
+00:43:57.070 --> 00:44:14.080
+Chuan Wu: Okay, so basically, these derivations showed us we indeed can convert the minimization of maximal eigenvalue of a matrix, the problem, into a semi-definite program with a linear matrix inequality in there as constraint.
+
+276
+00:44:16.830 --> 00:44:17.940
+Chuan Wu: Alrighty.
+
+277
+00:44:20.600 --> 00:44:35.380
+Chuan Wu: Okay, I suppose there is no question, then I will be moving on. And the last topic we want to introduce in the category of CACS program is about vector optimization.
+
+278
+00:44:35.560 --> 00:44:48.560
+Chuan Wu: So far, for all the optimization problems we have seen, the objective function is scalar-valued, meaning the input X is a dimensional vector, but the output of the object function is always a scalar value.
+
+279
+00:44:48.790 --> 00:44:49.490
+Chuan Wu: Right.
+
+280
+00:44:49.720 --> 00:44:51.760
+Chuan Wu: Okay, so that can be extended.
+
+281
+00:44:51.830 --> 00:45:04.540
+Chuan Wu: Okay, so we can expand the objective function into a vector value objective function. And then the resulting program is called a general vector optimization problem.
+
+282
+00:45:04.600 --> 00:45:20.179
+Chuan Wu: So let's check out the general form first. Objective function F0X. And now we define F0X to be a mapping, a function in the mapping, to be a function mapping from an n-dimensional vector to a q-dimensional vector.
+
+283
+00:45:20.980 --> 00:45:23.070
+Chuan Wu: And then we are trying to minimize that.
+
+284
+00:45:24.320 --> 00:45:29.009
+Chuan Wu: But we know it's different kind of difficult to minimize a vector value.
+
+285
+00:45:29.300 --> 00:45:30.420
+Chuan Wu: because
+
+286
+00:45:30.740 --> 00:45:43.639
+Chuan Wu: you know, for vector value, how do you compare the, which vector is larger, which vector is smaller? So, from our definition of generalized inequality, you know, any vector comparison is not total order.
+
+287
+00:45:43.890 --> 00:45:58.970
+Chuan Wu: Right? And then that, indeed, is the case. So that's how we will be bringing up the true optimal, or true minimal, or minimum, minimal. There are differences, okay? All right, and then check out the.
+
+288
+00:45:59.100 --> 00:46:18.130
+Chuan Wu: constraints. The constraints are still of a similar form as what we see in general mathematical proven formulation. So FIX, inequality constraint function, scalar value, and HIX, affine, HIX, equality constraint function, and scalar value.
+
+289
+00:46:18.240 --> 00:46:33.949
+Chuan Wu: Okay, so the major difference from what we have introduced is regarding the objective function again. And, the objective function minimizing 8 vectors of a vector value, we have to be talking about some proper code.
+
+290
+00:46:34.080 --> 00:46:40.870
+Chuan Wu: We have to talk about minimize the vector-valued objective function based on that proper cone k.
+
+291
+00:46:41.300 --> 00:46:49.380
+Chuan Wu: Okay, I hope you still remember what is a proper cone. So in our in among our intro among our introduction of
+
+292
+00:46:50.280 --> 00:47:04.110
+Chuan Wu: So among our introduction of convex sets, we did introduce proper cone, and we give two representative examples of proper cone. One is a non-negative onset, and the other is a set of positives and negative matrices.
+
+293
+00:47:04.570 --> 00:47:11.229
+Chuan Wu: Okay, so we'll see, application of both in the definition of, general backstop validation problems.
+
+294
+00:47:11.840 --> 00:47:24.099
+Chuan Wu: Okay, after having a proper cone assumed in the vector optimization problem, we can define our objective function minimization.
+
+295
+00:47:24.270 --> 00:47:48.510
+Chuan Wu: So, essentially, if our objective function is to be minimized with respect to 2, a given proper cone K, what implies is we want to find out X star among all the feasible X, such that the objective function value evaluated at X star is no larger than objective function value evaluated at
+
+296
+00:47:48.510 --> 00:47:51.280
+Chuan Wu: any other feedable X.
+
+297
+00:47:51.380 --> 00:47:58.110
+Chuan Wu: using the generalized inequality defined on top of proper cone K.
+
+298
+00:47:58.860 --> 00:48:19.629
+Chuan Wu: Okay, so remember, the generalized inequality concept we introduced earlier are all associated with proper cones, because we define a generalized inequality based on a proper cone. And if that proper cone K is one of the two forms, either K is a non-netical ascent, or K is a positive semi-definite matrix set.
+
+299
+00:48:19.630 --> 00:48:23.079
+Chuan Wu: If K is one of the two cases, we drop K.
+
+300
+00:48:23.420 --> 00:48:33.880
+Chuan Wu: from the generalized inequality design. And in other cases, if the proper K is none of the two cases, we need to specify what K is when we define a generalized inequality design.
+
+301
+00:48:34.290 --> 00:48:36.160
+Chuan Wu: Okay. Alright.
+
+302
+00:48:36.320 --> 00:48:49.810
+Chuan Wu: Okay, so that is what we… that is combining with the generalized inequality notion, or concepts, that we introduced a while ago, and here we come up with a definition of a vector optimization problem.
+
+303
+00:48:51.390 --> 00:49:13.309
+Chuan Wu: Okay, then what about… so that is a general vector optimization problem, and what about convex vector optimization problem? So when we talk about the convex vector optimization problem, pretty much we require all the functions in objective in inequality constraints to be convex, and the function in the equality constraints are fine.
+
+304
+00:49:13.310 --> 00:49:25.410
+Chuan Wu: And yes, still we are following that notion. So here the inequality, the equality constraints Ax should be is in the form of Ax equaling B are fine.
+
+305
+00:49:25.410 --> 00:49:34.579
+Chuan Wu: And the inequality constraints are similar to, general… similar to the convex program we introduced earlier. All the FIs are convex.
+
+306
+00:49:34.650 --> 00:49:53.659
+Chuan Wu: And what is a bit special is, again, regarding the objective function. The objective function at 0x has to be a vector-valued, or… general vector-valued objective… is of general vector-valued objective function, and we require F0X to be convex.
+
+307
+00:49:54.440 --> 00:49:55.909
+Chuan Wu: Some kind of COAX.
+
+308
+00:49:56.470 --> 00:49:59.220
+Chuan Wu: because so far we haven't defined
+
+309
+00:49:59.350 --> 00:50:03.920
+Chuan Wu: How to understand a vector-valued function to be convex.
+
+310
+00:50:04.110 --> 00:50:18.010
+Chuan Wu: So far, our convexity definitions are all based on scalar-valued functions, right? So the new notion introduced, closely connected, but new notion we are introducing here is about K-convexity.
+
+311
+00:50:18.350 --> 00:50:29.459
+Chuan Wu: So again, K is a proper cone that we are doing a generalized inequality, or maximization, minimization comparison of F0 access value on.
+
+312
+00:50:30.500 --> 00:50:32.120
+Chuan Wu: Okay, so here.
+
+313
+00:50:32.280 --> 00:50:40.230
+Chuan Wu: The notion about K-convexity is defined to define, black-serial functions.
+
+314
+00:50:40.370 --> 00:50:49.450
+Chuan Wu: So here F is a general is a function acting from an n-dimensional variable vector to an M-dimensional vector.
+
+315
+00:50:49.580 --> 00:51:05.329
+Chuan Wu: Okay, so we say SK connects if, first of all, its domain still has to be a connect set, and we have a generalized Jensen's inequality defined on top of proper home K over there.
+
+316
+00:51:05.420 --> 00:51:17.449
+Chuan Wu: Okay, so from the form of the inequality, it is pretty much like the Jensen's inequality in the definition of complex function we saw and applied quite a number of times already.
+
+317
+00:51:17.660 --> 00:51:21.880
+Chuan Wu: So here it means the convex combination of 2 input points.
+
+318
+00:51:22.000 --> 00:51:33.800
+Chuan Wu: And the evaluation… evaluate the object… evaluate the function value should be no larger than the, convex combination of function values evaluated on X and Y, respectively.
+
+319
+00:51:34.050 --> 00:51:47.229
+Chuan Wu: Right? That's what the original Jensen's inequality is saying. And what is special is here. The equality is defined on generalized inequality, using the generalized inequality on top of the given proper form K.
+
+320
+00:51:48.150 --> 00:51:54.289
+Chuan Wu: Right? So that is the, kind of extension from the notion of convex function we have studied earlier.
+
+321
+00:51:54.610 --> 00:51:55.680
+Chuan Wu: All right.
+
+322
+00:51:55.920 --> 00:52:14.719
+Chuan Wu: But, concretely speaking… Okay, concretely speaking. So here, if, left-hand side is a vector, right-hand side is vector, if this K is non-negative, non-negative also, then this generalized inequality, then this generalized Jensen's inequality.
+
+323
+00:52:15.130 --> 00:52:31.439
+Chuan Wu: defined for a vector value of function. F is pretty much just the component wise inequality. So every component F function of function value F of function. F's value should be no larger than the right hand side value right?
+
+324
+00:52:31.490 --> 00:52:36.679
+Chuan Wu: And this also includes the case that F is returning a matrix.
+
+325
+00:52:37.230 --> 00:52:41.689
+Chuan Wu: because matrix, the concept, the kind of extended concept of vector as well.
+
+326
+00:52:41.860 --> 00:52:49.569
+Chuan Wu: So if F is a matrix value, and the K is a positive semi-definite matrix home.
+
+327
+00:52:49.790 --> 00:53:03.420
+Chuan Wu: Then, this, again, is following that positive semi-dampened matrix concept. So via generalized inequality, the same. The right-hand side minus left-hand side, the resulting matrix needs to be a positive semi-dampened matrix.
+
+328
+00:53:04.040 --> 00:53:05.110
+Chuan Wu: Okay.
+
+329
+00:53:05.990 --> 00:53:07.819
+Chuan Wu: All right.
+
+330
+00:53:08.210 --> 00:53:19.160
+Chuan Wu: And most of our discussion in the following would be focusing on the case that K is the positive, K is a non-negative offset.
+
+331
+00:53:19.290 --> 00:53:23.299
+Chuan Wu: Okay, K is a purple cone of non-negative opposite.
+
+332
+00:53:25.070 --> 00:53:26.060
+Chuan Wu: All right.
+
+333
+00:53:26.340 --> 00:53:32.100
+Chuan Wu: And if we do consider that K is non-negative also.
+
+334
+00:53:32.400 --> 00:53:37.840
+Chuan Wu: Okay, so how do we express the non-active offset? So that is R plus Q.
+
+335
+00:53:37.990 --> 00:53:47.029
+Chuan Wu: So R plus Q, meaning a subspace, or the non-negative offset, in a two-dimensional real coordinate space.
+
+336
+00:53:47.290 --> 00:53:53.709
+Chuan Wu: and we have a single plus subscript there. So meaning, we include the 2 axis positive
+
+337
+00:53:53.840 --> 00:54:02.439
+Chuan Wu: axis, non-negative of axis, right? If we have R++, then that means we are excluding the axis. Okay.
+
+338
+00:54:02.850 --> 00:54:15.690
+Chuan Wu: All right, so including axis, the non-negative offset is our proper compute, and in that case, the generalized inequality is pretty much defined to be component-wise comparison.
+
+339
+00:54:15.710 --> 00:54:25.719
+Chuan Wu: Okay, component-wise comparison, and in that sense, our objective function can be actually just considered as Q, separate.
+
+340
+00:54:25.870 --> 00:54:27.269
+Chuan Wu: objective functions.
+
+341
+00:54:27.830 --> 00:54:28.690
+Chuan Wu: Okay.
+
+342
+00:54:28.870 --> 00:54:36.150
+Chuan Wu: So say that again. So F, 0 X is a Q vector valued objective function.
+
+343
+00:54:36.660 --> 00:54:47.960
+Chuan Wu: And if we do define the comparison of the definition of the general inequality on the non-negative offset proper cone.
+
+344
+00:54:48.270 --> 00:54:55.800
+Chuan Wu: Then, pretty much what we are comparing are component-wise comparison of F0X values.
+
+345
+00:54:56.120 --> 00:55:06.899
+Chuan Wu: That is also equivalent to say, we can simply treat F 0 X as consisting of 2 different gamer valued objective functions.
+
+346
+00:55:07.430 --> 00:55:09.759
+Chuan Wu: And we try to concurrently.
+
+347
+00:55:10.160 --> 00:55:13.240
+Chuan Wu: Minimize all the objective functions together.
+
+348
+00:55:14.120 --> 00:55:34.099
+Chuan Wu: Okay, so that is a more… actually, that is a very intuitive result, or concept we are deriving so far. We start from the very generic definition. Actually, now, here, we are coming to concrete cases for, for objective optimization with vector-valued objective.
+
+349
+00:55:34.860 --> 00:55:46.709
+Chuan Wu: And under all the described situation, complete this one situation here, we actually call the resulting vector optimization problem as multi-objective optimization.
+
+350
+00:55:47.470 --> 00:55:58.099
+Chuan Wu: because our objective function can be treated as separate concurrent objectives to be minimized. So we have multiple objectives to be minimized in the same organization problem.
+
+351
+00:55:59.050 --> 00:55:59.930
+Chuan Wu: Okay.
+
+352
+00:56:00.490 --> 00:56:03.200
+Chuan Wu: Alright, oops.
+
+353
+00:56:05.630 --> 00:56:06.440
+Chuan Wu: Yeah.
+
+354
+00:56:06.550 --> 00:56:11.039
+Chuan Wu: So I will show you my favorite example.
+
+355
+00:56:12.040 --> 00:56:14.640
+Chuan Wu: To understand more of the.
+
+356
+00:56:16.240 --> 00:56:25.710
+Chuan Wu: idea of, multi-objective organization. Then we'll take a short break before we continue to look at more theory of multi-objective organization.
+
+357
+00:56:48.160 --> 00:56:52.060
+Chuan Wu: Alright, so say if you are.
+
+358
+00:56:53.730 --> 00:56:56.360
+Chuan Wu: A simple example of two objectives.
+
+359
+00:56:57.620 --> 00:57:01.989
+Chuan Wu: Okay, so let me talk about the, problem first.
+
+360
+00:57:02.190 --> 00:57:07.670
+Chuan Wu: So your problem at hand is you want to find a girlfriend or boyfriend.
+
+361
+00:57:08.280 --> 00:57:10.629
+Chuan Wu: Okay, you have multiple criterias.
+
+362
+00:57:11.070 --> 00:57:16.250
+Chuan Wu: Right? Okay, so each criteria will be corresponds to objective function.
+
+363
+00:57:16.580 --> 00:57:20.330
+Chuan Wu: Alright, so let's make it simple. Just have two objectives.
+
+364
+00:57:20.760 --> 00:57:32.690
+Chuan Wu: And because usually your objectives are to maximize something. Okay, maximize the prettiness, handsomeness, or maximize the.
+
+365
+00:57:33.560 --> 00:57:46.280
+Chuan Wu: Okay, next one is what our capabilities. And… but here, in the generic form, we are doing minimization, so here we just use negative of two objectives to describe each of your goals. Okay.
+
+366
+00:57:46.420 --> 00:57:50.170
+Chuan Wu: Alright, so suppose one objective.
+
+367
+00:57:51.840 --> 00:58:01.140
+Chuan Wu: corresponds to appearance. How pretty, how handsome, okay? And the other could be something like competence.
+
+368
+00:58:03.420 --> 00:58:04.479
+Chuan Wu: At work.
+
+369
+00:58:04.960 --> 00:58:20.170
+Chuan Wu: At housework, at everything, okay, competence level. All right, so, so then you have two objectives, and at the different values of X, probably they achieve different values of the objective function.
+
+370
+00:58:20.320 --> 00:58:22.590
+Chuan Wu: So let's say the.
+
+371
+00:58:24.020 --> 00:58:30.789
+Chuan Wu: Let me still use mathematization form. So this is mathematization problem. You have two objective functions.
+
+372
+00:58:30.970 --> 00:58:33.480
+Chuan Wu: And then, and you are scoring.
+
+373
+00:58:33.620 --> 00:58:38.459
+Chuan Wu: Every candidate, and come up with values of different objectives.
+
+374
+00:58:47.760 --> 00:58:50.929
+Chuan Wu: Okay, so let's say you have 4 candidates.
+
+375
+00:58:51.180 --> 00:58:52.320
+Chuan Wu: So X…
+
+376
+00:58:52.610 --> 00:59:03.639
+Chuan Wu: 1, X2, X3, X4. So every X here is a vector. Okay, so both X is a vector. So I have four candidates.
+
+377
+00:59:03.840 --> 00:59:06.469
+Chuan Wu: The maximization problem, two objectives.
+
+378
+00:59:06.680 --> 00:59:14.709
+Chuan Wu: And aggregate away, so they are, vector-valued objective function with two dimensions, 2 equaling 2.
+
+379
+00:59:15.600 --> 00:59:17.250
+Chuan Wu: Tell me which one you choose.
+
+380
+00:59:21.280 --> 00:59:23.320
+Chuan Wu: the 3rd one right?
+
+381
+00:59:25.400 --> 00:59:32.279
+Chuan Wu: Of course, it's easy to tell. Component-wise comparison, this is always largest, right, in both dimensions.
+
+382
+00:59:32.620 --> 00:59:36.050
+Chuan Wu: But life is not always so ideal.
+
+383
+00:59:39.560 --> 00:59:43.629
+Chuan Wu: Okay, among the remaining three candidates, which one do you choose?
+
+384
+00:59:48.570 --> 00:59:56.430
+Chuan Wu: Up to your preference, right? So if you really want someone very pretty or very handsome, choose this candidate.
+
+385
+00:59:57.000 --> 01:00:01.069
+Chuan Wu: And if you really want some very competent hard work, or…
+
+386
+01:00:01.260 --> 01:00:05.080
+Chuan Wu: For any other capability, you choose the first.
+
+387
+01:00:05.700 --> 01:00:06.590
+Chuan Wu: Right.
+
+388
+01:00:07.340 --> 01:00:11.700
+Chuan Wu: Okay, so later, we will show But in no chance.
+
+389
+01:00:12.510 --> 01:00:19.520
+Chuan Wu: But in any case, in no chance you are choosing the last one right, because the last one in all dimensions is worse than the others.
+
+390
+01:00:19.650 --> 01:00:20.490
+Chuan Wu: Right.
+
+391
+01:00:20.810 --> 01:00:27.370
+Chuan Wu: So this is what you are going to exclude, and you choose among the first two candidates.
+
+392
+01:00:28.080 --> 01:00:32.070
+Chuan Wu: And soon we will introduce… in fact, if
+
+393
+01:00:35.510 --> 01:00:41.259
+Chuan Wu: That ideal candidate does exist. That is our optimal solution.
+
+394
+01:00:41.410 --> 01:00:46.210
+Chuan Wu: optimal. And if this candidate doesn't exist.
+
+395
+01:00:46.960 --> 01:00:52.180
+Chuan Wu: Either one of the first two represents a Pareto optimal solution.
+
+396
+01:00:53.520 --> 01:00:54.430
+Chuan Wu: Okay.
+
+397
+01:00:54.560 --> 01:01:00.540
+Chuan Wu: Alright, so I'll stop here, and let's take a short break, 5 minutes, and then we'll continue.
+
+398
+01:01:47.130 --> 01:01:48.640
+Chuan Wu: Yeah, which is possible.
+
+399
+01:01:51.680 --> 01:01:53.600
+Chuan Wu: But that's the problem.
+
+400
+01:01:59.430 --> 01:02:00.210
+Chuan Wu: Okay, good.
+
+401
+01:02:07.570 --> 01:02:09.660
+Chuan Wu: One more.
+
+402
+01:02:10.650 --> 01:02:11.340
+Chuan Wu: Okay.
+
+403
+01:02:11.780 --> 01:02:13.830
+Chuan Wu: That sounds good.
+
+404
+01:02:24.710 --> 01:02:26.749
+Chuan Wu: We are children.
+
+405
+01:02:31.630 --> 01:02:32.640
+Chuan Wu: We'll put it here.
+
+406
+01:02:32.930 --> 01:02:33.670
+Chuan Wu: security.
+
+407
+01:02:45.390 --> 01:02:47.180
+Chuan Wu: Pendle's right as well.
+
+408
+01:02:47.320 --> 01:02:48.560
+Chuan Wu: You know, high school.
+
+409
+01:02:49.950 --> 01:02:51.240
+Chuan Wu: You feel the recovery.
+
+410
+01:02:53.390 --> 01:02:54.060
+Chuan Wu: Thank you.
+
+411
+01:03:06.490 --> 01:03:07.559
+Chuan Wu: You let me know.
+
+412
+01:04:04.940 --> 01:04:05.970
+Chuan Wu: Mark, you're welcome.
+
+413
+01:04:10.470 --> 01:04:11.740
+Chuan Wu: No, I don't know.
+
+414
+01:04:12.690 --> 01:04:13.440
+Chuan Wu: Oh.
+
+415
+01:04:14.340 --> 01:04:15.170
+Chuan Wu: Good job.
+
+416
+01:04:20.580 --> 01:04:21.260
+Chuan Wu: There we go.
+
+417
+01:04:29.590 --> 01:04:30.380
+Chuan Wu: Okay.
+
+418
+01:04:31.930 --> 01:04:32.960
+Chuan Wu: I wish I did that.
+
+419
+01:04:34.220 --> 01:04:35.310
+Chuan Wu: You're comfortable.
+
+420
+01:04:53.790 --> 01:04:54.890
+Chuan Wu: Wonderful.
+
+421
+01:04:57.440 --> 01:04:58.300
+Chuan Wu: Awesome.
+
+422
+01:05:07.360 --> 01:05:08.190
+Chuan Wu: Believe me.
+
+423
+01:05:46.080 --> 01:05:49.870
+Chuan Wu: Let's continue with our lecture. We
+
+424
+01:05:50.580 --> 01:06:07.799
+Chuan Wu: Okay? So following our example, we now introduce the notion concept regarding optimal and the Pareto optimal points. So when we talk about points, so that is a concept of objective, variable value, not objective function value. Okay?
+
+425
+01:06:08.150 --> 01:06:14.730
+Chuan Wu: So here, we consider, the achievable, optimal values
+
+426
+01:06:14.860 --> 01:06:32.920
+Chuan Wu: When we talk about optimal achievable values, or objective values, O, big set of big O. So here, O are all possible objective functions as 0x values, and here X can vary among the feasibility set, so X can be any feasible value.
+
+427
+01:06:33.600 --> 01:06:51.889
+Chuan Wu: And we say a feasible point, okay, point refers to a variable value. We say a feasible point, X star, is optimal if it's append objective function value, F0X star, is a minimum, minimum value of O.
+
+428
+01:06:52.040 --> 01:07:05.980
+Chuan Wu: of set O. Okay, so now we are considering vector-valued objective functions, so we actually know O is a Q-dimensional set, a set in a Q-dimensional space, right?
+
+429
+01:07:06.050 --> 01:07:21.979
+Chuan Wu: Okay, so the definition of being true minimal is as follows. So if X star is optimal, then F0X star's value is smaller equal to F0Y for all feasible Y.
+
+430
+01:07:22.470 --> 01:07:26.520
+Chuan Wu: based on our generalized inequality definition.
+
+431
+01:07:27.310 --> 01:07:38.830
+Chuan Wu: And here we know if K is a non-negative also, so F0X star is more equal to F0Y, meaning every dimension of F0X star is the smallest.
+
+432
+01:07:39.020 --> 01:07:39.760
+Chuan Wu: Bye.
+
+433
+01:07:40.390 --> 01:07:49.049
+Chuan Wu: Okay, so that's actually the ideal case. It corresponds exactly to the 9595 candidate here.
+
+434
+01:07:50.210 --> 01:07:54.759
+Chuan Wu: Okay, if you are looking at a… if you are looking at a maximizing problem.
+
+435
+01:07:55.270 --> 01:08:13.039
+Chuan Wu: So here, geometric elastication. So this is our set, Big O, Big O set. Okay, so Big O set represents all the possible objective function values, and here, let's assume the objective function value will be two-dimensional, so the set O is in a two-dimensional space.
+
+436
+01:08:13.610 --> 01:08:20.979
+Chuan Wu: Right? In the two-dimensional space, essentially, so it's still better I can write something.
+
+437
+01:08:42.870 --> 01:08:47.719
+Chuan Wu: That's our O, set O. And then, we…
+
+438
+01:08:48.370 --> 01:08:56.669
+Chuan Wu: One dimension is F1X, and the other dimension is F2X. So our objective function, F0X,
+
+439
+01:08:56.960 --> 01:09:01.749
+Chuan Wu: is consisting of F1X and F2X.
+
+440
+01:09:02.520 --> 01:09:06.120
+Chuan Wu: Okay, in this example, two values.
+
+441
+01:09:06.260 --> 01:09:17.789
+Chuan Wu: 2 dimensional value objective function. Okay, so O is in the space of F 0 s. Dimension. So 2 dimensional space here.
+
+442
+01:09:17.970 --> 01:09:23.719
+Chuan Wu: And the true minimum, okay, the true minimum happens here.
+
+443
+01:09:34.990 --> 01:09:38.750
+Chuan Wu: Right. In fact, I don't want to say this. These are axes.
+
+444
+01:09:42.970 --> 01:09:45.560
+Chuan Wu: Actually, they shouldn't represent axes.
+
+445
+01:09:45.890 --> 01:09:49.629
+Chuan Wu: Let's just assume this is our set O.
+
+446
+01:09:50.450 --> 01:09:52.950
+Chuan Wu: And the two axes are here.
+
+447
+01:09:54.980 --> 01:10:03.490
+Chuan Wu: Okay, still, the horizontal axis represents a value of big F1X, and the vertical axis represents a value of F2X.
+
+448
+01:10:03.770 --> 01:10:06.450
+Chuan Wu: Our set O given is here.
+
+449
+01:10:07.040 --> 01:10:16.959
+Chuan Wu: And then where does the F 0 x star happen? F 0 x star is a true minimum value of O set O.
+
+450
+01:10:17.080 --> 01:10:20.169
+Chuan Wu: So that true minimum value happens here.
+
+451
+01:10:23.600 --> 01:10:32.130
+Chuan Wu: Because this point corresponds to the F1X star value and F2.
+
+452
+01:10:33.470 --> 01:10:34.340
+Chuan Wu: X.
+
+453
+01:10:34.700 --> 01:10:43.490
+Chuan Wu: Star value, which are smallest compared to all the F1, F2 values of all other points in ZO, right?
+
+454
+01:10:46.020 --> 01:10:47.439
+Chuan Wu: So do you get this?
+
+455
+01:10:48.440 --> 01:10:52.949
+Chuan Wu: So this point… So this point has two coordinates.
+
+456
+01:10:53.110 --> 01:10:58.279
+Chuan Wu: One is F1X star, and the other is F2X star.
+
+457
+01:11:00.770 --> 01:11:07.940
+Chuan Wu: And F1F star is the smallest among all the… and these coordinates are smallest.
+
+458
+01:11:08.560 --> 01:11:12.669
+Chuan Wu: as compared to coordinates of all the other points in Z. O, right?
+
+459
+01:11:14.160 --> 01:11:15.160
+Chuan Wu: Oh, great!
+
+460
+01:11:15.470 --> 01:11:27.119
+Chuan Wu: Okay, all right. And you should be should understand is in this geometric illustration. Every point in this set O is not X star.
+
+461
+01:11:27.220 --> 01:11:29.689
+Chuan Wu: because O is not in the domain.
+
+462
+01:11:29.970 --> 01:11:30.910
+Chuan Wu: space.
+
+463
+01:11:31.220 --> 01:11:37.680
+Chuan Wu: of the of the problem. O is in the objective function value space of the problem.
+
+464
+01:11:38.750 --> 01:11:42.520
+Chuan Wu: But this point does imply there is X star.
+
+465
+01:11:42.750 --> 01:11:48.849
+Chuan Wu: Because every point in ZO is attainable by some X, feasible X.
+
+466
+01:11:49.800 --> 01:11:56.820
+Chuan Wu: Right? But that point itself is in the function value space, not in the functions input domain space.
+
+467
+01:11:57.090 --> 01:11:58.960
+Chuan Wu: This is what you need to be clear.
+
+468
+01:11:59.810 --> 01:12:00.740
+Chuan Wu: All right.
+
+469
+01:12:01.050 --> 01:12:02.040
+Chuan Wu: Okay.
+
+470
+01:12:02.220 --> 01:12:10.120
+Chuan Wu: So once that is clear, Let's move on to the next geometric illustration.
+
+471
+01:12:10.840 --> 01:12:21.160
+Chuan Wu: So instead, my shade doesn't come up, so if you can see the other screens, or see the PDF you have at hand, so we actually have shade to illustrate.
+
+472
+01:12:21.380 --> 01:12:24.290
+Chuan Wu: of… for illustration there.
+
+473
+01:12:24.560 --> 01:12:26.060
+Chuan Wu: Okay,
+
+474
+01:12:26.490 --> 01:12:34.989
+Chuan Wu: Probably I should talk more about this again. So we say this is a minimal value of objective function.
+
+475
+01:12:35.130 --> 01:12:49.939
+Chuan Wu: For the reason, that, FYX star is smaller than all the attendable FYX in set O, and F2X star is the smallest among all the attendable F2X value in the set O.
+
+476
+01:12:50.340 --> 01:12:56.590
+Chuan Wu: The other way to put it is, if we consider other points.
+
+477
+01:12:57.040 --> 01:13:11.410
+Chuan Wu: in this space that can achieve better objective function value in terms of both components of the both coordinates. Those pump points would happen in the region here.
+
+478
+01:13:13.520 --> 01:13:14.410
+Chuan Wu: Right.
+
+479
+01:13:16.930 --> 01:13:31.510
+Chuan Wu: So I'll say that again, any points that is achieving better object function value. So this is the minimization problem. So we want F, 0 x, we want f, 1 x f, 2 x to be small as small as possible. Right? Okay.
+
+480
+01:13:31.710 --> 01:13:32.930
+Chuan Wu: So therefore.
+
+481
+01:13:33.590 --> 01:13:41.329
+Chuan Wu: Any other, point achieving smaller coordinate values will be happening in a shaded area.
+
+482
+01:13:41.510 --> 01:13:45.100
+Chuan Wu: To the left, and the lower than this point here.
+
+483
+01:13:45.740 --> 01:13:46.460
+Chuan Wu: Right.
+
+484
+01:13:46.760 --> 01:13:53.220
+Chuan Wu: So I hope that is clear, because that is very important to understand the next notion illustrated here.
+
+485
+01:13:53.580 --> 01:14:04.930
+Chuan Wu: Okay, and now we have a different, differently shaped set O. So again, that set O is our attainable objective function value.
+
+486
+01:14:05.060 --> 01:14:09.910
+Chuan Wu: So it is, again, in objective function value space, not in the domain space of the product.
+
+487
+01:14:10.830 --> 01:14:17.600
+Chuan Wu: Alright, and, and if ZO is of that shape.
+
+488
+01:14:18.120 --> 01:14:19.840
+Chuan Wu: joined again here.
+
+489
+01:14:30.740 --> 01:14:31.550
+Chuan Wu: Okay.
+
+490
+01:14:31.890 --> 01:14:35.670
+Chuan Wu: So if our set all is of this shape.
+
+491
+01:14:49.950 --> 01:14:54.339
+Chuan Wu: Okay, our sample is of that shape. So can you tell me
+
+492
+01:14:59.330 --> 01:15:00.809
+Chuan Wu: Be closer.
+
+493
+01:15:02.030 --> 01:15:03.770
+Chuan Wu: We'll be looking closer.
+
+494
+01:15:04.410 --> 01:15:05.449
+Chuan Wu: what we have.
+
+495
+01:15:05.550 --> 01:15:07.210
+Chuan Wu: And that you can send me from there.
+
+496
+01:15:13.330 --> 01:15:14.150
+Chuan Wu: Okay.
+
+497
+01:15:14.630 --> 01:15:20.199
+Chuan Wu: So can you tell me if there is a minimum point from set O,
+
+498
+01:15:23.120 --> 01:15:26.870
+Chuan Wu: Is there a minimum set from point?
+
+499
+01:15:31.130 --> 01:15:33.529
+Chuan Wu: That's a there a minimum.
+
+500
+01:15:34.950 --> 01:15:36.950
+Chuan Wu: value of that O.
+
+501
+01:15:37.490 --> 01:15:43.810
+Chuan Wu: which attends the smallest coordinate value in both F1 and F2.
+
+502
+01:15:44.480 --> 01:15:45.300
+Chuan Wu: No.
+
+503
+01:15:45.550 --> 01:15:47.270
+Chuan Wu: Right? Okay.
+
+504
+01:15:47.750 --> 01:15:51.290
+Chuan Wu: All right, So the,
+
+505
+01:15:52.890 --> 01:16:06.729
+Chuan Wu: So that is bringing up our next concept regarding Pareto optimal point. So we say a feasible point X is a Pareto optimal if its objective function value is a minimum minimum.
+
+506
+01:16:06.970 --> 01:16:10.780
+Chuan Wu: not minimum minimal value of ZO.
+
+507
+01:16:10.840 --> 01:16:23.719
+Chuan Wu: and how to define minimal value of set O, so it's defined here. So suppose we have a feasible Y, okay, feasible point Y different from X.
+
+508
+01:16:23.720 --> 01:16:37.389
+Chuan Wu: and we know FY. 0 y is doing better than F. 0 x in terms of both coordinates in terms of all coordinates. Then the only possibility is F. 0 x is equally F. 0 y.
+
+509
+01:16:39.820 --> 01:16:56.360
+Chuan Wu: So one way to put this definition is, you can, at this Pareto optimal point X, you cannot find another point which is doing absolutely better than X in all coordinates of the objective function value is achieved.
+
+510
+01:16:57.680 --> 01:17:02.590
+Chuan Wu: Okay, so that's the other way to point to that, because the reason is.
+
+511
+01:17:03.040 --> 01:17:18.850
+Chuan Wu: the description of condition is, if you do find out a point Y, which is doing better than X in both… in terms of all dimensions of objective function value that they can achieve, then the only possibility is Y is exactly X.
+
+512
+01:17:19.590 --> 01:17:21.560
+Chuan Wu: Incomes are objectively functional.
+
+513
+01:17:22.400 --> 01:17:31.890
+Chuan Wu: Okay, all right. So the destination is a little bit twisted. But but the using geometric illustration, we can further interpret it.
+
+514
+01:17:32.130 --> 01:17:35.469
+Chuan Wu: Alright, so in fact, for us.
+
+515
+01:17:36.440 --> 01:17:54.300
+Chuan Wu: the, attendable objective function value set O, as given here, so we can find out the boundary points, so all the boundary points along this part of the boundary, and then all the boundary points along the lower part of the boundary.
+
+516
+01:17:54.510 --> 01:18:04.670
+Chuan Wu: Every point in the red parts I drew, they are Pareto optimal points. They correspond to Pareto optimal points.
+
+517
+01:18:05.460 --> 01:18:06.710
+Chuan Wu: Okay, those…
+
+518
+01:18:07.200 --> 01:18:17.480
+Chuan Wu: optimal points are from the feasibility domain of the problem. They are not directly illustrated, but every point here corresponds to that.
+
+519
+01:18:17.590 --> 01:18:18.989
+Chuan Wu: Create optimal point.
+
+520
+01:18:20.430 --> 01:18:26.369
+Chuan Wu: So the reason is, for every point I drew, every red point I drew.
+
+521
+01:18:26.470 --> 01:18:37.430
+Chuan Wu: the, absolutely better points. Okay, so for example, starting from this point, the absolutely better points, then this point would happen here.
+
+522
+01:18:37.640 --> 01:18:41.839
+Chuan Wu: would result in an objective function value in that region. Right?
+
+523
+01:18:42.270 --> 01:18:51.799
+Chuan Wu: Okay? And any other point in set O, any other values in set O, the corresponding points is doing
+
+524
+01:18:51.980 --> 01:18:54.959
+Chuan Wu: Not absolutely better than the point here.
+
+525
+01:18:55.870 --> 01:18:59.640
+Chuan Wu: So therefore, this point is a Pareto optimal point.
+
+526
+01:19:00.050 --> 01:19:02.969
+Chuan Wu: This point corresponds to a Pareto optimal point.
+
+527
+01:19:03.610 --> 01:19:04.460
+Chuan Wu: Okay.
+
+528
+01:19:04.720 --> 01:19:07.830
+Chuan Wu: All right, And…
+
+529
+01:19:11.540 --> 01:19:16.069
+Chuan Wu: So here. So if we consider this, point.
+
+530
+01:19:16.220 --> 01:19:20.930
+Chuan Wu: On the right-hand half of the boundary of ZO.
+
+531
+01:19:21.060 --> 01:19:24.790
+Chuan Wu: So it has a corresponding critical point.
+
+532
+01:19:25.060 --> 01:19:32.920
+Chuan Wu: here, but itself, this empty interior point I circled itself is not a peridoptimal point.
+
+533
+01:19:33.040 --> 01:19:38.879
+Chuan Wu: Because the 11th endpoint is doing better than it, in terms of F1 values.
+
+534
+01:19:39.210 --> 01:19:39.960
+Chuan Wu: Right.
+
+535
+01:19:40.300 --> 01:19:44.250
+Chuan Wu: So therefore, this point is Pareto optimal. But the Zac point is not.
+
+536
+01:19:46.140 --> 01:19:57.719
+Chuan Wu: But, on the other hand, all these points, if you try to find out any other point doing better than that. So they are all in this area, and this point is the best one within set 4.
+
+537
+01:19:58.040 --> 01:19:59.490
+Chuan Wu: Pareto optimal.
+
+538
+01:20:00.620 --> 01:20:01.880
+Chuan Wu: from set O.
+
+539
+01:20:03.560 --> 01:20:04.490
+Chuan Wu: Okay.
+
+540
+01:20:05.370 --> 01:20:06.660
+Chuan Wu: Alright!
+
+541
+01:20:21.270 --> 01:20:34.949
+Chuan Wu: Okay, and what do Pareto optimal points represent? So, in fact, for a problem, there can often be many different Pareto optimal points. Okay, so for example, here, these two are Pareto optimal points.
+
+542
+01:20:35.160 --> 01:20:44.109
+Chuan Wu: You can… among the candidate set, you cannot find anyone else which are doing absolutely better if this one do not… does not exist.
+
+543
+01:20:44.110 --> 01:21:00.090
+Chuan Wu: Right. And so therefore both of them are Pareto optimal points. But the last the solution here last the candidate here it is not Pareto optimal not optimal because apparently it is doing worse in both dimensions than Pareto optimal points.
+
+544
+01:21:00.240 --> 01:21:00.920
+Chuan Wu: Right.
+
+545
+01:21:03.340 --> 01:21:06.760
+Chuan Wu: All right. Okay, so using.
+
+546
+01:21:06.880 --> 01:21:20.430
+Chuan Wu: the because when there are multiple Pareto optimal values, then each one actually is representing a trade-off between the different objective function value dimensions.
+
+547
+01:21:20.750 --> 01:21:38.019
+Chuan Wu: Okay, concrete example is just like here, so if you are considering the first dimension, F1X, to be more important, you'll probably choose a second Pareto optimal solution. If you think F2X is more important, then you choose the first Pareto optimal solution.
+
+548
+01:21:38.660 --> 01:21:39.530
+Chuan Wu: Okay.
+
+549
+01:21:40.680 --> 01:21:53.840
+Chuan Wu: All right, then, moving on to see some concrete examples. So, consider here, we are looking at a multi-objective optimization problem, which corresponds to a concrete portfolio optimization problem.
+
+550
+01:21:54.090 --> 01:22:06.090
+Chuan Wu: And here, our variable X is n-dimensional vector, and all the components are up to 1, and every component is now negative, so we can consider Xi to be
+
+551
+01:22:06.470 --> 01:22:08.060
+Chuan Wu: So we can consider.
+
+552
+01:22:08.370 --> 01:22:21.150
+Chuan Wu: Xi to be a fraction number, and it is a fraction we use for investment. And this is a simple formulation of a portfolio optimization problem.
+
+553
+01:22:21.150 --> 01:22:35.489
+Chuan Wu: So in total, you have some total amount of fund, and you try to decide which asset you invest using this fund into, right? And XI is a fraction of your fund you try to invest in asset I.
+
+554
+01:22:35.660 --> 01:22:36.480
+Chuan Wu: Okay.
+
+555
+01:22:36.590 --> 01:22:42.179
+Chuan Wu: And then, objective function. So, in your investment, you want to.
+
+556
+01:22:42.520 --> 01:22:50.650
+Chuan Wu: maximize the return. You want to earn the most money, so you want to maximize the return, but you also want to minimize the risk.
+
+557
+01:22:51.000 --> 01:23:06.210
+Chuan Wu: Okay, and how do we model the return, and how do we model the risk? So this formulation is pretty much like what we already saw in one of the earlier examples, and here it is a recap.
+
+558
+01:23:06.560 --> 01:23:17.999
+Chuan Wu: Okay, so here, consider our P to represent a vector of asset return. So PI is a return for, is a unit return for invest.
+
+559
+01:23:18.000 --> 01:23:39.530
+Chuan Wu: in asset I. And, we consider that PE to be a random variable, okay, because it is definitely investment portfolio optimization is a non-deterministic problem. And, that return is, random variable, and its mean is P bar, and its covariance matrix is this big sigma matrix.
+
+560
+01:23:39.760 --> 01:23:56.689
+Chuan Wu: And how do we formulate the expected return? It is here. So expected return is expected P inner product X, and yielding that P bar is a mean. We know the expected P inner product X is equaling P bar in the product X.
+
+561
+01:23:57.160 --> 01:24:16.470
+Chuan Wu: And then, the covariance. So we… variance of the return, so original variance of the return is described here, and based on what we derived in one of the early examples, we know this is equivalent to X transpose big sigma matrix, and then X.
+
+562
+01:24:17.400 --> 01:24:18.370
+Chuan Wu: Okay.
+
+563
+01:24:18.540 --> 01:24:24.300
+Chuan Wu: Alright, so then our problem at hand is we want to…
+
+564
+01:24:28.420 --> 01:24:37.959
+Chuan Wu: We want to minimize the, We want to maximize the return, and the expected return is here.
+
+565
+01:24:38.080 --> 01:24:40.799
+Chuan Wu: And we want to minimize the.
+
+566
+01:24:47.260 --> 01:24:50.820
+Chuan Wu: Risk. And the risk is, described.
+
+567
+01:24:51.160 --> 01:24:55.329
+Chuan Wu: formulated here. So these are our two objectives.
+
+568
+01:25:01.950 --> 01:25:09.810
+Chuan Wu: And we have our constraints. So constraints are sum of Xi equaling one, and every Xi is larger than 0.
+
+569
+01:25:11.090 --> 01:25:15.840
+Chuan Wu: So very intuitively, this is a multi objective authorization problem.
+
+570
+01:25:17.120 --> 01:25:21.410
+Chuan Wu: And we can merge the separately formulated objectives.
+
+571
+01:25:21.590 --> 01:25:37.119
+Chuan Wu: vector scalar-valued objectives, respectively, into a vector-valued objective function. So that is, in fact, it is conforming more to our multi-objective validation, or vector optimization, introduced just now.
+
+572
+01:25:37.440 --> 01:25:47.850
+Chuan Wu: And what we do is we simply use a technique of converting a maximization problem into a minimization problem by minimizing its additive inverse.
+
+573
+01:25:48.630 --> 01:25:49.630
+Chuan Wu: Right.
+
+574
+01:25:49.930 --> 01:26:02.149
+Chuan Wu: Okay, and then we come up with the organization on the slide. So here, we minimize two objectives, or a two-dimensional valued objective function, subject to the constraints.
+
+575
+01:26:03.350 --> 01:26:11.430
+Chuan Wu: And for the multi-objective, we are defining the proper cone is a two-dimensional real non-negative ascent.
+
+576
+01:26:15.750 --> 01:26:16.710
+Chuan Wu: Okay.
+
+577
+01:26:18.240 --> 01:26:24.969
+Chuan Wu: Alright, so I hope it's a straightforward, it's a pretty straightforward, formulation.
+
+578
+01:26:28.780 --> 01:26:30.530
+Chuan Wu: Okay,
+
+579
+01:26:32.350 --> 01:26:39.719
+Chuan Wu: And that… Let's talk about how we are going to solve a multi-objective validation.
+
+580
+01:26:40.850 --> 01:26:53.520
+Chuan Wu: So… We know for multi-object validation, pretty much we are finding Pareto optimal solutions, and in rare cases, or some cases, or rare cases, we can find out the true optimal solution.
+
+581
+01:26:53.700 --> 01:27:01.000
+Chuan Wu: And how do we find out a Pareto optimal solutions to a given multi-objective optimization problem?
+
+582
+01:27:01.050 --> 01:27:14.829
+Chuan Wu: One simple technique is to scalarize the problem. So scalar… by scalarizing the problem, what we do is we convert the vector-valued objective function into a scalar-valued objective function again.
+
+583
+01:27:14.950 --> 01:27:25.459
+Chuan Wu: And how do we convert a vector value objective function to a scalar value objective function? We do inner product of the vector value objective.
+
+584
+01:27:25.710 --> 01:27:27.710
+Chuan Wu: with another vector.
+
+585
+01:27:28.130 --> 01:27:30.149
+Chuan Wu: In a product of two vector.
+
+586
+01:27:30.290 --> 01:27:32.450
+Chuan Wu: becomes a stereo, right?
+
+587
+01:27:32.700 --> 01:27:48.029
+Chuan Wu: Right? Okay, so this is the so-called scalarization, and then to do the scalarization, we need to introduce another vector, so we can consider that vector as a coefficient vector, and here we say that vector is vector lambda.
+
+588
+01:27:48.500 --> 01:27:55.740
+Chuan Wu: And we do interpret that between lambda and F0X, and first of all, lambda and F0X should be of the same dimensions.
+
+589
+01:27:56.150 --> 01:28:00.959
+Chuan Wu: Right, so they can do interproduct between each other, and then come up with a scalar value.
+
+590
+01:28:01.650 --> 01:28:19.639
+Chuan Wu: Okay, using this scalarization technique, we come up with objective function, lambda inner product F0X, which is scalar value, and everything else remains, and then the resulting objective… then the resulting optimization problem is a standard.
+
+591
+01:28:19.760 --> 01:28:23.359
+Chuan Wu: scalar valued mathematical program.
+
+592
+01:28:24.960 --> 01:28:32.590
+Chuan Wu: All right, and what is new is here. So when we choose the coefficient vector lambda to inner product the
+
+593
+01:28:32.590 --> 01:28:45.940
+Chuan Wu: vector-valued objective function with. Here, lambda needs to be belonging to the dual cone of the cone, where we define the multi-objective function, a multi-objective optimization on.
+
+594
+01:28:46.010 --> 01:28:57.629
+Chuan Wu: Okay, so we know the cone we define the multi-objective optimization on is cone K, and we use K star to represent its dual cone.
+
+595
+01:28:57.870 --> 01:29:16.090
+Chuan Wu: So the dual cone's notion is formally defined to be here. The dual cone of a given cone K, expressed using K star, it is defined to be containing all the vectors whose inner product with vectors in cone K is non-active.
+
+596
+01:29:16.970 --> 01:29:18.400
+Chuan Wu: Okay, Dior Kong.
+
+597
+01:29:18.580 --> 01:29:20.480
+Chuan Wu: Okay, so example here.
+
+598
+01:29:20.850 --> 01:29:34.519
+Chuan Wu: So, say we have a cone K, so here we do not have to limit cone K to proper cone, so let's just assume some cone K here. So this is our cone K here, and where does our cone K star lie?
+
+599
+01:29:34.980 --> 01:29:45.260
+Chuan Wu: So, concave star has to include all the, all the vectors whose inner product with all vectors in concave is non-active.
+
+600
+01:29:45.680 --> 01:29:55.450
+Chuan Wu: meaning the angle between any vector in concave star should be within an acute angle with any vector in concave.
+
+601
+01:29:55.720 --> 01:30:01.009
+Chuan Wu: Right. Okay, so if our Kong K is here, so let's check out…
+
+602
+01:30:07.410 --> 01:30:10.410
+Chuan Wu: Okay, so the black shaded.
+
+603
+01:30:11.050 --> 01:30:29.169
+Chuan Wu: cone is our dual cone K star. So, why? Because if you choose any vector in cone K star, and you do inner product with vector in cone K, you will find their inner angle is acute angle, and their inner product is larger equal to zero.
+
+604
+01:30:30.080 --> 01:30:35.020
+Chuan Wu: right? So that concave is there smaller. But concave start is larger.
+
+605
+01:30:36.140 --> 01:30:41.609
+Chuan Wu: Okay, so that's the definition of, of, Duer Kong.
+
+606
+01:30:47.610 --> 01:31:01.460
+Chuan Wu: and based on the definition. So if we say, why, larger equal to 0 based on the dual cone K star, the definition is, why belongs to dual cone K star.
+
+607
+01:31:01.850 --> 01:31:09.469
+Chuan Wu: And equivalently, that means why, in a product, any X in concave is larger than 0.
+
+608
+01:31:11.490 --> 01:31:12.310
+Chuan Wu: Bye.
+
+609
+01:31:19.500 --> 01:31:28.789
+Chuan Wu: Okay, so remember, so this, notion, so this notation and notion together, it means Y belongs to the dual concave stuff.
+
+610
+01:31:29.850 --> 01:31:40.780
+Chuan Wu: Okay, and if we remove the equality dash from the generalized inequality sign, what we have is lambda is in the interior of dual concave star.
+
+611
+01:31:42.490 --> 01:31:50.409
+Chuan Wu: Okay, lambda larger than 0, generalized inequality K star. The implication is lambda is in the interior of K star.
+
+612
+01:31:52.100 --> 01:31:54.549
+Chuan Wu: Okay, not including the boundary points.
+
+613
+01:31:57.300 --> 01:32:03.930
+Chuan Wu: All right. And then, let's see two concrete examples of Kong and their dual Kong.
+
+614
+01:32:04.110 --> 01:32:13.919
+Chuan Wu: And if our cone K is the, non-negative also to be the n-dimensional space, then its dual cone is itself.
+
+615
+01:32:14.610 --> 01:32:17.929
+Chuan Wu: So you can easily verify for…
+
+616
+01:32:28.510 --> 01:32:38.479
+Chuan Wu: Okay, this non-active Austin, it is a comb. It's pure comb, it's exactly itself. You can very easily verify using the same approach as we
+
+617
+01:32:38.740 --> 01:32:56.180
+Chuan Wu: illustrated just now. And another expensive example is that if this cone K is a positive semi-definite matrix cone, then again, its dual cone is itself. So you can again verify that using definition of positive semi-definite matrix and the dual cone.
+
+618
+01:32:57.380 --> 01:33:00.529
+Chuan Wu: Okay, alright, so those are special cases.
+
+619
+01:33:01.600 --> 01:33:16.509
+Chuan Wu: All right. Then now we have complete our introduction about the scalarization technique. So we know we choose. If the original multi object validation is defined on a proper cone K.
+
+620
+01:33:16.590 --> 01:33:24.689
+Chuan Wu: And then we can choose a vector lambda of the same dimension as our objective function values dimension.
+
+621
+01:33:24.690 --> 01:33:38.270
+Chuan Wu: which belongs to the dual cone, belongs to the interior of the dual cone of that cone K, that we can scalarize the original problem's objective function by doing lambda inner product F0X.
+
+622
+01:33:39.180 --> 01:33:51.589
+Chuan Wu: Okay, and then the nice thing that people have derived based on this scalarization technique is, so if our… if we can find an optimal point for this scalarized problem.
+
+623
+01:33:51.810 --> 01:34:01.040
+Chuan Wu: Then, this, point… optimal point X is guaranteed to be Pareto optimal for the original vector optimization problem.
+
+624
+01:34:02.340 --> 01:34:07.149
+Chuan Wu: Okay, why? So actually, we can simply show it using some contradiction.
+
+625
+01:34:36.560 --> 01:34:39.069
+Chuan Wu: Do we consider X is optimal?
+
+626
+01:34:39.980 --> 01:34:42.530
+Chuan Wu: Or, the scalarize the problem.
+
+627
+01:34:50.140 --> 01:35:07.059
+Chuan Wu: Okay, so X is optimal for this theorized problem with that objective of lambda transpose F0X. Then, we want to show that it's pretty optimal for the original maximization problem as well. So we prove… we can show a contradiction.
+
+628
+01:35:07.250 --> 01:35:10.910
+Chuan Wu: So we assume X is not radial optimal.
+
+629
+01:35:18.620 --> 01:35:24.000
+Chuan Wu: So we assume X is not Pareto optimal for original
+
+630
+01:35:24.140 --> 01:35:30.060
+Chuan Wu: Multi-objective validation, where the objective function is minimizing F mu rags directly.
+
+631
+01:35:30.190 --> 01:35:40.710
+Chuan Wu: And then there must exist some feasible solution. Y, such that F 0 y is doing better than F 0 x in all dimensions.
+
+632
+01:35:41.580 --> 01:35:42.450
+Chuan Wu: Okay.
+
+633
+01:35:42.680 --> 01:35:47.119
+Chuan Wu: And then, what we… contradiction we can derive is here.
+
+634
+01:35:53.830 --> 01:36:01.710
+Chuan Wu: Okay, move F0Y to the other side. What we know is F0X minus F0Y is larger than 0.
+
+635
+01:36:02.570 --> 01:36:12.830
+Chuan Wu: based on the generalized inequality defined on purple cone K, or simply put, we know F 0 x minus F 0 y is in the interior. It is in the purple cone K.
+
+636
+01:36:13.380 --> 01:36:20.599
+Chuan Wu: Okay. And then, what we do is, we do lambda transpose at 0x.
+
+637
+01:36:20.780 --> 01:36:22.410
+Chuan Wu: Minus F0Y.
+
+638
+01:36:22.710 --> 01:36:26.870
+Chuan Wu: Okay, inner product in lambda with that vector in concave.
+
+639
+01:36:27.960 --> 01:36:31.140
+Chuan Wu: And the lambda is in the dual cone of cone K.
+
+640
+01:36:31.380 --> 01:36:35.089
+Chuan Wu: So therefore, their inner product has to be larger to zero.
+
+641
+01:36:36.150 --> 01:36:45.550
+Chuan Wu: Right? And what that tells us is lambda transpose F0X is larger equal to lambda transpose F0Y.
+
+642
+01:36:47.070 --> 01:36:54.410
+Chuan Wu: And this is a contradiction, because we say that X is optimal point for lambda transpose at 0 x.
+
+643
+01:36:55.930 --> 01:36:57.730
+Chuan Wu: Right. Okay.
+
+644
+01:36:59.170 --> 01:37:18.739
+Chuan Wu: So that is a kind of the theory foundation behind this, behind this scalarization technique, because if we choose that lambda, we, in the interior of the dual comb, we are able to guarantee the optimal point X for a scalarized problem is Pareto optimal for the original problem.
+
+645
+01:37:20.690 --> 01:37:32.559
+Chuan Wu: Okay. And, and in fact, these scalarization techniques can be applied pretty extensively to find out most of the Pareto optimal points.
+
+646
+01:37:32.950 --> 01:37:41.450
+Chuan Wu: And we can actually vary that lambda from… meaning by choosing different lambda from interior of the pure concave star.
+
+647
+01:37:41.730 --> 01:37:51.930
+Chuan Wu: And, for every lambda, we are able to find out a period optimal point, and by varying lambda, we can find almost all the period optimal point in that way.
+
+648
+01:37:53.660 --> 01:38:00.450
+Chuan Wu: Okay? And geometrically, that's further illustrated the situation geometrically.
+
+649
+01:38:00.620 --> 01:38:03.140
+Chuan Wu: So lambda transpose F0X.
+
+650
+01:38:03.670 --> 01:38:09.730
+Chuan Wu: from the space illustration in the space of a tangible objective function value.
+
+651
+01:38:09.920 --> 01:38:18.329
+Chuan Wu: So, Lambda… in the producting of neural X is defining a set of lines in the space.
+
+652
+01:38:19.530 --> 01:38:27.770
+Chuan Wu: a set of lines. Lambda itself is a normal vector pointing to the direction pointing to the direction of
+
+653
+01:38:28.160 --> 01:38:31.270
+Chuan Wu: normal actor of… Those set of lines.
+
+654
+01:38:31.500 --> 01:38:37.390
+Chuan Wu: And when this line becomes a supporting hyperplan to the ZO,
+
+655
+01:38:38.070 --> 01:38:44.700
+Chuan Wu: Okay, so when lambda 1, F0X becomes a supporting hyperplane to the set O.
+
+656
+01:38:44.830 --> 01:38:49.740
+Chuan Wu: The intersecting point decides one critical optimal solution.
+
+657
+01:38:51.560 --> 01:39:00.990
+Chuan Wu: And when you vary Lambda, basically, you are varying different possible supporting hyperplans to the set. Oh, you can find out different
+
+658
+01:39:01.130 --> 01:39:11.129
+Chuan Wu: intersection point with the supporting points along the boundary of set O, and that point corresponds to operator optimal solution as well.
+
+659
+01:39:12.250 --> 01:39:18.899
+Chuan Wu: Okay, so by varying lambda, you are varying. You can find out multiple different peripheral optimal solution.
+
+660
+01:39:20.090 --> 01:39:20.920
+Chuan Wu: Bye.
+
+661
+01:39:21.110 --> 01:39:40.549
+Chuan Wu: But this… this is kind of just a sufficiency condition. So there is some other points, like the point here. Okay, so the point here, it itself corresponds to a pretty good optimal solution to the original problem, and say that is point X, that pretty optimal solution is X3.
+
+662
+01:39:40.960 --> 01:39:46.190
+Chuan Wu: And this point cannot be found out by stellarization technique.
+
+663
+01:39:47.080 --> 01:39:52.860
+Chuan Wu: Because, intuitively, at this point, you cannot find a supporting hyperplan to the set of.
+
+664
+01:39:54.210 --> 01:40:14.059
+Chuan Wu: Any lambda deciding a Pareto optimal solution is corresponding to a supporting hyperplane. But at this point X3, you cannot find such a supporting hyperplane, and that implies, using the scalarization technique, using the lambda from the interior of the dual cone, this Pareto optimal solution cannot be identified.
+
+665
+01:40:16.960 --> 01:40:17.840
+Chuan Wu: Okay.
+
+666
+01:40:18.360 --> 01:40:19.490
+Chuan Wu: All right.
+
+667
+01:40:35.930 --> 01:40:36.680
+Chuan Wu: Okay.
+
+668
+01:40:39.120 --> 01:40:42.810
+Chuan Wu: All right, so having introduced
+
+669
+01:40:42.890 --> 01:41:00.289
+Chuan Wu: all the concept regarding scalarization and so on. Actually, what I want to bring up next, especially using the next example, is… so simply put, okay, simply put, you can consider the scalarization technique to be just some kind of weighted
+
+670
+01:41:00.550 --> 01:41:06.249
+Chuan Wu: sum of the objective function value. Because lambda transpose F0X.
+
+671
+01:41:06.750 --> 01:41:09.360
+Chuan Wu: Is equivalent to lambda 1?
+
+672
+01:41:10.670 --> 01:41:15.240
+Chuan Wu: F1 to X plus lambda 2, M to 2X.
+
+673
+01:41:15.880 --> 01:41:19.340
+Chuan Wu: Pass all the way, left button, FNX.
+
+674
+01:41:19.760 --> 01:41:25.059
+Chuan Wu: Consider that F0X… okay, let's not say it's M.
+
+675
+01:41:25.860 --> 01:41:26.790
+Chuan Wu: Yes.
+
+676
+01:41:26.890 --> 01:41:29.550
+Chuan Wu: Consisting of F, objective function.
+
+677
+01:41:35.440 --> 01:41:42.959
+Chuan Wu: Okay, so if F0 is actually M-dimensional valued, meaning it corresponds to M different
+
+678
+01:41:43.050 --> 01:41:59.300
+Chuan Wu: objective functions to be minimized concurrently. Then, the scalarization technique is pretty much just weighted sum, make this vector-valued objective become weighted sum of the different scalar-valued objective function values.
+
+679
+01:41:59.430 --> 01:42:00.260
+Chuan Wu: Right.
+
+680
+01:42:00.810 --> 01:42:03.330
+Chuan Wu: And when you vary lambda.
+
+681
+01:42:03.510 --> 01:42:07.319
+Chuan Wu: Pretty much it is like you're wearing different weights.
+
+682
+01:42:07.540 --> 01:42:10.730
+Chuan Wu: in a sub 2 different objectives.
+
+683
+01:42:12.270 --> 01:42:13.130
+Chuan Wu: Ray.
+
+684
+01:42:14.490 --> 01:42:32.629
+Chuan Wu: Okay, if a corresponding lambda 2 is larger than lambda 1, pretty much you prefer minimizing F2 more in the minimization. But if lambda 1 is larger than lambda 2, pretty much by minimizing the objective function here, you're minimizing F1X more.
+
+685
+01:42:33.820 --> 01:42:34.740
+Chuan Wu: Okay.
+
+686
+01:42:35.990 --> 01:42:53.099
+Chuan Wu: All right, so in the simple example we have saw just now, we are doing a portfolio optimization problem. We are minimizing two parts of our objective function. We are minimizing negative P bar in the product X. We are minimizing X transpose sigma X.
+
+687
+01:42:53.100 --> 01:43:05.339
+Chuan Wu: And if we scalarize that problem, so this is one simple approach to scalarize it, and you can see pretty much what we are doing is we just weighted some of the original separate objectives and add them up together.
+
+688
+01:43:05.470 --> 01:43:13.070
+Chuan Wu: Right, so here we are minimizing negative p-bar in the product X plus gamma. So gamma is, tunable.
+
+689
+01:43:13.330 --> 01:43:15.250
+Chuan Wu: coefficient.
+
+690
+01:43:15.380 --> 01:43:22.360
+Chuan Wu: And if you map it to the scalarization technique we have just introduced, pretty much our lambda.
+
+691
+01:43:23.120 --> 01:43:25.320
+Chuan Wu: It's taking the form of one.
+
+692
+01:43:26.230 --> 01:43:27.120
+Chuan Wu: Bye-bye.
+
+693
+01:43:28.580 --> 01:43:30.129
+Chuan Wu: So that's our lambda.
+
+694
+01:43:30.250 --> 01:43:35.289
+Chuan Wu: We are interproducting the objective two-dimensional objective function value is.
+
+695
+01:43:36.380 --> 01:43:37.120
+Chuan Wu: Right.
+
+696
+01:43:38.980 --> 01:43:39.870
+Chuan Wu: Okay.
+
+697
+01:43:41.920 --> 01:43:46.130
+Chuan Wu: And when we vary lambda, it's equivalent to vary lambda.
+
+698
+01:43:48.930 --> 01:43:49.820
+Chuan Wu: Okay.
+
+699
+01:43:50.140 --> 01:43:58.030
+Chuan Wu: And… More concrete put, you can consider originally, we have lambda consisting of lambda 1, lambda 2,
+
+700
+01:43:58.160 --> 01:44:04.050
+Chuan Wu: Just the two dimensions, and then you just… you… we… normalize.
+
+701
+01:44:07.090 --> 01:44:09.190
+Chuan Wu: We kind of normalize the first.
+
+702
+01:44:09.700 --> 01:44:15.019
+Chuan Wu: component in lambda. So we fix the 1st component to one, but we bury the second only.
+
+703
+01:44:17.220 --> 01:44:18.150
+Chuan Wu: Okay.
+
+704
+01:44:19.400 --> 01:44:33.140
+Chuan Wu: All right, and when lambda is fixed, and when we solve for X, the problem here, in this concrete example, portfolio optimization with risk return trade-offs.
+
+705
+01:44:33.530 --> 01:44:37.520
+Chuan Wu: The problem itself is a quadratic problem on X.
+
+706
+01:44:38.410 --> 01:44:47.089
+Chuan Wu: Because the first part of our objective function is affine on X, and the second part in the objective function is a quadratic function on X.
+
+707
+01:44:47.630 --> 01:44:51.170
+Chuan Wu: And the, constraints are all fine.
+
+708
+01:44:57.340 --> 01:45:07.729
+Chuan Wu: Okay. Alright, so that's that. So we are done with all our intended discussions on convex programs, and then.
+
+709
+01:45:08.340 --> 01:45:21.560
+Chuan Wu: we will. What we will continue with next time will be the core theory of convex validation, which is a duality theory, and we will do that next Tuesday, because this Thursday is a holiday.
+
+710
+01:45:21.690 --> 01:45:25.060
+Chuan Wu: Okay, all right. Thank you for your attention. We'll call it a day.
+
+711
+01:45:59.430 --> 01:46:04.240
+Chuan Wu: Wait one second, I stopped the Zoom.
+
+712
+01:46:04.380 --> 01:46:05.240
+Chuan Wu: Okay.
+
+713
+01:46:05.400 --> 01:46:07.400
+Chuan Wu: Thank you.
+

@@ -1,0 +1,1074 @@
+COMP9602 Optimization — 2026-09-01 10:00:35
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/YTniYrNeriolvXG7F74eJlMlTVZobqpnoQa8X52WEIWyZWEySE1ybdRc90C6w-bh.g5kL0mAoNu8crh6x
+保存日期：2026-11-08
+
+[00:00:50.490] chuanwu: SD.
+
+[00:02:13.440] chuanwu: Okay, all right, good morning, everyone. Welcome to the very first lecture of COMP9602 optimization.
+
+[00:02:21.900] chuanwu: So, is my voice volume fine?
+
+[00:02:25.510] chuanwu: Yeah.
+
+[00:02:26.820] chuanwu: It doesn't sound very much like my originals.
+
+[00:02:30.120] chuanwu: voice, but
+
+[00:02:32.710] chuanwu: good enough. Okay, all right, so what we are going to do in this course? So this is, as all of you should know, this is a core RPG course, and it is going to teach you the fundamentals of optimization. And especially, the focus of the course is on convex optimization. Actually, before last year, the course is exactly called complex optimization, but the department somehow considered missing
+
+[00:02:57.520] chuanwu: makes the name too shallow, so we change it to optimization. But you should still know this is mostly on convex optimization, and we are going to spend the very last lecture briefly talk about non-convex optimization.
+
+[00:03:09.590] chuanwu: Okay, so what we are going to cover? So we are going to cover the theory of convex optimization, and we are going to do a lot of the algorithms to solve convex optimization problems.
+
+[00:03:20.210] chuanwu: And, on theory of the convex validation, we are starting with a lot of concepts. Okay, be prepared. We are starting with a lot of concepts regarding convex sets, convex functions, and then we'll be looking at all kinds of different convex programs, starting from the simple form linear program, moving on to conjugate program, and then semi-definite programming, integer programming, where all the variables are required to be integers.
+
+[00:03:44.780] chuanwu: and Zellex Optimization, and so on.
+
+[00:03:47.540] chuanwu: And very importantly, we are going to look at the, core foundation theory foundation of conquest optimization, which is duality theory. We are going to spend quite a lot of… quite a number of lectures on primordial algorithms
+
+[00:04:02.560] chuanwu: theory, Lagrange multiplier, KKV conditions, and so on, and quite a number of proofs.
+
+[00:04:09.180] chuanwu: And that is what we are going to cover in the first half of the semester. And moving on, for the later half of the semester, we are focusing on algorithms to solve complex optimization problems.
+
+[00:04:23.560] chuanwu: So we check out the fundamental algorithms, gradient descent algorithms, and then we move on to other numerical algorithms, including Newton's method, inferior point methods, and then we are going to check out some more fancier algorithms, including Lagrangian relaxation, sub-Gradient methods, localization, decomposition methods, so each of them is tailored, or is suitable for different scenarios of solving.
+
+[00:04:47.610] chuanwu: optimization problems.
+
+[00:04:49.990] chuanwu: And throughout the discussion of the theory algorithms, we are going to look at quite a number of, examples. And definitely, you know, we have to show examples to show you what the, COMEX program is like, and how we use what
+
+[00:05:05.920] chuanwu: And how we use algorithms to solve them. So we are checking out a number of, examples or applications of the theory algorithm in terms of interpolation, regression, portfolio optimization, network flow problem, and other graph-related problems. And we are also going to touch briefly upon foundations of game theory. Okay, so actually the foundation of game theory is closely connected with, optimization.
+
+[00:05:30.730] chuanwu: And we are going to see what the zero-sum game is like, and how we integrate Nash equilibrium from the linear program stability's point of view.
+
+[00:05:40.930] chuanwu: Okay, and, most importantly, the major takeaway of the course, like, after you have taken the course, as compared to before… before you take the course, we want you to know how to do mathematical… mathematical modeling using optimization theory.
+
+[00:05:58.780] chuanwu: So, at least, when given, or when facing, language described the problem. You know how to analyze a problem to come up with what is objective, and what are the constraints, and how we are going to use mathematical formulas functions to formulate the language into mathematical functions, and inequalities, equalities.
+
+[00:06:18.830] chuanwu: And then, if you are lucky enough, the formulated obligation problem is convex, and then you have all the theory to solve it, and if you are not lucky enough, you will still be equipped with some theory, some methods to convert your non-convex problem into convex problem, and then you can still solve it to some extent.
+
+[00:06:37.820] chuanwu: Okay, so that's the major thing I want you to know. Okay, interesting enough, after learning all the theories and others, usually in the final exam, I think one question related to formulation, dual formulation of a given language describes a problem.
+
+[00:06:54.580] chuanwu: Usually, that's the… is the lowest scored question in all the… among all the five examination problems.
+
+[00:07:01.470] chuanwu: Okay, so this year, I just want to bring it up to your attention. Very importantly, I want you to know how to do mathematical modeling.
+
+[00:07:10.290] chuanwu: Actually, from many of the CVs I received for incoming PhD students, many of you say you have been doing the mathematical modeling context and so on and left, right?
+
+[00:07:20.940] chuanwu: So that's not enough. Usually, that's not enough. Okay, so I still see a lot of students not able to do mathematical modeling, and then…
+
+[00:07:32.170] chuanwu: These are all the theories and all the hard work you are going to put into the course. I hope you are able to finally, at least informative product, not imagining how to solve it yet. Okay.
+
+[00:07:43.540] chuanwu: All right, so that is a very high-level introduction of the course… overview of the course content, and then logistics of the course.
+
+[00:07:52.700] chuanwu: So that is myself. I'm Wu chuan of Wichuan Du. Okay, so I have been teaching in this university for 8… so this is a 19th year. Okay, 19th year. All right, so for this course, I have been teaching it for more than 10 years, more than 10 times now, over the years, okay? So, you know, we, other than myself, yes, I'm a professor in the Division of Computer Science.
+
+[00:08:17.210] chuanwu: of, CDS. Okay, my research is in, network as a system, actually.
+
+[00:08:23.850] chuanwu: Okay, so not actually… I'm not really in the theory group, but over the years, I've been keeping a keen eye on optimization theory, who have been using it a lot in my research work, and it has definitely been a plus of knowing optimization when you're doing system work.
+
+[00:08:40.330] chuanwu: So over here, I believe some of the audience are from similar backgrounds as myself, and some of you might be from more theoretical background. No matter what, I hope this course can be useful for you to build up some real foundation of optimization.
+
+[00:08:54.270] chuanwu: As a mathematical modeling.
+
+[00:08:56.840] chuanwu: Okay, all right, and then we have, actually have one and a half teaching assistants, okay, one and a half TA units allocated to the course. Our main TA is Mr. Zisheng Meng Zisheng, so he is, one of my PhD students.
+
+[00:09:11.970] chuanwu: And he's not here because he's not here in Hong Kong due to some family reason, and if you all don't know who he is, here he is. Okay, alright.
+
+[00:09:22.830] chuanwu: Okay, so he will be back, hopefully next week, and for this week's consultation hour, he'll be holding a Zoom… we'll be announcing a Zoom link in due course.
+
+[00:09:34.590] chuanwu: Okay, regarding consultation, so I'll be staying here for answer questions, and usually that's the, that's the, the major time when students, have questions. I'll be staying here for one hour, and then we'll, if you have any questions, feel free to stay and ask following each of the lectures on Tuesday and Thursday.
+
+[00:09:54.810] chuanwu: And then our teaching assistants consultation hour is held in Friday, 3 to 5 p.m. in one of the, in my students' office, room for them.
+
+[00:10:05.090] chuanwu: 412 chujin Building. And, as I said, after the TA returns, we'll be holding this, consultation hour in person in that, office room.
+
+[00:10:14.980] chuanwu: And, as most of you are here, that's good. So we know we have a one and a half hour lecture on Tuesday, we have one and a half hour lecture on Thursday, but unfortunately, the rooms are different. Make sure you remember the same room. I know this is a lot far from our main site, most of the main office building of most of you, and it actually takes me 12 minutes to…
+
+[00:10:38.280] chuanwu: go door-to-door from my office to come here. Yeah, it's a long way to go, so make sure you go to the correct place, okay, not the wrong room, okay?
+
+[00:10:46.960] chuanwu: All right, so, although we said it's, like, one and a half hours on Tuesday and Thursday, in many cases, I may spend up to two hours each time, okay? If I figured that I need to spend a lot more time to cover something of work on discussion, I checked the, I checked the, class arrangement outdoor just now, I found,
+
+[00:11:09.380] chuanwu: this room, probably, the next lecture is, not until 12, 12 noon, so I actually have some after time, so be prepared, I'm going to stand
+
+[00:11:19.230] chuanwu: in many days, I'll use the last… the lecture is going to last beyond 1120, okay?
+
+[00:11:26.340] chuanwu: no matter what, you can order your lunch online, and then pick up after you leave the room, right? Okay, all right, Thursday, half hour, similar, Meng is close to here, Meng Wa complex, to be,
+
+[00:11:42.390] chuanwu: Level 1 of mobile complex, we will see what the domain is like later on.
+
+[00:11:48.320] chuanwu: All right, so the course is focusing on acceleration, and there is a Bible book, a related book of acceleration, which is here.
+
+[00:11:56.970] chuanwu: Okay, so the book was published in 2004, yes, considered old. Okay, it was, published during my PhD time, only when I just started my PhD, and then, I bought the book, okay, because I took a lecture, took a course, of some teacher teaching this, using this book. I loved it a lot, really, and then I physically bought the book, although actually the book is free.
+
+[00:12:20.630] chuanwu: to download, starting from the very beginning, okay? Unless you remember, I said, like, 70 Canadian dollars on that. This is still a lot, if you consider as of today, right? Okay, so it's still in my office. I didn't bring it here, it's still in my office.
+
+[00:12:37.130] chuanwu: All right, I'll make sure to download the copy, e-copy, from the website, and you can use it as a reference. I like the book a lot, because as compared to many of the other books, published around that time, this book, it was published by an engineer, mathematician, professor.
+
+[00:12:54.830] chuanwu: Okay, Professor Stefan Boyd, years ago, he was here visiting, EEE department, and, you know, from an engineer's point of view, the math is written in,
+
+[00:13:05.580] chuanwu: very comprehensible.
+
+[00:13:07.590] chuanwu: matter. Okay, okay, you know, the mathematics math book is what it is like, right? But this book, I found it very intuitive, and the examples are very
+
+[00:13:19.050] chuanwu: kind of easy to understand, so I hope, as I see… as I understand, most of you are from ZVA as well, engineering, so I hope this book could be helpful in your work as well.
+
+[00:13:30.010] chuanwu: Okay, and regarding contents of the… of the course, actually, it's a combination of two courses. Actually, we borrowed quite some materials from two of the Stanford University-based, consolidation courses, and I also used some of the materials, from the time I
+
+[00:13:47.780] chuanwu: I was learning, and we also add some, examples from the textbook. Okay, and then, so this,
+
+[00:13:57.840] chuanwu: So, the same material was taught in two courses, two post-graduate courses in Stanford University, and here we combine them into one. So, actually, there is quite some compression, and some choices of what to teach and what not to teach.
+
+[00:14:12.330] chuanwu: And if you're interested in learning more into more engineering aspects of this textbook or the course contents.
+
+[00:14:21.350] chuanwu: You are welcome to check out those, those, courses. I believe at least one of them is on MOOC, okay, Stanford University North is MOOC. You can also learn the course, from online.
+
+[00:14:33.360] chuanwu: All right, so other than the Bible textbook, we have a number of other textbooks, which will be good references, if you're interested in looking into more. And the top one is more related to combinatorial authorization, more fundamentally CS, related… relevant to more fundamental CS, combinatorial, problems.
+
+[00:14:54.110] chuanwu: And then there is this Professor Dimitri's textbooks, a number of them.
+
+[00:14:59.590] chuanwu: So I read all of them during my PhD, okay, and then I think they are helpful, but they are written more from a mathematician's, style, in a more mathematician style. Okay, you know, that means they are actually deeper.
+
+[00:15:14.610] chuanwu: All right, so then the outcome of a course, so as I said, although the fundamental takeaway of taking the course is to know how to formulate a problem into fundamental program, and then know some foundation already to solve them. We still have some more details here.
+
+[00:15:29.510] chuanwu: So number one, we want you to know the basic concepts of, by mastering the key concepts, complex set, connect functions.
+
+[00:15:38.740] chuanwu: And, convex programs, and then the key theory, be able to master key theory.
+
+[00:15:45.250] chuanwu: What is a key theory? I believe there is only one key theory we are teaching in this course, which is a duality theory.
+
+[00:15:51.560] chuanwu: Okay, the edit theory is a key. And then, we want you to know some of the representative algorithms to solve COMEX programs, and then we also want you to have some practice of modeling problems in the convex program, and in that algorithm to solve them, to show… to show us, how you have mastered all the theory and foundations.
+
+[00:16:14.510] chuanwu: Okay, and that would be related to our assessments as well. Throughout the course, we have 3 assessments, each 12%, and those are mostly problem sets.
+
+[00:16:26.570] chuanwu: assignments. So, meaning you are given a number of questions, and you… in the last assignment, we also want to do some algorithm implementation.
+
+[00:16:37.130] chuanwu: And, most of the students are using Python in recent years, but some of you from other faculty could be still preferring to use MATLAB, so both are acceptable. And then, we have one project. We don't have many data, we have one project.
+
+[00:16:53.900] chuanwu: So the project is, is weighing 24% of our overall course, and, in the project, we want you to practice what you have learned.
+
+[00:17:03.230] chuanwu: Okay, and then other than the project, we have one final examination, written examination, in-person written examination, 40%, and that will be based on everything from the semester.
+
+[00:17:14.890] chuanwu: Okay, let me talk a bit more of the, project here.
+
+[00:17:20.800] chuanwu: So, as you can see, the, what we want to do in the project is you really identify an optimizable problem, or an optimizable problem in your domain.
+
+[00:17:31.750] chuanwu: And then you try to formulate into an optimization problem.
+
+[00:17:35.470] chuanwu: Hopefully, that is convex. If it's not convex, try to use some of our techniques to teach in the course to convert it into convex, or approximation. And then you can use either algorithm you learned in the course, or algorithm you read somewhere from lectures, papers you have studied yourself to solve it.
+
+[00:17:54.250] chuanwu: you implement the solution algorithm, you do experiments, okay, small-scale experiments, depending on how many GPUs you have, okay, and then you write a report.
+
+[00:18:05.250] chuanwu: What we want to collect eventually is a project report. There is no in-person presentation, because we don't have the time. We're, like, 70 of you, okay? So only final reports, only final reports. And what is the final report? Consider it as a paper, short paper.
+
+[00:18:21.990] chuanwu: Okay, I mean, many of you have experience writing papers already. If not.
+
+[00:18:27.390] chuanwu: Make it your first practice of writing paper. Okay. And then, only 5 pages. Okay, before we want longer, eventually, we make it shorter. Only 5 pages long.
+
+[00:18:38.130] chuanwu: Double column format, and then, five-page reports, and, this, report slash paper will reflect what you have done, and will be formal… follow the similar format as writing a paper. You have introduction, you have abstract, you have introduction, you have the learn body, you have experiments, and then you have references, and so on.
+
+[00:19:00.900] chuanwu: Okay.
+
+[00:19:02.080] chuanwu: At the age of AI, writing a 5-page like that.
+
+[00:19:05.520] chuanwu: Takes no time, right? We will see. We'll see whose paper is written by AI. I mean, really interested in learning that.
+
+[00:19:15.600] chuanwu: All right, okay, so, but the whole purpose is for you to practice, okay, to practice how to present some research for mathematical modeling pre-downs.
+
+[00:19:26.990] chuanwu: Okay, so details of the projects will come up, later in due course of the semester. I'll talk again about what we expect in the project, and also this can be a group project, as well, two students in one group.
+
+[00:19:40.640] chuanwu: Okay, all right, so that's the assessments of the,
+
+[00:19:47.630] chuanwu: course. Okay, then some academic policy. Okay. Very importantly, write your own assignments.
+
+[00:19:55.210] chuanwu: So that means you should come to
+
+[00:19:57.840] chuanwu: Put up the solution, either in handwriting or in typing, but everything should be from your own intelligence.
+
+[00:20:06.900] chuanwu: Hopefully.
+
+[00:20:08.670] chuanwu: Okay, all right. So, of course, you cannot copy among each other. We, before, I think we, over the years, we did, caught, well, a couple of times, students copying from each other.
+
+[00:20:22.560] chuanwu: two students copying from each other, or one copying from the other, and then, unfortunately, we need to give them all the rules for that assignment, okay, at least for that assignment. And we do allow some date summation, like 15% deduction per day, maximally 2 days, okay.
+
+[00:20:39.360] chuanwu: And then we don't accept any late submission after 2 days.
+
+[00:20:43.120] chuanwu: So, occasionally, students were saying that they are sick, they are hospitalized, and so on. Make sure you tell me that, well, beforehand, enough, and send me your medical cert. In those special situations, we could extend further.
+
+[00:20:56.670] chuanwu: Okay, but make sure you are well justified.
+
+[00:20:59.520] chuanwu: All right, okay, and I have to mention that the, those are some old Hong Kong Yu policy, it has been like this since the start time of… since the start of my time of teaching different courses, but I do understand that nowadays we rely a lot on AI, right? Generated AI.
+
+[00:21:18.600] chuanwu: Right, even researchers are using AI, even theory researchers are using AI to work out the proof and everything themselves, right?
+
+[00:21:26.860] chuanwu: I don't object, or I don't have control on whether you use AI to come up with assignment solutions. But eventually, what you put out, I hope it is based on your own chain of thought.
+
+[00:21:39.900] chuanwu: Okay, this can be… AI can do some stuff in the chain, but eventually it should be your own channel of thought, or at least you know what the channel of thought is in your own mind. In the final exam, you are not allowed to bring any device.
+
+[00:21:53.290] chuanwu: Okay, and and eventually what you put out should definitely be your own writing.
+
+[00:22:01.380] chuanwu: Actually, I somehow accumulated… I accumulated the ability of telling what's writing is wrong AI, what is not.
+
+[00:22:08.710] chuanwu: Okay, from reading my own students' papers.
+
+[00:22:12.080] chuanwu: Okay, so, and our TA is very good at AI, he has access to all kinds of, generative AI, so we are able to check… we actually could see whether your assignments is completely written by AI, not your own chinosaur.
+
+[00:22:29.570] chuanwu: All else, right? So let's make sure this is, a learning process. You don't have to take the course, right? If you decided to take the course, then just make it a learning process. Know the foundations, and build the AI, not just use the AI. Eventually build the AI, build better AI.
+
+[00:22:47.730] chuanwu: Okay.
+
+[00:22:51.970] chuanwu: Alright, and then this is a schedule of the semester.
+
+[00:22:56.280] chuanwu: Okay, so, so what I actually want to highlight is
+
+[00:23:00.790] chuanwu: You'll see here, we are finishing the semester one week before the formal completion. The reason is I'm attending, chairing a conference, so I have to be away that week. So, I moved the schedule one week ahead.
+
+[00:23:18.610] chuanwu: And you see, we… Seventh.
+
+[00:23:24.110] chuanwu: It is the reading week. Supposedly, there is no lectures in the university in the reading week, but unfortunately, I arranged the two lectures in the reading week.
+
+[00:23:34.870] chuanwu: Yeah, I hope it is more acceptable for RPG students, because anyway, your schedule is not really on course taking. Most of your time should be spending on research, so what time to take the course doesn't matter too much.
+
+[00:23:48.290] chuanwu: Okay, so I have to mention that this week is reading week, but we do have two lectures, two full lectures scheduled there.
+
+[00:23:56.070] chuanwu: Okay.
+
+[00:23:58.870] chuanwu: All right, and then we are going to release a first assignment pretty soon, like, by next week, because the first assignment is going to cover the foundations, including convex set, convex function, and after we are done with them, you can start to work on the first assignment.
+
+[00:24:13.820] chuanwu: Okay.
+
+[00:24:15.830] chuanwu: All right, and the second assignment will be on, complex functions and the convex program, will be, yes, will be on convex programs and duality theory, and the last assignment will, implementing some algorithm.
+
+[00:24:30.180] chuanwu: Okay, so pretty much we have, three assignments, based, during the semester.
+
+[00:24:39.030] chuanwu: All right, so that is all the logistics of the course that I want to tell. And now, before I'm moving on to start the introduction of the technical contents of the course, let me do a quick survey. I also want to figure out the background of our students here.
+
+[00:24:57.080] chuanwu: So, number one question, first of the question. So, did any of you learned, validation, complex validation, or linear programming in… before, in your undergrad study, or in your master's study? If so, please raise your hands.
+
+[00:25:15.410] chuanwu: Okay, so many of you have learned that.
+
+[00:25:17.710] chuanwu: Yeah, I'm honored that after, you know, you have learned them, you are still taking the course. Okay, welcome! And then,
+
+[00:25:27.050] chuanwu: And next part of the question is, I want to figure out the background, so for those in,
+
+[00:25:33.250] chuanwu: CS Division of, CDS, please raise your hands.
+
+[00:25:40.160] chuanwu: Okay, alright, thank you. And for those from the AI division of CVS, please raise your hands.
+
+[00:25:46.890] chuanwu: Very few. Okay, yeah, understandable, because I think they have other course… similar courses in their deed. And then, for those, non-CIS, non… non-AI,
+
+[00:25:59.250] chuanwu: From staff or other engineering faculties, please raise your hands.
+
+[00:26:03.670] chuanwu: Okay, quite a few, as if… quite a number, as if. Okay, all right, welcome.
+
+[00:26:09.170] chuanwu: Yeah, the, similar composition as, from previous years. Okay. All right.
+
+[00:26:21.430] chuanwu: Okay, let me also pause a bit.
+
+[00:26:26.370] chuanwu: What… see if anyone has any questions to ask me now, related to the course arrangement, logistics.
+
+[00:26:36.220] chuanwu: Yes. Any, tutorials on all of that? No filter. Yes, for RPG plus ZRA, there is no filter.
+
+[00:26:45.450] chuanwu: Yes. Will all slides be uploaded into the portal?
+
+[00:26:49.240] chuanwu: Oh, yes, we already uploaded 2 sets of slides to Model. So I hope everyone… I believe everyone should have access to Model, right?
+
+[00:27:01.370] chuanwu: Okay, and yes? Will the Zoom recording be available?
+
+[00:27:05.370] chuanwu: Some… you might have seen I launched the Zoom, but that is not for you.
+
+[00:27:09.910] chuanwu: That is for Shanghai students. Shanghai students. Yeah, so we have, because this year we have quite a, a few, RPG PhD students hired directly under the Shanghai PhD quota, and they are kind of based in Shanghai, so the, department required us to do Zoom for them.
+
+[00:27:29.100] chuanwu: And I don't really plan to open up the Zoom
+
+[00:27:33.910] chuanwu: session to Hong Kong students, because then I will not see many of the faces here until the final exam.
+
+[00:27:41.200] chuanwu: So, I want to please understand that the reason why I don't want to open the Zoom access to students here. But if I… properly, I do record, but if you are sick or due to any other reason, you want to access the Zoom recording, make sure you email me, yeah.
+
+[00:28:02.320] chuanwu: Yes.
+
+[00:28:03.930] chuanwu: I'm wondering whether we need to write a form code of some algorithm in the financial is purely on problem sets.
+
+[00:28:15.430] chuanwu: Yeah, because we don't allow device, don't allow cloud code there. Yes. Shanghai Cora, and I don't think I received any notice on the, like, the Zoom thing, or something. Right, that's a problem, because this Shanghai is…
+
+[00:28:32.680] chuanwu: in, all the arrangements for Shanghai students are kind of pretty limited, pretty literally, and then,
+
+[00:28:41.400] chuanwu: This lecture, I'm doing recording. Yeah, some students also emailed me about that. I'm doing a recording, and later on, we will see how… what is the most effective way of notifying the student what the Zoom decade is like.
+
+[00:28:53.220] chuanwu: Okay, thank you for bringing it up.
+
+[00:28:56.110] chuanwu: Yes. Do you have a schedule for the final exam? When the final exam could be? Not yet. I also want to know, because I do have schedule in December. I don't know yet.
+
+[00:29:08.210] chuanwu: Yeah, usually it is… it won't be out until after the first months of the semester.
+
+[00:29:18.020] chuanwu: Alright, so if there's no other question, let's move on.
+
+[00:29:22.070] chuanwu: Alright, so what we are going to do in…
+
+[00:29:28.230] chuanwu: Okay, later half of the, today's lecture is, I'll, introduce… I'll… okay, so we will do some high-level introduction, fundamental introduction to mathematical optimization, or mathematical program in general.
+
+[00:29:43.410] chuanwu: And we are doing it by showing a number of examples. Okay, so consider them as T3 examples.
+
+[00:29:50.160] chuanwu: Alright, so the very first example, so my favorite one, is regarding how a lady could be keeping skinny while eating enough. Okay, so a very practical problem. So we consider a young lady, probably not only a young lady, consider a lady wishes to be as skinny as possible while still keeping herself healthy.
+
+[00:30:10.200] chuanwu: So, she has 10 different types of folks to choose from.
+
+[00:30:14.690] chuanwu: And the J's food type containing, say, J calories per milligram.
+
+[00:30:20.970] chuanwu: Okay, and the AIJ milligrams of vitamin I per…
+
+[00:30:29.700] chuanwu: Okay, vitamin I, per milligram. And then the lady requires at least the BI milligrams of vitamin I to stay healthy. So given that the goal is to minimize caloric intake while having enough of each type of vitamin.
+
+[00:30:47.790] chuanwu: How should she decide what food and how much amount to eat?
+
+[00:30:53.230] chuanwu: Bryce. A simple question.
+
+[00:30:56.150] chuanwu: So, for half of you who have taken linear program and the messenger of addition, courses before.
+
+[00:31:03.970] chuanwu: Number one question?
+
+[00:31:05.720] chuanwu: So how should we formulate? So what is the first step we should do?
+
+[00:31:11.750] chuanwu: After reading the question here.
+
+[00:31:16.040] chuanwu: Okay, so there are a number of key factors that we need in formulating a mathematical program, and what is mathematical program? I'll show the definition more formally on a later slide.
+
+[00:31:27.450] chuanwu: So, when we are formulating the problem, okay, natural language described problem with some quantities described using symbols with subscripts.
+
+[00:31:37.650] chuanwu: Okay, we will see both these 11 subscripts, simple scripts in the course. And what our task next is, is to formulate the entire thing into only mathematical functions and formulas and inequalities and equalities.
+
+[00:31:53.670] chuanwu: And among the mathematical formulas we are formulating, number one factor we need to decide is, what is our variable, or what is our set of variables to describe this problem?
+
+[00:32:07.970] chuanwu: Okay, variables would be something we want to optimize. Choosing its optimal value.
+
+[00:32:13.630] chuanwu: Okay, variable. And number two factor is objective.
+
+[00:32:18.170] chuanwu: So what is our goal in formulating the problem? What do we want to maximize, or what do we want to minimize? What objective we want to achieve?
+
+[00:32:27.630] chuanwu: And then the third factor in transformative modeling here is constraints.
+
+[00:32:33.540] chuanwu: So in order to project the value of variables to attend the objectives, what are our mathematical constraints that limit the scope of the variables in attending the objective?
+
+[00:32:47.740] chuanwu: Okay, so those are understandable, right?
+
+[00:32:50.400] chuanwu: Okay, and this is a very simple problem. So, number one factor we are formulating here is we formulate the variable.
+
+[00:32:59.280] chuanwu: So what we want to decide is, how the lady should diet.
+
+[00:33:05.030] chuanwu: And concretely speaking, we want to decide how much amount of which type of food the lady should eat on a daily basis.
+
+[00:33:14.410] chuanwu: Right? Agreed?
+
+[00:33:17.370] chuanwu: Okay, and we use XJ to describe that. So X is usually a variable, we use XYZ most often in the course, and Y is the subscript J is describing the type of food. Okay, food J, meaning the J's type of foot.
+
+[00:33:34.800] chuanwu: Okay.
+
+[00:33:36.040] chuanwu: Alright, and XJ itself denotes the amount, or the number of milligrams of food the day the lady should eat.
+
+[00:33:46.190] chuanwu: Career?
+
+[00:33:48.140] chuanwu: Okay, so we are just translating some natural language disorder problem into mathematical Symbols, or variables.
+
+[00:33:59.790] chuanwu: All right, and then we can continue to formulate the objective and constraints in this problem. And before we do that, let's formulate together some of the important quantities that is described in the natural language described problem.
+
+[00:34:16.750] chuanwu: Okay, we next the formula is the total amount of calories the lady would be taking, would be intaking, if the XJ is the number of milligrams of food the day the lady eats.
+
+[00:34:30.710] chuanwu: Right? And how many type of food we have?
+
+[00:34:34.230] chuanwu: So we have N, small n type of food. So we have a sum over there, sum of J from 1 to N. And XJ, XJ is the amount of food, and perb in terms of milligrams.
+
+[00:34:48.739] chuanwu: And the CJ, as given in the problem description, is the unique categories per milligram that food type J conts.
+
+[00:34:58.640] chuanwu: So simply, say JXJ give us the amount of calorie intake is related to EXJ amount of food J, right? Okay, then stop over J.
+
+[00:35:11.690] chuanwu: Okay. All right, and then intake of each type, each vitamin type I.
+
+[00:35:17.900] chuanwu: So, from the proper description, we know AIJ milligrams of vitamin I per milligram of the food.
+
+[00:35:26.080] chuanwu: And similarly, we… if we multiply or do the product between AIJ and XJ, what does it give us?
+
+[00:35:34.320] chuanwu: They give us the amount of vitamin E,
+
+[00:35:37.630] chuanwu: that the amount of food jade the lady eats can bring to her.
+
+[00:35:43.100] chuanwu: Right? And then we sum over J again. Okay, two important computers are formulated here.
+
+[00:35:48.990] chuanwu: And then, the objective of the accommodation problem is clear.
+
+[00:35:54.280] chuanwu: Reading from the last sentence of the question, given that the goal is to minimize caloric intake, okay, given that the goal is to minimize caloric intake, so the objective is to
+
+[00:36:07.230] chuanwu: Eat as less as possible, right? Eat as less calorie as possible, right? So that means our formulation of the total amount of calories should appear
+
+[00:36:18.120] chuanwu: in the objective function, which will minimize it. And then, that's the minimization problem, then this is a minimization problem, minimizing an objective function.
+
+[00:36:27.750] chuanwu: And then, during the later half of the last sentence of the problem.
+
+[00:36:33.240] chuanwu: While having enough of each vitamin.
+
+[00:36:36.950] chuanwu: Okay, and then reading the sentence before, the lady requires at least the BI milligrams of vitamin E to stay healthy. Now we know BI is a lower amount of the amount of vitamin E the lady should have.
+
+[00:36:50.740] chuanwu: Right? And that's an inequality constraint.
+
+[00:36:54.480] chuanwu: And it is formulated this way.
+
+[00:36:58.040] chuanwu: So the intake of each of vitamin I, as we formulated above, appears on the left-hand side, and our lower bound on the right-hand side inequality design in between, and that is our constraint.
+
+[00:37:11.430] chuanwu: Okay.
+
+[00:37:12.640] chuanwu: Enzel?
+
+[00:37:14.270] chuanwu: We are not done yet. The last constraint is here. XJ should be non-active.
+
+[00:37:20.540] chuanwu: Right? The amount of food. You cannot eat an active amount of food, because you cannot throw it out after all. Okay. All right. So then we are done.
+
+[00:37:30.820] chuanwu: So, a very simple problem, and we translate the language, mostly language design problem, into mathematical formula, and then we are done.
+
+[00:37:40.230] chuanwu: Okay, so when you're facing a language-described problem.
+
+[00:37:46.430] chuanwu: When you're formulating mathematical position problem, just make sure you are clear of three things. So one is what are the variable sets, what is a variable set, and what is objective, and what are the constraints. And then try to translate each sentence into one of the quantities appearing in one of the three.
+
+[00:38:04.670] chuanwu: Items.
+
+[00:38:06.400] chuanwu: Okay.
+
+[00:38:07.810] chuanwu: All right, and, if you observe the, observe the optimization problem here, you found our variable XJ only appears in linear functions.
+
+[00:38:19.310] chuanwu: And basically, all the functions involved in objective and constraints are linear. Then we call this as a linear program.
+
+[00:38:26.680] chuanwu: Okay, a linear program.
+
+[00:38:30.540] chuanwu: All right, then we have different ways to play around with formulating a validation problem, depending on what the requirement and what the objective is like. So, say, if we adjust the objective of the latest IOT team a little bit, then our formulation would change a bit.
+
+[00:38:48.120] chuanwu: Okay, so say if the lady wishes to maximize the total amount of vitamin intake.
+
+[00:38:54.050] chuanwu: While keeping the overall caloric intake under of value, how should she diet?
+
+[00:38:59.930] chuanwu: Okay, it's like this lady is doing weight training. Okay, she needs to eat enough vitamins, but she, as long as some total caloric intake is under about
+
+[00:39:10.650] chuanwu: Right? Okay, and then, how should we formulate or adjust the objective problem?
+
+[00:39:17.040] chuanwu: So again, so our, variable doesn't change. So our variable is still the number of milligrams of, food a day the lady eats, because our problem at hand to decide is still how the lady should diet.
+
+[00:39:31.310] chuanwu: And then the object… and our formulation of total amount of calories intake of each vitamin based on that variable definition do not change as well. And what would be changing, or swapping, is our constraint and objective function.
+
+[00:39:48.600] chuanwu: Okay, now the lady wants to maximize her total vitamin intake.
+
+[00:39:54.300] chuanwu: And this is the quantity describing the total vitamin intake.
+
+[00:39:58.810] chuanwu: Okay, sum over I. I indicates different vitamins.
+
+[00:40:03.260] chuanwu: And then we're maximizing that. So this is our new objective. So our goal changed.
+
+[00:40:09.350] chuanwu: And constraints.
+
+[00:40:11.110] chuanwu: Now, constraints is no longer whether vitamin is about some type of vitamin is about some certain food. Instead, we want the total caloric intake to be under some upper bound.
+
+[00:40:23.740] chuanwu: Smaller equal to D.
+
+[00:40:25.500] chuanwu: Okay, and that's… this item used to appear in the objective, and now it's in the constraint.
+
+[00:40:31.440] chuanwu: And finally, we still need to require non-negativity of the variables here.
+
+[00:40:37.420] chuanwu: And that'll end up… And again, this is a slightly different linear program, but still simple and neat.
+
+[00:40:45.300] chuanwu: Okay.
+
+[00:40:49.520] chuanwu: Alright, so after seeing the two… the T3 example, let's,
+
+[00:40:54.540] chuanwu: make clear, okay, make it more formal and clear what is the authorization problem, that actually is still authorization when we say authorization problem, so that is still a high-level concept, okay, or a general concept used in general literature. And let's say in the general literature, we are facing optimization problem.
+
+[00:41:12.520] chuanwu: An operation problem typically consists of a set date, which is the dominant.
+
+[00:41:17.130] chuanwu: And a real value function, F, mapping from D to R is called the objective function. Okay, so what is… and we have two different forms of the optimization problem, general forms. One is minimization problem, and the other is a maximization problem.
+
+[00:41:35.350] chuanwu: So, for minimization problem, we are trying to find out the optimal value of a variable X.
+
+[00:41:41.170] chuanwu: Okay, remember, X here doesn't have to be square, and it can be an dimensional vector as well. Okay, and then such that the objective function X evaluated on X is no larger than objective function f evaluated on any other value in the domain.
+
+[00:41:59.900] chuanwu: And if we swap the side, inverse side, of the inequality, we come up with maximization problem. So in maximization problem, we want to find out the variable X.
+
+[00:42:11.770] chuanwu: Okay, undimensional vector X, such that FY, the objective value evaluated on any other value in the domain, is no larger than objective function evaluated on X.
+
+[00:42:28.240] chuanwu: straightforward, right? And the mapping tool, what we have been saying… so here you can see in operative problem, at least we need to have variable set. Variable set is X, because X can be n-dimensional, meaning it can include in scalar variables.
+
+[00:42:44.970] chuanwu: Right? Okay, and then we have, objective function, which is F here.
+
+[00:42:50.250] chuanwu: And then we have constraints. So where are constraints? Constraints are considered under the domain B.
+
+[00:42:58.920] chuanwu: Okay.
+
+[00:43:01.970] chuanwu: So basically, the constraints here decide a feasible domain of variable X, and that is exactly the set D we describe here.
+
+[00:43:16.620] chuanwu: Okay, still 3 major components.
+
+[00:43:19.260] chuanwu: Only variable, objective function, and constraint set, or domain set.
+
+[00:43:24.630] chuanwu: Okay.
+
+[00:43:26.320] chuanwu: All right, and then, moving on, in the domain of computer science, operational research, and math.
+
+[00:43:34.120] chuanwu: And people like to formulate a position problem into more
+
+[00:43:38.100] chuanwu: Concrete form. And then over that, over those domains, the core of addition, mathematical programming.
+
+[00:43:46.070] chuanwu: I believe the reason is what we formulated the foundation problem into is called mathematical program.
+
+[00:43:52.830] chuanwu: And then the domain is called as mathematical programming.
+
+[00:43:57.600] chuanwu: Okay, so in a mathematical program, we have slightly more concrete formulation of the general notions in the application problem. We have objective function.
+
+[00:44:07.940] chuanwu: And in this mathematical programming domain, we call… we use F bureau. We usually use F bureau to represent objective function, and we say it's mapping from the n-dimensional real coordinate space, or the RN.
+
+[00:44:21.240] chuanwu: So, RTN there.
+
+[00:44:25.030] chuanwu: So RN here represents the n-dimensional real coordinate space.
+
+[00:44:30.000] chuanwu: And then, that means the variable of function F0 is an un-dimensional vector. And mapping it to a scalar value. So R here is a real number space, okay, scale represent including all the scalar values.
+
+[00:44:44.820] chuanwu: And we have a set of constraints, okay, a set of constraint functions. And the constraint… we have a set of constraints, and the constraints are divided into left-hand side and right-hand side. Left-hand side, in the standard format, is a constraint function.
+
+[00:45:01.560] chuanwu: So let's say here we have M constrained functions, okay, each one is mapping from an indimensional vector value to a real value, a real scalar value, and we have M.
+
+[00:45:14.380] chuanwu: constants, and we group the M constants into a vector in the format here. And, here X is, and here we have the formal definition of our optimization variables.
+
+[00:45:27.680] chuanwu: And we use a bold X to represent an n-dimensional real vector, real value vector, and it contains n scalar variables. Scalar values, and each one corresponds to a scalar variable.
+
+[00:45:42.150] chuanwu: Okay, and then our mathematical program in the standard format is formulated as follows. We are minimizing the objective function subject to N inequality constraints.
+
+[00:45:54.870] chuanwu: And the constraint functions are on the left-hand side, and the right-hand side is some upper bound constants.
+
+[00:46:01.300] chuanwu: And we put down the constraints in the inequality FIX more equal to BI format in a standard way. And of course, if your objective is something like Fi is some function GX larger equal to
+
+[00:46:16.590] chuanwu: and larger equal to D, then you can always inverse the inequality sign to make it negative G.
+
+[00:46:24.690] chuanwu: X more or equal to negative.
+
+[00:46:26.930] chuanwu: B, right? And to match the standard format.
+
+[00:46:31.360] chuanwu: Okay, and we use, this format to denote X is an dimensional real vector.
+
+[00:46:39.260] chuanwu: Okay, containing unreal valued variables.
+
+[00:46:44.720] chuanwu: Alright, so this is a standard formulation of mathematical program.
+
+[00:46:50.130] chuanwu: And a definition of optimal solution to the mass method program is usually denoted by having a
+
+[00:46:57.670] chuanwu: star, okay, to the red… to the subscript star of X. So X star with… is the…
+
+[00:47:06.570] chuanwu: X starve, is achieving, attaining the smallest value of F0 among all vector X, satisfying all the constraint functions… constraints.
+
+[00:47:19.180] chuanwu: So that's a formal definition of optimal solution.
+
+[00:47:24.520] chuanwu: Okay.
+
+[00:47:26.040] chuanwu: And, so this is the most classical standard way of formulating a mathematical
+
+[00:47:34.190] chuanwu: prove it. And, F0, FX, in the standard form does not have any requirements of being convex or non-convex. And of course, what is a convex function, we'll be introducing it in detail in later lab.
+
+[00:47:50.920] chuanwu: F, if F0, SI, they are all collapsed.
+
+[00:47:57.940] chuanwu: then this mathematical problem, okay, generally speaking, if a minimum object function and constraint function function F and X are all convex functions, then this is a convex problem. And if one of them, either of them, is non-convex, then this problem is not convex.
+
+[00:48:14.200] chuanwu: Not the economics program.
+
+[00:48:15.980] chuanwu: And this course mainly deals with, theory, foundation, and algorithm to solve complex problems.
+
+[00:48:24.240] chuanwu: Okay.
+
+[00:48:27.630] chuanwu: All right, and then talking about how to solve a partition program, or general… general mathematical program.
+
+[00:48:34.990] chuanwu: So, general optimization problem is, very difficult to solve. So, when we say it's very difficult to solve, we, mean two aspects. We refer to two aspects. So, number one, so either the problem would be taking very long computation time to arrive at the optimal solution.
+
+[00:48:54.750] chuanwu: Or, we actually cannot have the technique to find the exact optimal solution.
+
+[00:49:02.560] chuanwu: Okay, either very long to take, or… or we couldn't find the optimal solution as well.
+
+[00:49:08.320] chuanwu: Okay, so both is the problem is, in general, very difficult to solve.
+
+[00:49:13.020] chuanwu: And, the reason why we focus on complex optimization here is because researchers have come up with nice theory to solve complex ovalization problems, okay, which is the duality theory.
+
+[00:49:26.200] chuanwu: Okay, so, and that also shows convex optimization problems, or convex optimization problems, or convex problems, is a subcategory of mathematical problems that can be solved efficiently and
+
+[00:49:42.630] chuanwu: Reliably. Okay, so efficiently corresponds to the first difficulty aspect. So efficiently meaning solving it doesn't take really long time. For people with a CS background, that means those problems are not until high.
+
+[00:49:58.150] chuanwu: Okay, not anti-high. So we kind of have polynomial time optimization algorithm to solve for the exact optimal solution.
+
+[00:50:05.830] chuanwu: Important normal type of the problem scale.
+
+[00:50:08.610] chuanwu: Okay, and reliably corresponds to the second aspect of the difficultiness of solving general optimization problem. Reliably means we are guaranteed, we are able to find the exact optimal solution in polynomial time.
+
+[00:50:25.370] chuanwu: Okay, so those are very ideal, right? So those are kind of, attainable, solvable, not any hard problems. Okay.
+
+[00:50:34.370] chuanwu: Alright.
+
+[00:50:35.970] chuanwu: Okay, so therefore, so there is this, professor, you Washington last, yeah, you Washington professor.
+
+[00:50:46.520] chuanwu: And he has a very famous claim, and which is true, that is saying that the great watershed in oxidation isn't between linearity and nonlinearity, but between complexity and non-convexity.
+
+[00:51:01.920] chuanwu: So that means your problem formulated is complex. Although the functions involved are not linear, but other COMEX functions, then the problem is guaranteed to be able to be solved efficiently and reliably.
+
+[00:51:16.330] chuanwu: If the problem is non-convex, That… that is not guaranteed.
+
+[00:51:22.140] chuanwu: Okay, so it's not, like, between linear and nonlinear, but between non-ex and non-commX.
+
+[00:51:28.990] chuanwu: Okay, because convex functions include linear functions, as long as a number of many other function forms.
+
+[00:51:36.390] chuanwu: Okay.
+
+[00:51:38.980] chuanwu: All right, and then talking about convex authorization. So we, as said, the right-hand side, we show the general mathematical program formulation.
+
+[00:51:49.750] chuanwu: And if FD rule and FI, meaning the objective and constraint functions, are all convex, then this is a convex problem.
+
+[00:51:59.160] chuanwu: And then, what is a convex function? So, I'm going to briefly talk about its definition here, and we're going to see a lot of examples and more detailed definition and have discussions in the,
+
+[00:52:11.560] chuanwu: Next week's lecture. Okay. All right, so we say a function FIX is convex if its domain is convex set.
+
+[00:52:20.110] chuanwu: And what is a convex set? We'll be talking about that in the next lecture. Okay, so if its domain is a convex set, and the function satisfies the inequality here, then the function is a convex function.
+
+[00:52:31.850] chuanwu: And this inequality actually has a name. It's called the Jason's inequality. Okay, Jason's inequality. And what the,
+
+[00:52:40.530] chuanwu: What are these,
+
+[00:52:42.500] chuanwu: Yeah, what this, inequality means, it could be easier to understand, or we could do some, geometric illustration. So check out the form here, on the left-hand side, inequality, and check out what we have in the pair of parentheses. So we have alpha X plus beta y.
+
+[00:53:02.170] chuanwu: And we call… and the alpha, beta, we know X and Y are variables.
+
+[00:53:07.500] chuanwu: Okay, X and Y's are chosen from the domain of the function, they are variables. X is an dimensional vector, Y is an indimensional vector. And alpha and beta are parameters. So they're scalar parameters. They sum up to one, and each of them, then, is non-active. Okay, coefficient parameters.
+
+[00:53:26.990] chuanwu: So when we have alpha… when we put it up, like alpha X plus beta Y, we call it convex combination of two points, X and Y.
+
+[00:53:37.320] chuanwu: A point is an undimensional vector in an undimensional real coordinate space.
+
+[00:53:42.610] chuanwu: Okay, so therefore, the left-hand side means the function evaluated on convex combination of two points in its domain.
+
+[00:53:52.170] chuanwu: On the right-hand side, you see alpha and beta are outside the parentheses, and I'm multiplying the function values instead. So the right-hand side means convex combination of the function values FX and FYY.
+
+[00:54:08.360] chuanwu: Okay, so what this means, the function that evaluated on convex combination of two input points should be no larger than convex combination of the two points evaluated separately.
+
+[00:54:23.550] chuanwu: Okay, and geometrically, what it means is here. So, say here we have X.
+
+[00:54:29.220] chuanwu: Okay, evaluated to be FX. Consider this is a scalar value, scalar input scalar value function F.
+
+[00:54:37.570] chuanwu: Just for easiness of our illustration, two-dimensional plot. Okay. And we have Y. So Y evaluated, on a scalar value function F, so the value becomes FY.
+
+[00:54:50.940] chuanwu: End?
+
+[00:54:52.580] chuanwu: What is,
+
+[00:55:04.310] chuanwu: Oh, okay, I will not draw, because anyway, I'm going to draw it again. We talk about complex functions, detailed definition. So X here, I adjust the point instead of draw. I was hoping to…
+
+[00:55:17.500] chuanwu: raise the screen and draw on the board, okay? All right, so here, X and Y, two points, and in this simple illustration, they are in a scalar on the x-axis, meaning X and Y are both scalar values, scalar points, not in n-dimensional space, but only in one-dimensional space.
+
+[00:55:36.790] chuanwu: So, alpha X plus beta y, it would be some points in the middle here.
+
+[00:55:42.160] chuanwu: Okay, so that would be clear and well justified later when we teach about convex functions in more detail. And then, how about FX, alpha FX plus beta FY? It would be a point.
+
+[00:55:57.430] chuanwu: It would be a point. Somewhere, if we draw a line segment connecting FX and FY, then alpha FX plus beta FY would be a point on the line.
+
+[00:56:09.960] chuanwu: And then what this Jason's inequality says is, the…
+
+[00:56:15.990] chuanwu: function value, okay, function value evaluated on convex combination of two points, okay, so some point here, which is alpha X plus beta Y, the function value would be here. So this value would be definitely be underneath the corresponding value
+
+[00:56:36.140] chuanwu: Along the line, connecting FX and FY.
+
+[00:56:40.960] chuanwu: clear. I believe it's not, really, right? So, maybe I still with…
+
+[00:56:48.480] chuanwu: Let me see how much I want to cover today…
+
+[00:56:57.910] chuanwu: Okay.
+
+[00:56:59.270] chuanwu: Alrighty.
+
+[00:57:06.680] chuanwu: Longman.
+
+[00:57:29.960] chuanwu: What's wrong?
+
+[00:57:35.080] chuanwu: Okay, anyway, no, this is not my join, it's probably earlier Facebook's class.
+
+[00:57:48.950] chuanwu: And this.
+
+[00:57:50.220] chuanwu: Okay.
+
+[00:57:52.980] chuanwu: Alright, I'll go against here.
+
+[00:58:20.170] chuanwu: Okay, so what we are saying is, this point will be arba X plus beta y.
+
+[00:58:27.570] chuanwu: Okay, because alpha X plus beta y is convex combination, the two points, it would be a two points along the lines.
+
+[00:58:41.040] chuanwu: along the line second and connecting X and Y on the horizontal axis.
+
+[00:58:46.300] chuanwu: And Zen…
+
+[00:58:59.800] chuanwu: Okay, all right, and then, how about the… when we connect FX and FY,
+
+[00:59:16.090] chuanwu: Okay, I understand it doesn't like me reading the… screwing up, but we'll do it quick. Okay, all right, so this is the…
+
+[00:59:25.710] chuanwu: A point along the line segment, connecting FXMF what?
+
+[00:59:32.490] chuanwu: what the Jason's inequality say? Okay, and then I'll point out another… point. So that's… F.
+
+[00:59:41.820] chuanwu: ARPA, X, plus… Beta? Why?
+
+[00:59:51.520] chuanwu: Okay.
+
+[00:59:53.130] chuanwu: So what the Jackson's inequality is saying? So this point…
+
+[00:59:57.620] chuanwu: Function evaluated the unconvex combination of the two given points X and Y.
+
+[01:00:03.130] chuanwu: On the function curve, Would be underneath
+
+[01:00:06.860] chuanwu: the line segment connecting FX and FY.
+
+[01:00:14.610] chuanwu: That point, the, horizontal X coordinate value would be alpha X plus theta F.
+
+[01:00:29.890] chuanwu: Oh, I think I cannot be too close to the screen.
+
+[01:00:33.800] chuanwu: Why?
+
+[01:00:38.090] chuanwu: Doesn't sound like mechanical.
+
+[01:00:40.860] chuanwu: Okay, alright.
+
+[01:00:44.320] chuanwu: Okay.
+
+[01:00:46.150] chuanwu: So, distance inequality left-hand side corresponds to the lower blue point I drew on the curve.
+
+[01:00:52.250] chuanwu: And the right-hand side of the Jason's inequality corresponds to the this dot I drew.
+
+[01:00:59.940] chuanwu: And the justice inequality is saying this dot on the function curve is always underneath the corresponding point on the line segment connecting FX and FY.
+
+[01:01:10.360] chuanwu: on the curve.
+
+[01:01:12.790] chuanwu: This also implies the curve, if we could draw the curve on a two-dimensional plan, okay, meaning the function is a scalar, input scalar valued function.
+
+[01:01:25.590] chuanwu: Then, this curve is… pending… This direction, okay, bending this direction, like a reversed bell.
+
+[01:01:36.870] chuanwu: So that's a typical… this is a typical convex curve.
+
+[01:01:42.080] chuanwu: And if the curve is bending above.
+
+[01:01:46.130] chuanwu: then that actually corresponds to the curve of a concave function. Okay, we will give the definition a concave function later on.
+
+[01:01:56.650] chuanwu: Okay, if you don't exactly get what I was saying, don't worry.
+
+[01:02:03.290] chuanwu: Because we are going to anyway talk about that again in a lot more details.
+
+[01:02:09.320] chuanwu: In the first lecture of next week.
+
+[01:02:23.370] chuanwu: Alright, and then there are a number of,
+
+[01:02:27.210] chuanwu: basic example… examples of convex functions. So, convex fun… linear functions are all convex.
+
+[01:02:35.020] chuanwu: Okay, for in the case of linear function, it's a special case, because the Jesson's inequality is always taking equality. Okay, always taking equality.
+
+[01:02:44.880] chuanwu: And then we have some other forms of functions, like conjective function is another typical… is that the conjecture function curve is typically used to showcase convex function, because
+
+[01:02:59.100] chuanwu: This is pretty much like a conjective function curve, or X to the power 2, or X power 4. Okay, the shape similarly in this way. It's like reversed bell, and this is a typical convex curve shape.
+
+[01:03:14.600] chuanwu: as well.
+
+[01:03:16.520] chuanwu: Okay, and if our objective function is taking the form of a linear function, and constraint functions are linear, then that would become a linear program problem. And if our objective function is quadratic, okay, some form of this, some variation of this,
+
+[01:03:36.070] chuanwu: typical, simple list of 100 FB form, then usually that problem is, this squares problem. So we're actually going to see an example of this squares problem today.
+
+[01:03:46.960] chuanwu: Alright, having, having been…
+
+[01:03:52.150] chuanwu: Having gone through the very fundamental introduction, definition of convex optimization and mathematical program and convex program, and now, in the rest of this set of slides, what I want to do is, again, to go through a few examples of
+
+[01:04:09.380] chuanwu: Mathematical modeling into linear programs.
+
+[01:04:13.030] chuanwu: Okay, linear programs, you know, are special forms of convex programs, and we just use them as a starting point to learn more of,
+
+[01:04:20.710] chuanwu: linear programs as mathematical modeling and convex program. Okay, all right, so the, next problem I want to introduce and want to formulate together with you is in the category of next flow problem.
+
+[01:04:36.110] chuanwu: Okay, so next flow problem is, formulated based on a graph, okay, a graph data structure.
+
+[01:04:44.530] chuanwu: Okay, so graph is a very important data structure in computer science.
+
+[01:04:49.000] chuanwu: So, like, the network flow problems is, related to quite a number of domains of, computer science as well.
+
+[01:04:56.760] chuanwu: Okay, so we know how to formulate a graph. Okay, so a graph is formulated in this way, with V denoting the set of vertices, and E denoting the set of edges.
+
+[01:05:09.020] chuanwu: And if this is a directed graph, then it means all the edges is in E would be directed, have directions.
+
+[01:05:17.340] chuanwu: Okay, so say this is our graph. Okay, so we have 1, 2, 3, 4, 5, 6, vertices, and they are in the set V, we have a number of edges, directed edges with arrows on them, denoting the direction. They are in the set E. And beyond those, we define a capacity, UIJ, for each
+
+[01:05:38.600] chuanwu: edge. And we use a pair, IJ, to denote the edge. And if this is a directed edge, then we know the direction is pointing from vertex I to vertex J.
+
+[01:05:50.330] chuanwu: Okay, and then we also specify two special vertices, so S and T. We say S is the sauce, and T is the sink.
+
+[01:06:01.780] chuanwu: So that is related to the notion of network flow. So basically, what we want to do is consider this is a network, or a web, or a graph of pipes, and every edge is a pipe.
+
+[01:06:16.230] chuanwu: And how much flow the pipe can carry in unit time is UIJ.
+
+[01:06:22.520] chuanwu: And we have the source S sending flows into the pipes, and into all the pipes that is connected to S, and the pipes will be carrying the liquid, the flow, the liquid will flow along the pipes towards the sink T.
+
+[01:06:40.710] chuanwu: So that is a notion. Okay.
+
+[01:06:43.470] chuanwu: So flow is flowing along the pipes, edges of pipes, and they go to the sink.
+
+[01:06:50.250] chuanwu: Okay.
+
+[01:06:51.900] chuanwu: Alright, and then we have a mathematical formulation, a more exact mathematical formulation of what a flow is like.
+
+[01:07:02.220] chuanwu: So intuitively, flow is like what I was describing. Like, as it's just injecting water into the pipes, the pipes of different capacities is carrying the water, and all the way the water goes eventually to the sink node T.
+
+[01:07:14.560] chuanwu: And mathematically, we have… we can rigorously formulate a flow using a set of variables. Okay, so the set of variables is created this way, XIJ. XIJ is associated with any single edge or pipe.
+
+[01:07:31.620] chuanwu: Okay, so for HIJ, the amount of flow it can carry is XIJ.
+
+[01:07:39.260] chuanwu: And then, you know, we have these many, edges, then all together, the set of XIJs form our flow. Okay, decide our flow.
+
+[01:07:50.470] chuanwu: And then we have a number of constraints or conditions to describe the relation across different XIJs.
+
+[01:07:59.030] chuanwu: So first, we know the flow to flow on every edge should be non-negative. Okay, you would have to inject some concrete or zero amount of water instead of negative amount of water there. Right, so we… for any edge IJ, we have XIJ larger equal to zero.
+
+[01:08:17.040] chuanwu: And then we have capacity constraint.
+
+[01:08:19.810] chuanwu: So we have already been given a capacity UIJ for every edge. Then we know the amount of flow XIJ to fly on… to flow on an IJ should be no larger than UIJ. So that's what the capacity means, right?
+
+[01:08:38.800] chuanwu: Okay, and then we have a famous flow conservation constraint.
+
+[01:08:43.729] chuanwu: Okay, so the, flow conservation constraint, what it says is, so think about our example. So when S is injecting a total amount of, liquid into the web of pipe.
+
+[01:08:57.390] chuanwu: So say the total amount is described using small v. So this amount of liquid flies through all the pipes is connected.
+
+[01:09:06.640] chuanwu: And when the liquid goes to one specific intermediate node, it won't be stored there. That's our assumption. It won't be stored there, and it will be fly away, fly further up.
+
+[01:09:19.830] chuanwu: Okay, flow further out.
+
+[01:09:22.010] chuanwu: Okay, flow further out, and eventually, all the water will exactly arrive, the exact amount of water, or liquid, will arrive at T.
+
+[01:09:31.140] chuanwu: Right, so that's the idea of a flow network.
+
+[01:09:34.130] chuanwu: And to describe that, we have the flow conservation constraint. So, flow conservation constraint is formulated for every one… formulated at any one of the intermediate nodes. In the network here, what are the intermediate nodes? The middle four nodes are intermediate node. S is a sauce, T is a sink.
+
+[01:09:53.760] chuanwu: Okay, so there is a flow conservation constraint at each one of the intermediate nodes.
+
+[01:09:59.610] chuanwu: Okay, and what the constraint here is saying… so check out the left-hand side, and check out the summation underneath the summation side.
+
+[01:10:08.750] chuanwu: So here, we consider some of all the flows.
+
+[01:10:14.600] chuanwu: That is, on the edge, going into node J.
+
+[01:10:20.720] chuanwu: Okay, so J is fixed here, and IJ… so I is being summed, okay? So IEJ describes a flow, or an edge, going into J.
+
+[01:10:34.990] chuanwu: Okay, going into J.
+
+[01:10:38.920] chuanwu: Sorry, the other way around. So I… okay, in this, formulation here, I is fixed. Okay, I is fixed, and J is being sucked, or can be buried.
+
+[01:10:51.140] chuanwu: So here, when I is fixed, IJ describes all the edges, okay? When J varies, it describes all the edges going out from I.
+
+[01:11:02.590] chuanwu: Okay, and on the other hand, here, when I is fixed, J can vary, and we are summing up over J, all the JIs. These describe all the edges going into node I.
+
+[01:11:16.890] chuanwu: Okay, what it means, physically is left-hand side describes the total amount of flow flowing out from node I.
+
+[01:11:27.590] chuanwu: And right-hand side, the summation means the total amount of flow going into node I.
+
+[01:11:33.980] chuanwu: Because we're summing up XJI over all the edges JI coming into node JI.
+
+[01:11:41.580] chuanwu: Right?
+
+[01:11:43.320] chuanwu: Okay. All right, so then the equation means the total amount of flow coming into node I equals the total amount of flow going out from node I.
+
+[01:11:56.980] chuanwu: That means node I doesn't eat up any of the flow, doesn't stop, doesn't eat up any of the flow. The flow just bypass the intermediate node.
+
+[01:12:06.520] chuanwu: flow conservation.
+
+[01:12:09.410] chuanwu: Alright, so after the, the formulation of a flow is clear.
+
+[01:12:16.570] chuanwu: Then, we are able to formulate quite a number of famous combinatorial optimization problem.
+
+[01:12:23.950] chuanwu: On top of it. Okay, so two examples, two classical examples. Maximum flow problem and mean cost flow problem. We can formulate each one of the two classical opposition problems based on our formulation of a flow.
+
+[01:12:43.010] chuanwu: Okay.
+
+[01:12:44.650] chuanwu: All right, so let's first check out what is a maximal flow problem. Okay, still, we are checking out the same flow network, or a web of…
+
+[01:12:55.890] chuanwu: pipes. And in the… under the setting of maximal flow problem, what we want is… we want us to inject as much flow as possible into this web, or into this network.
+
+[01:13:10.850] chuanwu: As long as this network capacity, the pipe's capacities can… Pick it.
+
+[01:13:17.450] chuanwu: without overflow.
+
+[01:13:19.540] chuanwu: Okay, without overflowing at any of the pipe, or at S, or at the end of the pipe.
+
+[01:13:25.850] chuanwu: And our goal is to find out the maximum amount of flow that S can inject into the network without exceeding any of the edge capacities.
+
+[01:13:39.580] chuanwu: And that would be our maximal flow problem.
+
+[01:13:43.700] chuanwu: Okay, so see that again? So we are given the network, network is given, a concrete problem instance is given, and the interconnectivity of the nose and the direction of the edge are all given, and we are also given UIJ, capacity of on every edge, and our problem at hand is we want to decide what is the maximum amount of flow that source S can inject into the
+
+[01:14:07.310] chuanwu: Network.
+
+[01:14:08.430] chuanwu: Such that the flow can be successfully carried by all the pipes on the edges until they arrive at T, sink T.
+
+[01:14:16.680] chuanwu: Okay, to describe this problem using mathematical program, again, we need to decide what are the variables, what are the constraints, and what was the objective, and what are the constraints.
+
+[01:14:30.430] chuanwu: We already formulated a set of variables, flow, XIJ.
+
+[01:14:36.150] chuanwu: So XIJ describes the amount of flow to flow on every edge, and in our… under our maximal flow problems description, XIJs would be a set of variables, because we are need… we need to decide, right? Because when S is sending some total amount of,
+
+[01:14:54.350] chuanwu: flow out, we need to decide concretely how the flow flows along the edges. And concretely, that is reflected by the concrete value of XIJs.
+
+[01:15:05.570] chuanwu: Right? Okay, and not only that, our XIJs, as we formulated on the previous page, is our major set of variables, but we actually have another important variable as well.
+
+[01:15:19.670] chuanwu: That is the amount, the total amount of end-to-end flow S is injecting into the network. And let's use the variable V to describe that.
+
+[01:15:29.490] chuanwu: And the V here is a scalar variable.
+
+[01:15:32.500] chuanwu: Okay, because the amount of flow is just a scalar value. Okay, single value instead of a set of value. XIJs are a set of values altogether, but V itself is just a single value.
+
+[01:15:43.960] chuanwu: Okay, so, like, we inject 1000 the amount of flow, so 1,000 a single value, right? Okay, so V is our… another important variable, describing the amount of end-to-end flow from… that S is injecting.
+
+[01:15:57.920] chuanwu: that we expect it to travel all the way to T.
+
+[01:16:00.990] chuanwu: Right? Okay. All right, and then, our variables, all the variables are clear now, and the next aspect to figure out is what is our objective function.
+
+[01:16:14.680] chuanwu: So the problem is pretty clearly described. We want to maximize the,
+
+[01:16:20.710] chuanwu: allowable amount of end-to-end flow that S is injecting to flow to T, right? So it's a maximization problem. At least we know it's a maximization problem. And what is the function or quantity we are maximizing? It would be exactly V, the amount of end-to-end flow, which is a variable.
+
+[01:16:39.480] chuanwu: Okay, so that shows our objective function is a linear function, a very simple linear function on vector… on variable V only, right? So we have a linear objective function here.
+
+[01:16:52.090] chuanwu: And then the last aspect we need to figure out are the constraints.
+
+[01:16:56.660] chuanwu: So the constraints, specify what, condition the variables should bear, okay, should, undertake.
+
+[01:17:06.770] chuanwu: Right? Okay, so actually, when we formulate a valid flow, all the conditions here are considered as constraints to limit, to specify a valid network flow.
+
+[01:17:23.150] chuanwu: Okay, so here are all the constraints on X.
+
+[01:17:26.440] chuanwu: And we just move them all the way here.
+
+[01:17:30.160] chuanwu: Okay, that's sharp. Okay, as I said, I won't stop the lecture shop, so please bear with me.
+
+[01:17:37.860] chuanwu: Okay, alright, and here,
+
+[01:17:43.510] chuanwu: Right, and here we move all the constraints, we move all the conditions to describe a flow here, and actually here we have 3 sets of constraints, 3 sets of constraints, and we just use this brace to put them down in a concise form.
+
+[01:18:01.830] chuanwu: Okay, in a concise form.
+
+[01:18:03.580] chuanwu: So check out the first row in the breeze, following the breeze.
+
+[01:18:07.130] chuanwu: So we have a sum of XIJ for all the IJ in E, minus the sum of XJI for all the JI in E, where we are summing over J. So here, we are specifying the constraint for a fixed node. The fixed node is S.
+
+[01:18:26.960] chuanwu: sauce.
+
+[01:18:28.240] chuanwu: Okay, so for the first row corresponds to a constraint we lay on the source node S. So at the source node, what we have is the total amount of outgoing flow minus the total amount of incoming flow would be exactly V.
+
+[01:18:47.500] chuanwu: This describes that S is a sauce. It injects flow without take other flow.
+
+[01:18:54.450] chuanwu: Okay.
+
+[01:18:56.080] chuanwu: And then the second row of the here corresponds to the set of flow conservation constraints.
+
+[01:19:03.900] chuanwu: Okay, so for any node, not the source, not the sync, we want the total amount of outgoing flow equaling the total amount of incoming flow.
+
+[01:19:13.750] chuanwu: for conservation.
+
+[01:19:15.430] chuanwu: And then the third row is formulated for one another dedicated node, which is a sync. Okay, I equals T, meaning now we are focusing on the sync node.
+
+[01:19:25.400] chuanwu: For the sync node, the total amount of incoming flow, the total amount of outgoing flow, minus total amount of incoming flow is negative V.
+
+[01:19:35.850] chuanwu: Because sync is only taking flow in without injecting them out.
+
+[01:19:40.260] chuanwu: Right.
+
+[01:19:41.140] chuanwu: Okay, so therefore, the three set of constraints here completely described the flow, actually completely described the flow, kind of flow conservation constraints on every node in the whole network.
+
+[01:19:53.740] chuanwu: Okay, every node on the whole network of… I shouldn't say flow conservation, just a flow constraint on every node in the network, including flow conservation on intermediate node.
+
+[01:20:04.330] chuanwu: Okay, and then we also need to specify here XIJ non-active and XIJ have upper bound, and those are combined together into the last row in the formulation here.
+
+[01:20:17.250] chuanwu: Right.
+
+[01:20:18.620] chuanwu: Okay, all right, and then this completes our formulation, or it completes our formulation. The whole thing here describes the mathematical formulation of the maximal flow problem.
+
+[01:20:33.830] chuanwu: And if you see in detail, actually all the functions involving B and X IJs, they are linear. So therefore, this is a linear program.
+
+[01:20:44.650] chuanwu: And the linear program is,
+
+[01:20:47.390] chuanwu: convex program, and then we know they can be solved in polynomial time reliably. That also implies the maximum flow pro problem is not empty-hand.
+
+[01:20:57.630] chuanwu: not really MPHAT. There are efficient polynomial time algorithms to solve it.
+
+[01:21:02.810] chuanwu: Alright, and then, in the next, if we…
+
+[01:21:10.140] chuanwu: If we adjust the problem setting a little bit, we are going… we are able to formulate another classical authorization problem, which is called minimal mean cost of addition.
+
+[01:21:22.360] chuanwu: Mean cost flow problem.
+
+[01:21:24.580] chuanwu: Okay, so now, we add additional input, and which are CIJ, which is a cost flow. Unit, unit cost flow on every edge, on the edge IJ.
+
+[01:21:39.200] chuanwu: And under the setting of mean cost of flow, we consider the end-to-end flow amount is given. So V is a given quantity, describing the amount of flow that S is injecting into the network to travel to T.
+
+[01:21:54.100] chuanwu: Okay, and then our variables are only XIJ.
+
+[01:21:59.450] chuanwu: Okay, so the idea is, so we are given this network, we are given an amount of flow to travel end-to-end from S to T. What we want to decide is the optimal path.
+
+[01:22:11.720] chuanwu: Optimal amount of flow to fly, to flow on every edge, such that the total cost of the flow traveling is smallest.
+
+[01:22:21.690] chuanwu: Okay, so think about, actually, as is sending some vehicle out to T, right? And the CAJ are total fee of traveling, of every vehicle traveling on an edge, so then you are deciding the path, or deciding on how many vehicles to go on which edge.
+
+[01:22:38.640] chuanwu: Okay, until your fleet of vehicles have traveled from S to T.
+
+[01:22:43.530] chuanwu: Right, okay. All right, so formulate that, we need to vary our, variable setting and our objective function a bit, and interestingly, you will find out our constraints from the
+
+[01:22:56.240] chuanwu: Formulation… the way of formulation remains the same.
+
+[01:23:00.320] chuanwu: Okay, variables. Now our variables are XIJs exactly, and V is given as input, and no longer a variable. And then our objective function is to minimize total cost. And the way of formulating total cost is sum over CIJXIJ iJ in E.
+
+[01:23:19.620] chuanwu: Okay. Alright, and then,
+
+[01:23:23.400] chuanwu: This is the total cost to minimize, and then our constraints. So you found out, actually, our two sets of constraints, and of course, each set contains two to three different inequalities or equalities, remain exactly the same as in our maximum flow problem formulation.
+
+[01:23:42.020] chuanwu: Alright, the difference is, V is now given, okay, no longer variable, but XIGs are variables.
+
+[01:23:52.630] chuanwu: Okay, all right, and that is our minimal cost flow problem formulation.
+
+[01:24:00.090] chuanwu: So what is, a special case of this mean cost of flow problem is short is the pass problem.
+
+[01:24:07.420] chuanwu: Okay, so if we specify that V equals 1, okay, only one unit of flow to travel from S to T, and our XIJs have to be binary, either 0 or 1, then this whole thing becomes the classical shortest path problem.
+
+[01:24:25.180] chuanwu: Okay, so intuitively, so say here S is just sending one car out into the network, and this one car is going to arrive at T.
+
+[01:24:35.640] chuanwu: Corresponding to the one unit of flow to travel. And our task here is exactly for this car to choose the exactly single path to travel from S to T. For example, it can travel from S to…
+
+[01:24:50.680] chuanwu: the bottom node here. At the bottom node here, we need to choose whether it travels from the upper edge out or the lower edge out, but it can only choose one.
+
+[01:25:01.490] chuanwu: And then, suppose it to choose a lower edge here, and as here, it has to go along the path from the node I was circling here to T.
+
+[01:25:11.910] chuanwu: And eventually, what we are deciding is a single end-to-end path for the car to travel.
+
+[01:25:18.100] chuanwu: Right. Okay. All right, so,
+
+[01:25:22.140] chuanwu: And then, for mean-cost flow problem formulation, we know it's a linear program as well, so the implication is it can be solved efficiently, reliably, and it is not going to be hard. Okay, then talk about shortest path problem? So, shortest path problem is actually showing that XIJ has to be binary.
+
+[01:25:40.650] chuanwu: And later in the course we are introducing, this makes the whole problem integer problem.
+
+[01:25:46.740] chuanwu: For integer problems, some of them have nice property, such that they are not empty-hard, and they can be solved exactly and efficiently, but most of the other integer problems, they are NB hard, because they cannot be solved in polynomial time or efficiently. Okay, reliably.
+
+[01:26:04.500] chuanwu: Right, shortest path problem is one interesting type of problem, so it belongs to the former category.
+
+[01:26:10.980] chuanwu: So it has… it is not in the hat, it has exact solution to solve exactly. And, under what property, it has such a nice property, it has such nice results, we'll introduce that later, when we touch the integer linear program part.
+
+[01:26:27.190] chuanwu: Alright,
+
+[01:26:30.120] chuanwu: Right, I actually… I originally planned to cover the next example also, but looks like I see quite a few yamings here.
+
+[01:26:39.890] chuanwu: Here, so, let's do a vote. Do you want me to cover the next example now, today, or we want… you want me to leave it to… to Thursday?
+
+[01:26:49.950] chuanwu: Okay, who wanted to leave this Thursday to please raise their hands?
+
+[01:26:54.990] chuanwu: I'm strategical.
+
+[01:26:57.080] chuanwu: Okay, I'm strategical. Okay, who want to leave it… who want to do it today, please raise their hands.
+
+[01:27:05.250] chuanwu: I know the same response will be received here. Okay, anyway, I think I'll just stop here, because I didn't realize I should make a short rest, a short,
+
+[01:27:18.720] chuanwu: yeah, 5 minutes rest time today, I forgot that. Yeah, we'll do that, because the course is more pretty much on theory and math. I know people's attention cannot last for 2 hours. All right, so we'll call it the day today, and we'll continue on Thursday.
+
+[01:27:35.140] chuanwu: Okay.
+
+[01:27:41.760] chuanwu: Go.

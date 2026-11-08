@@ -1,0 +1,2986 @@
+WEBVTT
+
+1
+00:00:40.560 --> 00:00:40.890
+chuanwu: Killing
+
+2
+00:01:45.150 --> 00:01:50.179
+chuanwu: All right, good morning, everyone. Welcome to today's lecture on optimizations.
+
+3
+00:01:50.690 --> 00:01:59.299
+chuanwu: We are now working on the convex functions, so especially here's another quick revision of what we have already known.
+
+4
+00:02:01.830 --> 00:02:09.989
+chuanwu: Okay, convex function. So essentially, a convex function statement should be a convex set, and it should satisfy the JSON's ineutality.
+
+5
+00:02:10.259 --> 00:02:18.470
+chuanwu: And we check out the verification… we have already started working on the operations that can preserve Comexivity.
+
+6
+00:02:18.470 --> 00:02:43.470
+chuanwu: So essentially, we have a number of methods that we can use to verify if a given function is a convex function. So essentially, that's a very fundamental step, because later on, when you are formulating optimization problems, you need to justify or verify whether your formulated optimization problem is convex or not. And over there, we require the objective function, as well as the inequality constraint function.
+
+7
+00:02:43.470 --> 00:02:51.040
+chuanwu: to be convex. So therefore, it's very fundamental for us to know how to verify if a function is convex or not.
+
+8
+00:02:51.120 --> 00:02:58.099
+chuanwu: Okay, so network approach is to verify the definition, and the second approach is to make use of the,
+
+9
+00:02:58.100 --> 00:03:09.480
+chuanwu: five steps is to make use of the second-order condition. Okay, and said, second-order condition is, in general, more powerful, and easier to apply than first-order condition.
+
+10
+00:03:09.480 --> 00:03:23.240
+chuanwu: And other than this, we have a number of operations that we can apply, and we can use these operations to come up with our current functions based on some convex or CONCE functions.
+
+11
+00:03:23.270 --> 00:03:37.990
+chuanwu: And, we have been working on non-active weighted sum, we have working on composition with alpha in function, and today, at the beginning, let's continue finishing up all the discussions on operations that can preserve complexity.
+
+12
+00:03:38.180 --> 00:03:43.980
+chuanwu: So the next operation that preserved convexity is this pointwise supremus.
+
+13
+00:03:44.180 --> 00:04:00.939
+chuanwu: Okay, supremeant. So, what is the supremeant? So I believe you have studied about supremeant and infremin, when you are studying, some, linear algebra. Okay, so when you are given a set, the supremeant is the largest and lower bound of all elements in the set.
+
+14
+00:04:01.270 --> 00:04:05.259
+chuanwu: And the increment is the… sorry, Supreme is a…
+
+15
+00:04:05.490 --> 00:04:13.330
+chuanwu: Small is the upper bound of all elements in the set, and the infamous is the largest lower bound of all elements in the set.
+
+16
+00:04:13.330 --> 00:04:33.180
+chuanwu: Okay, so we'll be making use of supreme and infinite quite a lot in this course, and in many cases, pretty much, you can assume the supremeant equivalent to a maximization operator, and the inflement equivalent to a minimization operator. But fundamentally, you should know what is a basic definition of supremeant and the infant
+
+17
+00:04:33.360 --> 00:04:37.510
+chuanwu: Yes. Yeah. Supposedly.
+
+18
+00:05:17.370 --> 00:05:20.610
+chuanwu: Okay, alright, so here.
+
+19
+00:05:20.790 --> 00:05:36.879
+chuanwu: The operation we have is regarding Supreme on a function on a subset of, variables of the function. So here, we find treatment, a convex function, and the example is the function fxy is convexing X for every Y.
+
+20
+00:05:37.090 --> 00:05:40.430
+chuanwu: It's the… Yeah, maybe we should make the original…
+
+21
+00:05:47.850 --> 00:05:51.540
+chuanwu: Okay, alright. Okay, thank you.
+
+22
+00:05:52.010 --> 00:05:58.799
+chuanwu: Okay, so now we are given a function fxy, which is convex in x for every fixed wire.
+
+23
+00:05:58.970 --> 00:06:09.410
+chuanwu: Okay, so it doesn't say FXY is entirely convex on all variables. It just says when Y is fixed, F is convex on X.
+
+24
+00:06:09.900 --> 00:06:24.679
+chuanwu: Okay, and then we are given… we consider a function GX. So GX is derived based on FXY when we vary y in a set A. Okay, we try to find out the supreme or maximum value of FXY
+
+25
+00:06:24.680 --> 00:06:34.929
+chuanwu: Among all possible values of Y. Okay, and the resulting function is only on variable X, and the resulting function is guaranteed to be a convex function.
+
+26
+00:06:35.120 --> 00:06:35.980
+chuanwu: Okay.
+
+27
+00:06:36.770 --> 00:06:39.030
+chuanwu: Example…
+
+28
+00:06:44.840 --> 00:06:57.710
+chuanwu: Okay, an example here. We… here, we formulate a function of X. It represents distance to the finest point in a given Z. Okay, so consider a Z.
+
+29
+00:06:58.010 --> 00:07:03.440
+chuanwu: And here, it doesn't matter whether the Z is a connect set or non-connect set.
+
+30
+00:07:03.620 --> 00:07:21.600
+chuanwu: Okay, so any set, some set C, and we consider all possible points in set C, why? And then we try, and when X is fixed, okay, so X is fixed to be a point, so it can be within a set of… without… outside the set.
+
+31
+00:07:21.870 --> 00:07:38.860
+chuanwu: And the, FX is defined to be the largest distance between the given point X and any point Y in C. Okay, then with the distance here, we describe the distance, we are describing the distance using a null.
+
+32
+00:07:38.860 --> 00:07:44.529
+chuanwu: Okay, so if we use L to null to describe the distance, it's pretty much just the Euclidean distance.
+
+33
+00:07:44.610 --> 00:07:45.460
+chuanwu: Okay.
+
+34
+00:07:45.570 --> 00:07:54.959
+chuanwu: All right, so phi is the point. So properly, the phi is the point is there, so that's Y. So that phi is the distance, and that is the value of FX.
+
+35
+00:07:55.490 --> 00:08:13.010
+chuanwu: Okay, so here, norm function is always COMX, no matter what norm, L2 norm, L1 norm, LP na, right? So norm is comma X, and then the function in there is conx in X, and we know the function of X is commex as well.
+
+36
+00:08:15.490 --> 00:08:27.839
+chuanwu: And the next operator that preserves complexity is regarding minimalization. So usually we have something related to maximization, and now we come up with something related to minimization, or infinite calculation.
+
+37
+00:08:27.880 --> 00:08:43.819
+chuanwu: So here, we consider function f. Well, FX is XY, it's convex in X and Y. So essentially, that means F is convex, because it is convex on all its variables, right? And then we consider C, and here we require the set C to be a convex set.
+
+38
+00:08:43.820 --> 00:08:53.169
+chuanwu: And then we insign the function GX, which is an implement over FX, implement of F over all possible Y inside C.
+
+39
+00:08:53.230 --> 00:08:56.170
+chuanwu: And the resulting function GX is a collect function.
+
+40
+00:08:58.170 --> 00:08:59.860
+chuanwu: Okay, the examples.
+
+41
+00:08:59.970 --> 00:09:13.880
+chuanwu: Still, we make use of, some Long function to come up with this, GX. We consider we are doing infinite calculation on the distance X minus y.
+
+42
+00:09:14.210 --> 00:09:23.800
+chuanwu: Okay, X minus Y L2 long, then that's some Euclidean distance. So here, we fix X and vary Y. Y is instead S.
+
+43
+00:09:23.800 --> 00:09:36.479
+chuanwu: So if we know that S is convex, and the non function is convex function, and then the resulting infinite function, okay, function derived after doing infinite calculation, is, convex as well.
+
+44
+00:09:36.560 --> 00:09:43.769
+chuanwu: Okay, and the geometric idea of that function is the distance to a set.
+
+45
+00:09:45.390 --> 00:09:48.959
+chuanwu: So we are given X. Okay, let me revise this.
+
+46
+00:09:49.220 --> 00:09:50.450
+chuanwu: Example?
+
+47
+00:09:58.780 --> 00:10:00.260
+chuanwu: Is that my voice?
+
+48
+00:10:00.390 --> 00:10:04.239
+chuanwu: I don't think so. The recipe.
+
+49
+00:10:06.850 --> 00:10:09.520
+chuanwu: Okay, I don't really think it's our…
+
+50
+00:10:09.810 --> 00:10:27.000
+chuanwu: Okay, set S. Okay, so here we consider set S, which is a convex set, and then OB variant Y can be any point in set S, and when X is given, that infinite of X minus Y L2 naught is exactly the distance to set S.
+
+51
+00:10:27.000 --> 00:10:35.499
+chuanwu: And what is the distance to ZS? So the distance to ZS is the distance between X and the closest point in ZS.
+
+52
+00:10:37.440 --> 00:10:42.659
+chuanwu: Okay, and that resulting function, the distance XS, is a convex function.
+
+53
+00:10:44.600 --> 00:10:46.479
+chuanwu: So it's COMEX on X.
+
+54
+00:10:48.820 --> 00:10:58.960
+chuanwu: Okay, moving on, the next set of, rules or operations that, preserve complexity is related to compensation of functions.
+
+55
+00:10:59.020 --> 00:11:18.510
+chuanwu: So here we consider two functions G and H. So G is an inner function to be composed with. So G is a mapping from an dimensional vector to a scalar value. And the outer function, H, in the composition is a scalar function, meaning mapping from a scalar value to another scalar value.
+
+56
+00:11:18.640 --> 00:11:32.939
+chuanwu: Okay, and then, in this case, we have the following set of rules. We say F is convex if the inner function G is convex, H is convex, and H tilde is non-decreasing.
+
+57
+00:11:33.050 --> 00:11:52.890
+chuanwu: or G concave, H convex, and H tilde is non-increasing. And here, we would like to introduce a new notion. Okay, the notion, what it means when we put a tilda sign on top of a symbol, so that on top of a symbol, that represents a function.
+
+58
+00:11:52.910 --> 00:12:02.839
+chuanwu: Essentially, H tuga or F tugda, so that represents extended value extension function of the original function.
+
+59
+00:12:02.860 --> 00:12:14.090
+chuanwu: What does it mean by extended value extension function of the function? So essentially, it is extending the original function's domain to the entire space.
+
+60
+00:12:14.120 --> 00:12:15.750
+chuanwu: Of the entire space.
+
+61
+00:12:15.840 --> 00:12:22.620
+chuanwu: So, say here. So if X, the dimensional vector in the original domain of the original function X,
+
+62
+00:12:22.920 --> 00:12:27.590
+chuanwu: Then, F to the X value is exactly the original function's value.
+
+63
+00:12:27.740 --> 00:12:42.509
+chuanwu: And for any X, any point X not in the domain of the function, but in other part of the whole space in-dimensional coordinate system, then we assign the positive infinity value to F tilde x.
+
+64
+00:12:43.630 --> 00:12:44.570
+chuanwu: Okay.
+
+65
+00:12:44.840 --> 00:12:54.670
+chuanwu: All right. Okay, so for… to have… for you to have a better understanding of that, so let's ask the function here.
+
+66
+00:12:55.190 --> 00:12:56.150
+chuanwu: Okay.
+
+67
+00:12:59.040 --> 00:13:01.150
+chuanwu: You'll see they're a simple function.
+
+68
+00:13:01.830 --> 00:13:14.850
+chuanwu: Okay, in the one-dimensional coordinate space, okay, so scalar function FX, and assume FX is defined within the range A to B in the horizontal axis.
+
+69
+00:13:15.460 --> 00:13:21.209
+chuanwu: Right? Okay, so that is FX. Then what would F to the X look like?
+
+70
+00:13:23.050 --> 00:13:34.790
+chuanwu: So, within the range of FX, the value still remains as, what it is. Okay, so F2X, within the range of A and B,
+
+71
+00:13:40.280 --> 00:13:42.160
+chuanwu: Okay, 1 meter away.
+
+72
+00:13:42.450 --> 00:13:44.369
+chuanwu: Okay, so F to the X…
+
+73
+00:13:45.090 --> 00:13:49.159
+chuanwu: So, when X is in the range from A to B, so it's…
+
+74
+00:13:49.400 --> 00:14:09.119
+chuanwu: it's… this value overlaps with FX value, right? And what about beyond A? Larger than… what about B, smaller than A and, larger than B? When X is smaller than A or larger than B, F to the X value should have to positive infinity. Okay, so the function curve is pretty much like this should up.
+
+75
+00:14:09.600 --> 00:14:15.129
+chuanwu: To now, positive infinity on the two, regions.
+
+76
+00:14:16.020 --> 00:14:26.420
+chuanwu: Okay, so that's the idea. Essentially, the whole idea of doing this extended value extension is to make sure to kind of consider the functions defined in the whole space.
+
+77
+00:14:29.690 --> 00:14:30.740
+chuanwu: All right
+
+78
+00:14:34.030 --> 00:14:48.730
+chuanwu: Okay, and then based on that definition of extended value extension function, so let's consider some implications of the, of the two set of rules that we have in the, bracket, in the, box.
+
+79
+00:14:48.770 --> 00:14:57.899
+chuanwu: So we say F is convex if, inner function in the composition is convex, and H is convex as H cubed as non-decreasing.
+
+80
+00:14:58.040 --> 00:15:01.679
+chuanwu: So what does H2, the non-decreasing impact?
+
+81
+00:15:04.600 --> 00:15:16.669
+chuanwu: H2 that is defined in the whole domain, in the whole space, and here we consider H to be a scalar function, so H is defined in the whole space of R, real number space.
+
+82
+00:15:17.040 --> 00:15:18.010
+chuanwu: Right.
+
+83
+00:15:20.510 --> 00:15:30.419
+chuanwu: So H tilda is non-decreasing. It actually implies the original domain of H tilde should extend infinitely to the left.
+
+84
+00:15:31.520 --> 00:15:33.520
+chuanwu: Okay, to the left of the app.
+
+85
+00:15:39.580 --> 00:15:41.399
+chuanwu: For example, axis here.
+
+86
+00:15:49.060 --> 00:15:57.280
+chuanwu: Okay, so original FX, the domain should extend infinitely to the negative direction of the horizontal axis.
+
+87
+00:15:57.730 --> 00:15:58.680
+chuanwu: Why?
+
+88
+00:15:59.140 --> 00:16:11.450
+chuanwu: because we can consider it by contradiction, we can show it by contradiction, right? So if the domain of FX is limited, like, cut off at this A,
+
+89
+00:16:11.790 --> 00:16:22.820
+chuanwu: Then, when X is smaller than A, FX tilde, or over there, H tilde should shoot up to negative infinity. And then, H tilde cannot be non-decreasing.
+
+90
+00:16:25.980 --> 00:16:26.900
+chuanwu: Right.
+
+91
+00:16:27.250 --> 00:16:28.330
+chuanwu: Okay.
+
+92
+00:16:28.450 --> 00:16:46.009
+chuanwu: And similarly, consider the second case, we say htilda is non-increasing, so the implication of H tilda being non-increasing is the original domain of function H should extend infinitely in the positive direction of the
+
+93
+00:16:46.230 --> 00:16:47.100
+chuanwu: Access.
+
+94
+00:16:47.740 --> 00:16:59.380
+chuanwu: Right? Similar idea, because if it does cut up here, then the function value H2 that will shoot up to positive infinity, and the function H2 that cannot be non-increasing.
+
+95
+00:16:59.960 --> 00:17:02.829
+chuanwu: Right. Okay, so those are the implications.
+
+96
+00:17:03.450 --> 00:17:14.520
+chuanwu: All right, and, so in fact, those two set of rules are just the representations of more rules we actually can come up with.
+
+97
+00:17:14.650 --> 00:17:19.669
+chuanwu: That can tell whether a composed function is connected or not.
+
+98
+00:17:19.750 --> 00:17:35.830
+chuanwu: the, idea is here. So here, we can try to discover more composition rules that come up with whether the eventual function is connects or concave by calculating the second-order derivative of the function.
+
+99
+00:17:35.970 --> 00:17:48.339
+chuanwu: Okay, so over here, we consider FX The function is, FX… equals HGX.
+
+100
+00:17:57.660 --> 00:18:04.120
+chuanwu: Okay, so let's first calculate its first other derivative.
+
+101
+00:18:06.960 --> 00:18:10.980
+chuanwu: So how do we calculate first-order derivative of composed function?
+
+102
+00:18:13.530 --> 00:18:21.479
+chuanwu: You should know, we have kind of changed to do it, right? So we calculated the derivative of the alter function.
+
+103
+00:18:21.830 --> 00:18:33.620
+chuanwu: And then, we multiply the derivatives of the inner function, so that's the Cheng rule to calculate the, first-order derivative of composter function.
+
+104
+00:18:34.710 --> 00:18:35.590
+chuanwu: Right?
+
+105
+00:18:35.730 --> 00:18:41.429
+chuanwu: If the function in there is, if the function in there is,
+
+106
+00:18:42.300 --> 00:18:45.999
+chuanwu: If the functions in the composition are all scalar functions.
+
+107
+00:18:46.190 --> 00:18:51.719
+chuanwu: And by the way, if they are all skilled, let's now limit our attention to the case that
+
+108
+00:18:52.270 --> 00:19:07.090
+chuanwu: Yes, so let's now tentatively limit our attention to the case that, G is mapping from R to R, and H is mapping from R to R. So that's the simplest case, that we have already started, and we know how to calculate this.
+
+109
+00:19:07.170 --> 00:19:13.080
+chuanwu: composed, the derivative, the compost function, right, using this change rule. Okay.
+
+110
+00:19:13.420 --> 00:19:27.800
+chuanwu: All right, and in this case, we already know the F prime x, first-order derivative function f on x is the product of these two derivatives, and then we can further calculate the second-order derivative.
+
+111
+00:19:27.880 --> 00:19:47.370
+chuanwu: Prime, prime, okay. Second of the derivative, and how do we calculate that? So F prime, prime X, okay, so now using still the rule to calculate derivative, you have product of two functions, then pretty much what we do is we… we calculate the derivative first.
+
+112
+00:19:47.440 --> 00:20:02.369
+chuanwu: function here, and keep the second part unchanged, then we keep the first part unchanged and do the calculation period of the second part, right? That's another kind of change rule or distributive law that we already started piecework.
+
+113
+00:20:02.600 --> 00:20:05.120
+chuanwu: Okay, so ish prime prime GX.
+
+114
+00:20:06.310 --> 00:20:08.360
+chuanwu: And then G prime X.
+
+115
+00:20:09.040 --> 00:20:10.010
+chuanwu: Thus?
+
+116
+00:20:10.180 --> 00:20:12.480
+chuanwu: H prime, G, S.
+
+117
+00:20:13.270 --> 00:20:15.450
+chuanwu: G prime rhyme S.
+
+118
+00:20:16.390 --> 00:20:17.280
+chuanwu: Right.
+
+119
+00:20:18.710 --> 00:20:20.589
+chuanwu: And that's Dorothy.
+
+120
+00:20:21.720 --> 00:20:22.400
+chuanwu: Bye.
+
+121
+00:20:23.490 --> 00:20:24.559
+chuanwu: 1st to 30.
+
+122
+00:20:24.870 --> 00:20:26.529
+chuanwu: Best out in front of this.
+
+123
+00:20:26.780 --> 00:20:29.700
+chuanwu: Okay, yes, well, I'm in part, it's amazing.
+
+124
+00:20:30.470 --> 00:20:33.589
+chuanwu: still use the change rule, G prime X.
+
+125
+00:20:34.110 --> 00:20:39.390
+chuanwu: Alright, so there is a square in there. So what is… yeah.
+
+126
+00:20:39.660 --> 00:20:50.429
+chuanwu: Okay, so H' GX, the first order derivative, H prime prime GX multiplied G prime x, right? And then we have 2G prime X, and then there is a square.
+
+127
+00:20:51.160 --> 00:20:52.400
+chuanwu: Okay, speak.
+
+128
+00:20:52.960 --> 00:20:59.469
+chuanwu: All right, and then we come up with a formula. That's exactly what we have on the slide as well.
+
+129
+00:20:59.800 --> 00:21:00.520
+chuanwu: Bye.
+
+130
+00:21:00.710 --> 00:21:14.160
+chuanwu: Okay, I actually want you to know how this second-order derivative on scalar composition functions is calculated, because you actually can make use of, by observing
+
+131
+00:21:14.160 --> 00:21:23.490
+chuanwu: The formula here, you are able to come up with different rules, composition rules, to justify whether a resulting function is convective or convex.
+
+132
+00:21:23.790 --> 00:21:29.430
+chuanwu: Okay, so let's check it out. So if we consider G is collect.
+
+133
+00:21:29.820 --> 00:21:38.709
+chuanwu: So G is convex, what does that imply? So if G is convex, that implies G prime prime X is not equal to 0.
+
+134
+00:21:38.980 --> 00:21:46.750
+chuanwu: In case of scalar function, right? And then, if we know H is convex, then this part
+
+135
+00:21:48.040 --> 00:21:49.739
+chuanwu: It's larger equal to the URL.
+
+136
+00:21:49.850 --> 00:21:50.850
+chuanwu: Right.
+
+137
+00:21:51.040 --> 00:21:59.250
+chuanwu: Okay? And then, what we further have is we know H2 that is non-decreasing.
+
+138
+00:21:59.770 --> 00:22:07.399
+chuanwu: So when H cuba is not decreasing, what does that imply? H prime, personal derivative, is logical to zero, right?
+
+139
+00:22:08.150 --> 00:22:15.859
+chuanwu: Yes, and then all the items are logical to 0, and then the resulting product and the sum will be exactly logical to 0.
+
+140
+00:22:16.010 --> 00:22:22.589
+chuanwu: Right? So, we come up with, under the first set of rules, f prime prime X is logical to 0.
+
+141
+00:22:22.810 --> 00:22:31.820
+chuanwu: And that is conforming to the form of the second order condition, and then we know the composition function of X itself is convex.
+
+142
+00:22:32.720 --> 00:22:43.300
+chuanwu: Okay, and then let's check our second set of rule. So now we assume G is concave, so G is concave, so G prime prime is more or equal to 0.
+
+143
+00:22:44.900 --> 00:22:51.350
+chuanwu: And then… H is, again, collapsed, so H prime prime is larger than 0.
+
+144
+00:22:51.780 --> 00:23:00.699
+chuanwu: And, we know HQ that is not increasing, right? Not increasing. That implies the first dollar derivative is more equal to zero.
+
+145
+00:23:01.080 --> 00:23:06.709
+chuanwu: Right? And then we find out that the product on the second term here is still non-active.
+
+146
+00:23:06.880 --> 00:23:10.890
+chuanwu: And the product of this first term is also non-active.
+
+147
+00:23:11.030 --> 00:23:18.089
+chuanwu: And the sum is not active. And F prime X is larger to 0. And again, F is convex.
+
+148
+00:23:19.260 --> 00:23:20.090
+chuanwu: Right.
+
+149
+00:23:20.280 --> 00:23:34.650
+chuanwu: Okay, so basically I'm only listing the, two representative rules that we can analyze, justify using this, formula here. We have actually more rules, to… more rules, to…
+
+150
+00:23:34.800 --> 00:23:53.220
+chuanwu: to come up with, for example, if, when we want to justify F as, concave, okay, if F is concave, we want eventually F prime minus being smaller to 0, then you can derive different rules, right? So, first of all, for concave, this term has to be more equal to 0.
+
+151
+00:23:53.260 --> 00:24:11.790
+chuanwu: Okay, because in the first product… the second term is always non-active, right? So you want the first part to be, first item to be non-active, and then you pretty much want this… the… the product, the second two terms, the two terms here, both two terms there, to be smaller than zero.
+
+152
+00:24:11.790 --> 00:24:16.090
+chuanwu: then you have different combinations, right? Either the first part is,
+
+153
+00:24:16.860 --> 00:24:30.129
+chuanwu: smaller to the 0, second part larger equal, or the first part larger equal, second part smaller equal, then you can come up with different rules, like, we require H to be concave, and, H tilda to be a
+
+154
+00:24:30.520 --> 00:24:45.810
+chuanwu: non-increasing, and then we want the G to become X, and so on, right? And then you can come up with a number of rules yourself that can justify the evaluative composition. Composer function is complex, or compact.
+
+155
+00:24:46.110 --> 00:25:01.910
+chuanwu: Right. Okay, so therefore, always encourage students that you don't have to remember all the rules, you just remember the special case, the calculation, the special case of the second of the derivative function here, and then you are able to come up with all kinds of rules yourself.
+
+156
+00:25:02.320 --> 00:25:12.060
+chuanwu: Okay, and that said, let's check out a few silver functions example that can conform to one of our rules.
+
+157
+00:25:12.400 --> 00:25:23.990
+chuanwu: So here, so exponential function composed with GX. So if the inner function GX is convex, we know the exponential function is convex and non-decreasing.
+
+158
+00:25:24.260 --> 00:25:31.239
+chuanwu: And then, it conforms to the first set of rules we have on the slide here, and we know the result function is coax.
+
+159
+00:25:31.420 --> 00:25:49.119
+chuanwu: Right? And then here, reciprocal of GX. Okay, 1 over GX. So it is convex, it's G is concave as a positive. Okay, so that is, conforming to the second set of rules. So G concave, H, so the reciprocal function is convex.
+
+160
+00:25:49.320 --> 00:26:00.450
+chuanwu: on the positive half of the axis, right? Okay, and, we know the reciprocal function is now increasing, okay, on the… in the non-active offset.
+
+161
+00:26:00.790 --> 00:26:09.069
+chuanwu: Okay, so therefore, 1 over GX, we can justify it is time X following the second set of rules above.
+
+162
+00:26:09.730 --> 00:26:10.650
+chuanwu: Okay.
+
+163
+00:26:11.780 --> 00:26:20.349
+chuanwu: All right, so that said, again, in our illustration discussion here, we are restricting our attention to the case that
+
+164
+00:26:20.600 --> 00:26:31.159
+chuanwu: Each function is scalar function, gene function is scalar function as well, but actually the set of composition rules can be extended to more generic cases.
+
+165
+00:26:31.300 --> 00:26:48.320
+chuanwu: Okay, so here, let's assume the, our function is, H is, our function G and H are more general, in a more general form. Like, G is mapping from an n-dimensional vector to a K-dimensional vector.
+
+166
+00:26:48.390 --> 00:26:54.159
+chuanwu: So, meaning, the output of function G is a k-dimensional vector, not a scalar value.
+
+167
+00:26:54.260 --> 00:27:01.260
+chuanwu: And then, our outer function H is, mapping from a k-dimensional vector to a scalarabic.
+
+168
+00:27:01.630 --> 00:27:18.140
+chuanwu: Okay, so in the general case, our composition here, FX equals HGX, and you can also consider it as, the composition of a separate case, separate scalar functions there as well. So G…
+
+169
+00:27:22.900 --> 00:27:24.370
+chuanwu: our GX.
+
+170
+00:27:25.030 --> 00:27:34.280
+chuanwu: the value is a k-dimensional vector. You can consider it as consisting of, Pink.
+
+171
+00:27:35.150 --> 00:27:37.670
+chuanwu: Still a random function as well.
+
+172
+00:27:40.030 --> 00:27:51.109
+chuanwu: Okay, so X is an dimensional vector in general, and G1 up to GK, the P functions, their output value at each, scalar ragt.
+
+173
+00:27:51.990 --> 00:27:52.900
+chuanwu: Okay.
+
+174
+00:27:53.020 --> 00:28:07.130
+chuanwu: All right, and then our composition can be put down in a corresponding form, so our H is on, a k-dimensional vector, and each element in the K-dimensional vector is a function.
+
+175
+00:28:07.680 --> 00:28:10.660
+chuanwu: Okay, it's our function GIX.
+
+176
+00:28:11.230 --> 00:28:27.389
+chuanwu: All right, and in this more general case, we have a similar rules, okay, similar combination rules, so, like, F is complex, if any of our GI is complex, H is coax, and H tilda is non-pecrediting in each argument.
+
+177
+00:28:27.410 --> 00:28:35.580
+chuanwu: Okay, H is now a K-dimensional vector, or G, I concave H con X each are not increasing in each argument.
+
+178
+00:28:36.260 --> 00:28:37.180
+chuanwu: Okay.
+
+179
+00:28:37.260 --> 00:28:47.720
+chuanwu: And, similar to what we did in the scalar composition case, and here we can also discover our composition rules, in…
+
+180
+00:28:47.800 --> 00:29:00.050
+chuanwu: and put down a function… put down a formula in similar format, such that we ourselves can come up with the different composition rules ourselves. Okay, by analyzing the formula there.
+
+181
+00:29:00.080 --> 00:29:12.840
+chuanwu: Okay, so let's check out the formula. So again, here we are doing some kind of simplification. Here we assume the input X, original input X, is scalar value, then equals what?
+
+182
+00:29:13.170 --> 00:29:21.209
+chuanwu: So N is a scalar value, but the function GX is K-valued, k-dimensional valued.
+
+183
+00:29:21.810 --> 00:29:26.070
+chuanwu: Okay, and then function H is also K-dimensional.
+
+184
+00:29:26.470 --> 00:29:29.930
+chuanwu: It's taking a K-dimensional value as input.
+
+185
+00:29:30.310 --> 00:29:31.180
+chuanwu: Okay.
+
+186
+00:29:31.350 --> 00:29:47.680
+chuanwu: All right, so the whole reason is we want to put down a relatively neat form of the second order derivative. So if our n is not a scalar, if our X is not a scalar variable, you know, the second order
+
+187
+00:29:47.680 --> 00:29:51.420
+chuanwu: Derivative is not a scalar value, it would be a
+
+188
+00:29:51.570 --> 00:30:01.770
+chuanwu: the hashing matrix… okay, hashing matrix is much more difficult to… to remember how the hashing matrix is derived, such that we are coming up with computation rules somehow.
+
+189
+00:30:01.840 --> 00:30:19.170
+chuanwu: Right? This is purely for illustration purpose. And again, if you compare this F2… sorry, F' prime X second order derivative composition formula, you will find out it's more complex than the previous one we have here.
+
+190
+00:30:19.470 --> 00:30:25.539
+chuanwu: The reason is here, the inner composition is on a two-dimensional vector, rather than a spherabatic.
+
+191
+00:30:25.970 --> 00:30:26.860
+chuanwu: Okay.
+
+192
+00:30:27.070 --> 00:30:37.039
+chuanwu: All right, and how did we, and how did we come up with the, composition formula, there?
+
+193
+00:30:37.120 --> 00:30:47.280
+chuanwu: So here, we are making use of for some, generalized chuanzhu. Okay, so over there, when we are all working on scalar functions, we know what the chuanu is like.
+
+194
+00:30:47.300 --> 00:31:00.550
+chuanwu: And here we do have some generalized notion and concept of the chuanzhu, and it is in the appendix of the textbook, okay? Here's a quick revision, and you can check out more from the textbook.
+
+195
+00:31:00.870 --> 00:31:16.159
+chuanwu: Okay, so here. So here we are talking about the change rule in the most general form, okay, in the most general form. Here, we do have function f as a composition of two functions, H and G, and G is mapping from N to K.
+
+196
+00:31:16.270 --> 00:31:31.080
+chuanwu: n-dimensional vector to a k-dimensional vector, and H is mapping from the K-dimensional vector to a P-dimensional vector, so the mostly generic form. Okay, everything we deal with, input-output, as variables, as vectors.
+
+197
+00:31:31.450 --> 00:31:40.379
+chuanwu: Okay, and the, change rule, again, is in a need form. Okay, so the change rule is exactly like here.
+
+198
+00:31:41.600 --> 00:31:45.239
+chuanwu: So what it says is derivative of FX.
+
+199
+00:31:45.630 --> 00:31:49.710
+chuanwu: Okay, derivative, so the big D here represents derivative.
+
+200
+00:31:49.920 --> 00:32:08.950
+chuanwu: So derivative of FX, and we will see the detailed definition derivative down here. So the derivative of this scalar input scalar, sorry, vector input, vector output function FX equals the derivative of the outer function HGX multiplies,
+
+201
+00:32:08.950 --> 00:32:11.830
+chuanwu: the derivative of the inner function GX.
+
+202
+00:32:12.120 --> 00:32:19.569
+chuanwu: So this form is very neat. Okay, so it is exactly… our scale function case exactly conforms to it.
+
+203
+00:32:19.840 --> 00:32:35.150
+chuanwu: And in the case FHG are all scalar functions, scalar input, scalar output functions, the change rule is exactly here. The derivative is derivative we know how to calculate, and we use prime on top of the function symbol to represent that.
+
+204
+00:32:35.420 --> 00:32:40.649
+chuanwu: Okay, but in the general, like, the notion, we use D. We,
+
+205
+00:32:40.660 --> 00:33:00.269
+chuanwu: put a D in front of the function to represent its derivative. And how its derivative is calculated is here. And here, for a general function, F, mapping from n-dimensional vector to a p-dimensional vector, the derivative function at X, particular variable input X,
+
+206
+00:33:00.270 --> 00:33:01.730
+chuanwu: It's a matrix.
+
+207
+00:33:02.170 --> 00:33:15.390
+chuanwu: Okay, it's a P times N dimensional matrix, and every entry, or the IJ entry in the matrix, is the partial derivative of a function fx over xj.
+
+208
+00:33:15.840 --> 00:33:21.320
+chuanwu: Okay, so if we illustrate it a little bit more here…
+
+209
+00:33:30.830 --> 00:33:33.339
+chuanwu: So our function F, X.
+
+210
+00:33:35.650 --> 00:33:46.380
+chuanwu: Function F is P, the output value is a p-dimensional vector. Okay, and we can consider it as consisting of
+
+211
+00:33:46.920 --> 00:33:48.520
+chuanwu: P. Lunctious.
+
+212
+00:33:57.150 --> 00:33:59.819
+chuanwu: Okay, and each function is scalar-valued.
+
+213
+00:34:00.190 --> 00:34:01.810
+chuanwu: Okay, scale a rattle.
+
+214
+00:34:02.080 --> 00:34:05.970
+chuanwu: Alright, and X is in-dimensional.
+
+215
+00:34:11.560 --> 00:34:18.290
+chuanwu: Okay, n-dimensional vector. And as said, all the vectors we consider by default this column vector.
+
+216
+00:34:18.630 --> 00:34:22.089
+chuanwu: Okay, and then what that BF is like.
+
+217
+00:34:27.360 --> 00:34:35.340
+chuanwu: Okay, so it has P rows, and every row is the partial derivative of the ice.
+
+218
+00:34:35.510 --> 00:34:40.880
+chuanwu: function FIX over different variable X1 up to Xan.
+
+219
+00:34:41.179 --> 00:34:41.949
+chuanwu: Right.
+
+220
+00:34:42.150 --> 00:34:43.150
+chuanwu: Okay.
+
+221
+00:35:11.780 --> 00:35:12.640
+chuanwu: Okay.
+
+222
+00:35:12.770 --> 00:35:17.680
+chuanwu: So this is our derivative, okay, derivative matrix.
+
+223
+00:35:19.260 --> 00:35:23.680
+chuanwu: Okay, and now I want you to consider a special case.
+
+224
+00:35:23.910 --> 00:35:28.659
+chuanwu: So let's say this, we are calculating the derivative.
+
+225
+00:35:31.570 --> 00:35:42.450
+chuanwu: FX, and we consider FX, is still working from an dimensional vector to a scalar, right? Okay, so if we consider…
+
+226
+00:35:46.830 --> 00:35:49.100
+chuanwu: over FX?
+
+227
+00:35:59.840 --> 00:36:08.759
+chuanwu: Okay, so FX is mapping from n-dimensional vector to a scalar value, right? Then what is the form, concrete form?
+
+228
+00:36:08.910 --> 00:36:10.920
+chuanwu: Of its derivative.
+
+229
+00:36:11.880 --> 00:36:27.180
+chuanwu: So its derivative would only have one joule, one row, because here we have P row, because FX is resulting in a P-dimensional vector, and if F is resulting in just the one scalar value, then it only has one job, right?
+
+230
+00:36:27.390 --> 00:36:32.400
+chuanwu: Okay, so what is the composition of this one roll?
+
+231
+00:36:41.890 --> 00:36:49.989
+chuanwu: Okay, so this one row consists of function f's partial derivative over X1 up to Xn, respectively, right?
+
+232
+00:36:50.880 --> 00:36:52.429
+chuanwu: Right? Agree?
+
+233
+00:36:52.880 --> 00:37:05.360
+chuanwu: So I'm exactly applying the most generic form of derivative matrix here. So now the matrix is special, it just results in a Zhou vector. This is a Zhou vector.
+
+234
+00:37:05.960 --> 00:37:09.449
+chuanwu: Okay, and does this Zhou vector look familiar?
+
+235
+00:37:11.660 --> 00:37:14.479
+chuanwu: What is that? Exactly that.
+
+236
+00:37:18.570 --> 00:37:22.209
+chuanwu: It is a transpose of our gradient vector.
+
+237
+00:37:23.170 --> 00:37:30.340
+chuanwu: So recall, NABLA FX, the upside-down triangle, NABLA, we call it NABLA, so NABLA FX,
+
+238
+00:37:30.860 --> 00:37:39.170
+chuanwu: consists of partial derivative function F, X of X1 up to Xn, respectively, but it is in the column form.
+
+239
+00:37:39.310 --> 00:37:46.159
+chuanwu: Right? And putting a transpose operator there, it changed the column vector to row vector.
+
+240
+00:37:47.810 --> 00:37:48.710
+chuanwu: Right?
+
+241
+00:37:49.330 --> 00:37:56.340
+chuanwu: Okay, so now what I want to connect with is the, derivative.
+
+242
+00:37:56.450 --> 00:38:02.390
+chuanwu: of a scalar layout function is its gradient vectors transpose.
+
+243
+00:38:02.860 --> 00:38:05.400
+chuanwu: They are connected, they are closely related.
+
+244
+00:38:05.670 --> 00:38:09.510
+chuanwu: Except that one is low vector, and the other is column vector.
+
+245
+00:38:09.720 --> 00:38:15.669
+chuanwu: Okay, so remember this. We'll make use of this in later derivations and others as well.
+
+246
+00:38:15.930 --> 00:38:16.780
+chuanwu: Okay.
+
+247
+00:38:19.890 --> 00:38:26.700
+chuanwu: So, derivative, gradient, the concepts are closely connected, but there is difference and connection there.
+
+248
+00:38:29.110 --> 00:38:43.790
+chuanwu: All right, so having revised the, concepts, or having introduced the general concept of the derivative, amongst the generic formula function, now let's check out more of our, composition rule here.
+
+249
+00:38:43.800 --> 00:38:52.149
+chuanwu: So you can apply the composition rule to come up with the derivative of function, composed of function f.
+
+250
+00:38:52.620 --> 00:39:10.099
+chuanwu: So, when we assume X is a scalar value, n equals 1, and FX itself is given a scalar output value, then our derivative, or second-order derivative of function fx is exactly F prime prime X.
+
+251
+00:39:10.580 --> 00:39:12.519
+chuanwu: Okay, the stealer.
+
+252
+00:39:12.630 --> 00:39:22.489
+chuanwu: derivatives for… okay. But, you can make use of the, composition rule to come up with the, formula on the right-hand side there.
+
+253
+00:39:23.440 --> 00:39:38.120
+chuanwu: Okay, still, it's, application of the general form chain loop. Okay, general form chain… this is the specific scalar case chain loop, and you apply the general form of a chanupe, and then
+
+254
+00:39:38.120 --> 00:39:45.480
+chuanwu: Yeah, you will come up, and you consider the connection between derivative and gradient.
+
+255
+00:39:45.530 --> 00:39:49.470
+chuanwu: And then you can come up with the formula over there.
+
+256
+00:39:50.430 --> 00:39:57.590
+chuanwu: So I won't put the detailed derivation, because I already gave you all the fundamentals, and you can do the derivation yourself.
+
+257
+00:39:57.990 --> 00:40:10.579
+chuanwu: And generally speaking, you will see that is exactly an expansion of what we have here, right? So here we have H prime prime GX, and over there we have hashing matrix.
+
+258
+00:40:11.130 --> 00:40:28.080
+chuanwu: The numberless square represents Hessian matrix. Okay, so because over there we have scalar, we have vector values, and, we have G prime X, and over there it results in G prime X transpose, and then a matrix in the middle, and then G prime X.
+
+259
+00:40:28.370 --> 00:40:36.359
+chuanwu: At the last. And here, similarly, our H prime GX, so derivative function H,
+
+260
+00:40:36.840 --> 00:40:44.760
+chuanwu: And our function h is mapping from a vector to a sphere, so derivative equals the rhythm transpose.
+
+261
+00:40:45.010 --> 00:40:50.940
+chuanwu: Okay, gradient transpose, and the second term is still G prime prime X, because GX is pure option.
+
+262
+00:40:52.460 --> 00:40:56.449
+chuanwu: Okay, so apply the change rule, I introduced,
+
+263
+00:40:56.740 --> 00:41:05.119
+chuanwu: On the last page, and the connections here, you are able to derive the second-order derivative of the concrete case here.
+
+264
+00:41:05.950 --> 00:41:06.790
+chuanwu: Okay.
+
+265
+00:41:07.290 --> 00:41:11.330
+chuanwu: Alright, and then, what we want is…
+
+266
+00:41:11.510 --> 00:41:21.969
+chuanwu: Making use of this formula. So if you can remember this formula, less than X. If you don't remember the formula, you can make use of change rule to derive, following the step I have introduced.
+
+267
+00:41:22.120 --> 00:41:31.870
+chuanwu: And what we want is we more or less need to know the form of the formula here for us to come up with a number of rules, or justify the resulting function as coax.
+
+268
+00:41:32.000 --> 00:41:49.120
+chuanwu: Okay, and the first Macking8 tool, analyzing it according to what we have above. So if we know GI, so GI, G is here, okay, so G consists of KGI functions, okay?
+
+269
+00:41:49.480 --> 00:42:01.570
+chuanwu: So if every GI is convex, and then the H is convex, so when H is convex, then the hashing matrix here is a positive semi-definite.
+
+270
+00:42:01.570 --> 00:42:12.149
+chuanwu: Right? So for positive semidefinite matrix here, the NA vector transpose the matrix and then multiply the vector, it results in a non-active value.
+
+271
+00:42:12.150 --> 00:42:17.169
+chuanwu: Right? And so the first part is non-active, according to the first row.
+
+272
+00:42:17.610 --> 00:42:32.279
+chuanwu: And then, if we know H tilde is non-decreasing in each argument, then what it implies is the partial derivative of function H with respect to each component, each argument, is
+
+273
+00:42:34.080 --> 00:42:44.720
+chuanwu: Large equal to zero, right? Non-decreasing, large equal to 0. That means the gradient vector, every component in the gradient vector is larger equal to 0.
+
+274
+00:42:45.090 --> 00:42:51.280
+chuanwu: And when G is convex, G prime prime X will be logical to zero in terms of each…
+
+275
+00:42:51.780 --> 00:42:53.780
+chuanwu: In terms of each element.
+
+276
+00:42:54.020 --> 00:43:02.789
+chuanwu: Right? And therefore, the inner product between a non-active vector and another non-active vector would be logical to zero.
+
+277
+00:43:03.420 --> 00:43:12.260
+chuanwu: Okay, and then the second term here is larger or equal to 0, and the whole thing will be larger or equal to 0, and that leads to F is convex.
+
+278
+00:43:12.960 --> 00:43:13.820
+chuanwu: Right.
+
+279
+00:43:15.070 --> 00:43:26.550
+chuanwu: Okay, and then similarly, if we consider the second row, the second set of rules above, if H come X, again, so the first term is always guaranteed to be larger than zero.
+
+280
+00:43:26.620 --> 00:43:41.890
+chuanwu: And if G is concave, that means every entry in G prime prime X… so, first of all, G prime prime X is a k-dimensional vector, okay? G prime prime X itself is a G… is, consisting…
+
+281
+00:43:42.770 --> 00:43:48.149
+chuanwu: Well, G prime prime X equals… G1 prime prime X.
+
+282
+00:43:48.500 --> 00:43:52.029
+chuanwu: Abdul G, K, front, front, X.
+
+283
+00:43:52.210 --> 00:43:59.639
+chuanwu: Okay, so when G is con… GI is concave, every entry here is smaller or equal to 0.
+
+284
+00:44:00.350 --> 00:44:15.109
+chuanwu: And when H is non-increasing, then the Hessian… non-increasing, then the partial derivative of H in terms of every argument is small or equal to 0.
+
+285
+00:44:15.300 --> 00:44:28.019
+chuanwu: Right? So that means the gradient vector here, every entry, every element in the gradient vector there is 0. And then, when we interproduct it with another,
+
+286
+00:44:28.540 --> 00:44:32.840
+chuanwu: Vector, whose every element is non-positive.
+
+287
+00:44:33.200 --> 00:44:34.939
+chuanwu: Then, the result.
+
+288
+00:44:35.070 --> 00:44:39.099
+chuanwu: Inner product would be logic to zero, right?
+
+289
+00:44:40.530 --> 00:44:41.390
+chuanwu: End?
+
+290
+00:44:41.660 --> 00:44:49.609
+chuanwu: Again, the second term here is larger than 0, then the whole thing is larger than 0, that means F is correct.
+
+291
+00:44:50.580 --> 00:44:51.350
+chuanwu: Bye.
+
+292
+00:44:54.110 --> 00:44:55.010
+chuanwu: Okay.
+
+293
+00:44:55.530 --> 00:45:07.290
+chuanwu: All right, and of course, you can vary it. So, we assume, you really can assume H is okay, then the Hessian matrix in the middle here is a small…
+
+294
+00:45:07.290 --> 00:45:18.339
+chuanwu: is positive, negative definite, right? And then, no matter what G prime X is like, the first item in the summation here is always smaller than 0.
+
+295
+00:45:18.390 --> 00:45:33.559
+chuanwu: And then you can come up with different rules to establish that every entry in G prime X is logical to 0, or small equal to 0, and every entry in the gradient here is, in the gradient here is logical to 0 as logical to 0.
+
+296
+00:45:33.620 --> 00:45:39.999
+chuanwu: Then, as long as the signs are consistent, the result would be smaller equal to zero.
+
+297
+00:45:40.160 --> 00:45:45.440
+chuanwu: Right? And then you can show, under those cases, FX is concave.
+
+298
+00:45:46.390 --> 00:45:47.120
+chuanwu: Hmm.
+
+299
+00:45:47.290 --> 00:45:48.330
+chuanwu: Okay.
+
+300
+00:45:48.560 --> 00:45:49.950
+chuanwu: Alright.
+
+301
+00:45:55.210 --> 00:46:10.150
+chuanwu: Okay, over here, I know we have some more complex symbols involved and concepts involved, but if you are clear, if you know the general notion of Cheng Zhu and composition.
+
+302
+00:46:10.310 --> 00:46:17.520
+chuanwu: It would be clear. It's clearly just the extension from the, fundamental scalar cases.
+
+303
+00:46:19.930 --> 00:46:31.719
+chuanwu: Okay, now, we can make use of the, vector compensation rules to establish some appearing in complex functions. It's convex, concave alone.
+
+304
+00:46:32.020 --> 00:46:36.319
+chuanwu: Alright, so here. So we consider a sound lock.
+
+305
+00:46:36.440 --> 00:46:39.070
+chuanwu: Function, okay, sum of log function.
+
+306
+00:46:39.280 --> 00:46:53.559
+chuanwu: And if you know, every, inner function GIX is concave and a positive, okay, log requires the domain to be positive, okay? If every GIX is concave and a positive.
+
+307
+00:46:53.600 --> 00:47:11.070
+chuanwu: then we can make use of the second set of rules above, which establish the sum lock function as concave to come X. Okay, so GI adds concave, and H. H is the outer function. The outer function is exactly sum of lock.
+
+308
+00:47:11.460 --> 00:47:20.819
+chuanwu: Right? So lock is coax, so sum of log is, again, coax. And lock is non… Log is non-decreasing.
+
+309
+00:47:20.960 --> 00:47:30.060
+chuanwu: Sorry. So lock is, non, non-increase, non-decreasing, right?
+
+310
+00:47:30.260 --> 00:47:32.090
+chuanwu: And,
+
+311
+00:47:35.800 --> 00:47:47.649
+chuanwu: Yes, the log is not decreasing, and then we can come up with the whole thing is concave, not concave, right? So some of the signs above, you know, should need to be reversed.
+
+312
+00:47:48.010 --> 00:47:56.449
+chuanwu: Okay, all right. And here, here is a further complex function, Luxong exponential.
+
+313
+00:47:56.720 --> 00:48:10.070
+chuanwu: So here we assume we know the outer function, log sum exponential is convex, and if you want to know its proof, it's here. Okay, so it's a well-known convex function, and with, some known proof.
+
+314
+00:48:10.200 --> 00:48:15.779
+chuanwu: And Longxiang exponential is our H function. It is complex.
+
+315
+00:48:15.930 --> 00:48:29.139
+chuanwu: And if the inner function JX is convex, and log sum exponential is not decreasing, as using the first decomposition rule, we can establish that log sum exponential JX function is
+
+316
+00:48:29.460 --> 00:48:30.310
+chuanwu: Alex.
+
+317
+00:48:32.060 --> 00:48:33.020
+chuanwu: Okay.
+
+318
+00:48:37.950 --> 00:48:39.300
+chuanwu: All right.
+
+319
+00:48:53.440 --> 00:49:12.779
+chuanwu: Okay, and those are composition rules. Composition rules would be very useful, because often we see functions which consist of quite some composition of some basic functions, and then you can try to apply one of the composition rules we established to justify whether the resulting function is convex or conjugate or not.
+
+320
+00:49:14.130 --> 00:49:26.540
+chuanwu: Okay, and then moving on, the next operation that preserves complexity is called perspective of a function. Okay, so the operator is called a perspective of a function.
+
+321
+00:49:26.840 --> 00:49:30.620
+chuanwu: So the perspective of function is,
+
+322
+00:49:30.690 --> 00:49:48.019
+chuanwu: is here. So the perspective of a given function, F, is another function. Okay, so if F is mapping from n-dimensional vector to a scalar value, then our perspective is mapping from n plus 1 dimensional input to a scalar value.
+
+323
+00:49:48.120 --> 00:50:03.339
+chuanwu: And the rule of coming up with G on top of F is here. So F is given. We replace its variable to X divided by T. So X is an dimensional vector, and T is a scalar variable.
+
+324
+00:50:03.750 --> 00:50:17.580
+chuanwu: And we replace our original function f's variable to X divided by t, so meaning every entry, every element component in vector X is divided by T. And then the resulting function value will be multiplying T again.
+
+325
+00:50:17.720 --> 00:50:27.159
+chuanwu: Okay, so T times FX divided by T. And the domain of the function is X divided by t, it would be in the domain of original function F.
+
+326
+00:50:27.420 --> 00:50:32.280
+chuanwu: And our variable T, scalar variable T, needs to be positive.
+
+327
+00:50:32.470 --> 00:50:37.040
+chuanwu: Okay, so this is a perspective of a function.
+
+328
+00:50:37.230 --> 00:50:38.399
+chuanwu: So it's a…
+
+329
+00:50:38.820 --> 00:50:55.840
+chuanwu: related, but actually different from the perspective function that we introduced earlier, right? You can compare. All right, so here our rule is, if function f is convex, then its perspective, the new function induced on F is convex as well.
+
+330
+00:50:56.160 --> 00:51:04.210
+chuanwu: Okay, we are able to show it using AppleGraph and so on, on the next page, but before that, let's see a few examples first.
+
+331
+00:51:05.060 --> 00:51:11.439
+chuanwu: Okay, here. So we are given function fx. So FX is x principles X.
+
+332
+00:51:11.870 --> 00:51:13.910
+chuanwu: So what is X transpose X?
+
+333
+00:51:14.320 --> 00:51:26.390
+chuanwu: it's X vectors L2 norm squared, right? Okay, so that's, a very fundamental quadratic shape, okay, quadratic, and the positive,
+
+334
+00:51:26.810 --> 00:51:28.630
+chuanwu: And, and the ATS collects.
+
+335
+00:51:29.330 --> 00:51:30.620
+chuanwu: callback function.
+
+336
+00:51:30.910 --> 00:51:39.190
+chuanwu: Okay, and then, we know F is power X, and then how do we come up with G? XT.
+
+337
+00:51:52.880 --> 00:51:59.499
+chuanwu: our GXT, equals P times F, X dy divided by P.
+
+338
+00:51:59.800 --> 00:52:03.129
+chuanwu: Okay, so our X… FX is…
+
+339
+00:52:05.040 --> 00:52:11.809
+chuanwu: argument transpose argument. And what is our argument now? It's XY debate.
+
+340
+00:52:13.190 --> 00:52:13.990
+chuanwu: Right.
+
+341
+00:52:14.430 --> 00:52:20.370
+chuanwu: Okay, and then it would exactly result in X transpose X divided by X.
+
+342
+00:52:21.600 --> 00:52:33.329
+chuanwu: Okay, so if t is larger than 0, then we know the new form of the function involves some variable in the numerator, some variable in the denominator, it's convex also.
+
+343
+00:52:33.570 --> 00:52:34.400
+chuanwu: Okay.
+
+344
+00:52:36.930 --> 00:52:53.520
+chuanwu: So, next example, we consider our input function as, negative lock. So, negative lock is convex, lock itself is complete, right? So, negative lock is, COX, and then we, again, come up with this perspective.
+
+345
+00:52:53.990 --> 00:52:57.540
+chuanwu: So it's perspective, it's here.
+
+346
+00:52:58.510 --> 00:53:04.879
+chuanwu: E times plus X divided by P, and our FX is, connective block.
+
+347
+00:53:07.020 --> 00:53:07.730
+chuanwu: X.
+
+348
+00:53:11.670 --> 00:53:12.360
+chuanwu: Okay.
+
+349
+00:53:12.730 --> 00:53:19.450
+chuanwu: So negative T, negative T, so log X divided by t equals lock X minus log T.
+
+350
+00:53:19.970 --> 00:53:20.780
+chuanwu: Right.
+
+351
+00:53:21.550 --> 00:53:28.920
+chuanwu: Yeah, and our resulting function is P times log T, minus T times log X. It is COMX.
+
+352
+00:53:29.240 --> 00:53:30.040
+chuanwu: If.
+
+353
+00:53:30.160 --> 00:53:40.529
+chuanwu: the variables are non-negative, or positive. Okay, because logs domain require X and the T to be both positive.
+
+354
+00:53:43.360 --> 00:53:44.970
+chuanwu: Okay.
+
+355
+00:53:47.510 --> 00:53:50.200
+chuanwu: And then, coming further up.
+
+356
+00:53:50.300 --> 00:54:05.859
+chuanwu: Consider some F. Okay, some F. We don't know the complex form, but there's just some F, function F, it's come F. And then, if we, come up with its perspective. Okay, perspective is the default form is T times F,
+
+357
+00:54:06.000 --> 00:54:11.210
+chuanwu: X divided by T, right? And we further do, affine composition.
+
+358
+00:54:11.530 --> 00:54:20.600
+chuanwu: Right? We replace T by C transpose X plus D, and we replace original X by AX plus B.
+
+359
+00:54:21.260 --> 00:54:30.060
+chuanwu: Okay, so we know, composition is a fine, function, actually preserves complexity, based on what we introduced earlier.
+
+360
+00:54:30.480 --> 00:54:41.769
+chuanwu: So therefore, the resulting function here is convex as well, on the domain that the t reaction bureau. And what is our T here? Our T is 2C transpose X plus T.
+
+361
+00:54:42.000 --> 00:54:54.770
+chuanwu: Right? If this part is larger than zero, and whatever we have inside there is in the domain of original function F, then the resulting function, composition of perspective at F5 mapping, is,
+
+362
+00:54:55.270 --> 00:54:56.810
+chuanwu: of explosion as well.
+
+363
+00:55:01.490 --> 00:55:02.490
+chuanwu: Okay.
+
+364
+00:55:02.770 --> 00:55:17.069
+chuanwu: So that said, having said a few examples, let's now go back to, get some, intuition on why the perspective of a given COMEX function is relative to be, COMEX as well.
+
+365
+00:55:17.430 --> 00:55:18.420
+chuanwu: So, here.
+
+366
+00:55:18.670 --> 00:55:29.539
+chuanwu: So they are making use of the notion of echo graph that we introduced earlier. So last time we said the apple graph of convex function as convex set, right? And here.
+
+367
+00:55:29.560 --> 00:55:44.729
+chuanwu: Consider t larger than 0, and we consider, XTX, okay, XT variables of our perspective function, and we consider X to be some possible value of the perspective function.
+
+368
+00:55:45.170 --> 00:55:57.090
+chuanwu: And, then, XT input, S is output, and this point is… this XPS point is in the echo graph of function G.
+
+369
+00:55:57.880 --> 00:56:04.059
+chuanwu: Okay, function G is unbearable X and T, and S is its possible value. It's an possible value.
+
+370
+00:56:04.310 --> 00:56:19.170
+chuanwu: Okay, so XCS, this point, is in the Apple graph, and based on the definition, according to definition of Applegraph, what it means is, here is our perspective function. So the perspective function value is no larger than S.
+
+371
+00:56:19.490 --> 00:56:25.590
+chuanwu: Okay, so that's according… this equivalence is based on definition of epigraph of function G.
+
+372
+00:56:26.860 --> 00:56:46.110
+chuanwu: Okay, and then we, move T to the right-hand side. T is larger than 0, so the inequality science direction doesn't change. And then, based on FXT, FX divided by T, no larger than S divided by T, if we consider the upper graph a function F,
+
+373
+00:56:46.380 --> 00:56:53.050
+chuanwu: then the point, okay, input point, X divided by T, and the possible value X divided by T, this
+
+374
+00:56:53.190 --> 00:56:55.829
+chuanwu: point is in epigraph of function f.
+
+375
+00:56:56.460 --> 00:56:58.070
+chuanwu: Right.
+
+376
+00:56:58.310 --> 00:57:15.800
+chuanwu: Okay, and then, we know the, based on all these mappings, derivation, we know epigraph of G is an inverse image of, epigraph function F under perspective mapping. Okay, so now it is related to the notion of perspective mapping, or perspective function.
+
+377
+00:57:15.830 --> 00:57:20.729
+chuanwu: Okay, perspective of a function is different from perspective function.
+
+378
+00:57:21.380 --> 00:57:32.019
+chuanwu: First step function is a notion we introduced earlier, so where we actually change an n-dimensional function… n-dimensional point to a minus one-dimensional point.
+
+379
+00:57:32.320 --> 00:57:34.230
+chuanwu: Okay, it's a function mapping.
+
+380
+00:57:34.690 --> 00:57:48.589
+chuanwu: Okay, so here. Okay, so if we divide, every… so look at our initial point, XTS, and eventually we map it to a point X divided by T and S divided by T.
+
+381
+00:57:49.150 --> 00:57:59.309
+chuanwu: Okay, so if you apply the original notion of, perspective mapping, so here we should reorganize our variable sequence a bit. So X…
+
+382
+00:57:59.650 --> 00:58:05.830
+chuanwu: Okay, mapped for sector matching, map to X divided by T, and X divided by T.
+
+383
+00:58:06.080 --> 00:58:08.349
+chuanwu: So this is a perspective mapping.
+
+384
+00:58:08.890 --> 00:58:09.940
+chuanwu: Okay.
+
+385
+00:58:10.660 --> 00:58:20.840
+chuanwu: All right, so therefore, our conclusion is the epigraph of function G is an inverse image of epigraph of function F under the perspective mapping.
+
+386
+00:58:21.980 --> 00:58:27.209
+chuanwu: Okay, and, because F is convex.
+
+387
+00:58:27.560 --> 00:58:30.479
+chuanwu: Then we know epigraph of F is convex.
+
+388
+00:58:30.920 --> 00:58:45.560
+chuanwu: Okay, and perspective mapping preserves set complexity, and we know the inverse, image, or image or inverse image under perspective mapping retains, convexity of the sets. So we know epigraph of G is convex.
+
+389
+00:58:46.020 --> 00:58:58.520
+chuanwu: And when epigraph of G is convex, because being… epigraph being convex is a sufficient and necessary condition of corresponding function being convex as well, so we know G is convex.
+
+390
+00:58:59.090 --> 00:59:11.449
+chuanwu: Okay. All right, so actually, I found this proof sketch interesting, because it's connected our perspective, the notion of perspective function, with the perspective mapping we known earlier.
+
+391
+00:59:11.450 --> 00:59:19.970
+chuanwu: And it is also maintenance of the epigraph, convexity and the function complexity equivalence we introduced earlier.
+
+392
+00:59:20.570 --> 00:59:21.440
+chuanwu: Okay.
+
+393
+00:59:22.290 --> 00:59:23.470
+chuanwu: All right.
+
+394
+00:59:24.630 --> 00:59:31.380
+chuanwu: Okay, it's some good timing for us to take a short break. Okay, 5 minutes break before we continue.
+
+395
+01:01:15.370 --> 01:01:16.200
+chuanwu: bids.
+
+396
+01:01:17.600 --> 01:01:18.350
+chuanwu: What's that?
+
+397
+01:01:30.440 --> 01:01:32.050
+chuanwu: It's such a different thing for me.
+
+398
+01:01:32.160 --> 01:01:33.990
+chuanwu: Please, people.
+
+399
+01:01:37.020 --> 01:01:37.780
+chuanwu: Goodbye.
+
+400
+01:01:37.920 --> 01:01:39.170
+chuanwu: That's incredible.
+
+401
+01:01:52.070 --> 01:01:53.330
+chuanwu: Oh, boy, too.
+
+402
+01:02:23.080 --> 01:02:24.049
+chuanwu: It's not visible.
+
+403
+01:03:29.130 --> 01:03:30.460
+chuanwu: Who wants to hoop.
+
+404
+01:03:31.020 --> 01:03:33.480
+chuanwu: We don't sit on it.
+
+405
+01:03:53.500 --> 01:04:04.390
+chuanwu: Okay, all right, let's continue with our task, Dave.
+
+406
+01:04:05.540 --> 01:04:23.449
+chuanwu: Great, so in this part of the class, we are introducing one concept, one function after another, one notion after another, but, all, are fundamentals of the, core theory of, duality, the validation problem that we have.
+
+407
+01:04:23.460 --> 01:04:26.810
+chuanwu: We need to make a user, we need to learn earlier.
+
+408
+01:04:27.180 --> 01:04:32.269
+chuanwu: Alright, so the next concept is regarding conjugate function.
+
+409
+01:04:32.600 --> 01:04:38.199
+chuanwu: So we say a conjugate, we are given a function f, and we express this conjugate.
+
+410
+01:04:38.370 --> 01:04:40.239
+chuanwu: using X star Y.
+
+411
+01:04:40.430 --> 01:04:51.490
+chuanwu: So F star Y itself is another function. Okay, it's not exactly on the original variable X, but it's on a variable of the same dimension as the original variable.
+
+412
+01:04:51.590 --> 01:05:10.770
+chuanwu: So here, the calculation of a conjugate of a hidden function f is, export that's there. So we compose, we come up with a function Y transpose X. That means inner productive between our new variable Y and the original variable X of the function, and minus FX.
+
+413
+01:05:10.870 --> 01:05:16.280
+chuanwu: Okay, and we do supreme calculation over all possible x in the domain of function f.
+
+414
+01:05:16.480 --> 01:05:31.920
+chuanwu: Okay, and why… when we are calculating the supreme, we consider Y as fixed. So when Y as fixed, observe the function inside. So the function there is a linear function on X minus original function fx.
+
+415
+01:05:32.360 --> 01:05:37.860
+chuanwu: Okay, and we want to calculate this subprint. Okay, so large is the possible value.
+
+416
+01:05:38.040 --> 01:05:40.529
+chuanwu: Okay, on February.
+
+417
+01:05:40.700 --> 01:05:55.430
+chuanwu: Okay, so geometrical illustration is shown on the right-hand side of the slide. So here, we use the example of a scalar function. So our original function fx here is a scalar function, and this is its curve.
+
+418
+01:05:55.620 --> 01:06:15.309
+chuanwu: Okay, and then when Y is given, so assume when Y is given, then YX. So the part Y transpose X becomes exactly YX, because now we assume X and Y are both scalar. And then YX, what does YX mean when Y is fixed and X varies?
+
+419
+01:06:15.960 --> 01:06:21.860
+chuanwu: It's a line. It's a line in the two-dimensional plane going across the origin.
+
+420
+01:06:22.320 --> 01:06:27.960
+chuanwu: Okay, because Y is fixed, Y is a slope of the line, and X is a variable, which varies.
+
+421
+01:06:28.160 --> 01:06:32.329
+chuanwu: So YX is a line? Line. Okay, so here it is a line.
+
+422
+01:06:32.940 --> 01:06:50.819
+chuanwu: And then, what about YX or XY minus FX? So FX is here, and the XY is aligned there. So we want to find the largest value of YX minus FX. It's equivalent to the maximal gap
+
+423
+01:06:50.820 --> 01:06:54.450
+chuanwu: between the line YX and the FX curve.
+
+424
+01:06:54.730 --> 01:06:55.500
+chuanwu: Right.
+
+425
+01:06:56.100 --> 01:07:04.870
+chuanwu: Okay, so this… okay, don't look at the second parallel line first, just check out the dotted line across the origin.
+
+426
+01:07:05.030 --> 01:07:07.470
+chuanwu: So this is our YX line.
+
+427
+01:07:07.700 --> 01:07:14.019
+chuanwu: And we want the largest value between YX line and the function curve FX.
+
+428
+01:07:14.250 --> 01:07:19.429
+chuanwu: While this line is on top of the curve, above the curve, rather than underneath.
+
+429
+01:07:19.790 --> 01:07:23.209
+chuanwu: Okay, because we are calculating YX minus FX.
+
+430
+01:07:23.500 --> 01:07:29.869
+chuanwu: And in this example, what is the largest gap? So the largest gap appears pretty much here.
+
+431
+01:07:30.430 --> 01:07:39.259
+chuanwu: So this is the largest gap between the line across the origin and our function curve, FX, FX functions curve.
+
+432
+01:07:39.520 --> 01:07:48.869
+chuanwu: Right? So therefore, actually, this value is YX minus FX, it's the largest value, that's our value of F star Y as well.
+
+433
+01:07:49.450 --> 01:07:50.180
+chuanwu: Hmm.
+
+434
+01:07:50.550 --> 01:08:10.479
+chuanwu: Okay, so if you consider drawing a parallelogram, so that's why we have this, another dotted line here, if you consider drawing a par… coming up a parallelogram, so this distance I'm pointing out, YX minus FX, is exactly F star Y,
+
+435
+01:08:10.480 --> 01:08:29.670
+chuanwu: And correspondingly, the length of this segment on the vertical axis is exactly F star Y as well. And if you try to put down the coordinate of this point here, the vertical value is negative F star Y, but you should know what actually the absolute… the…
+
+436
+01:08:30.260 --> 01:08:36.350
+chuanwu: Positive value, okay, the positive… the value is the… our original F star Y.
+
+437
+01:08:36.779 --> 01:08:39.139
+chuanwu: Cool, so here it's just an illustration.
+
+438
+01:08:39.689 --> 01:08:41.520
+chuanwu: geometrical illustration.
+
+439
+01:08:41.990 --> 01:08:46.479
+chuanwu: Okay, and here,
+
+440
+01:08:46.600 --> 01:09:00.030
+chuanwu: What we… what is nice about the conjugate of a function is, regardless of whether the original function f is convex or not, the conjugate function itself is guaranteed to be convex function.
+
+441
+01:09:00.240 --> 01:09:12.999
+chuanwu: Okay, and this can be shown using simple justifications. So here, we consider F star. So F star is on function Y. It is on variable Y.
+
+442
+01:09:13.439 --> 01:09:15.210
+chuanwu: And the inner…
+
+443
+01:09:15.609 --> 01:09:28.260
+chuanwu: function here, okay, inner function here, if you consider Y as a variable, and X as some value given, essentially, here it's just a FY, a linear function on Y.
+
+444
+01:09:28.920 --> 01:09:38.819
+chuanwu: Okay, so inside the supreme operator, what we have is a number of linear or affine functions on Y. We can vary X.
+
+445
+01:09:38.930 --> 01:09:57.510
+chuanwu: But when X varies, and when we fix, when X varies, we have a number, or unlimited number, of alpha and function of Y inside here. And, adding the supreme calculator, essentially what we are doing here is point-wise supreme of a family of alpha and function of Y.
+
+446
+01:09:58.630 --> 01:10:09.460
+chuanwu: And according to the very first… according to one of the rules we introduced earlier, we know the resulting pointwise agreement is convex RY.
+
+447
+01:10:09.560 --> 01:10:10.300
+chuanwu: Right.
+
+448
+01:10:12.170 --> 01:10:13.210
+chuanwu: Agreed?
+
+449
+01:10:13.750 --> 01:10:14.910
+chuanwu: Okay.
+
+450
+01:10:16.110 --> 01:10:28.740
+chuanwu: So this… that is the rule using the example we saw earlier. Remember, if you draw a few lines, and then taking away the upper part, we come up with a convex function, right? So similar idea here.
+
+451
+01:10:29.320 --> 01:10:44.649
+chuanwu: So, point Y is a preman of a family, and that family of F and functional Y can be unlimited, because X can have unlimited choice. It doesn't matter. As we pointed out, even if the supreme is an unlimited number of convex functions, it is fine.
+
+452
+01:10:46.530 --> 01:10:47.400
+chuanwu: Okay.
+
+453
+01:10:47.790 --> 01:10:57.350
+chuanwu: All right, in fact, the conjugate function is very useful, when we… later we derive the viewer of a given observation problem.
+
+454
+01:10:57.580 --> 01:11:14.729
+chuanwu: And, the steps of deriving the bureau is pretty much like deriving the conjugate of the original objective function, so we will tackle that point again later. And that is actually the fundamental reason why we bothered to introduce this conjugate function here.
+
+455
+01:11:14.730 --> 01:11:24.900
+chuanwu: And the nice thing is, if the doer is derived, according to a conjugate function, then the doer is guaranteed to be a convex optimization problem.
+
+456
+01:11:24.910 --> 01:11:32.100
+chuanwu: Okay, so because the conjugate is starting to be complex. Regardless further down from the primal problem, original problem is convexone.
+
+457
+01:11:32.820 --> 01:11:45.370
+chuanwu: All right, so now steal the fundamentals of, conjugate. Now we need to do a few practice, of deriving the conjugate of, function, okay, of a given, function.
+
+458
+01:11:45.420 --> 01:11:58.920
+chuanwu: So now you see, in the first example, we are given a simple alpha function, so in this way, you see we don't… we don't have A transpose, then that actually means, A, X, and B are all scalar.
+
+459
+01:11:59.050 --> 01:12:01.979
+chuanwu: values. Okay, zero variable, zero values.
+
+460
+01:12:02.290 --> 01:12:07.940
+chuanwu: And its conjugate. Okay, so putting down the general form of its conjugate.
+
+461
+01:12:20.190 --> 01:12:21.070
+chuanwu: Okay.
+
+462
+01:12:21.210 --> 01:12:29.269
+chuanwu: So Y transpose X? All are scalar, so YX minus, FX. So FX is our AX plus B.
+
+463
+01:12:29.440 --> 01:12:32.169
+chuanwu: Okay, so supreme effect.
+
+464
+01:12:32.860 --> 01:12:37.860
+chuanwu: Okay, so premium of that over all possible X, so X here is N of R.
+
+465
+01:12:38.210 --> 01:12:39.070
+chuanwu: Alright.
+
+466
+01:12:39.470 --> 01:12:40.990
+chuanwu: F,
+
+467
+01:12:41.420 --> 01:12:55.190
+chuanwu: We… when we put down a function in this way, we need to… we don't consider it as some close form, an analytical result of the function, analytical form of function, because it does involve more complex
+
+468
+01:12:55.330 --> 01:13:11.419
+chuanwu: function or operators than a commonly accepted function form. Okay, so therefore, in order to put down the concrete conjugate function form, we need to remove the supreme operator, or do the supreme calculation.
+
+469
+01:13:11.830 --> 01:13:19.150
+chuanwu: Okay, all right, so how do we do the supreme calculation? It really means we analyze the function we have at half.
+
+470
+01:13:19.850 --> 01:13:23.490
+chuanwu: Alright, so YX minus,
+
+471
+01:13:24.580 --> 01:13:34.840
+chuanwu: YX minus AX? Now, in the suprem operational calculation, X is our variable. So we organize all the terms related to X together.
+
+472
+01:13:35.430 --> 01:13:39.639
+chuanwu: Okay, so we are doing supreme of Y minus AX plus B.
+
+473
+01:13:40.190 --> 01:13:42.290
+chuanwu: And then we would analyze.
+
+474
+01:13:42.500 --> 01:13:46.840
+chuanwu: So if X is, if,
+
+475
+01:13:47.260 --> 01:13:53.109
+chuanwu: the… we… the only term related to X in the first term, so the second term B is just a constant.
+
+476
+01:13:53.230 --> 01:14:00.840
+chuanwu: All right, so usually we do the analysis by attempt to consider different cases, so if…
+
+477
+01:14:01.290 --> 01:14:08.020
+chuanwu: The coefficient, Y minus 8, In this affine function of X is 0.
+
+478
+01:14:08.590 --> 01:14:11.449
+chuanwu: Then what is the supreme result?
+
+479
+01:14:11.930 --> 01:14:16.710
+chuanwu: The premise result will be exactly… B.
+
+480
+01:14:17.830 --> 01:14:19.890
+chuanwu: Online has me? Okay, yes.
+
+481
+01:14:20.190 --> 01:14:21.930
+chuanwu: I will speak, right?
+
+482
+01:14:23.570 --> 01:14:24.490
+chuanwu: Agreed?
+
+483
+01:14:24.800 --> 01:14:30.779
+chuanwu: And if Y minus A isn't 0, then what is the supremen?
+
+484
+01:14:32.770 --> 01:14:35.810
+chuanwu: Positive infinity. Positive infinity.
+
+485
+01:14:35.980 --> 01:14:36.940
+chuanwu: Okay.
+
+486
+01:14:37.360 --> 01:14:56.989
+chuanwu: So why? So because if Y minus A is larger than 0, then you can push X to be a very large value as well, so the supreme is unbounded above. And if Y minus A is smaller than 0, you can push X to be a very negative value, and the product is unbounded above, right? Okay.
+
+487
+01:14:57.070 --> 01:15:04.449
+chuanwu: So there are two cases, and that's what we also have on the slide there. So it means,
+
+488
+01:15:04.590 --> 01:15:16.500
+chuanwu: The… now, what we cons… if we put the result down in this form, we consider we have resolved the supreme calculation, or we have derived a concrete form of the conjugate function.
+
+489
+01:15:16.790 --> 01:15:30.280
+chuanwu: Okay, so you… usually there are cases, like, unbounded above case, and the other is bounded case, and if I asked you to derive conjugate of a function, coming up with this form is
+
+490
+01:15:30.280 --> 01:15:46.820
+chuanwu: All right, okay, this is the eventual I want to see, but what I want to connect is, later on, when we derive the conjugate function as part of our steps of deriving the dual problem of a given ovalization problem, we usually just take the
+
+491
+01:15:46.910 --> 01:15:51.810
+chuanwu: Bounded case in our eventual dual objective function.
+
+492
+01:15:51.810 --> 01:16:10.640
+chuanwu: The rationale, okay, briefly, I'll briefly mention here, but I'll mention again later on. The rationale is the dual problem is usually, we try to… in the dual form, corresponding to the form here, so we are trying to minimize the conjugate function.
+
+493
+01:16:10.790 --> 01:16:20.210
+chuanwu: I try to minimize, and intuitively, we don't consider the unbounded above case, because anyway, we don't want our Y to fall into that case.
+
+494
+01:16:20.570 --> 01:16:23.179
+chuanwu: Because eventually you want to minimize the whole thing.
+
+495
+01:16:23.540 --> 01:16:30.569
+chuanwu: Okay, so that's a high-level idea, but I'll, bring it up again when we introduce a duality later on.
+
+496
+01:16:31.550 --> 01:16:48.949
+chuanwu: All right, so here. And, the second example, our function X is negative log. Okay, native log, our domain X is larger than X, should be larger than 0, and our conjugate function, according to the steps.
+
+497
+01:16:49.730 --> 01:16:52.710
+chuanwu: Here, according to the definition.
+
+498
+01:16:53.690 --> 01:16:58.359
+chuanwu: So, by the way, again, so here X is just a scalar variable, okay?
+
+499
+01:16:58.930 --> 01:17:03.229
+chuanwu: So YX minus FX equals plus.
+
+500
+01:17:03.870 --> 01:17:08.600
+chuanwu: Mach X. Okay, and our X should be larger than 0.
+
+501
+01:17:09.200 --> 01:17:15.749
+chuanwu: And this is our calculation formula to derive the conjugate of the negative log function.
+
+502
+01:17:16.910 --> 01:17:20.119
+chuanwu: All right, so how do we derive the,
+
+503
+01:17:21.190 --> 01:17:27.879
+chuanwu: How do we resolve the suprem operator, or how do we do the maximization or supreme calculation?
+
+504
+01:17:30.270 --> 01:17:41.800
+chuanwu: Okay, observe. Okay, number one step is always observe. So, observe the function we have at hand. Okay, so here we consider Y fix, okay, continuity fix. X is our variable.
+
+505
+01:17:42.450 --> 01:17:47.720
+chuanwu: And what we have here is, concave function RX.
+
+506
+01:17:47.940 --> 01:17:56.890
+chuanwu: Right? Long is concave, and I find it's both convex and concave. So the whole thing here, YX plus log X is concave on X.
+
+507
+01:17:57.860 --> 01:18:10.200
+chuanwu: Okay, so we can, tentatively assume it's unconstrained, so X larger than 1, there will be considered later, right? If it is, unconstrained, concave, or convex function.
+
+508
+01:18:11.090 --> 01:18:17.860
+chuanwu: Well, I mean, oh, well… Maximizing a concave function, or we are minimizing a convex function.
+
+509
+01:18:18.060 --> 01:18:31.310
+chuanwu: We often can apply a simple rule or simple property we already learned so far to come up with an extreme point, or optimal point, right? That is, we derive the derivative.
+
+510
+01:18:31.470 --> 01:18:48.120
+chuanwu: of this differentiable function on X, and set it to 0. And then we will come up with an extreme point, extreme value. Then we verify if that extreme value of X satisfies the domain requirement. And if so, we are good, right?
+
+511
+01:18:48.300 --> 01:18:51.290
+chuanwu: Otherwise, we try to do further analysis.
+
+512
+01:18:51.940 --> 01:18:53.340
+chuanwu: Bye. Okay.
+
+513
+01:18:53.600 --> 01:19:03.409
+chuanwu: All right, so maximization, concave function. We can simply set its derivative to zero to try to come up with the extreme point value.
+
+514
+01:19:03.700 --> 01:19:06.350
+chuanwu: Okay, so YX derivative?
+
+515
+01:19:06.820 --> 01:19:11.279
+chuanwu: over X give us Y, right? And how about log?
+
+516
+01:19:11.610 --> 01:19:13.439
+chuanwu: So, Locke's derivative.
+
+517
+01:19:13.530 --> 01:19:15.760
+chuanwu: It's just a protocol of the variable.
+
+518
+01:19:15.800 --> 01:19:34.280
+chuanwu: Right, okay. And then set it to zero, and then remember X is our variable, and Y is our input, a given input. So our X star is, okay, extreme value of X, optimal value of X, that's maximizing that, concrete function.
+
+519
+01:19:34.410 --> 01:19:37.570
+chuanwu: S X star equals negative blood over Y.
+
+520
+01:19:37.750 --> 01:19:38.640
+chuanwu: Right.
+
+521
+01:19:38.890 --> 01:19:39.790
+chuanwu: Okay.
+
+522
+01:19:40.050 --> 01:19:41.610
+chuanwu: And then…
+
+523
+01:19:41.870 --> 01:19:50.709
+chuanwu: Is it larger than the euro, or smaller than the euro? That really depends on Y, right? Whether Y is larger than zero, smaller than the euro.
+
+524
+01:19:51.120 --> 01:19:53.830
+chuanwu: Okay, alright, and?
+
+525
+01:19:54.340 --> 01:19:56.649
+chuanwu: Then we discuss different cases.
+
+526
+01:20:02.730 --> 01:20:03.600
+chuanwu: Okay.
+
+527
+01:20:04.520 --> 01:20:05.560
+chuanwu: All right.
+
+528
+01:20:05.790 --> 01:20:09.459
+chuanwu: So, if Y is, smaller than 0,
+
+529
+01:20:09.690 --> 01:20:13.220
+chuanwu: The negative acid probe of Y is larger than 0.
+
+530
+01:20:13.410 --> 01:20:16.979
+chuanwu: Right? And it fulfills the domain of the problem.
+
+531
+01:20:17.320 --> 01:20:26.910
+chuanwu: Then we are good. Then we know, if Y is, if Y is smaller than 0, then we know X star is indeed
+
+532
+01:20:28.130 --> 01:20:34.889
+chuanwu: negative recipe proof of Y, and that's the optimal… optimal point of the supreme calculation.
+
+533
+01:20:35.020 --> 01:20:39.850
+chuanwu: And the supremise calculation's result is Here.
+
+534
+01:20:40.780 --> 01:20:46.329
+chuanwu: Okay, so we will plug in X value Y, X is…
+
+535
+01:20:46.520 --> 01:20:54.169
+chuanwu: Here, active reciprocal, and the lock X… Negative went over Y.
+
+536
+01:20:55.210 --> 01:20:56.390
+chuanwu: as well.
+
+537
+01:20:56.900 --> 01:20:57.810
+chuanwu: Okay.
+
+538
+01:20:58.010 --> 01:21:02.279
+chuanwu: And what does that exactly give us? It's inactive.
+
+539
+01:21:02.400 --> 01:21:06.220
+chuanwu: One active block, connecting what?
+
+540
+01:21:07.850 --> 01:21:11.209
+chuanwu: Right? Making use of some property related to log.
+
+541
+01:21:11.800 --> 01:21:18.759
+chuanwu: Okay, so that is the, the, first case. Okay, so that is actually the first case.
+
+542
+01:21:25.120 --> 01:21:36.140
+chuanwu: And how about other cases? Okay, other cases in general we can consider, so Y is smaller than 0, or the other case is Y larger equal to 0.
+
+543
+01:21:36.640 --> 01:21:37.320
+chuanwu: Bye.
+
+544
+01:21:37.700 --> 01:21:44.259
+chuanwu: So why large equal to zero? If Y… of course, if you want to consider more details.
+
+545
+01:21:44.420 --> 01:22:02.970
+chuanwu: But actually no need. So the other case, otherwise, the case is Y logical to 0. Y is logical to 0, our X star cannot be negative Y over Y, because it doesn't fulfill the domain requirement, right? But, when Y is logical to 0, let's check it out here.
+
+546
+01:22:03.040 --> 01:22:08.899
+chuanwu: So Y is EY 0? The supreme of log X is unbounded above.
+
+547
+01:22:09.000 --> 01:22:09.850
+chuanwu: Right.
+
+548
+01:22:11.270 --> 01:22:15.899
+chuanwu: If Y is exactly 0, then the premium block X is unbounded above.
+
+549
+01:22:16.340 --> 01:22:21.470
+chuanwu: And if Y is negative, some negative… Some positive value.
+
+550
+01:22:21.720 --> 01:22:30.120
+chuanwu: Right? If Y is some positive value, because X has to be positive value, then again, the alpha function plus log function is unbound data.
+
+551
+01:22:30.230 --> 01:22:37.640
+chuanwu: Okay, so no matter what, the second case, the supreme, is often… it's always unbounded about.
+
+552
+01:22:38.300 --> 01:22:42.749
+chuanwu: Right? So therefore, in that way, we come up with the two cases here.
+
+553
+01:22:44.320 --> 01:22:51.449
+chuanwu: Okay, and that is the, result we wanted on the resulting conjugate function.
+
+554
+01:22:54.930 --> 01:23:05.569
+chuanwu: Okay, all right, and then the last notion regarding functions that we are introducing in this set of slides is, called the command function.
+
+555
+01:23:05.640 --> 01:23:25.079
+chuanwu: Okay, so what is caudic convex function? We briefly mentioned about it, earlier. I often call it as some close relative of convex function validates. Okay, so because it does share, functions falling into the quadic convex function value does share some common properties with a convex function.
+
+556
+01:23:25.640 --> 01:23:37.679
+chuanwu: Okay, see the definition first. We consider function f is called the convex if its domain is convex, and its functions for double-level sets are all convex sets.
+
+557
+01:23:38.410 --> 01:23:57.099
+chuanwu: Okay, so example here. So here, our function curve is like this. So recall what, our… recall what the definition of sublevel set is. So a sublevel set contains a subset of points in the domain of the function.
+
+558
+01:23:57.230 --> 01:24:05.910
+chuanwu: And whose corresponding, and all the points in this subset of the domain, correspond… they are for every point in the…
+
+559
+01:24:06.300 --> 01:24:11.890
+chuanwu: Subset of the domain. Their corresponding function value is no larger than alpha.
+
+560
+01:24:12.170 --> 01:24:23.010
+chuanwu: Okay, so here, if our R5 is here, then our sublevel set is, an interval ranging from A to B, and if our,
+
+561
+01:24:23.640 --> 01:24:33.239
+chuanwu: level is beta, okay, so our alpha level is… becomes beta now, here. Beta is here. Then, what is our sublevel set?
+
+562
+01:24:34.060 --> 01:24:40.959
+chuanwu: Let's assume the function extends indefinitely or parallelly with the X,
+
+563
+01:24:41.120 --> 01:24:45.059
+chuanwu: axis, then our sublevel set C beta.
+
+564
+01:24:45.740 --> 01:24:54.409
+chuanwu: is… In the example, C beta is negative infinity up to C.
+
+565
+01:24:55.600 --> 01:24:58.100
+chuanwu: Okay, extending infinitely to the left.
+
+566
+01:24:58.790 --> 01:24:59.670
+chuanwu: That's it.
+
+567
+01:25:00.310 --> 01:25:02.120
+chuanwu: The interaction of the axles.
+
+568
+01:25:02.890 --> 01:25:03.780
+chuanwu: Okay.
+
+569
+01:25:04.210 --> 01:25:10.949
+chuanwu: All right, so if a function is, sublevel sets, regardless what, possible.
+
+570
+01:25:11.570 --> 01:25:18.489
+chuanwu: alpha we use, R, convex X, then the function is, for the convex function.
+
+571
+01:25:19.700 --> 01:25:23.339
+chuanwu: And using the example I've shown there, so we know the,
+
+572
+01:25:23.510 --> 01:25:42.170
+chuanwu: function here is called the convex, but it's not really convex, right? So therefore, although the definition of the convex function is very much related to convex sets, but the convex functions are not guaranteed to be a convex function.
+
+573
+01:25:42.700 --> 01:25:55.259
+chuanwu: And generally with the definition, so if negative F is quasiconnexed, then we consider F to be quasiconcave, and if a function is both quasiconnex and quasiconcave, then we call it quasilinear.
+
+574
+01:25:55.260 --> 01:26:02.929
+chuanwu: Sophom functions are a typical example of a quasilinear function, and of course, affine functions are itself, of course.
+
+575
+01:26:03.180 --> 01:26:06.480
+chuanwu: Cause the convex and convex, cause the concave and concave.
+
+576
+01:26:06.940 --> 01:26:07.830
+chuanwu: Okay.
+
+577
+01:26:11.800 --> 01:26:13.260
+chuanwu: Alright,
+
+578
+01:26:13.710 --> 01:26:25.910
+chuanwu: Let's quickly check out a few examples of how the connect function. So the first function is what we, blocked it a few times before. It's a butterfly-shaped function.
+
+579
+01:27:05.200 --> 01:27:11.339
+chuanwu: Okay, so this is… square root of X absolute value.
+
+580
+01:27:11.550 --> 01:27:21.029
+chuanwu: So it's called the convex, it's pretty, clear, and it's not really convex. Okay, so the second function is a ceiling function.
+
+581
+01:27:21.170 --> 01:27:25.210
+chuanwu: So briefly, the ceiling function is like this.
+
+582
+01:27:34.240 --> 01:27:41.360
+chuanwu: Okay, so a conjunction curve consists of a number of, Line seconds.
+
+583
+01:27:41.460 --> 01:27:43.779
+chuanwu: Okay, a number of line segments?
+
+584
+01:27:44.080 --> 01:27:58.400
+chuanwu: And apparently, it's, we can easily verify it's quasi-linear, okay, both quasi-commX, not the concave, and, we… apparently, it is not convex, because all convex function has to be continuous.
+
+585
+01:27:58.890 --> 01:27:59.630
+chuanwu: Bye.
+
+586
+01:28:00.010 --> 01:28:03.700
+chuanwu: Okay, alright, and then, Log X.
+
+587
+01:28:04.050 --> 01:28:05.639
+chuanwu: So, log X…
+
+588
+01:28:08.950 --> 01:28:17.790
+chuanwu: So log X concave, and, verify the definition, it is, coordinate linear as well. Both called the convex and called the concave.
+
+589
+01:28:18.540 --> 01:28:20.649
+chuanwu: Alright, and
+
+590
+01:28:21.460 --> 01:28:33.359
+chuanwu: And then the function, X1, X2, so it's called Z concave. So how do we verify? It's called Z concave. We can use a definition.
+
+591
+01:28:37.770 --> 01:28:41.390
+chuanwu: Okay. Do we consider a sublevel sets?
+
+592
+01:28:42.690 --> 01:28:49.540
+chuanwu: So it's sub-level sets in… is in the form, is quasiconcave. Okay, we consider…
+
+593
+01:28:50.480 --> 01:28:55.559
+chuanwu: It's sub-level sets, yeah, the other way around, it's easier.
+
+594
+01:28:56.170 --> 01:28:56.990
+chuanwu: Sure.
+
+595
+01:28:57.500 --> 01:29:07.989
+chuanwu: So in order to show FX, X1, X2 is quasi-concave, we show that negative FX1X2 is quasi come X.
+
+596
+01:29:08.140 --> 01:29:20.779
+chuanwu: Okay, well, it would be quasi-convex. We need to show its sublevel sets with all points satisfied. Negative X1, X2, no larger than alpha is,
+
+597
+01:29:21.230 --> 01:29:27.279
+chuanwu: is, come accept, and what is life is here.
+
+598
+01:29:28.640 --> 01:29:36.420
+chuanwu: So the convex set is here, so next is, X1, X2, larger equal than a value.
+
+599
+01:29:36.640 --> 01:29:41.640
+chuanwu: Okay, keeping good illustration is here. So, X1, X2,
+
+600
+01:29:43.480 --> 01:29:50.910
+chuanwu: So X1X2 larger equals down value. You can verify. Actually, they are,
+
+601
+01:29:51.330 --> 01:30:01.550
+chuanwu: in the positive, ascent, in the non-nex positive oscent part, so the set X1X2 life equal to a value is, convex set.
+
+602
+01:30:03.360 --> 01:30:20.600
+chuanwu: Okay, and then the, linear fractional function, and it's very easy to verify. Linear fractional function is, called the linear function as well. So, in general, we can use a definition. So, A transpose X plus B, come up with a sublevel set.
+
+603
+01:30:21.100 --> 01:30:23.499
+chuanwu: The sun level set is,
+
+604
+01:30:23.720 --> 01:30:32.000
+chuanwu: 75 in this, and you move the term in the denominator into the right-hand side, you actually come up with, F1.
+
+605
+01:30:32.330 --> 01:30:36.690
+chuanwu: You can actually come up with half spaces.
+
+606
+01:30:37.850 --> 01:30:48.240
+chuanwu: Okay, so half spaces are complex, so the… that shows the sublevel sets of linear fractional functions are convex sets, and linear fractional functions are complex.
+
+607
+01:30:50.640 --> 01:31:04.879
+chuanwu: Okay, and then, very briefly about probabilities that code DC convex functions may satisfy. And, so we know, in the definition of convex function, we have the Jackson's inequality.
+
+608
+01:31:04.960 --> 01:31:14.089
+chuanwu: And in terms of quality comeback functions, we have some simplified form of, like, a different variant form of the JSON's inequality.
+
+609
+01:31:14.280 --> 01:31:34.019
+chuanwu: So check it out. The, theta is, coefficient in the range of 0 and 1. So the left-hand side of inequality is still the function value, convex combination of two points, and right-hand side, instead of, having convex combination of two function values, here we have maximum of two function values.
+
+610
+01:31:34.450 --> 01:31:40.110
+chuanwu: Okay, so the intuitively… Let's see…
+
+611
+01:31:48.860 --> 01:31:58.360
+chuanwu: So intuitively, what it means is the function value on convex combination of two points would be no larger than the function value of the two points.
+
+612
+01:31:58.510 --> 01:32:00.219
+chuanwu: Either one of the two points.
+
+613
+01:32:00.450 --> 01:32:01.250
+chuanwu: August.
+
+614
+01:32:01.430 --> 01:32:05.370
+chuanwu: So that is the idea of the inequality here.
+
+615
+01:32:05.560 --> 01:32:19.060
+chuanwu: And there are some properties related to first-order condition and other condition of the convex function. So here, if we consider a differentiable function F, it's convex domain.
+
+616
+01:32:19.060 --> 01:32:26.090
+chuanwu: And, it would be qui-collect, if and only if the following condition is satisfied.
+
+617
+01:32:26.210 --> 01:32:39.739
+chuanwu: Okay. Intuitively, what it means is, if function value at Y is no longer than function value at X, then the inner product between the gradient vector and the Y minus X vector would get smaller or equal to 0.
+
+618
+01:32:40.280 --> 01:32:47.410
+chuanwu: So geometrically, we can, consider if, during the example, Here, go ahead.
+
+619
+01:33:11.680 --> 01:33:12.520
+chuanwu: Okay.
+
+620
+01:33:12.700 --> 01:33:14.560
+chuanwu: So we consider two points.
+
+621
+01:33:15.050 --> 01:33:16.799
+chuanwu: Y and X.
+
+622
+01:33:17.250 --> 01:33:22.729
+chuanwu: Okay, Y is to the left of X in the positive half of the axis?
+
+623
+01:33:22.990 --> 01:33:31.380
+chuanwu: And, FY is no larger than FX, it implies that the, gradient of the
+
+624
+01:33:36.860 --> 01:33:37.690
+chuanwu: Oh, wait.
+
+625
+01:33:46.670 --> 01:33:48.260
+chuanwu: Or who did the other way?
+
+626
+01:33:48.450 --> 01:33:55.700
+chuanwu: So if our NABLA The gradient, okay, if the gradient is larger than equal to zero.
+
+627
+01:33:59.590 --> 01:34:04.040
+chuanwu: Okay, in the simple case, the gradient is just the derivative.
+
+628
+01:34:04.260 --> 01:34:07.330
+chuanwu: your theory of science here, to understand.
+
+629
+01:34:11.560 --> 01:34:25.270
+chuanwu: Okay, so if F' X is logical to zero, so meaning it's the, using the example here, it's in the, FX is in the range, it is in this,
+
+630
+01:34:26.250 --> 01:34:33.749
+chuanwu: So F' X… so the right-hand side half of the curve corresponds to the part F prime X later to 0, right?
+
+631
+01:34:34.010 --> 01:34:39.060
+chuanwu: The slope, the gradient is larger… is… the slope is not decreasing.
+
+632
+01:34:39.230 --> 01:34:48.200
+chuanwu: Alright, so if I prime X logger is 0, and then, FX… FY.
+
+633
+01:34:49.920 --> 01:34:55.790
+chuanwu: small equal to FX implies Why?
+
+634
+01:34:55.980 --> 01:34:59.250
+chuanwu: is to the left of X.
+
+635
+01:34:59.420 --> 01:35:00.820
+chuanwu: geometrical date.
+
+636
+01:35:02.590 --> 01:35:07.130
+chuanwu: Okay, so all Y smaller than FX is to the left.
+
+637
+01:35:07.650 --> 01:35:09.500
+chuanwu: of point, X.
+
+638
+01:35:10.080 --> 01:35:22.149
+chuanwu: Okay. All right, so in the other half, if F prime x is smaller to zero, and FY is no larger than FX,
+
+639
+01:35:22.350 --> 01:35:25.939
+chuanwu: It implies Y is to the right.
+
+640
+01:35:26.780 --> 01:35:29.499
+chuanwu: of X… on the axis.
+
+641
+01:35:30.160 --> 01:35:33.600
+chuanwu: So here, it's just some very intuitive illustration.
+
+642
+01:35:34.030 --> 01:35:35.620
+chuanwu: Okay, geometrically.
+
+643
+01:35:41.340 --> 01:35:42.260
+chuanwu: Okay.
+
+644
+01:35:44.030 --> 01:35:56.309
+chuanwu: All right, and there are also a number of operations that can preserve cognitive functions. I will leave it out from lecture, and if you're interested or found it useful, you can check out the textbook.
+
+645
+01:35:56.980 --> 01:36:11.749
+chuanwu: Okay, continue, with the concept of quasi-convex. So we do have, examples related to log convexity, or log-concave functions, log concave, and con-log convex functions.
+
+646
+01:36:12.000 --> 01:36:25.619
+chuanwu: And we consider a function F is log concave if log F is concave. And here, because we are involving the log function, we are composing with log functions, we have to require the function F is positive value.
+
+647
+01:36:26.890 --> 01:36:37.379
+chuanwu: Okay, and this, definition is pretty intuitive, according to the definition of,
+
+648
+01:36:40.950 --> 01:36:42.360
+chuanwu: concave, actually.
+
+649
+01:36:56.970 --> 01:37:02.959
+chuanwu: Right? So this is, concrete functions, defining Jensen's inequality.
+
+650
+01:37:05.260 --> 01:37:13.100
+chuanwu: Okay. And then, log F concave. So log F… So F becomes log F.
+
+651
+01:37:14.340 --> 01:37:15.560
+chuanwu: log F.
+
+652
+01:37:15.860 --> 01:37:17.070
+chuanwu: Log F.
+
+653
+01:37:17.350 --> 01:37:24.689
+chuanwu: Okay, and then we remove the, lock operator by… I'm too young.
+
+654
+01:37:29.600 --> 01:37:31.580
+chuanwu: Exponential? Okay.
+
+655
+01:37:31.800 --> 01:37:39.980
+chuanwu: So, at the exponential operation on both sides, so making them all the exponents, All right, so then…
+
+656
+01:37:42.070 --> 01:37:48.630
+chuanwu: Yan lock cancels, and the lock doesn't change the direction of the inequality sign.
+
+657
+01:37:52.910 --> 01:37:59.400
+chuanwu: Okay, so here it becomes E… To the power of love, FX.
+
+658
+01:37:59.740 --> 01:38:00.770
+chuanwu: Steve, huh?
+
+659
+01:38:01.370 --> 01:38:02.640
+chuanwu: constantly.
+
+660
+01:38:03.180 --> 01:38:04.160
+chuanwu: Lock.
+
+661
+01:38:04.570 --> 01:38:08.209
+chuanwu: And Y to the power of 1 minus theta.
+
+662
+01:38:08.670 --> 01:38:14.980
+chuanwu: Right. Okay, and then E and lock canceled, interesting.
+
+663
+01:38:15.900 --> 01:38:16.970
+chuanwu: Excellent.
+
+664
+01:38:19.320 --> 01:38:26.479
+chuanwu: Okay, and then it exactly gives us the form on the right-hand side of the formula, on the slide.
+
+665
+01:38:28.740 --> 01:38:29.610
+chuanwu: Okay.
+
+666
+01:38:30.160 --> 01:38:40.440
+chuanwu: So that means the log-concave concavity of a function's definition is directly derived from the definition of a concave function.
+
+667
+01:38:41.060 --> 01:38:47.939
+chuanwu: Okay, similarly, if, log F is convex, we say F is log convex.
+
+668
+01:38:49.680 --> 01:38:56.170
+chuanwu: And examples on sphere functions. So we have power function X to the power of A.
+
+669
+01:38:56.210 --> 01:39:09.820
+chuanwu: And we consider X to be larger than 0. So it is, con… log count X if, A is smaller than 0, and log concave is A larger than 0, so it's pretty apparent.
+
+670
+01:39:10.010 --> 01:39:15.790
+chuanwu: So log of XA equals A times log X.
+
+671
+01:39:16.500 --> 01:39:26.670
+chuanwu: So if A is larger equal to 0, then A times log X is concave, right? And if A is more equal to 0, A times log X is
+
+672
+01:39:27.260 --> 01:39:28.300
+chuanwu: HomeX.
+
+673
+01:39:28.410 --> 01:39:33.639
+chuanwu: Okay, so correspondingly, we know X lock convex, or lock concave.
+
+674
+01:39:36.870 --> 01:39:42.300
+chuanwu: Okay, all right, so that finished our discussion on…
+
+675
+01:39:52.780 --> 01:39:54.240
+chuanwu: Comax functions.
+
+676
+01:40:07.850 --> 01:40:26.299
+chuanwu: Okay, I'll be, continue for the next 10 minutes before the class is done. Yeah, somehow this year, I'm moving slightly slower than before, yeah, so therefore, I have to make use of two full hours, mostly, every time.
+
+677
+01:40:26.810 --> 01:40:28.020
+chuanwu: All right.
+
+678
+01:40:28.200 --> 01:40:46.719
+chuanwu: Let's continue, discussion. So, so far, we have pretty much done with the part of the knowledge related to the convex analysis in the literature. And moving on, we will really be starting dealing with complex programs. So, we'll be checking out different
+
+679
+01:40:48.620 --> 01:41:04.159
+chuanwu: We'll be checking out different forms, representative forms of COMEX programs, and then we will study… we'll be spending quite some time on a very important, theory, foundation theory of COMEX validation, which is duality theory.
+
+680
+01:41:09.160 --> 01:41:26.650
+chuanwu: All right, so now, let's see what is the standard form of mathematical program, or mathematical addition problems that we are dealing with in this course. We actually see the form variability before, now it's more systematically, we are laying it out here.
+
+681
+01:41:26.880 --> 01:41:41.839
+chuanwu: So, objective function. In a standard form, we put objective function in the minimization form. If you are dealing with an optimization problem, you can simply… can easily correlate to minimization problem by inverse, okay, additively inverse the objective function.
+
+682
+01:41:42.390 --> 01:41:55.789
+chuanwu: And constraints. There are two sets of constraints. One set is so-called inequality constraints, and the other is a set of equality constraints. We can have multiple equality constraints and multiple inequality constraints.
+
+683
+01:41:55.790 --> 01:42:06.459
+chuanwu: And our X is our colonization variable, n-dimensional vector. Our objective function sometimes is also called cost of function, minimizing cost of function.
+
+684
+01:42:06.460 --> 01:42:22.379
+chuanwu: Okay, and… but in general, I will just call it an objective function. The objective function is, mapping from n-dimensional vector to a scalar value, and constraints, and we put the constraints in the standard form that all the,
+
+685
+01:42:22.380 --> 01:42:29.210
+chuanwu: Terms related to… all the terms are on the left-hand side, and the right-hand side, we just return 0.
+
+686
+01:42:29.230 --> 01:42:36.180
+chuanwu: Okay, including any constants that may appear, we just move them all to the left-hand side. And right-hand side, we just keep 0.
+
+687
+01:42:36.380 --> 01:42:40.870
+chuanwu: Okay, and everything on the left-hand side would be called as a constraint function.
+
+688
+01:42:41.020 --> 01:42:51.789
+chuanwu: Okay, inequality constraint function FIX and equality constraint function function HIX, and they are all mapping from a dimensional vector to a scalar value.
+
+689
+01:42:53.360 --> 01:42:56.499
+chuanwu: Definition of optimal value and
+
+690
+01:42:56.620 --> 01:43:10.930
+chuanwu: optimal value. Okay, so what we mean as optimal value is optimal objective function value. And if I put in the optimization problem in the standard mineralization form, then we know the optimal value is actually the
+
+691
+01:43:11.140 --> 01:43:19.550
+chuanwu: minimization of minimal value of the objective function. And the formula, we're defining it in the infamo, using the informal operator.
+
+692
+01:43:19.600 --> 01:43:33.990
+chuanwu: So, in final of the object and functions subject to all the constraints. So, pretty much, P star means the attainable, largest lower bound of all possible object function values, subject to two constraints.
+
+693
+01:43:34.560 --> 01:43:48.829
+chuanwu: And, two special cases, if the problem is infeasible, so meaning you cannot find any X satisfying all the equality and inequality constraints, then we just assume the objective function value is positive infinity.
+
+694
+01:43:49.260 --> 01:43:57.360
+chuanwu: In a minimization problem, positive infinitive value, meaning… means the problem is Include.
+
+695
+01:43:57.940 --> 01:44:10.809
+chuanwu: And if the problem is unbounded below, meaning we can push the objective function value all the way down to infinity, then we just consider the optimal value to be negative infinity.
+
+696
+01:44:11.260 --> 01:44:19.160
+chuanwu: Okay, all right, and, that, so here I'd like to emphasize the,
+
+697
+01:44:19.670 --> 01:44:30.069
+chuanwu: wording we are using. Okay, the wording we are using to describe here optimal value. So when we use a wording, optimal value, you should know it means optimal objective function value.
+
+698
+01:44:30.270 --> 01:44:33.019
+chuanwu: Instead of optimal value of the variable.
+
+699
+01:44:33.870 --> 01:44:42.390
+chuanwu: Okay, and how… what do we call as the optimal value of the variable? Here it comes. We call it as optimal point.
+
+700
+01:44:42.630 --> 01:44:47.269
+chuanwu: Okay, optimal point is optimal value of the variable of the problem.
+
+701
+01:44:47.610 --> 01:44:48.430
+chuanwu: Okay.
+
+702
+01:44:48.670 --> 01:45:07.150
+chuanwu: All right, so now it comes to the describing the variable of the problem. We describe the variable of the problem as points, in-dimensional points, okay, points in un-dimensional covalent system. So if our X in-dimensional vector is in the domain of the objective function.
+
+703
+01:45:07.170 --> 01:45:13.199
+chuanwu: and satisfy all the constraints, we say X is a fillable. What? A featable.
+
+704
+01:45:13.770 --> 01:45:27.180
+chuanwu: And, if that point is optimal, we call it as optimal point. Okay, optimal point meaning the X that's attending our optimal value of objective function.
+
+705
+01:45:27.690 --> 01:45:30.859
+chuanwu: Okay, F0X equation, E5.
+
+706
+01:45:31.510 --> 01:45:46.449
+chuanwu: Okay, and then a corresponding notion, is it related to local optimality, local optimal of the problem? So we consider X to be a local optimal point if it is optimal in a small neighborhood.
+
+707
+01:45:46.450 --> 01:46:05.889
+chuanwu: Okay, and the small neighborhood is defined using the radius R. Okay, radius R. And here you see our objective function constraints are all the same as in the original standard form of a validation problem. What we additional require is all the points is within a neighborhood of X.
+
+708
+01:46:06.430 --> 01:46:19.899
+chuanwu: So if X is optimal value of the… if X is optimal point of this problem, then X is locally optimal. We call X as locally optimal, or local optimal point.
+
+709
+01:46:20.660 --> 01:46:21.700
+chuanwu: Okay.
+
+710
+01:46:24.210 --> 01:46:29.779
+chuanwu: Alright, and then, having introduced the, a few notions.
+
+711
+01:46:31.960 --> 01:46:44.380
+chuanwu: Having introduced a few notions, now let's check out what is optimal value and optimal point of a few even unconstrained, more or less unconstrained optimization problem.
+
+712
+01:46:44.730 --> 01:46:51.720
+chuanwu: And if we consider our objective function as F0X, and we are minimizing that.
+
+713
+01:46:52.030 --> 01:46:59.619
+chuanwu: without explicit constraint, but we do have a domain of the problem. Domain of our mean X has to be larger than 0.
+
+714
+01:46:59.930 --> 01:47:04.760
+chuanwu: Okay, so what is the function looks like?
+
+715
+01:47:05.240 --> 01:47:07.880
+chuanwu: What is a function looking like?
+
+716
+01:47:08.070 --> 01:47:10.750
+chuanwu: reciprocal of… X.
+
+717
+01:47:11.300 --> 01:47:17.850
+chuanwu: So this is 1 over X, right? If you are minimizing… this function.
+
+718
+01:47:19.220 --> 01:47:25.710
+chuanwu: If I'm minimizing this function, what is the… optimal value.
+
+719
+01:47:27.590 --> 01:47:43.239
+chuanwu: zero, yes, because according to definition, so that should be the largest lower bound of all attainable value of objective function, so zero. Indeed, in that case, in this case, P star…
+
+720
+01:47:44.800 --> 01:47:46.420
+chuanwu: S. Bureau.
+
+721
+01:47:46.780 --> 01:47:48.310
+chuanwu: How about Axodar?
+
+722
+01:47:48.710 --> 01:47:50.380
+chuanwu: Do we have an X star?
+
+723
+01:47:51.200 --> 01:48:08.979
+chuanwu: No, we don't have, because when X goes to positive infinity, we are attending. We are approaching the largest lower bound of F dx, but we are never attending it. So in this case, we don't say we don't have an optimal point, but we do have an optimal value.
+
+724
+01:48:09.300 --> 01:48:12.279
+chuanwu: Okay, and then, negative lock.
+
+725
+01:48:19.040 --> 01:48:21.919
+chuanwu: So, native log is here, right?
+
+726
+01:48:22.120 --> 01:48:24.460
+chuanwu: So, do we have optimal value?
+
+727
+01:48:26.010 --> 01:48:28.130
+chuanwu: Do we have optimal value here?
+
+728
+01:48:28.770 --> 01:48:29.650
+chuanwu: Nope.
+
+729
+01:48:29.980 --> 01:48:32.849
+chuanwu: And do we have optimal point here?
+
+730
+01:48:33.800 --> 01:48:47.169
+chuanwu: No, we are not attending, right? Okay. No, no. The optimal value is negative infinity. Yeah, we do have… yeah, optimal value is considered to be negative infinity, but we don't have optimal point attending that.
+
+731
+01:48:47.830 --> 01:48:48.780
+chuanwu: Okay.
+
+732
+01:48:48.880 --> 01:48:52.899
+chuanwu: Alright, and then the X log X function.
+
+733
+01:48:55.860 --> 01:48:58.590
+chuanwu: So, X log, X function…
+
+734
+01:49:03.200 --> 01:49:08.940
+chuanwu: We enjoyed earlier, Its function curve is here.
+
+735
+01:49:18.310 --> 01:49:22.110
+chuanwu: It's a bit like a tick, so this is X log X.
+
+736
+01:49:22.330 --> 01:49:23.900
+chuanwu: All the X-Lock apps.
+
+737
+01:49:25.450 --> 01:49:27.479
+chuanwu: So, do we have optimal value?
+
+738
+01:49:31.210 --> 01:49:34.259
+chuanwu: Do we have an optimal value for a function in this form?
+
+739
+01:49:37.260 --> 01:49:43.809
+chuanwu: Yes. Yes. So the optimal value appears here. Okay, so that would be our P-stop.
+
+740
+01:49:44.160 --> 01:49:45.820
+chuanwu: We have optimal point.
+
+741
+01:49:46.160 --> 01:49:50.159
+chuanwu: Yes, so that X attending that will be our X star.
+
+742
+01:49:50.810 --> 01:49:51.760
+chuanwu: Okay.
+
+743
+01:49:52.150 --> 01:50:02.510
+chuanwu: So from the drawing, we can tell that. And how do we come up with detailed optimal value, optimal point values, optimal point and optimal value?
+
+744
+01:50:04.910 --> 01:50:11.460
+chuanwu: calculate the derivative, set it to zero, then you will come up with X star and P star, right? Okay.
+
+745
+01:50:11.740 --> 01:50:13.340
+chuanwu: Alright, okay.
+
+746
+01:50:14.080 --> 01:50:24.859
+chuanwu: So that's what I want to talk today, and I will stop here, and we'll continue, further discussions on Thursday. Okay, thank you.
+

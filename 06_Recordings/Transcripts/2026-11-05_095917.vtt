@@ -1,0 +1,2206 @@
+WEBVTT
+
+1
+00:01:42.380 --> 00:01:44.200
+Chuan Wu: All right, good morning, everyone.
+
+2
+00:01:44.340 --> 00:01:45.770
+Chuan Wu: Oh, it's good luck.
+
+3
+00:01:52.510 --> 00:01:57.059
+Chuan Wu: Okay, welcome to today's, optimization class. Let's get started.
+
+4
+00:01:58.260 --> 00:02:14.300
+Chuan Wu: We are now working on sub-gradient algorithm, and especially what is a subgradient? So subgradient can be considered as an extended notion from a notion of a gradient. So we know we can calculate the gradient if we are looking at a differentiable function.
+
+5
+00:02:14.300 --> 00:02:24.630
+Chuan Wu: And when we are looking at a non-differentiable function, or a function that is non-differentiable at some points in the domain, then we have the notion or concept of subgrid.
+
+6
+00:02:24.640 --> 00:02:40.210
+Chuan Wu: So essentially, sub-gredients need to satisfy the, inequality constraint, the inequality here, as you see the subgredient G appears in the position where gradient usually happens in the first order completion of, complex.
+
+7
+00:02:40.450 --> 00:03:03.079
+Chuan Wu: And, we have also been looking at the basic sub-gradient methods. So we are saying that the subgradient method is pretty much like the gradient descent methods we introduced for solid unconstrained differentiable convex program, and here we need to find the subgradient of the function at the current iterate, and then we do the update.
+
+8
+00:03:03.080 --> 00:03:13.929
+Chuan Wu: And in the update, we have step size, we have the direction, the direction is an active subgradient direction, and the step size is arba K. And we have pointed out
+
+9
+00:03:14.660 --> 00:03:32.149
+Chuan Wu: other than using the, backtracking line search, or using deadline search to find out the step size and step length, and here we have a few big provided category of step sizes that we can use. So those steps, we are going to look at why those step sizes are used as soon.
+
+10
+00:03:32.420 --> 00:03:46.560
+Chuan Wu: And we know the subgraduate master's is, is more generally applicable, so it's applicable to differentiable programs, and it's, also applicable to non-differentiable programs, and,
+
+11
+00:03:46.560 --> 00:04:01.280
+Chuan Wu: But the downside is, later we will see, on concrete examples, the convergence speed of a subgradient algorithm is much slower than the Newton's methods, Newton's, methods we have introduced earlier.
+
+12
+00:04:01.590 --> 00:04:13.519
+Chuan Wu: Okay, so we have been looking at four different step size rules. So the first is to use a constant step size, so we just alpha, a small constant to use in every step.
+
+13
+00:04:13.520 --> 00:04:32.030
+Chuan Wu: And the second is constant step less. And here, what we're doing is we are normalizing, constant gap by the current, less of the gradient vector, so L2 naught of the gradient vector, such that we know the distance between the two literates is a constant.
+
+14
+00:04:32.440 --> 00:04:50.430
+Chuan Wu: And the third and the fourth groups of step size rules are for looking at a sequence of step sizes. To create some sequence of step sizes that set in size per sellable but non-sellable, or non-sellable diminished. And we have been given a few comprehensive examples over there.
+
+15
+00:04:50.750 --> 00:05:01.800
+Chuan Wu: Okay, so why is those step size rules? So because, under those step size rules, people have been able to show that the subgradient algorithms converge.
+
+16
+00:05:01.800 --> 00:05:12.090
+Chuan Wu: too optimality, or too close neighborhood of optimality. So let's take a look, briefly look at the… what assumptions that convergence proof is making use of.
+
+17
+00:05:12.160 --> 00:05:25.249
+Chuan Wu: So, first of all, we assume, basically now we are still looking at the unconstrained program, okay, unconstrained optimization problem. No constraints, only objective function, the objective function may not be depreciable. Okay.
+
+18
+00:05:25.250 --> 00:05:39.099
+Chuan Wu: And we assume the infant of that objective function is a tenth, okay, not unbounded law, it's a tenth. It's a tenth that's an optimal point F star, and a tenth being the optimal value of F star.
+
+19
+00:05:39.430 --> 00:05:54.030
+Chuan Wu: And we also assume the gradient. Okay, so the gradient vector, the length, the magnitudes of the gradient and sub-gradient vectors are upper bounded as well. So we assume all the gradients of the object and function.
+
+20
+00:05:54.030 --> 00:06:03.340
+Chuan Wu: Okay, so remember this notion here represents sub-differential. Sub-differential is a set of subcredients of the function.
+
+21
+00:06:03.560 --> 00:06:18.510
+Chuan Wu: Okay, so the alphanore of the subgradients, all the subgradients, are afterbounded by PG. And we also assume the initial starting point, okay, initial starting point, X1 of the subgradient algorithm is not too bad.
+
+22
+00:06:18.770 --> 00:06:30.269
+Chuan Wu: So it is relatively close, it is, close to the, its distance to the actual optimal point is upper bounded, so it's not too far away. Okay.
+
+23
+00:06:30.670 --> 00:06:51.119
+Chuan Wu: All right, so other than these assumptions, we want to, we will show, using the step size bruises, the algorithm converge. And here, another definition is F-bar. So F-bar represents the best objective function value among all the iterates, that all the iterates, so far can have achieved.
+
+24
+00:06:51.120 --> 00:06:52.320
+Chuan Wu: Okay.
+
+25
+00:06:52.320 --> 00:07:10.279
+Chuan Wu: And we know the subgradient methods is not, not a descending method, so therefore, we need to keep track of the best points so far, and the best objective values so far. And eventually, when converges, will converge, we just use the best, XK and the best X bar.
+
+26
+00:07:11.320 --> 00:07:29.119
+Chuan Wu: Okay, convergence proof. So, actually, the detailed convergence proof is given in one of the sublimetary materials we already uploaded to Moodle, so it's one of the course materials from the Stanford, the relevant Stanford University course. And the major conclusion is here.
+
+27
+00:07:29.160 --> 00:07:45.679
+Chuan Wu: So the conclusion is the best optimal, the best objective value so far, minus F star. Suppose we know F star. Actually, you don't have to exactly know what F star is, you just know an estimate. So this is, this is afterbounded as a quantity here.
+
+28
+00:07:45.740 --> 00:07:52.500
+Chuan Wu: And later, I will also show you, actually, this is already an extended result. There is an intermediate step, okay?
+
+29
+00:07:52.960 --> 00:08:11.300
+Chuan Wu: All right, so based on that, we actually can show if we're using constant step size, like, using this RFAC in all steps, step sizes, the, F-bar we converge 2, the algorithm converge 2, is, away from optimal value by this much attempt.
+
+30
+00:08:11.950 --> 00:08:23.950
+Chuan Wu: So this is a constant. Okay, this is a constant. So what does that imply? It implies, even using constant step size, the sub-radiance algorithm converges to a suboptimality with this much depth.
+
+31
+00:08:24.350 --> 00:08:25.870
+Chuan Wu: Upper Bump, okay.
+
+32
+00:08:26.180 --> 00:08:27.070
+Chuan Wu: Okay.
+
+33
+00:08:27.740 --> 00:08:33.000
+Chuan Wu: And of course, if RFi is small enough, you can assume it's just a converges, okay?
+
+34
+00:08:33.299 --> 00:08:50.679
+Chuan Wu: And then, if we are using constant step length, beta gamma, okay, that is a distance between every two iterates, so our upper bound is here, so the subreddie algorithm will converge to suboptimality defined by G Gamma divided by 2.
+
+35
+00:08:50.960 --> 00:09:09.180
+Chuan Wu: And if we are using either one of the later two, convergent step size rules, like square sum of all, non-sumable diminishing step size rules, we are able to show the F-bar eventually converge to F-star.
+
+36
+00:09:09.600 --> 00:09:16.780
+Chuan Wu: Okay, so actually, in practice, in most cases, we use the third or fourth that says use, because
+
+37
+00:09:17.000 --> 00:09:23.149
+Chuan Wu: In theory, if you run the algorithm long enough, the algorithm will convert to true optimized.
+
+38
+00:09:23.570 --> 00:09:24.470
+Chuan Wu: Okay.
+
+39
+00:09:25.220 --> 00:09:27.640
+Chuan Wu: More details. Okay, so here.
+
+40
+00:09:27.740 --> 00:09:31.709
+Chuan Wu: The third and the force, the third and the force, step size first.
+
+41
+00:09:32.480 --> 00:09:45.130
+Chuan Wu: Okay, a bit more details why, why we converge to optimality, or converge to optimality by using different step sizes, so here are… here are what they are.
+
+42
+00:09:45.130 --> 00:09:59.840
+Chuan Wu: So this is the, result I was showing… I showed on the previous slide. So I said this is based on the proof of, convergence of separating algorithm included in the material… one of the materials we already uploaded to model.
+
+43
+00:09:59.990 --> 00:10:13.009
+Chuan Wu: Okay, so check out the upper bound. So basically, if you are doing constant step size, R5, the upper bound is here. So R is big R is constant, and big J constant.
+
+44
+00:10:13.010 --> 00:10:20.419
+Chuan Wu: K is a number of iterations, and arba is a constant, and we found out if K goes to infinity.
+
+45
+00:10:20.540 --> 00:10:25.309
+Chuan Wu: So basically, K in the numerator and denominator cancels, cancel.
+
+46
+00:10:25.430 --> 00:10:30.370
+Chuan Wu: And then, the result is indeed G squared alpha divided.
+
+47
+00:10:31.140 --> 00:10:39.210
+Chuan Wu: Okay, so this is for the constant step size rule. And, under the constant step length rule, our RFK is here.
+
+48
+00:10:39.390 --> 00:10:43.479
+Chuan Wu: And here would bring out an intermediate step from the convergence proof.
+
+49
+00:10:43.530 --> 00:10:59.700
+Chuan Wu: So in the convergence proof, what it showed is the best objective value so far, minus optimal objective value, is upper bounded here. And a further step is to loosen this bound to a bound similar to that.
+
+50
+00:10:59.910 --> 00:11:04.460
+Chuan Wu: Okay, so, but this is actually an intermediate step, that is, too.
+
+51
+00:11:04.710 --> 00:11:17.939
+Chuan Wu: Okay, using this in the middle step, upper bound, and plug in that R for K is gamma divided by outlaw of the gradient vector, so we are able to get, the right-hand side result.
+
+52
+00:11:35.330 --> 00:11:43.020
+Chuan Wu: Okay, and if you want to see a little bit more details, so the, Found is here.
+
+53
+00:11:46.460 --> 00:11:52.070
+Chuan Wu: ARPAI is glamor… BYD by June.
+
+54
+00:11:52.180 --> 00:11:55.400
+Chuan Wu: I… Quick.
+
+55
+00:11:56.740 --> 00:11:59.950
+Chuan Wu: I, squared, square, square.
+
+56
+00:12:00.350 --> 00:12:01.150
+Chuan Wu: Excellent.
+
+57
+00:12:01.420 --> 00:12:03.090
+Chuan Wu: 85.
+
+58
+00:12:06.230 --> 00:12:17.690
+Chuan Wu: Okay, so that is in the numerator, and in the denominator, what we have is Stop eyes… our behaviors.
+
+59
+00:12:23.340 --> 00:12:24.280
+Chuan Wu: Okay.
+
+60
+00:12:26.470 --> 00:12:32.460
+Chuan Wu: Alright, and then… And so, and so… Ed?
+
+61
+00:12:36.000 --> 00:12:43.760
+Chuan Wu: Here we have, pay times. Okay, so here we have pay times gamma squared.
+
+62
+00:12:43.920 --> 00:12:48.429
+Chuan Wu: And in the denominator, we replace this by the iron value G.
+
+63
+00:12:49.200 --> 00:12:50.330
+Chuan Wu: And then…
+
+64
+00:12:53.830 --> 00:13:05.360
+Chuan Wu: Here we have k times as well. So basically, eventually, we come up with 2 times gamma k, and there is a G, and in the numerator, we have k times R to the split.
+
+65
+00:13:06.000 --> 00:13:06.760
+Chuan Wu: Yep.
+
+66
+00:13:07.370 --> 00:13:09.839
+Chuan Wu: So that's how we derive, yeah.
+
+67
+00:13:10.460 --> 00:13:11.960
+Chuan Wu: upper bound here.
+
+68
+00:13:12.290 --> 00:13:25.199
+Chuan Wu: Okay, and we see when k goes to infinity, the first entry R squared is gamma, and then k cancels, and the right-hand side becomes exactly G times gamma divided by 2.
+
+69
+00:13:25.560 --> 00:13:27.870
+Chuan Wu: Okay, so that is how we are.
+
+70
+00:13:28.040 --> 00:13:31.439
+Chuan Wu: Convergence upper bound of, yielding
+
+71
+00:13:37.170 --> 00:13:40.560
+Chuan Wu: Of using a constant step less is obtained.
+
+72
+00:13:46.080 --> 00:13:50.640
+Chuan Wu: Okay, and then the, later tool sets of,
+
+73
+00:13:50.790 --> 00:14:06.280
+Chuan Wu: step size rules, square summable, non-summable, and so on. Let's check out the square sumable and non-summable step size sequences. So, as said, this tool has expressed that sequence… step size sequences is
+
+74
+00:14:06.590 --> 00:14:14.019
+Chuan Wu: Summable? A square sumable, but non-submable. Okay. And then, check out the right-hand side of the bound.
+
+75
+00:14:14.160 --> 00:14:19.169
+Chuan Wu: at, when k goes to infinity, the numerator.
+
+76
+00:14:19.430 --> 00:14:30.510
+Chuan Wu: converges to a finite number, according to the first condition, and the denominator converges to infinity. So therefore, the right-hand side converges to zero.
+
+77
+00:14:30.900 --> 00:14:34.629
+Chuan Wu: Meaning, we indeed convertible automatically.
+
+78
+00:14:36.860 --> 00:14:43.310
+Chuan Wu: And similarly for the last, the fourth step size rule, now some of our diminishing staff sizes.
+
+79
+00:14:43.340 --> 00:14:59.360
+Chuan Wu: And, we do some, conversion, assuming alpha K equals gamma K divided by autonom of the subredient vector, and the gamma K in the numerator is non-submable, convergence, converging to zero.
+
+80
+00:14:59.360 --> 00:15:05.849
+Chuan Wu: So this is still conforming to the definition of this non-servability management in step size secrets.
+
+81
+00:15:06.130 --> 00:15:11.370
+Chuan Wu: And then, what we get is here, Seoul, India.
+
+82
+00:15:11.480 --> 00:15:14.450
+Chuan Wu: Numerator.
+
+83
+00:15:20.500 --> 00:15:29.950
+Chuan Wu: Yeah, so you can plug in, alpha i equal gamma i, divided by all to norm of GI, and then eventually the, numerator.
+
+84
+00:15:29.980 --> 00:15:47.309
+Chuan Wu: We have gamma i squared, and in the denominator, we return 2 times some alpha i, and then we further replace alpha i by gamma i divided by G. Okay, big G. G is the upper bound of L to norm of this upgrading vector.
+
+85
+00:15:47.310 --> 00:15:57.390
+Chuan Wu: And then, at this time, we are able to show the, The, the bound here.
+
+86
+00:15:57.670 --> 00:15:58.630
+Chuan Wu: a gift?
+
+87
+00:16:00.210 --> 00:16:08.080
+Chuan Wu: converges to zero, because the step size sequence, is, non-summable by the evaluation.
+
+88
+00:17:24.000 --> 00:17:27.220
+Chuan Wu: Okay, and Zelle, the,
+
+89
+00:17:27.599 --> 00:17:38.519
+Chuan Wu: So just now, we were showing, under the four sets of, step size rules, we converge to either neighborhood or optimality, or exactly to optimality, 1K is large enough.
+
+90
+00:17:38.550 --> 00:17:54.790
+Chuan Wu: And actually, the upper bound we were using in analyzing why the different step size rules may convert into convergence or converge to optimality neighborhood, and that upper bound is also useful to serve as stopping criteria of our subredient algorithm.
+
+91
+00:17:54.790 --> 00:18:06.499
+Chuan Wu: So basically, we check out the quantity, this upper bound here, so if the upper bound is small enough on the appreciation epsilon, then we just stop the algorithm. Okay.
+
+92
+00:18:06.800 --> 00:18:15.780
+Chuan Wu: And, actually, from examples, we are going to show, we will find out the convergence of self-reading algorithms take very long.
+
+93
+00:18:15.930 --> 00:18:25.109
+Chuan Wu: Okay, it may take much longer, like, using thousands of K, thousands of iterations, than the, previous, all the previous algorithms we have showed.
+
+94
+00:18:25.110 --> 00:18:36.550
+Chuan Wu: Okay, let's check out the convergence using a concrete example. So the concrete example, the objective function, is a piecewise maximization of a number of alpha functions.
+
+95
+00:18:36.560 --> 00:18:54.400
+Chuan Wu: So we know piecewise maximization of the number of alpha functions gives us a convex function, so therefore, FX is a convex function, and we are minimizing the convex function, in this optimization problem. And on this, piecewise linear, piecewise,
+
+96
+00:18:56.620 --> 00:19:04.780
+Chuan Wu: Function FX is not differentiable everywhere, so because it has a few sharp points, An example here.
+
+97
+00:19:05.590 --> 00:19:13.150
+Chuan Wu: Okay, suppose we have 3 alpha functions, and then FX is the F, taking the higher end.
+
+98
+00:19:13.330 --> 00:19:14.880
+Chuan Wu: curve everywhere.
+
+99
+00:19:17.340 --> 00:19:19.379
+Chuan Wu: So that's our FX.
+
+100
+00:19:21.780 --> 00:19:23.440
+Chuan Wu: Okay. And?
+
+101
+00:19:23.700 --> 00:19:30.830
+Chuan Wu: For each of the three, so here, like, the first Why? We have…
+
+102
+00:19:32.760 --> 00:19:38.080
+Chuan Wu: Suppose this is the, rep… this alphan function corresponds to the, first…
+
+103
+00:19:38.290 --> 00:19:46.350
+Chuan Wu: line, and the second line is, A2, X plus B2, and the third one is A3.
+
+104
+00:19:47.580 --> 00:19:48.690
+Chuan Wu: easily.
+
+105
+00:19:49.460 --> 00:19:54.930
+Chuan Wu: Okay, and in order to run sub-gradient algorithms on minimizing FX,
+
+106
+00:19:55.110 --> 00:20:01.920
+Chuan Wu: What we mainly need is to find out the gradient of the assumption of X at every point. Okay.
+
+107
+00:20:02.060 --> 00:20:04.800
+Chuan Wu: For all the points.
+
+108
+00:20:05.430 --> 00:20:15.199
+Chuan Wu: along the segment belonging to A1 in the product X plus B1. The subgradient is actually A1.
+
+109
+00:20:16.150 --> 00:20:31.679
+Chuan Wu: The gradient is A1, and the sub-gradient is A1 as well, because for this segment, not including the intersection point, it's a smooth convex function. So smooth convex function, dimensional convex function, gradient is exactly the sub-gradient, unique subgradient.
+
+110
+00:20:32.560 --> 00:20:43.199
+Chuan Wu: Okay, and similarly, for the second segment, the sub-gradient is A2, and along the third segment, the sub-gradient is A3.
+
+111
+00:20:43.500 --> 00:20:47.539
+Chuan Wu: So what is likely tricky is, intersection point.
+
+112
+00:20:47.790 --> 00:20:55.610
+Chuan Wu: So at the intersection point, there are sharp points for function fx, and we know its subredient is a range.
+
+113
+00:20:57.210 --> 00:21:03.889
+Chuan Wu: So it has many sub-gradients, because it has many supporting hyperplions at the point.
+
+114
+00:21:04.080 --> 00:21:16.160
+Chuan Wu: Okay, but no matter what, the subgradient or subgradient of the two in the section line are subgradients of function f x at the point, also.
+
+115
+00:21:16.640 --> 00:21:33.600
+Chuan Wu: Right? And there are also many others. Okay, so, like, at this point, A1 is a subgradient, and A2 is a subgradient, and including many others. And at this point, A2 is a subgradient, and A3 is a subgradient, as well as many others.
+
+116
+00:21:33.940 --> 00:21:51.490
+Chuan Wu: Okay, so therefore, in running sub-gradient algorithm, when we actually have many subgradients, so it's your call, you just repeat any subgradient at any point. Okay, of course, when you are choosing different sub-gradient, the algorithm convergence may change.
+
+117
+00:21:51.640 --> 00:22:10.999
+Chuan Wu: Okay, but there is no general theory on how to choose the best subgradient among a sub-differential set, so you just choose any that we need to implement. That is also one of the reasons why the sub-gradient algorithm may not be descending among all steps.
+
+118
+00:22:11.040 --> 00:22:23.570
+Chuan Wu: Because at some step, the sub-regional truth may not be good enough, may not need to increase the decrease of the objective function. Okay, but in general, the longer term of the algorithm, the trend is still descending.
+
+119
+00:22:23.670 --> 00:22:24.550
+Chuan Wu: Okay.
+
+120
+00:22:25.320 --> 00:22:39.240
+Chuan Wu: All right, so therefore, so our subredient that we use, in this example is here. We just found out the, index j, or the… one of the alpha functions.
+
+121
+00:22:39.240 --> 00:22:50.410
+Chuan Wu: which achieves largest AI in the Protect X plus BJ, among all the intersection points over there. And we use its,
+
+122
+00:22:50.470 --> 00:22:54.459
+Chuan Wu: AJ to feed the sub-gradient at that point.
+
+123
+00:22:55.550 --> 00:22:56.500
+Chuan Wu: Okay.
+
+124
+00:22:57.640 --> 00:22:58.620
+Chuan Wu: All right.
+
+125
+00:23:05.810 --> 00:23:23.229
+Chuan Wu: Okay, and back to the example here, say this is the intersection point of two F on functions at this point on function FX, so actually you can either choose A to F, A3, because they achieve the same A2 square on F, A2 interpret X plus B2, because
+
+126
+00:23:23.230 --> 00:23:32.529
+Chuan Wu: A2 inner product X plus B2 equals B3, inner product X plus B3 at this point. And I just choose any one of them, either one of them.
+
+127
+00:23:36.160 --> 00:23:52.609
+Chuan Wu: Okay, and then our subgradient methods. So, it's a very simple update formula, and we choose the step size alpha K, and our grid subgradient is KJ, and remember, we are actually updating a lot of negative directions of the subgradient vector.
+
+128
+00:23:57.340 --> 00:24:01.289
+Chuan Wu: Alright, and then let's check out the comprehensive instance.
+
+129
+00:24:01.290 --> 00:24:17.720
+Chuan Wu: So, say, in a concurrent problem instance, we have, XN, N is, n is, 20. So basically, X is a 20-dimensional variable vector, and we have, 100, different other functions in a piecewise maximization.
+
+130
+00:24:17.880 --> 00:24:23.010
+Chuan Wu: And, we show the result, convergence result, when we are doing constant step less.
+
+131
+00:24:23.010 --> 00:24:44.790
+Chuan Wu: And we can choose different data in the constant step-lines step size rule, and here is the result. So similarly, horizontal axis represents the number of iterations the algorithms run, and vertical axis represents convergence, and here we just pick the best of the objective value so far, minus F star. Suppose we know what F star is, the basic value.
+
+132
+00:24:45.400 --> 00:24:56.770
+Chuan Wu: Okay, what we can observe is when gamma is smaller, okay, when gamma is smaller, and eventually we can be closer to optimality.
+
+133
+00:24:56.770 --> 00:25:14.020
+Chuan Wu: So this is consistent with the result. We know we have convergence to G, gamma divided by 2 suboptomatically, right? But when gamma is smaller, the convergence is slower as well. So you see the blue curve is pretty much beyond the curve, although it keeps going down.
+
+134
+00:25:14.260 --> 00:25:17.210
+Chuan Wu: Okay, in earlier steps, it's beyond the other curve.
+
+135
+00:25:17.560 --> 00:25:33.929
+Chuan Wu: And on the other hand, if we use either one of the third and fourth step size rules, like the meditation step size, square sum of Bonsai rules, step size is, and here are the results, and we… the algorithm keeps going down, okay, the performance… the gap.
+
+136
+00:25:33.930 --> 00:25:40.749
+Chuan Wu: from automatic, it keeps going down, and… but it takes very long. So check out the magnetules of K.
+
+137
+00:25:40.750 --> 00:25:52.280
+Chuan Wu: Along the horizontal axis. So here we are looking at thousands of iterations. Okay, thousands of iterations. Yeah, so that is the rough magnitude of the gradient algorithm.
+
+138
+00:25:52.400 --> 00:25:59.559
+Chuan Wu: So remember, in all the converges curve we showed earlier in the course, usually k is at the magnitudes of few tenths.
+
+139
+00:26:00.050 --> 00:26:02.730
+Chuan Wu: Oh, and here we are talking about solvents.
+
+140
+00:26:03.110 --> 00:26:13.910
+Chuan Wu: Okay, so that's a general phenomenon for subcreating algorithm. Also, it is generally applicable, but its performance is not very good, or takes very long.
+
+141
+00:26:14.040 --> 00:26:15.340
+Chuan Wu: to a convert you.
+
+142
+00:26:16.600 --> 00:26:17.550
+Chuan Wu: Okay.
+
+143
+00:26:19.230 --> 00:26:38.239
+Chuan Wu: All right, so just now, what we were introducing are fundamentals of subgradient methods, and the algorithm we were… we looked at is working on an unconstrained convex program. And here, let's extend the notion, and we look at a constraint problem.
+
+144
+00:26:38.240 --> 00:26:46.889
+Chuan Wu: And, essentially, we're minimizing a convex objective function, which is not necessarily differentiable, and then we check out a number of constraints.
+
+145
+00:26:46.890 --> 00:27:03.620
+Chuan Wu: And we, suppose we don't explicitly list out what are the constraints, we just assume all the constraints render a feasibility set C. Okay, we just use X belong to C represent X as constraints. There are a number of equality and inequality constraints.
+
+146
+00:27:04.140 --> 00:27:10.369
+Chuan Wu: And, C is a correct set, because what we are looking at is still a convex program.
+
+147
+00:27:10.880 --> 00:27:25.009
+Chuan Wu: Okay, and then there are different branches of subgrad methods that researchers have proposed that can tackle the constraint complex program optimization. One category is called projected sub-radient methods.
+
+148
+00:27:25.010 --> 00:27:37.449
+Chuan Wu: It includes, two camps of methods. One is projected subgradian methods working directly on the primal problem, and the other is projected subgradian methods working on the newer problem.
+
+149
+00:27:37.700 --> 00:27:51.599
+Chuan Wu: And then there is another type of subgradient method, which I just called subgradient method for constraint optimization. So we are going to briefly look at each one of these sub-gradient methods that we can apply to tackle constraint complex rule.
+
+150
+00:27:51.890 --> 00:28:01.760
+Chuan Wu: And the first method, is, called projected subgradient method, working directly out of the problem. Okay, and,
+
+151
+00:28:01.830 --> 00:28:12.769
+Chuan Wu: The, essentially, the, this is, core, the very core update formula in such a projected sub-gradient methods for primal properties.
+
+152
+00:28:12.850 --> 00:28:32.689
+Chuan Wu: And it is still pretty in a pretty neat, manner. Here, the core is here. So here, XK minus R for KGK, so it's still the primal iterate update formula, like what we saw in earlier sub-radiant method, working on unconstrued pro… program.
+
+153
+00:28:32.690 --> 00:28:43.370
+Chuan Wu: And what is different is here. So after updating the iterate, using the step size along the negative gradient direction, we further apply a projection
+
+154
+00:28:43.630 --> 00:28:58.999
+Chuan Wu: So we have the projection P as a function, but often, when working on a projection, there is another optimization problem that is involved. And the projection is so-called Euclidean projection onto the feasibility set C.
+
+155
+00:28:59.700 --> 00:29:14.560
+Chuan Wu: Okay, and the purpose is apparent. So basically, here we are looking at a constraint optimization, and after this update, it's possible the updated quantity here no longer belongs to the feasibility set.
+
+156
+00:29:14.840 --> 00:29:28.860
+Chuan Wu: And then we need to project it back to the field set, and come up with the next iterate, and make sure the next iterate satisfies all the constraints as well. So that is a core rationale behind, but still, it's pretty intuitive.
+
+157
+00:29:29.190 --> 00:29:41.529
+Chuan Wu: Okay, and the subredient we're using in here is, again, the subredient of the objective function evaluated at the current iterate XK. Okay, so the only difference lies in peak, the projection.
+
+158
+00:29:41.690 --> 00:29:50.679
+Chuan Wu: And, the Euclidean projection is to try to find out the closest, point in ZC, closest to the
+
+159
+00:29:50.820 --> 00:29:51.980
+Chuan Wu: point here.
+
+160
+00:29:52.630 --> 00:30:04.249
+Chuan Wu: Okay, and, process is evaluated in terms of Euclidean distance, and the Euclidean distance is evaluated using alto norm of the vector, difference vector. Okay.
+
+161
+00:30:04.370 --> 00:30:25.559
+Chuan Wu: And we will see a complete example how this projection is done, but first, let's put this major update formula into the context of subgridian algorithm, and check it on this so-called projected subparidian method for primal prop. So in the algorithm sketch, we start with a starting point, X1. So X1,
+
+162
+00:30:25.810 --> 00:30:42.140
+Chuan Wu: And then we, X1 should belong to the domain of the objective function, and then we try to find out… and we don't require X1 to be belonging to the feasibility set C yet, because anyway, later on, after update, we are going to project it back to the feasibility set.
+
+163
+00:30:42.380 --> 00:30:49.740
+Chuan Wu: Okay, and then at every iteration, we find out the subgradient objective function at the current iterate.
+
+164
+00:30:49.740 --> 00:31:05.520
+Chuan Wu: We choose a step size by following one of the step size through this roof, and then we do the update. So the update is we first update XP using step size using the negative sub-gradient direction, and then this is a new point.
+
+165
+00:31:05.520 --> 00:31:10.240
+Chuan Wu: And then we project the new point back into the validity set, see?
+
+166
+00:31:10.240 --> 00:31:16.600
+Chuan Wu: And then until stopping criteria is satisfied. So stopping criteria is like what we showed at the upper bound.
+
+167
+00:31:17.060 --> 00:31:22.630
+Chuan Wu: Okay, and then how the eucalyptium projection is done, so let's check it out.
+
+168
+00:31:22.630 --> 00:31:46.539
+Chuan Wu: So basically, X. Suppose this X is, our parameter in projection function, so that means X is the after-update iterate value before projection, after update, before projection iterate value, and then we try to find out a point X in the feasibility set C, such that the Euclidean distance between the two points is the smallest.
+
+169
+00:31:46.800 --> 00:31:52.339
+Chuan Wu: And then that point X is called the Euclidean projection of point X in ZC.
+
+170
+00:31:53.400 --> 00:31:58.630
+Chuan Wu: Okay, and then how we do that? So, essentially, this is,
+
+171
+00:31:59.270 --> 00:32:02.729
+Chuan Wu: This is a pretty much,
+
+172
+00:32:03.650 --> 00:32:18.509
+Chuan Wu: We can use a concrete example to show how this projection is found, this projection minimization problem is resolved. So consider our original primal problem that's in the form here. We are minimizing objective function FX, some kind of complex
+
+173
+00:32:18.510 --> 00:32:28.020
+Chuan Wu: possibly non-differentiable convex objective function, and then we have our constraints. And the constraints we are considering now are a set of affine equality constraints.
+
+174
+00:32:28.040 --> 00:32:34.920
+Chuan Wu: And essentially, our set C is decided by AX equaling B. So AX equaling B decides set C.
+
+175
+00:32:35.680 --> 00:32:48.650
+Chuan Wu: And then, our projection can be done, and we will show how we derive the projection formula here. Projection function is derived here, according to the concrete form of the set C.
+
+176
+00:32:48.770 --> 00:32:50.050
+Chuan Wu: In our problem.
+
+177
+00:32:54.980 --> 00:33:02.069
+Chuan Wu: The projection problem itself is a minimization problem that we can formulate here.
+
+178
+00:33:11.120 --> 00:33:14.580
+Chuan Wu: Okay, you lean deep, so because here, we try to…
+
+179
+00:33:15.080 --> 00:33:20.040
+Chuan Wu: projected point V onto the feasibility set, so I just use V.
+
+180
+00:33:20.150 --> 00:33:21.590
+Chuan Wu: In the formula.
+
+181
+00:33:23.030 --> 00:33:26.329
+Chuan Wu: In the, projection minimization problem here.
+
+182
+00:33:33.030 --> 00:33:40.410
+Chuan Wu: Okay, so this is our Euclidean projection problem. So point Z is given. What we try to find out is a point S.
+
+183
+00:33:41.400 --> 00:33:52.129
+Chuan Wu: And S belongs to set C, and the set C in our concrete problem instance here is the constraint is decided by constraint AX equaling B. That means AS equating B.
+
+184
+00:33:52.620 --> 00:34:04.049
+Chuan Wu: It's equating B. Okay, all right. And then, what type of problem this is? So this is, essentially a least squares problem.
+
+185
+00:34:04.220 --> 00:34:12.500
+Chuan Wu: Right? This square, if we do the square there, so it's a least squares problem. Constraint, I find constraint, this squares problem.
+
+186
+00:34:12.570 --> 00:34:25.870
+Chuan Wu: Okay, and we have been looking at different variations of a similar problem before, and we know there are some solution techniques, and one major solution technique is we try to,
+
+187
+00:34:26.639 --> 00:34:28.900
+Chuan Wu: To a verbal substitution.
+
+188
+00:34:29.639 --> 00:34:33.779
+Chuan Wu: Let's assume Y equals Z minus S.
+
+189
+00:34:33.889 --> 00:34:44.509
+Chuan Wu: Then, the problem becomes… minimize, well, Y, L to norm, subject to A, Z plus Y.
+
+190
+00:34:46.989 --> 00:34:48.780
+Chuan Wu: Equating B.
+
+191
+00:34:49.880 --> 00:34:50.830
+Chuan Wu: Okay.
+
+192
+00:34:51.230 --> 00:34:55.900
+Chuan Wu: And then… We have… A Y?
+
+193
+00:34:56.159 --> 00:34:57.380
+Chuan Wu: Equating.
+
+194
+00:34:57.600 --> 00:35:00.030
+Chuan Wu: Phase Z minus B.
+
+195
+00:35:04.610 --> 00:35:05.480
+Chuan Wu: M?
+
+196
+00:35:05.700 --> 00:35:22.800
+Chuan Wu: We actually can make use of duality to solve it. Okay, consider this is a least square problem, because we have seen a similar problem before, so you call it a constraint, and, we call it a constraint, and, a laser square problem. We can use duality to solve it exactly, actually.
+
+197
+00:35:22.800 --> 00:35:31.050
+Chuan Wu: We can derive a Lagrange duo, and then we can come up with, the Durer at the optimal form solution.
+
+198
+00:35:31.150 --> 00:35:42.610
+Chuan Wu: Okay, I'm not going to repeat that. If you want to figure out, please do try it out. But eventually, we are able to find out a Y's closed form here.
+
+199
+00:35:53.500 --> 00:36:01.399
+Chuan Wu: Okay, so at least you can verify. If you subsid plug in Y's concrete formula into the equality, you found it holds.
+
+200
+00:36:02.930 --> 00:36:08.640
+Chuan Wu: At least you can verify that, but how to derive why make use of duality, okay, primal view.
+
+201
+00:36:09.010 --> 00:36:10.030
+Chuan Wu: That's it.
+
+202
+00:36:11.190 --> 00:36:17.690
+Chuan Wu: Okay, alright, the 1Y is that point…
+
+203
+00:36:23.600 --> 00:36:27.749
+Chuan Wu: What we further can derive is what we want is actually S.
+
+204
+00:36:28.110 --> 00:36:32.510
+Chuan Wu: So, S is D, S, equals…
+
+205
+00:36:40.060 --> 00:36:41.630
+Chuan Wu: B minus what?
+
+206
+00:36:50.390 --> 00:36:53.770
+Chuan Wu: Okay, so S is a projection point, but even Z.
+
+207
+00:36:54.260 --> 00:36:57.309
+Chuan Wu: Okay, and that is exactly the formula here.
+
+208
+00:36:57.720 --> 00:37:04.999
+Chuan Wu: That is exactly the projection formula here. D after projection, the point is, presented here.
+
+209
+00:37:05.240 --> 00:37:14.500
+Chuan Wu: And if we further reorganize the terms, and organize all terms related to Z together here, so the first term is related to Z, and the second term is not.
+
+210
+00:37:15.620 --> 00:37:16.490
+Chuan Wu: Okay.
+
+211
+00:37:20.610 --> 00:37:28.450
+Chuan Wu: And then the projected sub-gradient update, that plugged in the concrete, formula PG, is here.
+
+212
+00:37:28.570 --> 00:37:40.039
+Chuan Wu: Essentially, this is our point D, and in the… we replace this in the place of D into the PD formula, and then we come up with the updated formula here.
+
+213
+00:37:41.870 --> 00:37:42.750
+Chuan Wu: Okay.
+
+214
+00:37:42.910 --> 00:37:45.940
+Chuan Wu: And this can be directly used.
+
+215
+00:37:48.120 --> 00:37:56.269
+Chuan Wu: So this can be directly used in our update, see that of the projected subgradient methods of practice problem.
+
+216
+00:37:58.400 --> 00:37:59.310
+Chuan Wu: Okay.
+
+217
+00:37:59.370 --> 00:38:18.620
+Chuan Wu: And of course, if your, if your organization problem to solve using this sub-Bradient method problem is different, you'll still have a different set of constraints, then the concrete form of projected formula will be different. But no matter what, over there, there is always a
+
+218
+00:38:18.720 --> 00:38:32.929
+Chuan Wu: Mineralization problem involved, and depending on how you solve the… how you solve the projection optimization problem, you can either come up with close one formula, or probably you need a numerical algorithm there for the projection step.
+
+219
+00:38:33.860 --> 00:38:34.690
+Chuan Wu: Okay.
+
+220
+00:38:40.910 --> 00:38:41.950
+Chuan Wu: All right.
+
+221
+00:38:41.980 --> 00:38:58.600
+Chuan Wu: And for this, projected subgradient methods working on a primal problem, it's convergence results, as soon as what we showed earlier today. So the convergence result we discussed at the beginning of today's lecture is based on unconstrained optimization problem.
+
+222
+00:38:58.600 --> 00:39:07.169
+Chuan Wu: But here, for constraint evaluation problem, even including this projected subgrade investors working on a primal problem, the same convergendary results holds.
+
+223
+00:39:07.460 --> 00:39:16.340
+Chuan Wu: Here. So basically, if we are using constant step size, constant step length, then pretty much we're converging to a neighborhood of optimality.
+
+224
+00:39:16.480 --> 00:39:27.659
+Chuan Wu: And, if a unit diminishing, non-summable step size, or square summable, non-summable step size sequences, then the algorithm will converge to optimality.
+
+225
+00:39:28.140 --> 00:39:30.470
+Chuan Wu: The, core rationale is here.
+
+226
+00:39:30.590 --> 00:39:41.790
+Chuan Wu: The, projected subgradient masters working on the primal problem, as you can see, the sketch are pretty close to the, fundamental subgradient masters working on unconstrained optimization problem.
+
+227
+00:39:41.790 --> 00:39:51.740
+Chuan Wu: And the only step is we add a projection, projection back into the feasibility set. And this projection doesn't increase the distance to X dot.
+
+228
+00:39:52.230 --> 00:40:09.679
+Chuan Wu: Okay, by adding the projection P function, by applying the projection function P, that doesn't increase the distance to X star. So that's why the convergence results, we analyzed the four unconstrained optimization problems, still hold here, when we have a constraint set.
+
+229
+00:40:10.120 --> 00:40:16.569
+Chuan Wu: And when we use projection to project the updated iterate back onto the data value standard.
+
+230
+00:40:17.870 --> 00:40:18.940
+Chuan Wu: Okay.
+
+231
+00:40:23.120 --> 00:40:41.039
+Chuan Wu: And, for the example, okay, so let's check out this, linear equality constraint optimization problem. The objective function is a convex function, okay, XL2 norm of vector X. It's a convex function, but it's not differentiable everywhere.
+
+232
+00:40:41.040 --> 00:40:44.649
+Chuan Wu: Right, so remember the function curve is sharp, there is a sharp point.
+
+233
+00:40:44.650 --> 00:41:04.020
+Chuan Wu: Okay, and therefore, our Newton-based algorithm cannot be applied here, because the objective function is not differentiable everywhere, and we need our subgrade ambassadors. And if we use our projected subgrade ambassadors working on a primal problem, let's see what the detailed,
+
+234
+00:41:04.020 --> 00:41:05.789
+Chuan Wu: a bit formula is like.
+
+235
+00:41:05.800 --> 00:41:13.069
+Chuan Wu: So, first of all, in update formula, we need a gradient. Okay, we need a sub-gradient of the objective at every point.
+
+236
+00:41:13.190 --> 00:41:24.719
+Chuan Wu: Okay, and what we use as a subgradient is a sign of the vector X. Okay, so why we use this… why the sine of the vector X is our subgradient?
+
+237
+00:41:25.360 --> 00:41:26.230
+Chuan Wu: Here.
+
+238
+00:41:52.510 --> 00:42:06.400
+Chuan Wu: In our special case, if X is just a one-dimensional vector, then the ln of X is just the X absolute value, right? So X absolute value, what does a function curve look like?
+
+239
+00:42:10.810 --> 00:42:21.820
+Chuan Wu: So that is X absolute value, right? And what is the, subgradient of the function? Okay, so for the, subgradient of the function.
+
+240
+00:42:22.060 --> 00:42:30.939
+Chuan Wu: Along this part of the function curve, the subgradient or gradient value is exactly negative 1, right?
+
+241
+00:42:31.090 --> 00:42:38.990
+Chuan Wu: And then, along the right-hand side, half of function curve, the sub-gradient or gradient value is exactly what? Positive 1.
+
+242
+00:42:39.430 --> 00:42:46.810
+Chuan Wu: And of course, this is a sharp point, and it's, gradient ranges, sub-gradient ranges between vector 1 and 1.
+
+243
+00:42:47.980 --> 00:42:48.910
+Chuan Wu: Okay.
+
+244
+00:42:49.100 --> 00:42:54.779
+Chuan Wu: All right, F, the, we can just tell in this,
+
+245
+00:42:55.380 --> 00:43:00.160
+Chuan Wu: Scalar case, scalar variable case, the subgregate of, the,
+
+246
+00:43:00.770 --> 00:43:04.970
+Chuan Wu: function x absolute value is indeed the sine of X.
+
+247
+00:43:05.120 --> 00:43:15.510
+Chuan Wu: Right? So when X is negative, the subgradient is negative 1, the sign is negative 1. And when X is positive, the sine of X is positive 1.
+
+248
+00:43:16.110 --> 00:43:24.219
+Chuan Wu: Right. And of course, here, at this point, you just pick any metal to denote the either negative 1 or 1 to denote the sign. It's fine.
+
+249
+00:43:24.470 --> 00:43:25.370
+Chuan Wu: Okay.
+
+250
+00:43:25.590 --> 00:43:39.520
+Chuan Wu: All right, so this, idea extends to a higher dimensional variable, X. Okay, so for when X is higher of higher dimension, the sine of X is the sign of every component in X.
+
+251
+00:43:40.120 --> 00:43:48.920
+Chuan Wu: So, essentially, Here. So, if X… Is the vector here.
+
+252
+00:43:50.240 --> 00:43:55.219
+Chuan Wu: So what is the sine? So the sine divides a gradient vector.
+
+253
+00:43:55.390 --> 00:44:00.669
+Chuan Wu: Which is positive 1, positive 1, and negative 1. So this is our subreddant factor.
+
+254
+00:44:00.900 --> 00:44:02.859
+Chuan Wu: for the vector X there.
+
+255
+00:44:03.820 --> 00:44:06.660
+Chuan Wu: Okay, and… Yes.
+
+256
+00:44:07.230 --> 00:44:25.399
+Chuan Wu: Okay, so that is the sub-gradient, and then using that subgradient, we plug it in into the projection formula. So check out the, constraints. The constraints are the, general set of alpha equality constraints, the same as in our, analyzed example there.
+
+257
+00:44:25.400 --> 00:44:30.959
+Chuan Wu: So therefore, what we need is just to plug in tag in.
+
+258
+00:44:32.200 --> 00:44:39.999
+Chuan Wu: sine of XK, to be the gradient vector in the formula here. Okay, and then we have our update.
+
+259
+00:44:47.940 --> 00:44:58.949
+Chuan Wu: All right, so here we check out the convergence curve, and here what we choose is, diminishing. Now, some of our diminishing stem size.
+
+260
+00:44:58.970 --> 00:45:12.020
+Chuan Wu: And then, here we consider an instance where we have 1,000 variables, so X is a 1000 dimensional vector, and 50 equality constraints in the constraint set.
+
+261
+00:45:12.160 --> 00:45:14.309
+Chuan Wu: And convergence looks like this.
+
+262
+00:45:14.460 --> 00:45:19.699
+Chuan Wu: So again, it takes thousands of iterations to converge, but it does…
+
+263
+00:45:19.900 --> 00:45:24.899
+Chuan Wu: goes down, the curve keeps going down, okay, meaning converging to an automatic.
+
+264
+00:45:26.640 --> 00:45:27.730
+Chuan Wu: Okay.
+
+265
+00:45:53.800 --> 00:46:04.729
+Chuan Wu: All right, and then, moving on, just now we check out a simple, separate DMSS working on… directly on the constraint primal problem.
+
+266
+00:46:04.730 --> 00:46:20.390
+Chuan Wu: And then, the next, we work on another branch of Socradian algorithm design, which are called projected Socherian answers working on the dual problem. And then, you know, when we work on the dual problem, of course, Lagrangian-Lagrangian-DOR derivation would be involved.
+
+267
+00:46:20.560 --> 00:46:44.289
+Chuan Wu: And now let's check out, validation in the general form here. We are minimizing COMEX objective, possibly non-differentiable, and subject to a number of inequality constraints. And all the functions involved are convex, but possibly not differentiable everywhere. And we assume Slater's condition hold, meaning we can find out a strictly featable solution X,
+
+268
+00:46:44.290 --> 00:46:47.819
+Chuan Wu: Satisfying all the, inequality constraints.
+
+269
+00:46:48.480 --> 00:46:51.869
+Chuan Wu: So why we need to assume Slater's Malaysian hopes?
+
+270
+00:46:51.960 --> 00:47:07.190
+Chuan Wu: So the reason is we want strong duos and hope. And why we want strong duos and hope is because here, this set of algorithms work on the dual prop by trying to solve the dual problem, and then recover the primal optimal solution and primal optimal value.
+
+271
+00:47:07.190 --> 00:47:17.469
+Chuan Wu: And over there, the core connection is strongly added. So it's strong to add a host, we can definitely work on the cure, and then recover a corresponding primal optimal solution. Okay.
+
+272
+00:47:17.840 --> 00:47:42.520
+Chuan Wu: And then, what the dual problem looks like? So this is a generic form of the dual problem. So suppose lambda as a set of, variables, multipliers associated with our primal constraints, and then we want lambda to be non-active, every, dimension, and objective function is to minimize G lambda. So G lambda is derived following the two steps of Lagrangian, and then minimize lambda J over X.
+
+273
+00:47:42.840 --> 00:47:44.430
+Chuan Wu: In a standard way.
+
+274
+00:47:45.000 --> 00:47:45.870
+Chuan Wu: Okay.
+
+275
+00:47:45.990 --> 00:48:03.780
+Chuan Wu: And then, the, projected subgradient methods working on the dual looks like this. So again, for all subgradient methods, the major step is update step. So how we update the current iterate, either primal or dual iterate, along the, negative
+
+276
+00:48:04.040 --> 00:48:09.940
+Chuan Wu: subcalledian direction, moving a step size, and possibly then doing some projection.
+
+277
+00:48:10.040 --> 00:48:16.610
+Chuan Wu: Okay, and then check out the DF, the sub-gradient projection, step.
+
+278
+00:48:16.610 --> 00:48:31.240
+Chuan Wu: Here, lambda is our, lambda k is our case iterations of dual iterate, okay, because this is the algorithm working on the dual problem. So the dual iterate is updated along the negative gradient direction.
+
+279
+00:48:31.240 --> 00:48:35.839
+Chuan Wu: So this HK is a gradient of the dual problem as well.
+
+280
+00:48:36.000 --> 00:48:55.479
+Chuan Wu: And what is… how do we denote the gradient of the dual problem? So remember, the dual problem is a maximization problem, and when we are talking about the, the gradient and solving the dual problem, we usually consider the minimization version instead of maximization version, okay, to make it more standard.
+
+281
+00:48:55.640 --> 00:48:58.009
+Chuan Wu: So the pure problem is to
+
+282
+00:48:58.230 --> 00:49:03.640
+Chuan Wu: Minimize negative gene lambda, subject to lambda, non-negative.
+
+283
+00:49:04.350 --> 00:49:11.589
+Chuan Wu: Right? Okay, so therefore, the subgradient we are considering is a subgradient of negative Ji function.
+
+284
+00:49:11.860 --> 00:49:23.879
+Chuan Wu: And remember, this represents a sub-differential set, and HK belongs to the sub-differential set, meaning HK is well separated of function negative G at lambda k.
+
+285
+00:49:24.580 --> 00:49:32.609
+Chuan Wu: Okay, and then our update is along an active HK direction, and the step size is alpha K again.
+
+286
+00:49:33.500 --> 00:49:44.680
+Chuan Wu: Okay, so this is a major, update formula on the… working on the duer uterus, or duur marathon. And still pay attention, we also have a plus.
+
+287
+00:49:45.120 --> 00:49:49.369
+Chuan Wu: a function here. So what does it mean? If this is a projection.
+
+288
+00:49:49.780 --> 00:49:58.429
+Chuan Wu: Okay, so this is the projection. So we do the standard update, and then project it, the dual variable, onto the feasibility set.
+
+289
+00:49:58.900 --> 00:50:04.649
+Chuan Wu: And what is the feasibility set of the zero product? So we want the lambda to be larger than 0.
+
+290
+00:50:04.900 --> 00:50:11.109
+Chuan Wu: Okay, logical to 0. So that means every component in the variable lambda should be logical to 0.
+
+291
+00:50:11.260 --> 00:50:14.489
+Chuan Wu: And this plus sign serves this functionality.
+
+292
+00:50:14.610 --> 00:50:21.220
+Chuan Wu: So the plus side, when you work on the… when you have the plus side, working on.
+
+293
+00:50:21.500 --> 00:50:22.870
+Chuan Wu: a variable.
+
+294
+00:50:23.190 --> 00:50:25.919
+Chuan Wu: Suppose lambda is a variable vector.
+
+295
+00:50:26.070 --> 00:50:34.959
+Chuan Wu: Okay, and if we do lambda plus, what it means is a positive component in a variable, it remains.
+
+296
+00:50:35.470 --> 00:50:41.339
+Chuan Wu: And for a negative component in vector lambda, we map it to 0.
+
+297
+00:50:43.430 --> 00:50:52.610
+Chuan Wu: Okay, so essentially, here we are mapping every component every component in lambda.
+
+298
+00:50:53.530 --> 00:50:57.399
+Chuan Wu: In this way, maximize of lambda i, i's component.
+
+299
+00:50:57.930 --> 00:51:01.880
+Chuan Wu: maximize between maximal between lambda I and 0.
+
+300
+00:51:02.970 --> 00:51:05.410
+Chuan Wu: Okay, so that is what that class.
+
+301
+00:51:06.870 --> 00:51:08.250
+Chuan Wu: Lambda class.
+
+302
+00:51:08.830 --> 00:51:11.660
+Chuan Wu: Function is, meaning.
+
+303
+00:51:12.210 --> 00:51:13.190
+Chuan Wu: Okay.
+
+304
+00:51:14.360 --> 00:51:25.040
+Chuan Wu: And then, using this, formula, you'll know what we are applying here is actually a projected subgrade masses to solve the dual problem.
+
+305
+00:51:25.330 --> 00:51:31.330
+Chuan Wu: Okay, subredient, standard subredient update, and then project onto the feasibility set.
+
+306
+00:51:32.650 --> 00:51:33.860
+Chuan Wu: Okay.
+
+307
+00:51:34.090 --> 00:51:37.739
+Chuan Wu: Alright, and then this is how we solve the dual breathing.
+
+308
+00:51:37.840 --> 00:51:47.329
+Chuan Wu: And our main purpose is, again, to solve the primal problem, right? So we'll see how that dual update is related to solving the prime update.
+
+309
+00:51:47.490 --> 00:51:48.400
+Chuan Wu: Okay.
+
+310
+00:51:48.560 --> 00:51:51.859
+Chuan Wu: And then,
+
+311
+00:51:52.480 --> 00:52:03.800
+Chuan Wu: In order to work out the Durer update formula, we do need to find out a concrete subredient of the Durer objective function and the current doer iterated overlapping.
+
+312
+00:52:04.040 --> 00:52:10.960
+Chuan Wu: And how do we find out that? So there is a standard way to come up with that, so let's do some analysis together.
+
+313
+00:52:11.410 --> 00:52:22.660
+Chuan Wu: Now, remember this, this, how we calculate the dual functions. So this is the Lagrangian of the primal product, and then we are minimizing the Lagrangian over X.
+
+314
+00:52:23.320 --> 00:52:31.399
+Chuan Wu: in the domain of the primal objective function. And then we come at this as a standard way of deriving the Dewar function.
+
+315
+00:52:31.600 --> 00:52:43.240
+Chuan Wu: And, G lambda equating implement of Lagrangian equivalent to negative G is lambda is calculated as supreme of the negative Lagrangian equivalent…
+
+316
+00:52:43.670 --> 00:52:54.359
+Chuan Wu: And then, let's define, let's suppose for a given lambda, pure variable value, we come up with a minimizer of the lambda engine.
+
+317
+00:52:54.410 --> 00:53:06.050
+Chuan Wu: So again, this is the Lagarangian, and what we are fixing, I am fixing all the lambda components, and then we minimize over X, and here, let's just use Z to denote the primal variable.
+
+318
+00:53:06.170 --> 00:53:18.539
+Chuan Wu: And, suppose the minimizer. So F me, meaning we find out the minimizer. So the minimizer of the Lagrangian is, called X dot, and it's relevant to Lambda, so it's a function of lambda.
+
+319
+00:53:19.560 --> 00:53:39.119
+Chuan Wu: Okay, and then we… if we plug in, if we make use of this mediator of the Lagrangian at the particular lambda, we can express our negative G lambda in this way. So negative G lambda just equals negative the Lagrangian, where in the place of X, we use X star lambda.
+
+320
+00:53:40.920 --> 00:53:41.930
+Chuan Wu: Okay.
+
+321
+00:53:42.840 --> 00:53:54.949
+Chuan Wu: And then, if we try to find out a separation of negative gene, so remember, negative G is in our dual… it's our dual problems objective function in the mean validation form.
+
+322
+00:53:55.240 --> 00:54:01.350
+Chuan Wu: And the subredient of negative G at this particular lambda is then given this way.
+
+323
+00:54:01.540 --> 00:54:04.410
+Chuan Wu: negative Fi, X star lambda.
+
+324
+00:54:04.610 --> 00:54:07.559
+Chuan Wu: Why? So, intuitively, check it out here.
+
+325
+00:54:07.740 --> 00:54:15.669
+Chuan Wu: Let's say G can be expressed through this way, if we know what X star lambda is. X star lambda is a function of lambda.
+
+326
+00:54:15.850 --> 00:54:35.140
+Chuan Wu: And, if we just consider extra lambda to be fixed, okay, if we just consider it to be fixed, then the sub-gradient of negative G, over lambda, okay, variable lambda R here, would be the coefficient we are multiplying lambda with.
+
+327
+00:54:35.730 --> 00:54:41.810
+Chuan Wu: Right? So this up gradient is a vector. So HI is, the ice component in the vector.
+
+328
+00:54:41.930 --> 00:54:45.750
+Chuan Wu: Let me put it… the concrete, the complete form, that's here.
+
+329
+00:55:10.050 --> 00:55:10.930
+Chuan Wu: Okay.
+
+330
+00:55:11.240 --> 00:55:20.410
+Chuan Wu: So our H… is consisting of F, components.
+
+331
+00:55:38.470 --> 00:55:41.130
+Chuan Wu: Okay, so this is our H.
+
+332
+00:55:43.340 --> 00:55:45.330
+Chuan Wu: Okay, so this is our…
+
+333
+00:55:45.670 --> 00:55:56.369
+Chuan Wu: Subradiant vector H. So HK just means, H indicates iteration of the algorithm. So this is our subradiant H. Its concrete form is here.
+
+334
+00:55:57.200 --> 00:55:59.570
+Chuan Wu: Consisting of AM components.
+
+335
+00:56:02.640 --> 00:56:06.450
+Chuan Wu: And every component is active at AxStar Lab.
+
+336
+00:56:07.430 --> 00:56:24.230
+Chuan Wu: Okay, and what I was saying is, intuitively, okay, intuitively, if you assume in the negative G lambda function, all the terms X star and all the X star lambda are fixed, it's not a variable. Then, intuitively, this is a f1 function on lambda.
+
+337
+00:56:24.280 --> 00:56:30.890
+Chuan Wu: And you know it's a gradient or subgradient, is exactly the coefficient. We are multiplying lambda at least.
+
+338
+00:56:30.980 --> 00:56:31.700
+Chuan Wu: Bye.
+
+339
+00:56:31.980 --> 00:56:34.850
+Chuan Wu: So that is intuitive, but actually is not correct.
+
+340
+00:56:34.920 --> 00:56:41.460
+Chuan Wu: What is not correct is, in negative G lambda function, extra lambda is relevant to lambda.
+
+341
+00:56:41.490 --> 00:56:52.980
+Chuan Wu: not independent, okay? It's relevant to lambda, right? But still, even extra lambda is relevant to lambda, we are still able to prove that this form
+
+342
+00:56:52.980 --> 00:57:05.790
+Chuan Wu: is one subgraduate of negative G at lambda, so we will pull that on the next page. But let's further see if we already know H in the… is in the… the H we are making use of is in the form there.
+
+343
+00:57:05.790 --> 00:57:13.650
+Chuan Wu: Then, the projected submitting measures we apply to work that apply on the dual problem is here.
+
+344
+00:57:13.850 --> 00:57:28.400
+Chuan Wu: So here, update formula of lambda i, so i's component of multiplier vector lambda, is lambda iK plus plus, because negative, negative cancels, so plus alpha kpha XK.
+
+345
+00:57:28.860 --> 00:57:34.770
+Chuan Wu: And then project it onto a positive, non-active axis.
+
+346
+00:57:35.400 --> 00:57:52.329
+Chuan Wu: And, as I said, solving or updating the doer is not our eventual goal. Our goal is to come up, recover with the primal solution, and eventually we put the primal solution to be conversion, right? So the corresponding primal solution is here.
+
+347
+00:57:52.490 --> 00:58:02.389
+Chuan Wu: The primal solution at the case iteration is related to lambda k in this way. It's, X star that we derive.
+
+348
+00:58:02.740 --> 00:58:10.379
+Chuan Wu: Given the marking. So what is X star? Go back. So X star is the minimizer of the macaroni at a given lambda.
+
+349
+00:58:10.800 --> 00:58:24.940
+Chuan Wu: Okay, so when lambda is updated, and we use that updated lambda to result for X star, and then that X star, meaning either of the long J and that lambda, is our primal, corresponding primal iterate value.
+
+350
+00:58:25.750 --> 00:58:42.019
+Chuan Wu: Okay, and this connection has been, introduced when we talk about duality, right? So we know if strong duality holds, then the connection between the primal variable value and the dual variable value is indeed established according to the Lagaranji.
+
+351
+00:58:42.040 --> 00:58:47.170
+Chuan Wu: That is, X is the minimizer of that Lagrangian, and the fixed lagger.
+
+352
+00:58:47.370 --> 00:58:52.949
+Chuan Wu: So that was a connection we introduced before a few times before, while we talked about strong theoretic.
+
+353
+00:58:54.490 --> 00:59:01.520
+Chuan Wu: Okay, and, next page, what I want to show you is Remote Verify.
+
+354
+00:59:01.760 --> 00:59:15.469
+Chuan Wu: The, pitch we constructed this way is indeed a subgradient of, pure objective functions negative G, at this vector alignment. So, and we verified that using a definition of subgradient.
+
+355
+00:59:15.870 --> 00:59:20.460
+Chuan Wu: So if H is a separate, it has to satisfy the inequality here.
+
+356
+00:59:22.000 --> 00:59:32.469
+Chuan Wu: So it has to satisfy the inequality here. In the place of FX, we have negative G, and H is a subgradient, and we have lambda prime minus lambda.
+
+357
+00:59:34.170 --> 00:59:52.280
+Chuan Wu: Okay, what we want to show is this holds. If this holds, we know the H reconstructed is a subgradient, okay, of negative G at lambda. To show that, we want to show G lambda prime is no longer than G lambda minus H inner product lambda primes minus lambda.
+
+358
+00:59:52.280 --> 01:00:11.899
+Chuan Wu: And then, recall how we derive the Lagrangian dual function. So G is defined this way, it's minimizing the Lagrangian of the function. So Lagrangian consists of the primal objective and weighted sum of the constraint function, where the weight is our multiplier's lambda.
+
+359
+01:00:11.900 --> 01:00:12.760
+Chuan Wu: Ice.
+
+360
+01:00:12.940 --> 01:00:13.930
+Chuan Wu: Prime.
+
+361
+01:00:15.020 --> 01:00:34.460
+Chuan Wu: And, if we… because here, when we calculate the subgradient method… subgradient… when we calculate the dual function, we are doing minimizing… we are minimizing over primal variable X. So if we plug in any primal variable value into the Lagrangian, the value here should be an upper bound.
+
+362
+01:00:34.600 --> 01:00:45.100
+Chuan Wu: Okay, so FD rho evaluated at X star lambda, and this FX function evaluated as X star would be… eventually be a upper bound.
+
+363
+01:00:46.160 --> 01:01:01.940
+Chuan Wu: And then, in this term, we add two terms, sum of lambda i, okay, lambda i, not lambda prime, sum of lambda i, fi, X star, and then minus 8. So, basically, the two terms in the middle can cancel.
+
+364
+01:01:01.940 --> 01:01:17.869
+Chuan Wu: And we will be making use of them separately here. And check out the first two terms here, F d0 X star plus sum of lambda i, FIX star. So this is exactly G lambda. So this is how we calculate the G lambda.
+
+365
+01:01:17.910 --> 01:01:29.119
+Chuan Wu: Right, so G lambda is to minimize the Lagrangian, and we know the minimizer is X star lambda. So therefore, the first two terms adapt together, it is exactly G lambda.
+
+366
+01:01:29.320 --> 01:01:42.359
+Chuan Wu: And then for the third and fourth term, we extract the common term, which is negative Fi X star, and then the other coefficient would be lambda i prime minus lambda i.
+
+367
+01:01:43.560 --> 01:01:47.200
+Chuan Wu: Okay. All right, and,
+
+368
+01:01:48.420 --> 01:01:59.799
+Chuan Wu: So what is it? So we compare the last row here with what we have above, and exactly we know H is corresponding to Fi.
+
+369
+01:02:00.040 --> 01:02:02.349
+Chuan Wu: X star lambda, right?
+
+370
+01:02:02.720 --> 01:02:10.730
+Chuan Wu: Okay, and this shows, our age, constructed this way. Okay.
+
+371
+01:02:12.670 --> 01:02:13.540
+Chuan Wu: Is.
+
+372
+01:02:15.020 --> 01:02:18.280
+Chuan Wu: the sub-gradient of negative g at lambda.
+
+373
+01:02:18.530 --> 01:02:23.650
+Chuan Wu: Okay, so H composed… Composing of negative Fi, X star.
+
+374
+01:02:26.750 --> 01:02:28.430
+Chuan Wu: Okay, alright.
+
+375
+01:02:42.640 --> 01:02:43.570
+Chuan Wu: All right.
+
+376
+01:02:43.760 --> 01:02:45.700
+Chuan Wu: So given…
+
+377
+01:02:46.120 --> 01:03:07.650
+Chuan Wu: all the derivations. So basically, so far, we know, we have a correct subgradient to use to update the dual variable, and we also set up the connection between the primal variable value and the corresponding dual variable value, and then our projected subgradian passers working on the dual problem of duality.
+
+378
+01:03:07.650 --> 01:03:09.240
+Chuan Wu: It's, given here.
+
+379
+01:03:09.520 --> 01:03:24.229
+Chuan Wu: And, the algorithm starts with a starting point. It will start at 1 for the dual problem, because the major update step is on the dual variable. And then every iteration, we come up with a cardinal primal iterate.
+
+380
+01:03:24.340 --> 01:03:36.870
+Chuan Wu: using… making use of the connection between the primal iterate and the dual variable value. So, the XK should be a minimizer of the Lagrangian function at the current dual iterate at lambda k value.
+
+381
+01:03:37.270 --> 01:03:55.640
+Chuan Wu: And then we choose the set size, and then we have the dual update formula here, and over here, this is step size we chose, and then the gradient, sub-gradient we use in the update is negative FXK, and then project it back onto feasibility set, the dual problem.
+
+382
+01:03:56.140 --> 01:04:00.070
+Chuan Wu: And then this repeats until some stopping criteria are satisfied.
+
+383
+01:04:01.140 --> 01:04:17.910
+Chuan Wu: So again, this is pretty simple need, and following the design principle of separating all the separation algorithms we have saw so far, and it makes use of dual analytic, the connection between the primal iterate and the dual iterate.
+
+384
+01:04:18.130 --> 01:04:22.170
+Chuan Wu: To eventually solve both the primal problem and the pure problem to guess.
+
+385
+01:04:23.700 --> 01:04:32.920
+Chuan Wu: Okay, so let's take a short break, 5 minutes break, before we continue analyzing this, projecting subgrade masters working on the naval problem.
+
+386
+01:09:37.779 --> 01:09:46.939
+Chuan Wu: All right, and let's continue. So we have introduced the, project separating measures, for the dual problems, so let's do some further analysis.
+
+387
+01:09:48.430 --> 01:10:07.659
+Chuan Wu: Usually, people interpret this… usually this projected sub-region methods for your problem bears very nice, interpretations. So, for example, people interpret that lambda i as 5, corresponding to the resource FIS. So, remember in our, optimization problem.
+
+388
+01:10:07.660 --> 01:10:12.780
+Chuan Wu: at hand, our primal… Problems include a number of,
+
+389
+01:10:13.700 --> 01:10:19.890
+Chuan Wu: in quality constraints in the form of FIX, Smaller equal to zero.
+
+390
+01:10:24.080 --> 01:10:39.999
+Chuan Wu: Okay, and we consider this inequality constraint, each one of the inequality constraints, as a constraint on some, on some resource, okay? And then we want FIX as total to be not, less than zero.
+
+391
+01:10:40.080 --> 01:10:51.860
+Chuan Wu: And our lambda i is considered as a price for the corresponding results, i's results. And then the update formula of the dual variable is considered as a price update.
+
+392
+01:10:52.260 --> 01:11:01.150
+Chuan Wu: So here, we, want to update the price, and if FIX… If FI…
+
+393
+01:11:01.430 --> 01:11:18.900
+Chuan Wu: X is larger than 0. If the current iterated at X is larger than 0, then the second term here is positive, and then on the i is increased. So that is considered as we are increasing the corresponding price, when the corresponding resource is overutilized.
+
+394
+01:11:18.960 --> 01:11:23.090
+Chuan Wu: Because we want our X to be smaller, 0, not larger than 0.
+
+395
+01:11:23.400 --> 01:11:25.680
+Chuan Wu: On the other hand, if our…
+
+396
+01:11:25.920 --> 01:11:37.900
+Chuan Wu: FIX is indeed smaller than zero, and the second term here is negative. So we are decreasing lambda IK, so that corresponds to decreasing of price if the corresponding resource gets underutilized.
+
+397
+01:11:38.070 --> 01:11:45.830
+Chuan Wu: But no matter what, we always have this projection function here to make sure the price never gets negative.
+
+398
+01:11:46.930 --> 01:12:05.660
+Chuan Wu: Okay, and, then regarding the convergence of, the, projected security method for the dual problem, so similarly, when we choose corresponding step size rule, the dual problem and primal problem of it, we all converge to optimal neighborhood optimality.
+
+399
+01:12:05.660 --> 01:12:07.100
+Chuan Wu: And,
+
+400
+01:12:07.500 --> 01:12:19.110
+Chuan Wu: And because CL duality holds that the dual object functions value evaluated at lambda k when k goes to infinity, would converge with primal optimal value as well.
+
+401
+01:12:19.290 --> 01:12:28.730
+Chuan Wu: And, and as we, we know, the… Here, go back to…
+
+402
+01:12:31.410 --> 01:12:41.450
+Chuan Wu: Right. So here, so we update, well, while the major, while the major subgrading step work on the dual, dual iterate.
+
+403
+01:12:41.490 --> 01:12:52.879
+Chuan Wu: And the primal iterate is also updated in every iteration, and according to minimizing the Lagrangian of the problem at the current pure iterate as dec.
+
+404
+01:12:53.140 --> 01:13:03.920
+Chuan Wu: And, one thing we need to notice that… so the XK we solve by minimizing Lagrange here is not guaranteed to be primo featable.
+
+405
+01:13:04.110 --> 01:13:11.980
+Chuan Wu: Okay, so it's minimizing the Lagrangian, and in the Lagrangian, we are boosting the primal objective function with weight is some of the constraints.
+
+406
+01:13:12.240 --> 01:13:22.210
+Chuan Wu: And it's possible the minimizer of the Lagarangian here at the particular lambda K doesn't make all the constraint function to be smaller or equal to zero. It's possible.
+
+407
+01:13:22.460 --> 01:13:26.720
+Chuan Wu: Okay, but people have analyzed and have found out that
+
+408
+01:13:26.960 --> 01:13:36.899
+Chuan Wu: Although, at some iterations, the primal iterate may not be featable, but it would be become featable in limit, meaning when k goes to a large value.
+
+409
+01:13:37.060 --> 01:13:47.930
+Chuan Wu: Okay, and often, and in the literature, people have, tried to construct primal seeable solutions from the iterative VT rice.
+
+410
+01:13:47.990 --> 01:14:07.900
+Chuan Wu: Okay, so there are a number of approaches, like we can project the XKE to feasibility Z, or we can do some convex combinations of a few past XKs, such that it can combine the point is feasible. So there have been different techniques people have designed in the literature to construct the primal feasible solutions.
+
+411
+01:14:07.900 --> 01:14:14.630
+Chuan Wu: from the, current iterate, or of use of the recent, XK iterates values.
+
+412
+01:14:17.420 --> 01:14:18.270
+Chuan Wu: Okay.
+
+413
+01:14:18.640 --> 01:14:22.239
+Chuan Wu: And then next, let's check out an example, how we have…
+
+414
+01:14:22.690 --> 01:14:31.249
+Chuan Wu: of a constraint coax program, and how we apply the, projected subcreative masters for the newer problem to solve it. Okay.
+
+415
+01:14:31.920 --> 01:14:40.500
+Chuan Wu: So in the ovaluation problem we have at hand here, the objective function is, convex. It's a quadratic convex.
+
+416
+01:14:40.680 --> 01:14:52.409
+Chuan Wu: function, and especially a strictly convex quadratic, in the sense that the matrix P involved in there, in the second-order term there, is a positive definite matrix.
+
+417
+01:14:52.800 --> 01:14:53.680
+Chuan Wu: Okay.
+
+418
+01:14:53.750 --> 01:15:12.889
+Chuan Wu: And then the constraints are a number of, a number of inequality constraints. We have Xi squared smaller to 1. What does it mean? Every Xi is in the range of negative 1 and 1, so we have solved this type of constraints before. We just call them a box constraint.
+
+419
+01:15:12.890 --> 01:15:14.630
+Chuan Wu: Okay, in the unique box.
+
+420
+01:15:16.400 --> 01:15:29.709
+Chuan Wu: Okay, and then, apparently this is actually a convex program, and actually it's a differentiable COMEX program, right? But still, we here, we are applying some gradient method to try to solve it, okay?
+
+421
+01:15:30.090 --> 01:15:39.399
+Chuan Wu: And then, we can put down, in order to apply the projected subverting method for the dual problem, we need to derive the long run, we need to derive the,
+
+422
+01:15:39.770 --> 01:15:51.170
+Chuan Wu: We can derive the Durer, and because we are doing the Durer update, and assume lambda. Lambda is a 20-dimensional vector,
+
+423
+01:15:51.390 --> 01:16:03.639
+Chuan Wu: associate multiplier vector associated with our NE quality constraints, and then what our, what our Lagrangian function is looking like is here.
+
+424
+01:16:03.900 --> 01:16:09.339
+Chuan Wu: And objective function, 1 half X transpose P.
+
+425
+01:16:09.550 --> 01:16:13.480
+Chuan Wu: Let me go down more in details here on the board.
+
+426
+01:16:36.430 --> 01:16:38.029
+Chuan Wu: Objective function.
+
+427
+01:16:42.230 --> 01:16:43.540
+Chuan Wu: And then…
+
+428
+01:16:47.860 --> 01:16:50.980
+Chuan Wu: Then the I, Xi squared minus 1.
+
+429
+01:16:52.610 --> 01:16:53.620
+Chuan Wu: Elise.
+
+430
+01:16:54.030 --> 01:17:01.929
+Chuan Wu: All right, and that part, we are expressing a… You'll be… A diagonal matrix.
+
+431
+01:17:04.350 --> 01:17:06.870
+Chuan Wu: So that's equivalent of 2.
+
+432
+01:17:08.470 --> 01:17:09.770
+Chuan Wu: Bon trache.
+
+433
+01:17:12.920 --> 01:17:14.699
+Chuan Wu: 2 times lambda 1…
+
+434
+01:17:31.890 --> 01:17:32.800
+Chuan Wu: Okay.
+
+435
+01:17:32.970 --> 01:17:34.810
+Chuan Wu: So, some…
+
+436
+01:17:38.390 --> 01:17:45.069
+Chuan Wu: So the sum of lambda IXN squared part can be expressed using a matrix form here, right?
+
+437
+01:17:45.540 --> 01:17:49.350
+Chuan Wu: Okay, and then we can combine matrix.
+
+438
+01:17:49.940 --> 01:18:04.919
+Chuan Wu: form here. So we have 1 half x transpose, and then P matrix plus the diagonal matrix there, and then we have the negative Q transpose X, and then negative 1 transpose lambda is this sum of i, the diagon.
+
+439
+01:18:05.480 --> 01:18:08.969
+Chuan Wu: So that's how we derive our Lagrangian.
+
+440
+01:18:09.910 --> 01:18:10.910
+Chuan Wu: Bunchicle.
+
+441
+01:18:12.710 --> 01:18:15.040
+Chuan Wu: And, the purples.
+
+442
+01:18:15.280 --> 01:18:22.240
+Chuan Wu: Actually, the purpose for us to put on a Labrangian is we want to derive the formula for the internal iterate.
+
+443
+01:18:22.520 --> 01:18:25.399
+Chuan Wu: As we know, the primal iterate is,
+
+444
+01:18:25.540 --> 01:18:35.979
+Chuan Wu: is, X value, which minimizes the Lagrams gen that's given lambda, right? So if our Lagrams J is in this way, and suppose lambda is fixed.
+
+445
+01:18:36.110 --> 01:18:41.950
+Chuan Wu: how we minimize the Lagrangian. The Lagrangian here is exactly, complex
+
+446
+01:18:42.050 --> 01:18:52.449
+Chuan Wu: Okay, it is exactly a contracted function, right? And we can minimize it by calculating the gradient and set the gradient to zero.
+
+447
+01:18:52.880 --> 01:18:56.690
+Chuan Wu: Okay, so what is the gradient of the Lagrangian there?
+
+448
+01:18:58.930 --> 01:19:04.490
+Chuan Wu: The first term is a chromatic term, and then we know the gradient to be.
+
+449
+01:19:05.270 --> 01:19:06.469
+Chuan Wu: Blood in half?
+
+450
+01:19:06.950 --> 01:19:09.960
+Chuan Wu: Two times of the matrix in the middle.
+
+451
+01:19:15.580 --> 01:19:19.459
+Chuan Wu: And then the linear term's gradient is an active cube.
+
+452
+01:19:19.680 --> 01:19:25.449
+Chuan Wu: And the last time, the Ye number that lambda is not relevant to X, so it doesn't appear in there.
+
+453
+01:19:25.770 --> 01:19:28.610
+Chuan Wu: So this is our gradient.
+
+454
+01:19:29.160 --> 01:19:31.699
+Chuan Wu: Of the, background here function.
+
+455
+01:19:31.990 --> 01:19:39.560
+Chuan Wu: Okay, the Lagronian function is convex quadratic, so we can set the gradient to zero, and then… S.
+
+456
+01:19:40.350 --> 01:19:41.220
+Chuan Wu: Okay.
+
+457
+01:19:43.170 --> 01:19:48.380
+Chuan Wu: And then we solve for X. That solves this, equality. Okay.
+
+458
+01:19:48.570 --> 01:19:58.119
+Chuan Wu: 1 half 2 cancel. Basically, X would be the F inverse of the matrix there, and then multiplying 2, right?
+
+459
+01:19:58.860 --> 01:20:03.470
+Chuan Wu: So the matrix here is positive damage definite, so therefore it's invertible.
+
+460
+01:20:03.920 --> 01:20:04.680
+Chuan Wu: Okay.
+
+461
+01:20:07.260 --> 01:20:08.080
+Chuan Wu: Ed?
+
+462
+01:20:11.290 --> 01:20:13.000
+Chuan Wu: Then, our…
+
+463
+01:20:13.500 --> 01:20:26.399
+Chuan Wu: update formulas will be here. So as we derive XK, we update it every time, according to lambda K, building the formula there. And then for lambda case update, it's here, so we have
+
+464
+01:20:26.400 --> 01:20:35.549
+Chuan Wu: Alpha K as a step size, and then we have the gradient here. Subradient, negative subgradient here. So what is the negative of the sub-gradient?
+
+465
+01:20:35.630 --> 01:20:37.889
+Chuan Wu: So remember our…
+
+466
+01:20:38.170 --> 01:20:48.199
+Chuan Wu: subgradient is here. So it's negative of the gradient of the constraint function function. Our constraint function is Xi squared minus what?
+
+467
+01:20:48.440 --> 01:20:52.489
+Chuan Wu: Okay, and the negative side, active sign cancels, so it's plus here.
+
+468
+01:20:53.420 --> 01:20:56.650
+Chuan Wu: Okay, and then project it back onto field of data set.
+
+469
+01:20:57.280 --> 01:20:59.030
+Chuan Wu: Selactive, also.
+
+470
+01:21:02.990 --> 01:21:03.930
+Chuan Wu: Alright.
+
+471
+01:21:04.070 --> 01:21:11.240
+Chuan Wu: And then we have the major two update, formulas, and then we can round the projected separated methods, for the year.
+
+472
+01:21:11.450 --> 01:21:12.990
+Chuan Wu: For solving the problem.
+
+473
+01:21:13.060 --> 01:21:17.010
+Chuan Wu: And what does the solution curve, look like?
+
+474
+01:21:17.060 --> 01:21:36.669
+Chuan Wu: So consider we check out a concrete problem instance with, X being a 15-dimensional variable, and, assume we just use a fixed step size, R by equating 0.1, and assume we know what the primal optimal value is. It's roughly around negative 55.3.
+
+475
+01:21:36.870 --> 01:21:53.470
+Chuan Wu: And, for every XK primal iterate, we construct a nearby feedable point. So, as I said, XK itself may not be primal available, and we just construct a nearby featable point, like, projecting XK into the featability set.
+
+476
+01:21:53.980 --> 01:21:57.989
+Chuan Wu: And then what we show on the curve, is, here.
+
+477
+01:21:58.190 --> 01:22:11.899
+Chuan Wu: And the blue curve represents the dual objective function value, and the green curve corresponds to primal object function value evaluated at current feedable iterate… primal iterate value.
+
+478
+01:22:11.990 --> 01:22:21.719
+Chuan Wu: And we know because of how strongly as it holds, we… the two curves eventually should converge to meet. When they meet, the algorithm converge.
+
+479
+01:22:23.140 --> 01:22:33.880
+Chuan Wu: Okay, and for this complete problem instance, we are good. We only need a few iterations, and that's pretty much the, upper bound, the lower bound of the,
+
+480
+01:22:34.100 --> 01:22:38.470
+Chuan Wu: optimization problem. Optimal value, converge.
+
+481
+01:22:41.540 --> 01:22:42.420
+Chuan Wu: Okay.
+
+482
+01:22:42.840 --> 01:22:50.149
+Chuan Wu: All right, so this is the, the second subgraded methods to solve a constraint problem.
+
+483
+01:22:50.240 --> 01:23:00.039
+Chuan Wu: And then the, last, and the third, and the last sub-gradient method that I want to introduce for solving constraint optimization program is here.
+
+484
+01:23:00.130 --> 01:23:10.389
+Chuan Wu: And again, here we look at the optimization problem with the number of inequality constraints, and all the functions involved are complex, not necessarily differentiable.
+
+485
+01:23:10.700 --> 01:23:12.620
+Chuan Wu: Ed? Update.
+
+486
+01:23:12.840 --> 01:23:22.179
+Chuan Wu: Again, this sub-gradient method for constraint optimization, it works mainly on the primal variable, primal update.
+
+487
+01:23:22.340 --> 01:23:30.140
+Chuan Wu: And the major affid formula is again here. Okay, so XK minus, step size, and then the sub-radient.
+
+488
+01:23:30.300 --> 01:23:31.880
+Chuan Wu: As currently SK.
+
+489
+01:23:32.070 --> 01:23:41.259
+Chuan Wu: And what is, different from the sub-gradient methods we introduced earlier is the subredient is chosen, strategically.
+
+490
+01:23:41.440 --> 01:23:45.190
+Chuan Wu: At each step. Okay. And,
+
+491
+01:23:45.360 --> 01:23:51.360
+Chuan Wu: At one step, if all the constraints are satisfied by currently iterate.
+
+492
+01:23:51.910 --> 01:24:02.950
+Chuan Wu: Then pretty much this problem boils down to an unconstrained problem, and in our update formula, the subgradient is a subgradient of the objective function.
+
+493
+01:24:03.820 --> 01:24:07.840
+Chuan Wu: And, on the other hand, if at a certain step k.
+
+494
+01:24:08.100 --> 01:24:12.930
+Chuan Wu: One of the constraints are not satisfied, okay, like, larger than zero.
+
+495
+01:24:13.230 --> 01:24:20.810
+Chuan Wu: We adopt the subgradient to be the subgradient of the corresponding violated constraint function.
+
+496
+01:24:22.350 --> 01:24:25.330
+Chuan Wu: So the rationale is very intuitive.
+
+497
+01:24:25.580 --> 01:24:42.160
+Chuan Wu: Okay, so basically, at one step, if all the constraints are satisfied, pretty much this is just an unconstrained problem. It's like an unconstrained problem, so we update the, the variable, paramel iterate variable, to reduce the objective function values.
+
+498
+01:24:42.440 --> 01:24:57.269
+Chuan Wu: On the other hand, if one of the constraints, if any of the constraints are not satisfied, then in that step, we try to reduce… we try to update XK along the direction of reducing that constraint function value.
+
+499
+01:24:57.710 --> 01:25:02.920
+Chuan Wu: By using that constraints, functions, subgradient in the formula.
+
+500
+01:25:03.180 --> 01:25:10.650
+Chuan Wu: And then pretty much working that's that, we are trying just to move back into visibility.
+
+501
+01:25:11.220 --> 01:25:16.310
+Chuan Wu: Okay, so the idea is very, the idea is very intuitive.
+
+502
+01:25:18.500 --> 01:25:27.310
+Chuan Wu: All right, and then for such, for such, sub-free investors, again, people can show, we are able to show convergence.
+
+503
+01:25:27.430 --> 01:25:39.299
+Chuan Wu: And again, the convergent proof relies on a few assumptions, similar to what we did before. So we assume the subgradient in every step is upper bounded, length is upper bounded.
+
+504
+01:25:39.300 --> 01:25:51.909
+Chuan Wu: And then the initial starting point is not too far away from the optimal point, and then we assume the optimal solution is intended by some X star, and the status condition holds, strong derivative holds.
+
+505
+01:25:52.050 --> 01:26:01.830
+Chuan Wu: Then, similar results are here, so if we have a diminishing step size, non-sumable diminishing step size, then eventually there is convergence.
+
+506
+01:26:02.810 --> 01:26:10.830
+Chuan Wu: Okay, and then we can find out the optimal value as the best optimal value that is attained by all the iterates.
+
+507
+01:26:11.260 --> 01:26:13.179
+Chuan Wu: Okay, what it was fully implemented.
+
+508
+01:26:13.480 --> 01:26:16.509
+Chuan Wu: Oh, and Kegels for very large verdict. I'll get to…
+
+509
+01:26:16.820 --> 01:26:29.260
+Chuan Wu: All right, example here, suppose we are using that subgrade of answers to solve a F linear program. Objective function, linear, and the constraints are affine constraints.
+
+510
+01:26:29.340 --> 01:26:46.109
+Chuan Wu: And, this… in this concrete instance, our X is a 20-dimensional variable, and we have 200 inequalities, and then suppose we know the optimal value is roughly around negative 3.4, and then we use the non-summable diminished step size.
+
+511
+01:26:46.180 --> 01:26:52.869
+Chuan Wu: For optimizing this step, and we used another step size rule for feasibility step.
+
+512
+01:26:53.220 --> 01:26:58.189
+Chuan Wu: So this poliac step size is something we haven't introduced, and it is here.
+
+513
+01:26:58.490 --> 01:27:11.929
+Chuan Wu: So the codiac step size is proposed by this researcher, and it's calculated the step size in this way. So it's, in the denominator, we have L to non squared of the
+
+514
+01:27:11.930 --> 01:27:26.499
+Chuan Wu: gradient, subgradient vector, and object ended in the numerator is the difference between the current optimal value, the current object function value, evaluated at the current iterate, and the optimal value, as well.
+
+515
+01:27:27.130 --> 01:27:40.089
+Chuan Wu: And intuitively, so basically here we are… we know alpha k is still a kind of, diminishing step size. So, because when we are closer to optimality, the value could be smaller, and so on.
+
+516
+01:27:40.410 --> 01:27:59.910
+Chuan Wu: But you might also notice one problem. If you're using this set size rule, how do we set F star? Right? Because we don't really know what F-star is. In our convergence curve, we just assume we know F star, because we are trying to show how they're converging. But when you're actually running the algorithm, you definitely don't know F… what F-star is.
+
+517
+01:28:00.230 --> 01:28:09.439
+Chuan Wu: In practice, if people are using this poliac step size, they either have some food estimate of f-stop by observing, analyzing the problem itself.
+
+518
+01:28:10.420 --> 01:28:11.390
+Chuan Wu: Or…
+
+519
+01:28:12.410 --> 01:28:24.719
+Chuan Wu: No R. Okay, so basically, they have to have some good estimate of F-star. Okay, so you are using the Podiac step size in solving optimization problem, then they have to have some good estimate of F-star.
+
+520
+01:28:25.530 --> 01:28:41.230
+Chuan Wu: Okay, but on the other hand, here, how we apply this, polyac step size is different, so pay attention here. So what we are saying is, in optimality step, we use the diminishing some of our step size.
+
+521
+01:28:41.470 --> 01:28:46.580
+Chuan Wu: Automatic step, what is automatic step? This is automatic step.
+
+522
+01:28:47.510 --> 01:28:59.529
+Chuan Wu: So if, in that step, okay, all the constraints are satisfied by current iterate, then we use the objective functions of subgradient in the update to do. So this is the so-called automatic step.
+
+523
+01:29:00.100 --> 01:29:00.770
+Chuan Wu: Huh.
+
+524
+01:29:00.800 --> 01:29:14.159
+Chuan Wu: In other case, in other… in another step, say one of the constraints is not satisfied, then we use the subredient of that constraint function in our update group. And this… such a step would be called a feasibility step.
+
+525
+01:29:14.170 --> 01:29:22.020
+Chuan Wu: And the purpose of field variant step is to try to pull the, update back into featibility set.
+
+526
+01:29:22.590 --> 01:29:23.510
+Chuan Wu: Okay.
+
+527
+01:29:23.690 --> 01:29:31.719
+Chuan Wu: So basically, if you are doing update using the subgradient objective function, the alpha k is that 1 over K.
+
+528
+01:29:31.960 --> 01:29:50.529
+Chuan Wu: the non-sumable linear step size rule, and if we are in one step K, our GK is a subgradient of the one violated constraint function, then that is a feasibility step, and RPK we use is polyac step size.
+
+529
+01:29:51.070 --> 01:30:02.580
+Chuan Wu: And one benefit of, using polyac step size infinity step is that. In that step, what we are evaluating as here is the,
+
+530
+01:30:03.070 --> 01:30:05.049
+Chuan Wu: Violate the constraint function function.
+
+531
+01:30:05.800 --> 01:30:09.660
+Chuan Wu: Okay, and we can just assume F star to be exactly zero.
+
+532
+01:30:10.020 --> 01:30:14.959
+Chuan Wu: Because we want the back footstring function to be smaller equal to zero, the barrel to be smaller equal to zero.
+
+533
+01:30:15.380 --> 01:30:28.020
+Chuan Wu: Right? And, well, at that step, our F is larger than table, so we are reducing that FIC's value. And over there, the F-star reuse, FS star reuse config that we just said to look.
+
+534
+01:30:28.560 --> 01:30:29.470
+Chuan Wu: Okay.
+
+535
+01:30:30.230 --> 01:30:32.910
+Chuan Wu: Alright, so under this,
+
+536
+01:30:33.220 --> 01:30:50.090
+Chuan Wu: step size setting. This is how our convergence is, looking like. So again, it takes a few thousand steps, and, and eventually the best objective value can converge for abstract
+
+537
+01:30:50.280 --> 01:30:55.290
+Chuan Wu: And similarly, X can, converge for feasibility.
+
+538
+01:30:56.440 --> 01:31:00.969
+Chuan Wu: Because we have to do the data itself, right? Okay, but it just takes very long.
+
+539
+01:31:02.600 --> 01:31:03.420
+Chuan Wu: Okay.
+
+540
+01:31:03.820 --> 01:31:08.460
+Chuan Wu: Alright, so pretty much this is what I want to talk about the,
+
+541
+01:31:08.740 --> 01:31:11.409
+Chuan Wu: When I want to talk about subreddie's passes.
+
+542
+01:31:14.200 --> 01:31:27.599
+Chuan Wu: So again, although the performance of subgrading methods is, not as good as the Newton's methods we're introducing, that, subgrading methods is applicable to a much wider range of problems.
+
+543
+01:31:27.600 --> 01:31:42.660
+Chuan Wu: And, the, actually, the running expense, running cost of subgrade methods is usually smaller, because you'll see the update formula is very simple, right? Usually, it doesn't involve very complex matrix.
+
+544
+01:31:42.770 --> 01:31:47.380
+Chuan Wu: inversion, and so on. As for what we need, we run a new constell assets.
+
+545
+01:31:48.080 --> 01:31:49.010
+Chuan Wu: Okay, cool.
+
+546
+01:31:49.160 --> 01:31:54.340
+Chuan Wu: All right, that concludes our discussion on the sub-gradient methods.
+
+547
+01:31:57.680 --> 01:32:03.449
+Chuan Wu: So, two choices. I can continue a bit more on the next topic, or…
+
+548
+01:32:03.680 --> 01:32:06.120
+Chuan Wu: We will… we can just call it a day.
+
+549
+01:32:07.740 --> 01:32:09.260
+Chuan Wu: Any vote?
+
+550
+01:32:15.690 --> 01:32:17.840
+Chuan Wu: Okay, who want me to continue?
+
+551
+01:32:19.730 --> 01:32:24.010
+Chuan Wu: Okay, we will call it a day. Okay, thank you for your attention.
+

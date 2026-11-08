@@ -1,0 +1,2438 @@
+WEBVTT
+
+1
+00:00:18.840 --> 00:00:19.690
+Chuan Wu: Hi, everybody.
+
+2
+00:01:13.930 --> 00:01:14.650
+Chuan Wu: Goodbye.
+
+3
+00:03:28.290 --> 00:03:29.310
+Chuan Wu: Order coming.
+
+4
+00:03:36.510 --> 00:03:45.340
+Chuan Wu: All right. Good morning, everyone. Welcome to the lecture, and thank you for coming to the lecture during the reading week. Let's get started.
+
+5
+00:03:46.610 --> 00:03:47.460
+Chuan Wu: Awesome.
+
+6
+00:03:49.590 --> 00:03:58.680
+Chuan Wu: So we have been working on the very important core theory of optimization. So especially this is a duality theory for convex programming.
+
+7
+00:03:58.780 --> 00:04:14.359
+Chuan Wu: And, we have been looking at the how to derive the dual problem and what the weak duality and strong dualities are like. And we have been doing a number of interpretations of the duality from the geometrical perspective, sensitivity, game theory perspectives.
+
+8
+00:04:14.520 --> 00:04:31.390
+Chuan Wu: So we are going to continue today, first looking at a number of usage of duality, and then we'll be looking at another very important property related to duality, which are… which include complementary select lists, as well as KPD conditions.
+
+9
+00:04:32.200 --> 00:04:44.510
+Chuan Wu: Okay, so starting with usage examples of duality. So essentially through the procedure of derived Lagrange dual. Okay, we can actually come up with
+
+10
+00:04:44.510 --> 00:05:02.270
+Chuan Wu: a method that can be used to solve an optimization problem. And especially the first example is about, we can make use of the procedure of deriving the dual problem, as well as solving the dual problem, to come up with an analytical solution of a given primal optimization problem.
+
+11
+00:05:02.270 --> 00:05:13.220
+Chuan Wu: And here it is a problem we are looking at. So it's a minimize. The objective function is talking about minimizing, minimizing L to non square of a vector X.
+
+12
+00:05:13.670 --> 00:05:21.810
+Chuan Wu: Okay, so basically, we know L2 norm, square of a vector equals the vector's inner product with itself.
+
+13
+00:05:22.020 --> 00:05:32.639
+Chuan Wu: And that also tells the objective function is a contractic function. Okay? So it's in a form similar to the least squares problem. Right?
+
+14
+00:05:32.640 --> 00:05:43.030
+Chuan Wu: Okay? And the constraints. So we have a set of equality constraints. So essentially, this is a linear. This is a convex program with alpha constraints.
+
+15
+00:05:43.310 --> 00:05:44.150
+Chuan Wu: Okay.
+
+16
+00:05:44.150 --> 00:06:03.650
+Chuan Wu: So let's take a look at why I say we can analytically solve it. So actually, before, there had been two times that we analytically solved a least squares problem, and here we know this is pretty much a least squares problem, and it can also be solved analytically, but here we are from the perspective of duality.
+
+17
+00:06:03.650 --> 00:06:15.459
+Chuan Wu: Okay, so let's take a look. So within another steps of deriving your problem, the first step is we put down the Lagrangian function. Okay, so the Lagrangian function here.
+
+18
+00:06:15.460 --> 00:06:27.880
+Chuan Wu: So the objective function is X inner product itself. And then we have the multiplier vector V that is inner producting with AX minus B the equality constraint function.
+
+19
+00:06:28.440 --> 00:06:44.379
+Chuan Wu: And we derive the Lagrange dual function. When deriving the Lagrange dual function, we are minimizing the Lagrangian over x in the domain. And the domain of the problem is just the n dimensional real coordinate space.
+
+20
+00:06:44.530 --> 00:06:49.669
+Chuan Wu: So we are minimizing the Lagrangian to come up with the pure function.
+
+21
+00:06:49.870 --> 00:06:58.830
+Chuan Wu: And check out the form of the Lagrange dual functions calculation. It's a minimization problem without explicit constraints.
+
+22
+00:06:59.210 --> 00:07:03.580
+Chuan Wu: Okay? And the variable is X, and the V is considered given.
+
+23
+00:07:04.190 --> 00:07:18.100
+Chuan Wu: Okay, and then check out what the Lagrangian function is like. So, as I said, X transpose X is a quadratic function on X, and therefore, in fact, the Lagrangian function is a quadratic function.
+
+24
+00:07:18.560 --> 00:07:21.630
+Chuan Wu: And we are minimizing our chondritic function.
+
+25
+00:07:21.750 --> 00:07:40.880
+Chuan Wu: Okay? And then how we convex quadratic function, and then how we are able to analytically solve it. We apply a technique that we have applied a few times in the course, that is, we calculate the derivative of the function over X.
+
+26
+00:07:41.100 --> 00:07:44.350
+Chuan Wu: And then we set the derivative to zero.
+
+27
+00:07:44.580 --> 00:07:53.929
+Chuan Wu: J. And then we can. We actually can come up with a set of linear equations, and we know how to solve a system of linear equations, and then we can derive the solution.
+
+28
+00:07:54.080 --> 00:08:05.679
+Chuan Wu: Right? So that's the idea. Okay, so derivative. So derivative of the quadratic function in the vector form over X.
+
+29
+00:08:06.050 --> 00:08:15.710
+Chuan Wu: So the first term is X transpose, or X inner product with itself, okay? And then what is the.
+
+30
+00:08:16.260 --> 00:08:18.569
+Chuan Wu: derivative of this term.
+
+31
+00:08:19.670 --> 00:08:24.790
+Chuan Wu: Okay, we actually know what is the gradient of this term, right? X transpose X.
+
+32
+00:08:27.800 --> 00:08:29.270
+Chuan Wu: quadratic function.
+
+33
+00:08:29.370 --> 00:08:31.819
+Chuan Wu: So what is a gradient of this term?
+
+34
+00:08:34.780 --> 00:08:39.289
+Chuan Wu: gradient. Okay, we use NAPLA to represent the gradient.
+
+35
+00:08:41.630 --> 00:08:47.269
+Chuan Wu: So you still remember the formula, right? Okay, so it's, like, 2 times X.
+
+36
+00:08:47.900 --> 00:08:49.210
+Chuan Wu: is a gradient.
+
+37
+00:08:49.840 --> 00:08:52.990
+Chuan Wu: And what is the connection between gradient and derivative?
+
+38
+00:08:54.020 --> 00:09:01.769
+Chuan Wu: So derivative of a the derivative is a row vector, and the gradient is a column vector.
+
+39
+00:09:02.060 --> 00:09:07.059
+Chuan Wu: So the grid… the derivative here is to be 2 times X transpose.
+
+40
+00:09:08.850 --> 00:09:17.490
+Chuan Wu: Okay, so that comes up to the term here, 2X transpose, and then about the linear term, B transpose.
+
+41
+00:09:17.660 --> 00:09:19.910
+Chuan Wu: Oh, let me put it the other way.
+
+42
+00:09:28.860 --> 00:09:38.740
+Chuan Wu: Okay, the affine term on X in the Lagrangian function is here, so it's V transpose AX. And what is its gradient?
+
+43
+00:09:39.870 --> 00:09:43.380
+Chuan Wu: The gradient is just a coefficient vector, right?
+
+44
+00:09:43.520 --> 00:09:50.760
+Chuan Wu: The gradient is A transpose B, and then the derivative transpose again.
+
+45
+00:09:51.150 --> 00:09:54.340
+Chuan Wu: and it comes to V transpose a.
+
+46
+00:09:55.040 --> 00:10:07.419
+Chuan Wu: Right? Okay, so if you're calculating the derivative is here, and of course, we actually can directly calculate the gradient and set the gradient to zero, equivalent, pretty much equivalent.
+
+47
+00:10:07.990 --> 00:10:15.850
+Chuan Wu: Okay, and then, what is this implying? So here, we actually have a system of linear equalities.
+
+48
+00:10:16.040 --> 00:10:23.050
+Chuan Wu: And then we are able to solve it. So basically, we know X equals negative one half of A transpose V.
+
+49
+00:10:23.970 --> 00:10:29.979
+Chuan Wu: Okay, so this is a nice analytical formula connecting B and X.
+
+50
+00:10:30.690 --> 00:10:45.170
+Chuan Wu: Okay, after deriving the optimal point of this minimization problem, we can plug in X concrete value here, and then we come up with a Lagrange dual function, which is related to V, vector V only.
+
+51
+00:10:45.720 --> 00:10:52.450
+Chuan Wu: Okay, and then our dual problem. So our dual problem is to maximize the GV
+
+52
+00:10:52.770 --> 00:11:09.270
+Chuan Wu: and constraints. So here, in the original primal problem, we only have equality constraints, we don't have inequality constraints, so therefore, we don't have any non-negativity constraints on B. There is no explicit constraint in the dual problem as well.
+
+53
+00:11:09.940 --> 00:11:23.259
+Chuan Wu: Okay, so remember, that is a nice property. If in the original problem, we only have equality constraints, and we don't have inequality constraints, then it's very likely the dual problem is unconstrained.
+
+54
+00:11:24.180 --> 00:11:40.010
+Chuan Wu: Unless, when you are deriving the dual objective function, some, explicit constraints results, okay? Like, in the different branches of the condition, to derive the value of the minimization here, we possibly have some constraint coming out.
+
+55
+00:11:40.010 --> 00:11:46.479
+Chuan Wu: But in the quadratic problem we are solving here, there is no extra constraint that result.
+
+56
+00:11:47.710 --> 00:11:57.510
+Chuan Wu: Okay, and then the dual problem itself is an unconstrained maximization problem, and we are maximizing negative of a quadratic function.
+
+57
+00:11:57.850 --> 00:12:15.840
+Chuan Wu: And then we can use a similar technique to solve it analytically. So that is, we calculate the derivative of the objective function and setting it to zero. And then we know any point solving this equation would be the optimal point to the dual problem, right?
+
+58
+00:12:16.500 --> 00:12:30.250
+Chuan Wu: Okay. Alright, so using similar technique, like, if, if you are not familiar with doing the calculation in terms of, derivative, we can actually do gradient.
+
+59
+00:12:30.290 --> 00:12:38.130
+Chuan Wu: Okay, we calculate the gradient of the objective function here, and then set it to zero. So what is the.
+
+60
+00:12:39.440 --> 00:12:46.150
+Chuan Wu: What is the… gradient of the quadratic objective function.
+
+61
+00:12:46.770 --> 00:12:47.880
+Chuan Wu: is here.
+
+62
+00:12:49.450 --> 00:12:56.700
+Chuan Wu: Connective, one force, and then… 2 times AA transpose B.
+
+63
+00:12:57.840 --> 00:13:00.340
+Chuan Wu: And then… B.
+
+64
+00:13:00.900 --> 00:13:02.190
+Chuan Wu: Equating zero.
+
+65
+00:13:02.340 --> 00:13:07.090
+Chuan Wu: So that's what we have. And then you can Sorry.
+
+66
+00:13:07.880 --> 00:13:08.660
+Chuan Wu: B.
+
+67
+00:13:13.210 --> 00:13:32.090
+Chuan Wu: Okay, and then you can move B to the right-hand side, and then you have AA transpose inverse, multiplying both sides, and eventually you come up with the solution. V equals negative 2 times of this matrix inverse B, multiplied times B.
+
+68
+00:13:33.540 --> 00:13:34.520
+Chuan Wu: Okay.
+
+69
+00:13:34.770 --> 00:13:41.780
+Chuan Wu: All right, and now we have an analytical solution to V, which is the dual variable.
+
+70
+00:13:42.070 --> 00:13:57.280
+Chuan Wu: And, based on the connection between the primal variable X and V as derived when we are, deriving the concrete form of Lagrange dual function, we can come up or recover X solution.
+
+71
+00:13:57.530 --> 00:14:05.989
+Chuan Wu: So X, you plug in what B is like, you plug in B, and here you come up with a concrete form of X.
+
+72
+00:14:08.780 --> 00:14:21.909
+Chuan Wu: Okay. All right, so this is a simple example, but, it does show nicely that we are able to solve the dual problem, and then we are able to recover the primal optimal solution.
+
+73
+00:14:22.380 --> 00:14:32.459
+Chuan Wu: Okay, so solving the dual problem is guaranteed to be a convex program. And actually, for this problem, the primal problem is also a convex program.
+
+74
+00:14:32.950 --> 00:14:46.099
+Chuan Wu: And for convex program, as what we will derive soon, the X that's minimizing the Lagrangian to come up with a Lagrange dual function is the optimal solution.
+
+75
+00:14:47.140 --> 00:15:01.249
+Chuan Wu: Or that is to say, for a convex program, between the connection between the primal variable and the dual variable is often reflected by the solution to the minimization of the Lagrangian problem.
+
+76
+00:15:02.330 --> 00:15:17.509
+Chuan Wu: here. Okay, so that means when you have recovered… when you have solved the dual problem, which is a convex program, come up with optimal solution V, you are able to come up with the primal optimal solution based on the connection we established here.
+
+77
+00:15:18.470 --> 00:15:19.210
+Chuan Wu: Okay.
+
+78
+00:15:19.580 --> 00:15:25.939
+Chuan Wu: The major connection is X minimizing the Lagrangian is a primal optimal solution.
+
+79
+00:15:26.530 --> 00:15:29.630
+Chuan Wu: So that will be formally established soon today.
+
+80
+00:15:30.190 --> 00:15:31.150
+Chuan Wu: Okay.
+
+81
+00:15:32.010 --> 00:15:35.169
+Chuan Wu: Alright, so this is our first example.
+
+82
+00:15:35.170 --> 00:15:57.150
+Chuan Wu: And the next example is about, using duality to find a non-trivial lower bound to the primal problem. So this is the problem that we actually, briefly mentioned about earlier. So we were talking about the weak duality. Right. So we know the objective, the optimal value of the dual problem is always a lower bound of the primal problem.
+
+83
+00:15:57.480 --> 00:16:06.470
+Chuan Wu: right primal optimal value. And therefore we are able to solve the dual problem, come up with a non-trivial lower bound to the primal problem.
+
+84
+00:16:06.900 --> 00:16:20.889
+Chuan Wu: Okay? And here it is a concrete example. We actually have seen similar example before. Here the objective function is to minimize a convex quadratic function. So here W is positive is a
+
+85
+00:16:21.760 --> 00:16:33.699
+Chuan Wu: Semidev is a… is a positive semi-definite matrix, and here X transpose WX is, quadratic. Okay.
+
+86
+00:16:33.700 --> 00:16:46.490
+Chuan Wu: And, constraints. So, constraints is asking every component in X, XI, is binary, kind of taking either negative 1 or 1 as a solution. Okay.
+
+87
+00:16:46.500 --> 00:17:02.669
+Chuan Wu: So we actually know this is an integer program, and we… and it is a non-convex program, because the constraints is not conforming to convex inequality nor alpha equality.
+
+88
+00:17:02.710 --> 00:17:14.320
+Chuan Wu: And, for this, integer program, one typical approach for coming up with an approximate solution is we relax the integer constraint first.
+
+89
+00:17:14.319 --> 00:17:23.650
+Chuan Wu: So here we allow every Xi to be taking any continuous value within the range of negative one and one. So this is a so-called relaxation of the constraints.
+
+90
+00:17:23.700 --> 00:17:29.020
+Chuan Wu: And then we… and then we come up with a convex program.
+
+91
+00:17:29.300 --> 00:17:37.590
+Chuan Wu: Okay, so here we are minimizing X transpose WX, and constraints are affine inequalities, and this is a convex program.
+
+92
+00:17:38.010 --> 00:17:47.629
+Chuan Wu: And, for this, convex program, we actually can easily find out a trivial solution.
+
+93
+00:17:48.050 --> 00:17:52.389
+Chuan Wu: Okay, I'll trivial lower bound to the objective function value.
+
+94
+00:17:54.710 --> 00:17:57.690
+Chuan Wu: Because W is positive semi-definite.
+
+95
+00:17:57.800 --> 00:18:01.279
+Chuan Wu: Right? So therefore, for any vector X,
+
+96
+00:18:01.490 --> 00:18:05.099
+Chuan Wu: X transpose WX should be larger equal to 0.
+
+97
+00:18:05.670 --> 00:18:12.029
+Chuan Wu: So therefore, the value of 0 is a trivial lower bound of the objective value.
+
+98
+00:18:12.870 --> 00:18:13.720
+Chuan Wu: Right.
+
+99
+00:18:13.890 --> 00:18:31.300
+Chuan Wu: Okay, so that's a very trivial objective value lower bound that we can immediately come up with, but we are able to obtain a better, okay, a better lower bound to the objective function, and which actually has been analyzed before.
+
+100
+00:18:31.590 --> 00:18:36.360
+Chuan Wu: Okay, so if you still remember, there was one example.
+
+101
+00:18:36.610 --> 00:18:41.189
+Chuan Wu: which we derived from the maximal cut problem.
+
+102
+00:18:41.470 --> 00:18:56.119
+Chuan Wu: Okay? And over there, eventually, the optimization we formulated is of similar form here and over there we are making use of the dual objective value to come up with a non-trivial lower bound to the primal objective value.
+
+103
+00:18:58.090 --> 00:19:17.570
+Chuan Wu: Okay, I won't discuss that solution again, but I do encourage you to look back on this page of the slide to see how, over there, we use the dual objective value to serve as a lower bound of the primal optimal value.
+
+104
+00:19:20.480 --> 00:19:21.300
+Chuan Wu: Okay.
+
+105
+00:19:21.610 --> 00:19:31.000
+Chuan Wu: And then, the last example we want to share is an example where we see that strong duality may hold for non-convex programs.
+
+106
+00:19:31.290 --> 00:19:43.689
+Chuan Wu: So before, we were talking about, for most convex programs, if they satisfy some mild condition, like the Slater's confusion qualification, then stronger than the host. And here, what we want to share is.
+
+107
+00:19:43.690 --> 00:19:53.570
+Chuan Wu: For a non-convex program, it's also possible that strong duality holds between its primal and dual problems. And let's take a look at the example here.
+
+108
+00:19:53.600 --> 00:20:06.059
+Chuan Wu: So, in the example, object function is again in the, you know, quadratic function 4, X transpose AX. But here, we do not require A to be positive semi-definite.
+
+109
+00:20:06.400 --> 00:20:13.870
+Chuan Wu: and we just require a to be any symmetric matrix. N times n dimensional symmetric matrix.
+
+110
+00:20:14.390 --> 00:20:20.239
+Chuan Wu: And then the constraint is about X transpose X equaling one.
+
+111
+00:20:20.470 --> 00:20:29.540
+Chuan Wu: Okay, so what is X transpose X equaling 1? So that actually tells XL2 norm squared is what?
+
+112
+00:20:29.850 --> 00:20:44.719
+Chuan Wu: And we know X transpose X is a quadratic function, not R-fine. So therefore, the equality constraint in this optimization problem is not R-fine. And then, in parallel, this optimization problem is not a convex optimization problem.
+
+113
+00:20:46.190 --> 00:20:57.829
+Chuan Wu: Okay, but we do see that, actually, nicely for this particular problem, the strong direction holds, meaning the primal optimal value equals the dual optimal value.
+
+114
+00:20:58.120 --> 00:21:08.319
+Chuan Wu: Okay, let's do some analysis, what the optimal solution of this problem is like, and then we will know what the optimal value is like.
+
+115
+00:21:08.940 --> 00:21:18.059
+Chuan Wu: Okay, here. So in fact, what we will show is the objective value, optimal objective value.
+
+116
+00:21:18.060 --> 00:21:33.340
+Chuan Wu: That is, minimal value of X transpose AX for A, B, and A symmetric matrix, subject to that X is a vector whose L2 norm is 1. Okay, L2 norm squared equaling 1 is equivalent to L20 equaling 1.
+
+117
+00:21:33.440 --> 00:21:42.040
+Chuan Wu: Okay? And that X transpose Ax's minimal value is exactly the minimal item value of matrix A.
+
+118
+00:21:42.630 --> 00:21:52.079
+Chuan Wu: Okay, so we'll see that, and you will be expecting that we'll do some, eigenvalue decomposition of the matrices, in order to show that, right? Okay.
+
+119
+00:21:52.540 --> 00:22:07.989
+Chuan Wu: So here, let's do some construction first. So we consider vector X, so which is our, variable vector X, n-dimensional. We consider X as linear combination of a number of orthogonal eigenvectors of A.
+
+120
+00:22:08.580 --> 00:22:23.639
+Chuan Wu: So, seeing for there is a property that is, for symmetric matrix A, we are able to find out a set of orthogonal eigenvectors, orthogonal meaning they are inner products between every 2 of those eigenvectors is exactly 0.
+
+121
+00:22:24.190 --> 00:22:41.379
+Chuan Wu: Okay, alright, and let's assume that every VI, so n-dimensional, n times n-dimensional matrix A, and then we have n such eigenvectors, and we consider VI to be the eigenvector corresponding to the eigenvalue lambda I.
+
+122
+00:22:41.520 --> 00:22:47.169
+Chuan Wu: And using the definition of a given value eigenvector, what we immediately come up with is here.
+
+123
+00:22:47.230 --> 00:22:56.959
+Chuan Wu: So we know A times VI equaling lambda IVI. So that is according to the definition of eigenvalue and eigenvector.
+
+124
+00:22:56.960 --> 00:23:07.819
+Chuan Wu: And, here we further require that vector VI is a unique vector, meaning L2 norm, or length of the vector, is exactly 1.
+
+125
+00:23:09.260 --> 00:23:28.279
+Chuan Wu: Okay, and then we can construct when our NBI vectors are orthogonal to each other, we are able to express our vector X, the variable vector, as a linear combination of the orthogonal eigenvectors.
+
+126
+00:23:29.000 --> 00:23:47.020
+Chuan Wu: Okay, alright, and then using this construction, what we can come up with is here. So X replaced by sum of over I, alpha I, BI, and then A, and then the X vector, and we do the calculation, and eventually.
+
+127
+00:23:49.780 --> 00:23:51.020
+Chuan Wu: Okay.
+
+128
+00:23:51.100 --> 00:24:13.350
+Chuan Wu: Here. Okay, so basically here we have alpha i, alpha i multiplied together, we come up with alpha i squared, and then we make use of AVI equaling lambda VI, so A is gone, we have lambda i left here, and we have VI transpose VI, so that comes up to VI's L2 norm squared.
+
+129
+00:24:13.520 --> 00:24:30.659
+Chuan Wu: Okay, so this is a detailed calculation. And then, because we have assumed VI vector is of unit… unit less, so therefore, VIL2 norm square equaling 1, and then we come up, the result is just the sum over I, alpha I square lambda I.
+
+130
+00:24:32.600 --> 00:24:50.420
+Chuan Wu: Okay, and we further have this condition, so that is X inner product with itself is 1. So that is actually the condition or constraint in the original optimization problem. Okay, so we make use of that, and then we plug in.
+
+131
+00:24:55.030 --> 00:25:00.519
+Chuan Wu: So, X is, Sum over I, alpha I, VI.
+
+132
+00:25:00.760 --> 00:25:04.300
+Chuan Wu: So in the product is in the production itself.
+
+133
+00:25:05.970 --> 00:25:07.300
+Chuan Wu: including what?
+
+134
+00:25:08.520 --> 00:25:14.289
+Chuan Wu: Okay, so that essentially comes up to sum of I, alpha I,
+
+135
+00:25:14.720 --> 00:25:19.309
+Chuan Wu: square, and then VI, L2NOM square.
+
+136
+00:25:19.600 --> 00:25:27.060
+Chuan Wu: Again, and we know VI is unit length, so VIL2 norm squared is 1.
+
+137
+00:25:27.170 --> 00:25:33.820
+Chuan Wu: And then eventually we come up with that sum of the coefficients squared is 1.
+
+138
+00:25:35.560 --> 00:25:38.749
+Chuan Wu: Okay. And, we…
+
+139
+00:25:39.790 --> 00:25:55.470
+Chuan Wu: Okay, so when we have this result, and then we check back at how we calculate the objective function value, X transpose AX. So we know X transpose AX is weighted sum of lambda i's.
+
+140
+00:25:55.760 --> 00:25:59.429
+Chuan Wu: The weights or coefficients are R for I squares.
+
+141
+00:26:00.190 --> 00:26:12.339
+Chuan Wu: And we further know the constraints tell that the sum of, square of the coefficients, or the sum of the coefficients in the form of alpha i squared, is 1.
+
+142
+00:26:13.450 --> 00:26:20.060
+Chuan Wu: Okay, and essentially, we know the alpha ice decides X.
+
+143
+00:26:20.060 --> 00:26:36.530
+Chuan Wu: Because in X construction or decomposition here, the eigenvector, orthogonal eigenvectors are kind of given. So when matrix A is, fixed, we can come up with N orthogonal eigenvectors, so VIs are fixed.
+
+144
+00:26:36.530 --> 00:26:46.190
+Chuan Wu: And the alpha I coefficients can vary when they vary. Our vector x vary. So therefore essentially variable x becomes variable alpha I.
+
+145
+00:26:46.840 --> 00:26:50.309
+Chuan Wu: right? Variable X becomes variable. Alpha ice.
+
+146
+00:26:50.670 --> 00:27:04.399
+Chuan Wu: And here we know all the alpha i squared should sum up to 1, and alpha i squared is the coefficient of weight in the weighted sum of the calculation of X transpose AX.
+
+147
+00:27:05.260 --> 00:27:17.859
+Chuan Wu: And essentially what we know is, we have the weights to allocate among N lambda i's, and we want the weighted sum to be the smallest possible. Then what do we do?
+
+148
+00:27:18.860 --> 00:27:28.599
+Chuan Wu: What we do is we allocate the whole weight to the smallest lambda i to make the weighted sum smallest possible.
+
+149
+00:27:29.260 --> 00:27:34.179
+Chuan Wu: So this is again a technique that we have applied a few times before. Right?
+
+150
+00:27:34.350 --> 00:27:37.770
+Chuan Wu: Okay, so here… we have…
+
+151
+00:27:42.360 --> 00:27:45.350
+Chuan Wu: So we have vector lambda, lambda.
+
+152
+00:27:45.720 --> 00:27:48.469
+Chuan Wu: Lambda 1 up to lambda n.
+
+153
+00:27:50.030 --> 00:27:58.150
+Chuan Wu: Okay, and then we have coefficients to multiply it with. Alpha I square, alpha 1 square, alpha 2 square.
+
+154
+00:27:59.790 --> 00:28:02.189
+Chuan Wu: and alpha N square.
+
+155
+00:28:02.970 --> 00:28:05.650
+Chuan Wu: Okay, the weighted sum.
+
+156
+00:28:06.290 --> 00:28:07.590
+Chuan Wu: calculation.
+
+157
+00:28:07.770 --> 00:28:18.079
+Chuan Wu: of X transpose AX is exactly the inner product between the two vectors, right? Coefficient vector and the, the.
+
+158
+00:28:20.090 --> 00:28:22.150
+Chuan Wu: the eigenvalue vector.
+
+159
+00:28:22.410 --> 00:28:31.929
+Chuan Wu: Right? And we know the coefficients here, in the square form, when they sum up together, is what?
+
+160
+00:28:33.120 --> 00:28:44.849
+Chuan Wu: So that means we have the total weights to allocate among different eigenvalues, and we want the weighted sum to be small as possible.
+
+161
+00:28:45.100 --> 00:28:53.300
+Chuan Wu: Then what we do is we definitely choose the smallest eigenvalue and assign its corresponding alpha i squared to be exactly 1.
+
+162
+00:28:53.510 --> 00:28:56.749
+Chuan Wu: and all the other Alpha I squared should be exactly 0.
+
+163
+00:28:57.040 --> 00:28:57.830
+Chuan Wu: Right.
+
+164
+00:28:59.700 --> 00:29:02.230
+Chuan Wu: So this is straightforward, right?
+
+165
+00:29:05.210 --> 00:29:06.160
+Chuan Wu: Okay.
+
+166
+00:29:06.900 --> 00:29:09.949
+Chuan Wu: You want me to show further numerical example?
+
+167
+00:29:11.150 --> 00:29:13.429
+Chuan Wu: or this is very straightforward.
+
+168
+00:29:14.380 --> 00:29:19.400
+Chuan Wu: Okay, so this is straightforward. Now, I want to show an example. So therefore, it's here.
+
+169
+00:29:19.670 --> 00:29:34.650
+Chuan Wu: Okay, so X transpose AX is minimized if we allocate that corresponding alpha J to be 1, corresponding to the smallest eigenvalue among all the n eigenvalues. And all the other alpha i's should be 0.
+
+170
+00:29:35.420 --> 00:29:44.840
+Chuan Wu: And… and then our X star. Okay, so our X star is the, eigenvector corresponding to the smallest eigenvalue.
+
+171
+00:29:45.490 --> 00:29:54.880
+Chuan Wu: Right? According to the construction, how we construct the X to be a weighted sum of the… a combination of all the eigenvectors.
+
+172
+00:29:55.730 --> 00:29:56.540
+Chuan Wu: Okay.
+
+173
+00:29:57.120 --> 00:29:57.820
+Chuan Wu: Okay.
+
+174
+00:29:59.710 --> 00:30:17.309
+Chuan Wu: Alright, and then, through all the analyses, based on the basic properties of eigenvectors and eigenvalues, we come up with that the, optimal objective function value is the minimal eigenvalue of the matrix A.
+
+175
+00:30:18.180 --> 00:30:32.540
+Chuan Wu: Okay, and over here, we haven't involved the duality at all. We just analyzed the primal problem, okay, making use of constraints, making use of the eigen… orthogonal eigenvectors of matrix A.
+
+176
+00:30:33.270 --> 00:30:38.920
+Chuan Wu: And next, we are going to approach the problem from the duality point perspective.
+
+177
+00:30:38.920 --> 00:30:54.719
+Chuan Wu: And what we mean is we derive the dual problem. And through the procedure of deriving the dual problem, and possibly analyzing and solving the dual problem, we are able to see that the dual optimal value is exactly the same, the minimal eigenvalue of matrix A.
+
+178
+00:30:54.790 --> 00:31:10.749
+Chuan Wu: Okay, so deriving the dual problem, three steps. Number one step is put down the Lagrangian, number two is to come up with the Lagrange dual function, number three is to lay down the concrete form of the dual problem. So let's follow the steps.
+
+179
+00:31:10.750 --> 00:31:19.990
+Chuan Wu: The further step is to put down the Lagrangian, which is here, so we have objective function, and then augmentation of yielding the
+
+180
+00:31:20.490 --> 00:31:24.539
+Chuan Wu: using multiplier, multiplying the equality constraint.
+
+181
+00:31:24.670 --> 00:31:31.800
+Chuan Wu: And in the primal problem, we only have one equality constraint, which is actually a quadratic equality constraint.
+
+182
+00:31:31.800 --> 00:31:56.449
+Chuan Wu: But that doesn't affect us deriving the dual Lagrangian dual problem. So we still use a typical way of associating a multiplier B, here it should be nu, associating a multiplier nu with the equality constraint, and then we have the Lagrangian. And the next step is to come up with a Lagrangian dual function. We are minimizing the Lagrangian over X.
+
+183
+00:31:56.670 --> 00:32:16.460
+Chuan Wu: Okay, and therefore, we organize the Lagrangian function in terms of, by organizing all the terms related to X together. So we have X transpose AX, we also have nu times X transpose X, so that's equivalent to nu times X transpose identity matrix
+
+184
+00:32:16.560 --> 00:32:23.230
+Chuan Wu: X. So therefore, in the middle here, we have nu i, and i is n times n identity matrix.
+
+185
+00:32:23.690 --> 00:32:29.259
+Chuan Wu: And then the, constant term not relevant to X is negative nu.
+
+186
+00:32:36.240 --> 00:32:48.800
+Chuan Wu: Okay, and then we, we, we, we found… we… what we are facing is a quadratic function, okay? It's a quadratic function on X that we are trying to minimize.
+
+187
+00:32:49.390 --> 00:33:05.889
+Chuan Wu: Okay, and when minimizing a contracting function, we typically have two cases. Okay, one case is bound the case, and the other is unbounded case. And under what case the minimal value of the contracting function will be bounded?
+
+188
+00:33:05.890 --> 00:33:15.010
+Chuan Wu: So that is, when the matrix here, okay, when the matrix in the quadratic term is, positive semi-definite.
+
+189
+00:33:15.620 --> 00:33:27.570
+Chuan Wu: Right? So when A plus nu i is positive semi-definite, then we know X transpose A plus nu iX is larger or equal to 0.
+
+190
+00:33:27.980 --> 00:33:32.409
+Chuan Wu: and there is a trivial lower bound of the value being 0.
+
+191
+00:33:33.350 --> 00:33:34.200
+Chuan Wu: Right.
+
+192
+00:33:34.480 --> 00:33:39.210
+Chuan Wu: And larger equal to zero, then the smallest possible value is exactly zero.
+
+193
+00:33:40.350 --> 00:33:51.520
+Chuan Wu: Okay, so when the contracted term here is zero, the result of the result for the Lagrange dual function is negative nu.
+
+194
+00:33:51.800 --> 00:34:02.679
+Chuan Wu: Okay, so basically, when the matrix is positive semi-definite, then we know the minimal value is negative nu, and if the matrix here is not positive semi-definite.
+
+195
+00:34:03.050 --> 00:34:10.610
+Chuan Wu: Then it's possible we choose X to make the first quadratic term's value to be very, very small.
+
+196
+00:34:10.840 --> 00:34:13.059
+Chuan Wu: and eventually unbounded below.
+
+197
+00:34:15.780 --> 00:34:21.659
+Chuan Wu: Okay, so therefore, the otherwise branch of the result is negative infinity.
+
+198
+00:34:26.780 --> 00:34:27.800
+Chuan Wu: Okay.
+
+199
+00:34:29.120 --> 00:34:35.130
+Chuan Wu: All right, and then we have two cases, and when we lay down the dual problem.
+
+200
+00:34:35.250 --> 00:34:54.890
+Chuan Wu: we take the bounded case. Why? Because the dual problem is to maximize the Lagrange dual function. When we try to maximize its value, of course, we will try to choose nu such that it won't… the G nu's value won't fall into the negative infinity case.
+
+201
+00:34:55.420 --> 00:34:56.250
+Chuan Wu: Right.
+
+202
+00:34:56.900 --> 00:35:07.109
+Chuan Wu: Okay, so the dual problem is to maximize negative nu subject to that A plus nu I. The matrix is positive semi-definite.
+
+203
+00:35:10.860 --> 00:35:11.910
+Chuan Wu: Okay.
+
+204
+00:35:12.120 --> 00:35:14.100
+Chuan Wu: Alright.
+
+205
+00:35:14.500 --> 00:35:33.860
+Chuan Wu: So now we have derived a dual problem, and the next step is we are going to analyze a dual problem to figure out that its optimal value is, again, the smallest eigenvalue of matrix A. And over here, we are going to make use of the eigen decomposition of a symmetric matrix.
+
+206
+00:35:33.860 --> 00:35:43.549
+Chuan Wu: So we know for a symmetric matrix, we can always find out an orthogonal matrix Q, such that we can do A's.
+
+207
+00:35:43.550 --> 00:35:46.040
+Chuan Wu: Eigen decomposition accordingly.
+
+208
+00:35:46.040 --> 00:36:09.659
+Chuan Wu: Okay. Essentially a eigendecomposition is here is the orthogonal matrix Q transpose back matrix diagonal matrix here. And in this diagonal matrix along the main diagonals we have all the n eigenvalues of matrix A and then multiplying Q. So this is a so-called eigendecomposition of a symmetric matrix.
+
+209
+00:36:10.350 --> 00:36:24.519
+Chuan Wu: And then, for the new I part, similarly, we can put the data down this way, and we know Q is an orthogonal matrix, meaning Q transpose Q equaling I, identity matrix.
+
+210
+00:36:24.840 --> 00:36:44.760
+Chuan Wu: Okay, that also implies Q's inverse equals Q's transpose, so that is from the definition of orthogonal matrix. And, V is here, so it's equivalent… the second term here is exactly equivalent to new times identity matrix I.
+
+211
+00:36:45.730 --> 00:37:05.070
+Chuan Wu: Okay, and then we want the sum of the two parts to be a matrix, which is positive semi-definite, and we can put… we can add up the matrix in the middle, and come up with Q transpose, the diagonal matrix here, and then Q.
+
+212
+00:37:05.210 --> 00:37:09.960
+Chuan Wu: And we want this to be positive, semi-definite.
+
+213
+00:37:10.010 --> 00:37:26.839
+Chuan Wu: And, in order for the, matrix A plus nu i to be positive semi-definite, what we require is… so the right-hand side most term here is the eigendecomposition of.
+
+214
+00:37:27.480 --> 00:37:46.210
+Chuan Wu: matrix A plus nu i. And, in order for A plus nu i to be positive semi-definite, we require the middle matrix, diagonal matrix here, in its eigendecomposition, to have all non-negative entries along the main diagonal.
+
+215
+00:37:46.670 --> 00:37:51.999
+Chuan Wu: Okay, along the main diagonal lambda, one lambda, one plus
+
+216
+00:37:52.200 --> 00:37:58.130
+Chuan Wu: Nu, lambda 2 plus nu, all the diagonal terms.
+
+217
+00:37:58.460 --> 00:38:00.160
+Chuan Wu: To be larger than they are.
+
+218
+00:38:02.880 --> 00:38:14.070
+Chuan Wu: So, in fact, the… all the elements along the diagonal of the matrix here, they correspond to eigenvalues of back of matrix A plus mu I.
+
+219
+00:38:14.830 --> 00:38:23.919
+Chuan Wu: Okay, and for A plus mu i to be positive semi-definite, the eigenvalues here should be non-negative, larger to 0.
+
+220
+00:38:24.330 --> 00:38:29.110
+Chuan Wu: Okay, so therefore, what we get is lambda I plus mu should be larger equal to 0.
+
+221
+00:38:29.290 --> 00:38:39.030
+Chuan Wu: Okay, that also tells… Negative mu should be… is smaller, equal.
+
+222
+00:38:40.150 --> 00:38:44.460
+Chuan Wu: 2, all the lambda is
+
+223
+00:38:47.640 --> 00:38:48.500
+Chuan Wu: Okay.
+
+224
+00:38:48.730 --> 00:38:55.509
+Chuan Wu: So, moving you to the right-hand side, we come up with negative mu is no larger than lambda i for all lambda i's.
+
+225
+00:38:56.670 --> 00:39:06.479
+Chuan Wu: Okay, and now we check back on the objective function of the dual problem. The objective function is exactly to maximize negative mu.
+
+226
+00:39:06.610 --> 00:39:07.540
+Chuan Wu: Okay.
+
+227
+00:39:07.720 --> 00:39:19.190
+Chuan Wu: The largest negative mu is again bounded by all the lambda i values, and the largest possible value of negative mu is the smallest eigenvalues of matrix A.
+
+228
+00:39:20.560 --> 00:39:32.810
+Chuan Wu: Okay. And therefore, we are able to derive that the dual problem's objective is, again, the smallest eigenvalue of matrix A.
+
+229
+00:39:35.400 --> 00:39:45.519
+Chuan Wu: Okay? And that optimal objective value or optimal value of the dual problem is exactly the same as optimal value of the primal problem.
+
+230
+00:39:45.820 --> 00:39:48.090
+Chuan Wu: And then we say stronger idea holds.
+
+231
+00:39:48.860 --> 00:39:49.760
+Chuan Wu: Okay.
+
+232
+00:39:55.580 --> 00:40:01.880
+Chuan Wu: All right, so this is an example where we see for non-convex programs that strong duality may also hold.
+
+233
+00:40:24.700 --> 00:40:35.960
+Chuan Wu: Okay? So having finished a few examples where we see different ways, different approaches of applying a duality is essentially what we are applying is the detailed step of direct problem.
+
+234
+00:40:36.120 --> 00:40:50.659
+Chuan Wu: And now, moving on, we will see more, important, optimized… more important properties related to the theory. So, one is a so-called complementary slackness condition, and the other is a set of KKT conditions.
+
+235
+00:40:50.660 --> 00:41:00.460
+Chuan Wu: So we will find out they are more important in terms of established optimality or identifying optimal solutions or convex program.
+
+236
+00:41:00.840 --> 00:41:01.750
+Chuan Wu: Okay.
+
+237
+00:41:02.040 --> 00:41:05.740
+Chuan Wu: All right, starting with complementary selectness.
+
+238
+00:41:08.310 --> 00:41:11.829
+Chuan Wu: Okay. So here.
+
+239
+00:41:12.330 --> 00:41:24.359
+Chuan Wu: We assume, a given… for a given optimization problem, we assume strong duality holds. So currently, we do not assume if the… assume if the primal problem is convex or not.
+
+240
+00:41:24.360 --> 00:41:46.219
+Chuan Wu: So we just assume strongly that the holds for the given optimization problem. And x star is a primal optimal solution. And the lambda star new star together is a dual optimal policy okay. So we know lambda lambda is a set of multipliers associated with inequality constraints in the primal problem.
+
+241
+00:41:46.220 --> 00:41:57.839
+Chuan Wu: And the new is a set of multipliers to associate with equality constraints from the primal problem okay. And lambda new together they are the set of variables for the dual problem.
+
+242
+00:41:58.190 --> 00:42:16.599
+Chuan Wu: And now we have strong duality that is assumed. That means the primal objective value, F0X star, evaluated at X star, is equivalent to the dual optimal value evaluated at lambda star and nu star.
+
+243
+00:42:17.540 --> 00:42:30.930
+Chuan Wu: And then we further plug in the steps, details of, deriving the dual, Lagrangian dual function. It's here. So we know the Lagrange dual function is calculated by.
+
+244
+00:42:31.580 --> 00:42:48.059
+Chuan Wu: computing the smallest or the infinite value of the Lagrangian function. And the Lagrangian function is in the form of F0X plus weighted sum of the inequality constraint functions plus weighted sum of the equality constraint functions.
+
+245
+00:42:48.700 --> 00:42:53.319
+Chuan Wu: Okay, so here, from the duality derivation step.
+
+246
+00:42:53.730 --> 00:43:05.699
+Chuan Wu: And then what we further can derive is here. Here, infinite, okay, smallest Lagrangian function value. And if we plug in X,
+
+247
+00:43:06.020 --> 00:43:25.419
+Chuan Wu: star. If we plug in X star as a value of X into the Lagrangian function, what we come up is here, F0X star plus sum over I, lambda I star, FIX star, plus sum over I, mu I star, HIX star. Okay. And, we do not know now.
+
+248
+00:43:25.420 --> 00:43:43.529
+Chuan Wu: we still do not know whether X star is the minimizer of the Lagrangian, but it doesn't matter. So whatever minimizer of the Lagrangian, the value of the Lagrangian function evaluated at that minimizer would be no larger than the Lagrangian function evaluated at X star.
+
+249
+00:43:43.840 --> 00:43:47.130
+Chuan Wu: Okay. And.
+
+250
+00:43:47.330 --> 00:43:55.390
+Chuan Wu: And then, further, we know X star is primal optimal solution. That means it satisfies the primal constraints.
+
+251
+00:43:55.550 --> 00:44:17.879
+Chuan Wu: It satisfies the primal inequality constraints, meaning FIX stars are smaller equal to zero. And we also know lambda I star, the dual optimal point, part of the dual optimal point, is larger equal to zero. So therefore, the weighted sum here, every weighted sum in this sum is no larger than zero.
+
+252
+00:44:18.010 --> 00:44:19.490
+Chuan Wu: smaller, equal to 0.
+
+253
+00:44:20.020 --> 00:44:31.409
+Chuan Wu: And the, last term here, X star is primal optimal, and hence primal feasible. That means HIX star is exactly zero.
+
+254
+00:44:31.620 --> 00:44:42.920
+Chuan Wu: Right? So therefore, the second entry is smaller equal to 0, last entry is 0, and therefore, the sum over here would be no larger than F0X star.
+
+255
+00:44:43.610 --> 00:44:44.430
+Chuan Wu: Right.
+
+256
+00:44:46.720 --> 00:45:03.200
+Chuan Wu: Okay, and what we come up with is, So here, our very starting, term is F0X star, and eventually, out of the way, what we derived is it should be smaller equal to F0X star.
+
+257
+00:45:03.680 --> 00:45:17.349
+Chuan Wu: And we know, of course, F0X star equaling F0X star, and that results in that the two inequalities in the derivation steps should be holding with exact equality.
+
+258
+00:45:19.180 --> 00:45:27.390
+Chuan Wu: Okay, and when the first, inequality here holds with equality, what does it imply?
+
+259
+00:45:27.970 --> 00:45:38.029
+Chuan Wu: It implies X star, which is a primal optimal solution, is the minimizer of the Lagrangian at lambda I star, nu I star.
+
+260
+00:45:38.860 --> 00:45:42.130
+Chuan Wu: Okay, X star minimize Lagrangian.
+
+261
+00:45:42.350 --> 00:45:47.119
+Chuan Wu: When we fix lambda nu to be lambda star nu star, but vary X.
+
+262
+00:45:49.060 --> 00:46:04.360
+Chuan Wu: Okay, this actually is a very nice property, and it is actually the foundation behind the very first example we discussed today. And over there, we derived the X star, equaling…
+
+263
+00:46:05.000 --> 00:46:23.970
+Chuan Wu: X star equaling some function of nu by minimizing the Lagrangian function, right? And for that problem, strong duality does hold. So therefore, we know X star, which is the minimizer of the Lagrangian at nu star, is the optimal solution to the primal problem.
+
+264
+00:46:28.970 --> 00:46:31.449
+Chuan Wu: So is that clear? Do I need to?
+
+265
+00:46:31.550 --> 00:46:37.240
+Chuan Wu: show and say that again. Probably it's, desirable that I go back.
+
+266
+00:46:37.750 --> 00:46:40.840
+Chuan Wu: And show you a little bit more.
+
+267
+00:47:08.440 --> 00:47:09.660
+Chuan Wu: Okay, here.
+
+268
+00:47:10.410 --> 00:47:28.760
+Chuan Wu: So for the very first example we shared today, I said that the primal problem is actually convex, right? So therefore, strong duality holds. And when strong duality holds, what we have just now derived is that X star, which is the primal optimal solution.
+
+269
+00:47:28.760 --> 00:47:37.350
+Chuan Wu: is equivalent to the minimizer of the Lagrangian when the Lagrangian multiplier is fixed to be the dual optimal solutions.
+
+270
+00:47:37.790 --> 00:47:51.179
+Chuan Wu: Okay, so that, property is actually made use of here, when we derive back X optimal solution to the primal problem, yielding the optimal solution to the dual problem.
+
+271
+00:47:51.410 --> 00:47:59.919
+Chuan Wu: Okay, so all the way, when we… after we have derived the dual problem, we come up with the new. The new is the new star, optimal solution to the dual problem.
+
+272
+00:47:59.950 --> 00:48:12.749
+Chuan Wu: And at that time, I said we can recover primal optimal solution by calculating X equaling negative 1 half of A transpose nu, plugging nu as the value of nu star we have just derived.
+
+273
+00:48:13.250 --> 00:48:20.130
+Chuan Wu: So the equality here is established based on that X here is a minimizer of the Lagrangian.
+
+274
+00:48:20.460 --> 00:48:33.709
+Chuan Wu: And from what we have just analyzed in the next set of slides, our conclusion is that the minimizer of the Lagrangian here at the new star is indeed the primal optimal solution X star.
+
+275
+00:48:36.850 --> 00:48:38.489
+Chuan Wu: So, is that clear?
+
+276
+00:48:55.360 --> 00:49:10.649
+Chuan Wu: Okay, I'll say that again. So basically, from all the standard step of deriving the dual, and then we come up with a dual optimal solution, so I believe for that step, we have no doubt that new we derived here is a dual optimal solution.
+
+277
+00:49:11.350 --> 00:49:20.890
+Chuan Wu: And the key point is how we can recover the primal optimal solution, or derive the primal optimal solution according to the dual optimal solution.
+
+278
+00:49:21.180 --> 00:49:35.149
+Chuan Wu: So what we did when we worked on this example is, we directly plug in new i's value into the formula between X and nu, and then the X we derived, as I said, is a primal optimal solution.
+
+279
+00:49:36.210 --> 00:49:51.119
+Chuan Wu: And the principle behind, okay, the principle behind is X, as we derived, is the minimizer or optimal solution of the Lagrange dual function of the, of the, is a minimizer of the Lagrangian function.
+
+280
+00:49:51.410 --> 00:50:09.990
+Chuan Wu: instead of the minimizer of the very original optimization problem. Right? But why, I can safely say that X star derived this way is not only the minimizer of the Lagrangian function, but also the minimizer of the optimal solution of the very primal, very original primal problem.
+
+281
+00:50:10.380 --> 00:50:16.010
+Chuan Wu: The key idea, okay, or the key principle lies in here.
+
+282
+00:50:16.340 --> 00:50:36.130
+Chuan Wu: Okay, over here, when we assume that a strong duality holds between the optimization primal and the dual problem, and when we know X star and the lambda star nu star are the primal and the dual optimal solutions, respectively, what we derive is that X star is also the minimizer of the Lagrangian function.
+
+283
+00:50:37.380 --> 00:50:40.630
+Chuan Wu: Okay, so that here it is a principle behind.
+
+284
+00:50:41.510 --> 00:50:42.430
+Chuan Wu: Okay.
+
+285
+00:50:43.370 --> 00:50:50.680
+Chuan Wu: Alright, so if that is clear, so this is actually a very important property.
+
+286
+00:50:51.140 --> 00:50:59.979
+Chuan Wu: Okay, usually we make use of this to recover the primal optimal solution based on derived dual optimal solution.
+
+287
+00:51:02.180 --> 00:51:03.110
+Chuan Wu: Okay.
+
+288
+00:51:04.480 --> 00:51:18.280
+Chuan Wu: Okay, and then the next property is kind of even more important in some sense. So the next property is, that if this second inequality becomes strict equality.
+
+289
+00:51:18.340 --> 00:51:25.799
+Chuan Wu: What we know is the second term here should be exactly zero, and the last term there is exactly zero as well.
+
+290
+00:51:25.800 --> 00:51:38.789
+Chuan Wu: It is trivial that the last term or the third term here is exactly zero, because HIX star is the equality constraint function. It is exactly zero when X star is primal feasible.
+
+291
+00:51:38.790 --> 00:51:48.569
+Chuan Wu: And what is interesting is here, this term in general should be smaller equal to zero, but if the second inequality holds with equality.
+
+292
+00:51:48.570 --> 00:51:58.979
+Chuan Wu: What we know is here, lambda i, fi, x star, the product should be exactly zero, rather than smaller equal to zero.
+
+293
+00:51:59.320 --> 00:52:03.999
+Chuan Wu: And that is exactly the form of complementary slackness property.
+
+294
+00:52:04.440 --> 00:52:19.480
+Chuan Wu: Okay, complementary selectness says at optimality, X star and lambda star for primal and dual problem, respectively, what we have is lambda I star multiplying FIX star should be exactly zero.
+
+295
+00:52:20.430 --> 00:52:31.179
+Chuan Wu: Okay, so when it is exactly zero, the implication is here. If the corresponding multiplier lambda i star is larger than zero, then the second entry should be exactly zero.
+
+296
+00:52:31.420 --> 00:52:42.200
+Chuan Wu: Or, if the second entry is strictly smaller than zero, then the first entry in the product, which is lambda i star, should be exactly zero.
+
+297
+00:52:43.170 --> 00:52:44.090
+Chuan Wu: Okay.
+
+298
+00:52:44.440 --> 00:52:54.330
+Chuan Wu: All right. So complementary selectness. So this is the general complementary selectness property for problems where strong duality holds.
+
+299
+00:52:56.520 --> 00:53:06.040
+Chuan Wu: Okay, and then moving on from that, let's check out the more concrete form of complementary slackness condition for linear program.
+
+300
+00:53:06.140 --> 00:53:18.969
+Chuan Wu: So we know linear program is convex program, and for linear programs, strong duality always holds. So that is what we already analyzed before, when we introduced Slater's constraint qualification.
+
+301
+00:53:19.160 --> 00:53:37.800
+Chuan Wu: And when, for any linear program, strong… for linear program in any form, so we talk about canonical form, standard form, and generic forms. So for linear program, in any form, strong duality always holds between its primal problem and the dual problem.
+
+302
+00:53:37.800 --> 00:53:42.609
+Chuan Wu: And, we know complementary selectness also hold for linear program.
+
+303
+00:53:42.610 --> 00:54:00.120
+Chuan Wu: And now we… let's try to derive a more concrete form of complementary selectness property for linear program. And the linear program we are checking out now is in the canonical form. Okay, canonical form of linear program, primal linear program on the left-hand side.
+
+304
+00:54:00.120 --> 00:54:14.130
+Chuan Wu: And using the steps we derived the dual, you can easily derive the dual problem of the canonical form linear program as, like, on the right-hand side, which is another linear program in a canonical form.
+
+305
+00:54:14.580 --> 00:54:15.530
+Chuan Wu: Okay.
+
+306
+00:54:16.170 --> 00:54:30.229
+Chuan Wu: And the concrete complementary slackness property or formula for linear program is as follows. And, it's here. Okay, actually, the equations are here. So here, YI.
+
+307
+00:54:30.230 --> 00:54:45.770
+Chuan Wu: So y I multiplying a b minus a x I. So what does that mean. So basically from the steps of deriving the dual. So probably I can put down a few key steps of deriving the dual.
+
+308
+00:54:45.770 --> 00:54:47.959
+Chuan Wu: Or you are in their understanding.
+
+309
+00:55:47.830 --> 00:55:48.690
+Chuan Wu: Okay.
+
+310
+00:55:49.150 --> 00:55:57.910
+Chuan Wu: So here, YI is the, multipliers associated with the ICE inequality constraint in the first set.
+
+311
+00:55:58.270 --> 00:56:00.600
+Chuan Wu: And… Lambda I.
+
+312
+00:56:00.850 --> 00:56:08.229
+Chuan Wu: is a multiplier associated with the, every inequality constraint in the second set. Okay.
+
+313
+00:56:08.360 --> 00:56:11.350
+Chuan Wu: And then, our background Ji.
+
+314
+00:56:11.480 --> 00:56:14.230
+Chuan Wu: Would we like X slide?
+
+315
+00:56:15.320 --> 00:56:16.640
+Chuan Wu: and Lambda.
+
+316
+00:56:17.330 --> 00:56:19.449
+Chuan Wu: And what… oh, yeah.
+
+317
+00:56:21.490 --> 00:56:25.360
+Chuan Wu: constructing is a… Lagrangian here.
+
+318
+00:56:35.800 --> 00:56:39.900
+Chuan Wu: Okay, so this is the Lagrangian, and if you are minimizing it.
+
+319
+00:56:40.910 --> 00:56:46.780
+Chuan Wu: And then we come up with the, Lagrange dual function.
+
+320
+00:57:00.970 --> 00:57:05.290
+Chuan Wu: Okay, one more step of organizing the terms related to X.
+
+321
+00:57:36.890 --> 00:57:37.880
+Chuan Wu: Okay.
+
+322
+00:57:38.030 --> 00:57:38.840
+Chuan Wu: here.
+
+323
+00:57:38.960 --> 00:57:39.970
+Chuan Wu: All right.
+
+324
+00:57:40.230 --> 00:57:43.220
+Chuan Wu: And then we have two cases.
+
+325
+00:57:43.690 --> 00:57:52.140
+Chuan Wu: So if the coefficient of vectors is exactly zero, what we come up with is the constant term.
+
+326
+00:57:52.390 --> 00:57:56.930
+Chuan Wu: Y not related to X, which is Y transpose E.
+
+327
+00:57:57.030 --> 00:57:58.160
+Chuan Wu: Otherwise.
+
+328
+00:58:01.710 --> 00:58:03.070
+Chuan Wu: 1950.
+
+329
+00:58:07.490 --> 00:58:08.340
+Chuan Wu: Right.
+
+330
+00:58:08.480 --> 00:58:16.389
+Chuan Wu: Okay, and then from here, we can put down the, dual problem. So the dual problem is to maximize
+
+331
+00:58:16.650 --> 00:58:21.100
+Chuan Wu: Y transpose B, or equivalent to B transpose Y,
+
+332
+00:58:21.270 --> 00:58:27.889
+Chuan Wu: subject to C minus A transpose Y minus lambda equaling zero.
+
+333
+00:58:28.580 --> 00:58:31.999
+Chuan Wu: Okay, and then we have to ask why.
+
+334
+00:58:32.740 --> 00:58:36.780
+Chuan Wu: Logical to 0, and lambda logical to 0.
+
+335
+00:58:37.780 --> 00:58:38.600
+Chuan Wu: Right?
+
+336
+00:58:38.620 --> 00:58:57.109
+Chuan Wu: So this is how we derive the Lagrange-Bureau problem over there. And of course, if we, try to… we can try to omit a lambda, and we, and the lambda larger than zero, the constraint is gone, and what is left with is C minus A transpose Y larger than zero.
+
+337
+00:58:57.110 --> 00:59:01.270
+Chuan Wu: So that's exactly the A transpose Y smaller than C constraint.
+
+338
+00:59:01.470 --> 00:59:02.220
+Chuan Wu: Right?
+
+339
+00:59:02.390 --> 00:59:03.290
+Chuan Wu: Okay.
+
+340
+00:59:03.670 --> 00:59:04.710
+Chuan Wu: All right.
+
+341
+00:59:04.810 --> 00:59:26.710
+Chuan Wu: So then, we are going to make use of the derivation step in proving the complementary selectness, property here for linear program. But before we check out the complementary selectness theorem, let's first check out what the, pairwise product equaling zero, formula is like in the context of linear program.
+
+342
+00:59:26.710 --> 00:59:33.080
+Chuan Wu: So here, YI, which is the multiplier associated with inequality constraint.
+
+343
+00:59:33.080 --> 00:59:41.980
+Chuan Wu: BI minus AII, so here it represents the ICE entry in this set of inequality constraint.
+
+344
+00:59:42.100 --> 00:59:49.369
+Chuan Wu: So basically, why I'm multiplying is corresponding inequality constraint functions. The result should be exactly zero.
+
+345
+00:59:49.800 --> 01:00:04.780
+Chuan Wu: And the second set of complementary selectiveness condition is here. It says XJ multiplying the J's entry in A transpose Y small equal to C constraint is exactly zero.
+
+346
+01:00:04.980 --> 01:00:15.980
+Chuan Wu: Okay, so basically, you see CJ minus A transpose Y's J's entry is the J's row in this set of inequality constraint from the dual problem.
+
+347
+01:00:16.370 --> 01:00:30.980
+Chuan Wu: Okay, so what is the rationale here? In the, complementary slackness theorem for linear program, you see we have a set of, complementary slackness conditions.
+
+348
+01:00:30.980 --> 01:00:37.389
+Chuan Wu: For the primal problem, we also have a set of complementary selectness conditions for the dual problem.
+
+349
+01:00:37.390 --> 01:00:52.380
+Chuan Wu: So rationalizing, when we derive the dual in this way, if you do it the other way around, okay, if you do it in the other way around, if you treat the dual problem here as a primal problem, and derive its dual again.
+
+350
+01:00:52.380 --> 01:00:58.840
+Chuan Wu: then that the dual of the dual is exactly the very original primal problem. So you can verify that.
+
+351
+01:00:59.220 --> 01:01:16.259
+Chuan Wu: And when you derive the dual of the dual linear program here, your multiplier associated with every entry in this first set of inequality constraint will eventually become the primal problems variable X.
+
+352
+01:01:17.220 --> 01:01:30.630
+Chuan Wu: Okay, simply put, so XJ here, so the J's entry in the primal variable is the multiplier associated with the J's entry in the first set of inequality constraint.
+
+353
+01:01:31.000 --> 01:01:37.470
+Chuan Wu: When we derive the dual of the dual, that becomes the very original primal problem.
+
+354
+01:01:38.000 --> 01:01:48.780
+Chuan Wu: Okay, so therefore, that's the… why the form of the complementary selectness condition for linear program is like. So primal dual, they are actually duals of each other.
+
+355
+01:01:49.960 --> 01:01:55.720
+Chuan Wu: Alright, so now let's check out what the complementary selectness theorem for linear program is saying.
+
+356
+01:01:55.720 --> 01:02:12.270
+Chuan Wu: So it says if we have a primal feasible solution X and a dual feasible solution Y, they are primal and dual optimal if and only if the set of complementary selectness conditions are satisfied.
+
+357
+01:02:13.480 --> 01:02:14.480
+Chuan Wu: Okay.
+
+358
+01:02:14.700 --> 01:02:34.840
+Chuan Wu: Simply put, if we can find out X and Y being the primal and the dual feasible solution satisfying the set of complementary slackness conditions here, then they are primal and dual optimal, respectively. And this is both a necessary and a sufficient condition.
+
+359
+01:02:35.440 --> 01:02:49.800
+Chuan Wu: So we can actually prove the necessity and the sufficiency of the condition, but before that, let's do some further, detailed analysis of what the complementary selectness conditions are saying.
+
+360
+01:02:50.020 --> 01:03:02.000
+Chuan Wu: Okay, so pairwise product equaling zero, so basically it means, what it implies is, if the primal constraint AX
+
+361
+01:03:02.270 --> 01:03:04.960
+Chuan Wu: I as entry equaling BI.
+
+362
+01:03:04.960 --> 01:03:29.470
+Chuan Wu: Then we are good. If the primal constraint is hold with strict inequality, then the corresponding dual variable should be taking exactly the value of zero. And similarly, if we have that the J's entry in the first set of inequality constraints of the dual problem to be holding with equalities, then we are good.
+
+363
+01:03:29.580 --> 01:03:49.689
+Chuan Wu: Otherwise, if that condition holds with inequality, strict inequality, then the corresponding primal value XJ should be… primal variable value XJ should be exactly zero. Okay, so basically, these are just the concrete interpretation of the pairwise product equaling zero property.
+
+364
+01:03:51.030 --> 01:04:02.990
+Chuan Wu: Okay, next, let's check out the proof for sufficiency and the necessity of the complementary selectness property, or proper conditions for linear program.
+
+365
+01:04:03.080 --> 01:04:21.939
+Chuan Wu: So we first show the sufficiency of the condition. That means if we are given XY primal dual feasible, and they satisfy complementary slackness conditions, the two sets of complementary slackness conditions, then we are able to show X and Y are primal and dual optimal, respectively.
+
+366
+01:04:22.050 --> 01:04:28.069
+Chuan Wu: Okay, so we say they satisfy complementary slackness conditions, two sets here.
+
+367
+01:04:28.840 --> 01:04:43.180
+Chuan Wu: And then what we can derive is over here. The first inequality, YIBI part, and if we sum up over I on left-hand side, on both sides of the set of.
+
+368
+01:04:43.470 --> 01:04:50.889
+Chuan Wu: equalities there, what we come up with is B transpose Y, okay? And then for the
+
+369
+01:04:54.730 --> 01:04:57.240
+Chuan Wu: Alright, so what I meant is here.
+
+370
+01:05:06.080 --> 01:05:11.780
+Chuan Wu: YIEI minus A… Thanks.
+
+371
+01:05:11.980 --> 01:05:17.780
+Chuan Wu: I equaling 0 for all I. Let me just sum over I on both sides.
+
+372
+01:05:18.150 --> 01:05:19.010
+Chuan Wu: And?
+
+373
+01:05:19.220 --> 01:05:27.310
+Chuan Wu: Sum I, YIBI, equaling sum I, YI, A, X, I.
+
+374
+01:05:27.730 --> 01:05:38.479
+Chuan Wu: Okay, so left-hand side is exactly the inner product between vector Y and the B, and the right-hand side is exactly the inner product between vector
+
+375
+01:05:40.250 --> 01:05:41.990
+Chuan Wu: Y and the AX.
+
+376
+01:05:42.670 --> 01:05:45.980
+Chuan Wu: Okay, so that is what we derive here.
+
+377
+01:05:46.650 --> 01:06:03.549
+Chuan Wu: And similarly, if we sum over J on both sides of this set of equalities, left-hand side becomes C, vector C, inner product X, and right-hand side becomes X inner product with vector A transpose Y.
+
+378
+01:06:04.320 --> 01:06:17.579
+Chuan Wu: And X transpose A transpose Y is a scalar value. We know a scalar value is transposed, equating itself, so therefore, this quantity is transposed is Y transpose AX.
+
+379
+01:06:17.930 --> 01:06:19.240
+Chuan Wu: Okay.
+
+380
+01:06:19.340 --> 01:06:33.489
+Chuan Wu: And what we have come up with is, C, we know C transpose X equaling Y transpose AX, and in the first equality, we also have B transpose Y equaling Y transpose AX.
+
+381
+01:06:33.610 --> 01:06:35.350
+Chuan Wu: I think the battery is gone.
+
+382
+01:06:45.280 --> 01:06:54.209
+Chuan Wu: All right, I think I'm almost talk about, talk… have almost talked 1 hour, so let's take a 3-minute break while I change battery.
+
+383
+01:09:03.380 --> 01:09:04.370
+Chuan Wu: Are they here?
+
+384
+01:10:27.320 --> 01:10:34.469
+Chuan Wu: Okay, let's continue, with the proof here. What we have just established is, that
+
+385
+01:10:34.940 --> 01:10:48.300
+Chuan Wu: both C transpose X and B transpose Y equaling Y transpose AX. So that means C transpose X equals B transpose Y. And, what is this?
+
+386
+01:10:48.370 --> 01:11:04.480
+Chuan Wu: So this is pretty much, pretty close to strong duality, right? It shows the, primal optimal… primal objective function value evaluated at this feasible X equals the dual optimal
+
+387
+01:11:04.830 --> 01:11:09.570
+Chuan Wu: dual objective function value evaluated at dual feasible y.
+
+388
+01:11:09.860 --> 01:11:24.859
+Chuan Wu: And usually, when you see this, this actually implies strong duality, as well as implies X is not only primal feasible, but primal optimal as well, and Y is not only dual feasible, but dual optimal as well.
+
+389
+01:11:25.060 --> 01:11:29.460
+Chuan Wu: Why, we can show it strictly as follows.
+
+390
+01:11:29.580 --> 01:11:52.009
+Chuan Wu: Okay, so here. So assuming beyond X, we have another primal… we have a primal optimal solution X star. So X is just a feasible solution, X star is a primal optimal solution. And similarly, Y is a dual feasible solution, but we have possibly another dual optimal solution, Y star.
+
+391
+01:11:52.230 --> 01:12:12.039
+Chuan Wu: And then, what we derive is here. And the Y star is dual optimal. So, and the dual problem is a maximization problem. So therefore, we know the dual objective function value evaluated at Y star is no smaller than dual objective function value evaluated at Y.
+
+392
+01:12:12.470 --> 01:12:16.689
+Chuan Wu: And then we also know weak duality always hold.
+
+393
+01:12:16.690 --> 01:12:38.540
+Chuan Wu: for any optimization problem between its primal objective value and the dual optimal value. So therefore we know the dual optimal value is lower bounded, is a lower bound of a primal optimal value and the primal optimal value is evaluated at this primal optimal solution X star.
+
+394
+01:12:39.120 --> 01:12:52.440
+Chuan Wu: And because X star is primal optimal, and X is only some kind of primal feedable, and then we know C transpose X is no larger than C transpose X, because the primal problem is a minimization problem.
+
+395
+01:12:52.760 --> 01:13:05.259
+Chuan Wu: Okay, and then through the derivation, and check out the very first term and the rightmost term, we found out, actually, all inequalities should hold exactly with equality.
+
+396
+01:13:06.440 --> 01:13:16.889
+Chuan Wu: and that implies the X is not only primal, feedable, but the primal optimal as well. Y is not only dual feedable, but dual optimal as well.
+
+397
+01:13:17.740 --> 01:13:25.189
+Chuan Wu: Okay, alright. So then we have shown the sufficiency of the complementary slackness theorem for linear program.
+
+398
+01:13:25.890 --> 01:13:49.760
+Chuan Wu: And moving on, we show the necessity of the complementary slackness theorem for linear program. And what the necessity direction of the theorem is saying is that if we know X is prime of optimal, and the dual is… and Y is dual optimal, then we will be able to show that the two sets of complementary slackness equalities hold.
+
+399
+01:13:50.400 --> 01:13:58.540
+Chuan Wu: Okay, and that is easier to show, here. And, we know linear program is.
+
+400
+01:13:58.830 --> 01:14:15.929
+Chuan Wu: strongly already holds for linear program. So therefore, we have the general complementary slackness for convex program as well as for linear program. So from the general complementary slackness conditions for convex program. So what we have is here.
+
+401
+01:14:16.740 --> 01:14:18.150
+Chuan Wu: So.
+
+402
+01:14:19.810 --> 01:14:37.809
+Chuan Wu: Yi. So Yi is a multiplier associated with the primal inequality constraint, inequality constraint function, Bi minus AXI. So from the general form of complementary slackness, we know the product here should be exactly zero.
+
+403
+01:14:38.130 --> 01:14:45.079
+Chuan Wu: And then we have lambda J as a multiplier associated with the second set of primal
+
+404
+01:14:45.080 --> 01:14:59.950
+Chuan Wu: inequality constraint, and using the general form of complementary selectness condition for programs where, strong… where complementary selectness holds, what we have is lambda J, XJ equaling 0.
+
+405
+01:15:00.380 --> 01:15:18.090
+Chuan Wu: Okay, and the lambda J, XJ equaling 0, so this set of equalities is not in the form of the complementary selectness condition in the complementary selectness theorem of linear program, but we can easily convert this to the second set of conditions in the theorem.
+
+406
+01:15:18.210 --> 01:15:24.559
+Chuan Wu: So here. So XJ… so lambda J is actually exactly equaling
+
+407
+01:15:25.150 --> 01:15:28.859
+Chuan Wu: C minus A transpose Y, the JS entry.
+
+408
+01:15:29.430 --> 01:15:30.430
+Chuan Wu: Okay.
+
+409
+01:15:31.440 --> 01:15:42.559
+Chuan Wu: through our derivation of the dual problem, and making use of that equality. So this equality doesn't appear in the final form of.
+
+410
+01:15:42.700 --> 01:15:54.500
+Chuan Wu: do a problem of a linear program, because we kind of omit lambda. If we do bring up lambda, then we know between lambda JXJ, the complementary select name says lambda JXJ equaling 0.
+
+411
+01:15:54.800 --> 01:15:57.810
+Chuan Wu: And we also know lambda J,
+
+412
+01:15:58.430 --> 01:16:04.449
+Chuan Wu: equals CJ minus A transpose Y, the J's entry.
+
+413
+01:16:05.290 --> 01:16:21.170
+Chuan Wu: So therefore, we can safely replace lambda J by CJ minus A transpose YJ's entry, and then we come up with a second set of complementary slackness conditions in the complementary slackness theorem of linear program.
+
+414
+01:16:22.900 --> 01:16:28.249
+Chuan Wu: Okay? And then the necessity of the theorem is also shown.
+
+415
+01:16:30.550 --> 01:16:34.400
+Chuan Wu: Alright, so that is about complementary slackness.
+
+416
+01:16:37.980 --> 01:16:55.379
+Chuan Wu: Okay, so in fact, complementary selectness is part of the condition for, in a more broad set of conditions to establish optimality of convex program. So that, set of conditions are called KKT conditions.
+
+417
+01:16:55.570 --> 01:16:58.639
+Chuan Wu: Okay. So…
+
+418
+01:17:01.410 --> 01:17:13.570
+Chuan Wu: So in the very basic form, the Kkd conditions are defined for any mathematical program. And we will say later, we will show that Kkd conditions are kind of
+
+419
+01:17:13.690 --> 01:17:28.199
+Chuan Wu: sufficient and necessary condition to establish optimality for convex program. But in the very original form, when we derive QAD condition, we do not require the problem that we are checking out to be convex or not.
+
+420
+01:17:28.420 --> 01:17:33.360
+Chuan Wu: Okay, what we are facing is a very generic formulation of.
+
+421
+01:17:33.360 --> 01:17:51.890
+Chuan Wu: mathematical program. So we have objective function F0X to minimize, and we have a set of inequality constraints, and a set of equality constraints. Then, on top of this mathematical program, we can come up with four sets of conditions, and altogether, they are called KKD conditions.
+
+422
+01:17:52.800 --> 01:18:04.090
+Chuan Wu: So here, the first set of conditions includes all the primal constraints. Primal constraints include M, inequality constraints, and the P, equality constraints.
+
+423
+01:18:04.600 --> 01:18:11.640
+Chuan Wu: And the second set of conditions in the KTD condition corresponds to the dual constraints.
+
+424
+01:18:11.790 --> 01:18:30.710
+Chuan Wu: So we know in the default generic form of the dual problem derived on top of this mathematical program, our explicit constraint is lambda, not equal to zero. So lambda is a set of multipliers associated with the inequality constraints in the primal problem.
+
+425
+01:18:32.130 --> 01:18:38.709
+Chuan Wu: And then the 3rd set of conditions under Kat is corresponding.
+
+426
+01:18:38.800 --> 01:18:57.899
+Chuan Wu: to complementary slackness. Okay, complementary slackness works on the inequality constraints, and it is telling that lambda I, multiplier associated with the inequality constraints, multiplies the inequality constraint functions, would be exactly zero.
+
+427
+01:18:57.980 --> 01:19:06.510
+Chuan Wu: So this is exactly the same complementary slackness condition form as we showed at the very beginning of this set of slides.
+
+428
+01:19:07.430 --> 01:19:18.780
+Chuan Wu: Okay, and then, very importantly, we have a fourth set of conditions under KTT… KKT. And here it says gradient of the Lagrangian.
+
+429
+01:19:18.880 --> 01:19:24.359
+Chuan Wu: of the given optimization problem with respect to X should vanish.
+
+430
+01:19:24.500 --> 01:19:29.969
+Chuan Wu: Vanish just means the gradient of the Lagrangian is exactly zero.
+
+431
+01:19:30.140 --> 01:19:32.759
+Chuan Wu: all 0 vector.
+
+432
+01:19:32.950 --> 01:19:42.330
+Chuan Wu: Okay? And over here we actually have a assumption of one assumption on the problems where we can derive its Kkt condition.
+
+433
+01:19:42.330 --> 01:19:56.289
+Chuan Wu: So here we require the functions, objective function, F0, inequality constraint function, Fi, and inequality constraint function, Hi, they have all… they have to be all differentiable.
+
+434
+01:19:56.530 --> 01:20:11.659
+Chuan Wu: Because when they are differentiable, we can calculate this gradient. If they're not differentiable, we cannot, right? Okay. All right, so gradient of the Lagrangian. So the Lagrangian is, in the form of, F0X.
+
+435
+01:20:13.160 --> 01:20:19.079
+Chuan Wu: plus sum I lambda I FIX, plus some i.
+
+436
+01:20:19.230 --> 01:20:27.319
+Chuan Wu: mu i h i s. So this is our Lagrangian function, the very generic form gradient calculation.
+
+437
+01:20:27.440 --> 01:20:43.620
+Chuan Wu: Okay, according to the distributive law of gradient calculation over sums, so the, gradient is essentially the gradient of the objective function plus weighted sum of the, gradient of the, inequality constraint functions.
+
+438
+01:20:43.620 --> 01:20:47.630
+Chuan Wu: plus weighted sum of the equality constraint functions.
+
+439
+01:20:47.820 --> 01:20:55.230
+Chuan Wu: Okay, and when X is n-dimensional, so the gradient on the left-hand side here is actually an n-dimensional vector.
+
+440
+01:20:55.510 --> 01:21:00.630
+Chuan Wu: So the N dimensional vector should be 0, meaning every entry should be exactly 0.
+
+441
+01:21:01.320 --> 01:21:02.250
+Chuan Wu: Okay.
+
+442
+01:21:02.920 --> 01:21:20.720
+Chuan Wu: So, altogether, they constitute the very famous and important KKT conditions. And KKT conditions are famous and important because, often we can make use of KKT conditions to try to solve a given optimization problem.
+
+443
+01:21:20.720 --> 01:21:27.969
+Chuan Wu: And this is especially true when the given optimization problem is convex and the strong duality holds.
+
+444
+01:21:27.970 --> 01:21:32.319
+Chuan Wu: Okay, so let's check out more properties related to KKD conditions.
+
+445
+01:21:32.710 --> 01:21:47.379
+Chuan Wu: So the first property is here. For any general optimization problem with differentiable, objective, and constrained functions, if we know strong duality holds, okay, if we know strong duality holds.
+
+446
+01:21:47.480 --> 01:21:55.000
+Chuan Wu: Then any pair of primal and dual optimal points must satisfy KKT condition.
+
+447
+01:21:55.090 --> 01:22:07.729
+Chuan Wu: So here, we are not talking about convexity yet, okay? Not talking about convex object function and constraints, but we just talk about if the… for the given optimization problem, strong duality holds.
+
+448
+01:22:07.740 --> 01:22:20.359
+Chuan Wu: Then, and we know X star is primal optimal point, and lambda star, nu star, a dual optimal point, then they together should satisfy the KKT conditions.
+
+449
+01:22:20.730 --> 01:22:21.740
+Chuan Wu: Okay.
+
+450
+01:22:22.250 --> 01:22:38.959
+Chuan Wu: So that is, pretty, kind of straightforward to show, so let's verify that. So if we know the optimization here, for the optimization here, strong duality holds, and X star is primal optimal, lambda star, nu star are dual.
+
+451
+01:22:38.960 --> 01:22:44.430
+Chuan Wu: optimal. Then, of course, X star satisfy the primal constraints.
+
+452
+01:22:44.680 --> 01:22:48.630
+Chuan Wu: and the lambda star new star satisfy the dual constraints.
+
+453
+01:22:49.130 --> 01:23:05.589
+Chuan Wu: And also, complementary selectness holds, so that's what we show just now. Okay, for optimization where stronger the holds, then complementary selectness always holds, so we already showed that. And the… what is important is regarding the last property.
+
+454
+01:23:05.830 --> 01:23:12.100
+Chuan Wu: So why at X star, lambda star, nu star, this set of equations hold?
+
+455
+01:23:12.370 --> 01:23:15.160
+Chuan Wu: And let's show it. It can actually…
+
+456
+01:23:15.480 --> 01:23:29.800
+Chuan Wu: It is also quite straightforward to show. Okay, we made use of the pro… we make use of the property that strong duality holds. So when strong duality holds, what it means, let's do the derivation here.
+
+457
+01:23:30.090 --> 01:23:47.289
+Chuan Wu: So, G. So the dual, objective function evaluated at lambda star, nu star, and from the derivation step of dual function, we know that is equal… that equals the smallest value of the Lagrangian function.
+
+458
+01:23:47.290 --> 01:23:53.170
+Chuan Wu: when we vary X, and while fixing lambda nu to lambda star nu omega.
+
+459
+01:23:53.850 --> 01:24:10.119
+Chuan Wu: And again, the concrete form of the Lagrangian function is here. Okay, and we know strongly that it holds. That means G lambda star nu star equals F0X star.
+
+460
+01:24:11.280 --> 01:24:16.010
+Chuan Wu: Okay, so the 1st entry equals the last entry.
+
+461
+01:24:16.660 --> 01:24:18.929
+Chuan Wu: because of a strong duality.
+
+462
+01:24:19.520 --> 01:24:24.500
+Chuan Wu: Okay, and then let's focus on the last equation.
+
+463
+01:24:24.660 --> 01:24:41.749
+Chuan Wu: Okay, so the last equality is established, not because we immediately know that this environment equals F0X, but because we know what the environment equals, G lambda star nu star equals F0X star.
+
+464
+01:24:42.190 --> 01:24:48.639
+Chuan Wu: And then we focus on the last equality. So the… what does the last equality imply?
+
+465
+01:24:49.260 --> 01:25:05.439
+Chuan Wu: So if infinite of the Lagrangian, when we vary X, equals F0X star. It implies X star is a minimizer of the Lagrangian function when we fix lambda nu to lambda star nu star.
+
+466
+01:25:05.590 --> 01:25:15.779
+Chuan Wu: Right. Okay, so when X star minimizes the Lagrangian, and all the functions involved in the Lagrangian are differentiable.
+
+467
+01:25:16.010 --> 01:25:23.459
+Chuan Wu: Then we can derive X star by setting the gradient of the Lagrangian function to 0.
+
+468
+01:25:24.590 --> 01:25:34.739
+Chuan Wu: Okay? And this exactly implies X star satisfy the last condition under Kkt.
+
+469
+01:25:36.530 --> 01:25:38.350
+Chuan Wu: Okay, so is that clear?
+
+470
+01:25:41.120 --> 01:25:59.449
+Chuan Wu: Okay, so what I… I'll say that again. What we derived just now is, from the assumption that strong duality holds for the given optimization problem, we have derived X star, which is primal optimal solution, minimize the Lagrangian at lambda star nu star.
+
+471
+01:25:59.780 --> 01:26:12.059
+Chuan Wu: And the Lagrangian function here is an unconstrained, differentiable function, so the minimizer can be derived by setting the gradient of this Lagrangian function to zero.
+
+472
+01:26:12.350 --> 01:26:20.219
+Chuan Wu: And the setting gradient of Lagrangian function to zero, that's exactly the fourth condition under KKT.
+
+473
+01:26:20.750 --> 01:26:33.619
+Chuan Wu: And therefore, it shows for X star, which is primal optimal, it satisfies the force condition under KKT, together with lambda star and the new star.
+
+474
+01:26:37.290 --> 01:26:38.800
+Chuan Wu: Okay.
+
+475
+01:26:39.960 --> 01:26:43.669
+Chuan Wu: All right. I hope that is clear.
+
+476
+01:26:45.480 --> 01:26:46.700
+Chuan Wu: Okay.
+
+477
+01:26:46.730 --> 01:27:05.510
+Chuan Wu: So therefore, this is, in general true, that the optimal points, primal dual optimal points, satisfy KKD condition if strong duality holds for the given optimization problem, where we do not, need to know if the primal problem is convex or not.
+
+478
+01:27:05.510 --> 01:27:10.080
+Chuan Wu: And then next, let's move on to see what happens for convex program.
+
+479
+01:27:10.650 --> 01:27:13.590
+Chuan Wu: So if we are considering a convex program.
+
+480
+01:27:13.770 --> 01:27:14.750
+Chuan Wu: Then.
+
+481
+01:27:15.460 --> 01:27:29.519
+Chuan Wu: The properties that we can derive is any primal dual points that satisfy the KKT conditions together are able to be shown to be primal and dual optimal, respectively.
+
+482
+01:27:29.640 --> 01:27:33.119
+Chuan Wu: And strong derivative hold for this convex program.
+
+483
+01:27:34.050 --> 01:27:51.070
+Chuan Wu: Okay, so this is a much stronger result, and let's check it out why it holds. Okay, when we know X tilde, lambda tilde, nu tilde satisfy CACATI conditions, what exactly it shows, and includes the following.
+
+484
+01:27:51.190 --> 01:28:03.920
+Chuan Wu: So, satisfy CAT conditions. The second set of conditions under KKT is that the dual, constraint. So that means lambda i tilde is larger or equal to zero.
+
+485
+01:28:04.260 --> 01:28:05.220
+Chuan Wu: Okay.
+
+486
+01:28:05.890 --> 01:28:08.340
+Chuan Wu: And, if Lambda…
+
+487
+01:28:08.590 --> 01:28:17.190
+Chuan Wu: I tilde larger equal to 0, then what we can know is the Lagrangian function here is convex in X.
+
+488
+01:28:18.180 --> 01:28:25.809
+Chuan Wu: Okay, so first of all, we have already assumed this problem is convex. That means F0X is convex.
+
+489
+01:28:26.400 --> 01:28:28.429
+Chuan Wu: and the FIX is convex.
+
+490
+01:28:28.750 --> 01:28:39.089
+Chuan Wu: If the coefficient multiplier lambda, I hear that we are multiplying Fi with is logical to 0. Then this entry is
+
+491
+01:28:39.200 --> 01:28:40.060
+Chuan Wu: COVAX.
+
+492
+01:28:40.430 --> 01:28:42.550
+Chuan Wu: So lambda IFX is convex.
+
+493
+01:28:42.980 --> 01:28:50.570
+Chuan Wu: and the Hix is affine. So therefore the last entry altogether, the weighted sum of Hix is affine as well.
+
+494
+01:28:50.960 --> 01:28:52.020
+Chuan Wu: Okay.
+
+495
+01:28:52.190 --> 01:29:03.309
+Chuan Wu: So that's why, when we know this lambda I here is larger equal to 0, the Lagrangian function here, okay, Lagrangian function here is convex in X.
+
+496
+01:29:04.500 --> 01:29:06.340
+Chuan Wu: And then, for…
+
+497
+01:29:07.800 --> 01:29:21.179
+Chuan Wu: Convex function, if we know it's a gradient with respect to X tilde vanishes, then what we can conclude is X tilde minimize Lagrangian at lambda tilde, nu tilde.
+
+498
+01:29:23.280 --> 01:29:24.750
+Chuan Wu: Okay.
+
+499
+01:29:24.940 --> 01:29:39.659
+Chuan Wu: And then what we can further derive is here. So G. Dual function evaluated as lambda tilde, nu tilde equals the infinite calculation of Lagrangian at lambda tilde, nu tilde.
+
+500
+01:29:39.740 --> 01:29:52.529
+Chuan Wu: And then, if we know X tilde is a minimizer of the Lagrangian here, then we know the infinite value is exactly the Lagrangian's value evaluated at X tilde, lambda tilde and the new tilde.
+
+501
+01:29:52.850 --> 01:30:03.479
+Chuan Wu: So that is a Lagrangian here. So the Lagrangian function evaluated at X tilde, lambda tilde, and the new tilde is there, and we also
+
+502
+01:30:03.620 --> 01:30:19.869
+Chuan Wu: No. And that complementary slackness holds, right? So because we know X tilde, lambda tilde, nu tilde satisfy KKT condition, and the third condition under KKT is complementary slackness, so we know lambda tilde.
+
+503
+01:30:19.870 --> 01:30:34.180
+Chuan Wu: lambda I tilde fi x tilde is exactly zero and the hi x tilde is zero as well. So therefore the Lagrangian evaluated at x tilde lambda tilde new tilde is exactly f0 x tilde.
+
+504
+01:30:35.830 --> 01:30:50.400
+Chuan Wu: Okay, and then all the way, if we check back on the very first entry, and the last entry in the set of equation equalities, what we come up with is G lambda tilde nu tilde equals F0X tilde.
+
+505
+01:30:50.930 --> 01:30:54.070
+Chuan Wu: So this implies strong duality holds.
+
+506
+01:30:54.490 --> 01:31:04.959
+Chuan Wu: and also similar to what we have shown earlier, we are able to show X tilde is primal, optimal, and the lambda tilde G. Tilde is a dual optimal as well.
+
+507
+01:31:05.640 --> 01:31:06.390
+Chuan Wu: Right.
+
+508
+01:31:06.920 --> 01:31:07.880
+Chuan Wu: Okay.
+
+509
+01:31:09.660 --> 01:31:14.560
+Chuan Wu: And how? So if you want to see the details here.
+
+510
+01:31:14.560 --> 01:31:37.270
+Chuan Wu: So basically the general conclusion is if you have primal feasible X tilde and the dual feasible lambda tilde new tilde and the strong duality holds between the primal optimal objective value and the dual objective value evaluated at them respectively, then we are very easy to show that they are primal and dual optimal respectively.
+
+511
+01:31:37.270 --> 01:32:02.150
+Chuan Wu: The proof is here. So if we assume beyond lambda tilde, nu tilde, we have some dual optimal point, lambda star, nu star, and beyond X tilde, which is primal feasible, we have another primal optimal solution, X star. Then, what we can derive is a set of inequality here. So basically, dual objective value.
+
+512
+01:32:02.150 --> 01:32:15.910
+Chuan Wu: Evaluated at lambda tilde, nu tilde, no larger than your objective value evaluated at lambda star, nu star. And then the second inequality is based on weak duality, okay?
+
+513
+01:32:15.910 --> 01:32:20.990
+Chuan Wu: The dual objective value is always the lower bound of the primal objective value.
+
+514
+01:32:21.330 --> 01:32:23.610
+Chuan Wu: And then, the.
+
+515
+01:32:23.760 --> 01:32:37.780
+Chuan Wu: primal problem is a minimization problem, so therefore, objective value F0 evaluated at X star should be no larger than objective function F0 evaluated at X tilde.
+
+516
+01:32:37.900 --> 01:32:55.469
+Chuan Wu: Okay. And then, because we already derived the very first value, very first term, G lambda tilde, nu tilde equals the very last term, so therefore, all the inequalities in this sequence of derivation should hold with strict equality.
+
+517
+01:32:55.580 --> 01:33:03.479
+Chuan Wu: And that implies lambda tilde, nu tilde is dual optimal, and X tilde is primal optimal.
+
+518
+01:33:03.810 --> 01:33:10.439
+Chuan Wu: So, in fact, this sequence of derivation is the second time we use this sequence of derivation today.
+
+519
+01:33:10.830 --> 01:33:20.150
+Chuan Wu: Okay, earlier we used this to derive, for a strong duality and primal dual optimal solution for a linear program.
+
+520
+01:33:24.270 --> 01:33:28.699
+Chuan Wu: Alright, so that is the property here.
+
+521
+01:33:29.160 --> 01:33:32.980
+Chuan Wu: And, in fact, combining
+
+522
+01:33:32.980 --> 01:33:57.130
+Chuan Wu: the two properties we have analyzed, related to KKT condition, what we can conclude is the following. If we consider a convex program with differentiable objective and constrained functions, and the convex program satisfies later's conditions, then the KKT condition we derived on top of this convex program
+
+523
+01:33:57.130 --> 01:34:05.310
+Chuan Wu: is necessary and sufficient for establishing primal and dual optimal solutions for this convex program.
+
+524
+01:34:06.010 --> 01:34:18.540
+Chuan Wu: Okay, remember that Slater's condition implies strong duality, so essentially here, if we are given a convex program where strong duality holds.
+
+525
+01:34:18.540 --> 01:34:29.620
+Chuan Wu: And in the convex program, all the functions involved are differentiable, then we can make use of KKD condition to establish primal and dual optimal points.
+
+526
+01:34:30.000 --> 01:34:43.210
+Chuan Wu: And simply put, we can lay down the KKD condition for such a program, and then we try to solve for X lambda nu, satisfying the KKD conditions.
+
+527
+01:34:43.210 --> 01:34:54.329
+Chuan Wu: Then, the X lambda nu we found satisfying the KD conditions is guaranteed to be primal optimal point and a dual optimal point, respectively.
+
+528
+01:34:55.500 --> 01:35:05.279
+Chuan Wu: Okay, so this is just essentially a combination of the two conclusions, two properties we have shown just now.
+
+529
+01:35:13.470 --> 01:35:15.090
+Chuan Wu: All right.
+
+530
+01:35:15.090 --> 01:35:38.210
+Chuan Wu: So what do we have established now is, we start from the general form of KKT condition for generic optimization problem, and then we come up with that KKT condition is, necessary and a sufficient condition for established primal and dual optimal solutions for a given convex program differentiable.
+
+531
+01:35:38.220 --> 01:35:44.200
+Chuan Wu: And where, functions are differentiable and, stronger than faults.
+
+532
+01:35:44.400 --> 01:35:53.609
+Chuan Wu: And, that is, actually a very important conclusion, because, we can make use of this conclusion to solve.
+
+533
+01:35:53.610 --> 01:36:00.140
+Chuan Wu: either analytically or numerically, a given convex optimization problem.
+
+534
+01:36:00.140 --> 01:36:15.469
+Chuan Wu: And then, what we are going to show next is a few examples where we exactly make use of KKD conditions, try to find out X lambda nu, satisfy the KKD conditions in order to derive the primal and the dual optimal solution.
+
+535
+01:36:15.670 --> 01:36:27.280
+Chuan Wu: And beyond that, many algorithms, especially most of the algorithms that we are discussing in the next half of the semester, are based on KKD condition.
+
+536
+01:36:27.280 --> 01:36:38.360
+Chuan Wu: So meaning KAT condition is the foundation and those algorithms are designed for solving the KAT conditions in order to find the primal and the dual optimal solutions.
+
+537
+01:36:38.540 --> 01:36:55.369
+Chuan Wu: So we'll leave the algorithms to later lecture, but today, let's together check out some simple example where we are solving KKD condition of the given problem in order to derive primal and dual optimal solutions.
+
+538
+01:36:55.850 --> 01:36:59.250
+Chuan Wu: Okay, starting with a very simple example here.
+
+539
+01:37:04.160 --> 01:37:21.850
+Chuan Wu: Alright, so, check out the example. Here we have, two-dimensional, primal variable. So X1, X2, each one is a scalar variable, so basically, the primal problem is, on a domain of two… a two-dimensional domain.
+
+540
+01:37:22.220 --> 01:37:33.670
+Chuan Wu: And objective function is to minimize the, minimize the, quadratic form of the variables, and the constraint is a single affine inequality constraint.
+
+541
+01:37:33.720 --> 01:37:46.520
+Chuan Wu: Okay? And for such a convex program. So we are easy to show that strong duality hold, and all the functions involved are fine, and the quadratic are differentiable.
+
+542
+01:37:46.550 --> 01:38:05.599
+Chuan Wu: and therefore we know Kkd conditions are sufficient necessary condition to establish optimality. So what we mean by establishing optimality is to find the optimal solutions, or, simply put, solutions satisfying the set of Kkd conditions are primal and dual optimal, respectively.
+
+543
+01:38:05.710 --> 01:38:11.459
+Chuan Wu: Okay, alright, for such a simple… for this simple.
+
+544
+01:38:11.970 --> 01:38:25.320
+Chuan Wu: Convax programs. We can put down SKTD conditions together, and then we are able to, analyze the KKD conditions, and then we drive solutions satisfying the KKD conditions.
+
+545
+01:38:34.440 --> 01:38:41.109
+Chuan Wu: All right, there are four groups of conditions under KAT.
+
+546
+01:38:41.270 --> 01:38:52.230
+Chuan Wu: So the first group of condition is primal constraint. So primal constraints is talking… is saying X1 plus X2 larger than or equal to 3.
+
+547
+01:38:53.340 --> 01:38:58.520
+Chuan Wu: Okay? And the second group of condition under Kkt is a dual constraint.
+
+548
+01:38:58.730 --> 01:39:11.750
+Chuan Wu: So here we have only one inequality constraint in the primal problem. So we have only one multiplier lambda, which is scalar multiplier associated with that, and we require lambda to be larger than 0.
+
+549
+01:39:12.390 --> 01:39:16.990
+Chuan Wu: And then the third group of condition is complementary slackness.
+
+550
+01:39:18.550 --> 01:39:24.440
+Chuan Wu: So complementary slackness is saying lambda multiplying is corresponding.
+
+551
+01:39:27.350 --> 01:39:31.110
+Chuan Wu: We call it a constraint function, should be exactly zero.
+
+552
+01:39:31.880 --> 01:39:46.149
+Chuan Wu: And then the first condition is saying that the gradient of the Lagrangian vanishes. Okay, so to express that, we first need to come up with the Lagrangian function of the given
+
+553
+01:39:46.650 --> 01:39:48.730
+Chuan Wu: single organization problem.
+
+554
+01:39:56.170 --> 01:40:02.480
+Chuan Wu: Okay, so this is a Lagrangian. So this is a Lagrangian of the given optimization problem. Right?
+
+555
+01:40:02.660 --> 01:40:06.289
+Chuan Wu: and then its gradient vanishes.
+
+556
+01:40:06.540 --> 01:40:11.640
+Chuan Wu: Okay, so this is a function on 2 variables, x, 1 and x 2.
+
+557
+01:40:11.950 --> 01:40:18.900
+Chuan Wu: So when we say it's gradient advantages. So that condition actually includes 2 equations.
+
+558
+01:40:19.260 --> 01:40:37.690
+Chuan Wu: The first equation is saying the partial derivative of this function with respect to X1 is 0. And the second equation is saying the partial derivative of this function with respect to X2 is 0, right? Okay. And then we can put down the concrete form of the two
+
+559
+01:40:39.790 --> 01:40:41.550
+Chuan Wu: Of the two,
+
+560
+01:40:45.870 --> 01:40:47.890
+Chuan Wu: Okay, so that is Lagrangian.
+
+561
+01:40:48.240 --> 01:40:50.130
+Chuan Wu: the concrete form.
+
+562
+01:40:59.910 --> 01:41:00.730
+Chuan Wu: Okay.
+
+563
+01:41:00.870 --> 01:41:08.159
+Chuan Wu: the gradient equaling 0, meaning the partial to each of the 2 partial derivatives should be exactly 0.
+
+564
+01:41:08.410 --> 01:41:14.399
+Chuan Wu: So what is the first partial derivative? It's 2 times X1 minus lambda.
+
+565
+01:41:14.870 --> 01:41:20.950
+Chuan Wu: And the second partial derivative is exactly 4 times X2.
+
+566
+01:41:21.280 --> 01:41:22.840
+Chuan Wu: minus lambda.
+
+567
+01:41:25.550 --> 01:41:26.390
+Chuan Wu: Right?
+
+568
+01:41:26.710 --> 01:41:31.680
+Chuan Wu: Okay, we… the fourth figure T gave us two equalities.
+
+569
+01:41:33.110 --> 01:41:34.270
+Chuan Wu: All right.
+
+570
+01:41:36.930 --> 01:41:38.090
+Chuan Wu: And then…
+
+571
+01:41:41.630 --> 01:41:42.540
+Chuan Wu: Okay.
+
+572
+01:41:43.620 --> 01:41:53.670
+Chuan Wu: over here, if we can come up with all the conditions that the primal optimal solution and the dual optimal solution should satisfy together right?
+
+573
+01:41:54.110 --> 01:41:59.530
+Chuan Wu: Okay, so we have inequalities to satisfy, we have equalities to satisfy.
+
+574
+01:41:59.960 --> 01:42:07.799
+Chuan Wu: And our task now is to solve for X1, X, X2 lambda, which satisfy all the conditions.
+
+575
+01:42:08.040 --> 01:42:19.960
+Chuan Wu: And usually, among the conditions, the equalities are most useful. Because making use of equalities, we can solve the qualities, we can come up with an exact solution, right?
+
+576
+01:42:20.170 --> 01:42:23.119
+Chuan Wu: So how many equalities do we have here?
+
+577
+01:42:23.280 --> 01:42:25.349
+Chuan Wu: We have one equality.
+
+578
+01:42:25.810 --> 01:42:28.329
+Chuan Wu: 2, 3. So we have 3 equalities.
+
+579
+01:42:28.780 --> 01:42:30.690
+Chuan Wu: So tell me how you solve.
+
+580
+01:42:30.920 --> 01:42:34.740
+Chuan Wu: Lambda X. One x 2 satisfying the 3 equalities.
+
+581
+01:42:35.690 --> 01:42:36.919
+Chuan Wu: What do you do?
+
+582
+01:42:38.260 --> 01:42:39.210
+Chuan Wu: Okay.
+
+583
+01:42:39.590 --> 01:42:53.570
+Chuan Wu: So what you do is, from the last two equality, you come up with X1 equals 1 half of lambda, and you come up with X2 equals 1 fourth of lambda, right? And then you plug in that into the first equality.
+
+584
+01:42:53.830 --> 01:43:10.730
+Chuan Wu: And then what you come up with is a quadratic function related to lambda, right? And then you can solve that, and solve for the exact solution of lambda, and then when the exact solution of lambda is derived, you can plug it in, and then solve for X1 and X2.
+
+585
+01:43:10.920 --> 01:43:13.059
+Chuan Wu: Right? So that's the procedure.
+
+586
+01:43:13.390 --> 01:43:19.929
+Chuan Wu: And yes, I'll leave that to you and tell you the optimal solution. X.
+
+587
+01:43:20.130 --> 01:43:21.730
+Chuan Wu: optimal solution.
+
+588
+01:43:24.940 --> 01:43:26.700
+Chuan Wu: X1, start.
+
+589
+01:43:26.850 --> 01:43:30.100
+Chuan Wu: X2 star, and the lambda star.
+
+590
+01:43:31.510 --> 01:43:35.309
+Chuan Wu: is exactly 2, 1.
+
+591
+01:43:35.690 --> 01:43:36.620
+Chuan Wu: 4.
+
+592
+01:43:42.930 --> 01:43:43.930
+Chuan Wu: Okay.
+
+593
+01:43:44.100 --> 01:43:55.830
+Chuan Wu: All right. So when making use of the equalities, we can solve for the exact value. And what we usually should do is we can double verify if the inequalities hold.
+
+594
+01:43:56.990 --> 01:44:03.269
+Chuan Wu: Okay? And you can verify these sets of values satisfy the inequalities as well.
+
+595
+01:44:05.330 --> 01:44:22.089
+Chuan Wu: Okay. Alright, so that is a simple example where we show how KKD conditions can be applied to exactly solve a simple optimization problem. And we have more examples, but I'll leave that to next…
+
+596
+01:44:22.700 --> 01:44:26.969
+Chuan Wu: Tuesday's lecture, because the later examples are all connected.
+
+597
+01:44:27.230 --> 01:44:28.420
+Chuan Wu: All right.
+
+598
+01:44:30.670 --> 01:44:43.359
+Chuan Wu: Okay, so then that means, we will stop today, we'll stop here for today's class. And, I already made an announcement on Moodle, so there is no lecture on Thursday.
+
+599
+01:44:43.370 --> 01:44:51.369
+Chuan Wu: And, so we are in good progress, so as… as far as what I have already told.
+
+600
+01:44:51.370 --> 01:45:07.680
+Chuan Wu: we have makeup class in Leading Week, because the very last semester… in the very last week of the semester, I have a conference trip scheduled, right? But we are still in good shape of making progress in the course, because I'm spending almost 2 hours every time, so yeah.
+
+601
+01:45:07.680 --> 01:45:20.039
+Chuan Wu: We should be able to cover all the contents of the course in the semester. Okay, alright, thank you. If you have any questions, feel free to stay and ask. And then I'll see you again here next Tuesday.
+
+602
+01:45:27.870 --> 01:45:28.660
+Chuan Wu: Sorry.
+
+603
+01:45:30.340 --> 01:45:32.660
+Chuan Wu: 5, 5, Okay.
+
+604
+01:45:40.260 --> 01:45:56.400
+Chuan Wu: The conclusion is a big jump. No, the conclusion is because of the last equality.
+
+605
+01:45:56.720 --> 01:45:59.980
+Chuan Wu: I I I know,
+
+606
+01:46:00.140 --> 01:46:16.730
+Chuan Wu: I think that this, we have to add two inequalities here, but the conclusion will be more smooth. Let me go back. Which one are you talking about? Here. Here. This one, right?
+
+607
+01:46:16.830 --> 01:46:18.809
+Chuan Wu: Where is it? The smoking?
+
+608
+01:46:20.810 --> 01:46:22.230
+Chuan Wu: But neither are.
+
+609
+01:46:27.060 --> 01:46:28.560
+Chuan Wu: Okay.
+

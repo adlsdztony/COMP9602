@@ -1,0 +1,3170 @@
+WEBVTT
+
+1
+00:01:42.750 --> 00:01:43.420
+Chuan Wu: Yes.
+
+2
+00:01:52.870 --> 00:01:58.450
+Chuan Wu: Okay, good morning, everyone. Welcome to today's class on optimization. Let's get started.
+
+3
+00:01:59.040 --> 00:02:16.260
+Chuan Wu: From last lecture on, we have been working on the very important core theory part of convex optimization, and especially that is related to duality theory. So let's check out… let's do a quick revision of what we have already covered related to duality.
+
+4
+00:02:16.360 --> 00:02:25.379
+Chuan Wu: So essentially, we have been looking at how the definition of a long-run dual problem from a given prior mathematical progress.
+
+5
+00:02:25.380 --> 00:02:36.939
+Chuan Wu: So in the primal best vector program, the x is the n-dimensional vector, which is the primal variable. And we say the optimal value, which is the optimal value of the objective function.
+
+6
+00:02:36.940 --> 00:02:40.360
+Chuan Wu: The P star. Okay, we use P star to denote that.
+
+7
+00:02:40.380 --> 00:02:57.949
+Chuan Wu: And then we have, defined what the, Lagrange-Schuur problem looks like. So here, in Lagrange-Schuur problem, we have, the sets of variables lambda and mu. So lambda are multipliers associated with inequality constraints in the original problem.
+
+8
+00:02:57.950 --> 00:03:13.289
+Chuan Wu: And the mu as the set of multipliers associated with the, equality constraints in the primal problem. And we use P star to denote the optimal value of the pure crop. And we have been seeing a very interesting property, is that.
+
+9
+00:03:13.800 --> 00:03:36.379
+Chuan Wu: No matter whether the primal problem is convex or not, we are sure that the dual problem is a convex optimization problem. So this is very nice, because we have an efficient algorithm to solve the convex problems exactly, and that means no matter what the original primal problem is like, we can always solve a dual problem.
+
+10
+00:03:36.380 --> 00:03:49.220
+Chuan Wu: And last time, we briefly mentioned that we are able to use your problem solution to come up with a lower bound of the primal optimal value, and we can also probably come up with approximate primal solutions.
+
+11
+00:03:49.510 --> 00:04:01.020
+Chuan Wu: Okay, so here, let's do a quick revision of all the steps of deriving the dual problem. So we are going to make use of it again and again while analyzing properties in the later few lectures.
+
+12
+00:04:01.360 --> 00:04:17.910
+Chuan Wu: Okay, so to derive the viewer problem, the first step is to put down the Lagrangian function. So we say the Lagrangian function is, some optimization of the primal, objective function with weighted sum of, the, constraint functions.
+
+13
+00:04:18.149 --> 00:04:29.839
+Chuan Wu: And then, if we further do an infinite operation on the Lagrangian function over all the X in the domain of the problem, we come up with a Lagrange dual function.
+
+14
+00:04:30.270 --> 00:04:42.980
+Chuan Wu: And the Lagrange viewer function is the objective function of the Lagrange viewer problem. And in a default form, we are maximizing the Lagrange viewer bundle in the viewer problem.
+
+15
+00:04:42.980 --> 00:04:55.480
+Chuan Wu: Okay, and the, in the default form, the only set of constraints is on non-negativity of the multipliers lambda associated with inequality constraints from the primal problem.
+
+16
+00:04:55.480 --> 00:05:09.559
+Chuan Wu: But often, when we derive G lambda mu, essentially, we need to resolve a minimization problem itself. And when we resolve the minimization problem itself, some more explicit constraints on lambda mu may come up.
+
+17
+00:05:09.620 --> 00:05:12.950
+Chuan Wu: As we have already saw in a few examples last time.
+
+18
+00:05:13.790 --> 00:05:31.099
+Chuan Wu: And we have introduced the important… a few important properties related to duality. So, first of all, weak duality. So, weak duality is saying that the pure optimal value is always a lower bound of the primal optimal value.
+
+19
+00:05:31.510 --> 00:05:43.569
+Chuan Wu: Okay, and, is actually this inequality holds between a set of primal feasible solutions and pure feasible solutions as well. So that means, for dual objective values.
+
+20
+00:05:43.570 --> 00:05:53.059
+Chuan Wu: They're not an optimality, they are always, more or equal to any primal objective function value at some primal feasible solution.
+
+21
+00:05:53.280 --> 00:05:56.439
+Chuan Wu: Okay, so this is so far, we do everything.
+
+22
+00:05:57.150 --> 00:06:03.040
+Chuan Wu: And then, at the end of last lecture, we were… we have been working on strong duality.
+
+23
+00:06:03.040 --> 00:06:24.980
+Chuan Wu: So we say if the dual optimal value exactly equals the primal optimal value, then we say strong duality holds for this optimization problem between the primal and the dual. It's a launch dual problem. And we also know that this strong duality does not hold in general, but it holds mostly for convex program.
+
+24
+00:06:24.980 --> 00:06:39.509
+Chuan Wu: As long as the convex program satisfies a mild condition. And those mild sufficiency conditions to establish strong convex, strong duality for convex program are called constraint qualifications.
+
+25
+00:06:39.540 --> 00:06:49.569
+Chuan Wu: And we, in this, class, in this course, we are focusing on one famous constraint qualifications, which is called Slater's Constraint Qualifications.
+
+26
+00:06:49.740 --> 00:07:05.869
+Chuan Wu: And in Slater's country qualifications, we are looking at a primal convex program. Okay, and we think, if this primal convex program is strictly feasible, then stronger idea holds for it.
+
+27
+00:07:06.070 --> 00:07:21.249
+Chuan Wu: Okay, strictly feasible, meaning we want some feasible X, as long as there exists the one feasible X, which satisfies the inequality constraints strictly, making FIX smaller than zero, then we are good.
+
+28
+00:07:21.620 --> 00:07:36.589
+Chuan Wu: And especially even for this condition, we can relax if our inequality is an alpha inequality. So for alpha inequality, we do not require it to be satisfied strictly. Smaller than zero. It can satisfy with equality.
+
+29
+00:07:36.910 --> 00:07:42.499
+Chuan Wu: Okay, so that is what… Latest constraint communications are talking about.
+
+30
+00:07:42.540 --> 00:07:59.720
+Chuan Wu: Actually, in the majority of the rest of today's class, we'll be checking out the different ways to integrate or understand, or to some extent, that's wise when satisfying slaver's constraint qualifications, strong duality will hope for that convex program.
+
+31
+00:07:59.940 --> 00:08:06.789
+Chuan Wu: Okay, before we do that, let's finish up the last slide of this first set of slides on duality.
+
+32
+00:08:07.080 --> 00:08:19.029
+Chuan Wu: So here, we are talking about the, strong duality theorem for linear program, or we kind of can understand it as a special case of, strong duality for convex probe.
+
+33
+00:08:19.110 --> 00:08:35.640
+Chuan Wu: So if we consider a linear program, the linear program that means MB4, let's say X star is its primal optimal solution. And then, we can derive its viewer, okay? And the viewer has an optimal solution Y star.
+
+34
+00:08:35.690 --> 00:08:46.730
+Chuan Wu: Then the strong… then the, stronger theorem for linear program is saying that primal optimal value equals exactly the dual optimal value.
+
+35
+00:08:47.140 --> 00:09:06.309
+Chuan Wu: Okay, and what we are putting down here is a primal dual pair for a linear program. So this is a linear program, right? So this is a linear program. Actually, we, have derived the, keyword problem for that linear program at the beginning of it.
+
+36
+00:09:06.440 --> 00:09:17.839
+Chuan Wu: Tuesday's lecture. Okay, at some point, it kills this lecture. So, essentially, if we are checking out a linear program in this form, it is actually in its standard form.
+
+37
+00:09:18.120 --> 00:09:20.380
+Chuan Wu: Okay, so we have done all the steps.
+
+38
+00:09:20.620 --> 00:09:27.140
+Chuan Wu: coming up with Langlongian, then Langlong's dual function, and then eventually we come up with a dual prop.
+
+39
+00:09:27.400 --> 00:09:44.299
+Chuan Wu: If you compare the dual problem we have here with the dual problem that we are listing on the slide here, so you might find some slight difference. So actually, the slight difference only lies in we do some variable substitution.
+
+40
+00:09:44.450 --> 00:09:46.830
+Chuan Wu: So, if we use Y,
+
+41
+00:09:47.000 --> 00:10:03.200
+Chuan Wu: to denote negative mu, okay, variable substitution in a dual problem. If we use Y to denote negative mu, then our objective function of the dual problem is maximizing B's inner product with Y.
+
+42
+00:10:04.080 --> 00:10:04.850
+Chuan Wu: Right.
+
+43
+00:10:05.240 --> 00:10:12.680
+Chuan Wu: And the constraint becomes A transpose negative Y, Plus C.
+
+44
+00:10:13.010 --> 00:10:14.510
+Chuan Wu: larger than zero.
+
+45
+00:10:16.140 --> 00:10:22.430
+Chuan Wu: Okay, that will be exactly equivalent to A transpose Y.
+
+46
+00:10:22.730 --> 00:10:24.329
+Chuan Wu: no larger than C.
+
+47
+00:10:25.700 --> 00:10:26.680
+Chuan Wu: Right.
+
+48
+00:10:27.450 --> 00:10:28.420
+Chuan Wu: Okay.
+
+49
+00:10:29.810 --> 00:10:38.070
+Chuan Wu: And that is exactly the dual problems form we gave on the slide here, on the last slide here.
+
+50
+00:10:38.980 --> 00:10:55.649
+Chuan Wu: Okay, so therefore we know this is a dual form, and why that we use Y to denote this variable. And a B in the protected Y star is a dual optimal value, and the C transpose X star is the primal optimal value, and this block duality always hold.
+
+51
+00:10:56.980 --> 00:11:01.620
+Chuan Wu: This actually can be inferred from Slater's constraint qualification.
+
+52
+00:11:01.880 --> 00:11:07.340
+Chuan Wu: Slater's constraint qualification is talking about we need a strictly feasible solution.
+
+53
+00:11:07.400 --> 00:11:22.820
+Chuan Wu: that satisfy the, yes, non-affine inequalities strictly. But in case of affine equalities or other inequalities have appeared in linear programs, we do not require any such strict feasible solution.
+
+54
+00:11:23.160 --> 00:11:35.460
+Chuan Wu: Right? So therefore, in general, okay, in general, linear proof naturally satisfies slavery's three qualifications, and then strong duality always holds for linear proof.
+
+55
+00:11:36.150 --> 00:11:46.050
+Chuan Wu: And that is, in general, true, no matter the linear program is in the standard form, as we saw here, or in its canonical form, or in any generic form.
+
+56
+00:11:46.100 --> 00:11:56.930
+Chuan Wu: When you are given a linear program, and you can derive its dual, its dual is guaranteed to be another linear program. And then, between this prime and the dual pair, strong duality always holds.
+
+57
+00:11:57.390 --> 00:12:00.639
+Chuan Wu: Okay, so that's a proven theory.
+
+58
+00:12:01.630 --> 00:12:14.929
+Chuan Wu: Okay, and then based on that strong duality theorem for linear program, we actually can do some analysis of the possible situations of, optimal solutions between primal and dual linear programs.
+
+59
+00:12:15.050 --> 00:12:25.059
+Chuan Wu: Okay, so what we… what the strong dragon theorem for linear program is saying is here. So it is saying that if the primal problem has optimal solution.
+
+60
+00:12:25.260 --> 00:12:32.179
+Chuan Wu: Or it has optimal value, and then the dual problem has optimal solution and optimal value as well.
+
+61
+00:12:32.600 --> 00:12:33.859
+Chuan Wu: And they meet.
+
+62
+00:12:34.080 --> 00:12:38.230
+Chuan Wu: In terms of their optimal objective values are equivalent.
+
+63
+00:12:38.880 --> 00:12:47.170
+Chuan Wu: Right? The other… the other special cases, if the, say here. So, if the.
+
+64
+00:12:48.970 --> 00:12:54.129
+Chuan Wu: So if the primal problem, okay, so if the primal problem is unbounded.
+
+65
+00:12:54.390 --> 00:13:03.030
+Chuan Wu: So the primal problem is a minute in the standard, in a default form is a minimization problem. So what we say is that the primal problem
+
+66
+00:13:03.160 --> 00:13:13.169
+Chuan Wu: is… unbounded. It means… Our optimal value goes to negative infinity.
+
+67
+00:13:13.550 --> 00:13:14.350
+Chuan Wu: Right.
+
+68
+00:13:15.140 --> 00:13:21.310
+Chuan Wu: And then, it also means, kind of means, the dual problem, B transpose Y.
+
+69
+00:13:21.980 --> 00:13:25.490
+Chuan Wu: would be equivalent to negative infinity.
+
+70
+00:13:26.550 --> 00:13:27.440
+Chuan Wu: Right.
+
+71
+00:13:27.560 --> 00:13:38.589
+Chuan Wu: And the dual problem is a maximization problem. When we say the dual problem is, the value, the dual optimal value is, negative infinity, what does it imply?
+
+72
+00:13:39.110 --> 00:13:42.020
+Chuan Wu: It implies the dual problem is infeasible.
+
+73
+00:13:42.960 --> 00:13:49.630
+Chuan Wu: So that is also our definition when we define infeasible unbounded cases for optimization problems earlier.
+
+74
+00:13:50.260 --> 00:13:54.610
+Chuan Wu: So therefore, if the primal problem is unbounded.
+
+75
+00:13:54.780 --> 00:13:59.400
+Chuan Wu: Then the only possibility for the dual problem is the dual problem is infeasible.
+
+76
+00:14:00.240 --> 00:14:08.860
+Chuan Wu: And symmetrically, if the dual problem is unbounded, meaning the dual optimal value is positive infinity.
+
+77
+00:14:09.540 --> 00:14:14.710
+Chuan Wu: Based on strong duality that implies the primal problem is infeasible.
+
+78
+00:14:14.860 --> 00:14:17.880
+Chuan Wu: Because the primal problem is a minimization problem.
+
+79
+00:14:18.160 --> 00:14:21.840
+Chuan Wu: And a feasible solution will achieve a finite.
+
+80
+00:14:21.970 --> 00:14:24.850
+Chuan Wu: objective value instead of positive infinity.
+
+81
+00:14:25.770 --> 00:14:32.840
+Chuan Wu: Okay? And then the other special case is, if primal and the dual problem are both infeasible. That's also possible.
+
+82
+00:14:33.490 --> 00:14:39.330
+Chuan Wu: Okay, that is kind of conforming… special case conforming to the strong duality.
+
+83
+00:14:40.490 --> 00:14:49.400
+Chuan Wu: Okay, so this is about strong duality for linear proof, and then we'll be moving on to the next set of slides on duality.
+
+84
+00:15:04.340 --> 00:15:18.070
+Chuan Wu: Okay, so what we are going to do next is actually we will use different variable ways to understand more of the strong UIP, especially Slater's constant qualifications for CALEXPRO.
+
+85
+00:15:18.070 --> 00:15:25.650
+Chuan Wu: And, we kind of use this geometrical interpretation and other interpretations to, kind of…
+
+86
+00:15:26.020 --> 00:15:35.479
+Chuan Wu: intuitively show, or intuitively prove, why Slater's constraint qualification can be sufficiently conditioned to establish strong duality for a convex program.
+
+87
+00:15:36.470 --> 00:15:39.950
+Chuan Wu: Okay, so we start with the…
+
+88
+00:15:44.140 --> 00:15:59.720
+Chuan Wu: Okay, so we start with the geometrical interpretation first. So, you have seen that throughout the course, often we use geometrical interpretation for us to understand the concepts or properties of zero-valence pattern, and here is another case situation.
+
+89
+00:16:00.110 --> 00:16:18.130
+Chuan Wu: Okay, so now we are considering a convex program, and especially for simplicity of using this geometric illustration to illustrate, we are considering a simpler, simpler convex program. So the convex program has an objective function to minimize.
+
+90
+00:16:18.530 --> 00:16:23.700
+Chuan Wu: And it has just the one inequality constraint to satisfy.
+
+91
+00:16:23.850 --> 00:16:31.190
+Chuan Wu: Convex program implies F0X and F1X are both convex functions, right? Okay.
+
+92
+00:16:31.360 --> 00:16:32.200
+Chuan Wu: And?
+
+93
+00:16:33.440 --> 00:16:47.750
+Chuan Wu: And now we consider a set, big G. Okay, the G, the G, the G set here. Okay, the G set consists of the coordinates of points in set G, a two-dimensional.
+
+94
+00:16:48.030 --> 00:17:04.429
+Chuan Wu: And every point inside the G corresponds to a pair F1XF0X at some X within the domain of the problem. Okay, so X in the domain of the problem, meaning X is in the domain of both F0X and F1X.
+
+95
+00:17:04.550 --> 00:17:05.970
+Chuan Wu: domain of the problem.
+
+96
+00:17:06.260 --> 00:17:14.430
+Chuan Wu: So we can vary X in the domain of the problem, then we can come up with different F1X, F0X value pairs.
+
+97
+00:17:14.619 --> 00:17:18.109
+Chuan Wu: And those letter pairs becomes points in set G.
+
+98
+00:17:18.550 --> 00:17:32.280
+Chuan Wu: Okay, an illustration of set GS here. Okay, let's use U to denote first the coordinate, T is the second coordinate, and U is exactly the value of F1X, and the T is exactly the value of F0X.
+
+99
+00:17:32.930 --> 00:17:37.099
+Chuan Wu: Okay, so that's our, preliminary setting.
+
+100
+00:17:37.440 --> 00:17:43.770
+Chuan Wu: And then we consider G lambda. So G lambda, as we know, it is the dual
+
+101
+00:17:45.000 --> 00:17:49.190
+Chuan Wu: Lagrange dual function. And how did we derive G lambda?
+
+102
+00:17:51.100 --> 00:17:53.549
+Chuan Wu: So we are minimizing over X.
+
+103
+00:17:53.990 --> 00:17:59.670
+Chuan Wu: for all, over X. We have many, many over X on the Lagrangian function.
+
+104
+00:17:59.890 --> 00:18:08.610
+Chuan Wu: Right? And what is the Lagrangian function here? So probably it's better just do… more detailed step.
+
+105
+00:18:09.700 --> 00:18:21.179
+Chuan Wu: Okay, assuming lambda, a scalar variable, is a multiplier associated with our only, constraint, inequality constraint, then our Lagrangian function is here.
+
+106
+00:18:23.690 --> 00:18:32.930
+Chuan Wu: This is our Lagrangian function, and our G lambda is to minimize over X of the year.
+
+107
+00:18:33.350 --> 00:18:34.969
+Chuan Wu: Lagrangian function.
+
+108
+00:18:35.100 --> 00:18:38.799
+Chuan Wu: right? And plug in what our Lagrangian function is like.
+
+109
+00:18:38.960 --> 00:18:40.779
+Chuan Wu: So we are minimizing.
+
+110
+00:18:41.150 --> 00:18:42.750
+Chuan Wu: stuff here.
+
+111
+00:18:43.400 --> 00:18:49.630
+Chuan Wu: Okay, so this is our original form of the Lagrange dual function.
+
+112
+00:18:50.140 --> 00:18:52.820
+Chuan Wu: And then let's do some variable substitution.
+
+113
+00:18:52.940 --> 00:19:00.720
+Chuan Wu: So over there, we use U to denote F1X value, and T to denote F.
+
+114
+00:19:01.080 --> 00:19:17.439
+Chuan Wu: 1X value, T to denote F0X value, right? And they are connected because the X they use to calculate their values should be the same one, right? So therefore, using the variable substitution, what we can exactly get is.
+
+115
+00:19:17.780 --> 00:19:19.850
+Chuan Wu: We just minimize.
+
+116
+00:19:21.450 --> 00:19:24.360
+Chuan Wu: P plus lambda U.
+
+117
+00:19:24.620 --> 00:19:25.340
+Chuan Wu: And?
+
+118
+00:19:25.770 --> 00:19:30.550
+Chuan Wu: our T and the U should belong to the set G.
+
+119
+00:19:31.090 --> 00:19:33.609
+Chuan Wu: Okay, so this G is different from that G.
+
+120
+00:19:33.770 --> 00:19:34.720
+Chuan Wu: Okay.
+
+121
+00:19:35.560 --> 00:19:40.019
+Chuan Wu: All right, probably that should be typed using VFX Vesco.
+
+122
+00:19:40.360 --> 00:19:50.319
+Chuan Wu: All right. Okay. All right, so here, this is how we derived the expression of Lagrangian function. Here.
+
+123
+00:19:50.490 --> 00:19:55.250
+Chuan Wu: Okay, alright, so now let's check out our geometrical illustration.
+
+124
+00:19:55.460 --> 00:20:07.859
+Chuan Wu: So we consider lines, okay? We consider lines. Consider this is a two-dimensional coordinate system. U and T are our, coordinates, and a lambda is the, slope.
+
+125
+00:20:07.950 --> 00:20:15.720
+Chuan Wu: Okay, lambda is a slope. And we consider a set of lines, in the form of lambda U plus T.
+
+126
+00:20:16.230 --> 00:20:18.739
+Chuan Wu: You're equaling some some value.
+
+127
+00:20:20.620 --> 00:20:21.920
+Chuan Wu: Okay, call it.
+
+128
+00:20:22.040 --> 00:20:23.010
+Chuan Wu: of…
+
+129
+00:20:29.960 --> 00:20:32.370
+Chuan Wu: H. Okay, it's an H value.
+
+130
+00:20:32.820 --> 00:20:34.519
+Chuan Wu: All right, so each can vary.
+
+131
+00:20:35.190 --> 00:20:48.360
+Chuan Wu: Okay, so when H varies, remember U and T are our variables for the coordinate, lambda is our, slope of the line. So when H varies, essentially, we come up with a set of lines.
+
+132
+00:20:49.070 --> 00:20:52.069
+Chuan Wu: Parallel lines, with the same slope lambda.
+
+133
+00:20:52.350 --> 00:20:59.920
+Chuan Wu: Right? When that line becomes the lowest line, which still intersects with the set G.
+
+134
+00:21:00.520 --> 00:21:07.479
+Chuan Wu: Okay, so once that… once that set of parallel lines at the slope of lambda.
+
+135
+00:21:07.630 --> 00:21:13.779
+Chuan Wu: still intersect with G. Okay, lowest line, which still intersect with set G.
+
+136
+00:21:14.220 --> 00:21:21.920
+Chuan Wu: Then we have a good interpretation of the intercept, P intercept, intercept along the T axis.
+
+137
+00:21:22.250 --> 00:21:25.930
+Chuan Wu: Because that interstellar is exactly the value of GLAC.
+
+138
+00:21:26.980 --> 00:21:30.869
+Chuan Wu: Right? So that is according to the definition of G lambda.
+
+139
+00:21:31.090 --> 00:21:43.310
+Chuan Wu: So G lambda is a smallest intercept, or smallest value of H, or smallest value of T plus lambda U, when that U and T is a point in set G.
+
+140
+00:21:43.470 --> 00:21:58.870
+Chuan Wu: So that's why I was emphasizing this parallel… set of parallel lines to touch center G, and at the lowest point, at the lowest line, which still touches center G, at the lowest point here, the, key intercept exactly gives the value of T lambda.
+
+141
+00:21:59.340 --> 00:22:00.170
+Chuan Wu: Right.
+
+142
+00:22:00.420 --> 00:22:01.310
+Chuan Wu: Agree?
+
+143
+00:22:01.970 --> 00:22:02.880
+Chuan Wu: Okay.
+
+144
+00:22:03.000 --> 00:22:14.870
+Chuan Wu: So now remember, so we have a set of parallel lines. Parallel lines means the slope of lambda, and when it is lowest and still intercepted with SG, the T intercept is exactly the value of G lambda.
+
+145
+00:22:15.190 --> 00:22:17.970
+Chuan Wu: your functional side. I love that.
+
+146
+00:22:18.550 --> 00:22:32.639
+Chuan Wu: Okay, so that is point 1. And then check out another point along the T axis. Okay, so consider a line, the line, the lowest point in set G, which is to the left of T axis.
+
+147
+00:22:33.060 --> 00:22:39.239
+Chuan Wu: Okay, consider the lowest point inside the G, which is to the left of T-axis, vertical axis.
+
+148
+00:22:39.480 --> 00:22:44.489
+Chuan Wu: And then the, the T coordinate of this lowest point.
+
+149
+00:22:44.750 --> 00:22:46.870
+Chuan Wu: It's exactly P stuff.
+
+150
+00:22:47.870 --> 00:22:48.710
+Chuan Wu: What?
+
+151
+00:22:48.860 --> 00:22:52.019
+Chuan Wu: So that is according to the definition of strategy.
+
+152
+00:22:52.340 --> 00:22:57.720
+Chuan Wu: when we only focus on points instead of G to the left of T. Axis.
+
+153
+00:22:57.990 --> 00:23:08.060
+Chuan Wu: We make sure those points corresponding to S satisfying F1X small equal to 0, or U small equal to 0.
+
+154
+00:23:08.210 --> 00:23:13.170
+Chuan Wu: Right? And the lowest, meaning their T value is smallest.
+
+155
+00:23:13.380 --> 00:23:16.030
+Chuan Wu: T value is exactly F0X.
+
+156
+00:23:16.830 --> 00:23:21.820
+Chuan Wu: So, actually, the point here corresponding to X star.
+
+157
+00:23:22.410 --> 00:23:24.120
+Chuan Wu: Primal Optimal Web.
+
+158
+00:23:24.990 --> 00:23:33.840
+Chuan Wu: So this point, of course, the coordinate is still U and the T right? It's U is f, 1 x satisfying smaller to 0.
+
+159
+00:23:34.200 --> 00:23:42.930
+Chuan Wu: because it's to the left of the the axis here, and it's a P value is the smallest possible F derives.
+
+160
+00:23:43.280 --> 00:23:48.620
+Chuan Wu: So therefore, this point hint, or implies a F star.
+
+161
+00:23:49.170 --> 00:23:56.949
+Chuan Wu: and its T value is exactly our P. Star, which is primal optimal value or smallest at 0 s. Possible.
+
+162
+00:23:57.850 --> 00:24:07.449
+Chuan Wu: Okay, so geometrically, the T coordinate value of this lowest point to the left of the vertical axis is P star.
+
+163
+00:24:08.720 --> 00:24:09.520
+Chuan Wu: Right.
+
+164
+00:24:09.770 --> 00:24:13.439
+Chuan Wu: Okay, so that's the second point I want you to notice.
+
+165
+00:24:13.690 --> 00:24:15.730
+Chuan Wu: And then come up with a third point.
+
+166
+00:24:16.180 --> 00:24:22.129
+Chuan Wu: Okay, just now we were saying, but lambda is fixed. We are able to find out corresponding G lambda.
+
+167
+00:24:22.490 --> 00:24:29.139
+Chuan Wu: And in the viewer problem, what we are doing is here. So in the viewer problem, we are maximizing
+
+168
+00:24:30.140 --> 00:24:31.350
+Chuan Wu: G lambda.
+
+169
+00:24:31.570 --> 00:24:34.470
+Chuan Wu: subject to lambda large equal to 0.
+
+170
+00:24:35.140 --> 00:24:41.479
+Chuan Wu: Right? So this is our dual problem corresponding to the simplified primal convex program.
+
+171
+00:24:41.980 --> 00:24:43.860
+Chuan Wu: This is a dual problem.
+
+172
+00:24:44.000 --> 00:24:56.480
+Chuan Wu: So, therefore, we actually want to find out the lambda. Okay, lambda larger to zero implies the set of lines, the slope is this kind of like this, not like that, okay?
+
+173
+00:24:56.640 --> 00:25:02.320
+Chuan Wu: And then, we try to find out a level, a slope of, say, a line.
+
+174
+00:25:02.610 --> 00:25:06.909
+Chuan Wu: intercept with the T-axis is the highest.
+
+175
+00:25:09.050 --> 00:25:19.800
+Chuan Wu: Okay, so what is that line like? So that line is here. Okay, so first of all, you should know, every line drawn here corresponds to a line.
+
+176
+00:25:19.990 --> 00:25:28.849
+Chuan Wu: of lambda U plus T equals G lambda, and with varying lambda. When lambda varies, meaning those lines' slope varies.
+
+177
+00:25:29.130 --> 00:25:30.000
+Chuan Wu: Right.
+
+178
+00:25:30.570 --> 00:25:42.440
+Chuan Wu: And we want to find such a line which intersects with G. Of course, it needs to intersect with G to make sure U and the T corresponds to a feasible point.
+
+179
+00:25:42.950 --> 00:25:46.860
+Chuan Wu: Okay, and we want that line to be the lowest.
+
+180
+00:25:47.000 --> 00:25:51.640
+Chuan Wu: To be the high… to achieve the highest key coordinate value.
+
+181
+00:25:52.060 --> 00:25:53.629
+Chuan Wu: the intercept value.
+
+182
+00:25:54.640 --> 00:26:02.990
+Chuan Wu: Okay, we want that line corresponds to a different slope lambda to have the highest T intercept value.
+
+183
+00:26:03.640 --> 00:26:08.090
+Chuan Wu: And the highest team accepted value is our max G lambda.
+
+184
+00:26:09.400 --> 00:26:12.010
+Chuan Wu: And that is exactly our theme stuff.
+
+185
+00:26:12.930 --> 00:26:23.250
+Chuan Wu: Okay, so those lines has to be the underneath G, and still intersect with G, and among all those lines, we want to align achieving the highest
+
+186
+00:26:23.550 --> 00:26:25.189
+Chuan Wu: Keeping this at the back.
+
+187
+00:26:25.310 --> 00:26:31.440
+Chuan Wu: And that highest team set the value is our max, G lambda, and equaling P star.
+
+188
+00:26:32.710 --> 00:26:36.290
+Chuan Wu: Okay, so that's the 3rd important point I want you to notice.
+
+189
+00:26:37.950 --> 00:26:45.819
+Chuan Wu: All right, and then, from the figure we drew here, if our set G does look like that, which is not a convex set.
+
+190
+00:26:46.490 --> 00:26:52.049
+Chuan Wu: Okay? And what we geometrically see is P. Star is above this dot.
+
+191
+00:26:52.700 --> 00:27:05.080
+Chuan Wu: And in general, we know P star has to be above D star, because D star has to be kind of a supporting line to ZG, and P star can be a… corresponds to a parallel line.
+
+192
+00:27:05.330 --> 00:27:08.520
+Chuan Wu: the starting from the lowest point.
+
+193
+00:27:09.020 --> 00:27:12.439
+Chuan Wu: On the left-hand side of the vertical axis instead of G.
+
+194
+00:27:12.630 --> 00:27:18.790
+Chuan Wu: right? So intuitively, P. Star always higher than T. Star along the T axis.
+
+195
+00:27:19.150 --> 00:27:20.960
+Chuan Wu: And that is me throughout it.
+
+196
+00:27:21.860 --> 00:27:26.150
+Chuan Wu: Okay, weak thread is saying, no matter what, P star is always larger than T star.
+
+197
+00:27:26.450 --> 00:27:29.180
+Chuan Wu: right for Comx program for non-comx program.
+
+198
+00:27:30.330 --> 00:27:31.250
+Chuan Wu: Okay.
+
+199
+00:27:31.460 --> 00:27:40.230
+Chuan Wu: Alright, and, And, And then, under what case P star would be?
+
+200
+00:27:40.460 --> 00:27:42.080
+Chuan Wu: Mapping piece up.
+
+201
+00:27:42.280 --> 00:27:44.139
+Chuan Wu: Okay, I'll draw you a case.
+
+202
+00:27:59.280 --> 00:28:02.730
+Chuan Wu: Okay, so if our set G looks like this.
+
+203
+00:28:04.450 --> 00:28:05.790
+Chuan Wu: our strategy.
+
+204
+00:28:06.200 --> 00:28:08.370
+Chuan Wu: and from our axis.
+
+205
+00:28:22.680 --> 00:28:25.899
+Chuan Wu: Okay, so if our 7G looks like that.
+
+206
+00:28:26.650 --> 00:28:29.330
+Chuan Wu: Where does GP star happen?
+
+207
+00:28:31.300 --> 00:28:33.199
+Chuan Wu: P. Star is happening.
+
+208
+00:28:35.880 --> 00:28:36.690
+Chuan Wu: here.
+
+209
+00:28:40.010 --> 00:28:40.770
+Chuan Wu: Why?
+
+210
+00:28:41.350 --> 00:28:44.929
+Chuan Wu: So because that is a point instead of G.
+
+211
+00:28:45.980 --> 00:28:49.580
+Chuan Wu: to the left of the T-axis, including T-axis.
+
+212
+00:28:51.250 --> 00:28:52.130
+Chuan Wu: Who's.
+
+213
+00:28:52.270 --> 00:28:56.030
+Chuan Wu: E. Coordinate value is the smallest right?
+
+214
+00:28:56.380 --> 00:28:58.160
+Chuan Wu: So P. Star happens there.
+
+215
+00:28:59.010 --> 00:29:00.680
+Chuan Wu: Then how about this guy?
+
+216
+00:29:01.300 --> 00:29:12.190
+Chuan Wu: So these start, as we analyze, so first of all, lambda U plus P equals P lambda is a non-vertical supporting hyperplastic G from the below direction, from below.
+
+217
+00:29:12.350 --> 00:29:18.299
+Chuan Wu: Okay, from below, we should accept this PXs at G lambda.
+
+218
+00:29:19.060 --> 00:29:27.550
+Chuan Wu: And we also want to find out the largest G lambda value by varying T, by varying lambda, varying the slope of the supporting hyperplane.
+
+219
+00:29:27.970 --> 00:29:28.750
+Chuan Wu: Right.
+
+220
+00:29:28.910 --> 00:29:30.380
+Chuan Wu: So therefore.
+
+221
+00:29:31.800 --> 00:29:34.940
+Chuan Wu: If our 7 G does look that like that.
+
+222
+00:29:37.050 --> 00:29:43.380
+Chuan Wu: This is our lambda mu, that's P, equaling Max?
+
+223
+00:29:43.900 --> 00:29:45.070
+Chuan Wu: Do you love that?
+
+224
+00:29:46.890 --> 00:29:48.099
+Chuan Wu: Oh, I shouldn't.
+
+225
+00:29:48.750 --> 00:29:50.969
+Chuan Wu: Well, it appears that this way.
+
+226
+00:29:52.780 --> 00:29:56.519
+Chuan Wu: So, lambda U plus T equaling G lambda.
+
+227
+00:29:57.460 --> 00:30:01.949
+Chuan Wu: And you… Here on the left, that is our…
+
+228
+00:30:02.430 --> 00:30:05.809
+Chuan Wu: That's the lambda, achieving largest G lambda.
+
+229
+00:30:05.930 --> 00:30:07.990
+Chuan Wu: But… Okay.
+
+230
+00:30:08.200 --> 00:30:14.019
+Chuan Wu: So, as a supporting hyperplug, Okay, so it's a supporting type of plan to send G.
+
+231
+00:30:14.730 --> 00:30:18.430
+Chuan Wu: achieving the highest GLADAT intercept value.
+
+232
+00:30:19.470 --> 00:30:25.260
+Chuan Wu: And the highest G lambda key intercept value is our… exactly our D star.
+
+233
+00:30:26.140 --> 00:30:31.370
+Chuan Wu: And we know B star and T star meet each other in this case.
+
+234
+00:30:31.960 --> 00:30:33.409
+Chuan Wu: Stronger as it holds.
+
+235
+00:30:35.560 --> 00:30:46.299
+Chuan Wu: And intuitively, you could consider why, in this case, P star and P star could meet on the T-axis, but over here, they couldn't meet. It's probably due to the shape of ZFG.
+
+236
+00:30:46.530 --> 00:30:51.369
+Chuan Wu: Right? So if G is convex shape, or at least the lower boundary is a convex curve.
+
+237
+00:30:51.500 --> 00:30:55.219
+Chuan Wu: That P star D star has to meet on the T axis.
+
+238
+00:30:55.510 --> 00:31:04.579
+Chuan Wu: And then, yes, that is exactly true, and that is a property we actually want to kind of establish on the next slide.
+
+239
+00:31:04.930 --> 00:31:05.880
+Chuan Wu: Go ahead.
+
+240
+00:31:06.320 --> 00:31:15.770
+Chuan Wu: Alright, So here, so first of all, let's still check out. So this is our still old SEF kit.
+
+241
+00:31:16.250 --> 00:31:29.289
+Chuan Wu: Okay, so this is our own set G, as illustrated on the previous slide. We extend it a little bit, we come up with a so-called ampligraph variation of set G, and we call it set A.
+
+242
+00:31:29.860 --> 00:31:35.509
+Chuan Wu: Okay, and in step A, the definition slightly varies from the definition of a set of G.
+
+243
+00:31:35.760 --> 00:31:44.469
+Chuan Wu: So in set A, we have the points UT such that U is larger equal to some F1X, evaluated at some X.
+
+244
+00:31:44.690 --> 00:31:47.720
+Chuan Wu: And the T is larger equal to F0X.
+
+245
+00:31:49.420 --> 00:31:51.230
+Chuan Wu: be right at some X.
+
+246
+00:31:51.880 --> 00:32:10.120
+Chuan Wu: So still, the ZA is derived when we vary X in the domain of the primal problem. And then we come up with corresponding F1X, F0X, and we come up with a point UT pair by allowing U to be larger equal to F1X, U to be larger to F0X.
+
+247
+00:32:10.890 --> 00:32:20.489
+Chuan Wu: Right. And then, we, actually, CZA in this shape. So essentially, we include more points than 7G.
+
+248
+00:32:21.010 --> 00:32:33.740
+Chuan Wu: Okay, for example, all these points here are included, because for any UT point you picked here, you are able to find out some point in set G, which is to the left and lower than it.
+
+249
+00:32:34.570 --> 00:32:39.710
+Chuan Wu: That corresponds to FYX, smaller equal to U, and FURX, smaller equal to T.
+
+250
+00:32:40.460 --> 00:32:41.380
+Chuan Wu: Okay.
+
+251
+00:32:42.270 --> 00:32:47.889
+Chuan Wu: Okay? And you'll come up with. And all these points in this shaded area also belong to set 8.
+
+252
+00:32:48.120 --> 00:32:54.139
+Chuan Wu: Because for any point there, you are able to find out some point in set G, which is lower or to the left.
+
+253
+00:32:54.640 --> 00:33:02.140
+Chuan Wu: Right? So that is the rationale. That A is actually a superset than G, including more points.
+
+254
+00:33:02.440 --> 00:33:05.650
+Chuan Wu: because we change the equality to inequality.
+
+255
+00:33:06.810 --> 00:33:14.889
+Chuan Wu: in the definition. Okay. And then, now what we want to focus on is not exactly set A.
+
+256
+00:33:15.050 --> 00:33:20.030
+Chuan Wu: What we want to focus on is a lower boundary of 7 a.
+
+257
+00:33:20.420 --> 00:33:22.929
+Chuan Wu: The curve marked the moon ratio.
+
+258
+00:33:24.040 --> 00:33:32.350
+Chuan Wu: And we call this curve a function PU. Okay, so the coordinate is U. Okay, so the argument is U.
+
+259
+00:33:32.530 --> 00:33:37.709
+Chuan Wu: Okay, PU. And how is PU defined? We actually have a definition for PU.
+
+260
+00:33:38.480 --> 00:33:46.750
+Chuan Wu: PU is the smallest F0X value, well, the corresponding F1X is no larger than the given U.
+
+261
+00:33:49.880 --> 00:33:56.159
+Chuan Wu: Okay, alright, and then PU is exactly the lower boundary of set A.
+
+262
+00:33:57.120 --> 00:34:04.310
+Chuan Wu: Why? So, because when you pick any point, so for example, here, okay, this point. At this point.
+
+263
+00:34:04.680 --> 00:34:10.380
+Chuan Wu: the, We have F1X smaller, before me.
+
+264
+00:34:10.750 --> 00:34:13.410
+Chuan Wu: Okay, so at this point.
+
+265
+00:34:13.520 --> 00:34:21.469
+Chuan Wu: the… yes. So at this point, the PU's value is exactly the T value of the point here.
+
+266
+00:34:22.100 --> 00:34:38.500
+Chuan Wu: Right? And, we know we can find out that… so, any point here, okay, for any point along this part of the boundary, of the lower boundary of set A, we know we can find out, this point, the lowest point of set G.
+
+267
+00:34:38.639 --> 00:34:47.399
+Chuan Wu: On the left-hand side of the t-axis. Okay, for that point, it's corresponding FYX is small, equal to U, because the U is here.
+
+268
+00:34:47.540 --> 00:34:58.959
+Chuan Wu: Okay, U is larger than F0X, but the, the team coordinated value of that point would be exactly F0X here.
+
+269
+00:34:59.950 --> 00:35:00.870
+Chuan Wu: Right.
+
+270
+00:35:01.000 --> 00:35:02.450
+Chuan Wu: Okay, we'll see that.
+
+271
+00:35:06.740 --> 00:35:13.609
+Chuan Wu: Okay, so what I want to illustrate is the PU, when we… when we bring up this epigraph variation A,
+
+272
+00:35:13.730 --> 00:35:23.659
+Chuan Wu: It's because PU, in the definition, in the way we define there, is exactly a lower boundary of ZA, instead of lower boundary of ZG.
+
+273
+00:35:25.250 --> 00:35:36.139
+Chuan Wu: The whole… the core reason is here. You actually, allow you to be afterbound of some FYX achieved by some X. That would exactly equate FYX.
+
+274
+00:35:36.370 --> 00:35:40.850
+Chuan Wu: right? So therefore, we kind of extend it for this point.
+
+275
+00:35:41.050 --> 00:35:46.490
+Chuan Wu: It's U and the T are exactly F0, some F0, some F.
+
+276
+00:35:46.770 --> 00:35:49.090
+Chuan Wu: one X and F 0 x.
+
+277
+00:35:49.720 --> 00:35:54.800
+Chuan Wu: But for a point here, it's, you thought the middle value is larger.
+
+278
+00:35:55.260 --> 00:36:02.840
+Chuan Wu: that, that corresponding F1X, but its T coordinate value would be exactly at your X.
+
+279
+00:36:04.200 --> 00:36:05.100
+Chuan Wu: Okay.
+
+280
+00:36:05.370 --> 00:36:16.179
+Chuan Wu: All right, so this is the definition of PU, and geometric elasticization of PU is a lower boundary of hypergraph variation A of our depth set G.
+
+281
+00:36:17.890 --> 00:36:23.930
+Chuan Wu: Okay, alright, so why do we bother to bring up the concept of PU?
+
+282
+00:36:24.070 --> 00:36:35.000
+Chuan Wu: So that is called, of course, when we want to make use of that PU to formally integrate our intuition just now. Our intuition is, like, if such a G,
+
+283
+00:36:35.340 --> 00:36:38.669
+Chuan Wu: The lower boundary is kind of a convex shape.
+
+284
+00:36:38.950 --> 00:36:42.190
+Chuan Wu: Then, P star, D star meet on the T-axis.
+
+285
+00:36:42.330 --> 00:36:45.180
+Chuan Wu: Right? Actually, more strictly speaking.
+
+286
+00:36:45.850 --> 00:36:54.299
+Chuan Wu: if the lower boundary of the epigraph variation of set G is a convex curve. So if PU curve here is convex curve.
+
+287
+00:36:54.950 --> 00:36:55.780
+Chuan Wu: Zach?
+
+288
+00:36:56.960 --> 00:37:00.969
+Chuan Wu: the P star and the D star would meet on the vertical axis.
+
+289
+00:37:02.680 --> 00:37:06.249
+Chuan Wu: In fact, for our second example, G here.
+
+290
+00:37:07.180 --> 00:37:16.470
+Chuan Wu: Okay, for our second example, G here, what would our A star… what would our epigraph variation set A looking like?
+
+291
+00:37:19.270 --> 00:37:20.240
+Chuan Wu: Okay.
+
+292
+00:37:20.710 --> 00:37:23.269
+Chuan Wu: So suppose they should annoy the point.
+
+293
+00:37:23.750 --> 00:37:25.829
+Chuan Wu: and this is a left Molson point.
+
+294
+00:37:33.110 --> 00:37:34.090
+Chuan Wu: Okay.
+
+295
+00:37:34.680 --> 00:37:36.670
+Chuan Wu: All those area is A.
+
+296
+00:37:38.220 --> 00:37:40.909
+Chuan Wu: All those area is a right.
+
+297
+00:37:42.160 --> 00:37:43.770
+Chuan Wu: And our PU.
+
+298
+00:37:43.960 --> 00:37:47.540
+Chuan Wu: It's actually defined to be exactly the curve I drew.
+
+299
+00:37:48.040 --> 00:37:51.440
+Chuan Wu: in red here. So that is our Pu.
+
+300
+00:37:52.070 --> 00:37:58.580
+Chuan Wu: So strictly, what we want to establish is, if that PU curve is convex curve.
+
+301
+00:37:59.000 --> 00:38:03.489
+Chuan Wu: Then, stronger as a host for this… for the program here.
+
+302
+00:38:04.150 --> 00:38:07.700
+Chuan Wu: Because intuitively, you see P star, P star, meet.
+
+303
+00:38:08.000 --> 00:38:09.930
+Chuan Wu: on the vertical axis.
+
+304
+00:38:10.960 --> 00:38:11.830
+Chuan Wu: Okay.
+
+305
+00:38:12.190 --> 00:38:16.230
+Chuan Wu: All right, so that is, in general, true. Now, here.
+
+306
+00:38:18.030 --> 00:38:21.449
+Chuan Wu: Okay, so strong duality, so for covariance program.
+
+307
+00:38:21.580 --> 00:38:22.620
+Chuan Wu: of…
+
+308
+00:38:23.530 --> 00:38:35.709
+Chuan Wu: So, for convex program, the epigram variation A is… can be proven to be convex. And correspondingly, its lower boundary curve, PU, is denoting a convex function.
+
+309
+00:38:36.480 --> 00:38:46.570
+Chuan Wu: And we would have, in that case, according to the intuitive illustration, in that case, there would be a supporting hyperplan at zero P star.
+
+310
+00:38:46.800 --> 00:38:48.080
+Chuan Wu: At this point.
+
+311
+00:38:48.260 --> 00:38:54.220
+Chuan Wu: and that supporting hyperplan would be implying a D star that overlaps with P star.
+
+312
+00:38:55.450 --> 00:38:57.729
+Chuan Wu: So that is the idea behind it.
+
+313
+00:38:58.410 --> 00:38:59.340
+Chuan Wu: Okay.
+
+314
+00:39:00.620 --> 00:39:16.869
+Chuan Wu: Okay, generally speaking, strongly, if there is enough virtual supporting hyperplan to A at that… at this point. Okay. For the case illustrated on the slide, we know there is no supporting hyperplan at the P star to A.
+
+315
+00:39:17.100 --> 00:39:22.219
+Chuan Wu: Okay, because… of the shape here. Okay, non-convex shape here.
+
+316
+00:39:22.720 --> 00:39:38.040
+Chuan Wu: But in the case I drew on the board, we know at 0 P. Star. That point along the T-axis there is a supporting hyperplane, and that existing supporting hyperplane implies a D star, because the intercept has to be D star.
+
+317
+00:39:38.330 --> 00:39:41.950
+Chuan Wu: And the D star, you put in D star. How strong they are in the holes.
+
+318
+00:39:42.090 --> 00:39:47.299
+Chuan Wu: Okay? And on the next slide will be establishing
+
+319
+00:39:47.990 --> 00:40:02.490
+Chuan Wu: that when Slater's condition holds, PU is convex. Okay, when Slater's condition holds, A is convex, PU is convex function, and there is supporting hyperplan at this point, and strong guarantee holds.
+
+320
+00:40:03.530 --> 00:40:04.610
+Chuan Wu: Okay.
+
+321
+00:40:04.750 --> 00:40:16.779
+Chuan Wu: All right, but geometrically, before we check out that by PO, under Slater's condition is convex, let's first check out geometrically here. So, for what does Slater's condition say?
+
+322
+00:40:17.010 --> 00:40:31.389
+Chuan Wu: So Slater's condition says that, what Slater's condition implies is there exists, okay? It requires there exists such a point in set A where U's tilde is smaller than 0.
+
+323
+00:40:31.950 --> 00:40:51.889
+Chuan Wu: Okay, because Slater's condition is saying, or Slater's condition is saying, in case our simplified normalization problem is, there exists some X, such that F1X is smaller than 0. And using our notation in the geometry illustration, it is just saying U is smaller than 0.
+
+324
+00:40:51.960 --> 00:41:01.109
+Chuan Wu: So there exists at some point, once U coordinated by a value smaller than zero. So U coordinated by a value smaller than zero, that implies
+
+325
+00:41:01.760 --> 00:41:02.880
+Chuan Wu: Seth Day.
+
+326
+00:41:03.140 --> 00:41:07.570
+Chuan Wu: At some point, strictly to the left of vertical axis.
+
+327
+00:41:08.410 --> 00:41:11.619
+Chuan Wu: Okay, new coordinates smaller than zero implies that.
+
+328
+00:41:13.700 --> 00:41:27.000
+Chuan Wu: And when we know set A has at least one point strictly to the left-hand side of the vertical axis, that further implies there would be a supporting hyperplane at P star here.
+
+329
+00:41:28.210 --> 00:41:35.949
+Chuan Wu: Okay, because P star can be derived from the lowest point to the left-hand side of vertical axis T,
+
+330
+00:41:36.440 --> 00:41:41.740
+Chuan Wu: to the T-axis, right? And supporting hyperplane must exist.
+
+331
+00:41:41.840 --> 00:41:43.050
+Chuan Wu: Over there.
+
+332
+00:41:43.660 --> 00:41:49.749
+Chuan Wu: no supporting plan at the 0 P. Star must have now must be non-vertical.
+
+333
+00:41:50.350 --> 00:41:56.639
+Chuan Wu: Non-vertical, meaning it's lambda is bounded, corresponds to a bounded finite lambda.
+
+334
+00:41:56.840 --> 00:42:00.160
+Chuan Wu: Well, it's vertical means lambda is infinity, right?
+
+335
+00:42:01.090 --> 00:42:02.130
+Chuan Wu: Okay.
+
+336
+00:42:03.320 --> 00:42:04.330
+Chuan Wu: All right.
+
+337
+00:42:05.510 --> 00:42:22.540
+Chuan Wu: Okay, so that said, let's next formally establish that, the PEU, the lower curve, the red curve here, should be a convex, should be corresponding to a convex function, in case of a convex program.
+
+338
+00:42:23.180 --> 00:42:24.080
+Chuan Wu: Yes.
+
+339
+00:42:29.730 --> 00:42:30.610
+Chuan Wu: Okay.
+
+340
+00:42:30.700 --> 00:42:36.010
+Chuan Wu: Right, by the way, clever a bit more. So, in general.
+
+341
+00:42:36.010 --> 00:42:50.879
+Chuan Wu: for convex program. Okay? So even once later's condition doesn't hold okay without considering later's condition. What we want to establish is for convex programs. We can show set of a constructed as a map, each convex set.
+
+342
+00:42:51.190 --> 00:43:01.239
+Chuan Wu: Okay, and then the, that's also equivalent to saying this lower boundary curve, PO, is corresponding to a complex function curve.
+
+343
+00:43:02.190 --> 00:43:03.050
+Chuan Wu: Okay.
+
+344
+00:43:03.190 --> 00:43:14.880
+Chuan Wu: And on top of that, if we further know Slater's condition holds, then that means, we, we are supporting Hyperplan at this point.
+
+345
+00:43:15.050 --> 00:43:19.680
+Chuan Wu: Okay, passing on the key axis must be non-vertical.
+
+346
+00:43:20.180 --> 00:43:24.870
+Chuan Wu: Okay, and for convex program, supporting hyperplan always exists.
+
+347
+00:43:25.000 --> 00:43:39.869
+Chuan Wu: Okay, at 0 P star, and what status condition establishing is that the supporting hyperplane must be non-vertical. Okay, supporting hyperplane on P star. The only case that is vertical is here.
+
+348
+00:43:41.190 --> 00:43:41.860
+Chuan Wu: Okay.
+
+349
+00:43:51.740 --> 00:43:58.539
+Chuan Wu: Okay, so consider, that is our set of G, and our… P. Star is here.
+
+350
+00:43:59.090 --> 00:44:12.729
+Chuan Wu: Okay, P star is the, corresponds to the point along the axis, or to the left of T-axis, right? And in a special case, that we will have one point on the T-axis, then that is corresponding to P star.
+
+351
+00:44:13.000 --> 00:44:23.990
+Chuan Wu: But in this case, we know status condition doesn't hold, right? Because stable condition requires some point instead of G to the… strictly to the left of the vertical axis.
+
+352
+00:44:24.170 --> 00:44:30.250
+Chuan Wu: Right? And in this case, we know at P star there, the supporting hyperplane is vertical.
+
+353
+00:44:30.360 --> 00:44:34.120
+Chuan Wu: For vertical hyperplanes, there is no meaningful lambda corresponding to it.
+
+354
+00:44:34.590 --> 00:44:40.590
+Chuan Wu: So that implies we cannot establish strong directing because we don't know where this star is.
+
+355
+00:44:40.910 --> 00:44:45.070
+Chuan Wu: because this star has to be corresponding to some finite meaningful lambda.
+
+356
+00:44:46.020 --> 00:44:46.940
+Chuan Wu: Okay.
+
+357
+00:44:48.330 --> 00:45:00.890
+Chuan Wu: All right, Okay, and then let's, do some proof on, that PU in a convex function for even, convex
+
+358
+00:45:01.040 --> 00:45:01.950
+Chuan Wu: for what?
+
+359
+00:45:02.890 --> 00:45:10.099
+Chuan Wu: Alright, so here, we consider established EOB in COLAX, we need to establish the digesters in organic holes.
+
+360
+00:45:10.320 --> 00:45:19.380
+Chuan Wu: For PU, right? So we can consider two points first, so we consider using two different points as input to a function P,
+
+361
+00:45:19.380 --> 00:45:35.439
+Chuan Wu: And based on definition, we know PU1 is defined to be the smallest F0X value, subject to F1X no larger than U1. Similarly, PU2 corresponds to minimal F0X value, subject to F1X no larger than U2.
+
+362
+00:45:35.440 --> 00:45:53.269
+Chuan Wu: And let's say the optimal point to, this first minimization, deriving P1's value to be X1 star, and the optimal point, in, the optimal solution, the optimal point, optimal solution to the second minimization problem.
+
+363
+00:45:53.270 --> 00:46:01.090
+Chuan Wu: derive the value of U2, the X2 star. Okay, so you should know both X1 and X2 are n-dimensional vectors.
+
+364
+00:46:01.100 --> 00:46:05.530
+Chuan Wu: Okay, instead of being two coordinates, or two components in a pattern.
+
+365
+00:46:06.200 --> 00:46:26.019
+Chuan Wu: Okay, and then consider a convex combination point, alpha1U1 plus alpha2U2, and evaluate P on top of it. And according to definition P, so that is the smallest F0X value, subject to F1X is no larger than alpha1U1 plus alpha2U2.
+
+366
+00:46:26.620 --> 00:46:27.550
+Chuan Wu: Okay.
+
+367
+00:46:27.830 --> 00:46:38.820
+Chuan Wu: And then we will be making use of that the primal problem is collapse. Okay, you don't assume later installation holds, you only need to know that the primal problem is collapse.
+
+368
+00:46:38.890 --> 00:46:52.190
+Chuan Wu: convex. So F0X and F1X are both convex. So making use of the, F1X is convex, this is Jensen's inequality for F1X being convex.
+
+369
+00:46:52.420 --> 00:47:09.830
+Chuan Wu: And, we, whether it's derived, that according to the, how we, calculate PU, so we know F1X1 star is no larger than U1, right? And F1X2 star is no larger than U2.
+
+370
+00:47:11.200 --> 00:47:20.129
+Chuan Wu: Okay. And of course, RF1, RF2s are non-active, because they are, what the… they should be non-active, and some are what?
+
+371
+00:47:20.980 --> 00:47:21.880
+Chuan Wu: Okay.
+
+372
+00:47:22.080 --> 00:47:25.459
+Chuan Wu: And then, we are, here.
+
+373
+00:47:25.560 --> 00:47:42.140
+Chuan Wu: So if we evaluate the, F0 objective function primal, convex programs, objective functions value, and convectional mandation point here, alpha 1x1 star plus alpha 2x2 star, and we know.
+
+374
+00:47:42.290 --> 00:47:48.540
+Chuan Wu: It should be no smaller than the minimal value of F0X.
+
+375
+00:47:48.690 --> 00:47:51.909
+Chuan Wu: length, FYX is founded here.
+
+376
+00:47:53.590 --> 00:47:54.380
+Chuan Wu: Right.
+
+377
+00:48:05.880 --> 00:48:12.420
+Chuan Wu: Okay, so how did we derive this inequality? It's exactly because of the last derivation, right?
+
+378
+00:48:12.560 --> 00:48:18.700
+Chuan Wu: So here, essentially, F0 evaluated at this convex combination point.
+
+379
+00:48:18.910 --> 00:48:25.799
+Chuan Wu: should be no larger than the minimum value of this F0X, when X is taking that value.
+
+380
+00:48:25.970 --> 00:48:26.840
+Chuan Wu: Right.
+
+381
+00:48:27.030 --> 00:48:34.679
+Chuan Wu: And when X is taking this value, it satisfies the inequality here, because if you plug in
+
+382
+00:48:34.990 --> 00:48:42.679
+Chuan Wu: alpha 1X1 star plus alpha 2X2 star in here, this inequality is exactly what we derived about.
+
+383
+00:48:44.060 --> 00:48:50.909
+Chuan Wu: Okay, the other way around to put it is that this is a feasible point satisfy the condition.
+
+384
+00:48:52.040 --> 00:49:08.309
+Chuan Wu: This is a feasible point to satisfy the condition here, and then, therefore, its function value F0 evaluated at this point will be no smaller than the minimum F0X among all X satisfied conditions here.
+
+385
+00:49:08.460 --> 00:49:09.200
+Chuan Wu: Okay.
+
+386
+00:49:10.140 --> 00:49:15.529
+Chuan Wu: Okay, so basically, this is a feasible point, and here we are trying to find out the optimal point X.
+
+387
+00:49:15.710 --> 00:49:17.560
+Chuan Wu: 75 of the condition.
+
+388
+00:49:21.620 --> 00:49:24.160
+Chuan Wu: Okay, and then.
+
+389
+00:49:25.130 --> 00:49:43.839
+Chuan Wu: We move on further. So here, we make use of that X1 star as a minimum point when we derive PU1. So we know, PU1 is exactly F0 evaluated at X1 star, and PU2 is exactly F0 evaluated at X2 star.
+
+390
+00:49:45.480 --> 00:49:49.910
+Chuan Wu: Okay, and then we make use of F0X being convex.
+
+391
+00:49:50.300 --> 00:49:56.070
+Chuan Wu: Okay, so this is Jensen's inequality applied to a clear function, convex function.
+
+392
+00:49:57.500 --> 00:50:14.070
+Chuan Wu: Okay. And, F0, alpha 1, X1 star plus alpha 2X2 star, so that is here, and the right-hand side here, this is exactly P, R1U1 plus R1U2.
+
+393
+00:50:14.650 --> 00:50:16.949
+Chuan Wu: right? According to definition of peak.
+
+394
+00:50:17.970 --> 00:50:19.650
+Chuan Wu: Okay, so they have 4.
+
+395
+00:50:19.850 --> 00:50:25.829
+Chuan Wu: All the way down, we come up with that P function satisfied the Jess's inequality.
+
+396
+00:50:26.660 --> 00:50:28.350
+Chuan Wu: As a PS POEX.
+
+397
+00:50:31.430 --> 00:50:32.350
+Chuan Wu: Okay.
+
+398
+00:50:47.690 --> 00:50:49.290
+Chuan Wu: Alright,
+
+399
+00:50:49.640 --> 00:51:02.090
+Chuan Wu: So, over here, I hope building the simple… simpler convex proof, and using that geometric illustration related to set G, set A, and PU function.
+
+400
+00:51:02.090 --> 00:51:13.059
+Chuan Wu: Intuitively, we know why, convex program, Slater's conditional hold, that geometrically, we can know P star would be equally B star.
+
+401
+00:51:13.340 --> 00:51:26.810
+Chuan Wu: Okay, so a relevant interpretation or results from what we did earlier is here, related to so-called sensitivity interpretation of optimality of duality of convex program.
+
+402
+00:51:27.190 --> 00:51:29.260
+Chuan Wu: Okay, so here.
+
+403
+00:51:29.400 --> 00:51:43.800
+Chuan Wu: So we consider, optimization problem in the, most generic mathematical programs form, and this dual problem is on the right-hand side. And we also consider its perturbed problem and corresponding viewer.
+
+404
+00:51:43.910 --> 00:51:47.160
+Chuan Wu: How we perturbed the original problem is here.
+
+405
+00:51:47.400 --> 00:52:05.639
+Chuan Wu: So, in the inequality constraints and the quality constraints, right-hand side of the side, we have a quantity which is not zero. Okay, not zero. We perturb zero from another constant of the UIs and of VX, UI, VX.
+
+406
+00:52:05.870 --> 00:52:13.720
+Chuan Wu: And, by this, perturbation, what the, how the dual problem would be changing is here.
+
+407
+00:52:13.930 --> 00:52:22.269
+Chuan Wu: So you can do a bit of DN derivation. You will find out in objective function, we have two affine terms that are appearing.
+
+408
+00:52:22.760 --> 00:52:27.300
+Chuan Wu: Okay, related to that perturbation value. U perturbation value. V.
+
+409
+00:52:27.760 --> 00:52:32.599
+Chuan Wu: Okay? So it's very, it's very standard. You can derive yourself easily.
+
+410
+00:52:33.100 --> 00:52:38.570
+Chuan Wu: Okay, and, What we want to establish is here.
+
+411
+00:52:38.710 --> 00:52:56.210
+Chuan Wu: So we consider P star UV to be the optimal value of the primal problem as a function of U and V. So P star denotes the primal optimal value, and U and V consider that we can vary that perturbation vector values.
+
+412
+00:52:56.420 --> 00:53:00.440
+Chuan Wu: So, P star is a, function of U and V.
+
+413
+00:53:00.810 --> 00:53:02.720
+Chuan Wu: And the.
+
+414
+00:53:02.820 --> 00:53:09.780
+Chuan Wu: the conclusion we can derive. Actually, people have derived this. So if strong duality holds for this problem.
+
+415
+00:53:09.950 --> 00:53:27.769
+Chuan Wu: Okay, no matter whether the primal problem is convex or not, if we do know between the primal and the dual problem, so the reason is actually for non-convex program, there are cases that strongly still holds between the primal and dual problem. Okay, it's just that for convex program, in most of the cases, strongly holds.
+
+416
+00:53:28.150 --> 00:53:43.300
+Chuan Wu: Okay, so say if strong jet holds between the primal and the dual problem, and also P star is differentiable at U equaling 0 and V equaling 0, and then what we know is here.
+
+417
+00:53:43.500 --> 00:53:45.490
+Chuan Wu: So let the ISR.
+
+418
+00:53:45.560 --> 00:54:04.530
+Chuan Wu: the pure optimal point corresponding to primal sum of the primal inequality constraint is actually including negatives. The partial… of the partial derivative value of the key starters over UI, okay?
+
+419
+00:54:04.650 --> 00:54:13.919
+Chuan Wu: So UI, lambda I, are associated with the same primal inequality constraint. And, mu I star, which is, dual.
+
+420
+00:54:14.090 --> 00:54:30.369
+Chuan Wu: point related to, one of the equality constraints can be calculated in a similar way. It's equivalent to negative of the partial derivative of VI in the same perturbed equality constraint.
+
+421
+00:54:30.630 --> 00:54:38.930
+Chuan Wu: Okay, so this is the most generic conclusion. Now, back to our geometrical illustration of the simpler case.
+
+422
+00:54:39.680 --> 00:54:49.110
+Chuan Wu: Okay, in our similar case, consider we just have one inequality constraint. Okay, only one inequality constraint, and…
+
+423
+00:54:51.840 --> 00:54:54.590
+Chuan Wu: What we know is here.
+
+424
+00:54:57.260 --> 00:54:59.879
+Chuan Wu: or Lambda star, and what?
+
+425
+00:55:00.130 --> 00:55:02.019
+Chuan Wu: Equaling negatives.
+
+426
+00:55:10.500 --> 00:55:11.569
+Chuan Wu: Big P.
+
+427
+00:55:40.330 --> 00:55:53.720
+Chuan Wu: Okay, in fact, okay, so in fact, the function P star UV defined there is consistent with our function PU defined, and shown to be convex just now.
+
+428
+00:55:54.990 --> 00:55:56.850
+Chuan Wu: Okay, so the PU.
+
+429
+00:55:57.000 --> 00:56:06.319
+Chuan Wu: Okay, in the most generic case, that is, Puv. Okay? And here our pu function is actually the
+
+430
+00:56:06.820 --> 00:56:10.900
+Chuan Wu: Okay, all the way back. So our pu function Yep.
+
+431
+00:56:12.040 --> 00:56:19.099
+Chuan Wu: Okay, so our Pu function defined here is a simply simplified case of that Pub function.
+
+432
+00:56:19.230 --> 00:56:23.529
+Chuan Wu: But we only consider just the web, inequality constraint.
+
+433
+00:56:23.970 --> 00:56:32.620
+Chuan Wu: Okay. And therefore, the generic result of sensitivity perturbation
+
+434
+00:56:32.620 --> 00:56:44.429
+Chuan Wu: local sensitivity interpretation of strong duality is actually saying that our lambda star is negative of the Po function over U.
+
+435
+00:56:44.820 --> 00:56:49.289
+Chuan Wu: to what does it? And actually, that's exactly says.
+
+436
+00:56:50.700 --> 00:56:54.300
+Chuan Wu: Lambda is a slope of the supporting hyperplane to PU.
+
+437
+00:56:54.810 --> 00:56:57.129
+Chuan Wu: In our simply… simplified case.
+
+438
+00:56:58.820 --> 00:57:07.430
+Chuan Wu: So that is, this local sensitivity analysis is actually exactly consistent with our geometric illustration here.
+
+439
+00:57:08.050 --> 00:57:10.500
+Chuan Wu: We already know this lambda is a slope.
+
+440
+00:57:10.720 --> 00:57:11.660
+Chuan Wu: Hi.
+
+441
+00:57:12.030 --> 00:57:14.219
+Chuan Wu: Okay? And it is indeed the slope.
+
+442
+00:57:16.390 --> 00:57:19.470
+Chuan Wu: And the slope, and the supporting hydroplane.
+
+443
+00:57:19.730 --> 00:57:26.609
+Chuan Wu: slope of the supporting hyperplane will set G to the boundary curve PU.
+
+444
+00:57:28.880 --> 00:57:29.730
+Chuan Wu: Okay.
+
+445
+00:57:31.310 --> 00:57:32.310
+Chuan Wu: All right.
+
+446
+00:57:32.840 --> 00:57:33.670
+Chuan Wu: And…
+
+447
+00:57:42.420 --> 00:57:51.669
+Chuan Wu: Okay, so it would be some good timing to take a short break before we continue with other interpretations. Okay, 3 minutes break before we continue.
+
+448
+00:58:34.680 --> 00:58:35.980
+Chuan Wu: Good.
+
+449
+00:59:30.020 --> 00:59:30.740
+Chuan Wu: But…
+
+450
+01:02:11.160 --> 01:02:27.379
+Chuan Wu: All right, let's continue with our lecture today. Actually, I still want to emphasize, clarify a little bit. More strictly saying lambda, negative lambda is a scope. Okay, according to the standard way of expressing a line here.
+
+451
+01:02:28.000 --> 01:02:31.209
+Chuan Wu: here. You should be expressing it in the way of here.
+
+452
+01:02:34.780 --> 01:02:39.310
+Chuan Wu: So the intercept is on the left-hand side, and right-hand side, next to the left, that is the slope.
+
+453
+01:02:40.090 --> 01:02:47.860
+Chuan Wu: Okay, so that is more apparently corresponding to that. Nextly, lambda is the slope of the supporting hypergraph.
+
+454
+01:02:48.430 --> 01:02:49.400
+Chuan Wu: Okay.
+
+455
+01:02:53.840 --> 01:02:55.959
+Chuan Wu: Alright, let's continue.
+
+456
+01:03:00.650 --> 01:03:16.770
+Chuan Wu: Okay, yeah, next, the property of some kind of interpretation of strong duality is related to, is to connecting our final view problems duality, strong duality with the, double point, set of theory.
+
+457
+01:03:16.770 --> 01:03:28.959
+Chuan Wu: Okay, so I believe most of you have heard about settle point in other courses or lectures, and here, pretty much, they're saying that how the concept of settle point is connected is a duetic of lots of optimization problem.
+
+458
+01:03:29.660 --> 01:03:40.619
+Chuan Wu: Okay, so here, we, consider, organization where there is no, equality constraints. Okay, no equality constraints.
+
+459
+01:03:46.530 --> 01:03:50.050
+Chuan Wu: Okay, I should still keep it so I can write less.
+
+460
+01:03:53.180 --> 01:03:55.439
+Chuan Wu: Okay, I'll remove the right-hand side.
+
+461
+01:04:12.430 --> 01:04:16.950
+Chuan Wu: Alright, so we have a set of, in the problem organizations.
+
+462
+01:04:17.100 --> 01:04:18.260
+Chuan Wu: program.
+
+463
+01:04:24.450 --> 01:04:27.389
+Chuan Wu: So we have a set of inequality constraints.
+
+464
+01:04:33.650 --> 01:04:36.870
+Chuan Wu: Okay, so this is a program we'll be looking at.
+
+465
+01:04:40.470 --> 01:04:45.789
+Chuan Wu: All right, all right, any problem without, inequality?
+
+466
+01:04:46.070 --> 01:04:51.519
+Chuan Wu: And, we know how we derive the, Lagrangian tour, so again.
+
+467
+01:04:51.630 --> 01:04:59.199
+Chuan Wu: So here, our Lagrangian on X and lambda. So we have lambda, now lambda is a vector, okay, M-dimensional vector.
+
+468
+01:04:59.640 --> 01:05:02.049
+Chuan Wu: Our Lagrangian is here.
+
+469
+01:05:17.710 --> 01:05:19.359
+Chuan Wu: Okay, alright.
+
+470
+01:05:25.660 --> 01:05:27.830
+Chuan Wu: Okay, and then our…
+
+471
+01:05:31.750 --> 01:05:32.880
+Chuan Wu: Okay.
+
+472
+01:05:36.480 --> 01:05:40.349
+Chuan Wu: Okay, so that is our Lagrange dual function.
+
+473
+01:05:41.080 --> 01:06:00.730
+Chuan Wu: Okay, so now we, what we want to establish is, so for such a no-equality constraint, optimization problem, we actually can derive the primal optimal value equals infinite over X first, that's the premium over lambda of the Lagrangian function.
+
+474
+01:06:00.730 --> 01:06:15.560
+Chuan Wu: And then the counterpart is our optimal dual value, D star, equals supremum over lambda infinite over X of LX lambda. Okay, so let's establish or show the right-hand side equality first.
+
+475
+01:06:15.890 --> 01:06:20.450
+Chuan Wu: So we know how D star is derived, right? So D star.
+
+476
+01:06:20.640 --> 01:06:28.660
+Chuan Wu: is maximal G lambda, but lambda plugged into the error. Okay, so again, so here.
+
+477
+01:06:29.200 --> 01:06:32.700
+Chuan Wu: That is our dual problem, right?
+
+478
+01:06:32.930 --> 01:06:42.259
+Chuan Wu: Okay, so D star is maximal G lambda value subject to lambda non-negative on each component, right? Okay, and then…
+
+479
+01:06:45.350 --> 01:06:54.479
+Chuan Wu: What is G lambda? So, how we derive G lambda? So, we are minimizing over X of the Lagrangian.
+
+480
+01:06:54.800 --> 01:06:58.340
+Chuan Wu: And that is our G-Lambda's calculation.
+
+481
+01:06:58.660 --> 01:06:59.360
+Chuan Wu: Right.
+
+482
+01:06:59.460 --> 01:07:13.719
+Chuan Wu: And in this course, in the context of this course, we kind of do not distinguish the difference between maximization operator and, supreme calculator. We just assume they're kind of equivalent, and the minimization equivalent to infinite operator.
+
+483
+01:07:13.770 --> 01:07:30.439
+Chuan Wu: So then, changing max to inferment, supremum mean to inferment, so exactly what we derived with the second equality on the slide, right? Okay, D star is exactly supremum lambda infinite X of the ground J.
+
+484
+01:07:30.790 --> 01:07:31.710
+Chuan Wu: Okay.
+
+485
+01:07:32.560 --> 01:07:37.729
+Chuan Wu: And then, how about the first part? So, the first part… is here.
+
+486
+01:07:46.380 --> 01:07:48.349
+Chuan Wu: Okay, so our P stop.
+
+487
+01:07:48.620 --> 01:07:52.130
+Chuan Wu: So P star is primal optimal solution.
+
+488
+01:07:52.330 --> 01:07:56.600
+Chuan Wu: So that's minimal of that. Subject 2.
+
+489
+01:08:00.740 --> 01:08:02.340
+Chuan Wu: X. Okay.
+
+490
+01:08:02.530 --> 01:08:08.959
+Chuan Wu: And subject 2X35, FIX, no larger than
+
+491
+01:08:09.070 --> 01:08:16.839
+Chuan Wu: zero. So that is our P star, final optimal value, right? Okay. And then.
+
+492
+01:08:17.160 --> 01:08:19.340
+Chuan Wu: What we want to establish is.
+
+493
+01:08:19.640 --> 01:08:23.729
+Chuan Wu: It is equivalent to 2 minimization over X.
+
+494
+01:08:23.830 --> 01:08:25.990
+Chuan Wu: and the maximizations.
+
+495
+01:08:26.830 --> 01:08:28.830
+Chuan Wu: over Lambda.
+
+496
+01:08:29.359 --> 01:08:32.710
+Chuan Wu: of the Lagrangian. So what is our Lagrangian like?
+
+497
+01:08:32.840 --> 01:08:34.799
+Chuan Wu: So our Lagrangian is here.
+
+498
+01:08:42.029 --> 01:08:45.060
+Chuan Wu: Okay, so how do we show the equality holds?
+
+499
+01:08:46.240 --> 01:08:47.340
+Chuan Wu: So here.
+
+500
+01:08:47.460 --> 01:08:48.430
+Chuan Wu: And.
+
+501
+01:08:57.580 --> 01:09:02.849
+Chuan Wu: So in general, we want to minimize F 0 x right? We want to minimize F 0 x.
+
+502
+01:09:03.390 --> 01:09:12.969
+Chuan Wu: So therefore, the X value we choose in order to minimize F0X must make sure FIX here is smaller than 0.
+
+503
+01:09:14.740 --> 01:09:15.630
+Chuan Wu: right?
+
+504
+01:09:16.970 --> 01:09:18.100
+Chuan Wu: Do you agree?
+
+505
+01:09:18.500 --> 01:09:24.130
+Chuan Wu: So for optimal X star, okay, so for optimal X star, achieving P star.
+
+506
+01:09:24.529 --> 01:09:28.020
+Chuan Wu: Okay, that X star is minimizing F zero X.
+
+507
+01:09:28.689 --> 01:09:36.929
+Chuan Wu: So therefore, the X we choose to minimize the value here must make FIX smaller equal to zero.
+
+508
+01:09:37.370 --> 01:09:47.320
+Chuan Wu: Why? Because if fx is larger than 0, then in the inside maximization operator, it would make lambda i very large.
+
+509
+01:09:47.700 --> 01:09:52.119
+Chuan Wu: Such that this part becomes very large, right?
+
+510
+01:09:55.750 --> 01:10:07.259
+Chuan Wu: Okay? So therefore, so this is some intuitive way to like to understand why these equal. So the whole reason, I think, that when X is small, it was general.
+
+511
+01:10:07.320 --> 01:10:17.180
+Chuan Wu: So, sorry. So when X makes FIX more equal to zero, in the inside maximization operator, the lambda I will be intruding
+
+512
+01:10:17.390 --> 01:10:19.259
+Chuan Wu: As small as possible value.
+
+513
+01:10:19.430 --> 01:10:25.219
+Chuan Wu: Actually, the lambda I choose in here would be making lambda IFX equaling zero.
+
+514
+01:10:28.280 --> 01:10:29.130
+Chuan Wu: Right.
+
+515
+01:10:29.710 --> 01:10:31.379
+Chuan Wu: Okay, I'll say that again.
+
+516
+01:10:37.070 --> 01:10:40.389
+Chuan Wu: Okay, we cannot show it using contradiction.
+
+517
+01:10:40.640 --> 01:10:53.309
+Chuan Wu: So if X here to in the outer operator minimization here, the X chosen makes Fx larger equal to 0, or more strictly larger than 0. Then
+
+518
+01:10:53.390 --> 01:11:02.960
+Chuan Wu: the inner operation would be making lambda larger than zero, right? And then, the whole thing here could be large, could be very large.
+
+519
+01:11:03.620 --> 01:11:04.500
+Chuan Wu: Right.
+
+520
+01:11:04.660 --> 01:11:06.070
+Chuan Wu: kind of unbounded.
+
+521
+01:11:06.900 --> 01:11:10.670
+Chuan Wu: So, and that won't be making the result minimal.
+
+522
+01:11:11.080 --> 01:11:19.069
+Chuan Wu: Okay, so therefore, for the X chosen in the outer, optimization, it will be making FIX 1 to 0.
+
+523
+01:11:19.190 --> 01:11:31.479
+Chuan Wu: So when fx is smaller than 0, for the inner operation of maximization, it is related to lambda only, right? And the best lambda chosen would be making the entire C exactly zero.
+
+524
+01:11:32.160 --> 01:11:38.610
+Chuan Wu: Okay? Because otherwise the better choice is to make it smaller than 0. Of course, the largest value is to make it exactly 0.
+
+525
+01:11:38.810 --> 01:11:46.490
+Chuan Wu: So when it's exactly 0, then only F0X left. So then, the whole result will be exactly F0X star.
+
+526
+01:11:47.660 --> 01:11:48.540
+Chuan Wu: Okay.
+
+527
+01:11:48.890 --> 01:11:53.369
+Chuan Wu: and that is how the 1st equality is established.
+
+528
+01:11:53.610 --> 01:11:59.030
+Chuan Wu: So, essentially, P star is mean over X of max over lambda.
+
+529
+01:11:59.130 --> 01:12:00.999
+Chuan Wu: at Bagram Chip.
+
+530
+01:12:01.670 --> 01:12:02.580
+Chuan Wu: Okay.
+
+531
+01:12:04.030 --> 01:12:07.870
+Chuan Wu: All right, Here.
+
+532
+01:12:08.240 --> 01:12:17.130
+Chuan Wu: And what strong… what weak duality is, say, okay, for the optimization over there is P star is larger than or equal to D star, right?
+
+533
+01:12:17.510 --> 01:12:26.899
+Chuan Wu: And as we established, this is P star, and this is P star. Okay, P star largely goes to D star, and we come up with an inequality here.
+
+534
+01:12:27.280 --> 01:12:31.250
+Chuan Wu: And in fact, this inequality in general holds.
+
+535
+01:12:32.240 --> 01:12:37.230
+Chuan Wu: Okay, so it in general holds, As here.
+
+536
+01:12:37.590 --> 01:12:54.650
+Chuan Wu: Okay, let's first check the strong duality result. So when, for the, optimization problem there, weak duality always holds, so we come up with an inequality above. And in the case, if strong duality holds, what we would have is P star equaling D star.
+
+537
+01:12:54.850 --> 01:13:02.090
+Chuan Wu: Right? Okay. And what we want to say is, in fact, the first inequality
+
+538
+01:13:02.250 --> 01:13:16.150
+Chuan Wu: even when it is not under the situation of primal and endure Lagrangian function L function L there actually for any function. F, okay, for any function. F on 2 sets of variables.
+
+539
+01:13:16.250 --> 01:13:22.719
+Chuan Wu: The the Max mean inequality is what the weak duality result is saying.
+
+540
+01:13:23.160 --> 01:13:28.099
+Chuan Wu: Okay, so for any function S, and we any
+
+541
+01:13:28.330 --> 01:13:43.509
+Chuan Wu: Set, for any function f, if we divide its variable set to two sets, okay, w and z, and the w belongs to some set being w, z belongs to some set being z, then this inequality always holds.
+
+542
+01:13:43.840 --> 01:13:46.630
+Chuan Wu: So, what does this e-college say is?
+
+543
+01:13:46.990 --> 01:14:05.619
+Chuan Wu: On the function F, if you do some preliminary calculation on one set of variables, and then do infinite calculation on the rest of the set of variables, the result will be no smaller than, on F, you do infinite calculation first, the same set of variable W, and then do supremum.
+
+544
+01:14:06.100 --> 01:14:16.179
+Chuan Wu: Okay, so making the value larger and then smaller, and then, as compared to making the function value smaller and then larger, there is always this inequality here.
+
+545
+01:14:16.350 --> 01:14:20.739
+Chuan Wu: and this in general in the match book is called Max mean inequality.
+
+546
+01:14:21.000 --> 01:14:23.010
+Chuan Wu: And the next thing, politics.
+
+547
+01:14:23.220 --> 01:14:29.940
+Chuan Wu: And our weak duality can be said to be some education of this X-meaning equality.
+
+548
+01:14:30.060 --> 01:14:32.990
+Chuan Wu: especially Lagrangian function L.
+
+549
+01:14:33.680 --> 01:14:39.930
+Chuan Wu: And the two sets of variables are decided. One set X is a primal variable, and the other set is a dual variable.
+
+550
+01:14:41.130 --> 01:14:42.050
+Chuan Wu: Okay.
+
+551
+01:14:42.380 --> 01:14:45.940
+Chuan Wu: And then, what about the, equality case?
+
+552
+01:14:46.070 --> 01:14:54.400
+Chuan Wu: If inequality does hold, we say strong vaccine property holds, or some saddle point property holds.
+
+553
+01:14:55.050 --> 01:15:04.830
+Chuan Wu: It doesn't always hold, but if it does hold, then we say that there is this set of points probably holds, or strong maximum probably holds.
+
+554
+01:15:05.670 --> 01:15:06.550
+Chuan Wu: Okay.
+
+555
+01:15:07.440 --> 01:15:09.040
+Chuan Wu: Alright,
+
+556
+01:15:12.600 --> 01:15:25.039
+Chuan Wu: And in fact, what we want to say here is the primal duality, in terms of duality between a pair of primal
+
+557
+01:15:25.040 --> 01:15:33.249
+Chuan Wu: optimization problem and dual optimization problem, the weak duality always hold and be integrated by the in general ruling.
+
+558
+01:15:33.430 --> 01:15:36.189
+Chuan Wu: Hold. That's me being positive.
+
+559
+01:15:36.460 --> 01:15:47.080
+Chuan Wu: And if, stronger than that hold, it implies a case that strong maximum property or second point property holds, under some case, okay, under some property.
+
+560
+01:15:48.470 --> 01:16:01.159
+Chuan Wu: Okay, and then what we want to further introduce is, about, saddle point, okay, related to a saddle point property, or maximum property. So what we want to introduce is a saddle point.
+
+561
+01:16:01.170 --> 01:16:14.649
+Chuan Wu: In general, when we have a function F, and it is, two sets of variables, or it's variables that can be divided into two parts, and then we know we have a point, W tilde, D tilde.
+
+562
+01:16:14.650 --> 01:16:25.839
+Chuan Wu: If they satisfy the following set of inequalities, then we would say that, this W tilde, D tilde is a set of point for the function.
+
+563
+01:16:26.520 --> 01:16:33.419
+Chuan Wu: Okay, and what does the, the inequality say? So here, basically.
+
+564
+01:16:34.160 --> 01:16:46.230
+Chuan Wu: It means, it says the function f evaluated at W tilde Z tilde would be no larger than function f evaluated on W, any W, when D tilde is fixed.
+
+565
+01:16:46.650 --> 01:16:55.760
+Chuan Wu: And the counterpart is the F W tilde, Z tilde is no smaller than F evaluated when W tilde is fixed, and Z can vary.
+
+566
+01:16:55.960 --> 01:17:10.369
+Chuan Wu: Okay. And equivalent, it is saying here, only it is saying here, because in our maximum or infinite supremum calculation, the infinite is on W. Okay, supremum is on Z.
+
+567
+01:17:10.560 --> 01:17:14.779
+Chuan Wu: Okay, so that inequality set is actually equivalent to here.
+
+568
+01:17:14.910 --> 01:17:21.940
+Chuan Wu: Because FW tilde, Z tilde are no larger than FWD tilde, so it means when W varies.
+
+569
+01:17:21.990 --> 01:17:40.000
+Chuan Wu: environment over W, FWD tilde is FW tilde Z tilde, right? And then here, if W tilde is fixed and Z can vary, then that set of points satisfies that FW tilde Z tilde is the largest.
+
+570
+01:17:40.300 --> 01:17:41.820
+Chuan Wu: very little.
+
+571
+01:17:43.140 --> 01:17:45.190
+Chuan Wu: Okay, so equivalent.
+
+572
+01:17:46.580 --> 01:17:49.809
+Chuan Wu: And, if we do…
+
+573
+01:17:50.030 --> 01:17:58.869
+Chuan Wu: find such a several point. Okay, W2.D2 does satisfy the property here, then we would say that strong maximum property holds.
+
+574
+01:17:59.000 --> 01:18:04.859
+Chuan Wu: Okay, so why? Why, in this case.
+
+575
+01:18:05.810 --> 01:18:21.529
+Chuan Wu: Okay, I'll show you briefly why. When these two equality codes and stronger than codes, but let us bring up what the major, result we want to discuss related to your ethics here.
+
+576
+01:18:21.710 --> 01:18:34.980
+Chuan Wu: Okay, so what we want to say is, if, X star, lambda star, are primal and the dual optimal points of the optimization we have analyzed just now, and if strong derivative holds.
+
+577
+01:18:35.150 --> 01:18:40.420
+Chuan Wu: Then, X star, lambda star form a settled point for the Lagrangian.
+
+578
+01:18:41.510 --> 01:18:56.099
+Chuan Wu: Because, if we replace F by our Lagrangian function, and the W by X, D by lambda star, we actually know, that there are several points with stronger than 4.
+
+579
+01:18:56.590 --> 01:18:57.510
+Chuan Wu: Okay.
+
+580
+01:18:57.900 --> 01:19:03.879
+Chuan Wu: All right, and now our task left is to show why 1F
+
+581
+01:19:04.340 --> 01:19:10.660
+Chuan Wu: W2 does need to that equating environment of F, or as an equating supremum, F.
+
+582
+01:19:10.860 --> 01:19:17.780
+Chuan Wu: over Z, then the, the strong vaccine property actually holds with equality.
+
+583
+01:19:24.710 --> 01:19:25.620
+Chuan Wu: Okay.
+
+584
+01:19:26.080 --> 01:19:26.960
+Chuan Wu: here.
+
+585
+01:19:43.420 --> 01:19:44.290
+Chuan Wu: Okay.
+
+586
+01:19:50.930 --> 01:19:55.620
+Chuan Wu: So here… It's on second line, we know.
+
+587
+01:20:00.810 --> 01:20:09.549
+Chuan Wu: So at W. Tilde, it achieves the smallest F value when we vary. W, okay, so the infinite is on W.
+
+588
+01:20:10.250 --> 01:20:11.100
+Chuan Wu: Yep.
+
+589
+01:20:11.470 --> 01:20:13.120
+Chuan Wu: Okay, and then…
+
+590
+01:20:22.880 --> 01:20:36.549
+Chuan Wu: So what we have is here. If you further append a supremum calculation on the right-hand side, then of course we know the supremum result would be larger, equal to without supremum, right? So if we further vary Z,
+
+591
+01:20:36.570 --> 01:20:44.409
+Chuan Wu: And try to come up with the largest value, and this value should be no smaller than the previous value, right? Okay.
+
+592
+01:20:50.150 --> 01:20:56.340
+Chuan Wu: And then… The counterpart of the analysis is here.
+
+593
+01:20:56.520 --> 01:21:12.520
+Chuan Wu: We also know the F evaluated on W tilde, Z tilde. equaling the largest F value when W is fixed and Z varies. So that's what the second equality on the second row there is saying, right?
+
+594
+01:21:13.220 --> 01:21:13.980
+Chuan Wu: And?
+
+595
+01:21:15.580 --> 01:21:20.440
+Chuan Wu: relaxing W as well. We can… when we can vary W,
+
+596
+01:21:23.680 --> 01:21:37.109
+Chuan Wu: But push the, value to be the smallest possible. So if we add the infinite operator here, this value will be no larger than the previous value without the infinite calculation, right?
+
+597
+01:21:37.280 --> 01:21:46.010
+Chuan Wu: Okay, and then what we exactly come up with is, here.
+
+598
+01:21:46.240 --> 01:21:48.449
+Chuan Wu: So we know Supreme.
+
+599
+01:21:48.700 --> 01:21:50.080
+Chuan Wu: Informant.
+
+600
+01:21:52.960 --> 01:21:58.239
+Chuan Wu: All the way, it's larger equal to infamous and the supreme.
+
+601
+01:22:01.380 --> 01:22:12.790
+Chuan Wu: Okay, combining the two results, what we come up is here. Supreme first in Feynman, and supreme in Feynman, and then in Feynman, Supreme, so it's larger equal relation.
+
+602
+01:22:14.350 --> 01:22:23.800
+Chuan Wu: But if we consider the weak max mean property that always holds, we know this should be the reverse. The sign should be the reverse direction.
+
+603
+01:22:24.060 --> 01:22:27.830
+Chuan Wu: And then, therefore, we know it should hold exactly with equality here.
+
+604
+01:22:28.580 --> 01:22:29.420
+Chuan Wu: Right.
+
+605
+01:22:29.590 --> 01:22:47.750
+Chuan Wu: Okay, so that's how we show here. If you do have W tilde and D tilde that satisfy the two equalities there, and W tilde and D tilde would make strong maximum property hold. So that infinite supremum supreme infinite will hold with equality.
+
+606
+01:22:49.540 --> 01:22:50.440
+Chuan Wu: Okay.
+
+607
+01:22:59.620 --> 01:23:13.890
+Chuan Wu: All right, okay. And then this result can apply to, duality. So, if our F is our Lagrangian function, W corresponds to X, and Z corresponds to lambda.
+
+608
+01:23:14.150 --> 01:23:23.850
+Chuan Wu: And, And these two equalities imply X tilde lambda tilde prime one and two optimal points.
+
+609
+01:23:24.220 --> 01:23:33.890
+Chuan Wu: And, strong duality holds, and then we know they are actually a pair of 7 points for the Labrador chip.
+
+610
+01:23:38.390 --> 01:23:44.350
+Chuan Wu: Okay, and this is how we interpret duality and, strong duality.
+
+611
+01:23:44.510 --> 01:23:45.390
+Chuan Wu: Umm.
+
+612
+01:23:45.780 --> 01:23:50.130
+Chuan Wu: You mean from the, actually well-established settle point properties?
+
+613
+01:23:57.680 --> 01:23:58.700
+Chuan Wu: Okay.
+
+614
+01:23:58.860 --> 01:24:02.439
+Chuan Wu: And then, moving on, the, next.
+
+615
+01:24:03.070 --> 01:24:14.869
+Chuan Wu: For the last… yes, the last, perspectives that we want to apply to integrate duality, or connect with duality, it's related to HIPSIO.
+
+616
+01:24:15.090 --> 01:24:33.539
+Chuan Wu: Okay, so, so game theory, probably, currently, there is no graduate course on game theory these days, okay, before we do have one. Okay, alright, so what does game theory do? So, game theory actually brings up or studies a set of models.
+
+617
+01:24:33.700 --> 01:24:38.049
+Chuan Wu: to, interpret, the, conflicts.
+
+618
+01:24:38.160 --> 01:24:41.840
+Chuan Wu: Among a number of rational players.
+
+619
+01:24:42.040 --> 01:24:51.440
+Chuan Wu: of a mathematical model to describe the conflicts and some cases cooperation between among a set of rational players.
+
+620
+01:24:51.820 --> 01:24:52.700
+Chuan Wu: Okay.
+
+621
+01:24:54.230 --> 01:25:06.210
+Chuan Wu: And, So here, we are introducing a very simple game, and we want to integrate the game theory, mathematical.
+
+622
+01:25:06.840 --> 01:25:15.020
+Chuan Wu: interaction between players from the angle of, optimization, or especially duality theory of optimization.
+
+623
+01:25:15.110 --> 01:25:32.589
+Chuan Wu: Okay, so let's consider what this game is about. So, say we have two players, okay, so the two players, each player can choose from a set of strategies, and so we consider player X and choose strategies from a set 1, 2, 3, 4, up to N strategies.
+
+624
+01:25:32.590 --> 01:25:36.680
+Chuan Wu: Quite untrue strategies from what we do have to add and strategies.
+
+625
+01:25:36.760 --> 01:25:48.720
+Chuan Wu: And then, when most players are choosing a fixed strategy, I and J, respectively, we use PIJ to denote the payoff.
+
+626
+01:25:48.720 --> 01:25:59.830
+Chuan Wu: Okay, pay off between the two players. Or, more concretely speaking, you can consider PIJ as the amount of money, or whatever stuff that X pays to Y.
+
+627
+01:26:00.400 --> 01:26:16.479
+Chuan Wu: Okay. And, and especially, if we are considering, in the context of zero-sum game, we would consider that TIJ is the amount of X is Y, well, it is also exactly the amount Y received from X.
+
+628
+01:26:17.480 --> 01:26:24.510
+Chuan Wu: Okay, so zero sum, meaning, what one player pays to the other exactly what the other is receiving.
+
+629
+01:26:24.780 --> 01:26:32.339
+Chuan Wu: Okay, so the total amount of payoffs or money in the system is still constant, consistent.
+
+630
+01:26:32.900 --> 01:26:33.780
+Chuan Wu: Okay.
+
+631
+01:26:33.920 --> 01:26:42.419
+Chuan Wu: All right, so concrete example. So let's say you are playing paper, cedar, stone. Okay, paper, cedar, stone, right? And then.
+
+632
+01:26:42.530 --> 01:26:46.919
+Chuan Wu: Do you know what is paper stones? The Cedar Paper Stone game? Right.
+
+633
+01:26:49.100 --> 01:26:50.010
+Chuan Wu: Okay.
+
+634
+01:26:50.330 --> 01:26:59.760
+Chuan Wu: All right, so paper, scissors, stone. All right, so if the two players are playing those, then essentially.
+
+635
+01:26:59.940 --> 01:27:09.429
+Chuan Wu: Every player has 3 strategies. You can choose, right? If you win, you'll mark, yeah, probably I just put it down a little bit.
+
+636
+01:27:10.210 --> 01:27:15.709
+Chuan Wu: Okay, people say there's no… So pay first, either.
+
+637
+01:27:35.110 --> 01:27:48.960
+Chuan Wu: Okay, so if both players play paper, zero. Okay, X doesn't need to pay anything to Y, right? If X plays paper, Y plays theater, and then… well, okay, like.
+
+638
+01:27:49.050 --> 01:28:04.590
+Chuan Wu: Y weights, right? Y weights, let me just say X takes one coin up to Y, for example. And the papers don't, the selective one. So, because we are describing the payoffs in the matrix in the direction of something X keeps to Y.
+
+639
+01:28:04.810 --> 01:28:15.179
+Chuan Wu: Okay, XTY gives up to Y. So, in case of paper, stone, stone, paper wins, and then, negative 1 indicates what we are paying from X to Y.
+
+640
+01:28:15.370 --> 01:28:20.750
+Chuan Wu: Okay. And similarly, Cedar, paper… 91?
+
+641
+01:28:20.920 --> 01:28:22.870
+Chuan Wu: and funeral.
+
+642
+01:28:23.050 --> 01:28:26.460
+Chuan Wu: Well… Stone, paper, web.
+
+643
+01:28:26.910 --> 01:28:28.689
+Chuan Wu: Stones, cedar.
+
+644
+01:28:32.540 --> 01:28:33.500
+Chuan Wu: Okay.
+
+645
+01:28:33.800 --> 01:28:42.949
+Chuan Wu: Okay, so that is our payoff matrix, in case of, paper scissor stone, two-player zero-sum game.
+
+646
+01:28:43.070 --> 01:28:43.950
+Chuan Wu: Okay.
+
+647
+01:28:44.880 --> 01:28:46.560
+Chuan Wu: Alright.
+
+648
+01:28:49.810 --> 01:28:51.879
+Chuan Wu: So, in fact.
+
+649
+01:28:52.760 --> 01:29:03.089
+Chuan Wu: Probably I should also briefly mention, it's not all games in the, in the world are zero-sum games. It's possible there is some game where the payoff doesn't
+
+650
+01:29:03.190 --> 01:29:14.590
+Chuan Wu: balance, okay? What one pays is not what the other would be receiving. So there is a famous example, which is called, Prisoner's Dilemma.
+
+651
+01:29:14.610 --> 01:29:31.799
+Chuan Wu: On the prisoner's dilemma, if you do a Google search, you can easily find out this wiki page. And also on the wiki page, there is a matrix, paper of matrix over there. You will find out, actually, it is not exactly what one gains, what one loses is what the other one is gaining.
+
+652
+01:29:32.170 --> 01:29:33.030
+Chuan Wu: Okay.
+
+653
+01:29:33.550 --> 01:29:41.210
+Chuan Wu: All right, okay, so let's still focus on this simple two-pillar zero, sound gift, situation.
+
+654
+01:29:41.530 --> 01:29:43.540
+Chuan Wu: All right.
+
+655
+01:29:43.770 --> 01:29:44.610
+Chuan Wu: Okay.
+
+656
+01:29:44.790 --> 01:30:04.219
+Chuan Wu: So, here, let's say, with player X through the, through the dedicated strategy, so that's kind of, deterministic strategy, but now let's make it more probabilistic. So let's say player X is a 2-ring strategy I, building probability UI.
+
+657
+01:30:04.360 --> 01:30:21.100
+Chuan Wu: Okay, so UI is following a probability distribution, and that is a probability that player X is choosing a particular strategy. And similarly, we have player Y, if we're choosing another strategy Y, then J, using probability VJ.
+
+658
+01:30:21.760 --> 01:30:40.570
+Chuan Wu: And then, we can actually, calculate an expected payoff. Okay, in the model here, the payoff is always described in the direction that the first layer X is P, the second layer Y. And the expected payoff can be calculated this way. So you transpose PV.
+
+659
+01:30:41.010 --> 01:30:45.650
+Chuan Wu: Okay, P is our, payoff matrix there.
+
+660
+01:31:01.560 --> 01:31:10.830
+Chuan Wu: Okay, so U transpose PV, what does it equal? Equal sum over I, sum over J, UIPIJ, AJ.
+
+661
+01:31:12.310 --> 01:31:17.210
+Chuan Wu: All right. So UI and AJs are both probabilities.
+
+662
+01:31:17.830 --> 01:31:27.719
+Chuan Wu: And, once UI, UAJ probability meet together, the payoff is PIJ, and sum up over ISM over J, it will be overall the expected payoff.
+
+663
+01:31:28.000 --> 01:31:28.810
+Chuan Wu: Right.
+
+664
+01:31:31.880 --> 01:31:41.460
+Chuan Wu: Okay, alright, so next, let's analyze the, optimization that both players would be playing in order to make their move.
+
+665
+01:31:41.630 --> 01:31:55.120
+Chuan Wu: Okay, so we know X and Y, in the zero-sum two-player zero-sum game, so X is trying to maximize, X is trying to minimize its payoff to Y.
+
+666
+01:31:55.750 --> 01:31:59.630
+Chuan Wu: Okay, and why… It's trying to minimize.
+
+667
+01:32:01.850 --> 01:32:06.699
+Chuan Wu: Yeah, and what… why is trying to maximize the payoff it receives?
+
+668
+01:32:06.800 --> 01:32:24.960
+Chuan Wu: Right, it's only one game, right? Okay, so we actually can describe the situation of decision-making, for decision-making, of X and Y using optimization problem formulation. Okay, so here, let's just suppose, that X is playing strategy U.
+
+669
+01:32:24.960 --> 01:32:33.470
+Chuan Wu: Okay, it's a fixed base, but X strategy factor is Q. Okay, so UI is probability to choose strategy I.
+
+670
+01:32:33.490 --> 01:32:39.270
+Chuan Wu: So, if we know you are up to UN, then we put U.
+
+671
+01:32:39.920 --> 01:32:41.239
+Chuan Wu: Okay, you're here.
+
+672
+01:32:46.560 --> 01:33:02.270
+Chuan Wu: All right, so U is, within just the in general core, U as a strategy of X. So what you should know is U consists of N components corresponding to the probabilities that it is true in each strategy. And all components in U should sum up to 1.
+
+673
+01:33:02.540 --> 01:33:21.379
+Chuan Wu: Okay, and suppose X picks a strategy vector U, and then Y, plays. When Y plays, Y needs to decide its strategy vector V, such that the expected payoff it can receive from X through this play is maximized.
+
+674
+01:33:21.410 --> 01:33:25.839
+Chuan Wu: Right? So that's a pretty intuitive objective of why.
+
+675
+01:33:26.130 --> 01:33:43.520
+Chuan Wu: Okay, and we can actually formulate that into a linear program. Okay, so in the linear program, the linear program is formulated for player Y to decide its strategy. So we know the variable is B. Okay, B is.
+
+676
+01:33:44.620 --> 01:33:46.839
+Chuan Wu: M-dimensional vector.
+
+677
+01:33:47.030 --> 01:33:49.020
+Chuan Wu: We will have to be at.
+
+678
+01:33:51.080 --> 01:33:51.910
+Chuan Wu: Okay.
+
+679
+01:33:52.010 --> 01:33:58.580
+Chuan Wu: So, first of all, we know for why the variable in its organization are the eyes.
+
+680
+01:33:58.790 --> 01:34:06.269
+Chuan Wu: And objective function is the Y want to maximize the payoff, so maximize U transpose PV.
+
+681
+01:34:06.380 --> 01:34:21.050
+Chuan Wu: And constraints. So V, all the variables are following a probability distribution, and they should sum up to 1, okay, because eventually the whole probability of choosing some particular choosing among the strategies should be 1.
+
+682
+01:34:21.140 --> 01:34:28.059
+Chuan Wu: Right? So the constraints are saying sum of VIs should be 1, and average VI should be larger than 0.
+
+683
+01:34:28.250 --> 01:34:35.800
+Chuan Wu: So that's a pretty simple and straightforward, optimization that Y is trying to solve to decide this strategy.
+
+684
+01:34:36.030 --> 01:34:41.930
+Chuan Wu: And that is a linear program, okay? Linear, on… Linear on B.
+
+685
+01:34:42.430 --> 01:34:52.420
+Chuan Wu: Alright, and for this, simple linear program, actually we can analyze and derive what the optimal value and optimal solution is like.
+
+686
+01:34:52.640 --> 01:34:59.850
+Chuan Wu: Okay, so how? So let's check out the, objective function.
+
+687
+01:35:19.570 --> 01:35:29.510
+Chuan Wu: Okay, so the objective function is, We can put the objective function down in the, vector in a product form.
+
+688
+01:35:32.150 --> 01:35:44.690
+Chuan Wu: Okay, so this is the objective function, right? P is a given, payoff matrix, and P transpose U, and U is an X strategy vector, which is also considered a given now.
+
+689
+01:35:44.730 --> 01:35:52.999
+Chuan Wu: So P. Transpose U is a vector, and especially P. Transpose U is M. Dimensional vector, the same dimension as V, right?
+
+690
+01:35:53.170 --> 01:36:00.150
+Chuan Wu: So this is our objective function to optimize. Okay? And putting it down in detail.
+
+691
+01:36:05.320 --> 01:36:15.569
+Chuan Wu: We use P transpose with subscript i to denote the i-th component in this M-dimensional vector, so the detailed calculation is here.
+
+692
+01:36:17.470 --> 01:36:26.540
+Chuan Wu: Okay. All right, and what choice do we have for V? So VI, every VI is larger than zero, and all VIs are marked to 1.
+
+693
+01:36:26.840 --> 01:36:27.640
+Chuan Wu: Right.
+
+694
+01:36:28.150 --> 01:36:33.499
+Chuan Wu: And to maximize, to decide VI, to maximize this inner product.
+
+695
+01:36:33.690 --> 01:36:39.060
+Chuan Wu: We know, actually, we should, put VI's largest value on.
+
+696
+01:36:39.310 --> 01:36:44.239
+Chuan Wu: to the, come to the coefficient.
+
+697
+01:36:44.530 --> 01:36:46.810
+Chuan Wu: here, whose value is largest.
+
+698
+01:36:46.990 --> 01:36:52.630
+Chuan Wu: Right? Okay, so suppose P transpose U's vector value is here.
+
+699
+01:36:55.630 --> 01:37:05.849
+Chuan Wu: Okay, suppose this is, the, vector P transpose U, and we have our choices for V, V1, V2, V3.
+
+700
+01:37:06.240 --> 01:37:13.570
+Chuan Wu: And… How do you decide V1, V2, V3, sum up to 1, and making the inner product of pairwise
+
+701
+01:37:13.750 --> 01:37:15.499
+Chuan Wu: product sub largest.
+
+702
+01:37:16.050 --> 01:37:24.570
+Chuan Wu: So what we should do is we just make V1 to be the largest one, right? Basically, put all our budget
+
+703
+01:37:24.870 --> 01:37:26.710
+Chuan Wu: Among all VIs.
+
+704
+01:37:26.990 --> 01:37:30.119
+Chuan Wu: to the largest component of 3.
+
+705
+01:37:30.320 --> 01:37:35.509
+Chuan Wu: Right? And then, the sum… and the other VIs would be zero.
+
+706
+01:37:35.550 --> 01:37:52.139
+Chuan Wu: And then the, pairwise product sum will be largest, right? And that gives our, optimal value. So the optimal value would be the largest component in a vector P transpose U.
+
+707
+01:37:52.620 --> 01:38:00.439
+Chuan Wu: Okay, because that corresponding to that component, our VI would be exactly 1, and all other VIs are zeros.
+
+708
+01:38:01.740 --> 01:38:05.860
+Chuan Wu: Okay, an optimal point is decided correspondingly.
+
+709
+01:38:05.960 --> 01:38:22.769
+Chuan Wu: So, optimal point… in the optimal point, the, J's component is set to be 1, if, the J corresponds to the index, corresponds to largest P transpose U component index, and all other VIVJs will be exactly zero.
+
+710
+01:38:26.620 --> 01:38:28.370
+Chuan Wu: Okay, alright.
+
+711
+01:38:28.500 --> 01:38:29.510
+Chuan Wu: of…
+
+712
+01:38:29.880 --> 01:38:41.319
+Chuan Wu: So that is how Y considers this strategy. So Y1 like this strategy, it tries to maximize the payoff, and supporting X with the strategy.
+
+713
+01:38:41.450 --> 01:38:49.889
+Chuan Wu: And X, of course, didn't know that Y would be choosing strategy that way if X has, in the first phase, fixed-phase strategy.
+
+714
+01:38:50.090 --> 01:39:01.070
+Chuan Wu: So therefore, from X original angle, X must choose some strategy such that the maximum payoff that Y is deciding to be smallest.
+
+715
+01:39:02.360 --> 01:39:07.039
+Chuan Wu: Okay, and that… and then that leads to X optimization problem.
+
+716
+01:39:07.530 --> 01:39:23.949
+Chuan Wu: So, in the very first place, say if X is playing first, okay, X is playing first, and X's chain of thought is, like, okay, X is driving you, and then Y will be maximizing, doing that optimization, and come up with a quantity there, a quantity there.
+
+717
+01:39:23.950 --> 01:39:27.860
+Chuan Wu: And then in my very first place, I need to analyze that quantity.
+
+718
+01:39:28.190 --> 01:39:34.360
+Chuan Wu: Right? Choose my yield to minimize that profit. And that leads to X, optimization.
+
+719
+01:39:34.680 --> 01:39:40.500
+Chuan Wu: So, X will choose U that minimizes the, payoff that Y is receiving.
+
+720
+01:39:40.940 --> 01:39:51.899
+Chuan Wu: And similarly, when choosing, access strategy, U is a variable set, and then sum up all the UIs sum up to 1, and every UI should be added to build.
+
+721
+01:39:52.760 --> 01:39:53.650
+Chuan Wu: Okay.
+
+722
+01:39:54.690 --> 01:40:13.989
+Chuan Wu: And this problem is a min-max problem. So, essentially, the objective function is of the min-max form, but constraints are all fine. Okay, for optimization with min-max or max-me in objective functions, we have seen texting this tool converted to more standard form.
+
+723
+01:40:14.090 --> 01:40:18.489
+Chuan Wu: Okay, so essentially, we only return the outer operator need there.
+
+724
+01:40:18.600 --> 01:40:25.619
+Chuan Wu: And we assign the inner operator, two, quantity, okay, variable, P.
+
+725
+01:40:25.900 --> 01:40:30.010
+Chuan Wu: Right? Essentially, what we are doing is some variable substitution.
+
+726
+01:40:30.910 --> 01:40:33.040
+Chuan Wu: And… Okay.
+
+727
+01:40:33.140 --> 01:40:35.180
+Chuan Wu: T. Equally.
+
+728
+01:40:36.150 --> 01:40:37.040
+Chuan Wu: Max?
+
+729
+01:40:38.250 --> 01:40:40.010
+Chuan Wu: E transpose U.
+
+730
+01:40:41.890 --> 01:40:42.730
+Chuan Wu: Right.
+
+731
+01:40:42.810 --> 01:40:59.270
+Chuan Wu: Okay, then in the objective function, we only have an affine, we only have a variable T, which is auxiliary variable T there, and then we have a set of constraints, so P transpose U, no larger than T multiplied 1.
+
+732
+01:40:59.270 --> 01:41:05.109
+Chuan Wu: It's actually a complex way to express That's it.
+
+733
+01:41:05.270 --> 01:41:09.330
+Chuan Wu: T transpose DUI to be no larger than T.
+
+734
+01:41:09.450 --> 01:41:10.460
+Chuan Wu: We'll all act.
+
+735
+01:41:12.570 --> 01:41:13.340
+Chuan Wu: Right.
+
+736
+01:41:13.710 --> 01:41:14.580
+Chuan Wu: Okay.
+
+737
+01:41:14.800 --> 01:41:27.639
+Chuan Wu: And then, what we come up with is a standard linear program. So the linear program is unmarable U and auxiliary variable T, and everything involved is alpha function.
+
+738
+01:41:28.580 --> 01:41:29.990
+Chuan Wu: Okay, I mean, you're poor.
+
+739
+01:41:31.110 --> 01:41:48.190
+Chuan Wu: Okay, so for linear program, we have efficient algorithm to solve. Let's assume we will solve the, linear program, and, we call this linear program Linear Program 1, and assume after solving, its optimal value is P1 star.
+
+740
+01:41:51.910 --> 01:41:52.760
+Chuan Wu: Okay.
+
+741
+01:41:52.970 --> 01:42:02.960
+Chuan Wu: And then that is the optimization we have formulated, from the angle that X would be deciding its strategy first, and then Y follows.
+
+742
+01:42:03.450 --> 01:42:19.640
+Chuan Wu: And we can do it the other way around. We can consider it the other way around. So let's suppose that Y plays first. Okay, Y plays first is B, strategy vector B is decided, and then X would be truly a strategy to play correspondingly.
+
+743
+01:42:20.060 --> 01:42:38.700
+Chuan Wu: Okay, so suppose Y strategy B is fixed, then for X, X would be trying to minimize the payoff if it pays to Y, right? And then this is X optimization. So X is minimizing the payoff, subject to its choices of UI values.
+
+744
+01:42:40.080 --> 01:42:49.279
+Chuan Wu: Okay, and using similar analyses, we would be able to know how we choose the optimal value and optimal point is there.
+
+745
+01:42:49.490 --> 01:42:58.690
+Chuan Wu: because the objective function now is E, B, transpose Youth.
+
+746
+01:42:58.840 --> 01:43:10.380
+Chuan Wu: Okay, PV inner product U. So similar to our analysis just now, we know when we try to minimize the inner product, we just put all our budget in U.
+
+747
+01:43:10.630 --> 01:43:15.480
+Chuan Wu: to the item where PV is smallest, PV's entry is smallest.
+
+748
+01:43:15.920 --> 01:43:23.089
+Chuan Wu: Right? Okay, so that leads to our analysis of the optimal point and optimal value of this.
+
+749
+01:43:23.090 --> 01:43:37.369
+Chuan Wu: linear program. So the optimal point would be a point where we set UJ entry to 1, where J is the index of P… index corresponding to the smallest PV vector component.
+
+750
+01:43:37.840 --> 01:43:49.420
+Chuan Wu: And then, all the other UIs are exactly zero. And then, our optimal value of objective function is here. It's the smallest PV vector entry value.
+
+751
+01:43:50.140 --> 01:43:51.550
+Chuan Wu: Okay.
+
+752
+01:43:51.780 --> 01:44:02.910
+Chuan Wu: So if Y in the first place knows that X is choosing its strategy here in that way, while Y's strategy is fixed the first.
+
+753
+01:44:02.960 --> 01:44:21.670
+Chuan Wu: Then, in the very first place, when Y chooses B to play, it wants to maximize, okay, it wants to maximize the payoff. That's why X is made by me. Okay, and that leads to a max-mean optimization problem for Y to choose his strategy first.
+
+754
+01:44:22.220 --> 01:44:27.789
+Chuan Wu: Okay, so to maximize the payoff, and then subject to that, or it's.
+
+755
+01:44:28.000 --> 01:44:33.839
+Chuan Wu: Subject here, all these VIs amount to 1, and VI logic to the order.
+
+756
+01:44:33.880 --> 01:44:42.570
+Chuan Wu: Okay, so this is the next need problem, and in similar approach, we can convert it to a standard form, a linear program.
+
+757
+01:44:42.600 --> 01:45:01.150
+Chuan Wu: doing variable substitution. So in the objective function, we let T to be equally minimal of PVI, and then we have extra constraints here, saying PVIV entry, PV is no larger than T, no smaller than T, and then what we are left with is another linear program.
+
+758
+01:45:02.200 --> 01:45:07.759
+Chuan Wu: You can say we call it linear program 2, and we say its optimal value is P2 star.
+
+759
+01:45:08.940 --> 01:45:09.830
+Chuan Wu: Okay.
+
+760
+01:45:11.270 --> 01:45:17.259
+Chuan Wu: So, in fact, from the two authorization linear programs we have formulated.
+
+761
+01:45:17.260 --> 01:45:31.930
+Chuan Wu: You can derive a little bit and find out that they are duals of each other. So we know linear programs, dual is another linear program, and for the two programs we have just formulated, you can verify that they are duals of each other.
+
+762
+01:45:32.770 --> 01:45:49.530
+Chuan Wu: And for linear program, at the very beginning of today's lecture, we were saying that strong duality always holds between primal and the dual. So therefore, what we derived is the optimal value of the first optimization is exactly the optimal value of the second optimization.
+
+763
+01:45:49.730 --> 01:45:51.830
+Chuan Wu: Okay, based on strong duality.
+
+764
+01:45:52.490 --> 01:46:01.810
+Chuan Wu: And what does that imply? So that actually implies, in such a two-player zero-sum game, there is no advantage to play second.
+
+765
+01:46:02.460 --> 01:46:14.169
+Chuan Wu: Okay, so no matter whether you give your strategy first or give your strategy second, the, based on each other's optimizing… optimize the strategy making, the result will be exactly the same.
+
+766
+01:46:14.850 --> 01:46:15.780
+Chuan Wu: Okay.
+
+767
+01:46:16.550 --> 01:46:34.139
+Chuan Wu: All right, and then, combining this game, two zero-player scheme formulation and the duality interpretation, we can connect it with the several-point interpretation of property we have given and discussed just now.
+
+768
+01:46:34.350 --> 01:46:44.419
+Chuan Wu: So if we consider the payoff function to be the function appearing in the Max mean property. Okay, so this FUV is U transpose PV.
+
+769
+01:46:44.580 --> 01:47:02.790
+Chuan Wu: And then, we can derive that optimal point, or U star, for the first linear program, and optimal strategy V star, or, in the second linear program, they actually form a second point for this payoff function.
+
+770
+01:47:03.640 --> 01:47:11.910
+Chuan Wu: Okay, so you, you can do a bit of… here is a brief, illustration of the, of the Y.
+
+771
+01:47:12.080 --> 01:47:28.510
+Chuan Wu: Okay, here, 7 point, and exactly making use of the 7 point function, we know, when U… when V is fixed to be V star, and the U star would be the small… achieving the smallest FU is
+
+772
+01:47:28.800 --> 01:47:31.809
+Chuan Wu: star value, a very new
+
+773
+01:47:32.220 --> 01:47:40.189
+Chuan Wu: Okay, so U is, a decision-making… U is strategy of player X, and player X is trying to minimize the payoff.
+
+774
+01:47:40.480 --> 01:47:53.810
+Chuan Wu: Okay, and on the other hand, when U is fixed to be U star, and for player Y, its strategy V star achieves the best payoff of it is receiving among all the V.
+
+775
+01:47:54.210 --> 01:48:01.380
+Chuan Wu: Okay, so this is I… This is exactly consistent with a 7-point interpretation.
+
+776
+01:48:02.800 --> 01:48:13.680
+Chuan Wu: Okay, alright, and then the, Last point I want to make is, from what we have derived.
+
+777
+01:48:18.630 --> 01:48:26.890
+Chuan Wu: Okay, so from the several point property formulas we have derived, so what intuitive result we can get is here.
+
+778
+01:48:27.080 --> 01:48:46.060
+Chuan Wu: So when, player Y is playing strategy B star, the best strategy for player X to play is new stuff. And the other way around, it is also true when X is playing new stuff, then the best strategy Y should play is restart.
+
+779
+01:48:46.900 --> 01:48:57.930
+Chuan Wu: Okay, and from the end goal of one game theory analysis, we say that U star V star is, achieving a Nash equilibrium of the game.
+
+780
+01:48:58.150 --> 01:49:05.100
+Chuan Wu: So that equilibrium of a game is a state where no players want to change their strategies.
+
+781
+01:49:05.430 --> 01:49:09.129
+Chuan Wu: And they become kind of a stable strategy set there.
+
+782
+01:49:09.400 --> 01:49:27.240
+Chuan Wu: The whole reason is, at this, several points on Nash equilibrium, the, for player X and player Y, their strategy, new story start, are the best strategy they can play. So they have no incentive to pinch or deviate from this equilibrium state.
+
+783
+01:49:27.880 --> 01:49:28.750
+Chuan Wu: Okay.
+
+784
+01:49:28.970 --> 01:49:42.659
+Chuan Wu: If you have sensitive game theory, you can dig deeper into it. Basically, here is where, you know, of course, in the entire course that we touch a little bit on game theory. Okay, we are bringing up the key concept, like.
+
+785
+01:49:42.720 --> 01:49:52.669
+Chuan Wu: two, playing the neurosound game, and the Nash equilibrium from the angle, and the analysis is of a Lagrangian duality optimization process.
+
+786
+01:49:53.390 --> 01:50:11.909
+Chuan Wu: Okay, alright, so that's that, we are done with our today's class, and we will continue next Tuesday. So remember, next week is really weak, but we do have at least one makeup lecture. So I haven't decided if we do the second makeup lecture, but next Tuesday lecture will be there.
+
+787
+01:50:11.910 --> 01:50:16.260
+Chuan Wu: And we'll be meeting at the same place, in the chemistry building.
+
+788
+01:50:16.270 --> 01:50:18.920
+Chuan Wu: Okay, for the lecture. Okay, thank you.
+
+789
+01:50:19.610 --> 01:50:20.290
+Chuan Wu: Okay.
+
+790
+01:50:31.360 --> 01:50:34.640
+Chuan Wu: 3, evening.
+
+791
+01:50:37.150 --> 01:50:38.070
+Chuan Wu: Okay.
+
+792
+01:50:38.670 --> 01:50:40.420
+Chuan Wu: Okay, I'm going to do the book.
+

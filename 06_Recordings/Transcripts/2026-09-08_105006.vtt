@@ -1,0 +1,1230 @@
+WEBVTT
+
+1
+00:13:44.900 --> 00:13:45.510
+chuanwu: Oracle.
+
+2
+00:14:28.560 --> 00:14:34.520
+chuanwu: Okay, I'll ask a simple question. So, does the inverse hold for this volume fiber point theorem?
+
+3
+00:19:35.170 --> 00:19:36.339
+chuanwu: It's not important.
+
+4
+00:19:41.030 --> 00:19:56.500
+chuanwu: All right, let's come back and continue with our lecture today, and in the second half of the lecture, as I mentioned, okay, most likely I will go beyond 11.30. Okay.
+
+5
+00:19:56.500 --> 00:20:06.969
+chuanwu: So please bear with me. And in the second half of this lecture, we are starting to work on the second part of convex analysis, which is related to convex function.
+
+6
+00:20:13.720 --> 00:20:32.160
+chuanwu: Okay, and we'll start with the definition of convex function and the basic properties, and then moving on to operations that preserve convexity, functions convexity, non-set convexity, and then we will talk about some functions which I usually call as close relatives of convex functions.
+
+7
+00:20:32.160 --> 00:20:39.690
+chuanwu: Including conjective conjugate functions, quasi-collect functions, log-collect functions.
+
+8
+00:20:40.140 --> 00:20:55.079
+chuanwu: So, starting from the, basic definition of convex function, we actually saw it, in our very first lecture, and, here, at that time, I said I'll be talking about more details here. Okay, and here it comes.
+
+9
+00:20:55.180 --> 00:21:15.160
+chuanwu: So, convex functions, the basic definition includes two parts. Number one, the domain of the function should be a convex set. Okay, that means convex function is defined on a convex domain. And then second, there is this famous Jesson's inequalities that convex functions have to satisfy.
+
+10
+00:21:15.270 --> 00:21:29.710
+chuanwu: Okay, so what the Jensen's inequality here says is convex combination of two input points. Okay, convex combination of two input points, where coefficient theta and theta as F to 1.
+
+11
+00:21:30.190 --> 00:21:45.950
+chuanwu: And… and the, given this convex combination of two points, the function value evaluated on the convex combination point should be no larger than convex combination of the two input values, function values.
+
+12
+00:21:46.350 --> 00:22:03.560
+chuanwu: Okay, so FX is the function value of input point X, and FY is the convex function… is the function value of, input point 1. And C to FX plus 1 minus Z to FY is convex combination of two function values.
+
+13
+00:22:04.850 --> 00:22:15.410
+chuanwu: Okay, I'll say that again. So, convex combination of two points, the corresponding function value should be no larger than convex combination of the two points function values.
+
+14
+00:22:16.640 --> 00:22:27.449
+chuanwu: Okay, and geometrically, what it shows, at the very first lecture, we briefly draw a picture, a geometric illustration, and here it is again.
+
+15
+00:22:27.670 --> 00:22:28.510
+chuanwu: Okay.
+
+16
+00:22:28.650 --> 00:22:43.379
+chuanwu: So what I'm drawing here is the function curve, okay, function curve on the two-dimensional plan, because all of our slides on the… here are two-dimensional, so in most cases, I'm only drawing two-dimensional plan, or two-dimensional curve.
+
+17
+00:22:43.380 --> 00:22:52.890
+chuanwu: And occasionally, we can draw a three-coordinate, three coordinates, dimension 3 system, but in most of the cases, a two-dimensional coordinate system.
+
+18
+00:22:52.960 --> 00:23:14.930
+chuanwu: Okay, in the two coordinate, two-dimensional coordinate system, we know every point has two coordinates, and here X is scalar, okay, and FX is scalar, and Y is scalar input quantity, and FY is scalar function value, and function curve is a two-dimensional curve.
+
+19
+00:23:15.110 --> 00:23:25.110
+chuanwu: Okay, in higher dimensional space, the function curve is called the function surface. Okay, function value surface, okay. All right, and
+
+20
+00:23:25.160 --> 00:23:29.160
+chuanwu: The, horizontal axis represent the input.
+
+21
+00:23:29.180 --> 00:23:43.180
+chuanwu: X and Y. And the vertical axis in the two-dimensional plan represent function values. And every dot here, every point here, is a pair of input and output, okay? Input value, output value.
+
+22
+00:23:43.180 --> 00:23:51.510
+chuanwu: Right, and what we are seeing is, for a convex combination of, theta X plus 1 theta Y,
+
+23
+00:23:51.510 --> 00:23:57.479
+chuanwu: it's some point along the axis here, in the range, so here…
+
+24
+00:23:59.260 --> 00:24:02.880
+chuanwu: is X. And over there, it's Y.
+
+25
+00:24:03.170 --> 00:24:17.110
+chuanwu: And the theta FX plus 1 theta FY is a value along, is a vertical axis value along the line of X, FX, and FY.
+
+26
+00:24:17.210 --> 00:24:19.849
+chuanwu: Oh yeah, probably still better, I joined again.
+
+27
+00:24:20.610 --> 00:24:21.500
+chuanwu: Here.
+
+28
+00:24:31.450 --> 00:24:37.159
+chuanwu: Okay, our function curve… okay, perfect, complex curve.
+
+29
+00:24:38.000 --> 00:24:46.360
+chuanwu: Okay, and then… Our coordinate system? Okay, all we have… Why?
+
+30
+00:24:46.680 --> 00:24:49.489
+chuanwu: Cool. One-dimensional input values.
+
+31
+00:24:49.730 --> 00:24:54.190
+chuanwu: And we have… XX!
+
+32
+00:24:56.280 --> 00:24:57.570
+chuanwu: That's excellent.
+
+33
+00:24:59.730 --> 00:25:02.080
+chuanwu: Probably better for the rail park.
+
+34
+00:25:05.750 --> 00:25:07.150
+chuanwu: Okay, as black.
+
+35
+00:25:07.380 --> 00:25:17.060
+chuanwu: So we know FX is the vertical coordinate value, and FY is vertical coordinate value of these two points on the function curve, respectively.
+
+36
+00:25:17.380 --> 00:25:25.420
+chuanwu: Okay, so what the Jessens inequality says is the function curve in between the two points
+
+37
+00:25:25.530 --> 00:25:29.600
+chuanwu: Should be underneath the street line connecting
+
+38
+00:25:29.880 --> 00:25:35.060
+chuanwu: The two points. Okay, the two points… Connect a street light.
+
+39
+00:25:37.390 --> 00:25:40.740
+chuanwu: Probably better I just remove the dotted line.
+
+40
+00:25:49.970 --> 00:25:56.649
+chuanwu: Okay, so this is a straight line segment connecting the two points. So the two points coordinates are here.
+
+41
+00:25:59.980 --> 00:26:00.950
+chuanwu: Okay.
+
+42
+00:26:01.210 --> 00:26:08.800
+chuanwu: That? See that again? So what the Jess's inequality says is, if you pick two points along the function curve.
+
+43
+00:26:09.080 --> 00:26:16.009
+chuanwu: Then, the function curve in between the two points should be underneath the street line, connecting the two points.
+
+44
+00:26:18.650 --> 00:26:21.660
+chuanwu: intuitively, it's true, right? For convex function.
+
+45
+00:26:21.780 --> 00:26:33.320
+chuanwu: You pick any two points along the function curve, okay, let's pick these two points, and you draw a line. The rest in the function curve in the middle would be underneath, rather than above.
+
+46
+00:26:33.670 --> 00:26:36.210
+chuanwu: Along the vertical axis direction.
+
+47
+00:26:36.450 --> 00:26:37.200
+chuanwu: Right.
+
+48
+00:26:37.470 --> 00:26:41.739
+chuanwu: Okay, and then, rationale-wise, here it is.
+
+49
+00:26:41.850 --> 00:26:59.370
+chuanwu: So theta X plus Y minus theta Y is a point here with a horizontal axis value here. So theta X plus Y minus theta Y is an input value between X and Y on the horizontal axis. Okay, input axis.
+
+50
+00:26:59.580 --> 00:27:00.680
+chuanwu: And then…
+
+51
+00:27:02.660 --> 00:27:11.399
+chuanwu: The vertical axis value of that new blue dot I was drawing is exactly F theta X plus 1 minus theta
+
+52
+00:27:12.130 --> 00:27:13.130
+chuanwu: Why?
+
+53
+00:27:15.190 --> 00:27:16.170
+chuanwu: Okay.
+
+54
+00:27:16.570 --> 00:27:25.590
+chuanwu: And then, moving it further up, we come up with a dot along the line connecting the two points on the function curve.
+
+55
+00:27:25.790 --> 00:27:34.700
+chuanwu: And the vertical, axis value of this dot, of this new dot in… Rep, for example.
+
+56
+00:27:35.030 --> 00:27:41.129
+chuanwu: would be theta FX plus 1 minus theta FY.
+
+57
+00:27:41.810 --> 00:27:54.440
+chuanwu: Okay, and apparently, if the function curve is underneath the street line, it shows F, convex combination of two points, no larger than convex combination of X, X, and FY.
+
+58
+00:27:57.500 --> 00:27:58.460
+chuanwu: Agree?
+
+59
+00:28:01.840 --> 00:28:02.790
+chuanwu: Okay.
+
+60
+00:28:03.430 --> 00:28:09.590
+chuanwu: So I hope this is clear, because I heard from some audience here that you have learned similar stuff.
+
+61
+00:28:09.850 --> 00:28:13.680
+chuanwu: before, so I'm… Not really.
+
+62
+00:28:15.250 --> 00:28:22.470
+chuanwu: I'm not really… yeah, as then I'm trying to go slightly faster, if actually everybody…
+
+63
+00:28:22.710 --> 00:28:29.400
+chuanwu: most of you have already some foundations, but if you do figure that I'm talking too fast.
+
+64
+00:28:29.900 --> 00:28:32.319
+chuanwu: To stop me and ask, right?
+
+65
+00:28:32.520 --> 00:28:36.689
+chuanwu: And if you do think I'm… Speaking too slowly?
+
+66
+00:28:37.190 --> 00:28:39.000
+chuanwu: I think I can figure out.
+
+67
+00:28:39.510 --> 00:28:46.600
+chuanwu: Okay, because you could be closing your eyes. All right, okay,
+
+68
+00:28:47.680 --> 00:29:05.550
+chuanwu: Then, following that, we can define what a strict, convex function is like. So, a function f is strictly convex if domain is convex, and in the adjacent inequality, we remove equality part, only strictly inequality part.
+
+69
+00:29:05.900 --> 00:29:13.330
+chuanwu: Okay, so basically the, left-hand side would be strictly smaller than the right-hand side part. Okay.
+
+70
+00:29:14.130 --> 00:29:21.949
+chuanwu: And the CDAC here is, of course, not taking the boundary value as well, so CDAC has to be exactly in between 0 and 1.
+
+71
+00:29:25.020 --> 00:29:30.220
+chuanwu: Okay, then relevant definition is about concave function.
+
+72
+00:29:30.850 --> 00:29:40.050
+chuanwu: So if F is concave, so if F is convex, then negative F is concave, and the other around it is also 2.
+
+73
+00:29:40.230 --> 00:29:48.600
+chuanwu: Okay, and regarding definition, so what we have is here, so we reverse the sign of the inequality in the Jackson's inequality.
+
+74
+00:29:48.970 --> 00:29:59.970
+chuanwu: And geometrically, what it means is the function curve between any two points along the function curve should be about to strip of the line connecting the two points.
+
+75
+00:30:00.070 --> 00:30:10.129
+chuanwu: Okay, so reverse that… reverse… reverse that concave curve, we come up with a… reverse that convex curve, we come up with a concave function.
+
+76
+00:30:11.540 --> 00:30:19.439
+chuanwu: Okay, strictly concave, if you remove equality from the side. Okay, left-hand side, strictly larger than right-hand side.
+
+77
+00:30:23.870 --> 00:30:28.180
+chuanwu: examples. Okay, so we will… let's check out what are…
+
+78
+00:30:28.520 --> 00:30:32.060
+chuanwu: Typical examples, I think the battery is gone.
+
+79
+00:30:53.150 --> 00:30:54.090
+chuanwu: Testy.
+
+80
+00:30:54.390 --> 00:30:55.480
+chuanwu: Testing.
+
+81
+00:30:58.030 --> 00:30:59.020
+chuanwu: Test it.
+
+82
+00:30:59.400 --> 00:31:02.939
+chuanwu: Testing. Okay, I think this is working.
+
+83
+00:31:09.860 --> 00:31:24.960
+chuanwu: All right, typical examples of convex functions, and concede functions, and here we use a few examples, of scalar functions. Scalar functions, usually what we mean by scalar functions is that the input is a scalar value, and output is a scalar value.
+
+84
+00:31:25.150 --> 00:31:32.559
+chuanwu: Right, first example, I found function. So I found function on R. So here, X is,
+
+85
+00:31:32.790 --> 00:31:49.890
+chuanwu: one-dimensional input variable. Okay, one-dimensional input variable, and AX plus B, what it exactly means, is actually a straight line, okay, straight line, in the two-dimensional space, and apparently a straight line is a convex function. Okay.
+
+86
+00:31:50.680 --> 00:31:54.049
+chuanwu: A straight line is a convex function shape, okay?
+
+87
+00:31:54.300 --> 00:32:00.759
+chuanwu: An exponential function, so exponential function, we should all know what it looks like.
+
+88
+00:32:33.280 --> 00:32:38.250
+chuanwu: So, e to the power of arba of AX.
+
+89
+00:32:42.590 --> 00:32:49.239
+chuanwu: Okay, so this is what the function looks like if, A is,
+
+90
+00:32:54.340 --> 00:32:58.549
+chuanwu: If A is larger, Then zero, right? And…
+
+91
+00:33:00.060 --> 00:33:02.329
+chuanwu: The function will be looking like that.
+
+92
+00:33:02.610 --> 00:33:04.690
+chuanwu: If A is smaller than 0.
+
+93
+00:33:05.280 --> 00:33:07.590
+chuanwu: Okay, the selection point is…
+
+94
+00:33:07.930 --> 00:33:20.010
+chuanwu: 1. Okay, the Y coordinate whether it's what, right? So no matter whether A larger than 0 or smaller than zero, or even A equals zero, it's a convex function, intuitively.
+
+95
+00:33:20.210 --> 00:33:23.129
+chuanwu: You can see from the curvature of the function curves.
+
+96
+00:33:23.710 --> 00:33:38.469
+chuanwu: Right, as a power function, so it depends on whether that A, that arva, X exponent arva, is, larger than, than, is in which range, so we have, we could have convex function or concave function as well.
+
+97
+00:33:38.640 --> 00:33:53.869
+chuanwu: So here, when we say X exponent alpha, we define it on R plus plus. So what R plus plus means is the X should be larger than 0. X is a scalar, variable, but, its value should be larger than 0.
+
+98
+00:33:54.160 --> 00:34:01.459
+chuanwu: If it is in R plus, it means it's larger equal to 0. If R plus plus means it's larger than zero.
+
+99
+00:34:01.630 --> 00:34:02.450
+chuanwu: Okay.
+
+100
+00:34:02.840 --> 00:34:05.190
+chuanwu: Alright, so if,
+
+101
+00:34:11.810 --> 00:34:23.079
+chuanwu: So if X equals, 2 or 3, so we all know what the functions… if R5 equals 2 or 3, so we know what the function curve is like. It's pretty much some shape of…
+
+102
+00:34:23.310 --> 00:34:27.400
+chuanwu: Some kind of shape of this, sharper or wider, right?
+
+103
+00:34:27.530 --> 00:34:37.429
+chuanwu: Okay, and then what if, that A is, smaller equal to zero? Like, X… even worse.
+
+104
+00:34:37.540 --> 00:34:40.170
+chuanwu: Okay, so it's, let's say, pro-co effect.
+
+105
+00:34:40.480 --> 00:34:48.570
+chuanwu: So, recipe protocol of X, Okay, so what X is larger than 0 is here.
+
+106
+00:34:49.130 --> 00:34:59.120
+chuanwu: Right? So if X is smaller than zero, it's over there, but we remove that part, we only consider the X is in the non-active offset, non-active quadrant.
+
+107
+00:34:59.680 --> 00:35:01.140
+chuanwu: Right. Okay.
+
+108
+00:35:01.640 --> 00:35:14.589
+chuanwu: So that's a power function, and then powers of absolute value. So similarly, it's very easy to see that powers of absolute values are complex as well. So for example…
+
+109
+00:35:14.940 --> 00:35:15.980
+chuanwu: Yours?
+
+110
+00:35:16.600 --> 00:35:23.430
+chuanwu: So, if P equals what? P equals what? The function is… X…
+
+111
+00:35:23.610 --> 00:35:28.510
+chuanwu: Absolute value, right? So it's a convex function, you can verify.
+
+112
+00:35:32.030 --> 00:35:41.540
+chuanwu: Okay, and then, negative entropy. So X log X, X larger than 0.
+
+113
+00:35:41.860 --> 00:35:55.550
+chuanwu: So this negative entropy function is slightly complex, and if you draw it in Python or MATLAB, you will find out its con… its function curve looks like this.
+
+114
+00:35:57.760 --> 00:35:59.139
+chuanwu: Looks like a tick.
+
+115
+00:36:02.130 --> 00:36:04.370
+chuanwu: Okay, looks a bit like a tick.
+
+116
+00:36:05.100 --> 00:36:07.620
+chuanwu: And this is COMEX as well.
+
+117
+00:36:08.970 --> 00:36:10.709
+chuanwu: Excluding the origin.
+
+118
+00:36:12.030 --> 00:36:15.100
+chuanwu: Okay, and then, CUCATE function.
+
+119
+00:36:15.210 --> 00:36:23.869
+chuanwu: So the alphan function is a special case, so we know alphan functions, function curve on a two-dimensional plan is just a straight line.
+
+120
+00:36:24.140 --> 00:36:34.789
+chuanwu: So the straight line, the curvature, non-convex, non-concave, it's just a flat, straight, right? So therefore, an affine function is both convex and concave.
+
+121
+00:36:35.530 --> 00:36:46.590
+chuanwu: And for powers, so X power alpha, so if alpha is in the range of 0 and 1, so they give us some typical concave functions.
+
+122
+00:36:47.120 --> 00:36:49.269
+chuanwu: So, for example, here…
+
+123
+00:36:58.010 --> 00:36:59.830
+chuanwu: The square root of X.
+
+124
+00:37:00.350 --> 00:37:06.269
+chuanwu: So where alpha is 1 half, right? So you know it's, typical.
+
+125
+00:37:06.690 --> 00:37:08.570
+chuanwu: Concave function shape.
+
+126
+00:37:09.620 --> 00:37:15.190
+chuanwu: And the log function. So we all know what log functions, what looks like.
+
+127
+00:37:15.430 --> 00:37:17.730
+chuanwu: So, luck function is here.
+
+128
+00:37:20.130 --> 00:37:25.760
+chuanwu: Okay, so that's our log function, right? So lock function is another typical concave function.
+
+129
+00:37:28.440 --> 00:37:32.440
+chuanwu: Alright, so you can find all the example drawings on the textbook, actually.
+
+130
+00:37:34.800 --> 00:37:36.780
+chuanwu: Most of them, okay, most of them.
+
+131
+00:37:39.290 --> 00:37:44.749
+chuanwu: Okay, so that's a case of scalar function. So, if we move on to see,
+
+132
+00:37:44.860 --> 00:38:03.520
+chuanwu: function defined on n-dimensional vectors. So, there are a few, concrete examples, or representative examples. So, number one, all non-functions are convex. So, as we introduced non-function earlier today, I was saying it's closely related to convex set and convex functions, and here it is.
+
+133
+00:38:03.520 --> 00:38:09.120
+chuanwu: So, convex, non-focused are all convex, LP0, and you can verify.
+
+134
+00:38:09.220 --> 00:38:16.980
+chuanwu: We can verify using the designation, based on the three properties that the count long function should satisfy. It's very easy to verify.
+
+135
+00:38:17.470 --> 00:38:33.769
+chuanwu: Okay, and alpha in functions, so I said, alpha function on the two-dimensional plan is just strings line, but alpha function on undimensional space, it will be a hyperplan. So a hyperplan, the curvature is just a flat, so it's both convex and concave.
+
+136
+00:38:34.940 --> 00:38:36.999
+chuanwu: Okay, and,
+
+137
+00:38:39.820 --> 00:38:52.989
+chuanwu: Moving on, so those are some brief examples of correct functions, and moving on, we will introduce another concept related to a function, which is the upper graph of a function.
+
+138
+00:38:57.880 --> 00:38:58.700
+chuanwu: Okay.
+
+139
+00:38:58.830 --> 00:39:07.220
+chuanwu: So, epigraph, before we check out what is epigraph of a function, let's first introduce a concept related to our Bonsai level set.
+
+140
+00:39:07.220 --> 00:39:23.580
+chuanwu: So alpha sub-level set is, set, okay? Alpha sub-level set is defined related to a function f. So the function f itself is mapping from an indimensional vector to a scalar value, and the alpha sublevel set is actually,
+
+141
+00:39:23.580 --> 00:39:31.880
+chuanwu: set defined in a domain of a function. So that means it is a set in an un-dimensional space, or a domain space.
+
+142
+00:39:32.180 --> 00:39:51.420
+chuanwu: Okay, the definition is here. Essentially, the alpha sub-level set denoted using C with subscript alpha, it contains all the points in the domain of the function, such that the corresponding function value is no larger than alpha.
+
+143
+00:39:52.160 --> 00:40:07.270
+chuanwu: Okay, so if the domain set is in the undimensional space, then the alpha sublevel set is within the domain set in the undimensional space. It's part of the domain set, satisfying that function value on points in the set is no larger than alpha.
+
+144
+00:40:07.480 --> 00:40:20.489
+chuanwu: Okay, the nice properties that we're introducing, and the reason why we're introducing alpha sublevel set here is the sublevel sets of all convex functions are convex.
+
+145
+00:40:21.840 --> 00:40:29.909
+chuanwu: Okay, sublevel sets in the domain of the convex functions are all convex functions. They are all convex sets.
+
+146
+00:40:30.020 --> 00:40:30.950
+chuanwu: Okay.
+
+147
+00:40:31.710 --> 00:40:37.599
+chuanwu: And, which example do I use? Okay, just use this,
+
+148
+00:40:41.660 --> 00:40:49.000
+chuanwu: Okay, X absolute value. Okay, X absolute value is a X function, and what is its,
+
+149
+00:40:49.730 --> 00:40:56.749
+chuanwu: Sub-level sets. Okay, sublevel sets is related to the function value, so say the function value is alpha there.
+
+150
+00:40:56.890 --> 00:41:05.030
+chuanwu: Okay, so if the function value is alpha, and we will be able to find out the sum level says, which is part.
+
+151
+00:41:05.270 --> 00:41:09.039
+chuanwu: a lot of the sixth values along the X coordinator.
+
+152
+00:41:09.160 --> 00:41:10.600
+chuanwu: X, axis.
+
+153
+00:41:10.890 --> 00:41:20.899
+chuanwu: Okay, and in the scalar case, X absolute value, X is a scalar input, and its domain contains all the entire
+
+154
+00:41:20.940 --> 00:41:32.649
+chuanwu: X axis, right? It's domain of function… the domain… see, I'll say that again. The domain of a function X absolute value is the entire X axis.
+
+155
+00:41:32.980 --> 00:41:37.189
+chuanwu: contains all the points in the entire x-axis.
+
+156
+00:41:37.370 --> 00:41:42.479
+chuanwu: Okay, and, and the CRVA is here.
+
+157
+00:41:46.170 --> 00:41:47.890
+chuanwu: So, what we…
+
+158
+00:41:48.130 --> 00:42:02.690
+chuanwu: are given alpha. So when we talk about sub-level set, we obviously are given that alpha, so we say the sublevel set C alpha, what it is like. So alpha is given, so alpha is function value, and we will be able to find out
+
+159
+00:42:03.060 --> 00:42:03.910
+chuanwu: Harp?
+
+160
+00:42:04.620 --> 00:42:10.290
+chuanwu: of the x-axis, that is in C alpha, so that is C alpha.
+
+161
+00:42:11.330 --> 00:42:12.280
+chuanwu: Okay.
+
+162
+00:42:12.410 --> 00:42:25.380
+chuanwu: So for the segment that I was specifying along the x-axis, so all the possible values here corresponds to a function value which is no larger than alpha.
+
+163
+00:42:25.710 --> 00:42:26.640
+chuanwu: Agree?
+
+164
+00:42:27.400 --> 00:42:28.300
+chuanwu: Right.
+
+165
+00:42:28.650 --> 00:42:39.360
+chuanwu: Okay, so therefore, the CRVA is this line segment along… CRFA contains all the points in the line segment along the x-axis.
+
+166
+00:42:40.850 --> 00:42:42.309
+chuanwu: So that is the ARPA.
+
+167
+00:42:54.310 --> 00:42:57.200
+chuanwu: And in higher dimensional space.
+
+168
+00:43:04.640 --> 00:43:07.629
+chuanwu: Okay, so, maximally…
+
+169
+00:43:13.320 --> 00:43:19.679
+chuanwu: Okay, so in the, we will show you briefly a function surface.
+
+170
+00:43:19.880 --> 00:43:22.710
+chuanwu: In higher dimensional space.
+
+171
+00:43:29.700 --> 00:43:30.490
+chuanwu: Okay.
+
+172
+00:43:30.770 --> 00:43:31.780
+chuanwu: All right.
+
+173
+00:43:33.560 --> 00:43:39.799
+chuanwu: All right, so here, our function F has a two-dimensional input vector.
+
+174
+00:43:39.960 --> 00:43:51.669
+chuanwu: Okay, it's variable, it's a 2-bed dimensional vector, X1, X2, and the function value F itself, the value is indicated along the vertical axis, it is a scalar value.
+
+175
+00:43:51.830 --> 00:43:55.219
+chuanwu: Right? So see, the function curve is like that.
+
+176
+00:43:56.540 --> 00:43:58.790
+chuanwu: Okay, function curve is like that.
+
+177
+00:43:58.950 --> 00:44:09.150
+chuanwu: Which is a reverse bell, so we reverse the bell shape. Let's think about a bell, and it's, upside down. Okay, so that's a bell shape, function… function surface.
+
+178
+00:44:09.560 --> 00:44:13.340
+chuanwu: Ed, and if we…
+
+179
+00:44:18.780 --> 00:44:26.760
+chuanwu: It's alpha. So alpha is always one possible function value, scalar value, okay, scalar function value.
+
+180
+00:44:27.130 --> 00:44:28.640
+chuanwu: Ed?
+
+181
+00:44:28.770 --> 00:44:36.509
+chuanwu: So what is a sublevel set like? So similarly, so you can draw a hyperparallel to the,
+
+182
+00:44:36.720 --> 00:44:40.409
+chuanwu: Then, decided by X1 and X2 axes.
+
+183
+00:44:41.100 --> 00:44:44.140
+chuanwu: And Zen… La bedtime.
+
+184
+00:44:44.330 --> 00:44:45.140
+chuanwu: So?
+
+185
+00:44:45.370 --> 00:44:47.959
+chuanwu: And allow this…
+
+186
+00:44:50.960 --> 00:44:54.240
+chuanwu: Then, decided by X1 and X2,
+
+187
+00:44:54.350 --> 00:44:59.120
+chuanwu: there would be an area, okay? Two-dimensional area.
+
+188
+00:44:59.240 --> 00:45:04.410
+chuanwu: So that's two-dimensional area, by definition, would be CR5.
+
+189
+00:45:05.620 --> 00:45:15.089
+chuanwu: Okay, so in the example, in this higher dimensional function example, the, domain of the function f is, say, is, entire.
+
+190
+00:45:15.420 --> 00:45:19.919
+chuanwu: Plat decided, two-dimensional plan decided by XY and X2 axis.
+
+191
+00:45:20.580 --> 00:45:23.530
+chuanwu: And then, CRPA is a subset.
+
+192
+00:45:23.650 --> 00:45:24.879
+chuanwu: In the domain.
+
+193
+00:45:25.710 --> 00:45:30.070
+chuanwu: Whose corresponding function value is no longer than alpha, right?
+
+194
+00:45:30.450 --> 00:45:33.229
+chuanwu: So ZRA is a two-dimensional set.
+
+195
+00:45:34.480 --> 00:45:36.780
+chuanwu: Set in a two-dimensional space.
+
+196
+00:45:37.540 --> 00:45:38.360
+chuanwu: Hello.
+
+197
+00:45:38.910 --> 00:45:39.810
+chuanwu: Okay.
+
+198
+00:45:40.680 --> 00:45:42.379
+chuanwu: All right,
+
+199
+00:45:43.090 --> 00:45:51.310
+chuanwu: So what I want you to be clear is the sublevel set is part of the domain set, input set. Okay.
+
+200
+00:45:52.380 --> 00:46:11.300
+chuanwu: All right, so as we said, on the, we have a convex function, so this is absolute value is a convex function, and the reverse spell, pre-incuitively, you can verify it's a convex function surface as well. And the, sublevel sets of all convex functions are convex sets.
+
+201
+00:46:11.630 --> 00:46:13.300
+chuanwu: In a domain space.
+
+202
+00:46:13.760 --> 00:46:22.049
+chuanwu: And the other way around to put it… okay, the other… let's think about the property, the other way around.
+
+203
+00:46:22.170 --> 00:46:30.180
+chuanwu: So, say, if we are given a function, if all sub-level sets of functions are converse, would the function necessarily be less?
+
+204
+00:46:32.950 --> 00:46:34.230
+chuanwu: So make a guess.
+
+205
+00:46:35.750 --> 00:46:38.910
+chuanwu: No, okay, yes, that's a correct answer.
+
+206
+00:46:39.570 --> 00:46:46.160
+chuanwu: All right, not necessary. Okay, counter-examples are… we can draw counter-examples here.
+
+207
+00:46:50.210 --> 00:46:51.110
+chuanwu: Okay.
+
+208
+00:46:51.280 --> 00:46:55.760
+chuanwu: So that's square root X.
+
+209
+00:46:56.840 --> 00:46:58.219
+chuanwu: Absolute value.
+
+210
+00:47:00.380 --> 00:47:01.260
+chuanwu: Okay.
+
+211
+00:47:01.470 --> 00:47:09.489
+chuanwu: So square root X absolute value, so it's a function like a butterfly, the wing of a butterfly, right?
+
+212
+00:47:09.730 --> 00:47:16.530
+chuanwu: Okay, so for this function, if you decide the alpha, End?
+
+213
+00:47:16.680 --> 00:47:19.200
+chuanwu: You map it to the x-axis.
+
+214
+00:47:20.210 --> 00:47:31.900
+chuanwu: The C alpha would always be a consecutive line segment along the x-axis, right, for the function here. And the consecutive line segment along the x-axis connects that.
+
+215
+00:47:32.360 --> 00:47:35.459
+chuanwu: Right? It's just a part of a line, line segment?
+
+216
+00:47:35.690 --> 00:47:51.079
+chuanwu: And therefore, for the function of square root XX throughput value, it's the sublevel sets, all sublevel sets are convex. You can verify easily, right? But apparently, the function is not convex function.
+
+217
+00:47:51.530 --> 00:47:52.440
+chuanwu: Right?
+
+218
+00:47:52.730 --> 00:47:53.720
+chuanwu: Agree?
+
+219
+00:47:55.070 --> 00:47:58.489
+chuanwu: So a function like this, not convex, right?
+
+220
+00:47:58.620 --> 00:47:59.650
+chuanwu: Okay.
+
+221
+00:48:00.040 --> 00:48:08.130
+chuanwu: And, in fact, For a function satisfied the property that all its sublevel sets are convex.
+
+222
+00:48:08.710 --> 00:48:18.940
+chuanwu: Although they may not be convex, but they are kind of closely related to convex functions, and they have a name. They are called as quasi-convex functions.
+
+223
+00:48:19.520 --> 00:48:27.680
+chuanwu: Okay, towards the end of this set of slides, we are introducing… we somehow can connect quasi-convex functions with a set of convex functions.
+
+224
+00:48:27.680 --> 00:48:39.709
+chuanwu: Such that if you have formulated optimization problems which are not of convex… which does not have convex objective, but a quasi-convex objective, we still have some algorithm to solve that.
+
+225
+00:48:39.980 --> 00:48:42.139
+chuanwu: Cause the convex optimization problem.
+
+226
+00:48:42.470 --> 00:48:47.100
+chuanwu: Okay, because of a connection and conversion. So we will cover that later.
+
+227
+00:48:48.780 --> 00:48:54.409
+chuanwu: Alright, with that done, the next concept to introduce is AppleGraph.
+
+228
+00:48:54.910 --> 00:48:59.380
+chuanwu: And the epigraph of a function, is,
+
+229
+00:49:01.530 --> 00:49:13.070
+chuanwu: set. Okay, it's a set. So if the function is mapping from n-dimensional space to a scalar value, then the echo graph is actually in the n plus 1 dimensional space.
+
+230
+00:49:13.470 --> 00:49:29.629
+chuanwu: And essentially, if you draw the function in the, n plus 1 dimensional space, otherwise, the part of this space covering the n input dimensions, and the one, that is a 1.1 dimension covering the function value.
+
+231
+00:49:29.630 --> 00:49:39.529
+chuanwu: Then, the upper graph of the function is the area, or the set, above the function surface in the plasma dimensional space.
+
+232
+00:49:39.650 --> 00:49:44.790
+chuanwu: Okay, illustration, actually, on the board.
+
+233
+00:49:45.370 --> 00:49:48.230
+chuanwu: And again, my sheet doesn't show up.
+
+234
+00:49:53.930 --> 00:49:54.770
+chuanwu: Okay.
+
+235
+00:49:55.060 --> 00:49:55.940
+chuanwu: Here.
+
+236
+00:49:56.110 --> 00:50:04.069
+chuanwu: Simple example, X is scalar input, and the T is, the, dimension corresponding for function values.
+
+237
+00:50:04.180 --> 00:50:13.920
+chuanwu: And F function curve is here. Okay, function curve is here. And what about the part, that…
+
+238
+00:50:14.510 --> 00:50:25.639
+chuanwu: Okay, and the peak any dot here. So any dot here, the X coordinate value is some X, and the peak coordinate value is some T.
+
+239
+00:50:25.880 --> 00:50:30.919
+chuanwu: And, the, function value FX is smaller.
+
+240
+00:50:31.080 --> 00:50:37.120
+chuanwu: And the function curve is underneath any dot I point in this area.
+
+241
+00:50:37.260 --> 00:50:43.170
+chuanwu: That means the, FX, which is function value corresponding to the X, would be smaller.
+
+242
+00:50:43.740 --> 00:50:48.450
+chuanwu: Okay, I'm gonna try it again here, because the shape doesn't show up.
+
+243
+00:51:04.560 --> 00:51:11.170
+chuanwu: So X Function value… Along the vertical axis, Ed?
+
+244
+00:51:13.250 --> 00:51:14.820
+chuanwu: Function curve there.
+
+245
+00:51:23.500 --> 00:51:27.430
+chuanwu: So pick any input point, input value X.
+
+246
+00:51:27.790 --> 00:51:28.600
+chuanwu: Ent?
+
+247
+00:51:28.840 --> 00:51:37.560
+chuanwu: We… here, for the point here corresponding to X on the function curve, we know its function value is FX.
+
+248
+00:51:37.810 --> 00:51:38.580
+chuanwu: Right.
+
+249
+00:51:39.740 --> 00:51:40.670
+chuanwu: Then…
+
+250
+00:51:41.160 --> 00:51:50.560
+chuanwu: consider any… any dot above, okay, any point above. Their corresponding value along the T-axis will be some T.
+
+251
+00:51:50.800 --> 00:52:05.880
+chuanwu: Right, sub T. Okay, and the epigraph of the function contains all the points, such that the corresponding X, left to FX, and the second coordinate of that point would be a point of F.
+
+252
+00:52:07.720 --> 00:52:13.680
+chuanwu: Okay, that translates to the epigraph covers all the area.
+
+253
+00:52:13.790 --> 00:52:22.790
+chuanwu: In this unplasma dimensional space, above the function curve, or in higher dimensional space, we call it the function surface, above the function surface.
+
+254
+00:52:24.600 --> 00:52:25.810
+chuanwu: Right, agreed?
+
+255
+00:52:28.120 --> 00:52:29.140
+chuanwu: Okay.
+
+256
+00:52:29.250 --> 00:52:32.959
+chuanwu: And the next property is here,
+
+257
+00:52:33.480 --> 00:52:39.700
+chuanwu: If, and only if, the epigraph of the function is a convex set, then the function is
+
+258
+00:52:40.080 --> 00:52:45.770
+chuanwu: convex. Okay, the function is convex if and only if its epigraph is a convex set.
+
+259
+00:52:46.750 --> 00:52:49.370
+chuanwu: intuitively, it's intuitively
+
+260
+00:52:49.510 --> 00:52:56.280
+chuanwu: It can be intuitively see, okay, at least we have a counterexample here, so we know this is not…
+
+261
+00:52:56.570 --> 00:53:07.089
+chuanwu: convex function, right? So the square root absolute value of convex, and its epigraph is the area above, we know it's not a convex set, right?
+
+262
+00:53:08.430 --> 00:53:09.390
+chuanwu: Okay.
+
+263
+00:53:09.890 --> 00:53:18.179
+chuanwu: For convex function here, the epigraph covers the area above the function curve. We know it's, convex set.
+
+264
+00:53:18.670 --> 00:53:21.080
+chuanwu: Corresponding for the convex function.
+
+265
+00:53:21.250 --> 00:53:38.930
+chuanwu: Right, so it's kind of related to the curvature of the function and the curvature of the boundary of the set, right? So if the function is a typical convex function curvature, okay, so like this, then the set enclosed using this as a boundary.
+
+266
+00:53:39.270 --> 00:53:44.850
+chuanwu: The boundary is of convex curvature, and the Set is correct set.
+
+267
+00:53:45.070 --> 00:53:45.870
+chuanwu: Right.
+
+268
+00:53:46.380 --> 00:53:54.809
+chuanwu: Okay, so it's, it should be pretty intuitive here, and this microphone is gone again. Okay.
+
+269
+00:53:58.000 --> 00:54:02.560
+chuanwu: All right, I think I'll finish up on the next slide.
+
+270
+00:54:02.760 --> 00:54:08.320
+chuanwu: Related to proof of the property here, and… Yeah.
+
+271
+00:54:09.000 --> 00:54:10.810
+chuanwu: And then we will call it a day.
+
+272
+00:54:11.210 --> 00:54:21.779
+chuanwu: All right, so, what I'm… we are trying to prove is a probability here. So the function is convex if and only if the graph is a convex set.
+
+273
+00:54:22.770 --> 00:54:40.899
+chuanwu: So intuitively, I was trying… what I was trying to illustrate intuitively, geometrically, is that… think about the curvature of the set, of the, function curve, and the boundary of the convex set. So that connects flight, the function curve is function… is convex as well.
+
+274
+00:54:41.060 --> 00:54:43.820
+chuanwu: Yeah. SAC above is also class.
+
+275
+00:54:44.410 --> 00:54:55.410
+chuanwu: Alright, so we first show the sufficiency, necessity of the condition, so we know F is correct. Then, its epigraph is a collect set.
+
+276
+00:54:55.630 --> 00:55:04.960
+chuanwu: So we actually follow the, definition of convex function, convex set, and then we put them in the meter, interactions.
+
+277
+00:55:04.990 --> 00:55:17.230
+chuanwu: And the other part is the sufficiency and the convection. So if, epigraph F is convex F, the function is, convex. So two aspects to, of the, given only.
+
+278
+00:55:17.370 --> 00:55:18.810
+chuanwu: Eve, probably.
+
+279
+00:55:21.160 --> 00:55:22.050
+chuanwu: Okay.
+
+280
+00:55:23.410 --> 00:55:33.979
+chuanwu: All right, so we pick two points. Okay, to show the necessity, we pick two points in the upper graph. So the first point, XT1, and second point, YT2.
+
+281
+00:55:34.090 --> 00:55:47.290
+chuanwu: And, based on the definition of the upper graph, we know the function evaluated at X, FX is no larger than T1, and the function value evaluated at Y, FY, is no larger than T2.
+
+282
+00:55:48.570 --> 00:55:55.709
+chuanwu: And then we, we also know function f is correct, so therefore the adjacence inequality holds there.
+
+283
+00:55:56.300 --> 00:55:59.669
+chuanwu: And we do the next step in renovation.
+
+284
+00:56:00.790 --> 00:56:12.069
+chuanwu: FX, no larger than T1, and FY, no larger than T2. So therefore, we know the left-hand side, no larger than theta T1 plus 1 minus theta T2.
+
+285
+00:56:12.520 --> 00:56:14.709
+chuanwu: F? What does that tell us?
+
+286
+00:56:14.800 --> 00:56:33.730
+chuanwu: If you check out the leftmost part of the inequality, and check out the rightmost part of inequality, you'll know this point, okay? Convex combination of X, Y, and then convex combination of T1 and T2. This would be a point in the upper graph.
+
+287
+00:56:34.020 --> 00:56:34.780
+chuanwu: Right.
+
+288
+00:56:35.070 --> 00:56:37.919
+chuanwu: So all the way, we are using their definitions.
+
+289
+00:56:38.630 --> 00:56:49.529
+chuanwu: Okay, then we'll show, that epigraph F is a convex Z, because you pick any two points in the epigraph, and their convex combination is in the epigraph again.
+
+290
+00:56:49.860 --> 00:56:51.690
+chuanwu: So the epigraph is convex.
+
+291
+00:56:52.260 --> 00:56:53.010
+chuanwu: Right.
+
+292
+00:56:53.780 --> 00:57:06.520
+chuanwu: And then the other way around of the theorem, what we are trying to show is, if upper graph is convex set, then function f is convex. So to do that, we pick two points in the upper graph.
+
+293
+00:57:06.620 --> 00:57:14.900
+chuanwu: X and FX, and Y in FY. Actually, there are two special points in the upper graph. They are along the boundary of the epigraph.
+
+294
+00:57:15.100 --> 00:57:16.169
+chuanwu: Do you agree?
+
+295
+00:57:17.010 --> 00:57:24.170
+chuanwu: Because the epigraph contains all the points, this, corresponding to X coordinate X, the,
+
+296
+00:57:24.530 --> 00:57:31.969
+chuanwu: t-value should be larger or equal to FX. So if we exactly pick T equals FX, that means it's on the boundary of the epigraph.
+
+297
+00:57:32.140 --> 00:57:48.840
+chuanwu: Right, so the two points are on the boundary of the upper graph, and we do a convex combination of the two points, right? And then, using… we know the epigraph is convex, so convex combination of the two boundary points is in the upper graph as well.
+
+298
+00:57:49.370 --> 00:57:58.899
+chuanwu: And then we, based on the definition of epigraph, this implies the function value evaluated at the convex combination point.
+
+299
+00:57:58.900 --> 00:58:11.339
+chuanwu: is no larger than the last coordinate here, which is theta fx plus 1 and CTAFY. And this exactly gives us the JSON's inequality to establish convexity of function f.
+
+300
+00:58:12.970 --> 00:58:13.790
+chuanwu: Right.
+
+301
+00:58:15.020 --> 00:58:15.940
+chuanwu: Agree?
+
+302
+00:58:17.460 --> 00:58:18.430
+chuanwu: Okay.
+
+303
+00:58:23.680 --> 00:58:28.360
+chuanwu: Alright, so if you accept the proof, Zen?
+
+304
+00:58:28.770 --> 00:58:30.239
+chuanwu: We are good today.
+
+305
+00:58:30.400 --> 00:58:38.720
+chuanwu: Okay, we will call it the day, and we'll continue the rest of this set of discussions on Thursday. Okay, thank you for your attention.
+
+306
+00:59:05.510 --> 00:59:18.079
+chuanwu: towards the end of the, because the assignment will cover all the comments functions, which we haven't just did.
+
+307
+00:59:18.380 --> 00:59:21.210
+chuanwu: Two different roles throughout the lives.
+

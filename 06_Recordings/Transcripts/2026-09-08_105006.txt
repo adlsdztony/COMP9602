@@ -1,0 +1,618 @@
+COMP9602 Optimization — 2026-09-08 10:50:06
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/HZC24Mby3txGquLOWkOiLjQXhK5lTffqO9Vas2AeBrFiazYPwRtM_qphiRBN-pKF.1RhycAeFcfkptYZ-
+保存日期：2026-11-08
+
+[00:13:44.900] chuanwu: Oracle.
+
+[00:14:28.560] chuanwu: Okay, I'll ask a simple question. So, does the inverse hold for this volume fiber point theorem?
+
+[00:19:35.170] chuanwu: It's not important.
+
+[00:19:41.030] chuanwu: All right, let's come back and continue with our lecture today, and in the second half of the lecture, as I mentioned, okay, most likely I will go beyond 11.30. Okay.
+
+[00:19:56.500] chuanwu: So please bear with me. And in the second half of this lecture, we are starting to work on the second part of convex analysis, which is related to convex function.
+
+[00:20:13.720] chuanwu: Okay, and we'll start with the definition of convex function and the basic properties, and then moving on to operations that preserve convexity, functions convexity, non-set convexity, and then we will talk about some functions which I usually call as close relatives of convex functions.
+
+[00:20:32.160] chuanwu: Including conjective conjugate functions, quasi-collect functions, log-collect functions.
+
+[00:20:40.140] chuanwu: So, starting from the, basic definition of convex function, we actually saw it, in our very first lecture, and, here, at that time, I said I'll be talking about more details here. Okay, and here it comes.
+
+[00:20:55.180] chuanwu: So, convex functions, the basic definition includes two parts. Number one, the domain of the function should be a convex set. Okay, that means convex function is defined on a convex domain. And then second, there is this famous Jesson's inequalities that convex functions have to satisfy.
+
+[00:21:15.270] chuanwu: Okay, so what the Jensen's inequality here says is convex combination of two input points. Okay, convex combination of two input points, where coefficient theta and theta as F to 1.
+
+[00:21:30.190] chuanwu: And… and the, given this convex combination of two points, the function value evaluated on the convex combination point should be no larger than convex combination of the two input values, function values.
+
+[00:21:46.350] chuanwu: Okay, so FX is the function value of input point X, and FY is the convex function… is the function value of, input point 1. And C to FX plus 1 minus Z to FY is convex combination of two function values.
+
+[00:22:04.850] chuanwu: Okay, I'll say that again. So, convex combination of two points, the corresponding function value should be no larger than convex combination of the two points function values.
+
+[00:22:16.640] chuanwu: Okay, and geometrically, what it shows, at the very first lecture, we briefly draw a picture, a geometric illustration, and here it is again.
+
+[00:22:27.670] chuanwu: Okay.
+
+[00:22:28.650] chuanwu: So what I'm drawing here is the function curve, okay, function curve on the two-dimensional plan, because all of our slides on the… here are two-dimensional, so in most cases, I'm only drawing two-dimensional plan, or two-dimensional curve.
+
+[00:22:43.380] chuanwu: And occasionally, we can draw a three-coordinate, three coordinates, dimension 3 system, but in most of the cases, a two-dimensional coordinate system.
+
+[00:22:52.960] chuanwu: Okay, in the two coordinate, two-dimensional coordinate system, we know every point has two coordinates, and here X is scalar, okay, and FX is scalar, and Y is scalar input quantity, and FY is scalar function value, and function curve is a two-dimensional curve.
+
+[00:23:15.110] chuanwu: Okay, in higher dimensional space, the function curve is called the function surface. Okay, function value surface, okay. All right, and
+
+[00:23:25.160] chuanwu: The, horizontal axis represent the input.
+
+[00:23:29.180] chuanwu: X and Y. And the vertical axis in the two-dimensional plan represent function values. And every dot here, every point here, is a pair of input and output, okay? Input value, output value.
+
+[00:23:43.180] chuanwu: Right, and what we are seeing is, for a convex combination of, theta X plus 1 theta Y,
+
+[00:23:51.510] chuanwu: it's some point along the axis here, in the range, so here…
+
+[00:23:59.260] chuanwu: is X. And over there, it's Y.
+
+[00:24:03.170] chuanwu: And the theta FX plus 1 theta FY is a value along, is a vertical axis value along the line of X, FX, and FY.
+
+[00:24:17.210] chuanwu: Oh yeah, probably still better, I joined again.
+
+[00:24:20.610] chuanwu: Here.
+
+[00:24:31.450] chuanwu: Okay, our function curve… okay, perfect, complex curve.
+
+[00:24:38.000] chuanwu: Okay, and then… Our coordinate system? Okay, all we have… Why?
+
+[00:24:46.680] chuanwu: Cool. One-dimensional input values.
+
+[00:24:49.730] chuanwu: And we have… XX!
+
+[00:24:56.280] chuanwu: That's excellent.
+
+[00:24:59.730] chuanwu: Probably better for the rail park.
+
+[00:25:05.750] chuanwu: Okay, as black.
+
+[00:25:07.380] chuanwu: So we know FX is the vertical coordinate value, and FY is vertical coordinate value of these two points on the function curve, respectively.
+
+[00:25:17.380] chuanwu: Okay, so what the Jessens inequality says is the function curve in between the two points
+
+[00:25:25.530] chuanwu: Should be underneath the street line connecting
+
+[00:25:29.880] chuanwu: The two points. Okay, the two points… Connect a street light.
+
+[00:25:37.390] chuanwu: Probably better I just remove the dotted line.
+
+[00:25:49.970] chuanwu: Okay, so this is a straight line segment connecting the two points. So the two points coordinates are here.
+
+[00:25:59.980] chuanwu: Okay.
+
+[00:26:01.210] chuanwu: That? See that again? So what the Jess's inequality says is, if you pick two points along the function curve.
+
+[00:26:09.080] chuanwu: Then, the function curve in between the two points should be underneath the street line, connecting the two points.
+
+[00:26:18.650] chuanwu: intuitively, it's true, right? For convex function.
+
+[00:26:21.780] chuanwu: You pick any two points along the function curve, okay, let's pick these two points, and you draw a line. The rest in the function curve in the middle would be underneath, rather than above.
+
+[00:26:33.670] chuanwu: Along the vertical axis direction.
+
+[00:26:36.450] chuanwu: Right.
+
+[00:26:37.470] chuanwu: Okay, and then, rationale-wise, here it is.
+
+[00:26:41.850] chuanwu: So theta X plus Y minus theta Y is a point here with a horizontal axis value here. So theta X plus Y minus theta Y is an input value between X and Y on the horizontal axis. Okay, input axis.
+
+[00:26:59.580] chuanwu: And then…
+
+[00:27:02.660] chuanwu: The vertical axis value of that new blue dot I was drawing is exactly F theta X plus 1 minus theta
+
+[00:27:12.130] chuanwu: Why?
+
+[00:27:15.190] chuanwu: Okay.
+
+[00:27:16.570] chuanwu: And then, moving it further up, we come up with a dot along the line connecting the two points on the function curve.
+
+[00:27:25.790] chuanwu: And the vertical, axis value of this dot, of this new dot in… Rep, for example.
+
+[00:27:35.030] chuanwu: would be theta FX plus 1 minus theta FY.
+
+[00:27:41.810] chuanwu: Okay, and apparently, if the function curve is underneath the street line, it shows F, convex combination of two points, no larger than convex combination of X, X, and FY.
+
+[00:27:57.500] chuanwu: Agree?
+
+[00:28:01.840] chuanwu: Okay.
+
+[00:28:03.430] chuanwu: So I hope this is clear, because I heard from some audience here that you have learned similar stuff.
+
+[00:28:09.850] chuanwu: before, so I'm… Not really.
+
+[00:28:15.250] chuanwu: I'm not really… yeah, as then I'm trying to go slightly faster, if actually everybody…
+
+[00:28:22.710] chuanwu: most of you have already some foundations, but if you do figure that I'm talking too fast.
+
+[00:28:29.900] chuanwu: To stop me and ask, right?
+
+[00:28:32.520] chuanwu: And if you do think I'm… Speaking too slowly?
+
+[00:28:37.190] chuanwu: I think I can figure out.
+
+[00:28:39.510] chuanwu: Okay, because you could be closing your eyes. All right, okay,
+
+[00:28:47.680] chuanwu: Then, following that, we can define what a strict, convex function is like. So, a function f is strictly convex if domain is convex, and in the adjacent inequality, we remove equality part, only strictly inequality part.
+
+[00:29:05.900] chuanwu: Okay, so basically the, left-hand side would be strictly smaller than the right-hand side part. Okay.
+
+[00:29:14.130] chuanwu: And the CDAC here is, of course, not taking the boundary value as well, so CDAC has to be exactly in between 0 and 1.
+
+[00:29:25.020] chuanwu: Okay, then relevant definition is about concave function.
+
+[00:29:30.850] chuanwu: So if F is concave, so if F is convex, then negative F is concave, and the other around it is also 2.
+
+[00:29:40.230] chuanwu: Okay, and regarding definition, so what we have is here, so we reverse the sign of the inequality in the Jackson's inequality.
+
+[00:29:48.970] chuanwu: And geometrically, what it means is the function curve between any two points along the function curve should be about to strip of the line connecting the two points.
+
+[00:30:00.070] chuanwu: Okay, so reverse that… reverse… reverse that concave curve, we come up with a… reverse that convex curve, we come up with a concave function.
+
+[00:30:11.540] chuanwu: Okay, strictly concave, if you remove equality from the side. Okay, left-hand side, strictly larger than right-hand side.
+
+[00:30:23.870] chuanwu: examples. Okay, so we will… let's check out what are…
+
+[00:30:28.520] chuanwu: Typical examples, I think the battery is gone.
+
+[00:30:53.150] chuanwu: Testy.
+
+[00:30:54.390] chuanwu: Testing.
+
+[00:30:58.030] chuanwu: Test it.
+
+[00:30:59.400] chuanwu: Testing. Okay, I think this is working.
+
+[00:31:09.860] chuanwu: All right, typical examples of convex functions, and concede functions, and here we use a few examples, of scalar functions. Scalar functions, usually what we mean by scalar functions is that the input is a scalar value, and output is a scalar value.
+
+[00:31:25.150] chuanwu: Right, first example, I found function. So I found function on R. So here, X is,
+
+[00:31:32.790] chuanwu: one-dimensional input variable. Okay, one-dimensional input variable, and AX plus B, what it exactly means, is actually a straight line, okay, straight line, in the two-dimensional space, and apparently a straight line is a convex function. Okay.
+
+[00:31:50.680] chuanwu: A straight line is a convex function shape, okay?
+
+[00:31:54.300] chuanwu: An exponential function, so exponential function, we should all know what it looks like.
+
+[00:32:33.280] chuanwu: So, e to the power of arba of AX.
+
+[00:32:42.590] chuanwu: Okay, so this is what the function looks like if, A is,
+
+[00:32:54.340] chuanwu: If A is larger, Then zero, right? And…
+
+[00:33:00.060] chuanwu: The function will be looking like that.
+
+[00:33:02.610] chuanwu: If A is smaller than 0.
+
+[00:33:05.280] chuanwu: Okay, the selection point is…
+
+[00:33:07.930] chuanwu: 1. Okay, the Y coordinate whether it's what, right? So no matter whether A larger than 0 or smaller than zero, or even A equals zero, it's a convex function, intuitively.
+
+[00:33:20.210] chuanwu: You can see from the curvature of the function curves.
+
+[00:33:23.710] chuanwu: Right, as a power function, so it depends on whether that A, that arva, X exponent arva, is, larger than, than, is in which range, so we have, we could have convex function or concave function as well.
+
+[00:33:38.640] chuanwu: So here, when we say X exponent alpha, we define it on R plus plus. So what R plus plus means is the X should be larger than 0. X is a scalar, variable, but, its value should be larger than 0.
+
+[00:33:54.160] chuanwu: If it is in R plus, it means it's larger equal to 0. If R plus plus means it's larger than zero.
+
+[00:34:01.630] chuanwu: Okay.
+
+[00:34:02.840] chuanwu: Alright, so if,
+
+[00:34:11.810] chuanwu: So if X equals, 2 or 3, so we all know what the functions… if R5 equals 2 or 3, so we know what the function curve is like. It's pretty much some shape of…
+
+[00:34:23.310] chuanwu: Some kind of shape of this, sharper or wider, right?
+
+[00:34:27.530] chuanwu: Okay, and then what if, that A is, smaller equal to zero? Like, X… even worse.
+
+[00:34:37.540] chuanwu: Okay, so it's, let's say, pro-co effect.
+
+[00:34:40.480] chuanwu: So, recipe protocol of X, Okay, so what X is larger than 0 is here.
+
+[00:34:49.130] chuanwu: Right? So if X is smaller than zero, it's over there, but we remove that part, we only consider the X is in the non-active offset, non-active quadrant.
+
+[00:34:59.680] chuanwu: Right. Okay.
+
+[00:35:01.640] chuanwu: So that's a power function, and then powers of absolute value. So similarly, it's very easy to see that powers of absolute values are complex as well. So for example…
+
+[00:35:14.940] chuanwu: Yours?
+
+[00:35:16.600] chuanwu: So, if P equals what? P equals what? The function is… X…
+
+[00:35:23.610] chuanwu: Absolute value, right? So it's a convex function, you can verify.
+
+[00:35:32.030] chuanwu: Okay, and then, negative entropy. So X log X, X larger than 0.
+
+[00:35:41.860] chuanwu: So this negative entropy function is slightly complex, and if you draw it in Python or MATLAB, you will find out its con… its function curve looks like this.
+
+[00:35:57.760] chuanwu: Looks like a tick.
+
+[00:36:02.130] chuanwu: Okay, looks a bit like a tick.
+
+[00:36:05.100] chuanwu: And this is COMEX as well.
+
+[00:36:08.970] chuanwu: Excluding the origin.
+
+[00:36:12.030] chuanwu: Okay, and then, CUCATE function.
+
+[00:36:15.210] chuanwu: So the alphan function is a special case, so we know alphan functions, function curve on a two-dimensional plan is just a straight line.
+
+[00:36:24.140] chuanwu: So the straight line, the curvature, non-convex, non-concave, it's just a flat, straight, right? So therefore, an affine function is both convex and concave.
+
+[00:36:35.530] chuanwu: And for powers, so X power alpha, so if alpha is in the range of 0 and 1, so they give us some typical concave functions.
+
+[00:36:47.120] chuanwu: So, for example, here…
+
+[00:36:58.010] chuanwu: The square root of X.
+
+[00:37:00.350] chuanwu: So where alpha is 1 half, right? So you know it's, typical.
+
+[00:37:06.690] chuanwu: Concave function shape.
+
+[00:37:09.620] chuanwu: And the log function. So we all know what log functions, what looks like.
+
+[00:37:15.430] chuanwu: So, luck function is here.
+
+[00:37:20.130] chuanwu: Okay, so that's our log function, right? So lock function is another typical concave function.
+
+[00:37:28.440] chuanwu: Alright, so you can find all the example drawings on the textbook, actually.
+
+[00:37:34.800] chuanwu: Most of them, okay, most of them.
+
+[00:37:39.290] chuanwu: Okay, so that's a case of scalar function. So, if we move on to see,
+
+[00:37:44.860] chuanwu: function defined on n-dimensional vectors. So, there are a few, concrete examples, or representative examples. So, number one, all non-functions are convex. So, as we introduced non-function earlier today, I was saying it's closely related to convex set and convex functions, and here it is.
+
+[00:38:03.520] chuanwu: So, convex, non-focused are all convex, LP0, and you can verify.
+
+[00:38:09.220] chuanwu: We can verify using the designation, based on the three properties that the count long function should satisfy. It's very easy to verify.
+
+[00:38:17.470] chuanwu: Okay, and alpha in functions, so I said, alpha function on the two-dimensional plan is just strings line, but alpha function on undimensional space, it will be a hyperplan. So a hyperplan, the curvature is just a flat, so it's both convex and concave.
+
+[00:38:34.940] chuanwu: Okay, and,
+
+[00:38:39.820] chuanwu: Moving on, so those are some brief examples of correct functions, and moving on, we will introduce another concept related to a function, which is the upper graph of a function.
+
+[00:38:57.880] chuanwu: Okay.
+
+[00:38:58.830] chuanwu: So, epigraph, before we check out what is epigraph of a function, let's first introduce a concept related to our Bonsai level set.
+
+[00:39:07.220] chuanwu: So alpha sub-level set is, set, okay? Alpha sub-level set is defined related to a function f. So the function f itself is mapping from an indimensional vector to a scalar value, and the alpha sublevel set is actually,
+
+[00:39:23.580] chuanwu: set defined in a domain of a function. So that means it is a set in an un-dimensional space, or a domain space.
+
+[00:39:32.180] chuanwu: Okay, the definition is here. Essentially, the alpha sub-level set denoted using C with subscript alpha, it contains all the points in the domain of the function, such that the corresponding function value is no larger than alpha.
+
+[00:39:52.160] chuanwu: Okay, so if the domain set is in the undimensional space, then the alpha sublevel set is within the domain set in the undimensional space. It's part of the domain set, satisfying that function value on points in the set is no larger than alpha.
+
+[00:40:07.480] chuanwu: Okay, the nice properties that we're introducing, and the reason why we're introducing alpha sublevel set here is the sublevel sets of all convex functions are convex.
+
+[00:40:21.840] chuanwu: Okay, sublevel sets in the domain of the convex functions are all convex functions. They are all convex sets.
+
+[00:40:30.020] chuanwu: Okay.
+
+[00:40:31.710] chuanwu: And, which example do I use? Okay, just use this,
+
+[00:40:41.660] chuanwu: Okay, X absolute value. Okay, X absolute value is a X function, and what is its,
+
+[00:40:49.730] chuanwu: Sub-level sets. Okay, sublevel sets is related to the function value, so say the function value is alpha there.
+
+[00:40:56.890] chuanwu: Okay, so if the function value is alpha, and we will be able to find out the sum level says, which is part.
+
+[00:41:05.270] chuanwu: a lot of the sixth values along the X coordinator.
+
+[00:41:09.160] chuanwu: X, axis.
+
+[00:41:10.890] chuanwu: Okay, and in the scalar case, X absolute value, X is a scalar input, and its domain contains all the entire
+
+[00:41:20.940] chuanwu: X axis, right? It's domain of function… the domain… see, I'll say that again. The domain of a function X absolute value is the entire X axis.
+
+[00:41:32.980] chuanwu: contains all the points in the entire x-axis.
+
+[00:41:37.370] chuanwu: Okay, and, and the CRVA is here.
+
+[00:41:46.170] chuanwu: So, what we…
+
+[00:41:48.130] chuanwu: are given alpha. So when we talk about sub-level set, we obviously are given that alpha, so we say the sublevel set C alpha, what it is like. So alpha is given, so alpha is function value, and we will be able to find out
+
+[00:42:03.060] chuanwu: Harp?
+
+[00:42:04.620] chuanwu: of the x-axis, that is in C alpha, so that is C alpha.
+
+[00:42:11.330] chuanwu: Okay.
+
+[00:42:12.410] chuanwu: So for the segment that I was specifying along the x-axis, so all the possible values here corresponds to a function value which is no larger than alpha.
+
+[00:42:25.710] chuanwu: Agree?
+
+[00:42:27.400] chuanwu: Right.
+
+[00:42:28.650] chuanwu: Okay, so therefore, the CRVA is this line segment along… CRFA contains all the points in the line segment along the x-axis.
+
+[00:42:40.850] chuanwu: So that is the ARPA.
+
+[00:42:54.310] chuanwu: And in higher dimensional space.
+
+[00:43:04.640] chuanwu: Okay, so, maximally…
+
+[00:43:13.320] chuanwu: Okay, so in the, we will show you briefly a function surface.
+
+[00:43:19.880] chuanwu: In higher dimensional space.
+
+[00:43:29.700] chuanwu: Okay.
+
+[00:43:30.770] chuanwu: All right.
+
+[00:43:33.560] chuanwu: All right, so here, our function F has a two-dimensional input vector.
+
+[00:43:39.960] chuanwu: Okay, it's variable, it's a 2-bed dimensional vector, X1, X2, and the function value F itself, the value is indicated along the vertical axis, it is a scalar value.
+
+[00:43:51.830] chuanwu: Right? So see, the function curve is like that.
+
+[00:43:56.540] chuanwu: Okay, function curve is like that.
+
+[00:43:58.950] chuanwu: Which is a reverse bell, so we reverse the bell shape. Let's think about a bell, and it's, upside down. Okay, so that's a bell shape, function… function surface.
+
+[00:44:09.560] chuanwu: Ed, and if we…
+
+[00:44:18.780] chuanwu: It's alpha. So alpha is always one possible function value, scalar value, okay, scalar function value.
+
+[00:44:27.130] chuanwu: Ed?
+
+[00:44:28.770] chuanwu: So what is a sublevel set like? So similarly, so you can draw a hyperparallel to the,
+
+[00:44:36.720] chuanwu: Then, decided by X1 and X2 axes.
+
+[00:44:41.100] chuanwu: And Zen… La bedtime.
+
+[00:44:44.330] chuanwu: So?
+
+[00:44:45.370] chuanwu: And allow this…
+
+[00:44:50.960] chuanwu: Then, decided by X1 and X2,
+
+[00:44:54.350] chuanwu: there would be an area, okay? Two-dimensional area.
+
+[00:44:59.240] chuanwu: So that's two-dimensional area, by definition, would be CR5.
+
+[00:45:05.620] chuanwu: Okay, so in the example, in this higher dimensional function example, the, domain of the function f is, say, is, entire.
+
+[00:45:15.420] chuanwu: Plat decided, two-dimensional plan decided by XY and X2 axis.
+
+[00:45:20.580] chuanwu: And then, CRPA is a subset.
+
+[00:45:23.650] chuanwu: In the domain.
+
+[00:45:25.710] chuanwu: Whose corresponding function value is no longer than alpha, right?
+
+[00:45:30.450] chuanwu: So ZRA is a two-dimensional set.
+
+[00:45:34.480] chuanwu: Set in a two-dimensional space.
+
+[00:45:37.540] chuanwu: Hello.
+
+[00:45:38.910] chuanwu: Okay.
+
+[00:45:40.680] chuanwu: All right,
+
+[00:45:43.090] chuanwu: So what I want you to be clear is the sublevel set is part of the domain set, input set. Okay.
+
+[00:45:52.380] chuanwu: All right, so as we said, on the, we have a convex function, so this is absolute value is a convex function, and the reverse spell, pre-incuitively, you can verify it's a convex function surface as well. And the, sublevel sets of all convex functions are convex sets.
+
+[00:46:11.630] chuanwu: In a domain space.
+
+[00:46:13.760] chuanwu: And the other way around to put it… okay, the other… let's think about the property, the other way around.
+
+[00:46:22.170] chuanwu: So, say, if we are given a function, if all sub-level sets of functions are converse, would the function necessarily be less?
+
+[00:46:32.950] chuanwu: So make a guess.
+
+[00:46:35.750] chuanwu: No, okay, yes, that's a correct answer.
+
+[00:46:39.570] chuanwu: All right, not necessary. Okay, counter-examples are… we can draw counter-examples here.
+
+[00:46:50.210] chuanwu: Okay.
+
+[00:46:51.280] chuanwu: So that's square root X.
+
+[00:46:56.840] chuanwu: Absolute value.
+
+[00:47:00.380] chuanwu: Okay.
+
+[00:47:01.470] chuanwu: So square root X absolute value, so it's a function like a butterfly, the wing of a butterfly, right?
+
+[00:47:09.730] chuanwu: Okay, so for this function, if you decide the alpha, End?
+
+[00:47:16.680] chuanwu: You map it to the x-axis.
+
+[00:47:20.210] chuanwu: The C alpha would always be a consecutive line segment along the x-axis, right, for the function here. And the consecutive line segment along the x-axis connects that.
+
+[00:47:32.360] chuanwu: Right? It's just a part of a line, line segment?
+
+[00:47:35.690] chuanwu: And therefore, for the function of square root XX throughput value, it's the sublevel sets, all sublevel sets are convex. You can verify easily, right? But apparently, the function is not convex function.
+
+[00:47:51.530] chuanwu: Right?
+
+[00:47:52.730] chuanwu: Agree?
+
+[00:47:55.070] chuanwu: So a function like this, not convex, right?
+
+[00:47:58.620] chuanwu: Okay.
+
+[00:48:00.040] chuanwu: And, in fact, For a function satisfied the property that all its sublevel sets are convex.
+
+[00:48:08.710] chuanwu: Although they may not be convex, but they are kind of closely related to convex functions, and they have a name. They are called as quasi-convex functions.
+
+[00:48:19.520] chuanwu: Okay, towards the end of this set of slides, we are introducing… we somehow can connect quasi-convex functions with a set of convex functions.
+
+[00:48:27.680] chuanwu: Such that if you have formulated optimization problems which are not of convex… which does not have convex objective, but a quasi-convex objective, we still have some algorithm to solve that.
+
+[00:48:39.980] chuanwu: Cause the convex optimization problem.
+
+[00:48:42.470] chuanwu: Okay, because of a connection and conversion. So we will cover that later.
+
+[00:48:48.780] chuanwu: Alright, with that done, the next concept to introduce is AppleGraph.
+
+[00:48:54.910] chuanwu: And the epigraph of a function, is,
+
+[00:49:01.530] chuanwu: set. Okay, it's a set. So if the function is mapping from n-dimensional space to a scalar value, then the echo graph is actually in the n plus 1 dimensional space.
+
+[00:49:13.470] chuanwu: And essentially, if you draw the function in the, n plus 1 dimensional space, otherwise, the part of this space covering the n input dimensions, and the one, that is a 1.1 dimension covering the function value.
+
+[00:49:29.630] chuanwu: Then, the upper graph of the function is the area, or the set, above the function surface in the plasma dimensional space.
+
+[00:49:39.650] chuanwu: Okay, illustration, actually, on the board.
+
+[00:49:45.370] chuanwu: And again, my sheet doesn't show up.
+
+[00:49:53.930] chuanwu: Okay.
+
+[00:49:55.060] chuanwu: Here.
+
+[00:49:56.110] chuanwu: Simple example, X is scalar input, and the T is, the, dimension corresponding for function values.
+
+[00:50:04.180] chuanwu: And F function curve is here. Okay, function curve is here. And what about the part, that…
+
+[00:50:14.510] chuanwu: Okay, and the peak any dot here. So any dot here, the X coordinate value is some X, and the peak coordinate value is some T.
+
+[00:50:25.880] chuanwu: And, the, function value FX is smaller.
+
+[00:50:31.080] chuanwu: And the function curve is underneath any dot I point in this area.
+
+[00:50:37.260] chuanwu: That means the, FX, which is function value corresponding to the X, would be smaller.
+
+[00:50:43.740] chuanwu: Okay, I'm gonna try it again here, because the shape doesn't show up.
+
+[00:51:04.560] chuanwu: So X Function value… Along the vertical axis, Ed?
+
+[00:51:13.250] chuanwu: Function curve there.
+
+[00:51:23.500] chuanwu: So pick any input point, input value X.
+
+[00:51:27.790] chuanwu: Ent?
+
+[00:51:28.840] chuanwu: We… here, for the point here corresponding to X on the function curve, we know its function value is FX.
+
+[00:51:37.810] chuanwu: Right.
+
+[00:51:39.740] chuanwu: Then…
+
+[00:51:41.160] chuanwu: consider any… any dot above, okay, any point above. Their corresponding value along the T-axis will be some T.
+
+[00:51:50.800] chuanwu: Right, sub T. Okay, and the epigraph of the function contains all the points, such that the corresponding X, left to FX, and the second coordinate of that point would be a point of F.
+
+[00:52:07.720] chuanwu: Okay, that translates to the epigraph covers all the area.
+
+[00:52:13.790] chuanwu: In this unplasma dimensional space, above the function curve, or in higher dimensional space, we call it the function surface, above the function surface.
+
+[00:52:24.600] chuanwu: Right, agreed?
+
+[00:52:28.120] chuanwu: Okay.
+
+[00:52:29.250] chuanwu: And the next property is here,
+
+[00:52:33.480] chuanwu: If, and only if, the epigraph of the function is a convex set, then the function is
+
+[00:52:40.080] chuanwu: convex. Okay, the function is convex if and only if its epigraph is a convex set.
+
+[00:52:46.750] chuanwu: intuitively, it's intuitively
+
+[00:52:49.510] chuanwu: It can be intuitively see, okay, at least we have a counterexample here, so we know this is not…
+
+[00:52:56.570] chuanwu: convex function, right? So the square root absolute value of convex, and its epigraph is the area above, we know it's not a convex set, right?
+
+[00:53:08.430] chuanwu: Okay.
+
+[00:53:09.890] chuanwu: For convex function here, the epigraph covers the area above the function curve. We know it's, convex set.
+
+[00:53:18.670] chuanwu: Corresponding for the convex function.
+
+[00:53:21.250] chuanwu: Right, so it's kind of related to the curvature of the function and the curvature of the boundary of the set, right? So if the function is a typical convex function curvature, okay, so like this, then the set enclosed using this as a boundary.
+
+[00:53:39.270] chuanwu: The boundary is of convex curvature, and the Set is correct set.
+
+[00:53:45.070] chuanwu: Right.
+
+[00:53:46.380] chuanwu: Okay, so it's, it should be pretty intuitive here, and this microphone is gone again. Okay.
+
+[00:53:58.000] chuanwu: All right, I think I'll finish up on the next slide.
+
+[00:54:02.760] chuanwu: Related to proof of the property here, and… Yeah.
+
+[00:54:09.000] chuanwu: And then we will call it a day.
+
+[00:54:11.210] chuanwu: All right, so, what I'm… we are trying to prove is a probability here. So the function is convex if and only if the graph is a convex set.
+
+[00:54:22.770] chuanwu: So intuitively, I was trying… what I was trying to illustrate intuitively, geometrically, is that… think about the curvature of the set, of the, function curve, and the boundary of the convex set. So that connects flight, the function curve is function… is convex as well.
+
+[00:54:41.060] chuanwu: Yeah. SAC above is also class.
+
+[00:54:44.410] chuanwu: Alright, so we first show the sufficiency, necessity of the condition, so we know F is correct. Then, its epigraph is a collect set.
+
+[00:54:55.630] chuanwu: So we actually follow the, definition of convex function, convex set, and then we put them in the meter, interactions.
+
+[00:55:04.990] chuanwu: And the other part is the sufficiency and the convection. So if, epigraph F is convex F, the function is, convex. So two aspects to, of the, given only.
+
+[00:55:17.370] chuanwu: Eve, probably.
+
+[00:55:21.160] chuanwu: Okay.
+
+[00:55:23.410] chuanwu: All right, so we pick two points. Okay, to show the necessity, we pick two points in the upper graph. So the first point, XT1, and second point, YT2.
+
+[00:55:34.090] chuanwu: And, based on the definition of the upper graph, we know the function evaluated at X, FX is no larger than T1, and the function value evaluated at Y, FY, is no larger than T2.
+
+[00:55:48.570] chuanwu: And then we, we also know function f is correct, so therefore the adjacence inequality holds there.
+
+[00:55:56.300] chuanwu: And we do the next step in renovation.
+
+[00:56:00.790] chuanwu: FX, no larger than T1, and FY, no larger than T2. So therefore, we know the left-hand side, no larger than theta T1 plus 1 minus theta T2.
+
+[00:56:12.520] chuanwu: F? What does that tell us?
+
+[00:56:14.800] chuanwu: If you check out the leftmost part of the inequality, and check out the rightmost part of inequality, you'll know this point, okay? Convex combination of X, Y, and then convex combination of T1 and T2. This would be a point in the upper graph.
+
+[00:56:34.020] chuanwu: Right.
+
+[00:56:35.070] chuanwu: So all the way, we are using their definitions.
+
+[00:56:38.630] chuanwu: Okay, then we'll show, that epigraph F is a convex Z, because you pick any two points in the epigraph, and their convex combination is in the epigraph again.
+
+[00:56:49.860] chuanwu: So the epigraph is convex.
+
+[00:56:52.260] chuanwu: Right.
+
+[00:56:53.780] chuanwu: And then the other way around of the theorem, what we are trying to show is, if upper graph is convex set, then function f is convex. So to do that, we pick two points in the upper graph.
+
+[00:57:06.620] chuanwu: X and FX, and Y in FY. Actually, there are two special points in the upper graph. They are along the boundary of the epigraph.
+
+[00:57:15.100] chuanwu: Do you agree?
+
+[00:57:17.010] chuanwu: Because the epigraph contains all the points, this, corresponding to X coordinate X, the,
+
+[00:57:24.530] chuanwu: t-value should be larger or equal to FX. So if we exactly pick T equals FX, that means it's on the boundary of the epigraph.
+
+[00:57:32.140] chuanwu: Right, so the two points are on the boundary of the upper graph, and we do a convex combination of the two points, right? And then, using… we know the epigraph is convex, so convex combination of the two boundary points is in the upper graph as well.
+
+[00:57:49.370] chuanwu: And then we, based on the definition of epigraph, this implies the function value evaluated at the convex combination point.
+
+[00:57:58.900] chuanwu: is no larger than the last coordinate here, which is theta fx plus 1 and CTAFY. And this exactly gives us the JSON's inequality to establish convexity of function f.
+
+[00:58:12.970] chuanwu: Right.
+
+[00:58:15.020] chuanwu: Agree?
+
+[00:58:17.460] chuanwu: Okay.
+
+[00:58:23.680] chuanwu: Alright, so if you accept the proof, Zen?
+
+[00:58:28.770] chuanwu: We are good today.
+
+[00:58:30.400] chuanwu: Okay, we will call it the day, and we'll continue the rest of this set of discussions on Thursday. Okay, thank you for your attention.
+
+[00:59:05.510] chuanwu: towards the end of the, because the assignment will cover all the comments functions, which we haven't just did.
+
+[00:59:18.380] chuanwu: Two different roles throughout the lives.

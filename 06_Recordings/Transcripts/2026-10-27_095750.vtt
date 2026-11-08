@@ -1,0 +1,2682 @@
+WEBVTT
+
+1
+00:02:35.220 --> 00:02:40.149
+Chuan Wu: Alright, good morning, everyone. Welcome to today's optimization class. Let's get started.
+
+2
+00:02:40.740 --> 00:02:55.869
+Chuan Wu: We have been working on the algorithms to solve COMEX program. So, especially, we have been talking about the core theory, which is underlying most of the algorithms that we are introducing in the course, which is about strong duality, duality Innovations.
+
+3
+00:02:56.040 --> 00:03:15.860
+Chuan Wu: And we've been looking at how we have applied the CRA in designing the algorithm for unconstrained validation. And moving on, we'll be looking at more and more complex convex program, and looking at how we can design algorithms to solve them. So, especially the next step is to look at equality-constrained convex program.
+
+4
+00:03:15.860 --> 00:03:19.050
+Chuan Wu: And then we'll be moving on to your art.
+
+5
+00:03:19.290 --> 00:03:35.470
+Chuan Wu: generic convex program with equality and non-equality constraint. And we will be also looking at the programs with differentiable functions, objective constraint functions, as well as those without differentiable functions involved.
+
+6
+00:03:35.630 --> 00:03:44.090
+Chuan Wu: Okay, so moving on, we check out this equality constraint convex program. So here, objective function FX is convex.
+
+7
+00:03:44.090 --> 00:04:00.100
+Chuan Wu: And especially for the set of algorithms we are introducing, they still require that the function to be differentiable. And especially, we require it to be twice continuously differentiating. When we check out this condition, probably it reminds you of, Hashimatrix.
+
+8
+00:04:00.100 --> 00:04:08.199
+Chuan Wu: And yes, because we're calculating passion metrics, so we have to, assume that it's price differentiable, continuously differentiable.
+
+9
+00:04:08.200 --> 00:04:27.590
+Chuan Wu: And then, we have constraints. We know in convex program, the constraints have to be affined. So here we have AX equaling B, and A is a P times N matrix. So N is corresponding to the variable dimension, and P is corresponding to the number of equalities in the set of equality constraints.
+
+10
+00:04:27.760 --> 00:04:41.930
+Chuan Wu: And here, we just assume A's rank equaling P. Okay, so P equalities, and the rank of the constraint matrix A is P. That implies the, those equalities, the, the linear independent.
+
+11
+00:04:41.930 --> 00:04:57.739
+Chuan Wu: Okay, so each one of them is useful. Okay, and then we assume the optimal value, P-star, is finite and attacked, meaning we can indeed find out the optimal solution, X, achieving the minimum FX, subject to AX equaling B.
+
+12
+00:04:57.990 --> 00:04:58.810
+Chuan Wu: Okay.
+
+13
+00:04:58.890 --> 00:05:08.180
+Chuan Wu: So for such a problem, what is the optimization? So we have… we have a complex program, and all the functions involved are differentiable.
+
+14
+00:05:08.180 --> 00:05:25.599
+Chuan Wu: Then, naturally, kcating conditions are the set of sufficient and the necessary conditions to establish optimality, optimal… we can solve… we can set up, put down the kitting conditions, and then we can solve it, and then that is, optimal X star we can derive, and probably some…
+
+15
+00:05:25.670 --> 00:05:36.550
+Chuan Wu: your optimal value as well, optimal solution as well. Okay, so for such a equally constrained mitigation problem, we want to add the FKV conditions, so think about it.
+
+16
+00:05:36.650 --> 00:05:45.429
+Chuan Wu: So we know under TKD, there are four rules of conditions. So the first group is the primal constraints. Okay, primal constraint here.
+
+17
+00:05:45.580 --> 00:06:02.609
+Chuan Wu: Okay, so AX star equating B, primal constraint. And then the second group is dual constraint. So we know dual constraint is we have lambda larger than the… larger equal to zero, and lambda should be associated with inequality constraint. And for the primal problem we are checking out here, it doesn't have
+
+18
+00:06:02.660 --> 00:06:14.860
+Chuan Wu: inequality constraint group. So therefore, the viewer constraint is none. Okay, no. Okay, the second group is none. How about the third group? So the third group of KKD Foundation is saying complementary slackness.
+
+19
+00:06:14.970 --> 00:06:20.150
+Chuan Wu: When we only have equality constraints, the complementary slackness is naturally satisfied.
+
+20
+00:06:20.500 --> 00:06:25.209
+Chuan Wu: Right? Okay, so therefore, the third book is apparently also kind of…
+
+21
+00:06:25.600 --> 00:06:38.140
+Chuan Wu: Eden under AX star equaling B. And then the fourth group. So the fourth group of condition, as we saw in a few examples before, it is often the most unusable condition, set of conditions.
+
+22
+00:06:38.140 --> 00:06:45.610
+Chuan Wu: that we can apply, that we can exploit to solve the, COMEX program, okay, or more solutions.
+
+23
+00:06:45.720 --> 00:06:48.990
+Chuan Wu: Yeah, so for the, you call it the constraint.
+
+24
+00:06:49.410 --> 00:06:52.450
+Chuan Wu: Okay, for this equality constraint,
+
+25
+00:06:54.300 --> 00:07:06.229
+Chuan Wu: convex program, so let's assume mu. Okay, so this mu variable, p-dimensional, is associated with the equality constraint. Then what is Lagarangian looking like?
+
+26
+00:07:06.350 --> 00:07:24.020
+Chuan Wu: So this is its Lagrangian function, right? And then the fourth group of KKD condition is saying the gradient of the Lagarangian is all zero vector, right? So what is the gradient of this? So FX gradient is negla FX,
+
+27
+00:07:24.130 --> 00:07:29.410
+Chuan Wu: And U transpose AX. The gradient is A transpose mu.
+
+28
+00:07:30.500 --> 00:07:38.780
+Chuan Wu: Right, so the coefficient vector, which is in the projecting X wave, so that is the gradient, A transpose nu, so A transpose nu.
+
+29
+00:07:38.990 --> 00:07:42.470
+Chuan Wu: Okay, so gradient of the Lagrangian equating bureau.
+
+30
+00:07:42.620 --> 00:07:47.140
+Chuan Wu: So that is our, last group of optimality conditions.
+
+31
+00:07:47.260 --> 00:07:53.979
+Chuan Wu: Okay, so therefore, for equality constraint from X through 1 here, we essentially have two sets of
+
+32
+00:07:54.330 --> 00:07:58.650
+Chuan Wu: conditions, automatic conditions. I'll have to be summarized there.
+
+33
+00:07:58.900 --> 00:08:03.329
+Chuan Wu: Okay, so do these automatic conditions appear familiar to you?
+
+34
+00:08:04.460 --> 00:08:21.789
+Chuan Wu: So actually, we derived it, showed it earlier, when we talked about complex program. So you can check out that page, you can find out exactly the same condition there, but when we introduce the optimality foundation for equality computing optimization problem, we haven't touched the KKD condition yet.
+
+35
+00:08:21.790 --> 00:08:34.829
+Chuan Wu: But at that point, we use another way to direct a probability, where such a quality constraint comes through well. At that time, I briefly mentioned, actually, that is a special case of KD reconvation as well.
+
+36
+00:08:34.870 --> 00:08:41.230
+Chuan Wu: And yes, just now we derived the two sets of conditions that are based on the generic set of KGU combinations.
+
+37
+00:08:41.870 --> 00:08:43.360
+Chuan Wu: Okay, alright.
+
+38
+00:08:43.530 --> 00:08:55.349
+Chuan Wu: So once we have optimality conditions, that is good, because we have a target. So we know we can solve for X star, mu star, satisfying the set of optimality conditions.
+
+39
+00:08:55.350 --> 00:09:06.999
+Chuan Wu: then we are sure they are primal and the pure optimal recession, right? So that's our high-level idea of designing the algorithm to solve equality constraint complex program.
+
+40
+00:09:07.040 --> 00:09:21.819
+Chuan Wu: So we just try to find a solution to that many equations, and how many equations are there? So over here, we have N, and over there, AX star equating B, we have P. So in total, we have n plus P equations.
+
+41
+00:09:22.190 --> 00:09:24.639
+Chuan Wu: Okay, and plastic equations to solve.
+
+42
+00:09:24.830 --> 00:09:40.659
+Chuan Wu: And if we happen to know all the… if it happens that all the equations are linear equations, so, like, when FX is, quadratic, right, and then probably we can just use the algorithm to solve the system equations to solve it exactly.
+
+43
+00:09:40.700 --> 00:09:58.039
+Chuan Wu: Right? Okay. But often, F may not be quadratic, it can be other form of complex problem. So therefore, we still need numerical algorithm to solve the N plus P equations. And that comes to our algorithm, numerical algorithm design.
+
+44
+00:09:58.180 --> 00:10:11.549
+Chuan Wu: But anyway, before that, let's first check out one case where the objective function is indeed quadratic, and then we actually can exactly solve for the system of linear equations.
+
+45
+00:10:11.940 --> 00:10:14.050
+Chuan Wu: analytically, exactly.
+
+46
+00:10:14.270 --> 00:10:19.240
+Chuan Wu: Okay, so let's check it out. So here, objective function is quadratic.
+
+47
+00:10:19.400 --> 00:10:27.820
+Chuan Wu: It's a quadratic function, and P is a positive semi-definite matrix, and make sure the objective function is quadratic complex.
+
+48
+00:10:27.900 --> 00:10:39.509
+Chuan Wu: And then equality constraints, and then if we put down the optimality condition for this exact… for this exact problem. So what do we have?
+
+49
+00:10:41.060 --> 00:10:42.080
+Chuan Wu: Okay.
+
+50
+00:10:46.800 --> 00:11:06.360
+Chuan Wu: So that is a generic form of optimality condition. So we have derived on the previous slide. And for this concrete objective function, so what it becomes. So the objective function's gradient. So what is it? So the objective function's gradient is exactly here.
+
+51
+00:11:18.780 --> 00:11:25.360
+Chuan Wu: Okay, so this is the concrete set of optimality conditions for the given quadratic program.
+
+52
+00:11:25.760 --> 00:11:27.120
+Chuan Wu: Hmm. Okay.
+
+53
+00:11:27.300 --> 00:11:37.530
+Chuan Wu: And putting it down in the matrix form is exactly as what we have here. So, P multiply… sorry.
+
+54
+00:11:39.550 --> 00:11:54.239
+Chuan Wu: Okay, so P multiply X, and then plus A transpose mu equating negative Q, so Q can move to the right hands of the equation, and the second row, we have AX star equating B, so AX equating B.
+
+55
+00:11:54.760 --> 00:12:04.469
+Chuan Wu: Okay, so the… this is just a concept form, a matrix form, of expressing the MPAS P equations we derive as optimality conditions for the problem here.
+
+56
+00:12:05.010 --> 00:12:05.900
+Chuan Wu: Okay.
+
+57
+00:12:06.100 --> 00:12:16.899
+Chuan Wu: Alright, and then when we are looking at the optimality conditions expressed in this way, the coefficient matrix here has a name. It's called KKT matrix.
+
+58
+00:12:17.040 --> 00:12:22.700
+Chuan Wu: Why? Because the root of this set of conditions is KKD condition.
+
+59
+00:12:23.450 --> 00:12:34.660
+Chuan Wu: Okay, KKD matrix. And then, if the KKD matrix is non-singular, meaning it's invertible, then we can solve for X star new star uniquely.
+
+60
+00:12:35.310 --> 00:12:36.810
+Chuan Wu: And the exact ballet.
+
+61
+00:12:36.960 --> 00:12:38.489
+Chuan Wu: And in closed form.
+
+62
+00:12:38.870 --> 00:12:42.819
+Chuan Wu: Okay, kind of close form. Okay, all right.
+
+63
+00:12:43.250 --> 00:12:57.640
+Chuan Wu: Okay, so this is a special case to show, again, solving the, set of equalities, solving a set of optimality conditions, leading to the primal and your optimal solutions.
+
+64
+00:12:57.810 --> 00:13:12.930
+Chuan Wu: Okay, then in a more generic case, when F is not necessarily quadratic complex, we have to have numerical algorithm, so we cannot just inverse that KDV matrix and derive the unique optimal solution.
+
+65
+00:13:13.110 --> 00:13:15.650
+Chuan Wu: And then, what approaches do we have?
+
+66
+00:13:15.930 --> 00:13:31.610
+Chuan Wu: Okay, so we actually have a few groups of approaches. So the high-level idea, for the first approach is we already, learned about algorithm to solve unconstrained complex program. And here we have recorded the constraints.
+
+67
+00:13:32.360 --> 00:13:44.419
+Chuan Wu: Using that means we can actually remove the equality constraints, and then we can result in an unconstrained problem. And then we can just apply whatever we said the last time to solve the unconstrained complex problem.
+
+68
+00:13:44.520 --> 00:13:52.590
+Chuan Wu: And then we can recover solution to the, to the equality constraint program. Okay, so that's the idea of the first approach.
+
+69
+00:13:52.850 --> 00:13:56.870
+Chuan Wu: Okay, so how do we eliminate net equality constraints?
+
+70
+00:13:57.110 --> 00:13:59.909
+Chuan Wu: So, we talked about… we touched upon
+
+71
+00:14:00.010 --> 00:14:08.510
+Chuan Wu: Conversion of complex program to equivalent form for a few times in the course, and here it is another place that we apply the similar technique.
+
+72
+00:14:08.640 --> 00:14:09.500
+Chuan Wu: Okay.
+
+73
+00:14:09.600 --> 00:14:17.210
+Chuan Wu: So here, AX equating B, we can represent the solution in an equivalent form here.
+
+74
+00:14:17.330 --> 00:14:26.579
+Chuan Wu: Okay, so we have X satisfying AX equaling B, so the set is corresponding to FC plus X hat.
+
+75
+00:14:26.780 --> 00:14:36.730
+Chuan Wu: Okay, so that means we are replacing X by FZ plus X hat, and what are these FZ plus X hat?
+
+76
+00:14:36.910 --> 00:14:43.429
+Chuan Wu: X hat here is any particular solution satisfying AX hat equaling B.
+
+77
+00:14:43.890 --> 00:14:50.840
+Chuan Wu: And F is such a matrix that its range is no space of A.
+
+78
+00:14:50.860 --> 00:15:08.050
+Chuan Wu: Okay, its range is no space of A. So we introduced, or we revised the concept of range and the no space earlier, and here we know if the range of matrix F is no space of A, then we have AF equaling 0.
+
+79
+00:15:08.050 --> 00:15:15.059
+Chuan Wu: If you don't remember, you can always look up the background in the appendix of the textbook.
+
+80
+00:15:15.290 --> 00:15:32.659
+Chuan Wu: Okay, and here we require F's, is, F's rank is N minus P, and so this is because we assume the matrix F, F, which is of N times n minus P dimensional, has full calling rank.
+
+81
+00:15:32.890 --> 00:15:42.330
+Chuan Wu: Okay, it has full colon rank, yeah. And then, we hear the rank of A plus rank of F should be exactly N.
+
+82
+00:15:42.770 --> 00:15:48.929
+Chuan Wu: Okay, so by this assumption, what do we actually get?
+
+83
+00:15:54.530 --> 00:16:10.400
+Chuan Wu: So essentially, what we are doing is, we are replaying F, XD plus X hat. X hat is any particular solution. F is the matrix that we can construct, such that AF equaling 0.
+
+84
+00:16:10.400 --> 00:16:19.980
+Chuan Wu: And, Z is our new variable here. And Z dimension is changed. X is n-dimensional, and Z here is N-P dimensional.
+
+85
+00:16:20.990 --> 00:16:29.800
+Chuan Wu: And using this substitution, what we are sure is here. We will be sure by this construction for LED,
+
+86
+00:16:29.900 --> 00:16:34.620
+Chuan Wu: the constructed X is still satisfying the equality constraint.
+
+87
+00:16:34.810 --> 00:16:42.320
+Chuan Wu: Okay, so AX equaling AEFD plus A SHEC.
+
+88
+00:16:42.640 --> 00:16:50.440
+Chuan Wu: And we know AF equaling 0, and this is where we apply that F's known space is… the range of F is the known space of A.
+
+89
+00:16:50.640 --> 00:16:52.810
+Chuan Wu: And then, a heck.
+
+90
+00:16:53.550 --> 00:17:05.410
+Chuan Wu: AX hat, X hat is a particular solution to the equality, so therefore, we have AX hat equaling B. Okay, so therefore, we know AX equaling B.
+
+91
+00:17:05.760 --> 00:17:13.030
+Chuan Wu: Okay, so therefore, so as long as we can find out the solution for Z, we can recover a solution of X.
+
+92
+00:17:13.780 --> 00:17:15.660
+Chuan Wu: Right. Okay.
+
+93
+00:17:16.010 --> 00:17:35.820
+Chuan Wu: All right, so using this, conversion of variable, we can convert the original equality constraint optimization into an unconstrained optimization. So basically, the, X becomes FD plus X hat, and objective function becomes, function of D, and our equality constraints are gone.
+
+94
+00:17:35.840 --> 00:17:43.800
+Chuan Wu: Because by this construction, by default, we have that A as the class X hat equaling B.
+
+95
+00:17:45.100 --> 00:17:46.040
+Chuan Wu: Okay.
+
+96
+00:17:46.230 --> 00:17:53.450
+Chuan Wu: All right, then this is an unconstrained problem with new set of variable Z minus P dimensional.
+
+97
+00:17:53.560 --> 00:18:01.330
+Chuan Wu: And for unconstrained, complex program, we introduced the gradient descent and Newton's method to solve it.
+
+98
+00:18:01.440 --> 00:18:12.009
+Chuan Wu: And then, supposedly, we can solve it using one of the methods, and then we find out the optimal solution this star. From this star, we can recover X star in this way.
+
+99
+00:18:12.290 --> 00:18:19.229
+Chuan Wu: And if we like, we can also recover the optimal dual solution, Noon star, as well.
+
+100
+00:18:19.950 --> 00:18:28.450
+Chuan Wu: Okay, and to verify why NuSTAR is that way, we actually… or how we recover New Star, it's here.
+
+101
+00:18:30.770 --> 00:18:35.259
+Chuan Wu: So, we have daily transpose new, equaling
+
+102
+00:18:39.840 --> 00:18:42.030
+Chuan Wu: Negative FX.
+
+103
+00:18:42.520 --> 00:18:54.160
+Chuan Wu: Okay, and then we can multiply A, both sides, and then multiply A A transpose…
+
+104
+00:18:54.960 --> 00:18:57.370
+Chuan Wu: In words, on both sides.
+
+105
+00:19:00.350 --> 00:19:01.670
+Chuan Wu: On both sides?
+
+106
+00:19:01.990 --> 00:19:10.230
+Chuan Wu: and the left-hand side becomes mu, and the right hand side becomes exactly a transpose inverse.
+
+107
+00:19:10.490 --> 00:19:13.059
+Chuan Wu: A, blah, blah, FX.
+
+108
+00:19:13.240 --> 00:19:20.959
+Chuan Wu: Okay, so this is how we derive new stuff, by solving the first set of equalities in optimality condition.
+
+109
+00:19:22.040 --> 00:19:38.030
+Chuan Wu: Okay, so the purpose of multiplying AA transpose inverse is, if A has full draw drag, then AA transpose is guaranteed to be invertible. So we just need something invertible to cancel out the matrix in front of mu.
+
+110
+00:19:38.320 --> 00:19:40.179
+Chuan Wu: And then we can recover new.
+
+111
+00:19:43.190 --> 00:19:44.120
+Chuan Wu: Okay.
+
+112
+00:19:44.590 --> 00:19:56.919
+Chuan Wu: All right, so this is approach number one. So we just convert our new problem into an old problem that we have solution for, then we can solve the old problem and recover solution to the new problem.
+
+113
+00:19:57.200 --> 00:19:58.170
+Chuan Wu: Okay.
+
+114
+00:20:02.270 --> 00:20:05.260
+Chuan Wu: Yeah, so example, concrete example here.
+
+115
+00:20:05.420 --> 00:20:21.059
+Chuan Wu: So here we have, objective function, which is sum of a number of, convex functions together, and then we have just the one linear equality constraint. Okay, so saying that all the XIs sum up to P.
+
+116
+00:20:21.270 --> 00:20:31.849
+Chuan Wu: And we consume this condom resource allocation problem. We have a total amount of results B, I will give it to different variables, and variables, and then we hope the corresponding
+
+117
+00:20:32.030 --> 00:20:38.399
+Chuan Wu: Utility or whatever constitu function related to that variable, sum up to a smallest value.
+
+118
+00:20:40.950 --> 00:20:52.459
+Chuan Wu: Okay, we can reduce the program for an unconstrained program. So this is kind of straightforward, because we can just take,
+
+119
+00:20:52.820 --> 00:20:59.470
+Chuan Wu: XN. Okay, so we take XN, equating, we convert the equality constraint.
+
+120
+00:21:49.090 --> 00:21:51.419
+Chuan Wu: Okay, I don't need to write, it's here.
+
+121
+00:21:51.670 --> 00:22:11.650
+Chuan Wu: Okay, this is our equality constraint, and, we still follow the same… the approach idea introduced on the previous slide, and here, our constructed feasible solution as fact is B times this, vector.
+
+122
+00:22:11.740 --> 00:22:18.150
+Chuan Wu: And we have verified that It is satisfied the,
+
+123
+00:22:18.270 --> 00:22:21.600
+Chuan Wu: It incensify the… you call it the constraint.
+
+124
+00:22:24.210 --> 00:22:30.699
+Chuan Wu: So X hat here, so basically X hat is, Factor of this form.
+
+125
+00:22:30.890 --> 00:22:38.819
+Chuan Wu: 0 and only last entry is B. And then, on the matrix of X hat, sum up to exactly.
+
+126
+00:22:39.030 --> 00:22:45.140
+Chuan Wu: Okay, so X hat satisfies the equilatical string. And how… for our matrix F,
+
+127
+00:22:45.350 --> 00:22:59.260
+Chuan Wu: So F is constructed that way, so it's an identity matrix, and then calculated by this, negative 1 transpose a joule vector consisting of all the, negative words.
+
+128
+00:22:59.490 --> 00:23:08.559
+Chuan Wu: And then, we have, AF equating 0. So we come every 5. So what is our A? So our A…
+
+129
+00:23:16.170 --> 00:23:17.560
+Chuan Wu: over F…
+
+130
+00:23:23.260 --> 00:23:30.890
+Chuan Wu: Okay, so our A is, dual vector as well. Our F is n times n minus 1 dimensional.
+
+131
+00:23:31.310 --> 00:23:35.140
+Chuan Wu: And then Okay, AICleaning Bureau.
+
+132
+00:23:36.300 --> 00:23:37.650
+Chuan Wu: We can verify.
+
+133
+00:23:37.850 --> 00:23:50.180
+Chuan Wu: Alright, and then we… our objective function… where we replaced X equaling SV?
+
+134
+00:23:50.590 --> 00:23:52.010
+Chuan Wu: plus X hat.
+
+135
+00:24:02.400 --> 00:24:07.420
+Chuan Wu: Okay, F… V?
+
+136
+00:24:07.850 --> 00:24:08.760
+Chuan Wu: Thus.
+
+137
+00:24:13.640 --> 00:24:17.359
+Chuan Wu: Okay, so this is our variable substitution.
+
+138
+00:24:28.120 --> 00:24:36.549
+Chuan Wu: Okay, so that is our variable substitution, and essentially, it's to be exactly following the form here, right?
+
+139
+00:24:36.940 --> 00:24:37.860
+Chuan Wu: Okay.
+
+140
+00:24:48.090 --> 00:24:49.260
+Chuan Wu: All right.
+
+141
+00:24:49.380 --> 00:24:53.520
+Chuan Wu: Okay, so that is the approach… the first approach.
+
+142
+00:24:53.860 --> 00:24:55.280
+Chuan Wu: Ed,
+
+143
+00:24:55.860 --> 00:25:07.390
+Chuan Wu: Let's going beyond. So, other than just exploit what we have learned before, let's check out if there are new methods that we have applied to directly solve such a quality constraint coming forward.
+
+144
+00:25:07.570 --> 00:25:13.409
+Chuan Wu: So when the primal problem, okay, when the primal problem only have equality constraints.
+
+145
+00:25:13.630 --> 00:25:16.820
+Chuan Wu: And then, we can think about its viewer.
+
+146
+00:25:17.180 --> 00:25:26.579
+Chuan Wu: Before we introduce that, we can make use of your identity, derive the doer, and solve the Durer problem, and somehow recover the primal optimal solution.
+
+147
+00:25:26.640 --> 00:25:32.839
+Chuan Wu: And when we have only equality constraints in the primal problem, so this makes it more feasible.
+
+148
+00:25:32.840 --> 00:25:50.349
+Chuan Wu: So why? So, number one, when we only have equality constraints, then the dual platform is pretty much derivable, in the sense that, actually, it is the, conjugate function that is involved in the derivation step that will become part of the, dual function.
+
+149
+00:25:50.350 --> 00:25:57.830
+Chuan Wu: Number two, when the primal problem only has the equality constraints, then the dual problem possibly has no constraints.
+
+150
+00:25:57.860 --> 00:26:16.810
+Chuan Wu: Because for the dual program, the explicit constraint in the default form is lambda logical to 0, and lambda is multiplier associated with inequality constraint, but if the primal problem doesn't have inequality constraint, then it's likely that the dual problem doesn't have constraint. If the dual problem doesn't have constraint, that is a good news.
+
+151
+00:26:16.810 --> 00:26:25.049
+Chuan Wu: Because your program becomes an unconstrument program, and we already… we are already equipped with our resources of education.
+
+152
+00:26:25.310 --> 00:26:36.389
+Chuan Wu: Right? Okay. So therefore, based on the two points, let's check out how we can carry out our year of deriving the viewer, solving the viewer, and then we cover the primal optimal solution.
+
+153
+00:26:36.680 --> 00:26:43.070
+Chuan Wu: Okay, so let's see what the, Lagrange viewer of the,
+
+154
+00:26:43.260 --> 00:26:47.910
+Chuan Wu: Ecology constraint, how it's proven, what is that looking like?
+
+155
+00:26:48.040 --> 00:26:55.060
+Chuan Wu: So this is a Lagrangian. Okay, we already derived that that is a Lagrangit of the,
+
+156
+00:26:55.270 --> 00:26:57.560
+Chuan Wu: Equality constraint commands fluent.
+
+157
+00:26:59.090 --> 00:27:07.230
+Chuan Wu: Okay, that is a Lagrangian. Then, how do we derive the Lagrange viewer? So, Lagrange viewer is to minimize the Lagrangian over X.
+
+158
+00:27:07.330 --> 00:27:08.190
+Chuan Wu: Right?
+
+159
+00:27:08.220 --> 00:27:17.779
+Chuan Wu: So over here, we group the terms in the Lagrangian, which is related to X, so which is FX plus nu transpose AX.
+
+160
+00:27:17.780 --> 00:27:28.719
+Chuan Wu: And the term that is not relevant to X goes out, so that is negative B nu transpose B, or B transpose nu, so it's here. This is a Lagrangian function.
+
+161
+00:27:28.720 --> 00:27:38.109
+Chuan Wu: And then we can convert the Lagrangian's infam calculator part here. It's very relevant to a calculation of conjugate function of F.
+
+162
+00:27:38.110 --> 00:27:44.359
+Chuan Wu: And we convert it to the form more conforming to how we calculated the conjugate function, so it's here.
+
+163
+00:27:44.360 --> 00:27:58.589
+Chuan Wu: So we replace infinite over X by supreme over X of the negative. Okay, negative of the supreme of the function over X, and the function here needs to be additively negative as well, okay?
+
+164
+00:27:58.590 --> 00:28:04.970
+Chuan Wu: So here, we have a negative FX, and then we have negative A nu transpose AX here.
+
+165
+00:28:05.860 --> 00:28:19.090
+Chuan Wu: And then, this supremum part is pretty much conforming to the conjugate function's calculation form, and it is exactly the conjugate function of F evaluated at negative A transpose nu.
+
+166
+00:28:19.270 --> 00:28:28.299
+Chuan Wu: So recall in the formula deriving a conjugate function, this is a vector Y part, and Y is negative A transpose nu in our formulation here.
+
+167
+00:28:29.750 --> 00:28:30.700
+Chuan Wu: Okay.
+
+168
+00:28:30.820 --> 00:28:44.659
+Chuan Wu: And then, if we do know the conjugate function of function f, or it's readily derivable by yourself, or already derived in the literature, then we can put down the actual form of the dual function.
+
+169
+00:28:44.880 --> 00:28:48.369
+Chuan Wu: And then the Dior problem is to maximize the Dior function.
+
+170
+00:28:48.750 --> 00:28:52.930
+Chuan Wu: Without, possibly without, explicit constraint.
+
+171
+00:28:54.060 --> 00:29:07.050
+Chuan Wu: Okay, so in the default form of dual program formulation, so if the primal constraint… a primal problem doesn't have inequality constraints, then indeed we don't have explicit constraints in the dual problem.
+
+172
+00:29:07.050 --> 00:29:16.179
+Chuan Wu: But often, when we are deriving the conjugate function, some condition may appear, and those conditions may appear as part of the Durer constraint.
+
+173
+00:29:16.210 --> 00:29:24.839
+Chuan Wu: Right? Okay, so therefore, that's what we say. Possibly the dual problem is unconstrained. If the dual problem is indeed unconstrained.
+
+174
+00:29:24.960 --> 00:29:33.080
+Chuan Wu: Then, we can solve it using the algorithm we introduced earlier, because we know any dual problem is going to need to be convexproof.
+
+175
+00:29:33.470 --> 00:29:44.979
+Chuan Wu: And if we further know the Durer function here is twice differentiable, then we can apply our descent, or Newton's descent, gradient descent methods.
+
+176
+00:29:45.350 --> 00:29:47.100
+Chuan Wu: To solve it exactly.
+
+177
+00:29:47.240 --> 00:29:58.840
+Chuan Wu: And then what we have solved for is optimal solution, new star to the dual problem. And then how do we recover the primal program? The primal program's optimal solution?
+
+178
+00:29:59.020 --> 00:30:07.070
+Chuan Wu: So we exploit strong duality. So we know for equality constraint convex program, strong duality always holds.
+
+179
+00:30:07.160 --> 00:30:24.100
+Chuan Wu: So think about Slater's constraint codification. So Slater's constraint codification is saying that we have to have a strictly feasible primal solution for it to hold, right? But we said a strictly feasible condition is kind of exempted for equality constraints.
+
+180
+00:30:24.600 --> 00:30:33.469
+Chuan Wu: Right, okay. So therefore, that also implies for CAX program, with only quality constraints, strong duality always holds.
+
+181
+00:30:33.770 --> 00:30:48.179
+Chuan Wu: So once strong duality holds, we have a nice property to recover the primal optimal solution, because the primal optimal solution is the X that minimizes Lagrangian at the dual optimal solution nil star.
+
+182
+00:30:48.330 --> 00:30:53.859
+Chuan Wu: And this property is not new, either. We introduced… we actually derived it earlier.
+
+183
+00:30:54.240 --> 00:31:12.980
+Chuan Wu: Okay, so when we introduce complementary slackness KKD condition, so one of the other properties we have shown, derived and shown, is that X star is a minimizer of the Lagrangian at the new star. If you don't remember, go back to check it out, our slides, because this is a very important property.
+
+184
+00:31:13.190 --> 00:31:37.930
+Chuan Wu: related to strong duality that we are making use of here, when solving equality constraint convex program. And actually, not only equality constraint convex program, this property in general holds, and even for equality and inequality constraint convex program, we can use this property to recover primer optimal solution once we know the dual optimal solution, and once we know strong duality holds
+
+185
+00:31:37.930 --> 00:31:40.009
+Chuan Wu: For the current program, we are.
+
+186
+00:31:40.010 --> 00:31:40.890
+Chuan Wu: working on.
+
+187
+00:31:41.860 --> 00:31:46.640
+Chuan Wu: Okay, so therefore, this is, approach number two.
+
+188
+00:31:46.770 --> 00:32:04.949
+Chuan Wu: To some extent, this approach still makes use of what we have, you know, the algorithm we have known, because here, what we want to exploit is the dual program is unconstrained, and we already introduced our reason to solve unconstrained complex program, so we can apply it to solve the dual program here.
+
+189
+00:32:05.260 --> 00:32:06.390
+Chuan Wu: Okay.
+
+190
+00:32:06.900 --> 00:32:23.379
+Chuan Wu: All right, example. So here we are minimizing a negative sum of log objective function. So we know negative sum of log is convex function. We are minimizing a convex objective function subject to equality constraints.
+
+191
+00:32:23.570 --> 00:32:37.989
+Chuan Wu: And, supposing that we know what the conjugate or objective function is, so we can derive it. Actually, textbook also gives it, and if you like, you can also
+
+192
+00:32:38.140 --> 00:32:56.420
+Chuan Wu: using that exercise to try to derive the Lagrangian, okay? We know the Lagrangian is there, and therefore, we can directly put down the dual program score, okay? The dual program is maximized negative B transpose new, plus the
+
+193
+00:32:56.600 --> 00:33:05.700
+Chuan Wu: conjugate, negative of the conjugate function, evaluated at H transpose nu. So that is what we derived on the previous slide.
+
+194
+00:33:11.140 --> 00:33:16.739
+Chuan Wu: Right. What we are doing here is just plugging in a concrete form of F star.
+
+195
+00:33:16.960 --> 00:33:20.150
+Chuan Wu: evaluated as an active A transpose mode.
+
+196
+00:33:20.740 --> 00:33:24.570
+Chuan Wu: Elf? And in this example.
+
+197
+00:33:24.700 --> 00:33:43.500
+Chuan Wu: nicely that we do not have explicit constraint for the Dural program. We do have a domain for the dual objective function, because anything following log has to be positive, right? But we don't really have explicit data. Other than that, we don't have explicit constraint.
+
+198
+00:33:43.540 --> 00:33:59.130
+Chuan Wu: And then we can solve the dual probab using the same methods that we have introduced earlier, and suppose we can solve for optimal mu star. And after solving the dual work, we can recover the primal optimal solution.
+
+199
+00:33:59.280 --> 00:34:07.659
+Chuan Wu: And because the primal optimal solution would be the one that is, minimizing the, Lagrams here.
+
+200
+00:34:07.910 --> 00:34:13.659
+Chuan Wu: And for the program here, what is the… not wrong yet? Like…
+
+201
+00:34:22.889 --> 00:34:25.930
+Chuan Wu: The Lagrangian is here.
+
+202
+00:34:38.590 --> 00:34:42.790
+Chuan Wu: This is a Lagrangian of our concrete propagation program here.
+
+203
+00:34:43.739 --> 00:34:45.820
+Chuan Wu: And we want to find out
+
+204
+00:34:46.260 --> 00:34:53.989
+Chuan Wu: X that is minimizing X, and the optimal solution new to the program.
+
+205
+00:34:54.699 --> 00:34:58.999
+Chuan Wu: And how do we solve this problem, this minimization problem?
+
+206
+00:34:59.480 --> 00:35:03.529
+Chuan Wu: So again, this minimization program is, unconstrained.
+
+207
+00:35:04.390 --> 00:35:05.250
+Chuan Wu: Ed?
+
+208
+00:35:05.440 --> 00:35:07.520
+Chuan Wu: Unconstrained complex.
+
+209
+00:35:08.130 --> 00:35:14.899
+Chuan Wu: And then we can apply the technique of deriving its Lagarangian, deriving its gradient, and setting the gradient to zero.
+
+210
+00:35:15.100 --> 00:35:16.720
+Chuan Wu: And then we can cover it.
+
+211
+00:35:17.230 --> 00:35:18.170
+Chuan Wu: Okay.
+
+212
+00:35:19.390 --> 00:35:28.849
+Chuan Wu: So, or more particularly, we can calculate the partial derivative of the function with respect to every Xi, and set it to 0.
+
+213
+00:35:29.520 --> 00:35:33.110
+Chuan Wu: And then we can recover every XI, respectively.
+
+214
+00:35:33.260 --> 00:35:34.200
+Chuan Wu: Okay.
+
+215
+00:35:34.410 --> 00:35:40.649
+Chuan Wu: And what is the partial derivative of the function there?
+
+216
+00:35:47.290 --> 00:35:55.179
+Chuan Wu: So, Asian exposed newly subscript I represented the ice component in the co-inhibition vector there.
+
+217
+00:35:55.280 --> 00:35:57.410
+Chuan Wu: and then sending it to Lero.
+
+218
+00:35:58.650 --> 00:36:06.460
+Chuan Wu: And we can recover that X equals 1 over A transpose mu i squared.
+
+219
+00:36:09.800 --> 00:36:10.700
+Chuan Wu: Okay
+
+220
+00:36:14.370 --> 00:36:28.690
+Chuan Wu: All right, so then we actually have a close form connection between, dual solution nu and the primal optimal solution X star, Xi, and then when we know mu, we can plug it in, and we can recover optimal Xi.
+
+221
+00:36:29.190 --> 00:36:31.020
+Chuan Wu: to the Primal Program.
+
+222
+00:36:40.070 --> 00:36:43.350
+Chuan Wu: Alright, I hope this is clear.
+
+223
+00:36:44.550 --> 00:36:56.999
+Chuan Wu: So that's the second approach of solving the quality constraint convex program. And moving on, we'll be looking at more methods which apply more directly to solve the primal nucleality constraint convex program.
+
+224
+00:36:57.210 --> 00:37:08.070
+Chuan Wu: Okay, rather than exploiting what we already learned before, we just can reintroduce new methods that directly work on solving the equality constraint, validation program.
+
+225
+00:37:08.230 --> 00:37:09.400
+Chuan Wu: COMEX robot.
+
+226
+00:37:09.700 --> 00:37:19.930
+Chuan Wu: Okay, and the new method we are introducing is still under the umbrella of Newton's methods, or they belong to the family of Newton's methods.
+
+227
+00:37:20.090 --> 00:37:38.979
+Chuan Wu: Okay, we introduced Newton's methods as a more efficient algorithm to solve, unconstrained convex program, and, if you still remember, so it incurs a conjecting convergence when close to optimality, so more efficient than a gradient descent method.
+
+228
+00:37:39.040 --> 00:37:48.810
+Chuan Wu: And in Newton's method, there are two important quantities. So one is Newton's decrement, and one is Newton's direction, and the other is Newton's decrement.
+
+229
+00:37:49.020 --> 00:38:08.019
+Chuan Wu: And here we introduce additional Newton's method to directly work on equality constraint optimization, and again, the two important quantities still exist. And we will check out that they are following different forms from the two important quantities we introduced last time.
+
+230
+00:38:08.300 --> 00:38:21.949
+Chuan Wu: Okay, then before we see concrete Newton's decrement, Newton's direction, and let's introduce the general idea of this Newton's method to solve, we call it the constrained convex program.
+
+231
+00:38:22.260 --> 00:38:26.559
+Chuan Wu: And, we… the algorithm starts with a feedable X.
+
+232
+00:38:26.720 --> 00:38:28.830
+Chuan Wu: They're the first iterate.
+
+233
+00:38:29.030 --> 00:38:34.710
+Chuan Wu: And, featable meaning AX0 equaling B. Satisfied the inequality constraints.
+
+234
+00:38:36.690 --> 00:38:46.060
+Chuan Wu: And in then, in every iteration, what we know, what we do is, we find out a Newton's direction for the current step.
+
+235
+00:38:46.210 --> 00:38:48.739
+Chuan Wu: Okay, so feasible direction.
+
+236
+00:38:48.750 --> 00:38:58.960
+Chuan Wu: And Newton's direction, or Newton's step for this current iteration, is to be a feasible direction. So what does it mean by being a feasible direction?
+
+237
+00:38:58.960 --> 00:39:13.049
+Chuan Wu: So basically, we know if we find out Newton's direction in this way, delta X and T, and we do the update of the iterating in this way, we multiply the Newton's direction by a step less, or step size T.
+
+238
+00:39:13.100 --> 00:39:21.960
+Chuan Wu: And then we increment XK, the case iterate by 8, and then we come up with, XK plus 1, the K plus 1's iterate.
+
+239
+00:39:22.360 --> 00:39:29.349
+Chuan Wu: And we always require that after update, the new iterate still satisfy AX equity.
+
+240
+00:39:30.040 --> 00:39:46.410
+Chuan Wu: That means, in this Newton's method, we want to introduce, from beginning to end, all the iterate. Every iterate, X0, X1, X2, X, up to XK, satisfy the equality constraints. So that's why we call it kind of a feasible.
+
+241
+00:39:46.840 --> 00:39:47.710
+Chuan Wu: Nope.
+
+242
+00:39:48.740 --> 00:39:50.060
+Chuan Wu: You can's message.
+
+243
+00:39:50.270 --> 00:40:03.480
+Chuan Wu: Okay, so when we, what does it imply? That, XK plus P delta X and T still satisfy X equaling B. We can immediately derive
+
+244
+00:40:03.860 --> 00:40:08.520
+Chuan Wu: that we… what we want is exactly AX.
+
+245
+00:40:09.120 --> 00:40:13.180
+Chuan Wu: A multiplying Newton's direction is 0.
+
+246
+00:40:24.570 --> 00:40:32.979
+Chuan Wu: Okay, so we won't… that's equaling 8, multiplying that updated iterate, equaling B.
+
+247
+00:40:33.230 --> 00:40:40.740
+Chuan Wu: And that gives us AXP plus T times A delta X in P equaling B.
+
+248
+00:40:42.430 --> 00:40:45.410
+Chuan Wu: Because XK is a feasible solution.
+
+249
+00:40:45.700 --> 00:40:48.969
+Chuan Wu: So therefore, we know AXK equaling B.
+
+250
+00:40:49.690 --> 00:40:55.070
+Chuan Wu: And then what the results is A times delta X and T has to be exactly 0.
+
+251
+00:40:56.320 --> 00:40:57.350
+Chuan Wu: Okay.
+
+252
+00:40:58.770 --> 00:41:05.210
+Chuan Wu: Alright, so in this feasible Newton's methods,
+
+253
+00:41:05.240 --> 00:41:16.040
+Chuan Wu: And then, there's a high-level idea, okay? The, we will put up a sketch of the Newton's algorithm. It appears very much like the Newton's methods we have introduced last time.
+
+254
+00:41:16.040 --> 00:41:28.440
+Chuan Wu: And the difference lies in over Newton's direction. If Newton's decrement, the two most important quantities in Newton's vanity would change. Only all the way of derivation would change as well.
+
+255
+00:41:28.520 --> 00:41:32.369
+Chuan Wu: Okay, so how do we find out the, Newton's reaction here?
+
+256
+00:41:32.520 --> 00:41:51.389
+Chuan Wu: So the Newton's direction here… so the high-level idea is similar as before. Before, when we introduced, delta X and T in Newton's method without X basic, solving unconstrained optimization problem, we say that the delta X and T should be the Newton's direction.
+
+257
+00:41:51.390 --> 00:41:56.510
+Chuan Wu: That is minimize the second-order approximation of the objective function.
+
+258
+00:41:57.440 --> 00:42:06.480
+Chuan Wu: Okay, so X plus delta X and T should be a minimizer of the second-order approximation of the convex program.
+
+259
+00:42:06.640 --> 00:42:14.430
+Chuan Wu: objective function in the unconstrained case. And similar idea applies here. Now, on our…
+
+260
+00:42:14.590 --> 00:42:16.900
+Chuan Wu: Our projective function is still FX.
+
+261
+00:42:17.060 --> 00:42:31.050
+Chuan Wu: And we are still doing second-order approximation here. Okay, so we use F hat to represent the second-order approximation of the objective function, convex of objective function we have, and then this is the second-order Taylor approximation.
+
+262
+00:42:31.160 --> 00:42:49.679
+Chuan Wu: And constraints. So what's in addition is we want, after update, X plus X delta X and T, the new iterate is still feasible. Okay, constraint. So therefore, the second-order approximation program that we are
+
+263
+00:42:49.900 --> 00:42:58.569
+Chuan Wu: that we are solving to come up with the best Newton's direction would be a constrained quadratic program.
+
+264
+00:42:59.030 --> 00:43:01.890
+Chuan Wu: Okay, constraint contracted program.
+
+265
+00:43:02.720 --> 00:43:15.009
+Chuan Wu: And how do we solve for this constraint contracted problem? So this chondriatic program, objective function, and then constraints is exactly conforming to the,
+
+266
+00:43:15.280 --> 00:43:17.329
+Chuan Wu: To the constraint.
+
+267
+00:43:17.500 --> 00:43:18.660
+Chuan Wu: quadratic.
+
+268
+00:43:18.810 --> 00:43:26.309
+Chuan Wu: convex program that we already derived a KKT matrix standard and solution method for.
+
+269
+00:43:26.610 --> 00:43:36.450
+Chuan Wu: A while ago. Okay, so here, the problem of deriving delta X and T is to solve this, COMEX program.
+
+270
+00:43:36.450 --> 00:43:49.510
+Chuan Wu: And we know it's, and we can derive its KKD condition or optimality condition, and its optimality condition is, expressed this way, and if you check it back.
+
+271
+00:43:49.720 --> 00:44:03.410
+Chuan Wu: If you check it back, the… what we have on slide 4, this is just another concrete form of the same, of, quadratic objective function with,
+
+272
+00:44:04.240 --> 00:44:05.840
+Chuan Wu: You call it a constraint?
+
+273
+00:44:11.720 --> 00:44:15.889
+Chuan Wu: Or putting it down in slightly more detail.
+
+274
+00:44:25.250 --> 00:44:42.130
+Chuan Wu: the program here, okay, check out objective function. So now, X is given… our variable is V. So V optimal solution would be our delta X and T, the Newton's direction for update to the optimal… the primal iterate with.
+
+275
+00:44:42.210 --> 00:44:50.570
+Chuan Wu: And, V is our, V is our variable, and X is known, and, how…
+
+276
+00:44:51.010 --> 00:45:02.770
+Chuan Wu: And in the constraint, similarly, X is known, and V is our variable. And if you'll go back to slide 4, the fourth slide that we introduced today.
+
+277
+00:45:04.070 --> 00:45:04.920
+Chuan Wu: And…
+
+278
+00:45:08.990 --> 00:45:18.299
+Chuan Wu: Yep, we don't have to go back to that. We can directly derive the, directly derive the KG&E matrix and automatically notation here.
+
+279
+00:45:21.630 --> 00:45:24.609
+Chuan Wu: Okay, so put the objective function down.
+
+280
+00:45:24.770 --> 00:45:25.860
+Chuan Wu: Again?
+
+281
+00:45:26.350 --> 00:45:28.540
+Chuan Wu: Our variable is V.
+
+282
+00:45:44.200 --> 00:45:53.339
+Chuan Wu: And all the number FX, Haian matrix FX and FX are given, okay, because now we know X, and the variable is V.
+
+283
+00:45:53.540 --> 00:45:56.040
+Chuan Wu: And then we have Amy.
+
+284
+00:45:57.380 --> 00:45:58.640
+Chuan Wu: equally.
+
+285
+00:46:02.090 --> 00:46:04.010
+Chuan Wu: Nactive AX.
+
+286
+00:46:04.770 --> 00:46:05.800
+Chuan Wu: That's B.
+
+287
+00:46:07.940 --> 00:46:08.790
+Chuan Wu: 4?
+
+288
+00:46:11.480 --> 00:46:14.230
+Chuan Wu: Okay, so that's our equality constraint.
+
+289
+00:46:14.450 --> 00:46:17.879
+Chuan Wu: And, like, around you.
+
+290
+00:46:18.470 --> 00:46:24.859
+Chuan Wu: So, Lagrangian, And secure. So suppose nothing's not blue.
+
+291
+00:46:25.050 --> 00:46:32.799
+Chuan Wu: Actually, omega. We just call it W. The W is the multiplier.
+
+292
+00:46:32.910 --> 00:46:35.100
+Chuan Wu: Associate with a set of…
+
+293
+00:46:38.790 --> 00:46:41.579
+Chuan Wu: With a set of equalistic constraints there.
+
+294
+00:46:41.710 --> 00:46:44.080
+Chuan Wu: And this is our last round jip.
+
+295
+00:46:44.270 --> 00:46:46.820
+Chuan Wu: Right, so this is our Lagrangian puncture.
+
+296
+00:46:48.200 --> 00:46:55.019
+Chuan Wu: And, Lagrangian functions, gradient should vanish, so gradient, calculation.
+
+297
+00:46:55.190 --> 00:46:59.350
+Chuan Wu: of the Lagrangian function with respect to Me.
+
+298
+00:47:00.080 --> 00:47:04.349
+Chuan Wu: What does it give is… The first term…
+
+299
+00:47:05.010 --> 00:47:09.890
+Chuan Wu: becomes 1 half, multiply 2 times the matrix in the middle, and then V.
+
+300
+00:47:10.090 --> 00:47:14.760
+Chuan Wu: And then, nebula FX for invisible vector, And then…
+
+301
+00:47:17.340 --> 00:47:21.589
+Chuan Wu: A transpose W as the coefficient vector to me.
+
+302
+00:47:21.820 --> 00:47:24.600
+Chuan Wu: That is our background kit.
+
+303
+00:47:25.140 --> 00:47:31.520
+Chuan Wu: gradient of the Labrangian, which result to B. So again, X is given now, V is our variable.
+
+304
+00:47:32.000 --> 00:47:32.870
+Chuan Wu: Okay.
+
+305
+00:47:33.070 --> 00:47:38.240
+Chuan Wu: And then we have, optimize the condition.
+
+306
+00:47:38.410 --> 00:47:43.439
+Chuan Wu: One set, and the other set optimized condition for that program.
+
+307
+00:47:43.700 --> 00:47:49.440
+Chuan Wu: is, the equality constraint. The equality constraint is exactly…
+
+308
+00:47:49.560 --> 00:47:52.300
+Chuan Wu: A times X plus B equals C.
+
+309
+00:47:53.730 --> 00:47:54.530
+Chuan Wu: Okay.
+
+310
+00:47:54.970 --> 00:47:58.640
+Chuan Wu: And, you will find out the…
+
+311
+00:47:59.510 --> 00:48:14.959
+Chuan Wu: The concise matrix form of expression here is exactly the two sets of optimality conditions we just derived. So we have hash matrix, FX multiplied V plus, A plus
+
+312
+00:48:15.100 --> 00:48:18.410
+Chuan Wu: A transpose W, and then,
+
+313
+00:48:18.660 --> 00:48:32.909
+Chuan Wu: Nebula FX moves to the right-hand side, becomes negative FX. And then the second row here is exactly AEW equating 0. Okay, AW equating 0, where does it come from?
+
+314
+00:48:33.230 --> 00:48:40.030
+Chuan Wu: So, AX plus A… B, eQuery.
+
+315
+00:48:40.390 --> 00:48:46.739
+Chuan Wu: B. So we know AX equaling B. So what we have is AB equals 0.
+
+316
+00:48:47.940 --> 00:48:50.969
+Chuan Wu: Okay. AV equaling zero.
+
+317
+00:48:52.290 --> 00:49:11.920
+Chuan Wu: Okay, and of course, you can also derive the same equality here, equation here, by plugging the concrete matrix and other values into the form on slide 4 as well. Slide 4 is treating a program of exactly the same general form.
+
+318
+00:49:12.340 --> 00:49:25.559
+Chuan Wu: Okay, and again, the coefficient matrix here is called the KKD matrix, and we can reverse it and, come up with the optimal solution, V and W.
+
+319
+00:49:25.560 --> 00:49:42.010
+Chuan Wu: And, in this Newton's method we are introducing here, we do not make use of W. W is just kind of the dual variable to the… to this second-order approximation program, and it's auxiliary. And what we exactly want is, V.
+
+320
+00:49:42.420 --> 00:49:49.320
+Chuan Wu: And, Newton's step or Newton's direction is, derived by inverting the KKD matrix.
+
+321
+00:49:49.940 --> 00:49:56.050
+Chuan Wu: And, Newton's step is only defined at points where the KKD matrix is invertible.
+
+322
+00:49:56.930 --> 00:50:06.779
+Chuan Wu: Okay, invert the KKD matrix and come up with, optimal B as our delta X and T, and use that delta X and T in our Newton step.
+
+323
+00:50:08.430 --> 00:50:09.390
+Chuan Wu: Okay.
+
+324
+00:50:10.300 --> 00:50:15.120
+Chuan Wu: So this is how… that's how we derive the Newton's direction.
+
+325
+00:50:16.190 --> 00:50:20.210
+Chuan Wu: in this Newton's method to solve the constraint complex program.
+
+326
+00:50:20.350 --> 00:50:35.230
+Chuan Wu: And the rationale. Okay, so again, the rationale is similar as before. Why we solve Newton's direction as the best direction, then we update X with that minimized second-order approximation of the objective function.
+
+327
+00:50:35.470 --> 00:50:41.610
+Chuan Wu: The rationale is again here. So when, F is near quadratic.
+
+328
+00:50:41.780 --> 00:50:52.949
+Chuan Wu: And usually for near optimality, near optimal solution at star, the function curve is pretty quadratic, pretty much like the curve of quadratic curve.
+
+329
+00:50:53.080 --> 00:51:00.080
+Chuan Wu: X plus X is near quadratic, X plus delta X and T is a good estimate of X star.
+
+330
+00:51:00.230 --> 00:51:05.780
+Chuan Wu: And W is a good estimate of the optimal drawer value, new scarf.
+
+331
+00:51:06.490 --> 00:51:10.750
+Chuan Wu: So the same rationale as before, as what we have introduced.
+
+332
+00:51:15.630 --> 00:51:25.589
+Chuan Wu: Okay, Newton's direction, or step, is an important quantity in Newton's methods, and then the other important quantity is Newton's frequent.
+
+333
+00:51:25.790 --> 00:51:37.320
+Chuan Wu: And in the, current Newton's method, we are introducing for solving equality constraint complex problem, the, Newton's increment is defined as on the
+
+334
+00:51:37.440 --> 00:51:39.370
+Chuan Wu: As, as a way here.
+
+335
+00:51:39.600 --> 00:51:53.340
+Chuan Wu: So it's… it has two ways of calculation. So the first way of calculating entry is the relate… the two-way calculation is mostly related to the Newton's increment, the Newton's direction, delta X and T.
+
+336
+00:51:53.660 --> 00:52:05.780
+Chuan Wu: And, you will find out if you compare this definition of Newton's decrement with what we introduced last time, the Newton's decrement definition.
+
+337
+00:52:06.280 --> 00:52:14.149
+Chuan Wu: for Newton's method to solve unconstrained appendation. You will find out the…
+
+338
+00:52:16.370 --> 00:52:24.890
+Chuan Wu: The first way of defining nucleus decrement as a function of delta X and T is the same as what we defined earlier.
+
+339
+00:52:25.370 --> 00:52:38.929
+Chuan Wu: And because delta X and T are calculated differently, here in the Newton's method here, and in the Newton's method we introduced last time, so therefore, the lambda X's actual values would change, would be different.
+
+340
+00:52:39.400 --> 00:52:43.019
+Chuan Wu: between the two methods, between the two Newton's methods.
+
+341
+00:52:43.680 --> 00:52:46.260
+Chuan Wu: Okay,
+
+342
+00:52:56.060 --> 00:53:08.189
+Chuan Wu: Okay, what I was saying is here. So this, representation of Newton's decrement is like what we introduced earlier, and then for the second step of,
+
+343
+00:53:09.130 --> 00:53:26.829
+Chuan Wu: alternate… second step of approach to calculate lambda X, why the first, approach here is equivalent. So it's exactly based on the, step, how we derive the Newton's, direction.
+
+344
+00:53:27.370 --> 00:53:30.579
+Chuan Wu: Here, for the first of the melody condition.
+
+345
+00:53:33.980 --> 00:53:37.669
+Chuan Wu: From the first optimality condition, what we know?
+
+346
+00:53:38.650 --> 00:53:47.700
+Chuan Wu: S… Okay, so replacing V by delta X and T, we know that it's always satisfied.
+
+347
+00:53:47.900 --> 00:53:52.540
+Chuan Wu: And if we multiply in delta X and T,
+
+348
+00:53:56.110 --> 00:53:59.329
+Chuan Wu: Transpose for all the entries.
+
+349
+00:53:59.960 --> 00:54:01.070
+Chuan Wu: in there.
+
+350
+00:54:01.820 --> 00:54:05.219
+Chuan Wu: Okay, so the, first entry is…
+
+351
+00:54:10.040 --> 00:54:14.039
+Chuan Wu: Like that. And the second entry is inner product.
+
+352
+00:54:14.190 --> 00:54:17.310
+Chuan Wu: between… Athletics?
+
+353
+00:54:18.830 --> 00:54:19.670
+Chuan Wu: Ed?
+
+354
+00:54:21.850 --> 00:54:24.160
+Chuan Wu: Zelda, excellent.
+
+355
+00:54:24.780 --> 00:54:27.670
+Chuan Wu: And then, the third entry is gone.
+
+356
+00:54:28.080 --> 00:54:32.969
+Chuan Wu: Why? Because the third entry is exactly A,
+
+357
+00:54:39.330 --> 00:54:41.049
+Chuan Wu: S and P.
+
+358
+00:54:41.660 --> 00:54:43.649
+Chuan Wu: transpose W.
+
+359
+00:54:44.750 --> 00:54:48.229
+Chuan Wu: And we know A delta X and Z is 0.
+
+360
+00:54:48.560 --> 00:54:55.160
+Chuan Wu: As we derived earlier today, so the last entry is gone. And then what we have is this…
+
+361
+00:54:55.350 --> 00:54:58.430
+Chuan Wu: Newton's reaction transpose Hessian matrix.
+
+362
+00:54:58.600 --> 00:55:06.259
+Chuan Wu: Newton's direction equals vectors of the inverse reduction between the gradient vector and delta axon.
+
+363
+00:55:06.780 --> 00:55:12.090
+Chuan Wu: So that's what… how we derive the third… the second equation here.
+
+364
+00:55:13.610 --> 00:55:19.110
+Chuan Wu: Okay, because this entry equals negative of that entry, as we direct.
+
+365
+00:55:25.650 --> 00:55:26.560
+Chuan Wu: Okay.
+
+366
+00:55:27.170 --> 00:55:28.719
+Chuan Wu: Alright,
+
+367
+00:55:28.870 --> 00:55:42.570
+Chuan Wu: And, why do we need a Newton's increment? As in the Newton's method we introduced earlier, we know the lambda X Newton's increment is related to how close we are to optimality.
+
+368
+00:55:42.870 --> 00:55:50.950
+Chuan Wu: Or it renders a quantitative that you can evaluate how close our showing solution is to optimal solution.
+
+369
+00:55:51.260 --> 00:56:00.959
+Chuan Wu: And that is based on two rationales. So the first rationale is, it gives this lambda X, Newton's decrement, gives an estimate.
+
+370
+00:56:01.230 --> 00:56:03.120
+Chuan Wu: Ugh, SX.
+
+371
+00:56:06.740 --> 00:56:24.599
+Chuan Wu: of FX minus P star. So FX evaluated the current iterate, if we are using quadratic approximation. So the idea is here, so FX minus P star, evaluated using quadratic approximation of F hat, is this.
+
+372
+00:56:24.600 --> 00:56:41.960
+Chuan Wu: So, our P-star primal optimist optimal value is F hat… F hat evaluated from the current point X plus the Newton's direction plus a direction, subject to the, constraints.
+
+373
+00:56:42.190 --> 00:56:49.500
+Chuan Wu: And, we are able to show the difference here is 1 half of lambda squared.
+
+374
+00:56:50.110 --> 00:56:51.880
+Chuan Wu: Okay.
+
+375
+00:56:52.090 --> 00:57:06.720
+Chuan Wu: So essentially, the minimization problem here is a minimization problem we are solving when deriving Newton's direction. That means optimal solution V-star here is our Newton's direction.
+
+376
+00:57:06.720 --> 00:57:14.900
+Chuan Wu: And, FX minus F hat X plus delta X in t, based on the formula of,
+
+377
+00:57:14.910 --> 00:57:24.579
+Chuan Wu: second-order approximation, so we know, this is exactly FX plus all the entry here, and FX minus 8, then FX
+
+378
+00:57:25.140 --> 00:57:29.540
+Chuan Wu: Entry is canceled, and what we are remaining with is the right-hand side.
+
+379
+00:57:32.870 --> 00:57:49.189
+Chuan Wu: Okay, and the right-hand side, according to the definition of lambda X, and what we have derived, is pretty much just one half of lambda squared. Okay, you can plug in lambda squared, and then, you know, this equals that.
+
+380
+00:57:49.720 --> 00:57:51.990
+Chuan Wu: And then…
+
+381
+00:57:55.480 --> 00:57:56.400
+Chuan Wu: Right.
+
+382
+00:57:57.880 --> 00:58:01.740
+Chuan Wu: So, one half of, lambda squared remains.
+
+383
+00:58:03.100 --> 00:58:13.800
+Chuan Wu: Okay, so what I was saying is how we derive the right-hand side. When it's equivalent to 1 half lambda squared, you can just plug in the lambda X here.
+
+384
+00:58:18.350 --> 00:58:22.020
+Chuan Wu: I don't need to do the detailed derivation, right?
+
+385
+00:58:22.210 --> 00:58:25.060
+Chuan Wu: Okay, it's quite straightforward here.
+
+386
+00:58:25.270 --> 00:58:44.299
+Chuan Wu: Okay, so that's the first approach of interpreting lambda X, how it is relevant to how close we are to optimality. So the second approach is here. The lambda… negative lambda squared is directional derivative of the objective function in the Newton's direction.
+
+387
+00:58:44.300 --> 00:58:48.970
+Chuan Wu: So basically, the two interpretations here are consistent with what we introduced
+
+388
+00:58:48.970 --> 00:59:00.330
+Chuan Wu: for lambda X in the Newton's method for solving unconstrained optimization. What is the directional derivative? So, concrete definition of directional derivative is here.
+
+389
+00:59:02.680 --> 00:59:17.540
+Chuan Wu: Okay, so X moved away from X by a small amount of T along the Newton's direction. Its concrete calculation is here, so F evaluated after X update minus FX divided by T.
+
+390
+00:59:17.540 --> 00:59:24.149
+Chuan Wu: And we hope that t goes to a very small value. So that is a very original definition of directional derivative.
+
+391
+00:59:24.210 --> 00:59:34.590
+Chuan Wu: And also, as what we introduced earlier, the directional derivative equals the function's gradient in a productive direction.
+
+392
+00:59:35.160 --> 00:59:35.990
+Chuan Wu: Okay.
+
+393
+00:59:36.150 --> 00:59:42.170
+Chuan Wu: Blah, FX inner product with…
+
+394
+00:59:43.960 --> 00:59:56.449
+Chuan Wu: Delta X and T is exactly negative lambda squared, okay? Lambda squared negative is the inner product here, and the inner product here is a directional derivative.
+
+395
+00:59:58.730 --> 01:00:01.689
+Chuan Wu: Okay. All right,
+
+396
+01:00:02.120 --> 01:00:25.069
+Chuan Wu: And, interpretation of lambda X is the same as before, but what we need to pay attention is the lambda X we define here, doesn't… isn't equal… isn't equaling the lambda X concrete form expressed in the Haotian matrix and the gradient matrix of X, as we derived
+
+397
+01:00:25.070 --> 01:00:27.770
+Chuan Wu: for lambda X in the earlier Newton's methods.
+
+398
+01:00:27.770 --> 01:00:32.850
+Chuan Wu: If you check back the slide introducing Newton's decrement of the
+
+399
+01:00:32.850 --> 01:00:53.959
+Chuan Wu: earlier Newton's method introduced, you found out that this is a concrete calculation of that lambda X, and of course, it is, it also has a delta X and T best calculation. What we want to say is the delta X and T based calculation is the same between the two lambda X of the… in the two Newton's methods.
+
+400
+01:00:53.960 --> 01:01:01.670
+Chuan Wu: But… lambda X here isn't equaling lambda X calculated in the concrete way that we introduced earlier.
+
+401
+01:01:03.290 --> 01:01:04.240
+Chuan Wu: Okay.
+
+402
+01:01:05.580 --> 01:01:07.090
+Chuan Wu: Alright…
+
+403
+01:01:07.950 --> 01:01:27.079
+Chuan Wu: So once we have introduced the two important quantities involved in a Newton's methods, let's check out the sketch of the current Newton's methods. The current Newton's methods to solve the quality constraint comes forward, we call… we just call it the Newton's method with equality constraint.
+
+404
+01:01:27.280 --> 01:01:29.579
+Chuan Wu: And, checking out the step.
+
+405
+01:01:31.680 --> 01:01:49.689
+Chuan Wu: In this Newton's method, we start with X, predictable point. Okay, we have to ask AX equaling B. And in every iteration, we calculate Newton's step and decrement, delta X, NT and lambda X, and we check if the stopping criteria is satisfied or no.
+
+406
+01:01:49.900 --> 01:02:13.670
+Chuan Wu: And if the stopping criteria is not satisfied, we continue with our update. We first decide the step size T by backtracking line search. So remember, backtracking line search is a more efficient line search way of deciding the step length we have introduced. And then we do the update. And the update formula looks here exactly the same as before.
+
+407
+01:02:13.990 --> 01:02:18.920
+Chuan Wu: Right, okay, and the main difference lies in how we calculate the delta X and t and the lambda X.
+
+408
+01:02:19.500 --> 01:02:27.699
+Chuan Wu: And essentially, the whole algorithm here appears very similar to the Newton's method for solving unconstrained we introduced last time.
+
+409
+01:02:28.250 --> 01:02:40.029
+Chuan Wu: The only difference lies in how we calculate the delta X and D and lambda X, and also lies in that we require the initial starting point to be a feasible point, satisfying AX equaling B.
+
+410
+01:02:40.700 --> 01:02:46.980
+Chuan Wu: And first of all, how do you derive a feasible solution, or any feasible solution of AX equaling B?
+
+411
+01:02:47.190 --> 01:02:50.890
+Chuan Wu: So remember, AX equaling B is P equations.
+
+412
+01:02:51.360 --> 01:03:01.800
+Chuan Wu: For a system equation, we have been equipped with a method of solving as the one featable solution, right? As long as our concrete A, concrete B is given, are given.
+
+413
+01:03:02.880 --> 01:03:09.300
+Chuan Wu: Okay, so therefore, satisfying the initial featable point condition is kind of straightforward.
+
+414
+01:03:10.580 --> 01:03:19.559
+Chuan Wu: Alright, and, for this Newton's methods, it has a few nice properties.
+
+415
+01:03:19.590 --> 01:03:31.189
+Chuan Wu: Like, it is, actually a feedable descend method. Feedable meaning, in every iteration, we always ensure the current iterate XKE satisfies the equality constraint.
+
+416
+01:03:31.190 --> 01:03:41.300
+Chuan Wu: Descend method, meaning it ensures when we update from XK to XK plus 1, the objective function value is decreasing.
+
+417
+01:03:41.410 --> 01:03:45.870
+Chuan Wu: So both are nice property, and we are able to guarantee.
+
+418
+01:04:19.760 --> 01:04:38.650
+Chuan Wu: Okay, feasibility insurance, we already showed that, through the steps, we are able to ensure XK is feasible, so that is how… that is what we are guaranteeing when we are deriving the delta X and T. But for the second, property here, why is a descent method?
+
+419
+01:04:39.100 --> 01:04:50.539
+Chuan Wu: And while it's a descent method is also guaranteed when we are calculating the, by showing our calculation of the directional derivative.
+
+420
+01:04:50.950 --> 01:05:03.650
+Chuan Wu: So, as shown on the previous slide, our directional derivative equaling negative lambda squared. So that means our directional derivative value along the Newton's direction is always negative.
+
+421
+01:05:04.180 --> 01:05:08.680
+Chuan Wu: negative, okay, according to the concrete derivation here, what does it imply?
+
+422
+01:05:08.860 --> 01:05:17.110
+Chuan Wu: It implies, after we update X along the Newton's direction, the new iterate achieves a smaller objective function value.
+
+423
+01:05:17.450 --> 01:05:33.729
+Chuan Wu: Okay, so therefore, the probability that XK is always feasible, and when updating from XK to XK plus 1, it's always decreased in the objective function, both of them are guaranteed through our way of calculating delta X and T and lambda X.
+
+424
+01:05:35.480 --> 01:05:45.590
+Chuan Wu: Okay, so in general, these are nice properties, to have, because we are in, it, well.
+
+425
+01:05:45.800 --> 01:05:51.899
+Chuan Wu: Sure, when the algorithm converts, we come up with a feasible solution, minimizing the objective function.
+
+426
+01:05:55.030 --> 01:05:56.990
+Chuan Wu: Okay, and,
+
+427
+01:05:59.970 --> 01:06:12.719
+Chuan Wu: And from what we have introduced, you actually see there is a strong similarity between the Newton's method, which is equality constrained, and the Newton's method to solve the unconstrained,
+
+428
+01:06:12.790 --> 01:06:29.789
+Chuan Wu: And actually, yes, we actually can formally establish correspondence between the two algorithms, and the correspondence is exactly based on our conversion of the constrained program to unconstrained probab.
+
+429
+01:06:31.360 --> 01:06:33.040
+Chuan Wu: And the white universal.
+
+430
+01:06:43.500 --> 01:06:49.520
+Chuan Wu: Okay, so earlier today, we showed that we can convert,
+
+431
+01:06:50.260 --> 01:07:14.719
+Chuan Wu: constraint, equality constraint convex program into the unconstrained program, universal substitution this way. So our X in the equality constraint program is replaced by FD plus X hat. So where X is an ineffable solution to AX equaling B, and F is such a matrix whose rank is minus P, and A times F equaling 0.
+
+432
+01:07:15.440 --> 01:07:19.050
+Chuan Wu: And then the correspondence would be as follows.
+
+433
+01:07:19.060 --> 01:07:43.459
+Chuan Wu: For Newton's method to solve the converted equivalent unconstrained optimization program, we start from a solution Z0, and we generate iterations ZK. And for Newton's method with explicit equality constraints, we start… our starting X0 is… it would just be FD
+
+434
+01:07:43.460 --> 01:07:45.250
+Chuan Wu: 0 plus X hat.
+
+435
+01:07:45.250 --> 01:07:55.970
+Chuan Wu: And then, our iterate has a foreign correspondence as well. So every iterate XK is F times ZK plus X hat.
+
+436
+01:07:56.240 --> 01:07:58.359
+Chuan Wu: So that is the correspondence.
+
+437
+01:07:59.530 --> 01:08:10.409
+Chuan Wu: And, here. So when you start with X0 constructed by the value of FD0 plus X hat, we know it satisfies AX0 equaling B.
+
+438
+01:08:10.830 --> 01:08:17.190
+Chuan Wu: Based on how we, come up with the variable substitution formula FD plus X hat.
+
+439
+01:08:18.080 --> 01:08:36.989
+Chuan Wu: Okay, so therefore, the, we can actually establish such a nice correspondence between the two Newton's methods, and that said, the, convergence performance of the, current Newton's method with the quality constraint would be exactly similar to the Newton's method we introduced last time.
+
+440
+01:08:37.540 --> 01:08:40.919
+Chuan Wu: Because of this exact correspondence between folks.
+
+441
+01:08:44.600 --> 01:08:45.609
+Chuan Wu: Okay.
+
+442
+01:08:45.760 --> 01:08:53.229
+Chuan Wu: All right, and now let's take a short break, 5 minutes break, before we move on to another Newton's method.
+
+443
+01:09:50.479 --> 01:09:51.740
+Chuan Wu: It's just in pain.
+
+444
+01:09:52.069 --> 01:09:55.080
+Chuan Wu: I think I should say, it encounters history.
+
+445
+01:10:37.860 --> 01:10:39.529
+Chuan Wu: Okay, I don't see them.
+
+446
+01:10:53.260 --> 01:10:57.139
+Chuan Wu: That's absolutely a bunch of ugly excuse possible.
+
+447
+01:10:57.300 --> 01:10:58.410
+Chuan Wu: They're just following it.
+
+448
+01:11:12.880 --> 01:11:14.170
+Chuan Wu: What's complicated.
+
+449
+01:12:52.640 --> 01:13:00.019
+Chuan Wu: Okay, all right, let's continue with our lecture today. Yeah, I understand that the classroom is kind of friendly. Okay.
+
+450
+01:13:00.020 --> 01:13:16.960
+Chuan Wu: I also feel cold, although I keep moving, right? I believe they set the temp, but unfortunately, the temperature is actually controlled. I didn't want any switch inside the room. And, I believe they set the room according to full capacity of the room. Set the temperature according to full capacity, right?
+
+451
+01:13:17.070 --> 01:13:29.310
+Chuan Wu: Therefore, to solve the problem, two solutions. Number one, bring your jacket. Number two, encourage more people to come. All right.
+
+452
+01:13:30.070 --> 01:13:31.910
+Chuan Wu: Okay, so let's continue.
+
+453
+01:13:32.650 --> 01:13:49.090
+Chuan Wu: So the, next Newton's method that I want to introduce, is, infeedible start Newton's method. So, infeedable start, intuitively. That means the starting point, X0, doesn't have to satisfy AX equaling B, okay?
+
+454
+01:13:49.250 --> 01:13:50.900
+Chuan Wu: Alright,
+
+455
+01:13:51.590 --> 01:14:03.930
+Chuan Wu: So, while EX doesn't… AX0 doesn't equal in B, it's possible X1 also doesn't satisfy, they call it the constraint X2, and so on, right? And yes.
+
+456
+01:14:03.930 --> 01:14:11.490
+Chuan Wu: So even in case our initial point and some of the initial iterates do not satisfy the quality constraint.
+
+457
+01:14:11.490 --> 01:14:26.250
+Chuan Wu: Here is a new method, still under the Newton's method, that can ensure, eventually, at algorithm convergence, our iterate, set design equality constraint, and achieve minimal, approach the minimal optimal solution.
+
+458
+01:14:26.500 --> 01:14:27.330
+Chuan Wu: Okay.
+
+459
+01:14:27.490 --> 01:14:31.910
+Chuan Wu: And, let's assume X is an infeitable starting point.
+
+460
+01:14:32.050 --> 01:14:41.009
+Chuan Wu: And for any of the infeasible iterates in the middle of the Newton's iterations in one of the intermediate Newton's iterations.
+
+461
+01:14:41.160 --> 01:14:58.620
+Chuan Wu: And, again, in… because this is a Newton's method, we still have to deal with the most Newton field, important directional update, which is a Newton's direction, delta X and T. We also have to deal with the termination condition, so we will see what the termination condition is like later on.
+
+462
+01:14:59.420 --> 01:15:07.710
+Chuan Wu: And then, number one, number one question is, how do we find out the Newton's, direction?
+
+463
+01:15:07.850 --> 01:15:11.320
+Chuan Wu: Delta X and Q, and they're completable interrace.
+
+464
+01:15:11.420 --> 01:15:19.159
+Chuan Wu: So the rationale is still the same. So we want to find out the delta action in the Newton's direction, such that
+
+465
+01:15:19.160 --> 01:15:33.260
+Chuan Wu: at the current iterate, or current step X, using the current iterate X. X plus delta X and P is still the optimal solution to the second-order approximation of our original program.
+
+466
+01:15:33.690 --> 01:15:39.530
+Chuan Wu: Okay, so still the same rationale. So remember what is the, the,
+
+467
+01:15:41.050 --> 01:15:43.980
+Chuan Wu: Lagrangian. What is a Lagrangian?
+
+468
+01:15:47.040 --> 01:16:06.579
+Chuan Wu: Okay, so what is the Lagrangian of the second-order approximation? We still have it here. Okay, if you don't remember, go back to slide 10 to see what the second-order approximation problem is like. So this is the Lagrangian of the second-order approximation problem.
+
+469
+01:16:06.620 --> 01:16:09.889
+Chuan Wu: And, we put down this,
+
+470
+01:16:09.980 --> 01:16:25.909
+Chuan Wu: optimality condition. Okay, still the optimality condition has two parts. One part is the, Lagrangian of the, gradient of the Lagrangian vanishes, and the second is the, equality constrict.
+
+471
+01:16:26.300 --> 01:16:28.640
+Chuan Wu: So let me put this down again.
+
+472
+01:16:42.800 --> 01:16:45.880
+Chuan Wu: Okay, so this is the first of the metadic conditions.
+
+473
+01:16:46.870 --> 01:16:47.640
+Chuan Wu: Ed?
+
+474
+01:16:53.720 --> 01:16:57.679
+Chuan Wu: So that is a second, optimality condition.
+
+475
+01:16:58.970 --> 01:17:00.200
+Chuan Wu: Okay, yeah.
+
+476
+01:17:00.650 --> 01:17:01.450
+Chuan Wu: Ed?
+
+477
+01:17:07.710 --> 01:17:10.610
+Chuan Wu: Alright, check out the first row.
+
+478
+01:17:10.710 --> 01:17:19.330
+Chuan Wu: And at the end, W is the multiplier associated with the equality constraint in the approximation problem.
+
+479
+01:17:19.500 --> 01:17:26.339
+Chuan Wu: And checking out the first row, the first row is saying, the Haotian matrix multiplying delta X and T,
+
+480
+01:17:26.570 --> 01:17:27.750
+Chuan Wu: Oh, sorry.
+
+481
+01:17:28.780 --> 01:17:30.440
+Chuan Wu: It should be.
+
+482
+01:17:36.930 --> 01:17:40.100
+Chuan Wu: Okay, so the hash matrix multiplying
+
+483
+01:17:40.270 --> 01:17:56.380
+Chuan Wu: delta X and T, okay, which is V there, plus A transpose W. So A transpose W is there, and right-hand side is, negative of, FX. Okay, so that… the first row here is corresponding to our first computation.
+
+484
+01:17:56.380 --> 01:18:02.650
+Chuan Wu: On the board. And the second row… second row is saying A, delta X and T.
+
+485
+01:18:02.970 --> 01:18:11.390
+Chuan Wu: A delta X and T equals B minus AX, B minus AX. Okay, so AX part is moved to the right-hand side.
+
+486
+01:18:12.240 --> 01:18:13.309
+Chuan Wu: All right.
+
+487
+01:18:13.770 --> 01:18:16.020
+Chuan Wu: And if you compare
+
+488
+01:18:16.190 --> 01:18:27.450
+Chuan Wu: If you compare the, the concise form of expressing the optimality condition here for deriving delta X and T with what we have showed on slide 10.
+
+489
+01:18:31.890 --> 01:18:40.680
+Chuan Wu: You will find out the major difference lies in here, okay? So over slide 10, at this corner, we have a zero vector.
+
+490
+01:18:40.840 --> 01:18:43.920
+Chuan Wu: And over here, we have AX minus B.
+
+491
+01:18:45.030 --> 01:19:01.539
+Chuan Wu: So both equalities are derived from automatic condition of the second-order approximation program, and why… and the difference here lies in that our initial value and iterate in the current Newton's method is not guaranteed to be featable.
+
+492
+01:19:01.670 --> 01:19:10.219
+Chuan Wu: So AX minus B may not be exactly zero, while in the earlier Newton's method we just introduced, we guarantee all the X are feasible.
+
+493
+01:19:10.620 --> 01:19:15.920
+Chuan Wu: Right, okay, so therefore, we have this AX minus B kind of residual value still here.
+
+494
+01:19:16.320 --> 01:19:33.380
+Chuan Wu: Okay, but that doesn't affect our calculation of Newton's direction, delta X and T, because if the KKD matrix here is invertible, we can still invert it, and then we can come up with a concrete value of delta X and T, Newton's direction.
+
+495
+01:19:33.580 --> 01:19:36.850
+Chuan Wu: Regardless of whether AX minus B is zero or null.
+
+496
+01:19:37.470 --> 01:19:38.910
+Chuan Wu: Right. Okay.
+
+497
+01:19:39.970 --> 01:19:43.509
+Chuan Wu: All right, Ed. Ed?
+
+498
+01:19:44.210 --> 01:20:00.559
+Chuan Wu: And in our Newton's method, introducing here, which is called Invisible Start Newton's method, we actually not only make use of primal updates, meaning updating X to X plus T delta X and T, we also make use of the doer update.
+
+499
+01:20:00.670 --> 01:20:03.469
+Chuan Wu: The doer value, what is the dealer?
+
+500
+01:20:03.640 --> 01:20:18.200
+Chuan Wu: value here. So the dual variable is, W, okay? Dual variable is W. In our previous Newton's method, we actually can calculate W's value as well, but we just do not explicitly use it.
+
+501
+01:20:18.200 --> 01:20:26.880
+Chuan Wu: And for the infeitable third Newton's master we are introducing here, both the primal variable, X is update, and the dual variable.
+
+502
+01:20:26.890 --> 01:20:37.019
+Chuan Wu: Okay, dual variable new is updated as well. So what is the connection between new and the W? So it's just some notations.
+
+503
+01:20:39.590 --> 01:20:59.410
+Chuan Wu: It is just some donation, difference. So we use W here to be consistent with the automatic condition we showed earlier, but, what we should know is, the dual variable we are used in the following derivation would be new, still.
+
+504
+01:21:01.400 --> 01:21:02.460
+Chuan Wu: Okay.
+
+505
+01:21:02.650 --> 01:21:04.850
+Chuan Wu: Here.
+
+506
+01:21:05.700 --> 01:21:10.910
+Chuan Wu: Right, we now replace W by… New.
+
+507
+01:21:10.910 --> 01:21:34.790
+Chuan Wu: And especially, new is dual variable to be updated, and again, we apply similar idea of applying primal variable here. Primal variable is updated from X to X plus delta X and T, and the dual variable is updated from new to new plus delta nu and T. So delta nu NT is the Newton's direction on the
+
+508
+01:21:34.790 --> 01:21:37.900
+Chuan Wu: Working on the doer, variable.
+
+509
+01:21:38.740 --> 01:21:41.070
+Chuan Wu: And therefore, we…
+
+510
+01:21:41.070 --> 01:21:59.389
+Chuan Wu: Moving from this slide to the next slide, we know the W is just used to be consistent with W we used earlier, but now we switch back to new, and in the place of W, we do have new star, a new class. New class is after update your value.
+
+511
+01:22:00.280 --> 01:22:13.919
+Chuan Wu: And, we further replace nu plus by nu plus delta nu nt, because delta nu nt is eventually our Newton's direction to be applied to dual variable update.
+
+512
+01:22:14.350 --> 01:22:26.050
+Chuan Wu: And, after this, Variable substitution, we come up with a new, equality, optimality condition equality.
+
+513
+01:22:37.640 --> 01:22:42.479
+Chuan Wu: Okay, booting down a bit more of the details.
+
+514
+01:23:26.260 --> 01:23:44.029
+Chuan Wu: All right, so this is automatically the condition we have derived for solving for delta X and T. What I did is variable substitution. We make use of the dual variable as well, and we consider the dual variable value to be the previous value plus an update along the dual Newton's direction.
+
+515
+01:23:44.670 --> 01:23:45.800
+Chuan Wu: Okay.
+
+516
+01:23:49.420 --> 01:23:51.080
+Chuan Wu: Alright,
+
+517
+01:23:51.350 --> 01:24:07.909
+Chuan Wu: If you expand this new plus delta nunt term, and move the relative term to the right-hand side, do a little bit of math, you will find out it's equivalent to the, equivalent to the equality here.
+
+518
+01:24:07.910 --> 01:24:13.969
+Chuan Wu: you can double-check verify. So basically, the Haian FX multiplying delta X and T,
+
+519
+01:24:14.030 --> 01:24:31.279
+Chuan Wu: Plus A transpose delta nu and T equaling the negative A transpose nu, so A new A transpose new part here is multiplied to the… is moved to the right-hand side, and then the other entries would remain.
+
+520
+01:24:33.230 --> 01:24:47.630
+Chuan Wu: All right, so what you should know is the equality here exact represents the exact optimality solution to solving the quadratic approximation of the original program.
+
+521
+01:24:47.780 --> 01:25:02.339
+Chuan Wu: And by setting up the equation here, what we want to derive is if the KKD matrix there is invertible, what we can exactly derive is a concrete value of primal Newton's direction and dual Newton's direction.
+
+522
+01:25:02.700 --> 01:25:11.370
+Chuan Wu: And this is to enable a concurrent primal and dual variable update in the Newton's iterative algorithm.
+
+523
+01:25:12.860 --> 01:25:15.070
+Chuan Wu: Okay,
+
+524
+01:25:15.210 --> 01:25:28.069
+Chuan Wu: And what we have introduced so far is we know how to derive the primal dual Newton stat, but with an idea, just extend and introduce the dual variable, durap-based formulary exactly.
+
+525
+01:25:28.210 --> 01:25:33.470
+Chuan Wu: And then, what we want to further introduce is regarding termination condition.
+
+526
+01:25:34.170 --> 01:25:51.060
+Chuan Wu: And in this infinible star to Newton's methods, we do not exactly have a Newton's increment, lambda X derived to use as termination condition. Instead, we treat the determination condition from the more fundamental optimization
+
+527
+01:25:52.110 --> 01:25:53.259
+Chuan Wu: On the view.
+
+528
+01:25:53.540 --> 01:25:57.130
+Chuan Wu: And we know this?
+
+529
+01:25:57.370 --> 01:26:08.849
+Chuan Wu: at the left-hand side of our optimality condition for the original, we call it the constraint optimization program, right? That is, shared, that is,
+
+530
+01:26:09.430 --> 01:26:10.340
+Chuan Wu: used.
+
+531
+01:26:11.070 --> 01:26:17.569
+Chuan Wu: and introduced at the very beginning today. So, what is our very original optimization?
+
+532
+01:26:24.330 --> 01:26:34.000
+Chuan Wu: what is our original, optimization we are dealing with today, so that is it. Okay, and for this original, optimizing
+
+533
+01:26:34.330 --> 01:26:36.030
+Chuan Wu: A validation probe.
+
+534
+01:26:36.160 --> 01:26:37.619
+Chuan Wu: It's,
+
+535
+01:26:42.880 --> 01:26:49.710
+Chuan Wu: Lagrangian is here. Okay, Lagrangian is here, and its optimality conditions has two set.
+
+536
+01:26:49.820 --> 01:26:51.799
+Chuan Wu: One set is there.
+
+537
+01:26:52.550 --> 01:26:56.210
+Chuan Wu: gradient of the Lagrangian vanish.
+
+538
+01:27:02.270 --> 01:27:04.729
+Chuan Wu: And the other is a primal constraint.
+
+539
+01:27:05.890 --> 01:27:15.499
+Chuan Wu: Okay, so recall, this is the very original set of optimal conditions for the, our original equality concrete optimization we are dealing with.
+
+540
+01:27:15.900 --> 01:27:19.920
+Chuan Wu: And, we found out… we found a vector here.
+
+541
+01:27:20.200 --> 01:27:28.149
+Chuan Wu: So the first part of the vector is left-hand side of the first automatic decondation, and the second part of the
+
+542
+01:27:28.970 --> 01:27:33.800
+Chuan Wu: Factor there is the left-hand side of the second set of optimality conditions.
+
+543
+01:27:34.340 --> 01:27:46.150
+Chuan Wu: And essentially, our residue function R on both primal variable X and the nu is a vector consisting of all the functions in the optimality condition.
+
+544
+01:27:46.800 --> 01:27:55.980
+Chuan Wu: And we know when X and the D are primal and the D are optimal, respectively, the… the…
+
+545
+01:27:56.380 --> 01:28:01.469
+Chuan Wu: Vector R here should be close to zero. Close to all zero vector.
+
+546
+01:28:01.950 --> 01:28:06.440
+Chuan Wu: Right? And that is the rationale of designing the termination condition.
+
+547
+01:28:07.030 --> 01:28:13.470
+Chuan Wu: For the infeasible start Newton's method, its termination condition is related to the residue vector here.
+
+548
+01:28:13.610 --> 01:28:20.930
+Chuan Wu: And also, that's the reason why it's called a residue vector. We want the residue vector to be an all-zero vector.
+
+549
+01:28:21.190 --> 01:28:22.030
+Chuan Wu: Right.
+
+550
+01:28:22.710 --> 01:28:30.269
+Chuan Wu: And when it's all zero, meaning optimally the condition of the original program are satisfied, and then we are good.
+
+551
+01:28:31.020 --> 01:28:33.370
+Chuan Wu: Okay, so that's the rationale.
+
+552
+01:28:33.950 --> 01:28:48.230
+Chuan Wu: And we also can separate the two parts of the residue vector. One part is called dual residue, and the other is called primal residue. We know the primal residue is related to the primal equality constraints.
+
+553
+01:28:48.330 --> 01:28:53.330
+Chuan Wu: constraints, and the fuel residue is related to the hatching of the Lagarov gel.
+
+554
+01:28:53.660 --> 01:29:06.249
+Chuan Wu: Okay, both radios need to be close to zero, okay? Both radios have to be close to zero in order for the X and mu to be primal and dual optimal, respectively.
+
+555
+01:29:07.560 --> 01:29:19.889
+Chuan Wu: Okay, and by the way, when we present a vector in this way, as we mentioned in one of our early lectures, you should know, this is one way to present a column vector.
+
+556
+01:29:20.160 --> 01:29:27.409
+Chuan Wu: A more concrete lay over RX mu is a column vector in this lay.
+
+557
+01:29:30.370 --> 01:29:32.150
+Chuan Wu: One part is…
+
+558
+01:29:37.380 --> 01:29:38.310
+Chuan Wu: N?
+
+559
+01:29:38.990 --> 01:29:49.880
+Chuan Wu: Okay, we want it to be zero. Okay, column vector expressed in the row form, it would be using a parenthesis instead of square brackets, and then use comma.
+
+560
+01:29:50.100 --> 01:29:52.010
+Chuan Wu: Comma in here.
+
+561
+01:29:54.010 --> 01:29:55.020
+Chuan Wu: Okay.
+
+562
+01:29:56.760 --> 01:29:58.460
+Chuan Wu: Alright,
+
+563
+01:29:59.290 --> 01:30:14.040
+Chuan Wu: In fact, so far, we have known how to derive the Newton's direction, and we have come up with a residual vector, and both of them can be used in our invisible start Newton's method to construct the algorithm flow.
+
+564
+01:30:14.040 --> 01:30:28.930
+Chuan Wu: two major quantities in algorithm flow. But before that, I still want to introduce an alternative way how we derive the primary Newton direction for primal-Doh-Newton step, and, how…
+
+565
+01:30:29.030 --> 01:30:34.429
+Chuan Wu: By way of making use of our, you know, foreign address residue there. Okay.
+
+566
+01:30:35.520 --> 01:30:54.810
+Chuan Wu: And, in our residue function, our variable consists of X and nu, primal and dual variables, and let's say the residue function is on variable Y. So Y is a vector of X and nu. So again, so this is a real form to represent a thousand vector.
+
+567
+01:30:54.860 --> 01:30:58.200
+Chuan Wu: Our wife's definition more exactly is here.
+
+568
+01:30:58.390 --> 01:31:03.550
+Chuan Wu: Okay, concatenate X and the new, to come up with a column vector Y.
+
+569
+01:31:03.890 --> 01:31:14.599
+Chuan Wu: Okay, and our optimalistic condition is the residue function on Y. Vector y should be exactly an all zero vector, or zero vector. And,
+
+570
+01:31:16.490 --> 01:31:30.409
+Chuan Wu: And we can work on the function R on Y. We linearizing it. So what does it mean, linearizing 8? Another way to say it is we come up with first-order approximation of function RY.
+
+571
+01:31:30.410 --> 01:31:42.170
+Chuan Wu: Okay, first order approximation of function RY on a vector can be expressed this way. So it's approximately RY plus a derivative of a function RY,
+
+572
+01:31:42.170 --> 01:31:44.300
+Chuan Wu: And then delta Y.
+
+573
+01:31:44.760 --> 01:31:54.129
+Chuan Wu: Okay, so this is first the order approximation. And, putting in concrete, values, the R…
+
+574
+01:31:55.340 --> 01:31:58.259
+Chuan Wu: Y plus delta Y.
+
+575
+01:31:58.820 --> 01:32:02.820
+Chuan Wu: The RY plus… oh, okay, let me…
+
+576
+01:32:03.630 --> 01:32:06.190
+Chuan Wu: The R… let's start with this part.
+
+577
+01:32:06.740 --> 01:32:08.010
+Chuan Wu: So the…
+
+578
+01:32:08.670 --> 01:32:21.839
+Chuan Wu: RY part is, here. So RY, exactly our two sets of optimality conditions, and then the left-hand side is,
+
+579
+01:32:24.800 --> 01:32:36.499
+Chuan Wu: Basically, here we have RY plus DRY delta Y equaling 0. This is our optimality condition expressed by way of first-order approximation of our optimality conditions.
+
+580
+01:32:36.670 --> 01:32:57.499
+Chuan Wu: And RY, moving to the right-hand side, is negative of the set of optimality conditions here, functions in optimality condition, and then DRY, delta Y part. So delta Y is exactly consisting of delta X and T and delta nunt, and then the DRY part is what we have here.
+
+581
+01:32:57.730 --> 01:33:01.530
+Chuan Wu: Okay, so derivative of our Y function.
+
+582
+01:33:01.530 --> 01:33:20.580
+Chuan Wu: You can double check, okay? Derivative of the function RY here is the gradient becomes Haian, and then A transpose Nuels, gradient is A, then derivative. Okay, derivative is further transpose of gradient, so you can double check, and then you will find out the coefficient
+
+583
+01:33:20.580 --> 01:33:28.729
+Chuan Wu: vector coefficient matrix here, or the so-called KKD matrix here, is corresponding to our derivative of function RY.
+
+584
+01:33:30.320 --> 01:33:38.219
+Chuan Wu: And, then, if we further consider new plans, it's the after update during iterate.
+
+585
+01:33:38.220 --> 01:33:51.559
+Chuan Wu: And then it is equivalent to the equivalent form here, okay, by variable substitution. And again, the two formulas are already what we derived earlier. And here is just the alternate way to deriving it.
+
+586
+01:33:54.620 --> 01:34:11.589
+Chuan Wu: Okay, all right, so the, core rationale underneath the alternative way of derivation is the first-order approximation of gradient. Okay, first-order approximation of gradient is,
+
+587
+01:34:12.030 --> 01:34:16.969
+Chuan Wu: The same as second-order approximation of the original optimality condition.
+
+588
+01:34:18.260 --> 01:34:21.339
+Chuan Wu: Okay, second order approximation of the original.
+
+589
+01:34:22.190 --> 01:34:25.010
+Chuan Wu: Problem… objective function.
+
+590
+01:34:28.670 --> 01:34:29.970
+Chuan Wu: Okay.
+
+591
+01:34:36.930 --> 01:34:51.219
+Chuan Wu: Okay, say that again. So here, definition of R is already related to gradient of the Lagrange jth, right? So essentially, when we do one other linearization or first-order approximation of the gradient.
+
+592
+01:34:51.220 --> 01:34:57.610
+Chuan Wu: is actually the same as the second-order approximation of the original Lagrangian function.
+
+593
+01:34:58.850 --> 01:35:08.579
+Chuan Wu: So that's a fundamental rationale why eventually we come up with the same optimality condition, the same equation to solve for primal dio Newton's direction.
+
+594
+01:35:26.230 --> 01:35:42.989
+Chuan Wu: All right, and then let's check out, after knowing how we, derived the primal viewer Newton step, and, knowing we can use the… make use of the residue to evaluate whether the algorithm can terminate, or no.
+
+595
+01:35:43.020 --> 01:35:50.980
+Chuan Wu: Instead of any of these Newton statement here. So we can check out the sketch of this infeedable start Newton's method.
+
+596
+01:35:51.440 --> 01:36:06.899
+Chuan Wu: So for infeasible Star-Newton's method, we start with the starting point X, okay, and the new. And we do not assume X satisfies the equality constraint, and then we have tolerance and a few parameters used in the algorithm step.
+
+597
+01:36:06.930 --> 01:36:30.540
+Chuan Wu: And first step is, still, we calculate Newton's direction. And now, in this infeasible start, Newton's methods, it's a primal dual approach, meaning we are updating both primal variable and dual variable in every algorithm step, and therefore, we calculate both primal and dual Newton steps by inverting the KKD matrix following the equality we derived.
+
+598
+01:36:31.640 --> 01:36:49.520
+Chuan Wu: And then, we do backtracking line search. Backtracking line search is to decide the step size T to use in primal and dual update. And now, differently, the backtracking line search is to work on the residue vectors L2 knob.
+
+599
+01:36:49.550 --> 01:36:51.859
+Chuan Wu: Instead of on FX.
+
+600
+01:36:51.930 --> 01:36:56.839
+Chuan Wu: So I'll tell the rationale. Let's finish the algorithm step first.
+
+601
+01:36:56.840 --> 01:37:20.499
+Chuan Wu: And backtracking line search step, following the standard backtracking line search step, we start from some T equaling 1, and then we iteratively try to find out scaling T down by a smaller than 1 factor beta, and we try to eventually ensure the residue after update is larger than 1 minus alpha T times of the previous residue.
+
+602
+01:37:21.350 --> 01:37:39.830
+Chuan Wu: It's smaller equal, okay, smaller equal to that, because it terminates. It's… the iteration continues when the relation is still larger. Okay, so the idea is we try to come up with a T, which makes sure, after update, the residue is smaller than before.
+
+603
+01:37:40.500 --> 01:37:52.789
+Chuan Wu: And then, by this line search, identify the T, we can update primal variable X and nu to the next iterate along the direction of primal dual Newton's direction, respectively.
+
+604
+01:37:53.140 --> 01:38:09.060
+Chuan Wu: And then the termination conditions are here. First of all, we need to ensure the residue is very small, okay? The residue consists of two parts, as we know. One is a gradient equating zero, and the other is the primal equality constraint.
+
+605
+01:38:09.060 --> 01:38:19.710
+Chuan Wu: By making sure it's very small doesn't make sure that X satisfies the equality constraint, so therefore we have to explicitly require AX equaling B.
+
+606
+01:38:20.740 --> 01:38:30.680
+Chuan Wu: Okay, and pretty much, essentially, the residue vector, only the first part remains in the second termination condition.
+
+607
+01:38:31.750 --> 01:38:40.410
+Chuan Wu: Okay, so there are a few important aspects to analyze in this infeasible start Newton's method.
+
+608
+01:38:40.410 --> 01:38:51.899
+Chuan Wu: First, let's analyze why. We are doing backtracking line search on the residue vector function, residue functions L to norm, instead of the primal constraint.
+
+609
+01:38:52.160 --> 01:39:17.099
+Chuan Wu: In all the other Newton's methods, we were saying we do backtracking line search on FX. The main rationale lies in, we know, in those Newton's methods, they are, their descent method in the sense that when updating from XK to XK plus 1, our objective function value is decreasing. So that's… then that ensures, through the backtracking line search.
+
+610
+01:39:17.100 --> 01:39:31.899
+Chuan Wu: step, we are able to… the backtracking line search step is… steps are able to converge or stop at a certain value of T. But in the current infeedable start Newtons method, it is fundamentally not,
+
+611
+01:39:31.900 --> 01:39:42.930
+Chuan Wu: a descent method. That means when we update XK to XK plus 1, it's possible, that FXK plus 1 in this step is larger.
+
+612
+01:39:43.190 --> 01:39:49.079
+Chuan Wu: Okay, then that makes the backtracking line search on FX difficult to converge or stop.
+
+613
+01:39:50.070 --> 01:40:03.960
+Chuan Wu: Okay, why? Why in the current infeasible Star Newton's method is not a descent method? We are not able to guarantee after update, FXK plus 1 is smaller. So the rationale is here.
+
+614
+01:40:04.250 --> 01:40:23.989
+Chuan Wu: So before we analyze the Newton's method, we call it a constraint, showing it's a descent method using the concept of directional derivative, along the Newton's direction. And yes, now we are doing it again here in our… analyze that the current inflatable star Newton's method is not a descent method.
+
+615
+01:40:24.180 --> 01:40:35.079
+Chuan Wu: The calculation of directional derivative is here. So the definition is the inner product between the gradient vector and Newton's direction.
+
+616
+01:40:36.070 --> 01:40:51.409
+Chuan Wu: And, using the derivation step of optimality condition, okay, actually, still from our derivation of the optimality condition, we are able to show this is equivalent to the following. Okay, so to show that…
+
+617
+01:40:51.410 --> 01:40:58.230
+Chuan Wu: quickly, delta X and T in the product NABA FX equaling,
+
+618
+01:40:58.380 --> 01:41:05.649
+Chuan Wu: delta X and T inner product vector here. So the rationale is exactly here.
+
+619
+01:41:06.280 --> 01:41:07.210
+Chuan Wu: Solomon.
+
+620
+01:41:08.180 --> 01:41:13.200
+Chuan Wu: Nebula effect, brilliant vector involves negative passion.
+
+621
+01:41:13.320 --> 01:41:14.340
+Chuan Wu: Matrix?
+
+622
+01:41:14.460 --> 01:41:18.699
+Chuan Wu: of delta X and T, negative transports W.
+
+623
+01:41:19.180 --> 01:41:34.379
+Chuan Wu: Okay, just what we are making use of is exactly the first optimality condition there in our derivation of delta X and T. Okay, and then, distribute the inner product to the two terms.
+
+624
+01:41:34.510 --> 01:41:43.630
+Chuan Wu: And the, and also… Making use of the second optimality condition. Death. AX.
+
+625
+01:41:44.420 --> 01:41:50.629
+Chuan Wu: minus D equals… Negative 8, multiplying delta X and T.
+
+626
+01:41:50.760 --> 01:41:55.450
+Chuan Wu: Okay, we come up with the second term here, and,
+
+627
+01:41:56.660 --> 01:42:13.709
+Chuan Wu: And what we know is, X is not guaranteed to be a feasible solution, so therefore the second entry may not be, exactly zero. When the second entry is not exactly zero, we don't know whether the result here is positive or negative.
+
+628
+01:42:14.590 --> 01:42:30.130
+Chuan Wu: If the second entry is completely zero, when x is a feasible solution, we know the first entry is always smaller equal to 0, because the Haotian matrix of function fx is positive semi-definite, right?
+
+629
+01:42:30.330 --> 01:42:44.930
+Chuan Wu: Okay, so therefore, we don't know whether the directional derivative is positive or negative, so therefore, it's possible that after update along the Newton's direction, our function value increases.
+
+630
+01:42:47.700 --> 01:42:51.510
+Chuan Wu: Okay, but on the other hand.
+
+631
+01:42:59.100 --> 01:43:06.120
+Chuan Wu: Right, on the other hand, if we consider the, if we consider the…
+
+632
+01:43:07.670 --> 01:43:15.599
+Chuan Wu: function of the norm of residue, okay? This is our residue function, we consider its norm.
+
+633
+01:43:16.220 --> 01:43:35.880
+Chuan Wu: That function is always decreasing in the Newton's direction, and we are able to show that. When that function R… when the function of the norm of R is always decreasing in the Newton's direction, we can safely use it in the line search to find out the T, which ensures that equality
+
+634
+01:43:35.880 --> 01:43:42.059
+Chuan Wu: holds. So I'll also show you how that inequality can hold.
+
+635
+01:43:42.220 --> 01:43:48.819
+Chuan Wu: All right, let's see some step of derivation of the,
+
+636
+01:43:48.950 --> 01:44:04.240
+Chuan Wu: let's see some… let's see how we are able to show the norm of R. That function's value is decreasing in the Newton's direction. So again, we make use of the directional derivative of that function, and the function I was saying is
+
+637
+01:44:06.630 --> 01:44:08.250
+Chuan Wu: the function here.
+
+638
+01:44:10.480 --> 01:44:26.760
+Chuan Wu: Okay, so the function… what we are trying to show next is the norm of the… this function… this function is decreasing the Newton's direction by showing its, directional derivative along the Newton's direction is smaller than zero.
+
+639
+01:44:27.140 --> 01:44:40.089
+Chuan Wu: Okay, so our Y is concatenation of XV, as we know, and this is a calculation of the directional derivative of the norm function along the Newton's direction.
+
+640
+01:44:40.420 --> 01:44:46.149
+Chuan Wu: And we are able to show it's equivalent to negative of the norm of RY.
+
+641
+01:44:46.490 --> 01:44:51.170
+Chuan Wu: And how? Okay, so it's here, detailed derivation here.
+
+642
+01:44:51.460 --> 01:44:57.349
+Chuan Wu: we, instead of calculating the directional derivative of L2,
+
+643
+01:44:58.130 --> 01:45:03.600
+Chuan Wu: norm of the residue function R, we calculate the directional derivative of
+
+644
+01:45:04.420 --> 01:45:08.240
+Chuan Wu: of the L2 norm squared function of R.
+
+645
+01:45:08.720 --> 01:45:16.500
+Chuan Wu: And using… this is a vector out to norm square. It's equivalent to the functions in the product with itself.
+
+646
+01:45:17.170 --> 01:45:36.780
+Chuan Wu: And, further make use of the Chuan rule of, derivative calculation. So we are able to come up with this, this is a quadratic form of the function, and it… the derivative becomes 2 times the functions, transpose, and then derivative of the function again.
+
+647
+01:45:36.780 --> 01:45:39.890
+Chuan Wu: Using change rule of derailed calculation.
+
+648
+01:45:40.820 --> 01:45:54.680
+Chuan Wu: And then, here we calculate the derivative when T goes to 0. When t goes to 0, the first entry becomes 2 times RY transpose, and the second entry becomes exactly the,
+
+649
+01:45:54.680 --> 01:46:16.949
+Chuan Wu: the derivative RY multiplying delta y. So again, here we make use of the definition of directional derivative. So recall, directional derivative equals the gradient of the function in a product with the direction. And the gradient of the vector transpose equals the derivative of the vector.
+
+650
+01:46:17.130 --> 01:46:18.410
+Chuan Wu: Okay.
+
+651
+01:46:18.970 --> 01:46:31.859
+Chuan Wu: And then, you're making use of the, optimize the conditions, we… Make use when deriving
+
+652
+01:46:32.580 --> 01:46:36.809
+Chuan Wu: the Lagrangian, deriving the Newton's direction.
+
+653
+01:46:36.990 --> 01:46:43.940
+Chuan Wu: We make use of RY to put DRY, Delta Y equaling 0.
+
+654
+01:46:44.100 --> 01:46:45.080
+Chuan Wu: Okay.
+
+655
+01:46:45.260 --> 01:46:54.050
+Chuan Wu: And… plug that in, our DRY delta Y part becomes negative RY, okay, because negative RY,
+
+656
+01:46:54.170 --> 01:47:02.789
+Chuan Wu: And, so therefore, here, the right-hand side is just the negative 2 times of L2 norm squared of vector RY.
+
+657
+01:47:03.390 --> 01:47:09.339
+Chuan Wu: And we further take derivative of the square and the,
+
+658
+01:47:09.500 --> 01:47:19.440
+Chuan Wu: Left-hand side here, okay, go back to the very left-hand side of the, steps of derivation. The leftmost
+
+659
+01:47:19.690 --> 01:47:35.809
+Chuan Wu: part entry here becomes 2 times taking derivative of that. It becomes 2 times the vector, and then derivative of the vector over DT. And the right-hand side here is still,
+
+660
+01:47:36.870 --> 01:47:40.399
+Chuan Wu: negative 2, L2 norm square of RY.
+
+661
+01:47:41.710 --> 01:47:59.990
+Chuan Wu: Okay, and what we want to show is, left-hand side, when T goes to 0, there is one order of L2 norm of RY, which cancels with the one order of L2 norm of RY on the right-hand side, and eventually we are able to derive the equality above.
+
+662
+01:48:00.850 --> 01:48:01.800
+Chuan Wu: Here.
+
+663
+01:48:03.120 --> 01:48:06.920
+Chuan Wu: Okay, so you can check out the detailed derivation.
+
+664
+01:48:07.090 --> 01:48:19.129
+Chuan Wu: And, when we have the conclusion here, what we are able to ensure is the norm of R is indeed decreasing in the Newton's direction, because the norm of,
+
+665
+01:48:19.130 --> 01:48:29.629
+Chuan Wu: R's, because the directional derivative of the norm of R function is a negative value. Negative L to norm is negative value.
+
+666
+01:48:31.300 --> 01:48:45.209
+Chuan Wu: Okay, all right, so due to time limit, I'll just stop here, and based on this result, I will show you, at the beginning of the next lecture, what I want to show you is,
+
+667
+01:48:45.210 --> 01:48:55.300
+Chuan Wu: The backtracking line search, making use of R2, established on what we derived earlier, is really… is able to terminate after a few steps.
+
+668
+01:48:55.730 --> 01:48:56.720
+Chuan Wu: Okay.
+
+669
+01:48:57.090 --> 01:48:58.510
+Chuan Wu: Alrighty!
+
+670
+01:49:00.030 --> 01:49:04.280
+Chuan Wu: We'll call it a day. Bring your jacket next time.
+

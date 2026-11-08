@@ -1,0 +1,2342 @@
+WEBVTT
+
+1
+00:04:07.600 --> 00:04:08.190
+chuanwu: Thank you.
+
+2
+00:04:31.280 --> 00:04:40.700
+chuanwu: All right, good morning, everyone. Welcome to today's lecture of optimization. So we are now working on convex function.
+
+3
+00:04:41.000 --> 00:04:42.290
+chuanwu: While doing good.
+
+4
+00:04:43.250 --> 00:04:44.100
+chuanwu: Okay.
+
+5
+00:04:44.900 --> 00:04:49.150
+chuanwu: So here's a quick recap of what we have started.
+
+6
+00:04:49.410 --> 00:05:01.299
+chuanwu: Alright, so definition of convex function is mainly consisting of two parts. Number one, we have to ask the domain of the function to be a convex set. Number two, the Jackson's inequality has to be satisfied.
+
+7
+00:05:01.330 --> 00:05:24.639
+chuanwu: And geometrically, we know what the adjustment inequality means. Essentially, on the function curve or function surface, if you pick two points and connect them using a line segment or hyperplane, then the rest… then the function curve or function surface between the two points should be underneath this line or hyperplane. Okay, so that's the geographical meaning.
+
+8
+00:05:24.640 --> 00:05:30.980
+chuanwu: And we also introduced corresponding concepts, including strictly convex functions and config functions.
+
+9
+00:05:31.460 --> 00:05:38.980
+chuanwu: Okay, so let's continue with this set of discussions, and next, let's talk about differentiable functions.
+
+10
+00:05:39.090 --> 00:05:54.129
+chuanwu: And here, following this slide, we will be seeing a couple of properties related to a differentiable convex function. So therefore, in the first place, let's firstly find what is a differentiable function.
+
+11
+00:05:54.530 --> 00:06:11.069
+chuanwu: We know a function is differentiable if this domain is open, okay? It's defined on an open domain set. And then the gradient. And here we introduce an important concept to appear in optimization nowadays, which is the gradient.
+
+12
+00:06:11.080 --> 00:06:22.619
+chuanwu: The gradient is essentially a vector, if your variable is a vector. So, like, if your X is an n-dimensional vector, then your gradient is an n-dimensional vector as well.
+
+13
+00:06:22.690 --> 00:06:24.830
+chuanwu: And also, I'd like to ensure
+
+14
+00:06:25.700 --> 00:06:31.400
+chuanwu: Organize me as just the… the… Okay.
+
+15
+00:06:31.550 --> 00:06:34.609
+chuanwu: As introduced the last time.
+
+16
+00:06:36.750 --> 00:06:54.779
+chuanwu: Okay, the vectors we are using, by default, is referring to a column vector, and as I mentioned last time, we have, different ways to express a column vector in a course, and normally, or more, fundamentally, we have
+
+17
+00:07:01.160 --> 00:07:15.130
+chuanwu: Gradient. Okay, so if your X is an n-dimensional vector, then your gradient is an n-dimensional vector as well, consisting of the partial derivative of this function of each of your variables here.
+
+18
+00:07:27.550 --> 00:07:29.549
+chuanwu: Okay, so in your,
+
+19
+00:07:30.460 --> 00:07:47.510
+chuanwu: variable vector X, you have, n components, X1 after Xn, then your gradient is a column vector, well, and each term is… each element inside is the partial derivative of the function with respect to each one of the variables in X.
+
+20
+00:07:47.650 --> 00:08:05.000
+chuanwu: Okay, and common vector way we express that is, like, on the board, and we do put it in a row manner, so this is what we do. We use the parentheses instead of square brackets, and we put cover, separating the different elements in the vector.
+
+21
+00:08:05.110 --> 00:08:06.040
+chuanwu: Okay.
+
+22
+00:08:06.750 --> 00:08:16.919
+chuanwu: All right, so this, if the gradient exists at every X, then we say this is a differentiable function f of vector X.
+
+23
+00:08:17.890 --> 00:08:22.020
+chuanwu: Okay, next, our properties. Okay, so set of,
+
+24
+00:08:22.260 --> 00:08:27.149
+chuanwu: properties related to a complexity and the continuity of the function.
+
+25
+00:08:27.300 --> 00:08:42.710
+chuanwu: So suppose F is a function defined on an open domain, and it is finite. Okay, let's limit our attention to finite function now. So F is coax, then we know F should be a continuous function.
+
+26
+00:08:43.429 --> 00:08:53.540
+chuanwu: Okay, say that again. So, for a function F being convex, defined on open domain and finite, and then if it is convex, then it should be continuous.
+
+27
+00:08:55.160 --> 00:08:57.139
+chuanwu: Okay, so is this true?
+
+28
+00:09:02.140 --> 00:09:10.439
+chuanwu: Okay, so at least from what I put on the slide, you know, it definitely should be true, and let me show you intuitively.
+
+29
+00:09:16.510 --> 00:09:23.060
+chuanwu: All right, we can understand this property intuitively by seeing a few examples.
+
+30
+00:09:23.660 --> 00:09:34.069
+chuanwu: So, when we try to understand it in the contradictive way. We suppose F is convex, but F is not continuous. See what would happen.
+
+31
+00:09:34.860 --> 00:09:36.530
+chuanwu: Example here…
+
+32
+00:09:40.580 --> 00:09:41.500
+chuanwu: Okay.
+
+33
+00:09:42.200 --> 00:09:45.530
+chuanwu: So, suppose this is our function FX.
+
+34
+00:09:45.820 --> 00:09:53.690
+chuanwu: Okay, this is our function fx. It's not continuous, right? Its value is not continuous. And then, is this a connect function?
+
+35
+00:09:56.690 --> 00:10:06.940
+chuanwu: So I'm trying to show that using contradiction, we just consider some F which is not continuous, then we will figure out that F is not continuous, convex.
+
+36
+00:10:07.560 --> 00:10:09.579
+chuanwu: Is this a convex function?
+
+37
+00:10:13.670 --> 00:10:16.260
+chuanwu: No idea, or you all know the answer?
+
+38
+00:10:17.250 --> 00:10:21.060
+chuanwu: not convex function, so because if you pick any two points.
+
+39
+00:10:21.550 --> 00:10:31.270
+chuanwu: like, you pick this point and that point, and you draw a line, you find part of the function curve is above instead of underneath, right? So it's not convex function.
+
+40
+00:10:31.770 --> 00:10:36.780
+chuanwu: Using the Jetson's inequality geometric illustration I have mentioned before many times.
+
+41
+00:10:38.140 --> 00:10:47.160
+chuanwu: Okay, another company example. So, if we, consider this function X, It's like this.
+
+42
+00:10:48.050 --> 00:10:58.160
+chuanwu: So… non-continuous. So at this particular X0, the function value dropped.
+
+43
+00:10:58.880 --> 00:11:01.050
+chuanwu: And is this a convex function?
+
+44
+00:11:03.750 --> 00:11:11.820
+chuanwu: Is this a convex function? Apparently, no, because if you pick these two points and connect it, then the function
+
+45
+00:11:11.950 --> 00:11:16.729
+chuanwu: The dot, blue dot, is above that line, right? So not convex.
+
+46
+00:11:17.330 --> 00:11:22.300
+chuanwu: And similarly, if the stock is underneath
+
+47
+00:11:23.510 --> 00:11:34.940
+chuanwu: Okay, so consider a function in this way. FX is taking a particular value, except this point, X0, its value drop, and then go up again. So is this a convex function?
+
+48
+00:11:36.340 --> 00:11:42.470
+chuanwu: No, apparently no. Similarly, if you pick any two points from the function curve.
+
+49
+00:11:42.750 --> 00:11:46.569
+chuanwu: And draw a line, you find part of the function curve is above, right?
+
+50
+00:11:47.190 --> 00:12:01.690
+chuanwu: Okay, so this is some intuitive way for us to understand and to justify that when F is convex, that F has to be continuous, because on all the non-continuous special cases, we are able to figure out that F would… wouldn't be convex.
+
+51
+00:12:02.150 --> 00:12:02.960
+chuanwu: Right.
+
+52
+00:12:04.910 --> 00:12:05.880
+chuanwu: Okay.
+
+53
+00:12:08.130 --> 00:12:11.780
+chuanwu: And next property. Okay, next property.
+
+54
+00:12:11.890 --> 00:12:18.169
+chuanwu: So F is convex, then F should be divisible at all points in its domain. It is true.
+
+55
+00:12:22.350 --> 00:12:23.490
+chuanwu: What about?
+
+56
+00:12:26.610 --> 00:12:28.850
+chuanwu: That's true, right?
+
+57
+00:12:29.500 --> 00:12:34.889
+chuanwu: not true, right? It is very apparent. So, India.
+
+58
+00:12:36.570 --> 00:12:40.220
+chuanwu: Absolute value example we have seen before.
+
+59
+00:12:40.590 --> 00:12:41.490
+chuanwu: Right?
+
+60
+00:12:41.890 --> 00:12:43.780
+chuanwu: So, absolute value.
+
+61
+00:12:44.620 --> 00:12:48.980
+chuanwu: Then we know that the origin is not differentiable, right?
+
+62
+00:12:49.150 --> 00:12:50.360
+chuanwu: Okay.
+
+63
+00:12:50.690 --> 00:12:57.130
+chuanwu: All right, just a few tweaks and twins related to bookmarks and the video editing option.
+
+64
+00:12:57.450 --> 00:13:08.350
+chuanwu: Okay, following that, fundamental, so that example, developmental will be laid down before we introduce, yeah, two conditions in convex, related convex functions.
+
+65
+00:13:08.530 --> 00:13:28.049
+chuanwu: So first condition is called first order condition, and the second condition is called second order condition. So let's check on first-order condition. And here, when we talk about, in the context of discussion of first-order, second-order conditions, we are always looking at the differentiable function F, okay, differentiable.
+
+66
+00:13:28.800 --> 00:13:44.439
+chuanwu: So F is individual, and suppose F' domain is a convex set, then there is this necessary and sufficient condition that is A, F is convex, if and only this inequality holds.
+
+67
+00:13:44.980 --> 00:13:51.719
+chuanwu: Okay, so what does this inequality say? Through this inequality, X and Y are adding two points.
+
+68
+00:13:51.930 --> 00:14:08.389
+chuanwu: picked from the domain of the function, and we know FY value, function value evaluated FY is no smaller than fx plus the gradients, FX inner productivity is a difference vector Y minus C, D, or Y minus Y minus X.
+
+69
+00:14:09.400 --> 00:14:17.390
+chuanwu: Okay. Alright, so if you check on the right-hand side of the inequality, What does that show us?
+
+70
+00:14:19.190 --> 00:14:23.160
+chuanwu: It's kind of related to tailor expansion, right?
+
+71
+00:14:23.710 --> 00:14:27.190
+chuanwu: Okay, so we call it first-order approximation.
+
+72
+00:14:27.690 --> 00:14:32.879
+chuanwu: So, first off, the right-hand side of the inequality is the first thought of computation of function X.
+
+73
+00:14:33.020 --> 00:14:39.649
+chuanwu: And what this inequality says is the first order approximation of the function is always an underestimator.
+
+74
+00:14:40.740 --> 00:14:41.650
+chuanwu: Okay.
+
+75
+00:14:41.750 --> 00:14:48.320
+chuanwu: To understand that more… intuitively.
+
+76
+00:14:48.450 --> 00:14:52.949
+chuanwu: So let me do some geometric illustration.
+
+77
+00:15:33.100 --> 00:15:36.459
+chuanwu: Suppose this is our function FX.
+
+78
+00:15:36.670 --> 00:15:40.760
+chuanwu: Okay, an excellent example is just a scalar variable.
+
+79
+00:15:53.670 --> 00:15:59.469
+chuanwu: Okay, So, our youth asks at the… about our use of…
+
+80
+00:15:59.750 --> 00:16:02.730
+chuanwu: That's why, yeah, XOL is also fine.
+
+81
+00:16:02.870 --> 00:16:10.459
+chuanwu: So I'll… abuse the notation a bit. I'll consider this X is a particular
+
+82
+00:16:10.850 --> 00:16:17.670
+chuanwu: dot on the horizontal axis, and Y is another dot on the horizontal axis.
+
+83
+00:16:19.090 --> 00:16:19.950
+chuanwu: Okay.
+
+84
+00:16:20.080 --> 00:16:29.629
+chuanwu: So, in this scalar function, you can hope work that, the, gradient of FX is exactly F prime X.
+
+85
+00:16:30.690 --> 00:16:41.999
+chuanwu: What is F' X? It's a derivative of fx with respect to X. Of course, this now is actually not partial derivative, because we only have one variable there.
+
+86
+00:16:43.460 --> 00:16:44.380
+chuanwu: Okay.
+
+87
+00:16:46.600 --> 00:16:58.189
+chuanwu: Say that again? So when the variable X is a scalar variable, then the gradient is actually just the derivative of the function with respect to X, and we use F prime x to denote that.
+
+88
+00:16:59.100 --> 00:17:03.740
+chuanwu: Okay, so F prime X, Y minus… Y minus X.
+
+89
+00:17:11.510 --> 00:17:21.989
+chuanwu: Okay, essentially… what we… get using, F prime X multiplied.
+
+90
+00:17:22.579 --> 00:17:24.279
+chuanwu: Y minus X.
+
+91
+00:17:24.480 --> 00:17:27.340
+chuanwu: is… less quantity.
+
+92
+00:17:29.660 --> 00:17:31.639
+chuanwu: This is a tangent line.
+
+93
+00:17:32.030 --> 00:17:34.790
+chuanwu: So what's the blue, gender colors?
+
+94
+00:17:39.790 --> 00:17:45.040
+chuanwu: The red line I'm drawing is a tangent line. Okay, it's a tangent line.
+
+95
+00:17:45.530 --> 00:17:46.340
+chuanwu: Ed?
+
+96
+00:17:48.540 --> 00:17:55.140
+chuanwu: Okay, and that vertical distance is calculated using M times X multiplied Y minus X.
+
+97
+00:17:55.770 --> 00:17:59.500
+chuanwu: Because FR max is the slope of the tangent line.
+
+98
+00:18:00.620 --> 00:18:01.520
+chuanwu: Okay.
+
+99
+00:18:01.670 --> 00:18:03.600
+chuanwu: All right, and Zed?
+
+100
+00:18:03.820 --> 00:18:05.050
+chuanwu: the,
+
+101
+00:18:05.560 --> 00:18:19.289
+chuanwu: value, the vertical coordinator, set of second or vertical axis value of this red dot is exactly F prime X, Y minus X, plus
+
+102
+00:18:19.880 --> 00:18:20.830
+chuanwu: FS.
+
+103
+00:18:24.530 --> 00:18:32.049
+chuanwu: Okay, so this vertical coordinate, the second coordinate value is fx plus f prime x y minus X.
+
+104
+00:18:32.460 --> 00:18:39.820
+chuanwu: And then, how about the, function value of that point? That blue point, it is FY.
+
+105
+00:18:40.070 --> 00:18:51.529
+chuanwu: So we see the blue point is a blue dot is above the red dot. So that geometrically shows FY is larger than equal to FX plus F prime x 5 minus X.
+
+106
+00:18:51.760 --> 00:18:53.710
+chuanwu: So that's when the impact they left.
+
+107
+00:18:53.980 --> 00:18:55.990
+chuanwu: First, all the recommendation is the…
+
+108
+00:18:58.050 --> 00:19:07.379
+chuanwu: And the right-hand side is first-order approximation, so a first-order approximation of F is at least an underestimator of the function value F1.
+
+109
+00:19:10.630 --> 00:19:13.230
+chuanwu: Okay, so I hope that is clear.
+
+110
+00:19:13.480 --> 00:19:26.100
+chuanwu: And if we change the inequality side to strict inequality, then we come up with strictly complex, property related to strictly complex,
+
+111
+00:19:26.250 --> 00:19:36.300
+chuanwu: function, so exactly if, F is, this trans domain is going to be complex, if and only F1 larger than FX.
+
+112
+00:19:37.820 --> 00:19:45.049
+chuanwu: Not black, okay? That's not black, that's a gradient, or a gradient, and that's not black, and that's transpose Yan says.
+
+113
+00:19:48.660 --> 00:20:07.709
+chuanwu: Okay, so except for the geometry illustration, so during the course, from time to time, I will draw on the board to show you some geometry illustrations to understand the property, the condition, and so on, but we do provide more strict proof for a few of the, important, conversational properties.
+
+114
+00:20:07.740 --> 00:20:09.740
+chuanwu: CRFs, we actually…
+
+115
+00:20:09.860 --> 00:20:17.060
+chuanwu: Okay, so next here, let's briefly go through the strict rules of the first order conversion.
+
+116
+00:20:17.120 --> 00:20:34.320
+chuanwu: And we first show the sufficiency of the equation, so that is, if we know that inequality holds, then we know the function fx is convex. And following that, we show the necessity, so we consider fx is convex, then we'll show the inequality holds.
+
+117
+00:20:38.490 --> 00:20:42.899
+chuanwu: Okay, alright. Starting from the sufficiency proof.
+
+118
+00:20:43.020 --> 00:20:53.849
+chuanwu: We consider two dots, X and Y, two points in the domain of the function, and we also consider the complex combination point of the two points, which is D,
+
+119
+00:20:56.810 --> 00:21:16.699
+chuanwu: And then we know between X and Z, the inequality in first-order condition holds. Okay, so that is FXD plus FD inner product X minus Z, and then between the two points, Y and Z, the inequality in the first dollar condition also holds.
+
+120
+00:21:16.710 --> 00:21:22.730
+chuanwu: Okay, because that inequality host, you can only pull stop two points from the domain of the function.
+
+121
+00:21:23.290 --> 00:21:35.469
+chuanwu: And we multiply theta on both sides of the first inequality, we multiply 1 minus theta on both sides of the second inequality, and then we sum up on both sides of the inequalities, respectively.
+
+122
+00:21:35.650 --> 00:21:45.849
+chuanwu: Okay, so what we get is here, left-hand side, CTA at X plus 1 minus theta Y, and right-hand side, you will find out some terms, and so each other
+
+123
+00:21:55.320 --> 00:22:00.249
+chuanwu: Right, yes. And then what reveals is only athlete.
+
+124
+00:22:03.990 --> 00:22:13.859
+chuanwu: Why the right-hand side sometimes cancel each other? Because there is a relation between D, X, and Y. D is convex combination between X and Y, right? Okay.
+
+125
+00:22:14.250 --> 00:22:22.240
+chuanwu: Alright, and then what this exactly shows is, this exactly shows FX is coax.
+
+126
+00:22:22.980 --> 00:22:32.209
+chuanwu: Because convex combination of function values is no smaller than function value evaluated on the complex combination of the two points.
+
+127
+00:22:33.380 --> 00:22:39.519
+chuanwu: So that is exactly the Justice inequality in, establishing a function D complex.
+
+128
+00:22:41.020 --> 00:22:42.170
+chuanwu: Okay.
+
+129
+00:22:42.340 --> 00:22:57.480
+chuanwu: And then, next ZCC conditions proof, last one, is that now we assume we know FX is convex. Now we want to show this inequality holds between any two points X and Y from the domain of the function.
+
+130
+00:22:57.750 --> 00:23:16.839
+chuanwu: Okay, so first of all, if we know FX is convex, then we know FX satisfies the Jackson's inequality. Okay, now we consider, the, Jackson's inequality, between X and Y, and the, convex combination coefficient is CT and Y minus T.
+
+131
+00:23:17.390 --> 00:23:27.130
+chuanwu: Okay, so Jason's the qualitative says function evaluated as a convex combination, no larger than the complex combination of the two function values.
+
+132
+00:23:28.620 --> 00:23:35.700
+chuanwu: Okay, so you should know the X, the left side, X plus T, Y minus X, that's exactly…
+
+133
+00:23:35.990 --> 00:23:41.490
+chuanwu: T times 1 minus T times X plus
+
+134
+00:23:41.830 --> 00:23:44.770
+chuanwu: T times F, Y? T times Y.
+
+135
+00:23:46.510 --> 00:23:53.499
+chuanwu: Okay, per X per manageable 2 points, this is its X, exactly X plus…
+
+136
+00:23:57.510 --> 00:23:59.810
+chuanwu: E times Y minus X.
+
+137
+00:24:04.240 --> 00:24:05.040
+chuanwu: Right.
+
+138
+00:24:07.270 --> 00:24:09.589
+chuanwu: Okay, that's an inequality.
+
+139
+00:24:11.120 --> 00:24:28.219
+chuanwu: Okay, and then we move, the… the reason we put it this way is we want to move, part of it to one… the other side of the inequality. Like, we move this 1 minus TFX to the left-hand side.
+
+140
+00:24:28.350 --> 00:24:34.289
+chuanwu: And we have the Y four slides by T. So T is a non-active value.
+
+141
+00:24:34.600 --> 00:24:41.219
+chuanwu: So when we divide both sides by key, that sign, the direction of the evening holiday doesn't change.
+
+142
+00:24:41.660 --> 00:24:44.000
+chuanwu: direction of the important design.
+
+143
+00:24:45.270 --> 00:24:46.210
+chuanwu: Okay.
+
+144
+00:24:46.370 --> 00:24:55.090
+chuanwu: And the, on the right-hand side here, we do have this term, F, like, F minus F,
+
+145
+00:24:55.200 --> 00:24:59.299
+chuanwu: Come x combination of two points minus FX divided by P.
+
+146
+00:24:59.800 --> 00:25:05.389
+chuanwu: And the reason we put it down this way is we want to come up with a rhythm.
+
+147
+00:25:06.020 --> 00:25:08.829
+chuanwu: Or derivative of the X function.
+
+148
+00:25:09.810 --> 00:25:23.190
+chuanwu: And, here, when T goes to 0, okay, when T goes to 0, so essentially what we are having is, here we have X plus a small quantity, multiply a difference vector.
+
+149
+00:25:25.100 --> 00:25:32.990
+chuanwu: And, Yeah, and here, XY equals the dimensional vector.
+
+150
+00:25:33.140 --> 00:25:48.649
+chuanwu: And essentially, this is the formula to calculate the directional derivative of function f along the direction of y minus X. And the calculation formula for directional derivative is…
+
+151
+00:25:49.410 --> 00:26:05.120
+chuanwu: Exactly here. So, the difference of slaught function valued right by T when P goes to 0 equals the inner productivity between the gradient vector evaluated at X and the difference factor, Y minus X.
+
+152
+00:26:14.890 --> 00:26:27.760
+chuanwu: Yeah, we will see this, as the, calculation of the directional derivative again later. In fact, if you'll check it out, the definition background, related to this.
+
+153
+00:26:27.760 --> 00:26:35.399
+chuanwu: Irrational derivative. You can check out the, page 641 appendix of the, textbook.
+
+154
+00:26:48.240 --> 00:26:50.359
+chuanwu: Okay, I'll put down the thermal.
+
+155
+00:27:00.060 --> 00:27:07.799
+chuanwu: This is a so-called directional derivative, and what is the directional vector? So the directional vector is indicated by Y minus X.
+
+156
+00:27:07.900 --> 00:27:24.200
+chuanwu: So, intuitively, here, the quantitative, to evaluate function f is deviated from our original point x by, along the direction of Y minus X by the amount of T.
+
+157
+00:27:24.570 --> 00:27:30.429
+chuanwu: That is the idea. So, when the direction is fixed, the starting point is fixed, and the
+
+158
+00:27:36.120 --> 00:27:36.970
+chuanwu: X?
+
+159
+00:27:37.820 --> 00:27:40.910
+chuanwu: And that is the direction Y minus X.
+
+160
+00:27:41.370 --> 00:27:42.290
+chuanwu: Okay.
+
+161
+00:27:42.560 --> 00:27:53.729
+chuanwu: So this is a point X in the undimensional space, and that is Y, and this vector indicates the direction of Y minus X. So essentially, when we deviated, X,
+
+162
+00:27:53.730 --> 00:28:04.429
+chuanwu: along the direction of Y minus X for the amount of T, and when it goes to a very small value, then the calculation here is the directional derivative.
+
+163
+00:28:04.670 --> 00:28:22.100
+chuanwu: So we will generalize this notion a bit later in the course, but now you know this is a definition of directional derivative, and it is exactly equivalent to the inner product calculation here. It is equivalent to the inner product between the gradient vector and the direction vector.
+
+164
+00:28:27.190 --> 00:28:28.100
+chuanwu: Okay.
+
+165
+00:28:28.570 --> 00:28:38.269
+chuanwu: All right, and then, what we directly come up with is the right-hand side of the inequality, first-order condition.
+
+166
+00:28:39.030 --> 00:28:44.530
+chuanwu: Okay, so we have X plus inner vertex could be gradient vector and 1 minute sex.
+
+167
+00:28:52.390 --> 00:28:53.290
+chuanwu: Okay.
+
+168
+00:28:53.370 --> 00:28:58.220
+chuanwu: Coming up, our next discussion is on sectorization.
+
+169
+00:28:58.270 --> 00:29:14.019
+chuanwu: So when we consider second-order condition on a potentially convex function, we have to require the function to be twice differentiable, not just a differentiable, as assumed in first order foundation, now we talk about second order, so it has to be twice differentiable.
+
+170
+00:29:14.020 --> 00:29:23.160
+chuanwu: And the function f is twice changeable if the domain is open and the passion matrix exists at every point X in its domain.
+
+171
+00:29:23.160 --> 00:29:30.270
+chuanwu: So what is a hashing matrix? So, a hashing matrix is, express as the,
+
+172
+00:29:30.570 --> 00:29:43.830
+chuanwu: not last square. Okay, not last sign, and then square, and then FX. So, we will see this notation again and again in the course, and you should know what this denotes is actually a matrix.
+
+173
+00:29:43.980 --> 00:29:58.779
+chuanwu: It's not a vector, not a scalar, it's a matrix in general. And it is a symmetric matrix. Recall, we use S to denote the set of symmetric matrices, and S means a symmetric matrix matrices.
+
+174
+00:29:59.580 --> 00:30:19.220
+chuanwu: Okay, and every, element in this, matrix is, partial, so this is, I just element in this, Hashan matrix, and it is calculated as the, second-order partial derivative of FX with respect to Xi and XJ, respectively.
+
+175
+00:30:19.740 --> 00:30:22.750
+chuanwu: Okay, and to put the full form.
+
+176
+00:30:23.010 --> 00:30:26.770
+chuanwu: of the matrix down, here it is.
+
+177
+00:30:47.130 --> 00:30:55.399
+chuanwu: Though Hessian, So, number squared fx, meaning Hashim matrix of the function FX,
+
+178
+00:31:51.950 --> 00:32:03.619
+chuanwu: Okay, so essentially, the IJ's entry in the matrix is the second logger partial derivative of FX with respect to Xi first, and then XJ second vectors.
+
+179
+00:32:05.240 --> 00:32:12.429
+chuanwu: And along the min diagonal, it is a second-order partial derivative function with respect to Xi.
+
+180
+00:32:14.120 --> 00:32:15.020
+chuanwu: Only.
+
+181
+00:32:15.700 --> 00:32:17.979
+chuanwu: All right, symmetric matrix.
+
+182
+00:32:19.030 --> 00:32:37.300
+chuanwu: Because when you do partial derivative, you do it with respect to Xi first, then XJ next is equivalent to doing the partial derivative with respect to XJ first, and the Xi events. Okay, so that's why, along the mint diagonal, the medals are, symmetrically equivalent.
+
+183
+00:32:41.760 --> 00:32:56.070
+chuanwu: Okay, so the hashing matrix should exist, so that also means a function should be differentiable with respect to Xi, the second order is differentiable, as differentiable with respect to Xi, and then XJ, and all.
+
+184
+00:32:57.250 --> 00:32:58.250
+chuanwu: X.
+
+185
+00:33:00.850 --> 00:33:01.740
+chuanwu: Okay.
+
+186
+00:33:02.180 --> 00:33:03.860
+chuanwu: Alright. Hmm.
+
+187
+00:33:04.470 --> 00:33:17.950
+chuanwu: So the second order condition will be coming up here. We consider F to be twice differentiable, and the domain is complex. Then F is collect if and only if this passion matrix
+
+188
+00:33:18.070 --> 00:33:20.810
+chuanwu: Africa, so I got this meet.
+
+189
+00:33:21.060 --> 00:33:23.440
+chuanwu: This is a generalized inequality.
+
+190
+00:33:23.580 --> 00:33:31.490
+chuanwu: It looks like it is putting down in a slightly different way as a generalized logical side, right?
+
+191
+00:33:32.650 --> 00:33:35.400
+chuanwu: So what does this mean? You'll still remember?
+
+192
+00:33:37.220 --> 00:33:42.829
+chuanwu: So that actually means the left-hand side of the matrix is positive semi-definite.
+
+193
+00:33:43.350 --> 00:33:52.699
+chuanwu: Positive, semi-definite, so remember that. If you don't remember, look back on our, slides, look back on our previous seven slides.
+
+194
+00:33:53.000 --> 00:33:58.730
+chuanwu: Where we discuss, Probable. And, generalized inequality.
+
+195
+00:34:00.490 --> 00:34:19.089
+chuanwu: Okay, and then the second level condition is actually pretty much in a very neat form. So it means, the, cachion matrix is positive semi-depthony, and all the point X in the domain is sufficient and density condition to establish that the twice-predential function f is covex.
+
+196
+00:34:19.830 --> 00:34:33.310
+chuanwu: So this is pretty neat. And then, strictly from X case, if we know the hashing matrix is larger than 0, that means it is positive definite, not the 7 definite, it's positive definite.
+
+197
+00:34:33.460 --> 00:34:43.260
+chuanwu: So if the Hachian matrix is positive detonate at all point F in the domain, then function F is strictly collapsed.
+
+198
+00:34:44.360 --> 00:34:48.989
+chuanwu: For strictly complexity of the function, this is only a sufficient condition.
+
+199
+00:34:49.199 --> 00:34:51.819
+chuanwu: It is not necessary condition.
+
+200
+00:34:52.320 --> 00:34:55.139
+chuanwu: Okay, it's not exactly NASA's recommendation.
+
+201
+00:35:09.680 --> 00:35:10.480
+chuanwu: Right.
+
+202
+00:35:10.600 --> 00:35:16.210
+chuanwu: Okay, all right, I think I do have examples coming up.
+
+203
+00:35:33.360 --> 00:35:40.200
+chuanwu: Yep, so let's, check here… yeah, let's check out this first example first.
+
+204
+00:35:40.580 --> 00:35:57.949
+chuanwu: Okay, as I said, the, if the hashing matrix is positive definite, the complex is a sufficient condition, but on the other hand, the, converse may not be true, meaning it's not strict… it's not the necessary condition.
+
+205
+00:35:58.030 --> 00:36:07.909
+chuanwu: So here, on sphere function of X. Consider sphere function of X, where X is ER, and X power forth, okay, X to the power of fourth.
+
+206
+00:36:08.190 --> 00:36:15.919
+chuanwu: And, that function can be easily verified or stealing from its function curve. It's a strictly collect function.
+
+207
+00:36:16.440 --> 00:36:21.140
+chuanwu: function. I can pull the power of 4 as a straight-bit comma X function.
+
+208
+00:36:21.270 --> 00:36:29.819
+chuanwu: And… but on the other hand, what does this, hashing matrix looks like. So, in terms of, dealer function.
+
+209
+00:36:30.250 --> 00:36:44.679
+chuanwu: In terms of scalar function here, the first order derivative, we use F prime to denote. So F' X is 4 times X to the power 3, right? So we all know how to calculate the derivative of
+
+210
+00:36:44.830 --> 00:36:55.229
+chuanwu: a scalar function. And then what about second order? So second order derivative of a function, we use F prime prime, okay, F prime prime to represent
+
+211
+00:36:55.350 --> 00:37:00.340
+chuanwu: And further is equivalent of 2 power times X to the power 2.
+
+212
+00:37:01.240 --> 00:37:08.119
+chuanwu: And 12, and in case… in terms of, we want the Hessian matrix to be positive.
+
+213
+00:37:08.650 --> 00:37:17.239
+chuanwu: to be a positive definite. And when X is a scalar variable, the matrix, becomes,
+
+214
+00:37:17.380 --> 00:37:32.889
+chuanwu: the matrix actually contains a single value, right? Single value, one times one matrix, a single value. And, in terms of it being positive definite, so that actually requires the single value to be larger than zero.
+
+215
+00:37:34.270 --> 00:37:53.950
+chuanwu: Okay, larger than 0, 12 times X squared may not be larger than 0 at all points. If X is 0, it's exactly 0. So this shows the converse of that sufficient condition is not true, or necessity of the condition to establish strictly convexity of the function is not true.
+
+216
+00:37:54.980 --> 00:37:55.920
+chuanwu: Okay.
+
+217
+00:37:58.950 --> 00:38:03.209
+chuanwu: Alright, let's see more examples here.
+
+218
+00:38:03.680 --> 00:38:18.999
+chuanwu: FX equals X squared. So it's an even simpler example than the X over 4 example. So I'll leave it to you to show that, using the second-law condition, we can establish function fx equals X squared based off
+
+219
+00:38:19.590 --> 00:38:32.050
+chuanwu: complex function, okay? Still use the, second order condition. So, F prime, prime times exact pace, S,
+
+220
+00:38:33.300 --> 00:38:34.720
+chuanwu: tool, right?
+
+221
+00:38:35.050 --> 00:38:36.660
+chuanwu: As exactly…
+
+222
+00:38:37.740 --> 00:38:51.540
+chuanwu: For the function X to power 2, X squared, its second derivative is invariant 2. Okay, so 2 is not very equal to 0, so then second of the equation holds, so the square function X squared is a complex function.
+
+223
+00:38:51.860 --> 00:39:00.839
+chuanwu: And moving on to the n-dimensional domain set, now we consider function FX is in the general form of this grading function.
+
+224
+00:39:01.010 --> 00:39:20.519
+chuanwu: Okay, so X squared is a contracting function when X is a scalar value, a scalar variable. And when X is an dimensional vector, the general form of contracting function looks like this. Okay, so we have some, potentially some coefficient, then X inner product of P, and then X.
+
+225
+00:39:20.540 --> 00:39:24.520
+chuanwu: And here, P is a n times n symmetric matrix.
+
+226
+00:39:24.690 --> 00:39:40.980
+chuanwu: And we have another input vector Q, and the second term is the so-called first-order term related to X. It is an inner product between the input vector Q and the variable vector X, and then another scalar constant R.
+
+227
+00:39:41.090 --> 00:39:46.200
+chuanwu: So this is the general form of a chondrafic function.
+
+228
+00:39:46.330 --> 00:40:04.590
+chuanwu: And why it is the general form of quadratic function? If we do the detailed calculation with respect to the elements in vector X, you will find out the function fx there is exactly on second order of the
+
+229
+00:40:05.190 --> 00:40:07.380
+chuanwu: scalar variables in X.
+
+230
+00:40:18.480 --> 00:40:28.009
+chuanwu: Okay, so X equals, 1 half X transpose. X transpose give us,
+
+231
+00:40:28.160 --> 00:40:40.390
+chuanwu: row vector. So X itself is a column vector, and X transpose is a draw vector. So when we express joll vector, we use square brackets, and we don't put comma. Okay, so we have…
+
+232
+00:40:40.590 --> 00:40:43.219
+chuanwu: We use this for denote.
+
+233
+00:40:43.340 --> 00:40:46.090
+chuanwu: Two separate different elements there.
+
+234
+00:40:46.600 --> 00:40:53.039
+chuanwu: And then P. So P is some matrix, P11PNN.
+
+235
+00:40:53.540 --> 00:41:06.029
+chuanwu: B1, and so on, right? And then we have, X again, X1 up to XN, now it's, in the form of a quarter vector.
+
+236
+00:41:23.050 --> 00:41:39.159
+chuanwu: Okay, and then we have, Q inner product X. So Q transpose divest, like, a rho vector, Q1 of QN, and then X1 of XN, and then plus R.
+
+237
+00:41:40.530 --> 00:41:41.550
+chuanwu: Okay.
+
+238
+00:41:41.720 --> 00:41:53.309
+chuanwu: And we do the calculation between vectors and the matrix and the inner product between vectors, and essentially, what we'll get as a result is here.
+
+239
+00:42:28.980 --> 00:42:29.830
+chuanwu: Okay.
+
+240
+00:42:29.980 --> 00:42:36.740
+chuanwu: Alright, so this is the detailed way to calculate the FX, and we see we have quadratic term on X.
+
+241
+00:42:38.160 --> 00:42:48.340
+chuanwu: X components, right? So either Xi XJ or Xi squared are all involved here, in this full, two-layer summation.
+
+242
+00:42:49.370 --> 00:42:51.640
+chuanwu: Product, summation of the product.
+
+243
+00:42:51.830 --> 00:42:53.820
+chuanwu: Okay, then we have,
+
+244
+00:42:54.470 --> 00:43:04.510
+chuanwu: linear term, okay, first order term related to Xi's. Okay, and this is considered contracted term on Xi's, and here is linear term on Xi's.
+
+245
+00:43:05.200 --> 00:43:08.400
+chuanwu: Alright, and then, how about the,
+
+246
+00:43:08.790 --> 00:43:15.890
+chuanwu: the, 3D and the impression calculation on FX. So we know FX is the,
+
+247
+00:43:17.420 --> 00:43:24.680
+chuanwu: Nebula FX gradient consists of Partial derivative of… X.
+
+248
+00:43:25.520 --> 00:43:29.340
+chuanwu: FX related to each Adamance?
+
+249
+00:43:30.020 --> 00:43:31.409
+chuanwu: In the vector.
+
+250
+00:43:32.120 --> 00:43:32.980
+chuanwu: Excellent.
+
+251
+00:43:34.810 --> 00:43:41.409
+chuanwu: Okay, and then, what is the partial derivative of FX related to X1?
+
+252
+00:43:43.070 --> 00:44:00.810
+chuanwu: So we see all the terms we fix. When we do the partial derivative calculation of FX with respect to one component, one variable in vector X, we fix all the other variables, components, values, and only vary that Xi, right?
+
+253
+00:44:00.970 --> 00:44:01.970
+chuanwu: Okay.
+
+254
+00:44:02.120 --> 00:44:07.960
+chuanwu: And the details, as here.
+
+255
+00:44:17.650 --> 00:44:27.489
+chuanwu: Pick any Xi, okay, pick any Xi, the partial derivative would be exactly… Well, that'll hear.
+
+256
+00:45:21.750 --> 00:45:28.419
+chuanwu: Okay, we fixed the variable we are considering now, as, 2XI, okay, general XI.
+
+257
+00:45:28.540 --> 00:45:33.430
+chuanwu: And we do the partial derivative calculation of FX with respect to Xi.
+
+258
+00:45:34.010 --> 00:45:53.030
+chuanwu: Okay, so essentially, here, this is a constant, so it's gone in the derivative calculation, and over here, only the terms Qi Xi remained in partial derivative calculation, and the partial derivative of that linear term with respect to Xi is exactly Qi here.
+
+259
+00:45:53.730 --> 00:46:13.130
+chuanwu: And then the, most of the complexity lies in here. So here we have two-level summation, sum i, sumj, PIJXI, XJ. So when Xi here is fixed to Xi, the, XJ is, when we focus on Xi and consider all the other XJs are fixed.
+
+260
+00:46:13.180 --> 00:46:30.269
+chuanwu: the, we have, the sum of JE, PI, JE, and XJ that remains, right? And then, if we fix the second variable, XJ, to be our dedicated XI, and then the other half remains in the,
+
+261
+00:46:30.810 --> 00:46:35.310
+chuanwu: partial derivative calculation, so it's another 1 half of sum over J.
+
+262
+00:46:35.430 --> 00:46:37.780
+chuanwu: PJFXJ.
+
+263
+00:46:38.400 --> 00:46:40.589
+chuanwu: You can verify, you can double check.
+
+264
+00:46:49.210 --> 00:46:49.980
+chuanwu: Okay.
+
+265
+00:46:52.370 --> 00:46:53.400
+chuanwu: Alright.
+
+266
+00:46:55.750 --> 00:47:07.030
+chuanwu: So this is our partial derivative of every entry in the NBA FX gradient vector, and the concept way to put it down is exactly here.
+
+267
+00:47:07.280 --> 00:47:10.289
+chuanwu: is matrix P times X plus Q.
+
+268
+00:47:10.690 --> 00:47:11.530
+chuanwu: Okay.
+
+269
+00:47:14.390 --> 00:47:16.709
+chuanwu: To the, reason, yes?
+
+270
+00:47:17.440 --> 00:47:27.779
+chuanwu: PIJ equals PJI, right? PIJ equals PJI. So, actually, this can sum up together, and 1 half, one half add up together becomes just what?
+
+271
+00:47:28.820 --> 00:47:30.030
+chuanwu: Right.
+
+272
+00:47:34.280 --> 00:47:49.309
+chuanwu: So this is our matrix P. So PX plus Q was one single row in the result vector here. So that is a corresponding row in P, multiply the vector X.
+
+273
+00:47:49.600 --> 00:47:51.680
+chuanwu: or even productive XRX.
+
+274
+00:48:02.700 --> 00:48:08.329
+chuanwu: the… do I need to put down more details? Or actually, you can already get it from my…
+
+275
+00:48:08.880 --> 00:48:12.220
+chuanwu: like, detailed illustration here. Okay.
+
+276
+00:48:12.590 --> 00:48:18.119
+chuanwu: So here is, what I want to introduce is a very detailed calculation, and,
+
+277
+00:48:19.090 --> 00:48:20.730
+chuanwu: What you should know is.
+
+278
+00:48:20.870 --> 00:48:30.280
+chuanwu: These two terms can just be combined and coefficiently removed, and the result is only this class.
+
+279
+00:48:30.580 --> 00:48:31.469
+chuanwu: He'll laugh.
+
+280
+00:48:32.970 --> 00:48:42.480
+chuanwu: That's exactly one row in the Nebula FX matrix, or one row in the result calculation for PX plus Q.
+
+281
+00:48:43.350 --> 00:48:44.250
+chuanwu: Agreed?
+
+282
+00:48:45.260 --> 00:48:46.200
+chuanwu: Okay.
+
+283
+00:48:46.850 --> 00:48:51.229
+chuanwu: Alright, and then, how about the fashion matrix?
+
+284
+00:48:51.380 --> 00:48:53.959
+chuanwu: So, if you do the S…
+
+285
+00:48:54.350 --> 00:49:03.929
+chuanwu: partial derivative calculation again on the detailed form of this partial derivative. So you do the negla FX…
+
+286
+00:49:05.540 --> 00:49:17.250
+chuanwu: The partial derivative of FX derivative to Xi, and then you do a second order, do another round of partial derivative calculation with respect to XP.
+
+287
+00:49:17.530 --> 00:49:25.279
+chuanwu: And if you use the detailed form of the calculation there, you will find out that would exactly result in T times J.
+
+288
+00:49:27.130 --> 00:49:29.130
+chuanwu: That is exactly PIJ.
+
+289
+00:49:30.310 --> 00:49:38.150
+chuanwu: So that's why the, whole cache matrix here would eventually be exactly related to just matrix cache.
+
+290
+00:49:40.020 --> 00:49:55.109
+chuanwu: Okay, all right, so here I'm doing some quite a detailed illustration. Let you know how this is actually in detail, derived, but what you actually should remember is the result.
+
+291
+00:49:55.370 --> 00:50:06.699
+chuanwu: The quadratic function in standard form as a match, the Hessian and the gradient vectors are so commonly used, and you should remember how they are calculated.
+
+292
+00:50:06.880 --> 00:50:17.230
+chuanwu: Your gradient vector is exactly P times X plus Q, and the catching matrix is exactly P, the asymmetric matrix appearing in the second order term.
+
+293
+00:50:17.650 --> 00:50:22.299
+chuanwu: If the second order from X transpose PX has a coefficient one time.
+
+294
+00:50:22.720 --> 00:50:33.089
+chuanwu: Okay, so if in some cases you see the, general form of, the chondriatic function as,
+
+295
+00:50:33.650 --> 00:50:38.060
+chuanwu: like here, X transpose A, X plus
+
+296
+00:50:40.070 --> 00:50:48.600
+chuanwu: Q transpose X plus R, then you should know it's, it is,
+
+297
+00:50:52.270 --> 00:50:53.360
+chuanwu: Gradient?
+
+298
+00:50:54.110 --> 00:50:56.169
+chuanwu: to V, 2 times.
+
+299
+00:50:56.460 --> 00:50:58.180
+chuanwu: PX plus cubed.
+
+300
+00:50:58.620 --> 00:51:02.820
+chuanwu: And this NAPLA tension matrix should be 2 times.
+
+301
+00:51:03.120 --> 00:51:04.689
+chuanwu: Sorry, 2 times A.
+
+302
+00:51:08.950 --> 00:51:10.130
+chuanwu: 2 times 8.
+
+303
+00:51:11.000 --> 00:51:16.420
+chuanwu: Okay, if we don't have coefficient 1 half in the quadrance.
+
+304
+00:51:18.240 --> 00:51:19.080
+chuanwu: Okay.
+
+305
+00:51:19.700 --> 00:51:25.379
+chuanwu: All right, so we'll be using this calculation, cash and…
+
+306
+00:51:25.870 --> 00:51:31.980
+chuanwu: gradient calculation of contracting functions, for, again and again in our examples in the course.
+
+307
+00:51:32.420 --> 00:51:44.229
+chuanwu: And now it comes to a concrete example. So think about the, least squares objectives. So in our very first lecture, we introduced a simple least square form of the meditation problem.
+
+308
+00:51:44.280 --> 00:51:56.550
+chuanwu: So this is the general form of this square objective. So the function is a L to square function of a F5 function, or composed, so it's an alpha function inside.
+
+309
+00:51:57.080 --> 00:52:06.139
+chuanwu: And, for such a list of square, for such a square objective, so if you minimize the FX, it becomes a list of squares combination power.
+
+310
+00:52:06.610 --> 00:52:09.270
+chuanwu: F, details.
+
+311
+00:52:10.250 --> 00:52:12.130
+chuanwu: And we…
+
+312
+00:52:12.420 --> 00:52:27.820
+chuanwu: If we convert this list squares objective function into the chondriatic function form as the fact, we will directly be able to directly put down its, Schnappler, gradient vector attention matrix.
+
+313
+00:52:55.440 --> 00:53:07.130
+chuanwu: Okay, so FX equals, L2 norm square… L2 norm square of a vector would exactly be in the product of the vector.
+
+314
+00:53:07.300 --> 00:53:12.740
+chuanwu: between the vector itself. So the vector in the product itself.
+
+315
+00:53:13.500 --> 00:53:14.500
+chuanwu: Okay.
+
+316
+00:53:14.660 --> 00:53:23.609
+chuanwu: So that is exactly X transpose A transpose minus B transpose, and then AX minus B.
+
+317
+00:53:24.330 --> 00:53:25.910
+chuanwu: And the further…
+
+318
+00:53:33.230 --> 00:53:41.069
+chuanwu: That would be X transpose A transpose AX. I'm just doing the detailed calculation.
+
+319
+00:53:41.260 --> 00:53:47.189
+chuanwu: B minus B transpose AX might plus B transpose B.
+
+320
+00:53:56.200 --> 00:53:57.080
+chuanwu: Okay.
+
+321
+00:53:57.480 --> 00:54:09.649
+chuanwu: All right, and then organize the second order term and first-order term. So our second order term is X transpose, A transpose AX, and our first order term would be…
+
+322
+00:54:14.690 --> 00:54:15.690
+chuanwu: Full tabs.
+
+323
+00:54:42.120 --> 00:54:42.980
+chuanwu: Okay.
+
+324
+00:54:43.550 --> 00:54:48.769
+chuanwu: So here, I'm making use of that scalar quantities transpose equals itself.
+
+325
+00:54:49.290 --> 00:54:55.259
+chuanwu: And the product, of two vector or matrix, I suppose, equals…
+
+326
+00:54:55.700 --> 00:55:00.229
+chuanwu: distributing the transpose into the tag, into DM.
+
+327
+00:55:00.490 --> 00:55:03.560
+chuanwu: to the vector or matrix, well.
+
+328
+00:55:03.800 --> 00:55:06.970
+chuanwu: Swapping the sequence in the product calculation.
+
+329
+00:55:07.120 --> 00:55:16.759
+chuanwu: Right, so… Alright, so the reason I'm putting this down, putting this function FX, form.
+
+330
+00:55:17.070 --> 00:55:31.059
+chuanwu: down who the, standard form of contracted function is, we want to plug in the result we already derived and shown on the slide to directly put down the,
+
+331
+00:55:36.340 --> 00:55:41.140
+chuanwu: To directly put down the, calculation.
+
+332
+00:55:51.660 --> 00:55:57.280
+chuanwu: of passion, and… Am I missing anything?
+
+333
+00:55:58.530 --> 00:56:00.020
+chuanwu: Passion and the gradient.
+
+334
+00:56:30.640 --> 00:56:31.490
+chuanwu: Okay.
+
+335
+00:56:31.810 --> 00:56:34.619
+chuanwu: Alright, checking out the hashes first.
+
+336
+00:56:34.930 --> 00:56:39.899
+chuanwu: So the fashion is of 2 times the, matrix.
+
+337
+00:56:40.110 --> 00:56:47.689
+chuanwu: In a standard form. Okay, 2 times the matrix in the standard form. So 2 times the matrix in the standard form.
+
+338
+00:56:48.930 --> 00:56:55.819
+chuanwu: So here, it is a matrix appearing in the quadratic, second-order term, in the quadratic function.
+
+339
+00:56:56.010 --> 00:57:01.020
+chuanwu: So, fashion matrix of FX is exactly 2 times A transpose X.
+
+340
+00:57:01.380 --> 00:57:14.870
+chuanwu: And then, the… So regarding the, gradient vector, so 2 times AX, So, 2 times a… X?
+
+341
+00:57:15.370 --> 00:57:16.630
+chuanwu: That's Q.
+
+342
+00:57:18.330 --> 00:57:20.420
+chuanwu: So Q is the…
+
+343
+00:57:20.830 --> 00:57:34.020
+chuanwu: vector, which we are interproducting with, the X width, in the linear term, first order term. So that would exactly be our negative 2 times A transpose B here.
+
+344
+00:57:36.420 --> 00:57:37.399
+chuanwu: All right.
+
+345
+00:57:38.020 --> 00:57:46.530
+chuanwu: And if we, exert the common term, our gradient vector is exactly 2 times A transpose multipl
+
+346
+00:57:48.850 --> 00:57:52.500
+chuanwu: Okay, 2 times A transpose AX minus B.
+
+347
+00:57:56.350 --> 00:58:12.959
+chuanwu: Okay, all right, so, the, so this shows if you are able to put down a contracting function into the standard form, you… we should be able to directly put down its first order gradient and second-order hashing matrix.
+
+348
+00:58:13.500 --> 00:58:15.330
+chuanwu: Following the formula above.
+
+349
+00:58:19.500 --> 00:58:20.610
+chuanwu: All right.
+
+350
+00:58:23.600 --> 00:58:30.470
+chuanwu: And, we actually know a split square objective function in this way is convex.
+
+351
+00:58:31.220 --> 00:58:39.959
+chuanwu: Based on second-order conditions here. So we have, the, hashing matrix in the form of 2 times A transpose 8.
+
+352
+00:58:40.390 --> 00:58:48.710
+chuanwu: So as long as… no matter what matrix A is, so here, A transpose A would be a positive semi-definite matrix.
+
+353
+00:58:49.000 --> 00:59:07.789
+chuanwu: This is a property we, should have studied in linear algebra. So A transpose X is a positive semi-deminate matrix, then the hash matrix is a positive semi-deminate, and then we know the second alternative course. So, this objective, this function is complex.
+
+354
+00:59:09.090 --> 00:59:25.390
+chuanwu: So, actually, we can easily prove A transpose A, regardless of what the A is like. Symmetric or non-symmetric, or, square or not square. It is positively semi-definite, just using the definition of positive semi-definite matrix.
+
+355
+00:59:25.800 --> 00:59:28.589
+chuanwu: So we know a function is,
+
+356
+00:59:28.970 --> 00:59:37.010
+chuanwu: Positives that mean definite. If any vector the matrix…
+
+357
+00:59:37.170 --> 00:59:49.189
+chuanwu: And then Z is large equal to 0, right? So here, P is our A transpose A, D. Okay, so D transpose A transpose AZ is directly
+
+358
+00:59:49.410 --> 00:59:50.620
+chuanwu: A lead.
+
+359
+00:59:51.560 --> 00:59:56.379
+chuanwu: L to norm squared, right? So, and this is definitely logical zero.
+
+360
+00:59:57.000 --> 01:00:04.160
+chuanwu: So therefore, it holds that for any matrix A, A transpose A is a positive semi-definite matrix.
+
+361
+01:00:06.870 --> 01:00:08.649
+chuanwu: All right,
+
+362
+01:00:09.270 --> 01:00:22.990
+chuanwu: Yeah, so we have seen some examples of a second-order condition, and let's, take a short break now before I continue introducing more detailed proof of second-order condition. Okay, 5 minutes, look.
+
+363
+01:00:40.880 --> 01:00:41.730
+chuanwu: Nope.
+
+364
+01:00:52.610 --> 01:01:07.069
+chuanwu: I'll ask for one thing, so I need to go to Shanghai for 3 weeks, late October to early November, so can I ask for the Zoom link for during that 3 weeks? Yes, we… the Zoom… you can find out the Zoom meeting
+
+365
+01:01:07.410 --> 01:01:15.180
+chuanwu: Moodle. Or Moodle, but, but, I mean, it shouldn't be open to anyone, otherwise… Well, currently, it is…
+
+366
+01:01:15.180 --> 01:01:21.029
+chuanwu: It's kind of open to everyone, because Moodle cannot set the restriction. Oh, but why is…
+
+367
+01:01:21.030 --> 01:01:40.370
+chuanwu: There are so many people in classrooms, given that the Zoom link is just there. Yeah, because we encourage people to come here. Actually, we cannot record everything I put on the board. Okay. Yeah, so if you come here to the lecture, you can see everything I illustrate on the board, but if you are on Zoom, you can only see the slide. Okay, I see, yeah.
+
+368
+01:01:45.690 --> 01:01:46.510
+chuanwu: Good.
+
+369
+01:01:56.110 --> 01:01:57.310
+chuanwu: Okay, let's do that.
+
+370
+01:02:05.740 --> 01:02:06.740
+chuanwu: this evening.
+
+371
+01:02:07.410 --> 01:02:08.350
+chuanwu: Super time.
+
+372
+01:02:16.760 --> 01:02:18.120
+chuanwu: April 7th here.
+
+373
+01:02:19.940 --> 01:02:20.740
+chuanwu: Probably.
+
+374
+01:03:31.930 --> 01:03:32.630
+chuanwu: Yes.
+
+375
+01:03:35.070 --> 01:03:36.780
+chuanwu: Isn't even conflating.
+
+376
+01:03:37.330 --> 01:03:38.830
+chuanwu: Right, here.
+
+377
+01:03:40.040 --> 01:03:45.100
+chuanwu: So this is implement B transpose AFX.
+
+378
+01:03:45.220 --> 01:03:48.670
+chuanwu: Because this is… overall, this is a scale.
+
+379
+01:03:48.900 --> 01:04:02.200
+chuanwu: scalar content is transpose equals itself. So it equals transpose of itself, transpose of itself is transpose both ends. And then, then the two terms are exactly the same, so three times.
+
+380
+01:04:02.270 --> 01:04:16.869
+chuanwu: And then also further about the, coefficient factor in the, ROVAC. Yeah, because earpiece also done in the form of ROVAC, the quality factor.
+
+381
+01:04:17.240 --> 01:04:30.450
+chuanwu: So I want to always distributed and transport products, such as I…
+
+382
+01:04:31.820 --> 01:04:42.390
+chuanwu: A transpose X transpose, and B transpose A. We split the T into the X term, so AX transpose would be equivalent to X transpose A transpose, so DX.
+
+383
+01:04:42.510 --> 01:04:45.730
+chuanwu: Who comes in the product native swath sequence.
+
+384
+01:04:46.280 --> 01:04:46.980
+chuanwu: Ed.
+
+385
+01:04:48.120 --> 01:04:49.340
+chuanwu: That's a little bit.
+
+386
+01:04:49.840 --> 01:04:50.599
+chuanwu: That's so cool.
+
+387
+01:04:51.160 --> 01:04:58.660
+chuanwu: So, essentially, AX transpose, because X transpose A transpose.
+
+388
+01:04:58.920 --> 01:05:09.379
+chuanwu: Instead of a transport. Because I… I tried to do the same motion. Because if I switched, then the people transportation, so…
+
+389
+01:05:09.870 --> 01:05:13.939
+chuanwu: I don't know how it's…
+
+390
+01:05:14.770 --> 01:05:32.480
+chuanwu: You can check out more of the revision of the fundamentals in the appendix of the textbook.
+
+391
+01:05:32.700 --> 01:05:36.230
+chuanwu: The textbook can be downloaded, PDF version.
+
+392
+01:05:55.590 --> 01:05:58.250
+chuanwu: What was it?
+
+393
+01:06:17.340 --> 01:06:18.210
+chuanwu: Nope, it's see
+
+394
+01:06:24.160 --> 01:06:27.079
+chuanwu: Don't go into that. Okay.
+
+395
+01:06:37.090 --> 01:06:43.000
+chuanwu: Okay, let's continue with our, class today, and moving on.
+
+396
+01:06:46.870 --> 01:06:57.360
+chuanwu: we will see some detailed proof of the second-order condition. So, in fact, here, we are only showing the second-order conditions proof on a restricted space.
+
+397
+01:06:57.480 --> 01:07:02.790
+chuanwu: That is, he considers scalar function. Scalar input, scalar output function F.
+
+398
+01:07:03.210 --> 01:07:13.919
+chuanwu: Okay, and in that case, we have some simple, neat, illustrations of the procedure for the pool, which, if you are interested, can extend it to higher water states.
+
+399
+01:07:14.380 --> 01:07:27.840
+chuanwu: Now, we suppose our function fx, which is a scalar function, and the input is on R, and suppose it is convexed, then we show that the attachment matrix is positive semi-definite.
+
+400
+01:07:27.840 --> 01:07:35.559
+chuanwu: And actually, in the scalar case, what we want to show is F prime is latter equal to zero, scale equal to 0.
+
+401
+01:07:36.560 --> 01:07:42.390
+chuanwu: So because here, we are making use of first-dollar condition that we already established.
+
+402
+01:07:42.630 --> 01:07:51.989
+chuanwu: So we know FX is convex, then first order condition holds. We consider two points X and Y, and we actually apply it twice.
+
+403
+01:07:52.230 --> 01:07:55.860
+chuanwu: Here.
+
+404
+01:07:57.910 --> 01:08:06.499
+chuanwu: So we consider XY is, logic to FX plus F prime X, Y minus X,
+
+405
+01:08:06.630 --> 01:08:12.670
+chuanwu: Okay, the first law of our foundation, in the case that FX is a scalar function.
+
+406
+01:08:12.800 --> 01:08:22.560
+chuanwu: And then, we have FY logic to F. FX mavering to FY, F prime Y x minus Y. Okay.
+
+407
+01:08:22.920 --> 01:08:33.140
+chuanwu: All right, the two points, X and Y. In the first case, we fixed the base point to be X, and in the second case, we fixed the base point to be Y.
+
+408
+01:08:33.380 --> 01:08:34.140
+chuanwu: Right.
+
+409
+01:08:34.310 --> 01:08:42.090
+chuanwu: Okay, and then what we have on the slide above here is combination of the two inequalities.
+
+410
+01:08:44.890 --> 01:08:45.620
+chuanwu: Bye.
+
+411
+01:08:50.630 --> 01:08:51.340
+chuanwu: Yes.
+
+412
+01:08:52.700 --> 01:08:54.640
+chuanwu: Okay, two inequality tips.
+
+413
+01:08:55.170 --> 01:09:00.280
+chuanwu: Two times, twice application of our, first authorization here.
+
+414
+01:09:02.170 --> 01:09:12.160
+chuanwu: Okay, and now check out the leftmost term and the rightmost term, right-hand side term of that chain of inequality.
+
+415
+01:09:12.170 --> 01:09:23.719
+chuanwu: We combine the common terms, and then what we get is here. So, difference between f prime X and F' Y multiplied X minus Y is larger to 0.
+
+416
+01:09:23.819 --> 01:09:36.140
+chuanwu: And then we know product of two terms, larger or equal to zero, equivalent to say that the quotient of the two terms is larger or equal to zero as well, because the signs should be the same.
+
+417
+01:09:36.270 --> 01:09:42.680
+chuanwu: Okay, science should be the same. Okay, and the reason we put,
+
+418
+01:09:42.979 --> 01:09:50.860
+chuanwu: with P drive our P already here, as we want to calculate the second order derivative.
+
+419
+01:09:51.399 --> 01:10:05.390
+chuanwu: So we know what X is very close to black, meaning X minus Y is close to 0. Then, the quantity here will exactly be at prime x, meaning second other derivative of X.
+
+420
+01:10:05.570 --> 01:10:06.340
+chuanwu: Right.
+
+421
+01:10:07.310 --> 01:10:12.839
+chuanwu: Okay, and we are able to show that another derivative there is not very good to zero.
+
+422
+01:10:17.680 --> 01:10:18.570
+chuanwu: Okay.
+
+423
+01:10:18.700 --> 01:10:22.419
+chuanwu: And here we are, showing…
+
+424
+01:10:22.840 --> 01:10:25.299
+chuanwu: That's the day of the second-order quotation.
+
+425
+01:10:25.730 --> 01:10:31.439
+chuanwu: Okay, F is 2x, and then we derive second order, derivative.
+
+426
+01:10:31.590 --> 01:10:34.059
+chuanwu: prime prime X is larger to 0.
+
+427
+01:10:37.270 --> 01:10:55.639
+chuanwu: Okay. And next comes, to the sufficiency of the second-order condition. Now we want to show that if a second-order derivative of a function f, scalar function f, is larger to 0, that we are able to show function f is commence.
+
+428
+01:10:59.670 --> 01:11:10.549
+chuanwu: Okay, now we consider two points from the domain of the function, X and Y, and suppose x is to the left of Y on the axis, X smaller than Y.
+
+429
+01:11:10.970 --> 01:11:21.190
+chuanwu: And then we do integral. Okay, integral of the term f prime prime Z multiplied by 500 z. Okay, we do the integral square.
+
+430
+01:11:24.690 --> 01:11:44.029
+chuanwu: So based on the property of integral calculation, so what we know is we can distribute this difference term, so 1 formulas Z, it becomes F'Y, and F prime prime z. And we do the integration of two parts, respectively, and then calculate the difference.
+
+431
+01:11:44.980 --> 01:11:51.020
+chuanwu: Alright, and here it is, based on some,
+
+432
+01:11:51.610 --> 01:11:55.820
+chuanwu: Knowledge we should have learned in undergrad calculus course.
+
+433
+01:11:55.960 --> 01:11:58.670
+chuanwu: Do we know this is the,
+
+434
+01:11:58.980 --> 01:12:18.429
+chuanwu: Antiderivative, okay, antiderivative of, some function that the integrity draws on. And, the, square of that antiderivative, is evaluated on Y and X, and then we take the difference. Let me put it down in more detail.
+
+435
+01:12:18.870 --> 01:12:19.630
+chuanwu: You're…
+
+436
+01:12:32.540 --> 01:12:37.730
+chuanwu: Okay, here, it's just the, pink.
+
+437
+01:12:38.090 --> 01:12:47.240
+chuanwu: revision of, concept of anti-derivative.
+
+438
+01:12:50.770 --> 01:12:51.205
+chuanwu: Oh.
+
+439
+01:12:52.170 --> 01:13:05.459
+chuanwu: So if the integral of function f x in the range from A to B equals the value of function F, divided by FB, and the minus the value of function f divided by FA,
+
+440
+01:13:05.460 --> 01:13:13.080
+chuanwu: So we may know this big F is an antiderivative function of small f… function f, okay?
+
+441
+01:13:13.220 --> 01:13:16.840
+chuanwu: And we will put that in this way.
+
+442
+01:13:18.550 --> 01:13:32.220
+chuanwu: Okay, and the derivative function inside a pair of plus square root braces, and then A and B is equivalent to 2 calculating the difference of FB minus F8, right?
+
+443
+01:13:32.650 --> 01:13:33.480
+chuanwu: Okay.
+
+444
+01:13:34.150 --> 01:13:42.250
+chuanwu: All right, making use of this, knowledge, we actually can see, over there.
+
+445
+01:13:43.470 --> 01:13:53.360
+chuanwu: The function here is the antiderivative of function f prime prime VY, Y already is a variable between the integral R.
+
+446
+01:13:59.380 --> 01:14:01.339
+chuanwu: Okay, show it here.
+
+447
+01:14:04.890 --> 01:14:07.590
+chuanwu: Or I just, you know, put it down here.
+
+448
+01:14:44.210 --> 01:14:45.000
+chuanwu: Okay.
+
+449
+01:14:45.960 --> 01:14:53.150
+chuanwu: What I'm putting down on the board here is a concrete example of big F and small f.
+
+450
+01:14:53.290 --> 01:14:59.519
+chuanwu: So our big F, the empty derivative function is this form, V multiplied F prime z.
+
+451
+01:14:59.750 --> 01:15:10.549
+chuanwu: And, F is its derivative. Okay, big F is the antiderivative of FX, and F is the derivative. Small F is the derivative of big F.
+
+452
+01:15:10.870 --> 01:15:12.900
+chuanwu: Right, okay, you can verify.
+
+453
+01:15:13.020 --> 01:15:18.099
+chuanwu: So here, our big F function is a product of two functions of the
+
+454
+01:15:18.230 --> 01:15:26.379
+chuanwu: D times F prime 2. And if we calculate the derivative of that, productive function.
+
+455
+01:15:26.720 --> 01:15:28.319
+chuanwu: And here it is.
+
+456
+01:15:28.480 --> 01:15:30.189
+chuanwu: We fixed the.
+
+457
+01:15:30.360 --> 01:15:36.549
+chuanwu: And we do derivative of a second term, F prime d. It gives us F prime prime d.
+
+458
+01:15:36.670 --> 01:15:45.690
+chuanwu: And if we fix the right-hand side, second term, F' Z, and we do derivative calculation on first term Z, it gives us 1.
+
+459
+01:15:46.280 --> 01:15:47.170
+chuanwu: Okay.
+
+460
+01:15:47.340 --> 01:15:48.720
+chuanwu: Therefore.
+
+461
+01:15:49.710 --> 01:16:00.419
+chuanwu: Excuse me, the rule of derivative calculation, I'm not actually in terms of what is the, rule of, computing derivative of production function.
+
+462
+01:16:00.850 --> 01:16:05.500
+chuanwu: So here, The function here is derivative.
+
+463
+01:16:05.840 --> 01:16:09.929
+chuanwu: of the peak function, Big F function on the right-hand side.
+
+464
+01:16:11.260 --> 01:16:17.560
+chuanwu: So therefore, because the connection between my circle, the two functions,
+
+465
+01:16:17.840 --> 01:16:31.090
+chuanwu: We know the integral of the left-hand side function in the range of A and B equals the difference of the right-hand side antiderivative functions evaluation on B and A, respectively.
+
+466
+01:16:32.040 --> 01:16:34.700
+chuanwu: Okay, so we're making use of that.
+
+467
+01:16:34.810 --> 01:16:37.110
+chuanwu: Here,
+
+468
+01:16:43.720 --> 01:16:51.129
+chuanwu: Okay, so here, D, F' D, Y, X, and Y, it corresponds to the term here.
+
+469
+01:16:51.490 --> 01:16:58.140
+chuanwu: And it's equivalent to, the integral of,
+
+470
+01:17:04.090 --> 01:17:04.870
+chuanwu: Cute.
+
+471
+01:17:04.970 --> 01:17:05.900
+chuanwu: Okay.
+
+472
+01:17:06.350 --> 01:17:20.710
+chuanwu: All right, so check out the, first, integral first. Okay, so check out this integral first. So its antiderivative is exactly at prime DY. Y here is fixed, and our variable is D.
+
+473
+01:17:20.760 --> 01:17:29.150
+chuanwu: So therefore, the integrals calculation equals its antiderivatives by the evaluation on Y and X, and then take the difference.
+
+474
+01:17:29.620 --> 01:17:36.459
+chuanwu: And the, and then check out the second integral on the second row of this deviation.
+
+475
+01:17:36.730 --> 01:17:52.709
+chuanwu: Here, what we are making use of is this antiderivative functions evaluation equals the sum of the two terms. And we have the first term above, then we have the antiderivative functions evaluation minus the integral there.
+
+476
+01:17:55.540 --> 01:17:57.260
+chuanwu: So, it is clear.
+
+477
+01:17:59.460 --> 01:18:00.430
+chuanwu: Okay.
+
+478
+01:18:01.210 --> 01:18:03.040
+chuanwu: Alright,
+
+479
+01:18:08.490 --> 01:18:13.249
+chuanwu: Okay, essentially, here, we are making use of, this formula rush. Thanks.
+
+480
+01:18:14.410 --> 01:18:27.320
+chuanwu: Okay, then we have… we know this square, drag tip, and then XY calculation is essentially the difference between the antiderivative functions value evaluation of
+
+481
+01:18:27.700 --> 01:18:46.390
+chuanwu: upper bound and lower bound, respectively. So that is exactly F' Y, Y minus F prime XY, and then here, it's exactly the prime here. And over here, we make use of the antiderivative of F' Z again. So F' D's antiderivative is F, F.
+
+482
+01:18:47.460 --> 01:18:53.050
+chuanwu: Z, okay, or F, and here the integral equals FY minus FX.
+
+483
+01:18:55.320 --> 01:18:56.210
+chuanwu: Okay.
+
+484
+01:18:56.480 --> 01:19:08.289
+chuanwu: And then, if we organize all the detailed terms, cancel some terms, and organize the common terms, and then we, result in, we come up with the,
+
+485
+01:19:09.520 --> 01:19:15.360
+chuanwu: That's the row here. And the last row here is exactly,
+
+486
+01:19:20.890 --> 01:19:23.919
+chuanwu: So the last little here…
+
+487
+01:19:26.400 --> 01:19:34.059
+chuanwu: Right. It should be larger or equal to zero. Why? So check out what we are deriving. Okay, what do we have derived at the very beginning.
+
+488
+01:19:34.110 --> 01:19:47.279
+chuanwu: So we are deriving the input row of function f prime prime z, Y minus Z, right? And, our input here, and what we assume known as F prime prime z dash equal to 0.
+
+489
+01:19:47.720 --> 01:19:53.179
+chuanwu: And regarding Y matters V, because Z is in the range of X and Y.
+
+490
+01:19:53.350 --> 01:19:59.660
+chuanwu: X to Y, and X is smaller than what. So Y minus V is starting to 0 as well.
+
+491
+01:19:59.840 --> 01:20:06.869
+chuanwu: So, integral on a non-negative function, value would be non-negative as well.
+
+492
+01:20:07.050 --> 01:20:20.809
+chuanwu: Okay, doing integral, non-active function should be non-active as well. And so, therefore, what we know is eventually that equal, equal, equal, all the way down here, and everything here should be a value larger equal to zero.
+
+493
+01:20:21.600 --> 01:20:27.149
+chuanwu: And when it's logical to zero, this exactly gives us the first order condition.
+
+494
+01:20:28.740 --> 01:20:39.480
+chuanwu: So that means we eventually derive the first order condition, and we know first order condition is necessary, and the sufficient condition to establish function fx is correct.
+
+495
+01:20:39.980 --> 01:20:43.069
+chuanwu: And therefore, we know FX is coax.
+
+496
+01:20:44.720 --> 01:20:45.800
+chuanwu: I'll get a house.
+
+497
+01:20:46.770 --> 01:20:47.680
+chuanwu: Alright.
+
+498
+01:20:49.150 --> 01:20:50.180
+chuanwu: Okay.
+
+499
+01:20:57.000 --> 01:21:00.249
+chuanwu: Alright, so now we have,
+
+500
+01:21:00.320 --> 01:21:16.139
+chuanwu: analyzed the second observation in detail, sought an example, and then, checked out the code in the simple, simplest case, where fx is, convex is a spher function. And moving on, you will see a few…
+
+501
+01:21:16.140 --> 01:21:23.739
+chuanwu: Properties that can be described based on first order and second order, and mostly second-order equations.
+
+502
+01:21:23.930 --> 01:21:27.349
+chuanwu: And here, we…
+
+503
+01:21:29.030 --> 01:21:35.550
+chuanwu: And the properties are related to establishing whether a point is global optimal or locally optimal.
+
+504
+01:21:35.650 --> 01:21:53.470
+chuanwu: Respectively. Okay, so now we assume we know a function X, because it's term X differentiable, and its frequent vector is an on zero vector. So now FX star equals zero, meaning it's a on zero vector at a particular point X star.
+
+505
+01:21:53.490 --> 01:22:08.639
+chuanwu: So if you know F come X differentiable, and the particular point X star, the, gradient is an all-zero vector, then what we can essentially conclude is that, X star is a global minimum point of the function.
+
+506
+01:22:08.690 --> 01:22:17.429
+chuanwu: So what exactly that is to say, we know FY larger or equal to FX for all Y in the domain of the function.
+
+507
+01:22:18.560 --> 01:22:25.859
+chuanwu: Okay, so this can be easily established based on second-order condition.
+
+508
+01:22:28.640 --> 01:22:33.810
+chuanwu: Oh, and proof using contradiction as well, so I'll leave the, details
+
+509
+01:22:34.150 --> 01:22:40.350
+chuanwu: channels off to you, okay? Because intuitively, it's pretty, straightforward.
+
+510
+01:22:40.600 --> 01:22:53.469
+chuanwu: And then, another property is, if we consider F to be twice differentiable, and at this particular point, X star, the, gradient vector is all zero, and the,
+
+511
+01:22:53.740 --> 01:23:04.069
+chuanwu: And also, we know that the, Hachen matrix is always likely to be zero. Sorry, the Hachen matrix is a positive semi-definite matrix.
+
+512
+01:23:04.210 --> 01:23:11.169
+chuanwu: And then, we are also able to establish that X star is a doable minimal point of the function.
+
+513
+01:23:12.340 --> 01:23:24.140
+chuanwu: Okay, and in terms of the second situation, so if F is quite differentiable, and hashing matrix is partially friendly defined, so what it established is that the,
+
+514
+01:23:24.380 --> 01:23:31.240
+chuanwu: The function is coax, and it's the surrounding, in the surrounding area of X star.
+
+515
+01:23:31.710 --> 01:23:46.450
+chuanwu: Okay, convex function in the surrounding area of, X star, and combined with the, first piece on the slide here, so we know X star is, global minimal point of the function fx.
+
+516
+01:23:54.470 --> 01:24:03.889
+chuanwu: Okay, all right, so the, pool problem is, pretty intuitive. What I want to point out is the,
+
+517
+01:24:04.270 --> 01:24:05.900
+chuanwu: condition here.
+
+518
+01:24:06.230 --> 01:24:10.700
+chuanwu: So, in both situations, you can consider both,
+
+519
+01:24:11.430 --> 01:24:22.689
+chuanwu: Properties, we are listed on the slide as a sufficient condition of us establishing whether a point is global minimum point of a given function. Sufficient condition.
+
+520
+01:24:22.690 --> 01:24:33.319
+chuanwu: And the key is essentially here. So in either cases, in both cases, we require, at X star, the gradient vector is an all-zero vector.
+
+521
+01:24:34.140 --> 01:24:36.000
+chuanwu: Okay, all zero vector.
+
+522
+01:24:36.050 --> 01:24:48.889
+chuanwu: Intuitively, so this is some property I believe most of us have exploited before, and the more particularly in this particular… in this course, in the first lecture, we already exploited this, property.
+
+523
+01:24:48.890 --> 01:25:01.090
+chuanwu: So when we are solving the, example is the square minimization problem, which is a line fitting problem. In the very first lecture, we make use of that, we, we solve it,
+
+524
+01:25:01.090 --> 01:25:06.569
+chuanwu: Into close form that make use of the properties that are setting the gradient.
+
+525
+01:25:06.590 --> 01:25:12.050
+chuanwu: Sorry, setting the partial derivative of that function with respect to each variable to 0.
+
+526
+01:25:12.510 --> 01:25:14.630
+chuanwu: Right? If you still remember.
+
+527
+01:25:15.600 --> 01:25:31.710
+chuanwu: Okay, so that property is exactly reflected here. So when we say the gradient vector is all zero vector, it exactly means the function's partial derivative with respect to each variable in X, in vector X, should be exactly zero.
+
+528
+01:25:32.150 --> 01:25:41.459
+chuanwu: Setting the partial derivative to zero and coming up with optimal value. So this is some, rule I believe most of us have made use of before, as well.
+
+529
+01:25:42.530 --> 01:25:59.489
+chuanwu: And talking deeper related to that, actually, this is a special case of the general optimality condition, KKD condition, that we are introducing and will be discussed in detail in the middle part of the semester.
+
+530
+01:25:59.870 --> 01:26:03.030
+chuanwu: Okay, KKD, special case of the KKD condition.
+
+531
+01:26:04.310 --> 01:26:05.630
+chuanwu: Alright.
+
+532
+01:26:10.700 --> 01:26:11.630
+chuanwu: Okay.
+
+533
+01:26:13.550 --> 01:26:25.629
+chuanwu: And, again, the two properties here have been used as sufficient foundation to find out, robo-optimal body, and, it's not the necessary foundation.
+
+534
+01:26:25.630 --> 01:26:36.319
+chuanwu: It's not a necessary condition because of a few examples here. So first of all, we know a function may not really have a global minimal, even if it is complex.
+
+535
+01:26:38.160 --> 01:26:41.849
+chuanwu: Okay, for example, convex function f x equals X.
+
+536
+01:26:41.890 --> 01:26:52.660
+chuanwu: So it's, simply the form of an affine function. So, we know this alpha function curve is a line in the two-dimensional space, or hyperthink in a higher-dimensional space.
+
+537
+01:26:52.660 --> 01:27:06.760
+chuanwu: no matter what, we know it doesn't have global optimum point. Neither… neither maximal point nor a minimum point, because it extends out definitely, indefinitely, both in other directions. Right.
+
+538
+01:27:07.770 --> 01:27:22.610
+chuanwu: Okay. And another example is this, exponential function, GX. So the exponential function is a typical example of a comeback function as well, but we know it doesn't really have a global, meaning one.
+
+539
+01:27:23.000 --> 01:27:23.830
+chuanwu: point.
+
+540
+01:27:24.070 --> 01:27:31.520
+chuanwu: All that, right? It just approaches, Bureau, but it doesn't really attend Bureau, attend a particular class.
+
+541
+01:27:37.680 --> 01:27:50.730
+chuanwu: Okay, and further, the above properties only apply to unconstrained minimization problems, meaning we are minimizing FX without any explicit constraint, then they, can hope.
+
+542
+01:27:50.730 --> 01:28:06.959
+chuanwu: So, like, in the least square problem we introduced earlier, also today, essentially, we are only minimizing a least square objective and no other constraint, and then we can use the property of setting the gradient, vector to be on zero to solve it.
+
+543
+01:28:07.030 --> 01:28:18.060
+chuanwu: But if we do have constraints on the objective function or explicit constraint, often these properties cannot be, directly applied.
+
+544
+01:28:18.820 --> 01:28:29.879
+chuanwu: Okay, example here, we have a function f on two variables. That means the input variable is a two-dimensional vector, so X squared plus Y squared.
+
+545
+01:28:32.100 --> 01:28:43.869
+chuanwu: So it probably has shown as a function surface earlier, So it's, it's a… Reverse the bell.
+
+546
+01:28:46.050 --> 01:28:50.340
+chuanwu: Oh, I should plot it in three-dimensional view.
+
+547
+01:28:50.920 --> 01:28:51.840
+chuanwu: No.
+
+548
+01:28:56.400 --> 01:29:01.189
+chuanwu: Okay, X, Y, and that is FXY.
+
+549
+01:29:01.490 --> 01:29:14.310
+chuanwu: Okay, so FXY equals X squared plus Y squared, so it's a reversible bell in this three-dimensional space that I'm trying to illustrating.
+
+550
+01:29:19.650 --> 01:29:32.170
+chuanwu: Okay, if we are minimizing this function without explicit constraint, so we know, intuitively, we know what is the minimum point. The minimum point is just the origin.
+
+551
+01:29:32.270 --> 01:29:36.330
+chuanwu: Right, origin. So the minimum point is 0, 0.
+
+552
+01:29:37.230 --> 01:29:49.150
+chuanwu: But on the other hand, if we do have a constraint, when we are minimizing function FXY, so, like, the domain F is, should be containing all the points, satisfying
+
+553
+01:29:49.290 --> 01:29:56.199
+chuanwu: Products from the two coordinates larger 1, and each… each coordinate is, non-acted.
+
+554
+01:29:56.430 --> 01:30:00.550
+chuanwu: Then, what does the domain set look like?
+
+555
+01:30:02.110 --> 01:30:16.490
+chuanwu: Okay, so the domain set is in the two-dimensional plan decided by X and Y axis, right? So for XY larger equal to what? So it's essentially the blue shaded area on that set.
+
+556
+01:30:18.150 --> 01:30:22.410
+chuanwu: And we know this area actually excludes the origin.
+
+557
+01:30:23.450 --> 01:30:24.350
+chuanwu: Right.
+
+558
+01:30:24.560 --> 01:30:38.390
+chuanwu: And therefore, the origin is no longer the optimal or minimal point if we are minimizing the function subject to XY larger to 1, X larger to 0, and Y larger to 0.
+
+559
+01:30:39.860 --> 01:30:40.700
+chuanwu: Right.
+
+560
+01:30:41.470 --> 01:30:51.600
+chuanwu: So the origin 00 would be the optimal point we can derive using the properties above, by setting the gradient to 0.
+
+561
+01:30:51.810 --> 01:30:58.770
+chuanwu: Okay, so what is the gradient of the function there? So the gradient of the function there is the vector here.
+
+562
+01:31:00.940 --> 01:31:08.850
+chuanwu: So… 2X to Y, and setting to 0 is exactly the right gives us the optimal point of
+
+563
+01:31:10.170 --> 01:31:15.569
+chuanwu: X star, Y star, equals 0, 0.
+
+564
+01:31:17.390 --> 01:31:25.990
+chuanwu: So that origin point is the, global minimum point of the function, if you do not consider the constraint.
+
+565
+01:31:26.340 --> 01:31:36.209
+chuanwu: And if we do consider the constraint, that is no longer the minimal point, and we need a more complex algorithm to find what is the minimal point in the domain set.
+
+566
+01:31:37.350 --> 01:31:38.270
+chuanwu: Okay.
+
+567
+01:31:41.190 --> 01:31:44.909
+chuanwu: Alright, so that is, what we…
+
+568
+01:31:47.340 --> 01:32:00.749
+chuanwu: Okay, so that is a property related to, global, optimum… a global minimal point. And then, next, let's introduce the, concept of, local minimal point, a local optimal point.
+
+569
+01:32:00.850 --> 01:32:17.619
+chuanwu: So we consider X star as a local minimum of an unconstrained function. So here we are dealing with minimizing an unconstrained function. So X star is a local minimum of the function if it is no worse than its neighbors.
+
+570
+01:32:17.620 --> 01:32:32.250
+chuanwu: no worse than the object function value. Okay, and more concretely, mathematically, we have the definition here. We consider a small neighborhood defined by this epsilon, okay? Epsilon as a range of the neighborhood.
+
+571
+01:32:32.480 --> 01:32:56.599
+chuanwu: And, we consider FX star achieves the smallest function F value among all the neighborhood points. Okay, so here, consider any other point X within the neighborhood range of epsilon to this X star, and we know FX star is no larger than FX, then this FX is a local minimal point of the
+
+572
+01:32:56.600 --> 01:32:57.770
+chuanwu: unconstrained.
+
+573
+01:32:57.770 --> 01:32:58.580
+chuanwu: function.
+
+574
+01:32:59.220 --> 01:33:00.110
+chuanwu: Okay.
+
+575
+01:33:00.820 --> 01:33:12.670
+chuanwu: All right, and then, combining with the second order condition that we have studied, we can derive some property. So consider X star is a local minimal point of a function f.
+
+576
+01:33:12.670 --> 01:33:34.539
+chuanwu: And here we consider F to be a general function mapping from n-dimensional vector to a scalar value. And also, we assume F is twice differentiable, then what we can derive is here. Then we know at X star, the gradient vector is all zero, and the Hessian matrix is positive semi-definite.
+
+577
+01:33:37.210 --> 01:33:45.070
+chuanwu: Okay, so this can be established and can be… you can think about the proof in a contradict… using contradiction.
+
+578
+01:33:46.300 --> 01:33:56.250
+chuanwu: Okay, so, like, if this property doesn't hold, then you are able to show that X star is locked, not local minimal of function f in its neighborhood.
+
+579
+01:33:56.850 --> 01:33:58.430
+chuanwu: Okay,
+
+580
+01:33:58.470 --> 01:34:18.419
+chuanwu: And what is the implication of the property that we are showing here? If we know in the neighborhood of X star, the gradient is all zero, and the second order condition holds, then we actually know near the neighborhood of X star, it's a convex neighborhood.
+
+581
+01:34:18.420 --> 01:34:21.110
+chuanwu: The function is,
+
+582
+01:34:21.230 --> 01:34:28.179
+chuanwu: Approximating, or at least approximating all is exactly is a convex function curve near the neighborhood.
+
+583
+01:34:29.870 --> 01:34:30.740
+chuanwu: Yan.
+
+584
+01:34:30.980 --> 01:34:31.950
+chuanwu: So…
+
+585
+01:34:35.160 --> 01:34:48.279
+chuanwu: Okay, so consider this is our general function FX. Okay, it's… we know it probably only has, local minimal, and has a few local minimal value, only local minimal.
+

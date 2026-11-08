@@ -1,0 +1,1250 @@
+COMP9602 Optimization — 2026-10-22 09:59:07
+Zoom 自动转录原文（未人工校订）
+来源：https://hku.zoom.us/rec/share/OaQjo1f4Zf8eHPM2EpaAZjaoFJlGP9AMgd9fekZlgMXhc5mCrRnvwmdvz1ab3QcX.NtCQzKVxK4l8YI_b
+保存日期：2026-11-08
+
+[00:02:28.910] Chuan Wu: All right, good morning, everyone. Welcome to today's lecture on optimization. Let's get started.
+
+[00:02:34.620] Chuan Wu: We are now working on the, very last part of duality.
+
+[00:02:44.400] Chuan Wu: Okay, so especially, we have been looking at a number of properties related to duality, and we are going to first wrap it up today. At the beginning of today's lecture, we are going to first wrap it up, and then we'll be moving on, talking start to talk about the algorithms to solve complex problems.
+
+[00:03:03.140] Chuan Wu: Okay, so here, what we, want to introduce is, we have been seeing how to derive the dual problem and the, duality-related properties for pretty standard mathematical problem. And now we want to tend to the, mathematical problem to include the generalized inequality.
+
+[00:03:22.540] Chuan Wu: So, especially here, what we are looking at is a minimization problem. Okay, so we are minimizing a scalar objective function.
+
+[00:03:30.120] Chuan Wu: And then we have constraints. And the equality constraints are similar as before, so we have HIX of equality constraint functions, and we want it to be the double zero. And what is special is about the inequality constraint.
+
+[00:03:45.810] Chuan Wu: So we have this sign. Okay, we have this special… this generalized inequality sign.
+
+[00:03:53.170] Chuan Wu: Okay, so we have this generalized inequality design, we also have the subscript Ki.
+
+[00:03:58.780] Chuan Wu: So what does it indicate? So essentially, these notations happen when we introduce generalized inequality. And here, we are saying that this FX is no larger than zero, according to the proper KX.
+
+[00:04:14.960] Chuan Wu: And the PI is in the, more PI-dimensional space.
+
+[00:04:19.050] Chuan Wu: And essentially, what does that mean is, FIS should belong to the, proper home API.
+
+[00:04:26.920] Chuan Wu: Okay, so that is what the generalized inequality means, and as before, we have been basically mainly focused on two special pieces from our bone. One is a non-active acid, and the other is a set of positive semi-deminative matrices.
+
+[00:04:42.620] Chuan Wu: Right? But, in general, you know, we can define the generalized inequality on top of any proper call.
+
+[00:04:49.660] Chuan Wu: Okay, and then, we… when our gen… when our inequalities involve the generalizing inequality, we have the corresponding definition of Lagrange duo problem, and the steps of deriving the dual.
+
+[00:05:04.900] Chuan Wu: And essentially, the definition of the Lagrange core are pretty parallel to the scalar picks, okay?
+
+[00:05:10.880] Chuan Wu: So, first of all, when we derive the dual problem, we need to introduce Lagrange multipliers. And here, when we introduce multipliers, our lambda i is a vector. Essentially, for every generalized inequality constraint, we introduce a multiplier, which is a vector, lambda i, in the Ki dimensional space.
+
+[00:05:30.910] Chuan Wu: And then, when we compose the Lagrangian function, so we know the Lagrangian function is the augmentation of the primal objective function with weighted sum and a weighted sum of the equality and inequality constraint functions.
+
+[00:05:45.460] Chuan Wu: And the check about here. So here, the primal objective function is still the same as in the scalar case, and the weighted sum of the equality constraint functions are also similar to what we have seen before, and what is specialized here.
+
+[00:06:00.870] Chuan Wu: Okay, so here, FYX is a function. Okay, it's actually a vector in the, cone, KF, okay, inside the cone KF. So therefore, it is in the Ki dimensional space.
+
+[00:06:14.930] Chuan Wu: And the lambda i is also a vector in the Ki-dimensional space, so therefore, their kind of weighted sum is produced using inner product.
+
+[00:06:24.680] Chuan Wu: Okay, inner product between the two actors. So lambda ISIX.
+
+[00:06:29.710] Chuan Wu: Okay.
+
+[00:06:31.360] Chuan Wu: All right, and then, what about our viewer function? So our viewer function is defined in exactly the same manner as in the scalar case. It is computed by minimizing the Lagrangian function on top of X within the domain.
+
+[00:06:47.410] Chuan Wu: Within the domain of the problem, okay? Within the domain of the problem, see here.
+
+[00:06:52.910] Chuan Wu: Okay, so this is how we define the Rangian fuel in when we have the generalized inequality.
+
+[00:07:00.060] Chuan Wu: Okay, and then your problem. Okay, so having defined the Bureau function and checking out, what the problem is like, so the dual problem objective function is built to maximize the Bureau function, okay? The dual problem objective function is to maximize G, okay?
+
+[00:07:19.220] Chuan Wu: And over there, lambda y up to lambda m are the M vectors associated with our M generates the inequality.
+
+[00:07:27.210] Chuan Wu: And mu is the multiplier associated with our equality constraints in the primal problem.
+
+[00:07:33.190] Chuan Wu: Okay, and, what is, special is regarding the, constraint, lambda I's. So here, we have lambda i larger equal to Ki.
+
+[00:07:44.470] Chuan Wu: star, zero. So what does it mean? So it means lambda should belong to the dual cone of cone Ki.
+
+[00:07:52.050] Chuan Wu: Okay, Dior Kong of Kung Kea. Okay, by the way, I think I…
+
+[00:07:57.250] Chuan Wu: Made a mistake. So here, so when we have FIX,
+
+[00:08:01.270] Chuan Wu: no larger than Ki, 0. So it means negative FX is in the cone, okay, in the cone Ki, right? And when we know that lambda i.
+
+[00:08:13.690] Chuan Wu: S… In the dual cone.
+
+[00:08:19.010] Chuan Wu: of chaot.
+
+[00:08:20.290] Chuan Wu: So what does that imply? So, according to the definition of dual cone, we know the inner product of lambda i and fax.
+
+[00:08:29.600] Chuan Wu: Should be a smaller equal to 0.
+
+[00:08:33.580] Chuan Wu: Right? Okay, so we know negative FIX is in con KF.
+
+[00:08:39.650] Chuan Wu: And then, lambda I,
+
+[00:08:45.430] Chuan Wu: as in the dual cone of Kunta.
+
+[00:08:49.610] Chuan Wu: And the two vectors' inner product should be larger equal to 0. And if we cancel the negative sign, we know the inner product between lambda i and other X should be smaller or equal to 0.
+
+[00:09:01.260] Chuan Wu: Right, okay, so that is what we want to, guarantee.
+
+[00:09:06.450] Chuan Wu: Okay, and the recall, he, the,
+
+[00:09:11.060] Chuan Wu: scalar case for all the lambda i of that X.
+
+[00:09:15.870] Chuan Wu: We also know Yeah, Lambda and the activities normally go to the Europe.
+
+[00:09:21.670] Chuan Wu: both primal and the dual-feetable lambda i and X, right?
+
+[00:09:26.600] Chuan Wu: Okay, all right, so then the duracone definition, the duracone constraint on lambda i is able to ensure similar property as in the scalar case.
+
+[00:09:39.270] Chuan Wu: Okay, all right. And then other than the steps of deriving the dual problem, which are pretty parallel to the scalar case, there are similar properties related to weak duality, strong duality, when the generalized inequality is involved.
+
+[00:09:54.220] Chuan Wu: Okay, first the property is about lower bound property. So essentially, if we know this lambda i is leading the dual cone of 4KI,
+
+[00:10:05.140] Chuan Wu: Then, our viewer objective function is a lower bound of the primal modality.
+
+[00:10:11.240] Chuan Wu: So that can be easily derived, based on the property as what we derived, including lambda ice in the product with
+
+[00:10:19.340] Chuan Wu: Fi is smaller or equal to 0. Okay, using the Lagrangian functions involved in deriving theore, we can easily derive the conclusion that the G is a lower bound of primal optimal value.
+
+[00:10:34.870] Chuan Wu: And weak duality.
+
+[00:10:36.900] Chuan Wu: Okay, so we always have P star rather than go to D star.
+
+[00:10:41.160] Chuan Wu: in the optimization involving generalized inequality as well. And strong utility also told.
+
+[00:10:48.460] Chuan Wu: If the contact… if we are looking at a complex program, and it satisfies consumer qualification.
+
+[00:10:56.310] Chuan Wu: So similarly, Slater's constraint qualification, if Slater's constraint qualification is satisfied, meaning if there is a strictly featable solution, satisfying all the primal constraints, including the generalized inequalities.
+
+[00:11:11.390] Chuan Wu: That?
+
+[00:11:12.360] Chuan Wu: we have strong duality for the current LX program.
+
+[00:11:20.110] Chuan Wu: Okay, and there are also other similar properties.
+
+[00:11:24.340] Chuan Wu: like, complementary slack instability conditions also hope, or under our generalized inequality-based Lagrangian Dior derivation.
+
+[00:11:36.140] Chuan Wu: Okay.
+
+[00:11:37.800] Chuan Wu: All right, and then that said, let's, take a look at a concrete example, where generalized inequality is blocked. And essentially, here, we are looking at a primal problem, which is essentially a semi-definite program.
+
+[00:11:52.850] Chuan Wu: And we know in recall, in a semi-definite program, our objective function is commonly an alpha function, a variable X. Okay, and our inequality, our constraints, usually involve a linear matrix inequality.
+
+[00:12:08.520] Chuan Wu: So in the linear matrix inequality here, X is a variable, including different scalar variables, and, you see we have a generalized inequality. Okay, so that generalized inequality symbol just represents
+
+[00:12:24.990] Chuan Wu: That the right-hand side minus the left-hand side is resulting in a matrix which is positive semi-definite.
+
+[00:12:33.630] Chuan Wu: Okay, so that means our generalizing quality here is defined on the set of positive semide matrices.
+
+[00:12:41.290] Chuan Wu: All right, and then, we can derive the doer for this, primal, SVT together. And essentially, this primal SDT is an example where we involve generalized inequality.
+
+[00:12:56.940] Chuan Wu: Okay, and here, Lagrange and OP 5.
+
+[00:13:00.220] Chuan Wu: As we know, the, holds.
+
+[00:13:03.660] Chuan Wu: Yeah, positive semi-definite form is, divide on the set of, K times K symmetric matrix.
+
+[00:13:12.720] Chuan Wu: And then, is pure cone. So we know the, when we introduced the concept of pure cone, at the time, we actually derived that positive semi-definite cone. Stuart cone is itself.
+
+[00:13:24.170] Chuan Wu: Okay, it's exactly like the, book.
+
+[00:13:28.370] Chuan Wu: proper cone of, magnetic acid also is pure cone itself as well.
+
+[00:13:33.100] Chuan Wu: Okay, so therefore, we consider a matrix, we consider a Lagrange multiplier, which is in the dual cone, okay, which is in the dual cone, so therefore, multiplier is a matrix itself, and the symmetric matrix, K times K symmetric matrix.
+
+[00:13:51.060] Chuan Wu: And then, when we are calculating inner product between two matrices.
+
+[00:13:56.980] Chuan Wu: Okay, so our lambda i is, Matrix.
+
+[00:14:02.300] Chuan Wu: and Fi is a matrix as well, then the inner product is actually defined in a special manner.
+
+[00:14:09.100] Chuan Wu: So the inner product between two matrices is computed as trace of the product matrix of the
+
+[00:14:17.960] Chuan Wu: Okay, so trace meaning summing up all the diagonal elements, and the value is the trace.
+
+[00:14:24.080] Chuan Wu: Okay.
+
+[00:14:25.350] Chuan Wu: All right, so according to that definition, we are able to derive our Latron James option as that Lagrange zero function.
+
+[00:14:32.950] Chuan Wu: So the protein function is objective function, and then augmented by inner product between the multiplier and the matrix, matrix function, either in equality.
+
+[00:14:45.850] Chuan Wu: constraint. And the matrix function is the left-hand side, X1, F1, all the way up to XFN minus Q. Okay, so inner product between the two matrices, as our definition, equals the trace of the product of two matrices.
+
+[00:15:03.140] Chuan Wu: Okay, so therefore, that is all our groundshade function.
+
+[00:15:06.430] Chuan Wu: And then for the deriving the Dure function, the Dure function is derived by minimizing the Lagrangian over X. Okay, and in order to see how we minimize over X,
+
+[00:15:18.950] Chuan Wu: We can.
+
+[00:15:32.630] Chuan Wu: All the nuts.
+
+[00:15:33.900] Chuan Wu: all the terms related to X from our Lagrangian functions.
+
+[00:15:38.560] Chuan Wu: So we have C transpose X in the Lagrangian function, and we have trace of, that's one Z.
+
+[00:15:48.710] Chuan Wu: F1… all the way at A.
+
+[00:15:52.550] Chuan Wu: Cool.
+
+[00:15:55.200] Chuan Wu: accident.
+
+[00:15:56.670] Chuan Wu: V.
+
+[00:15:57.950] Chuan Wu: F… minus… Lead G.
+
+[00:16:02.150] Chuan Wu: Okay.
+
+[00:16:10.440] Chuan Wu: All right, and then, according to the distributive law of trace calculation, so what we have is exactly
+
+[00:16:22.590] Chuan Wu: Here.
+
+[00:16:40.890] Chuan Wu: Okay.
+
+[00:16:42.390] Chuan Wu: All right, and then further consider that P transpose X is a sum of CIXI. Okay, sum of CIXI.
+
+[00:16:51.710] Chuan Wu: And essentially,
+
+[00:16:58.570] Chuan Wu: When we organize all the terms related to X1, What we have is here.
+
+[00:17:23.339] Chuan Wu: Okay.
+
+[00:17:24.410] Chuan Wu: So we can exactly see the, Lagrangian function as an alpha function on X.
+
+[00:17:29.660] Chuan Wu: Okay, iPhone, X.
+
+[00:17:32.510] Chuan Wu: Okay, so what we are minimizing an affine function of X, So, especially,
+
+[00:17:46.820] Chuan Wu: I'll get…
+
+[00:17:48.690] Chuan Wu: So essentially, when we are… we know alpha function could be unbinded, okay, alpha function could be unbinded, if the coefficient that we are multiplying the variables with is non-zero.
+
+[00:18:00.240] Chuan Wu: Right? If any of the coefficients C1 plus trace of matrix ZF1, CI plus trace of DFI is non-zero, then we can set the corresponding Xi to be either positive infinity or negative infinity.
+
+[00:18:16.470] Chuan Wu: To make the term very, very small.
+
+[00:18:19.390] Chuan Wu: Right, unbundled below.
+
+[00:18:22.020] Chuan Wu: So therefore, the Lagrangian function here is only finite.
+
+[00:18:28.060] Chuan Wu: If all the coefficients multiplying our variables are exactly zero.
+
+[00:18:33.460] Chuan Wu: complex BI, of trace of FIC.
+
+[00:18:36.590] Chuan Wu: So we know trees of FIC equals trees of DFI, so that is the probability of trees calculation.
+
+[00:18:46.350] Chuan Wu: Okay, when all the coefficients are zeros.
+
+[00:18:49.480] Chuan Wu: Remains is a lesser term, which is negative trace of VG, or negative trace of GV.
+
+[00:18:55.570] Chuan Wu: Okay, so that is the only bounded case.
+
+[00:18:58.380] Chuan Wu: Otherwise, in all other cases, we can always choose the corresponding Xi to make the happen function very, very small.
+
+[00:19:05.800] Chuan Wu: Very, very versatile.
+
+[00:19:07.780] Chuan Wu: Okay.
+
+[00:19:09.340] Chuan Wu: All right, so then we have two cases for the Lagrange dealer function, as similar as before, because the Durer problem is to maximize the Durer function, so therefore we do not go into the connecting definitive branch.
+
+[00:19:25.150] Chuan Wu: And we only consider the first of all that piece.
+
+[00:19:28.270] Chuan Wu: And then, our objective function in a pure problem is to maximize active trees of GD, and then our constraints includes the conditions there.
+
+[00:19:39.000] Chuan Wu: as well as W should belong to the dual pool of the positive semi-definite matrix form.
+
+[00:19:45.530] Chuan Wu: And that also means D belongs to… and D is a positive.
+
+[00:19:50.700] Chuan Wu: Some definite matrix.
+
+[00:19:53.690] Chuan Wu: Okay And that completes our derivation of the dual probability.
+
+[00:20:06.470] Chuan Wu: Okay, the primal problem is a semi-definite program. We know a semi-definite program is, one special case of COMEX program, or semi-definite program is COMEX program.
+
+[00:20:17.960] Chuan Wu: So therefore, if we know that primal problems satisfy Slater's constraint qualification, then strong derivative holds.
+
+[00:20:26.180] Chuan Wu: And when does the primal problem satisfies later's constricted correlation? So, essentially, if we have solution X, make the linear matrix inequality strictly featable, or strictly featable, meaning
+
+[00:20:42.670] Chuan Wu: The matrix of G minus the left-hand side is a positive definite matrix.
+
+[00:20:49.820] Chuan Wu: Okay, in that case, yeah, S primal SPD is strictly featable, and we have strong duity between the primal problem and the pure problem we have just derived.
+
+[00:21:01.700] Chuan Wu: Okay.
+
+[00:21:05.510] Chuan Wu: All right.
+
+[00:21:08.500] Chuan Wu: And that, completes what we want to introduce related to the core duality theory.
+
+[00:21:33.610] Chuan Wu: Okay, you can see we have, finished the first major half of the, contents we want to introduce in the course, including the fundamentals of complex analysis, different types of convex programs, and the core theory of duality.
+
+[00:21:51.080] Chuan Wu: And moving on, in the later half of the semester, what we want to introduce, briefly, the algorithms people have designed to solve CAIC program.
+
+[00:22:01.830] Chuan Wu: And we will start from the simplest case, where we are looking at a complex program without explicit constraint, and we call that unconstrual.
+
+[00:22:13.010] Chuan Wu: And then moving up, we'll be checking out quantifying the program with equality constraints. We know the equality constraints in Bonsai program are all outbound constraints, and we have algorithms to solve that.
+
+[00:22:24.490] Chuan Wu: And still further moving out, we check on the more generic forms of complex program, based on politic constraints and other political constraints, and we'll be discussing… we'll be introducing a set of methods to solve the problem of different forms of different properties.
+
+[00:22:39.940] Chuan Wu: For example, we start with, general convex program, where all the functions involved are differentiable, then we'll be moving on to algorithms which can deal with, parallel programs where some functions are not differentiable.
+
+[00:22:53.920] Chuan Wu: Okay, and you will find out the idea of designing all the algorithms are typically focusing on, or based on the very important activity conditions that we have introduced as the,
+
+[00:23:09.670] Chuan Wu: We have introduced and discussed in detail in the last of your lectures.
+
+[00:23:15.530] Chuan Wu: All right, so starting with our unconstrained optimization, solution algorithm design. Okay, so what we are looking at is a simple minimization of an object function as a constraint.
+
+[00:23:28.500] Chuan Wu: Okay, no expiry constraint, meaning there is no additional constraint beyond the domain of function fx. So domain of a function fx, for example, if fx involves a function, then we would require whatever happens following the log sign to be positive. Okay, so that there's part of the domain of the function fx.
+
+[00:23:48.310] Chuan Wu: Okay, and here we require F to be commax and differentiable, and more especially, we want it to be price continuously differentiable.
+
+[00:23:57.590] Chuan Wu: Okay, so that implies the domain of function F is open. So because if the domain of function F is bounded, then at the boundary point, those, we do not have differential validity at the boundary points of the domain.
+
+[00:24:10.970] Chuan Wu: Right? Okay. And we also assume that the optimal value is a tenth at some 5 max value of X.
+
+[00:24:18.770] Chuan Wu: Okay, we could find some finite value of X being related to the objective publishing.
+
+[00:24:23.590] Chuan Wu: Okay, and then, how do we solve this minimization problem? So, actually, so far, we are already equipped with a major idea of solving such a single
+
+[00:24:36.030] Chuan Wu: Complex function minimization problem.
+
+[00:24:38.620] Chuan Wu: That is, we can calculate the gradient
+
+[00:24:42.580] Chuan Wu: Of the function, and set it to zero.
+
+[00:24:45.520] Chuan Wu: So that is a property, or we have made use… introduced and made use of many times when we have
+
+[00:24:51.080] Chuan Wu: solving some example programs so far, right? So what we want is, we can calculate the gradient of the objective function. So when X is an undimensional vector, we know the gradient actually consists of partial derivative of X with respect to every element of variable X.
+
+[00:25:09.050] Chuan Wu: And sell it to the rock.
+
+[00:25:10.910] Chuan Wu: Right? And in total here, we have Earth equalities.
+
+[00:25:15.460] Chuan Wu: Of the early part is in this.
+
+[00:25:17.690] Chuan Wu: In this, equality representation.
+
+[00:25:22.750] Chuan Wu: Okay, and yes, exactly the solution idea of solving such an unconstrained complex minimization problem is to find… try to find a solution which satisfies the N equations underneath the gradient equating zero equality.
+
+[00:25:40.780] Chuan Wu: Okay, and you would think that this is pretty straightforward and simple. Yes, so it is straightforward and simple if our FX is quadratic function.
+
+[00:25:52.310] Chuan Wu: Because what FX is contracting function, it's first-order gradient, first-order partial derivative with respect to every X, results in, alphine function, right? And then what we have underneath here would be
+
+[00:26:07.200] Chuan Wu: And, linear equations. And we all know how to solve a system of linear equations.
+
+[00:26:13.030] Chuan Wu: Right? Okay, so that would be fairly solvable.
+
+[00:26:16.380] Chuan Wu: But, if F is of more complex of 4, its gradient may not be of alpha function 4, it can be higher order, or can be in complex of 4, involving log, involving exponential function, and so on.
+
+[00:26:29.580] Chuan Wu: And then, you know, when we have any equations there, we are not equipped with any analytical solution algorithm to solve them exactly.
+
+[00:26:37.530] Chuan Wu: And what we can do is we can apply numerical algorithms to find the final optimal solution iterated.
+
+[00:26:46.450] Chuan Wu: Okay, so that is the idea. Okay, so we need, usually need a derivative algorithm to solve these inequities.
+
+[00:26:54.810] Chuan Wu: And the high-level idea of the iterative algorithm is, every time we try to produce, we start with X0, or X1, okay, we start with X1 in the domain of the function X,
+
+[00:27:08.890] Chuan Wu: And then, in every step, we try to find out a better X2, X3, up to XP.
+
+[00:27:17.370] Chuan Wu: Such that, eventually, when we don't have run the algorithm for many steps, our objective function, evaluated at that iterate XK, will be close to the minimum value of FX.
+
+[00:27:32.020] Chuan Wu: Okay, and when we say FXK approaches minimum value of X, that is equivalent to say that the freedom of function f evaluated at iterate X to K would be going to feel close to 0.
+
+[00:27:47.250] Chuan Wu: Okay, because that is cognitive condition.
+
+[00:27:50.860] Chuan Wu: Okay.
+
+[00:27:52.310] Chuan Wu: Alright,
+
+[00:27:54.690] Chuan Wu: And by the way, as I said, for a few times, many of the algorithms, optimization algorithms to solve our problematic problems or payment forms are based on PKD conditions.
+
+[00:28:06.640] Chuan Wu: Right? And for this very,
+
+[00:28:10.180] Chuan Wu: meet a mineralization property without constraints. Essentially, that is a totally meaningful PAB condition.
+
+[00:28:17.880] Chuan Wu: meaningful conditions under KPP.
+
+[00:28:20.900] Chuan Wu: Right? So think about primal constraints, no primal constraints. Dual constraints, no dual constraints.
+
+[00:28:27.150] Chuan Wu: Right? And complementary stackness naturally happens.
+
+[00:28:30.570] Chuan Wu: And then, it's only the fourth set of conditions under KTV that is happening. That is, the Lagrangian
+
+[00:28:38.430] Chuan Wu: The Lagrangian's gradient, gradient of Lagrangian function vanishes at optimality.
+
+[00:28:44.370] Chuan Wu: And for this randomization problem without constraints, the Lagrangian is exactly the objective function, right? So therefore, this also is indeed the first set of conditions under KKT conditions.
+
+[00:28:59.000] Chuan Wu: Okay.
+
+[00:29:00.410] Chuan Wu: Alright, here.
+
+[00:29:04.340] Chuan Wu: So we have introduced the major idea of the iterative algorithm to solve that, thinned equations, that system of thin equations, and usually, we want to iterate many iterations up to a threshold, or tolerance.
+
+[00:29:18.670] Chuan Wu: So when our current objective value is, pretty close to the minimum objective value, then we are good. We can start the algorithm.
+
+[00:29:27.730] Chuan Wu: But the number one question is, how do we know what the minimal value is? If you do know the minimal objective value, probably don't bother to stop around all the iterations, right? So therefore, that is conceptual combination foundation in practice in the algorithm, particular space here.
+
+[00:29:44.390] Chuan Wu: We tell whether the gradient of objective function evaluated at the current iterate XK is very small already.
+
+[00:29:52.150] Chuan Wu: Smaller-than-us, horrid. That we can stop the outbreak.
+
+[00:29:57.260] Chuan Wu: Okay, when calculating the gradient here, we don't need to know what is the minimum objective value.
+
+[00:30:03.980] Chuan Wu: Okay.
+
+[00:30:05.450] Chuan Wu: All right, so that is the high-level idea of the, algorithm, iterative algorithm, to solve, unconstrained convex minimization problem.
+
+[00:30:14.320] Chuan Wu: L?
+
+[00:30:16.090] Chuan Wu: And high-level idea. And to execute the high-level idea, we also need to know how we move on, how we move from,
+
+[00:30:26.630] Chuan Wu: XK to the next iterate XK plus 1. That is how we update the current iterate XK to the next XK plus 1, and hoping XK plus 1 is closer to the optimal solution. So that relies on how we design the update formula.
+
+[00:30:42.690] Chuan Wu: And the simple update formula is here. So when we run the hour range starting from X0, in every step, or every iteration, we update the current iterate using this much amount. Okay, so this amount, within this amount, the TK is called a step size for step lengths.
+
+[00:31:02.710] Chuan Wu: And the delta XP, the TK in the sphere array. And the delta XP is an optic direction, or we call it the step or search direction.
+
+[00:31:14.370] Chuan Wu: Okay, and when we do this update, we hope the objective function value, evaluated at the next iterate, XP plus 1, is smaller. The objective function evaluated at the current iterate XP.
+
+[00:31:30.290] Chuan Wu: Okay, so for this simple update formula, there are different ways to represent it. So we can use this, or we can use X plus to denote after update, X value after update, and X is, iterate before update. Or we can use this assignment symbol to indicate this update as well.
+
+[00:31:49.470] Chuan Wu: Okay.
+
+[00:31:51.090] Chuan Wu: Alright,
+
+[00:31:55.060] Chuan Wu: Okay, so in every step, when we need, when after update, we want this,
+
+[00:32:04.210] Chuan Wu: Objective manual asks.
+
+[00:32:06.030] Chuan Wu: XK plus 1 to be smaller than FXP, so what does that imply? So actually, this actually can give us
+
+[00:32:14.760] Chuan Wu: The inner product between the gradient vector of X evaluated at the current iterate X, and the delta X, which is the search reaction, should be smaller than zero.
+
+[00:32:26.770] Chuan Wu: If our function f is a complex function. Okay, so how do we derive that? We can readily derive that based on first-order condition of
+
+[00:32:38.280] Chuan Wu: complex function.
+
+[00:33:05.840] Chuan Wu: Okay, so I'll use X task to represent the after update iterate value.
+
+[00:33:12.790] Chuan Wu: Okay.
+
+[00:33:13.970] Chuan Wu: So, using… so, first order foundation, so this is what we have.
+
+[00:33:25.260] Chuan Wu: Okay, so first-order first-order condition of COMEX, differentiable COMEX.
+
+[00:33:30.480] Chuan Wu: function is saying that the first-order approximation is an underestimator of the function value.
+
+[00:33:39.830] Chuan Wu: Okay, and within our algorithm, when we want this F as fast, will be smaller, Then, FX.
+
+[00:34:00.240] Chuan Wu: What we exactly can derive is the second term on the right-hand side of the generalized inequality should be smaller than zero, right?
+
+[00:34:10.679] Chuan Wu: that should be smaller than 0, and X plus minus X is our delta X.
+
+[00:34:20.310] Chuan Wu: Okay.
+
+[00:34:37.940] Chuan Wu: intuitively, okay? Intuitively, if we consider the, Level curves.
+
+[00:34:48.290] Chuan Wu: Okay, so if we consider the level curves of our function fx.
+
+[00:34:52.739] Chuan Wu: Okay, so remember, in our previous geometry illustration, we know the level curve of a convex function represents the, along one level curve of the, of a function, the points achieved the same functionality. So that is our level curve, right?
+
+[00:35:11.040] Chuan Wu: Okay, so if I'm drawing the function FX at level curving this way, so what is the direction of…
+
+[00:35:18.350] Chuan Wu: NABLA FX. So, NABLA FX is pointing
+
+[00:35:22.780] Chuan Wu: To the direction where the function value is increasing, right?
+
+[00:35:28.280] Chuan Wu: Okay, and then what about our delta X? So if we want our delta X inner product base, nebula fx is smaller than 0, that means our delta X should be a direction pointing more or less in the reverse direction, or a direction
+
+[00:35:44.730] Chuan Wu: with more than 90 degree angle, with the NABLA FX direction.
+
+[00:35:49.730] Chuan Wu: Right.
+
+[00:35:50.710] Chuan Wu: And intuitively, delta X is pointing towards the direction where objective function value is decreased.
+
+[00:35:58.490] Chuan Wu: Okay, all right. And, that's why we say in this approach, the delta axis should be an exact direction, except in terms of decreasing of the function value FX.
+
+[00:36:14.040] Chuan Wu: Okay, and from all the, analyses, we can summarize, general descent method to solve the unconstrained convex linearization problem.
+
+[00:36:25.350] Chuan Wu: So we start with a starting point in the domain of the function, and then we can determine an exact direction.
+
+[00:36:32.850] Chuan Wu: And if that reaction satisfied, that is, inner product, which the gradient factor is smaller than 0.
+
+[00:36:40.170] Chuan Wu: And then, we can decide our staff size. And how do we decide the step size? There are different approaches that we are introducing, but in general, those approaches for deciding the step size are called line search methods. We'll introduce two representative line search methods on the later page.
+
+[00:36:57.120] Chuan Wu: And then, when T is decided, delta X is decided, we can update X using the update formula, and then we are done with this iteration of the algorithm, and then we can repeat. And until the stopping criteria evaluated using gradient of the current X,
+
+[00:37:14.800] Chuan Wu: It's very small, okay, until that stopping criteria is set up.
+
+[00:37:19.870] Chuan Wu: Okay, so this is a sketch of a general descent method.
+
+[00:37:24.210] Chuan Wu: And as said, I'm going to introduce major, approaches for deciding the two major factors in such a descent method. Number one, we should decide the descent direction delta X, what it exactly is like. And secondly, we should decide a step size.
+
+[00:37:43.430] Chuan Wu: And how do we decide the, how do we decide the descendant reaction?
+
+[00:37:49.780] Chuan Wu: So what we eventually want is that delta X
+
+[00:38:15.430] Chuan Wu: Okay.
+
+[00:38:16.420] Chuan Wu: What we eventually found is, the inner product between our design direction and the gradient of the function F at the current iterate is smaller than zero.
+
+[00:38:28.660] Chuan Wu: And an intuitive way to decide such a delta X is exactly to choose it as negative, of…
+
+[00:38:36.280] Chuan Wu: the gradient.
+
+[00:38:37.620] Chuan Wu: Back to…
+
+[00:38:39.320] Chuan Wu: Okay, so when delta X is negative of a gradient vector, so here, so if delta X is directly along the negative direction of the gradient vector, we know that inner project is definitely a negative value.
+
+[00:38:53.800] Chuan Wu: Right, as long as the grading factor is not zero.
+
+[00:38:57.630] Chuan Wu: So that satisfies the foundation here. And when we do choose a delta X, the descent reaction will be the negative of the gradient vector. This method becomes a gradient descent method.
+
+[00:39:11.150] Chuan Wu: Okay, gradient accepted.
+
+[00:39:13.100] Chuan Wu: Our descent direction is an effective radiant direction.
+
+[00:39:17.000] Chuan Wu: Okay.
+
+[00:39:18.080] Chuan Wu: And, and the gradient descent method is widely used in practice.
+
+[00:39:24.280] Chuan Wu: Okay? And then, how do we choose the step size?
+
+[00:39:28.260] Chuan Wu: So the,
+
+[00:39:30.380] Chuan Wu: The method for two-step sites are called line search methods, and there are two representative line search methods. The first one is to do exact line search, so exact line search, meaning that at the current iterate X,
+
+[00:39:45.600] Chuan Wu: When given the descendant's direction.
+
+[00:39:48.010] Chuan Wu: We tried to find out a step length, or step size T, which minimized the function value evaluated at the next iterator.
+
+[00:39:58.260] Chuan Wu: So what we have in the parenthesis is the value of the next iterate, X.
+
+[00:40:02.640] Chuan Wu: the X class.
+
+[00:40:04.250] Chuan Wu: And we choose T to make sure the function value F evaluated at the next iterate is the smallest.
+
+[00:40:11.330] Chuan Wu: Okay, and that means our move around the direction delta X is the best.
+
+[00:40:16.950] Chuan Wu: To reduce, to minimize the functionality.
+
+[00:40:21.060] Chuan Wu: Okay, so therefore, if we try to design a thing this way, it's so-called indexed line search, and we actually see there is an organization problem involved as well when designing this.
+
+[00:40:34.470] Chuan Wu: Okay, because we try to minimize P when X delta X is fixed. So this problem is usually of similar difficulty as the very original problem we are trying to solve during the descent method.
+
+[00:40:47.880] Chuan Wu: Right, because in the very original problem is to minimize that X.
+
+[00:40:52.280] Chuan Wu: But it's slightly simpler, because now our variable is only T, a scalar variable.
+
+[00:40:58.440] Chuan Wu: Instead of a vector variable paths.
+
+[00:41:01.490] Chuan Wu: Okay, but still, solving this minimization would be taking time. If it happens in every step of our iterate gradient method, iterate sends a method, then it adds on to complexity of the algorithm execution. So that's why…
+
+[00:41:18.950] Chuan Wu: People have designed another, more efficient line search method to design the key, and that is so-called backtracking line search.
+
+[00:41:28.140] Chuan Wu: So the backtracking line search is designing a step size T using a few iterations, a number of iterations, rather than exactly solving a main validation problem.
+
+[00:41:37.030] Chuan Wu: And the idea is here. So we start with T equating what? And at every step, we try to reduce T by a factor beta. So beta is in the range of 0 and 1.
+
+[00:41:50.060] Chuan Wu: Until this economy holds.
+
+[00:41:54.410] Chuan Wu: Okay, and the high… I'm going to do some geometric illustrations to show what this means. At a high level, I hear is the T we choose by repeating this a few times until the holiday here holds would be a T good enough.
+
+[00:42:09.660] Chuan Wu: to ensure, after update here, the function value is smaller than FS27 fully detected.
+
+[00:42:17.150] Chuan Wu: Okay, observe the condition here. So FX plus P delta X is the function evaluated at the next iterate, after update.
+
+[00:42:26.710] Chuan Wu: And FX is, reverse concurrent function value, objective function value, and the right-hand side… and the second term here is,
+
+[00:42:37.360] Chuan Wu: Not too bad.
+
+[00:42:39.480] Chuan Wu: Native value, because interproduction between the two, according to how we choose the indecent reaction, to be negative, Right.
+
+[00:42:48.250] Chuan Wu: And T is positive, and R phi is in that range, a positive value. So therefore, the term here is an active value.
+
+[00:42:58.060] Chuan Wu: And the implication here is our T to be decided, would ensure, after update, the iterate's function value is smaller than the previous iterate's function value by some extent decided by this negative value.
+
+[00:43:17.210] Chuan Wu: Alright.
+
+[00:43:18.260] Chuan Wu: Okay.
+
+[00:43:19.780] Chuan Wu: Okay, geometric illustration…
+
+[00:44:34.040] Chuan Wu: Okay, so what I'm drawing here is the,
+
+[00:44:38.170] Chuan Wu: Horizontal axes represent our, step size T.
+
+[00:44:43.100] Chuan Wu: And the value of drawing according… using the vertical axis is the value of function f, value evaluated at x plus t delta X. Now, t and delta X are all given and fixed, and T is our… X and delta X are both fixed, T is our variable.
+
+[00:45:01.680] Chuan Wu: Okay, so one function f is a convex function, so actually we can pretty much show that F is on convex on T as well.
+
+[00:45:10.770] Chuan Wu: Okay, all right, and then, remember now, all X, delta X,
+
+[00:45:17.880] Chuan Wu: fixed, and the T is our variable.
+
+[00:45:21.450] Chuan Wu: And then, we can…
+
+[00:45:29.800] Chuan Wu: Okay, so we can draw a supporting line, a tangent line, a supporting hyperplan to the function curve, going through this, point on the vertical axis.
+
+[00:45:40.580] Chuan Wu: And this…
+
+[00:45:51.960] Chuan Wu: Okay, and this line's formula is here. Okay, so especially this point, the value is FX, because T is 0.
+
+[00:46:00.970] Chuan Wu: T is 0, TS0, so that point is FX.
+
+[00:46:04.610] Chuan Wu: And fx plus t multiplying, the inner product between… the inner product between gradient vector and delta X, so this is, the slope.
+
+[00:46:16.400] Chuan Wu: So that is the slope? Negative slope?
+
+[00:46:19.550] Chuan Wu: And the T is our variable.
+
+[00:46:22.130] Chuan Wu: And that is a tangent line here, representing a tangent line here.
+
+[00:46:27.290] Chuan Wu: And if we scale the tangent line scope by alpha.
+
+[00:46:31.780] Chuan Wu: So, alpha is, smaller than 1, okay, especially, in fact, if people use, like, alpha in the range from 0 to 1 half.
+
+[00:46:41.110] Chuan Wu: So when alpha is smaller than 1?
+
+[00:46:43.940] Chuan Wu: And if we… scale the slope by alpha, we come up with another line, so that line would be
+
+[00:46:53.300] Chuan Wu: A bit upper to the attention line.
+
+[00:46:56.470] Chuan Wu: Because the slope becomes flatter when we multiply the negative slope by alpha.
+
+[00:47:02.280] Chuan Wu: Smaller than what?
+
+[00:47:04.580] Chuan Wu: Okay, so that is another line, yielding the formula here.
+
+[00:47:17.890] Chuan Wu: Okay.
+
+[00:47:18.950] Chuan Wu: All right, and then, through the, backtracking line search procedure.
+
+[00:47:24.320] Chuan Wu: We start with T equating what? Okay, so suppose T equating 1 is here.
+
+[00:47:35.600] Chuan Wu: Okay, T equaling 1 is here. Okay, at this point.
+
+[00:47:41.160] Chuan Wu: We found out FX plus t delta X is no smaller than fx plus t arba in the product.
+
+[00:47:50.660] Chuan Wu: Because the blue dot here is higher than the upper.
+
+[00:47:56.050] Chuan Wu: red line.
+
+[00:47:57.850] Chuan Wu: And then we scale T by beta. Beta smaller than 1.
+
+[00:48:02.560] Chuan Wu: So what?
+
+[00:48:03.870] Chuan Wu: After scaling, probably we come up to a T value here.
+
+[00:48:11.010] Chuan Wu: Okay, called T prime.
+
+[00:48:13.540] Chuan Wu: So when T becomes a T prime value after scaling using beta, let's say it's beta… eat it.
+
+[00:48:23.820] Chuan Wu: Okay, just call it T prime.
+
+[00:48:28.030] Chuan Wu: And then the iteration in backtracking line search can stop, because at this point, the blue dot
+
+[00:48:36.620] Chuan Wu: along the line… along the curve of FX plus T delta X is lower than the upper breadth Life.
+
+[00:48:46.900] Chuan Wu: And then that means the inequality there is satisfied, and then we can stop.
+
+[00:48:54.570] Chuan Wu: So, geometrically, the idea
+
+[00:48:57.580] Chuan Wu: of that tracking line search step is to try to find out the T such that the T was within the range.
+
+[00:49:07.590] Chuan Wu: Corresponding to the… blue curve here falls into this range. Okay, the defaults into that range.
+
+[00:49:17.240] Chuan Wu: And why do we want that T to fall into a function value in that range?
+
+[00:49:23.400] Chuan Wu: The purpose is to make sure, after update, function value is smaller than the previous function value by some extent, at this much amount of extent.
+
+[00:49:35.370] Chuan Wu: Okay.
+
+[00:49:49.690] Chuan Wu: And from, from the geometric elimination, we actually can know this, the repeating to ensure the inequality here holes, because it will always terminate or stop, because you are always repeating,
+
+[00:50:04.660] Chuan Wu: P down, and eventually it will fall into this range.
+
+[00:50:08.880] Chuan Wu: Right.
+
+[00:50:11.900] Chuan Wu: Okay.
+
+[00:50:20.960] Chuan Wu: call these intersection points corresponding T to be T0. Okay, so eventually, we want our T to fall within the range from 0 to up to T0, and then the backtracking license will stop.
+
+[00:50:39.820] Chuan Wu: Alright.
+
+[00:50:45.740] Chuan Wu: Okay, so having seen some concrete ways to decide the, subsides and, the, search reaction, we can come up, especially when we use the search reaction delta X as an acting of the gradient.
+
+[00:51:02.730] Chuan Wu: factor of what we come up with is a gradient descent maximum, okay?
+
+[00:51:08.470] Chuan Wu: So the gradient descent method is very like the general design method, except that we complexize the search reaction to be an active of the gradient reaction.
+
+[00:51:17.240] Chuan Wu: And then we also choose the step size T, where one of the backtracking line search methods, we have one of the line search methods we have introduced, either exact or backtracking line search, and then the update formula exactly the same.
+
+[00:51:32.260] Chuan Wu: Okay, and then this is simply our gradient descent method.
+
+[00:51:43.710] Chuan Wu: Okay.
+
+[00:51:44.670] Chuan Wu: And then let's check out the performance of such a gradient design method, which is actually pretty simple. And now we are working on an objective function to minimize F on two variables, okay, X1 and X2.
+
+[00:51:57.630] Chuan Wu: And you can see function f is in the exponential function 4, okay? And then, when we are bound in the, reading the second methods.
+
+[00:52:07.880] Chuan Wu: Here.
+
+[00:52:09.420] Chuan Wu: And this is a so-called convergence curve. So the horizontal axis represents the number of iterations we run for the algorithm, and the vertical, axis represent how close we are to automatically. And here, with just the ICO layers 2, we know what P-star is.
+
+[00:52:25.950] Chuan Wu: And then we put the difference here. And you know, in fact, it's often we just evaluate the gradient, evaluate the contact state as the termination condition to show on the vertical axis.
+
+[00:52:38.870] Chuan Wu: All right, and
+
+[00:52:41.450] Chuan Wu: Depending on whether we use, exact line search or abstract line search to decide the step size in every step, the conversion speed would differ.
+
+[00:52:50.780] Chuan Wu: So if we use exactly line search, you see both we converge faster. Okay, within about 15 iterations, we can make the error to be down to 10 to the power of negative 10, but if we use vector in line search, it takes slightly longer.
+
+[00:53:05.430] Chuan Wu: So it's pretty understandable, because for exact line search, for every step, you make sure that T leads to the optimal minimal function value after update, right? But for… when we use backtracking line search, we just ensure after update, you reduce object function to some good amount, but not really minimal.
+
+[00:53:25.350] Chuan Wu: Right? Okay, so we have a factoring line search takes longer, but as we said, factoring line search, in every iteration of factoring… every iteration of creating this anniversary, if you are using factoring line search.
+
+[00:53:37.660] Chuan Wu: That iteration takes a shorter time to run, okay, because you don't have to solve an exact optimal solution… optimization problem.
+
+[00:53:46.130] Chuan Wu: Okay.
+
+[00:53:47.810] Chuan Wu: Of course, here we do not show the walk time between the horizontal axis, we only show the iteration. Okay, if we do show the walk time, translate that the tracking line search is taking longer than backtracking line search.
+
+[00:54:09.800] Chuan Wu: Okay.
+
+[00:54:10.910] Chuan Wu: All right, we have been using negative of the gradient vector as our incentive reaction. People have been trying to figure out whether we have better ZMDF reaction than the negative of the gradient factor.
+
+[00:54:27.640] Chuan Wu: If we do, if we are able to find the so-called steepest descent direction, then the corresponding method will be calling, will be called as steepest descent method.
+
+[00:54:40.240] Chuan Wu: And how can we find out if the state is the descent direction? This is our rationale. So we try to find out direction B, at our descent direction, such that the inner production between the gradient vector and the B is as small as possible.
+
+[00:54:56.850] Chuan Wu: Okay, but from the,
+
+[00:55:01.540] Chuan Wu: formula here to calculate the steepest direction, we can actually still readily see that connected of the gradient directions is indeed the status direction.
+
+[00:55:14.460] Chuan Wu: Okay, intuitively here, we want a direction within the gradient direction to be the smallest possible, right? Then what direction do we choose? We, of course, just choose the exactly inverse direction of nebula FX.
+
+[00:55:30.730] Chuan Wu: Right? So, in the product, for the one this delta X less, vector less, speaks to be what?
+
+[00:55:39.120] Chuan Wu: That direction is a direction leading to the smallest inner product width.
+
+[00:55:44.600] Chuan Wu: blah, FX.
+
+[00:55:46.630] Chuan Wu: Okay.
+
+[00:55:47.840] Chuan Wu: So that is to say, the gradient direction, gradient descent direction that we were using is indeed the steepest descent direction with respect to, Euclidean norm, okay, Euclidean norm, because when the norm here is Euclidean norm,
+
+[00:56:08.230] Chuan Wu: Our analysis is of the inner product holds.
+
+[00:56:14.580] Chuan Wu: Okay, so therefore, actually, the performance of yielding any steepest descent direction in the descent method would be exactly the same as the gradient descent method we have just introduced.
+
+[00:56:31.050] Chuan Wu: Okay, alright,
+
+[00:56:34.000] Chuan Wu: So, therefore, gradient descent, so that is our first introduction of a simple algorithm to solve an unconstrained complex minimization problem, so which belongs to the category of gradient descent method.
+
+[00:56:49.340] Chuan Wu: So, in fact, as what you have seen, gradient descent method is very simple and kind of neat, right? Although its performance is mediocre in terms of that.
+
+[00:57:01.210] Chuan Wu: When we describe the convertible curve in this way, where horizontal axes represent iterations, and vertical, vertical axes represent the arrow, in terms of a geometric sequence. Okay.
+
+[00:57:15.850] Chuan Wu: Harold presented himself on the job, fantastic series.
+
+[00:57:22.020] Chuan Wu: The forward convergence curving this way, we call the algorithm as following linear convergence.
+
+[00:57:28.530] Chuan Wu: And moving up, we'll be introducing another, more efficient algorithm, where the convergence is actually pulling a chondratic drop pattern.
+
+[00:57:37.990] Chuan Wu: And over there, we are seeing that its convergence is quadratic rather than linear. Okay, quadratic, when the curve bends to bend further, when the region falls more, goes on more, then that makes the convergence faster.
+
+[00:57:54.820] Chuan Wu: Okay.
+
+[00:57:56.080] Chuan Wu: Alright,
+
+[00:57:58.240] Chuan Wu: So, but however, radiant descent does there a lot of practice value, because it's simple and neat, and one of the important application scenarios of gradient
+
+[00:58:10.510] Chuan Wu: You send the message, it's, for motion learning, model training.
+
+[00:58:17.140] Chuan Wu: Right.
+
+[00:58:18.370] Chuan Wu: So we know a fundamental algorithm for functional model learning, neural network model learning, is to use a sarcastic gradient descent.
+
+[00:58:28.920] Chuan Wu: SGD. So SGD's formula is exactly similar to what we have seen in the simple presentation method here.
+
+[00:58:49.260] Chuan Wu: Okay, all right, so here W represents the model weight for all the parameters in the neural network model, and, we are doing the update along, gradient direction.
+
+[00:59:01.090] Chuan Wu: So that's the gradient of the, dot function here, okay, divided the current… at the current, weight of model weight.
+
+[00:59:09.670] Chuan Wu: And EPA is our staff site.
+
+[00:59:12.610] Chuan Wu: Okay, so exactly this is the gradient design method, because our search queue action is negative of the gradient.
+
+[00:59:21.540] Chuan Wu: Okay.
+
+[00:59:22.790] Chuan Wu: All right, and why it's called stochastic gradient descent rather than gradient des… general gradient descent method we have introduced here. It's because when we calculate the gradient and do the update, we are doing it in a stochastic manner, using samples to update, rather than use all the data to update altogether.
+
+[00:59:42.690] Chuan Wu: That's the core idea of stochastic gradient descent, SGD, in machine learning nowadays. Okay, so now you should know its root of foundation is exactly the simple gradient descent method we have introduced today.
+
+[01:00:03.420] Chuan Wu: All right, so that said, it's good timing for us to take a short break, a 3-minute break, before we continue looking at a more efficient algorithm than gradient descent.
+
+[01:04:33.010] Chuan Wu: Okay, let's continue with our class today, and moving on, we'll be introducing a more efficient algorithm that can lead to a contract, nonlinear contracted convergence of the algorithm.
+
+[01:04:46.790] Chuan Wu: Okay, so here, this method is called a Newton's method. So what you usually find out is, the Newton's method is actually kind of an extension from the, descent method we have introduced just now, and choosing different descent direction, and choosing possibly different stopping criteria.
+
+[01:05:03.940] Chuan Wu: And then that will ensure the, after iterations of updates, the conversions to the same presentation will be faster.
+
+[01:05:11.890] Chuan Wu: Okay, and the descent direction under the Newton's method is called Newton's direction. So the Newton's direction is defined this way. So we use delta X to represent the descent direction, and we use a subscript NT to represent the Newton's direction.
+
+[01:05:28.640] Chuan Wu: And it's calculated as negative inverse of the Hashan matrix of the objective function, then multiplying the gradient factor.
+
+[01:05:36.710] Chuan Wu: Okay, and over here, you know, not only, we not only need to calculate the, gradient vector, we also need to calculate the Hessian matrix of the objective function in order to derive the Newton's direction.
+
+[01:05:50.560] Chuan Wu: Okay, so what is the rationale of coming up with such a Newton's direction? So the idea is here. So still back to our gradient descent method.
+
+[01:06:02.110] Chuan Wu: So in our gradient descent method, so we have shown this first-order condition. So we have this first-order condition here, or we kind of can consider, after update, our
+
+[01:06:16.480] Chuan Wu: After update, we are using a linear formula to approximate our, function value evaluated at the next iterate, X dot. And our direction is here, so X plus minus X,
+
+[01:06:31.610] Chuan Wu: So that's the fraction of, delta X.
+
+[01:06:37.040] Chuan Wu: When we are using, kind of yielding a first-order approximation to approximate our function value at the next iterate, our best direction delta X is to be the direction which minimizes the inner productivity.
+
+[01:06:52.550] Chuan Wu: And we have shown that reaction which minimizes the inner product here is indeed an active of the gradient reaction.
+
+[01:06:59.690] Chuan Wu: So that's kind of the rationale of the descended direction in the gradient descent. And now, in Newton's method, we move it one step further. Instead of considering first-order approximation of the function value at the next iterate, we use second-order approximation.
+
+[01:07:19.280] Chuan Wu: Okay, second order period approximation here. Okay, so FX plus first order, and then a second order term.
+
+[01:07:27.610] Chuan Wu: Okay, we use this to approximate the function value after update.
+
+[01:07:33.460] Chuan Wu: And when we decide the direction, we only consider the update direction as a matter of V here. We don't consider the step size T. Step size T here is considered just to be what? Similar here. When we focus on the direction, we consider the step size to be T in the T equally what in the update.
+
+[01:07:52.740] Chuan Wu: Okay, and this is exactly the second-order Taylor approximation, and our direction delta X and T is actually the optimal solution to make the value, second-order approximation value smallest.
+
+[01:08:08.470] Chuan Wu: Okay, so how do we, how do we come up with that? So this is a second-law approximation.
+
+[01:08:13.850] Chuan Wu: And consider X is valid, so X is currently iterated value, and B is our next updated direction. B is a variable.
+
+[01:08:21.300] Chuan Wu: And how do we choose V to minimize the second-order approximation function here? So the second-order approximation function here is a conjugic function.
+
+[01:08:29.430] Chuan Wu: And then we can set the gradient of this second-order approximation function to be 0, and then we can come up with V spent. Okay, so let's do it together.
+
+[01:08:40.090] Chuan Wu: So here, remember, B is our variable. So therefore, gradient, when we calculate the gradient of the function here on B, the first term is gone, and the second term results in
+
+[01:08:54.200] Chuan Wu: gradient?
+
+[01:08:55.500] Chuan Wu: And then, the third terms… Gradient is exactly 2 times… the Hasher matrix… Beep.
+
+[01:09:07.920] Chuan Wu: Right? So this is the gradient of the second-order approximation function.
+
+[01:09:12.870] Chuan Wu: a week.
+
+[01:09:14.370] Chuan Wu: Okay, and then setting it to zero.
+
+[01:09:18.220] Chuan Wu: So after setting it to zero, and solve for V, V is exactly native.
+
+[01:09:27.600] Chuan Wu: gradient, and then multiplying the reverse of the Hessian matrix.
+
+[01:09:32.720] Chuan Wu: almost sucks.
+
+[01:09:35.910] Chuan Wu: Okay, so this is exactly our base value.
+
+[01:09:39.130] Chuan Wu: And you see this V-style is exactly the Newton's direction that it.
+
+[01:09:43.970] Chuan Wu: We have to buy.
+
+[01:09:46.189] Chuan Wu: Okay, so therefore, to recap, the idea is delta X and P, the Newton's direction, is exactly the fastest descent direction that minimizes second-order approximation of the function value after this iteration.
+
+[01:10:04.430] Chuan Wu: Okay.
+
+[01:10:06.020] Chuan Wu: Alright,
+
+[01:10:09.190] Chuan Wu: And, when we know function F is, collapsed, so people have observed for collapsed function F.
+
+[01:10:18.670] Chuan Wu: The quadratic, or second block approximation is actually pretty close to the original form of the function, especially when x is close to optimality.
+
+[01:10:36.580] Chuan Wu: Okay, geometrically…
+
+[01:10:56.030] Chuan Wu: Okay, so suppose this is our function curve for FX.
+
+[01:11:00.290] Chuan Wu: And, optimal solution is here, X star.
+
+[01:11:06.830] Chuan Wu: So, second order approximation.
+
+[01:11:10.900] Chuan Wu: Would be the second order curve here.
+
+[01:11:15.870] Chuan Wu: So the second order curve would be pretty close to the original function curve, especially when we are moving closer to X star, when X is moving closer to X star.
+
+[01:11:28.140] Chuan Wu: Okay.
+
+[01:11:30.120] Chuan Wu: So that is considered to be… Yeah, second order function, composed.
+
+[01:11:38.940] Chuan Wu: at the X, okay, close to X star.
+
+[01:11:42.410] Chuan Wu: So when X is moving closer to X star, the blue curve will be very close, or overlap a lot with our original function curve FX.
+
+[01:11:52.160] Chuan Wu: So that is the rationale.
+
+[01:11:54.520] Chuan Wu: Okay, so therefore, if the second-order curve is very close to the original function curve, then, when we update X, 2 along the direction of delta X and T,
+
+[01:12:08.740] Chuan Wu: What we've come up with.
+
+[01:12:10.930] Chuan Wu: As a point here.
+
+[01:12:14.150] Chuan Wu: So we are updating… so the blue curve is what we are… is what the second-order approximation represents.
+
+[01:12:22.410] Chuan Wu: And by minimization after update, this is a… that is a point of X plus delta X and T.
+
+[01:12:31.860] Chuan Wu: So that is the lowest point along the second-order approximation curve.
+
+[01:12:36.260] Chuan Wu: And, you know, after this one step of update from X to X plus delta and t, we are moving significantly closer to X star.
+
+[01:12:44.880] Chuan Wu: So that is the rationale behind the Newton's direction, and also this, hints why, using Newton's method, convergence is much faster.
+
+[01:12:53.510] Chuan Wu: Because every time.
+
+[01:12:55.950] Chuan Wu: The Newton's direction leads us to the lowest point of this current second-order approximation curve, and that curve is close to the original curve, especially when we are moving closer to optimality.
+
+[01:13:08.560] Chuan Wu: And then, after one step update, we are moving a lot to the optimality.
+
+[01:13:16.630] Chuan Wu: Okay, and that would interpret why, the convergence curve that we will see is conjecture curve. When the iteration becomes more, the accuracy… the accuracy drops more substantially. The precision drops more substantially.
+
+[01:13:35.300] Chuan Wu: Okay, so that is, important quantity in Newton's method, and another important quantity in Newton's method is, called Newton's secret method.
+
+[01:13:44.560] Chuan Wu: So we use lambda X, a function of X, to represent the Newton's increment. So the Newton's increment is calculated in that way. It's a scalar value, a square root of, gradient transpose the attachment inverse and then gradient. Okay, but we measure them back, they were just a scalar value.
+
+[01:14:02.840] Chuan Wu: So this lambda X, as people have investigated, that it can be used to measure how close our current iter X rate X is to optimal X star. We don't know what X star is, but this lambda X can tell us how far away our current iterate X is to X star.
+
+[01:14:22.980] Chuan Wu: So the rationale is here. If we consider the second order approximation function, as we showed on the previous slide here, and implement of the second-order approximity function, to decide.
+
+[01:14:37.480] Chuan Wu: the direction of B, so in fact, with the best of B is our direction as being derived the test now.
+
+[01:14:43.730] Chuan Wu: So the literacy between function F, a function divided as
+
+[01:14:49.010] Chuan Wu: And the value of the approximation function value is exactly described by 1 half of lambda X squared.
+
+[01:14:58.230] Chuan Wu: Go ahead. We had shown this Exactly.
+
+[01:15:04.700] Chuan Wu: Bye, Kathy King.
+
+[01:15:06.340] Chuan Wu: Nika. Yes, you.
+
+[01:15:08.980] Chuan Wu: Okay, so implement of, second logger approximation function, over the possible direction, as we analyze if the passive B is our Newton's reaction here.
+
+[01:15:20.700] Chuan Wu: So therefore, the calculation on the left-hand side becomes exactly FX minus segment of the approximation evaluated at X plus delta XP, and if you plug in X plus delta XP's concrete value into the
+
+[01:15:40.520] Chuan Wu: function here, replace V by delta XT's concrete value.
+
+[01:15:45.460] Chuan Wu: And what you can derive is the right-hand side. Okay, right-hand side…
+
+[01:15:53.820] Chuan Wu: Yeah, the right-hand side is before we plug in the concrete value of delta X and P, and if we do
+
+[01:16:04.860] Chuan Wu: put in the concrete value of X and T,
+
+[01:16:15.440] Chuan Wu: The right-hand side becomes the following.
+
+[01:16:22.520] Chuan Wu: Excellent, he is here.
+
+[01:16:34.170] Chuan Wu: Finals… Van hat starts.
+
+[01:16:40.130] Chuan Wu: Transupposed…
+
+[01:17:09.320] Chuan Wu: Okay, so what I'm putting down here is the calculation on the right-hand side. I'm plugging in the concrete value of delta X and T here. This is exactly our delta X and T.
+
+[01:17:28.520] Chuan Wu: Okay.
+
+[01:17:29.610] Chuan Wu: And then the signs, some signs canceled, and the universe, and the…
+
+[01:17:35.510] Chuan Wu: Multiply the matrix itself, and so…
+
+[01:17:39.160] Chuan Wu: And, what we eventually get…
+
+[01:17:50.270] Chuan Wu: It's one half, yeah, it's one half.
+
+[01:17:58.970] Chuan Wu: One half of the survey.
+
+[01:18:13.330] Chuan Wu: Yup.
+
+[01:18:14.340] Chuan Wu: 1 half of this value, this value is, lambda squared, right? Okay. The right-hand side, 1 half of lambda squared.
+
+[01:18:30.900] Chuan Wu: Okay.
+
+[01:18:32.900] Chuan Wu: So therefore, what we showed is the, lambda X is, describing how far away the actual function value and the approximation, secondary approximation value is.
+
+[01:18:47.960] Chuan Wu: Off our window from each other.
+
+[01:18:54.250] Chuan Wu: And, another way to integrate this lambda is that lambda is actually also the directional derivative in the new fixed direction.
+
+[01:19:04.950] Chuan Wu: Okay, the reason is negative lambda squared equals the inner product between the gradient vector and the limpex descent interaction.
+
+[01:19:15.120] Chuan Wu: Okay, so we can exactly show that.
+
+[01:19:18.080] Chuan Wu: Based on… what our Newton's reaction should not be like.
+
+[01:19:29.660] Chuan Wu: Okay, so this is our newest direction.
+
+[01:19:33.810] Chuan Wu: Ed?
+
+[01:19:35.260] Chuan Wu: That is exactly negative.
+
+[01:19:44.200] Chuan Wu: Obi.
+
+[01:19:45.520] Chuan Wu: And we know this is not that squared.
+
+[01:19:49.330] Chuan Wu: Okay.
+
+[01:19:50.540] Chuan Wu: But I'm not square.
+
+[01:19:52.780] Chuan Wu: And why we say, this is Newton's, directional derivative around Newton's direction, this is according to the definition of directional derivative.
+
+[01:20:03.460] Chuan Wu: So directional derivative is defined to be the inner product between,
+
+[01:20:10.330] Chuan Wu: New directional derivative along a particular direction is defined to be the inner product between the gradient vector and that direction.
+
+[01:20:19.580] Chuan Wu: Okay, so this is the definition we have actually introduced twice before in the course.
+
+[01:20:25.700] Chuan Wu: Okay.
+
+[01:20:27.720] Chuan Wu: All right, so therefore, no matter we trade, what we are trying to show is,
+
+[01:20:34.980] Chuan Wu: This lambda is, an estimate of how close we are to
+
+[01:20:41.510] Chuan Wu: Of course, X is to X star.
+
+[01:20:53.410] Chuan Wu: Okay.
+
+[01:20:54.320] Chuan Wu: And then, using the two important components introduced, Newton's step and Newton's different than that, we are able to boost the gradient, the descent method sketch we have introduced today.
+
+[01:21:09.190] Chuan Wu: to the Newton's password. Okay, so let's check out how Newton's method works.
+
+[01:21:14.440] Chuan Wu: So we start from a starting point X, and then we consider tolerance at 0. And in every iteration, we calculate the Newton's step and the Newton's increment quantities.
+
+[01:21:26.690] Chuan Wu: And then, we check if the stocking criteria is satisfied. So, I set lambda rather than the stocking criteria, because it measures how close X is to X star. So, if the, X squared, one half of X squared is smaller than our tolerance, let me just stop. Otherwise, we continue.
+
+[01:21:46.290] Chuan Wu: When we continue, we still use the major update formula here, except that our delta… our search direction is our Newton's direction, and our step size is chosen at tracking line search.
+
+[01:22:00.270] Chuan Wu: Okay, backtracking line search is more commonly used than back online search because of its efficiency as a back solution.
+
+[01:22:09.590] Chuan Wu: Okay, and then,
+
+[01:22:14.380] Chuan Wu: So there are many different variations of Newton's method, and especially here, we are introducing the Newton's method for solving unconstrained convex manifestation problem, and next time, we'll be introducing Newton's method to solve equality-constrained, convex problem.
+
+[01:22:30.200] Chuan Wu: And, even under the, Newton spacer to solve unconditional validation problem, we have many variants. So, for example, if, in the Newton spacer, we do not design search. We just simply takes the sheet to be 1.
+
+[01:22:45.010] Chuan Wu: Then, this is a simplified version of Guilton's password. In the literature, it's called a pure guiltons faster.
+
+[01:22:51.440] Chuan Wu: And if we do have the line search step in the algorithm, then the algorithm is called dent or guarded multispector.
+
+[01:23:00.180] Chuan Wu: For that unguarded Milton's password, it can converge, guaranteed to converge. But if we do the proper Newton's mass search as a fixed step size to be 1, then the algorithm may not converge. The rationale is,
+
+[01:23:15.340] Chuan Wu: Because you need to keep building one, we may not be able to be sure,
+
+[01:23:21.930] Chuan Wu: It's a descent method.
+
+[01:23:24.580] Chuan Wu: came with, after update of slowly functional.
+
+[01:23:29.140] Chuan Wu: The functionality may not necessarily decrease.
+
+[01:23:32.490] Chuan Wu: Okay, all right, and then let's take a look at the, convergence performance of applying the Newton spacer.
+
+[01:23:41.130] Chuan Wu: Okay, and the, function we are minimizing it here. So, it's a composition of, outcome function and an active, locker, a negative lock.
+
+[01:23:51.020] Chuan Wu: Ed? We…
+
+[01:23:54.890] Chuan Wu: Still, in the coincidence curve, the horizontal axis represent the iterations the algorithm runs, instead of work-round time, not walk-on time. And vertical axis represents how close we are to optimality, just assuming we know what P-star is, for the problem here.
+
+[01:24:12.110] Chuan Wu: And we should notice that the vertical axis is usually presented as a dramatic, sequence series.
+
+[01:24:20.950] Chuan Wu: Okay, so it's not like 1, 2, 3, 4, it's just a 10th hour of, active.
+
+[01:24:27.910] Chuan Wu: That opinion.
+
+[01:24:29.820] Chuan Wu: All right, okay, so we can see, so again, if we apply exactly the line search or backtracking line search in the Newton's method, exact line search works is faster in terms of the number of iterations, and backtracking line search is likely slower in terms of convergence, number of, iterations.
+
+[01:24:49.900] Chuan Wu: Okay, F,
+
+[01:24:52.560] Chuan Wu: And we can see the curve is, currently is initially going down slowly, but when the iteration goes more, meaning while we are closer to optimal solution, the, conversion goes down faster. Okay, and we call the two phases differently.
+
+[01:25:09.720] Chuan Wu: So the first phase here, corresponding to relatively flatter over the curve, so it's called the depth Newton phase. And usually, those are steps where, in most iterations, we require a backtracking
+
+[01:25:25.080] Chuan Wu: steps to come up with, step size T, which is smaller than 1.
+
+[01:25:30.240] Chuan Wu: Okay, recalling our back recognizers, we have T squared down by beta t, and Q, that inequality is satisfied.
+
+[01:25:38.930] Chuan Wu: Okay, I think the initial stage, probably we need a few iterations to scale team down from 1 to arrive in that…
+
+[01:25:47.090] Chuan Wu: What we showed earlier on the board, to arrive at that range, make sure objective functionality is increased to some extent in every step.
+
+[01:25:55.130] Chuan Wu: But when we are closer to optimality, the observation is, often, it just becomes, well, maybe we do not need any backtracking step. Well, we can already guarantee that after the update, you need X plus delta X and T. The,
+
+[01:26:13.610] Chuan Wu: African-line search speed equality is already satisfied.
+
+[01:26:18.260] Chuan Wu: Okay. Alright, and that phase corresponds to the fungraphicola convergent phase.
+
+[01:26:25.480] Chuan Wu: And over there, the, convergence speed to, 0 for the gradient vector is calculated.
+
+[01:26:34.420] Chuan Wu: Okay, meaning more effectively is a number of corrective digits, of… Doubles at every iteration.
+
+[01:26:50.430] Chuan Wu: Okay.
+
+[01:26:55.410] Chuan Wu: Okay, so as compared to the gradient descent method whose convergence we showed earlier today. We found out here, using Newton's method, the convergence is in general faster on length than linear convergence, and is contracting contracting when we are closer to automatic.
+
+[01:27:14.300] Chuan Wu: So that means, in terms of convergence speed, Newton's method is more efficient.
+
+[01:27:19.840] Chuan Wu: But this benefit does come with some downside. The downside is the computation in every iteration of the Newton's method is more intensive.
+
+[01:27:30.370] Chuan Wu: Because over here, we not… when we are calculating Newton's direction and the increment, we not only need to calculate the gradient of function F, we also need to calculate passion matrix of the function.
+
+[01:27:42.760] Chuan Wu: of their function, and inverse matrix of a hashing matrix of function. And the calculation takes, time, and, those matrices need to be stored as well. Sometimes the matrix needs to be stored as well, so making it conceal for storage, memory.
+
+[01:27:58.530] Chuan Wu: During that time.
+
+[01:28:00.270] Chuan Wu: Okay.
+
+[01:28:06.440] Chuan Wu: Alright,
+
+[01:28:12.620] Chuan Wu: Alright, so that's what we,
+
+[01:28:16.170] Chuan Wu: Okay, so a final note here, so because of the, pros and cons of Newton's method, actually, we see, and nowadays, at least in the machine learning,
+
+[01:28:28.480] Chuan Wu: Motion learning, domain, motion learning, communication. So mostly, they are using just a simple version of gradient descent method.
+
+[01:28:39.060] Chuan Wu: train their neural network, right? So, using the simple formula that we have shared earlier. And new dispenser is known to be more efficient, but due to the significant efforts of building matrix, storing matrix, and doing matrix conversion, so it's not really quite the link.
+
+[01:28:55.820] Chuan Wu: adopt in machine learning model training, right? Because machine learning model training over there, you have many, many variables, huge amount of variables, and then that renders high, very high dimension of the matrices.
+
+[01:29:07.220] Chuan Wu: And the overhead is non-involorable, okay?
+
+[01:29:12.050] Chuan Wu: All right, so that's what I want to talk about the method for solving,
+
+[01:29:22.570] Chuan Wu: unconstrained convex.
+
+[01:29:26.480] Chuan Wu: Minimization problem.
+
+[01:29:39.160] Chuan Wu: Okay, yes, so in the rest of the day, It's too small.
+
+[01:29:46.480] Chuan Wu: Yeah, just use this.
+
+[01:29:48.140] Chuan Wu: Okay, in the rest of today's lecture, what I, I hope I won't cover the next seven slides, but I want to briefly introduce a major assessment of the course, so which is a project, the course. So, as you are aware, so we have three assignments, as a, yeah, in-course assessment.
+
+[01:30:06.690] Chuan Wu: And we also have a project, and eventually we have a final exam. So the final exam date has been, has been…
+
+[01:30:13.480] Chuan Wu: should have been released to students, right? So it's, in the morning of December 15th.
+
+[01:30:19.730] Chuan Wu: Right, and, this project is kind of a major assessment, and it is… we do not have anything, like, minimum exam, so this project is,
+
+[01:30:32.150] Chuan Wu: It's kind of, corresponding to a mid-term exam requirement. And what we want you to work out in the project is we want, really want you to,
+
+[01:30:44.030] Chuan Wu: Exercise, what you have learned in the course, to actually involve a practical optimization problem in your research domain, and try to design or apply some algorithm to solve your optimization problem, and eventually do evaluation of experiments, and draw a convergence curve.
+
+[01:31:01.160] Chuan Wu: Okay, so basically, apply everything you learned in the course.
+
+[01:31:05.700] Chuan Wu: Ed?
+
+[01:31:07.230] Chuan Wu: So the, project eventually requires you to deliver a report. So that report will be in the paper form. Okay, we require 5 pages. In earlier years, I required 6 pages, and later I just reduced to 5 pages. Okay, 5 pages, pretty easy to come up with. And then, the whole report should be written down.
+
+[01:31:27.130] Chuan Wu: a similar format as a research paper. Okay.
+
+[01:31:31.020] Chuan Wu: So, let's, briefly go through the requirements here. So, by the way, the project requirements here should have been posted by the TA, our model site this morning.
+
+[01:31:41.740] Chuan Wu: Okay, so first of all, you need to decide a research topic, a research area that you are working on.
+
+[01:31:50.780] Chuan Wu: Preferably, that's the area you're working on in your study, and then you try to find out an optimization problem that is driven to your research, or to your research area, and then you try to formulate the problem and solve it, and eventually come up with a final report.
+
+[01:32:10.710] Chuan Wu: Okay, and the requirement of the topic to choose.
+
+[01:32:14.190] Chuan Wu: So this should be a relatively new opposition problem that is of interest and important, and has not been solved by any existing literature. And then you can model the problem into a convex program. I understand some of you may come up with program that is pretty complex, not convex.
+
+[01:32:33.910] Chuan Wu: Okay, that's also acceptable, as long as you have some algorithm you design, intuitive algorithm you design to solve it, and eventually you can draw the, analyze the result. That is done, that is good enough.
+
+[01:32:48.900] Chuan Wu: Okay, and when you design the algorithm, and you implement the algorithm, you can use, either Python or MATLAB. Yeah, so most of students will do it in Python, as some of, you from,
+
+[01:33:07.360] Chuan Wu: might still sleep demand, so both are acceptable. And actually, especially in the last assignment, of course, we also have a programming… some programming, problems, and over there, you can also use either Python or Metallab. And,
+
+[01:33:25.160] Chuan Wu: And when you come up with the algorithm and do your experiments, you can verify the correctness of your algorithm in finding the optimal solution, or close approximate optimal solution.
+
+[01:33:37.720] Chuan Wu: And you can analyze the, or show the performance of your algorithm in terms of number of iterations it takes to converge to optimal.
+
+[01:33:46.030] Chuan Wu: Okay, and regarding topic selection, over the years, I usually encourage students to choose some topic that is closely related to the research you're working on, such that what you probably have modeled or evaluated in the course project can be part of your upcoming paper.
+
+[01:34:04.250] Chuan Wu: Okay, so then that will align your efforts well, if you are…
+
+[01:34:08.470] Chuan Wu: That could align your course efforts well with your research. And you are also encouraged to talk to your supervisor in identifying such a position problem to solve and formulate when you are doing your research discussion with your supervisor.
+
+[01:34:23.940] Chuan Wu: Right? And, and when you have, if it ever happened that what you have worked out in the course project becomes part of your research paper, don't worry, I don't want to claim any co-authorship, okay? You just publish the paper yourself, or with your supervisor, that is good enough.
+
+[01:34:44.240] Chuan Wu: Alrighty.
+
+[01:34:47.050] Chuan Wu: Okay, and the eventual report, as said, will be 5 pages long, and, the IEE double colon 10-point form, and you can download any template, to, use, and… or any template, that you have used for your paper salvation.
+
+[01:35:05.390] Chuan Wu: And, regarding whether this is individual or group projects, so, actually, we allow a group of, at most two students, to work on the same report together, but, that said, we do encourage individual projects, and we do have some bonus reading scheme if we are working on it.
+
+[01:35:25.470] Chuan Wu: To ourself.
+
+[01:35:27.090] Chuan Wu: For my students, you don't have choice. Everyone has to be producing an individual report. Okay, no grouping. Okay. All right, for other students, I don't mind if you do group up together and produce one report together.
+
+[01:35:43.010] Chuan Wu: All right, and then here we list some details about how to come up with the report, and if essentially you can find out it's exactly following the format of a research paper.
+
+[01:35:57.500] Chuan Wu: In previous years, sometimes if the students are taking my course as a first course in the first semester.
+
+[01:36:04.120] Chuan Wu: after they have registered their PhD here in Hong Kong, you probably am trying to use this as the first opportunity, I think, to come up with a paper. But nowadays, I know many of you have already published substantially before you come.
+
+[01:36:17.750] Chuan Wu: Okay, then, probably then you are more fluent in coming up with a paper format report here. But in case, if you indeed have never published or write a…
+
+[01:36:28.970] Chuan Wu: Regional Paper, then this is a good opportunity for you to practice that.
+
+[01:36:35.130] Chuan Wu: All right, so we have title, we have abstract, and the introduction, related work, and then followed by the model section, algorithm section, evaluation section. Okay, and then eventually a conclusion.
+
+[01:36:47.300] Chuan Wu: And we do want the whole report to be complete. You should clearly cite all the technical articles, papers, websites.
+
+[01:36:56.420] Chuan Wu: That you are referring to. And double-check there is no hallucination.
+
+[01:37:01.550] Chuan Wu: Okay, so you know, in this university, there was a famous event that when, paper was published without a professor checking all the references, and eventually found out the published paper has a lot of hallucinated references.
+
+[01:37:18.210] Chuan Wu: Okay, I don't hope that to happen, and none of the supervisors want that to happen. Okay, all right.
+
+[01:37:26.700] Chuan Wu: Okay, so here, timeline of projected deliverable. So we first want you to indicate your topic selection and group formation by, mid of next month. And you can indicate those by emailing to our TA. So this is another TA problem that here we commonly,
+
+[01:37:45.800] Chuan Wu: post the summit and others, but that TA, who is another PhD student of mine, will be responsible for project marking.
+
+[01:37:54.270] Chuan Wu: And, then, after that, we, want you to deliver the final project report, by, late December.
+
+[01:38:04.650] Chuan Wu: Okay, so that is one week after the final exam to allow you slightly more time to work out the report for the labor.
+
+[01:38:13.230] Chuan Wu: Okay, and in your first deliverable of sending the email, make sure your email includes the members in your group and their value ID,
+
+[01:38:21.840] Chuan Wu: And also, your candidate title, actually description. A few sentences will do. And often students may ask whether they can change topic and others later. Yes, we do allow some change of possible title and what they are working on.
+
+[01:38:38.080] Chuan Wu: But the purpose of sending this first email is for you, for you to start thinking about what you are trying to work out.
+
+[01:38:46.170] Chuan Wu: Okay, not wait until after final exam. We think that one week you'll try to work out the report.
+
+[01:38:51.660] Chuan Wu: Right? Because anyway, I want this… what you study in the course, to be useful in your research. We just try to find a topic in your… from your research, a subproblem from your research, and try to formulate a problem mathematically, and then solve it using what we have introduced here.
+
+[01:39:09.470] Chuan Wu: Okay, then greetings, so the email notification,
+
+[01:39:14.540] Chuan Wu: is, worth 5% of the final mark, and then your subtliness of the labor of ZRA, 15%,
+
+[01:39:24.250] Chuan Wu: probably also need to add whether there is hallucination there. It is, yeah, I think I'll ask the TA to check hallucination as well. And… and then,
+
+[01:39:35.000] Chuan Wu: The, formal modeling, 15%, already did that behind some 50%, the average 15%, English writing, 15%.
+
+[01:39:44.010] Chuan Wu: And, completeness, including the reference, 5%. Or if you are working on an individual report, you'll get $10 mark, upper bounded by 100.
+
+[01:39:56.540] Chuan Wu: Okay, all right, so that's a basic requirement for the project, that I want to introduce, and you can start thinking about your project workout now, and talk to your supervisor, potentially.
+
+[01:40:09.360] Chuan Wu: Okay, any question regarding the project here?
+
+[01:40:14.330] Chuan Wu: Yes, please.
+
+[01:40:15.690] Chuan Wu: A patient can be speaking to?
+
+[01:40:19.430] Chuan Wu: Yes.
+
+[01:40:20.960] Chuan Wu: But actually, nowadays, I should have moved it out, because speakerphone,
+
+[01:40:29.280] Chuan Wu: That would be flexible there. If you want to exclude the references, bye.
+
+[01:40:34.000] Chuan Wu: Yeah, I know nowadays people can easily find tons of reference.
+
+[01:40:41.160] Chuan Wu: Okay, good question. Yeah, what else?
+
+[01:40:47.660] Chuan Wu: Okay, so if there is no more questions, we are good for the day.
+
+[01:40:51.710] Chuan Wu: We'll call it a day, and we'll continue, next Tuesday.
