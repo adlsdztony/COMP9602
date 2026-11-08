@@ -1,0 +1,486 @@
+import { Ch10Perturb, Ch10ShadowPrice, Ch10BoxDual, Ch10PartialDual } from '../widgets/ch10.jsx'
+
+上一章我们得到了 KKT 条件，知道了在强对偶下最优乘子 $\lambda^\star$ 与最优解 $x^\star$ 通过互补松弛紧密相连。这一章要回答两个问题：
+
+1. **$\lambda^\star$ 这个数字本身有什么含义？** ——它是约束的“价格”：把约束放松一点，最优值能下降多少。这就是<T zh="灵敏度分析">sensitivity analysis</T>（扰动问题在第 8 章 L8 讲义 slide 6 首次出现，这里系统展开）。
+2. **怎样让对偶“更有用”？** ——同一个问题的不同等价写法会得到完全不同的对偶问题（讲义 L10）；我们还可以只松弛部分约束（<T zh="部分拉格朗日松弛">partial Lagrangian relaxation</T>），或把对偶推广到矩阵/锥约束（<T zh="广义不等式">generalized inequalities</T>），比如 SDP。
+
+**本章路线**
+
+1. 灵敏度分析：扰动问题 $p^\star(u,v)$、全局灵敏度不等式、局部灵敏度 $\lambda_i^\star=-\partial p^\star/\partial u_i$、影子价格。
+2. 课堂回顾（L10 黑板）：KKT 与 water-filling 的要点和推广。
+3. 对偶与问题重构：引入新变量与等式约束、显式约束变隐式、变换目标函数。
+4. 部分拉格朗日松弛：定义、强对偶保持定理及证明、最小费用流例子。
+5. 广义不等式约束的对偶：对偶锥、下界性质、SDP 的对偶。
+
+## 1. 灵敏度分析：$\lambda^\star$ 是约束的价格
+
+### 1.1 扰动问题
+
+把原问题每个约束的右端“挪动”一点点：
+
+$$
+\begin{array}{ll}
+\text{minimize} & f_0(x)\\
+\text{subject to} & f_i(x)\le u_i,\quad i=1,\dots,m\\
+& h_i(x)=v_i,\quad i=1,\dots,p
+\end{array}
+$$
+
+- $u\in\mathbb{R}^m$、$v\in\mathbb{R}^p$ 是<T zh="扰动">perturbation</T>参数。$u=0,v=0$ 就是原问题。
+- $u_i>0$：约束 $i$ **放松**了（可行域变大）；$u_i<0$：约束 $i$ **收紧**了。
+- 记 $p^\star(u,v)$ 为扰动问题的最优值（可行域为空时记为 $+\infty$）。它是 $(u,v)$ 的函数，$p^\star(0,0)=p^\star$。
+
+扰动问题的对偶：其 Lagrangian 为 $L(x,\lambda,\nu)-u^T\lambda-v^T\nu$（把 $f_i-u_i$、$h_i-v_i$ 代入），所以
+
+$$
+\text{maximize}\quad g(\lambda,\nu)-u^T\lambda-v^T\nu\qquad\text{s.t. }\lambda\succeq 0 .
+$$
+
+大白话：扰动只是在对偶目标上减了一个线性项，$g$ 本身不变。
+
+<MathNote title="为什么凸问题的 p*(u,v) 是凸函数">
+
+第 8 章证明过（一个不等式约束的版本）：若 $f_0,f_i$ 凸、$h_i$ 仿射，则 $p^\star(u,v)$ 是 $(u,v)$ 的凸函数。直觉：把两个扰动问题的最优解做凸组合，得到的点对“扰动量的凸组合”仍可行，再用 $f_0$ 的凸性。凸函数在每一点都有一条在它下方的“支撑线”——这正是下面全局灵敏度不等式的几何含义。
+
+</MathNote>
+
+### 1.2 全局灵敏度不等式
+
+<Thm title="全局灵敏度 Global sensitivity">
+
+假设原问题（未扰动）强对偶成立，$(\lambda^\star,\nu^\star)$ 是原问题的对偶最优解。则对**所有** $u,v$：
+
+$$
+p^\star(u,v)\ \ge\ p^\star(0,0)-\lambda^{\star T}u-\nu^{\star T}v .
+$$
+
+</Thm>
+
+<Steps title="证明（只用弱对偶 + 强对偶）" steps={[
+  {text:'任取扰动问题的一个可行点 x：fᵢ(x) ≤ uᵢ，hᵢ(x) = vᵢ。', math:'f_i(x)\\le u_i,\\qquad h_i(x)=v_i'},
+  {text:'强对偶：原问题最优值 = g(λ*, ν*) = inf_z L(z, λ*, ν*)，inf 不超过在 x 处的取值。', math:'p^\\star(0,0)=g(\\lambda^\\star,\\nu^\\star)\\le f_0(x)+\\sum_i\\lambda_i^\\star f_i(x)+\\sum_i\\nu_i^\\star h_i(x)'},
+  {text:'λᵢ* ≥ 0 且 fᵢ(x) ≤ uᵢ ⇒ λᵢ*fᵢ(x) ≤ λᵢ*uᵢ；hᵢ(x) = vᵢ。', math:'\\le f_0(x)+\\lambda^{\\star T}u+\\nu^{\\star T}v'},
+  {text:'移项：对扰动问题的每个可行 x 都成立。', math:'f_0(x)\\ge p^\\star(0,0)-\\lambda^{\\star T}u-\\nu^{\\star T}v'},
+  {text:'对所有可行 x 取 inf，就得到全局不等式（若不可行，p*(u,v)=+∞，也成立）。∎', math:'p^\\star(u,v)\\ge p^\\star(0,0)-\\lambda^{\\star T}u-\\nu^{\\star T}v'}
+]} />
+
+**读法（非常重要，课本称为“全局灵敏度解释”）**：
+
+- 若 $\lambda_i^\star$ **很大**，而我们**收紧**约束 $i$（$u_i<0$），则 $p^\star$ 会**大幅上升**（至少升 $\lambda_i^\star|u_i|$）。
+- 若 $\lambda_i^\star$ **很小**，而我们**放松**约束 $i$（$u_i>0$），则 $p^\star$ **不会下降多少**。
+- 若 $\nu_i^\star$ 很大且为正，取 $v_i<0$ 会让 $p^\star$ 大幅上升；$\nu_i^\star$ 很大且为负，取 $v_i>0$ 会让 $p^\star$ 大幅上升。
+
+<Warn>
+
+这个不等式只给出**下界**，因此只能得出“至少上升多少”这类结论。例如 $\lambda_i^\star$ 很大、放松约束（$u_i>0$）时，不等式**并不能**保证 $p^\star$ 一定大幅下降（下界只告诉你 $p^\star$ 不会低于某线）。
+
+</Warn>
+
+### 1.3 局部灵敏度
+
+<Thm title="局部灵敏度 Local sensitivity">
+
+若强对偶成立，且 $p^\star(u,v)$ 在 $(0,0)$ 处可微，则
+
+$$
+\lambda_i^\star=-\frac{\partial p^\star(0,0)}{\partial u_i},\qquad \nu_i^\star=-\frac{\partial p^\star(0,0)}{\partial v_i}.
+$$
+
+</Thm>
+
+<Steps title="证明 λᵢ* 的公式（ν 同理）" steps={[
+  {text:'取 u = t·eᵢ（只扰动第 i 个约束，eᵢ 是第 i 个单位向量），v = 0。由导数定义：', math:'\\frac{\\partial p^\\star(0,0)}{\\partial u_i}=\\lim_{t\\to0}\\frac{p^\\star(te_i,0)-p^\\star(0,0)}{t}'},
+  {text:'全局不等式给出 p*(teᵢ, 0) − p*(0,0) ≥ −tλᵢ*。当 t > 0 时两边除以 t（方向不变）：', math:'t>0:\\ \\frac{p^\\star(te_i,0)-p^\\star}{t}\\ge-\\lambda_i^\\star\\ \\Rightarrow\\ \\frac{\\partial p^\\star}{\\partial u_i}\\ge-\\lambda_i^\\star'},
+  {text:'当 t < 0 时除以负数，不等号反向：', math:'t<0:\\ \\frac{p^\\star(te_i,0)-p^\\star}{t}\\le-\\lambda_i^\\star\\ \\Rightarrow\\ \\frac{\\partial p^\\star}{\\partial u_i}\\le-\\lambda_i^\\star'},
+  {text:'两边夹逼（可微保证左右极限相等）。∎', math:'\\frac{\\partial p^\\star(0,0)}{\\partial u_i}=-\\lambda_i^\\star'}
+]} />
+
+大白话：**$\lambda_i^\star$ 就是“约束 $i$ 每放松一个单位，最优值下降多少”**（一阶近似）。$p^\star(u)\approx p^\star(0)-\lambda^{\star T}u$。
+
+几何上（单个约束时）：$\lambda^\star$ 是 $p^\star(u)$ 曲线在 $u=0$ 处切线斜率的相反数；这条切线 $p^\star(0)-\lambda^\star u$ 正是第 8 章里那条“非竖直支撑线”，而全局不等式说它整条都在曲线下方。
+
+<Example title="用第 9 章的例子验证">
+
+$\min x_1^2+2x_2^2$ s.t. $3-x_1-x_2\le u$（即 $x_1+x_2\ge s$，$s=3-u$）。
+
+- $s\le 0$ 时无约束最小点 $(0,0)$ 可行，$p^\star(u)=0$；
+- $s>0$ 时约束活跃，同第 9 章的推导得 $x=(2s/3,\ s/3)$，$p^\star(u)=\tfrac23 s^2=\tfrac23(3-u)^2$。
+
+求导：$\dfrac{dp^\star}{du}=-\tfrac43(3-u)$，在 $u=0$ 处为 $-4$，所以 $\lambda^\star=4$——和上一章用 KKT 解出的 $\lambda^\star=4$ 完全一致！全局不等式：$\tfrac23(3-u)^2\ge 6-4u$，展开即 $\tfrac23u^2\ge0$ ✓。
+
+</Example>
+
+<Ch10Perturb />
+
+### 1.4 价格解释与影子价格
+
+把最小化问题理解成“公司在资源限制下最小化成本（或最小化负利润）”：
+- $f_i(x)\le 0$ 是“资源 $i$ 的用量不超过库存”；
+- $\lambda_i^\star$ 是资源 $i$ 的<T zh="影子价格（边际价值）">shadow price</T>：多拿到一单位资源 $i$，最优成本下降 $\lambda_i^\star$（利润上升 $\lambda_i^\star$）。所以公司**最多愿意花 $\lambda_i^\star$ 的价钱**去额外买一单位该资源。
+- 与互补松弛对照：没用完的资源（约束不活跃），影子价格为 0——多给你也没用；价格为正的资源，一定已经被用光。
+
+<Ch10ShadowPrice />
+
+<Intuition>
+
+在上面的生产例子里（默认 $b=(4,12,18)$），最优产量是 $x^\star=(2,6)$，工厂 1 只用了 2 小时（剩余 2 小时），所以 $\lambda_1^\star=0$；工厂 2、3 都用满，$\lambda_2^\star=1.5$、$\lambda_3^\star=1$。最大利润 $36=4\cdot0+12\cdot1.5+18\cdot1=b^T\lambda^\star$——这正是 LP 的强对偶。当你把某个 $b_i$ 调得太大，最优顶点换了一组活跃约束，价格就会**突变**：局部灵敏度只在“活跃集不变”的范围内有效。
+
+</Intuition>
+
+<Quiz q="某凸问题强对偶成立，λ₂* = 0。把约束 2 放松一点（u₂ 取小正数），最优值会：" options={['一阶意义下基本不变','至少下降 λ₂*u₂ 以上的很多','一定上升','变为 −∞']} answer={0} explain="λ₂* = −∂p*/∂u₂ = 0（若可微），放松不活跃的约束对最优值没有一阶影响——互补松弛告诉我们它本来就没“卡住”最优解。" />
+
+## 2. 课堂回顾：KKT 与 water-filling（L10 黑板部分）
+
+L10 的前一个小时，教授在黑板上回顾了 KKT 并完整推导了 water-filling（详细推导与交互见第 9 章第 5 节）。这里只列出他强调的要点：
+
+<Prof>
+
+- **四组 KKT 条件**：原始可行、对偶可行（“只考虑默认的对偶约束：不等式乘子非负”）、互补松弛、驻点。**强对偶成立时，KKT 对原/对偶最优是充要的**；反过来，凸问题中满足 KKT 的点就是最优，且强对偶成立（10-20 课 00:03–00:08）。
+- **推导对偶函数时因分情况产生的约束，不算 KKT 里的对偶约束**（“remember that”，00:06）。
+- **KKT 中的等式最有用**：先用它们消元（00:19）。
+- water-filling：先证 $\lambda>0$（若 $\lambda=0$ 则 $\mu_i<0$ 矛盾）⇒ $\sum p_i=P$；再分 $p_i>0$ / $p_i=0$ 两种情况得 $p_i^\star=(1/\lambda^\star-N_i)^+$。水位 $=1/\lambda^\star$。
+- 推广到 $\min\sum_if_i(p_i)$（$f_i$ 凸、$f_i''>0$、$f_i'<0$）：$f_i'(p_i)$ 叫**边际效用**。在推广版的“注水图”中，**水位是 $-\lambda$，槽 $i$ 的底是 $f_i'(0)$**，所有分到资源的槽满足 $f_i'(p_i^\star)=-\lambda^\star$。教授承认这张图不如 log 情形直观，因为水的“高度”不再是 $p_i$ 本身，而是 $f_i'(p_i)$（00:56–01:01）。
+- 贪心规则：每次给当前 $f_i'(p_i)$ 最小（最负）的变量加一小份 $\delta$，直到 $\sum_ip_i=P$。
+
+</Prof>
+
+和本章第 1 节联系起来：water-filling 中 $\lambda^\star=1/w$ 是**总功率约束的影子价格**——总功率 $P$ 多 1 单位，总容量约增加 $\lambda^\star$。水位越高（功率越充裕），多一单位功率的价值越低，这就是对数函数的“边际收益递减”。
+
+## 3. 对偶与问题重构
+
+### 3.1 核心思想（讲义 p3）
+
+- **等价的原问题可以导出非常不同的对偶问题。**
+- 当对偶难以推导、或推出来的对偶“没意思”时，可以先重构原问题。
+- 常见的重构方式：
+  1. 引入新变量和等式约束；
+  2. 把显式约束变成隐式约束（放进目标函数的定义域），或反过来；
+  3. 变换目标函数或约束函数，例如用 $\phi(f_0(x))$ 代替 $f_0(x)$，其中 $\phi$ 凸且递增。
+
+<Prof>
+
+重构的目的是挑一个能让对偶**有意义、有用**的等价原问题——比原问题更容易解，或能和原问题一起解。两个原问题最优值相同，但它们的对偶可能天差地别。关于第 3 种：$\phi$ 严格递增时最优**解**不变，但最优**值**会变成 $\phi(p^\star)$，例如从 $\|y\|$ 换成 $\|y\|^2$（10-20 课 01:50）。
+
+</Prof>
+
+### 3.2 例 I：引入新变量与等式约束
+
+<Figure src="pages/L10/p04.png" caption="讲义原页：Introducing new variables and equality constraints" />
+
+原问题是无约束的：
+
+$$
+\min_x\ f_0(Ax+b).
+$$
+
+**直接求对偶（没用）**：没有约束，$L(x)=f_0(Ax+b)$，$g=\inf_xf_0(Ax+b)=p^\star$。对偶函数是常数，强对偶确实成立，但**求对偶函数就等于求解原问题**，对偶毫无帮助。
+
+**重构**：引入新变量 $y=Ax+b$：
+
+$$
+\min_{x,y}\ f_0(y)\qquad\text{s.t. } Ax+b-y=0 .
+$$
+
+<MathNote title="共轭函数 conjugate function">
+
+函数 $f$ 的<T zh="共轭函数">conjugate</T>定义为 $f^*(\nu)=\sup_y\big(\nu^Ty-f(y)\big)$。大白话：用斜率为 $\nu$ 的线性函数 $\nu^Ty$ 去“减” $f$，看最多能高出多少。很多常见函数的共轭有现成公式（课本 3.3 节）。例如范数 $\|y\|$ 的共轭是对偶范数单位球的指示函数：$\|\nu\|_*\le1$ 时为 $0$，否则为 $+\infty$。
+
+</MathNote>
+
+<Steps title="推导重构后的对偶" steps={[
+  {text:'写 Lagrangian（等式约束，乘子 ν）。', math:'L(x,y,\\nu)=f_0(y)+\\nu^T(Ax+b-y)'},
+  {text:'对 x 求 inf：νᵀAx 关于 x 线性，除非 Aᵀν = 0，否则 inf = −∞。Aᵀν = 0 时 x 部分贡献为 0。', math:'\\inf_x\\ \\nu^TAx=\\begin{cases}0,&A^T\\nu=0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对 y 求 inf：正好是共轭函数的相反数。', math:'\\inf_y\\big(f_0(y)-\\nu^Ty\\big)=-\\sup_y\\big(\\nu^Ty-f_0(y)\\big)=-f_0^*(\\nu)'},
+  {text:'合起来：', math:'g(\\nu)=\\begin{cases}b^T\\nu-f_0^*(\\nu),&A^T\\nu=0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题（讲义 p4）：', math:'\\max_\\nu\\ b^T\\nu-f_0^*(\\nu)\\qquad\\text{s.t. } A^T\\nu=0'}
+]} />
+
+**范数的例子**：$\min\|Ax-b\|$ 写成 $\min\|y\|$ s.t. $y=Ax-b$。代入范数的共轭（对偶范数球的指示函数），并注意这里是 $Ax-b$（符号与上面 $Ax+b$ 相反，做替换 $\nu\to-\nu$），得
+
+$$
+\max_\nu\ b^T\nu\qquad\text{s.t. } A^T\nu=0,\quad \|\nu\|_*\le1 .
+$$
+
+大白话：一个无约束的范数最小化问题，对偶变成了在“对偶范数单位球 ∩ 一个子空间”上最大化线性函数。正是新加的那个等式约束让对偶变得有意义。
+
+### 3.3 例 II：把显式约束变成隐式约束
+
+<Figure src="pages/L10/p05.png" caption="讲义原页：Implicit constraints（盒约束 LP）" />
+
+盒约束线性规划（$-\mathbf{1}\preceq x\preceq\mathbf{1}$ 表示每个分量 $-1\le x_i\le1$）：
+
+$$
+\min_x\ c^Tx\qquad\text{s.t. } Ax=b,\quad -\mathbf{1}\preceq x\preceq\mathbf{1}.
+$$
+
+**写法 1：盒约束显式**。乘子 $\nu$（等式）、$\lambda_1\succeq0$（$x-\mathbf{1}\preceq0$）、$\lambda_2\succeq0$（$-x-\mathbf{1}\preceq0$）：
+
+$$
+L=c^Tx+\nu^T(Ax-b)+\lambda_1^T(x-\mathbf{1})+\lambda_2^T(-x-\mathbf{1})=(c+A^T\nu+\lambda_1-\lambda_2)^Tx-b^T\nu-\mathbf{1}^T\lambda_1-\mathbf{1}^T\lambda_2 .
+$$
+
+$x$ 的系数必须为 0，于是对偶问题是一个 LP：
+
+$$
+\max\ -b^T\nu-\mathbf{1}^T\lambda_1-\mathbf{1}^T\lambda_2\qquad\text{s.t. } c+A^T\nu+\lambda_1-\lambda_2=0,\quad\lambda_1\succeq0,\ \lambda_2\succeq0 .
+$$
+
+**写法 2：盒约束隐式**。把盒子放进目标函数的**定义域**：
+
+$$
+f_0(x)=\begin{cases}c^Tx,&-\mathbf{1}\preceq x\preceq\mathbf{1}\\+\infty,&\text{otherwise}\end{cases}\qquad\qquad \min\ f_0(x)\ \ \text{s.t. } Ax=b .
+$$
+
+<Steps title="隐式写法的对偶函数" steps={[
+  {text:'只有等式约束需要乘子；inf 只在盒子里取（盒子是定义域，不是约束）。', math:'g(\\nu)=\\inf_{-\\mathbf 1\\preceq x\\preceq\\mathbf 1}\\big(c^Tx+\\nu^T(Ax-b)\\big)=-b^T\\nu+\\inf_{-\\mathbf 1\\preceq x\\preceq\\mathbf 1}(A^T\\nu+c)^Tx'},
+  {text:'记 w = Aᵀν + c。uᵀx 在盒子上的最小值逐坐标取：wᵢ > 0 取 xᵢ = −1，wᵢ < 0 取 xᵢ = 1，即 xᵢ = −sign(wᵢ)，贡献 −|wᵢ|。', math:'\\inf_{-\\mathbf 1\\preceq x\\preceq\\mathbf 1}w^Tx=-\\sum_i|w_i|=-\\|w\\|_1'},
+  {text:'得到对偶函数与对偶问题——无约束！', math:'g(\\nu)=-b^T\\nu-\\|A^T\\nu+c\\|_1,\\qquad \\max_\\nu\\ -b^T\\nu-\\|A^T\\nu+c\\|_1'}
+]} />
+
+<MathNote title="1-范数">
+
+$\|w\|_1=\sum_i|w_i|$，即各分量绝对值之和。它是凸函数，所以 $-\|\cdot\|_1$ 是凹的，上面的对偶问题是“最大化凹函数”——凸优化问题。
+
+</MathNote>
+
+<Prof>
+
+教授强调这个对偶是**无约束**的（10-20 课 01:28）。它不再是 LP，但仍是凸的；而无约束凸问题正是下半学期算法（梯度法等）的起点。两种写法的对偶最优值相同，差别在于形式。把约束“藏进定义域”，就像 $\log x$ 自带 $x>0$ 的定义域一样。
+
+</Prof>
+
+<Ch10BoxDual />
+
+### 3.4 例 III：变换目标函数
+
+$\min_x\|Ax-b\|$ 也可以重构为（讲义 p10）：
+
+$$
+\min_{x,y}\ \tfrac12\|y\|_2^2\qquad\text{s.t. } y=Ax-b .
+$$
+
+最小化 $\|y\|$ 与最小化 $\tfrac12\|y\|_2^2$ 的最优**解**相同（$\phi(t)=\tfrac12t^2$ 在 $t\ge0$ 上严格递增），但最优**值**不同。它的对偶（课本 p.257）：
+
+<Steps title="推导（乘子 ν，约束写成 Ax − b − y = 0）" steps={[
+  {text:'Lagrangian。', math:'L(x,y,\\nu)=\\tfrac12\\|y\\|_2^2+\\nu^T(Ax-b-y)'},
+  {text:'对 x：有限当且仅当 Aᵀν = 0。对 y：令梯度 y − ν = 0，得 y = ν，值为 −½‖ν‖²。', math:'\\inf_y\\big(\\tfrac12\\|y\\|_2^2-\\nu^Ty\\big)=-\\tfrac12\\|\\nu\\|_2^2'},
+  {text:'g(ν) = −bᵀν − ½‖ν‖²（在 Aᵀν = 0 上）。替换 ν → −ν 得到更整齐的形式：', math:'\\max_\\nu\\ b^T\\nu-\\tfrac12\\|\\nu\\|_2^2\\qquad\\text{s.t. } A^T\\nu=0'}
+]} />
+
+对比例 I：$\|y\|$ 的对偶带一个**范数球约束**、目标线性；$\tfrac12\|y\|^2$ 的对偶**没有范数球约束**、目标是二次的。同一个原问题，换个写法，对偶的样子就完全不同。
+
+<Quiz q="把 LP 的盒约束 −1 ⪯ x ⪯ 1 放进目标函数定义域后，对偶问题变成了：" options={['带更多约束的 LP','无约束的凹函数最大化 max −bᵀν − ‖Aᵀν + c‖₁','和原问题一样','二次规划']} answer={1} explain="盒子不再需要乘子；在盒子上最小化线性函数得到 −‖Aᵀν + c‖₁，对偶无约束。" />
+
+## 4. 部分拉格朗日松弛
+
+### 4.1 定义（讲义 p6）
+
+- <T zh="拉格朗日松弛">Lagrangian relaxation</T>：通过把约束（乘以乘子）移到目标里来构造 Lagrangian。
+- **部分**拉格朗日松弛：只对**一部分**约束取 Lagrangian，其余约束保持显式，作为求 inf 时的“定义域”。
+
+以两个约束的问题为例：$\min f_0(x)$ s.t. $f_1(x)\le0,\ f_2(x)\le0$。
+
+| | Lagrangian | 对偶函数 |
+|---|---|---|
+| 完全松弛 | $L=f_0+\lambda_1f_1+\lambda_2f_2$ | $g(\lambda_1,\lambda_2)=\min_xL$ |
+| 只松弛 $f_1$ | $\tilde L(x,\lambda)=f_0(x)+\lambda f_1(x)$ | $\tilde g(\lambda)=\min_{x:\ f_2(x)\le0}\tilde L(x,\lambda)$ |
+
+<Prof>
+
+为什么要这样做？有的约束会让对偶变得一团糟，而另一些约束（如盒约束、流量守恒约束）留下来之后，内层最小化恰好是一个有高效专用算法的经典问题。所以**松弛“坏”约束，保留“好”约束**（10-20 课 01:36）。3.3 节的盒约束例子其实就是一个部分松弛：松弛 $Ax=b$，保留盒子。
+
+</Prof>
+
+### 4.2 部分松弛保持强对偶（讲义 p7）
+
+<Figure src="pages/L10/p07.png" caption="讲义原页：Partial Lagrangian relaxation 的强对偶证明" />
+
+<Thm title="部分对偶的强对偶性">
+
+若问题是凸的且满足 Slater 条件，则
+
+$$
+\max_{\lambda\succeq0}\tilde g(\lambda)=\min_{f_i(x)\le0}f_0(x)=p^\star .
+$$
+
+该性质可推广到“松弛凸问题的**任意一个约束子集**”的情形。
+
+</Thm>
+
+<Steps title="证明（x* 原最优；(λ₁*, λ₂*) 是完整对偶 g 的最优解；λ₁′ 是部分对偶 g̃ 的最优解）" steps={[
+  {text:'部分对偶也满足弱对偶：对可行 x*（满足 f₂(x*) ≤ 0，可参与 inf），λ₁′f₁(x*) ≤ 0。', math:'f_0(x^\\star)\\ge\\tilde g(\\lambda_1\')'},
+  {text:'λ₁′ 是 g̃ 的最大点，而 λ₁* ≥ 0 只是一个可行点。', math:'\\ge\\tilde g(\\lambda_1^\\star)=\\min_{f_2(x)\\le0}\\ f_0(x)+\\lambda_1^\\star f_1(x)'},
+  {text:'在集合 f₂(x) ≤ 0 上 λ₂*f₂(x) ≤ 0，加上它只会让函数变小；而且再把 x 的范围扩大到全空间，最小值只会更小。', math:'\\ge\\min_x\\ f_0(x)+\\lambda_1^\\star f_1(x)+\\lambda_2^\\star f_2(x)=g(\\lambda_1^\\star,\\lambda_2^\\star)'},
+  {text:'凸 + Slater ⇒ 完整问题强对偶。', math:'=f_0(x^\\star)'},
+  {text:'首尾都是 f₀(x*)，所以所有 ≥ 都取等：max g̃ = p*。∎', math:'\\max_{\\lambda\\succeq0}\\tilde g(\\lambda)=\\tilde g(\\lambda_1\')=p^\\star'}
+]} />
+
+<Exam>
+
+教授说这个证明“值得过一遍”（10-20 课 01:37–01:41），要能复现这条不等式链，并说出每一步的理由（弱对偶 / 最优性 / $\lambda_2^\star f_2\le0$ / 完整问题强对偶）。
+
+</Exam>
+
+<Ch10PartialDual />
+
+### 4.3 例子：带节点容量的最小费用流（讲义 p8–p9）
+
+<Figure src="pages/L10/p08.png" caption="讲义原页：Partial Lagrangian relaxation 的例子（最小费用流）" />
+
+图 $G=(V,E)$，在每条边 $(i,j)$ 上决定流量 $x_{ij}$，单位费用 $c_{ij}$：
+
+$$
+\begin{array}{lll}
+\min & \sum_{(i,j)\in E}c_{ij}x_{ij} &\\
+\text{s.t.} & \sum_{j:(i,j)\in E}x_{ij}-\sum_{j:(j,i)\in E}x_{ji}=\begin{cases}v,&i=s\\0,&i\in V\setminus\{s,t\}\\-v,&i=t\end{cases} & (1)\ \text{流量守恒}\\
+& 0\le x_{ij}\le u_{ij},\ \forall(i,j)\in E & (2)\ \text{边容量}\\
+& \sum_{j:(i,j)\in E}x_{ij}\le O_i,\ \forall i\in V & \text{节点出流上限（乘子 }\lambda_i)\\
+& \sum_{j:(j,i)\in E}x_{ji}\le I_i,\ \forall i\in V & \text{节点入流上限（乘子 }\mu_i)
+\end{array}
+$$
+
+大白话：从源点 $s$ 送 $v$ 单位流到汇点 $t$，每个中间节点流入 = 流出；每条边有容量；此外每个节点的总出流、总入流也有上限。
+
+**部分松弛**：只松弛两族节点约束，保留 (1)(2)：
+
+$$
+\tilde L(x,\lambda,\mu)=\sum_{(i,j)\in E}c_{ij}x_{ij}+\sum_{i\in V}\lambda_i\Big(\sum_{j:(i,j)\in E}x_{ij}-O_i\Big)+\sum_{i\in V}\mu_i\Big(\sum_{j:(j,i)\in E}x_{ji}-I_i\Big),
+$$
+
+$$
+\tilde g(\lambda,\mu)=\min_x\ \tilde L(x,\lambda,\mu)\ \ \text{s.t. (1), (2)},\qquad\qquad \max_{\lambda\succeq0,\ \mu\succeq0}\ \tilde g(\lambda,\mu).
+$$
+
+把 $\tilde L$ 按每条边的 $x_{ij}$ 合并同类项：$x_{ij}$ 出现在“节点 $i$ 的出流”（乘 $\lambda_i$）和“节点 $j$ 的入流”（乘 $\mu_j$）里，所以
+
+$$
+\tilde L(x,\lambda,\mu)=\sum_{(i,j)\in E}\big(c_{ij}+\lambda_i+\mu_j\big)x_{ij}-\sum_{i\in V}\big(\lambda_iO_i+\mu_iI_i\big).
+$$
+
+大白话：**每计算一次 $\tilde g$，就是解一个费用被修改为 $c_{ij}+\lambda_i+\mu_j$ 的标准最小费用流问题**（再减常数）。乘子就像对“拥挤节点”收的过路费。
+
+<Prof>
+
+原问题是 LP，通用算法当然能解；但最小费用流有更直观、更高效的专用算法。部分松弛后，内层子问题仍是最小费用流，可以直接调用专用算法（01:48）。这也是后面课程中 primal-dual 算法的基础（01:49）。
+
+</Prof>
+
+<Quiz q="部分拉格朗日松弛中，被“保留”的约束在对偶函数里扮演什么角色？" options={['也要配一个非负乘子','作为对 x 求 min 时的可行范围（定义域）','被直接删掉','变成对偶问题的约束']} answer={1} explain="g̃(λ) = min_x L̃(x, λ) s.t. 保留的约束——保留的约束限定了内层最小化的范围，没有乘子。" />
+
+## 5. 广义不等式约束的对偶
+
+### 5.1 问题与 Lagrangian（讲义 p11）
+
+$$
+\begin{array}{ll}
+\text{minimize} & f_0(x)\\
+\text{subject to} & f_i(x)\preceq_{K_i}0,\quad i=1,\dots,m\\
+& h_i(x)=0,\quad i=1,\dots,p
+\end{array}
+$$
+
+- $K_i\subseteq\mathbb{R}^{k_i}$ 是<T zh="正常锥">proper cone</T>（闭、凸、有内点、不含直线）；
+- $f_i(x)\preceq_{K_i}0$ 的意思是 $-f_i(x)\in K_i$；
+- 最常见的两种：$K=\mathbb{R}^k_+$（非负象限，就是普通的逐分量 $\le$），$K=\mathbb{S}^k_+$（半正定矩阵锥，即矩阵不等式）。
+
+<MathNote title="对偶锥 dual cone">
+
+锥 $K$ 的<T zh="对偶锥">dual cone</T>：$K^*=\{y:\ y^Tx\ge0\ \ \forall x\in K\}$。大白话：和 $K$ 中所有向量夹角都不超过 90° 的向量集合。
+
+- $(\mathbb{R}^k_+)^*=\mathbb{R}^k_+$；
+- $(\mathbb{S}^k_+)^*=\mathbb{S}^k_+$（自对偶，内积取 $\langle X,Y\rangle=\mathrm{tr}(XY)$，即矩阵乘积的迹＝对角线元素之和）。
+
+</MathNote>
+
+每个约束 $f_i(x)\preceq_{K_i}0$ 的乘子是一个**向量** $\lambda_i\in\mathbb{R}^{k_i}$，Lagrangian 中用内积：
+
+$$
+L(x,\lambda_1,\dots,\lambda_m,\nu)=f_0(x)+\sum_{i=1}^m\lambda_i^Tf_i(x)+\sum_{i=1}^p\nu_ih_i(x),
+$$
+
+$$
+g(\lambda_1,\dots,\lambda_m,\nu)=\inf_{x\in\mathcal{D}}L(x,\lambda_1,\dots,\lambda_m,\nu)\quad(\mathcal{D}\ \text{是问题的定义域}).
+$$
+
+### 5.2 对偶问题与性质（讲义 p12）
+
+<Figure src="pages/L10/p12.png" caption="讲义原页：广义不等式下的对偶问题与性质" />
+
+$$
+\text{maximize}\ \ g(\lambda_1,\dots,\lambda_m,\nu)\qquad\text{s.t. }\ \lambda_i\succeq_{K_i^*}0,\ i=1,\dots,m .
+$$
+
+即乘子 $\lambda_i$ 要落在**对偶锥** $K_i^*$ 中（标量情形 $K=\mathbb{R}_+$ 时就是 $\lambda\ge0$）。
+
+<Thm title="性质">
+
+1. **下界性质**：若 $\lambda_i\succeq_{K_i^*}0$，则 $g(\lambda_1,\dots,\lambda_m,\nu)\le p^\star$。
+2. **弱对偶**：$p^\star\ge d^\star$（总成立）。
+3. **强对偶**：凸问题 + 约束规范（如 Slater：存在严格可行点，$f_i(x)\prec_{K_i}0$ 即 $-f_i(x)\in\mathrm{int}\,K_i$）时 $p^\star=d^\star$。
+4. **互补松弛与 KKT** 同样可以推广（课本 p.267）。
+
+</Thm>
+
+<Steps title="下界性质的证明（考点）" steps={[
+  {text:'设 x 可行：−fᵢ(x) ∈ Kᵢ，hᵢ(x) = 0。λᵢ ∈ Kᵢ* 由对偶锥定义，与 Kᵢ 中任何向量内积 ≥ 0。', math:'\\lambda_i^T\\big(-f_i(x)\\big)\\ge0\\ \\Rightarrow\\ \\lambda_i^Tf_i(x)\\le0'},
+  {text:'于是在任意可行 x 处，Lagrangian 不超过目标值。', math:'L(x,\\lambda,\\nu)=f_0(x)+\\sum_i\\lambda_i^Tf_i(x)+0\\le f_0(x)'},
+  {text:'g 是 L 在整个定义域上的 inf，当然 ≤ 在可行 x 处的值；再对可行 x 取 inf。∎', math:'g(\\lambda,\\nu)\\le L(x,\\lambda,\\nu)\\le f_0(x)\\ \\Rightarrow\\ g(\\lambda,\\nu)\\le p^\\star'}
+]} />
+
+<Intuition>
+
+为什么乘子要在**对偶锥**里？因为证明下界的关键一步是 $\lambda_i^Tf_i(x)\le0$。对偶锥恰好就是“对所有满足 $f_i(x)\preceq_{K_i}0$ 的 $x$，都能保证这个内积 $\le 0$”的乘子集合——它把一个锥约束变成了一个标量不等式。
+
+</Intuition>
+
+### 5.3 例子：半定规划 SDP 的对偶（讲义 p13）
+
+<Figure src="pages/L10/p13.png" caption="讲义原页：SDP 的 Lagrangian、对偶函数与对偶问题" />
+
+给定对称矩阵 $F_1,\dots,F_n,G\in\mathbb{S}^k$，$c\in\mathbb{R}^n$：
+
+$$
+\min_x\ c^Tx\qquad\text{s.t. } x_1F_1+\cdots+x_nF_n\preceq G .
+$$
+
+约束（<T zh="线性矩阵不等式">LMI</T>）的意思是 $G-\sum_ix_iF_i\succeq0$（半正定），锥是 $\mathbb{S}^k_+$。乘子是一个对称矩阵 $Z$，因为 $\mathbb{S}^k_+$ 自对偶，对偶约束是 $Z\succeq0$。
+
+<Steps title="推导 SDP 的对偶" steps={[
+  {text:'Lagrangian：矩阵内积用迹 tr(ZX)。', math:'L(x,Z)=c^Tx+\\mathrm{tr}\\Big(Z\\big(x_1F_1+\\cdots+x_nF_n-G\\big)\\Big)'},
+  {text:'迹是线性的：tr(Z Σ xᵢFᵢ) = Σ xᵢ tr(FᵢZ)。按 xᵢ 合并同类项。', math:'L(x,Z)=\\sum_{i=1}^nx_i\\big(c_i+\\mathrm{tr}(F_iZ)\\big)-\\mathrm{tr}(GZ)'},
+  {text:'L 关于 x 是仿射的：任何一个系数非零，inf 就是 −∞。', math:'g(Z)=\\begin{cases}-\\mathrm{tr}(GZ),&\\mathrm{tr}(F_iZ)+c_i=0,\\ i=1,\\dots,n\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题：', math:'\\max_Z\\ -\\mathrm{tr}(GZ)\\qquad\\text{s.t. } Z\\succeq0,\\quad \\mathrm{tr}(F_iZ)+c_i=0,\\ i=1,\\dots,n'}
+]} />
+
+**强对偶**：若原 SDP 严格可行（存在 $x$ 使 $\sum_ix_iF_i\prec G$，即 $G-\sum_ix_iF_i$ 正定），则 $p^\star=d^\star$。教授：“SDP 是凸规划的特例，所以 Slater 成立就有强对偶。”
+
+<Exam>
+
+- 能写出 trace 形式的 Lagrangian，用“系数必须为零”的论证得出对偶函数，并写出 $\max -\mathrm{tr}(GZ)$ s.t. $Z\succeq0$、$\mathrm{tr}(F_iZ)+c_i=0$。
+- 广义不等式下，乘子 $\lambda_i\in K_i^*$；下界性质的证明要会写。
+
+</Exam>
+
+<Quiz q="约束 f(x) ⪯_K 0 的乘子 λ 应满足什么？" options={['λ ⪰ 0（逐分量非负）','λ ∈ K*（对偶锥）','λ ∈ K','λ 任意']} answer={1} explain="只有 λ ∈ K* 才能保证对所有可行 x 有 λᵀf(x) ≤ 0，从而 g ≤ p*。只有当 K = ℝ₊ᵏ（自对偶）时才退化为逐分量非负。" />
+
+## 小结
+
+<Summary>
+
+- **扰动问题** $p^\star(u,v)$：$u_i>0$ 放松、$u_i<0$ 收紧约束。凸问题的 $p^\star$ 是凸函数。
+- **全局灵敏度**（只需强对偶）：$p^\star(u,v)\ge p^\star(0,0)-\lambda^{\star T}u-\nu^{\star T}v$。$\lambda_i^\star$ 大时收紧约束代价大；$\lambda_i^\star$ 小时放松约束收益小。
+- **局部灵敏度**（再加可微）：$\lambda_i^\star=-\partial p^\star/\partial u_i$，$\nu_i^\star=-\partial p^\star/\partial v_i$。$\lambda_i^\star$ 是约束 $i$ 的影子价格；不活跃约束价格为 0（互补松弛）。
+- **重构改变对偶**：引入 $y=Ax+b$ 让对偶从“无用的常数”变成 $\max b^T\nu-f_0^*(\nu)$ s.t. $A^T\nu=0$；盒约束放进定义域得到无约束对偶 $\max -b^T\nu-\|A^T\nu+c\|_1$；$\|y\|$ 换成 $\tfrac12\|y\|^2$ 得到二次对偶。
+- **部分松弛**：只松弛部分约束，其余作为内层最小化的定义域；凸 + Slater 下强对偶保持。最小费用流例子中内层仍是最小费用流（费用 $c_{ij}+\lambda_i+\mu_j$）。
+- **广义不等式**：乘子在对偶锥 $K_i^*$ 中；下界、弱对偶、Slater 下强对偶、KKT 都推广。SDP 对偶：$\max -\mathrm{tr}(GZ)$ s.t. $Z\succeq0$，$\mathrm{tr}(F_iZ)+c_i=0$。
+
+</Summary>
+
+<Quiz q="某问题强对偶成立且 λ₁* = 5。若把约束 1 收紧 0.2（u₁ = −0.2），由全局灵敏度可断言：" options={['p* 至少增加 1','p* 恰好增加 1','p* 至多增加 1','p* 减少 1']} answer={0} explain="p*(u) ≥ p*(0) − λ₁*u₁ = p*(0) + 5×0.2 = p*(0) + 1，只是下界，所以“至少”增加 1。" />
+
+<Quiz q="局部灵敏度公式 λᵢ* = −∂p*(0,0)/∂uᵢ 成立需要哪些条件？" options={['只需问题是凸的','强对偶成立且 p*(u,v) 在 0 处可微','只需 Slater','只需 LP']} answer={1} explain="证明用到全局不等式（需要强对偶）以及导数存在（可微）。" />
+
+<Quiz q="对 min f₀(Ax+b) 直接求对偶为什么“没用”？" options={['因为对偶不存在','因为对偶函数是常数 p*，求它就等于解原问题','因为强对偶不成立','因为 f₀ 不凸']} answer={1} explain="没有约束时 g = inf_x f₀(Ax+b) = p*，对偶没有提供任何新信息。引入 y = Ax+b 的等式约束后对偶才有意义。" />
+
+<Quiz q="部分拉格朗日松弛的强对偶证明中，“min_{f₂≤0} f₀ + λ₁*f₁ ≥ min_x f₀ + λ₁*f₁ + λ₂*f₂” 这一步的理由是：" options={['弱对偶','在 f₂ ≤ 0 上 λ₂*f₂ ≤ 0，且扩大 x 的范围最小值不会变大','λ₁′ 最优','Slater 条件']} answer={1} explain="加上非正项只会更小，再把可行范围扩大到全空间，最小值只会更小，所以左边 ≥ 右边。" />

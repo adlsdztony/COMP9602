@@ -1,0 +1,726 @@
+import { Ch02Combos, Ch02ConvexTest, Ch02Hull, Ch02Ellipsoid, Ch02NormBall, Ch02Intersection, Ch02MatrixOrder, Ch02Separating } from '../widgets/ch02.jsx'
+
+这一章回答一个最基础的问题：**什么样的“可行区域”是好的？** 优化问题 $\min f_0(x)$ 里，$x$ 只能在某个集合里取值（约束条件圈出来的区域）。如果这个区域是 <T zh="凸集">convex set</T>，后面的理论（对偶、KKT）和算法（梯度下降、内点法）才能保证“找到的局部最优就是全局最优”。
+
+上一章我们看到了优化问题的一般形式；下一章会讲 <T zh="凸函数">convex function</T>。凸函数的定义本身就要用到凸集（定义域必须是凸集、epigraph 是凸集），所以这一章是整门课的地基。
+
+<Prof>
+
+教授在课上说这一部分概念“相对简单”，所以讲得比较快 (09-03 课 00:54)。考试里更可能出**定义和例子的小题**，而不是长推导——所以每个定义的精确写法（$\theta$ 的范围、系数要不要和为 1）一定要记清楚。
+
+</Prof>
+
+**本章路线：**
+
+1. 线段与凸集；直线与仿射集
+2. 凸组合与凸包（含“凸包是最小凸集”的证明，考过！）
+3. 锥、凸锥、proper cone；半正定锥 $\mathbb{S}^n_+$
+4. 广义不等式 $\preceq_K$
+5. 常见凸集：超平面与半空间、球与椭球、范数球、多面体
+6. 如何证明一个集合是凸的：保凸运算（交集、仿射映射、透视、线性分式）
+7. 分离超平面定理与支撑超平面定理
+
+## 线段、凸集与仿射集
+
+### 线段与凸集
+
+<MathNote title="向量与点">
+
+本课程里的“点” $x$ 都是 $n$ 维向量 $x\in\mathbb{R}^n$，也就是 $n$ 个实数排成一列。两个向量相加是对应分量相加，数乘 $\theta x$ 是每个分量都乘以 $\theta$。在二维平面上，你可以把 $x=(x_1,x_2)$ 想象成坐标为 $(x_1,x_2)$ 的点。
+
+</MathNote>
+
+先看两点之间的**线段**。给定两个点 $x_1, x_2$，线段上的每一个点都可以写成
+
+$$
+x = \theta x_1 + (1-\theta) x_2, \qquad 0 \le \theta \le 1.
+$$
+
+大白话：$\theta$ 是“偏向 $x_1$ 的程度”。$\theta=1$ 时就是 $x_1$，$\theta=0$ 时就是 $x_2$，$\theta=0.5$ 是中点；$\theta$ 在 0 到 1 之间连续变化，点就沿着线段从 $x_2$ 滑到 $x_1$。
+
+<Def title="凸集 convex set">
+
+集合 $C$ 是 <T zh="凸集">convex set</T>，如果它包含其中任意两点之间的整条线段：
+
+$$
+x_1, x_2 \in C,\quad 0 \le \theta \le 1 \;\Longrightarrow\; \theta x_1 + (1-\theta) x_2 \in C.
+$$
+
+</Def>
+
+大白话：在集合里随便挑两个点，用直尺连起来，**整条线段都不能跑出集合**。只要能找到一对点，它们的连线有一部分在集合外，集合就不是凸的。
+
+<Figure src="pages/L02/p02.png" caption="讲义例子：左边六边形是凸集；中间带凹口的形状不凸（线段穿过凹口跑出去了）；右边边界有缺口的正方形也不凸（同一条边上两点的连线经过缺口）。" />
+
+<Prof>
+
+教授给的检验流程 (09-03 课 00:55–00:58)：在集合里任取两点，任取 $\theta\in[0,1]$，算出组合点；如果它**总是**在集合里，集合就是凸的。右边那个“缺边的正方形”很容易被忽略——集合的**边界**也算集合的一部分，边界缺一块就不凸了。
+
+</Prof>
+
+<Ch02ConvexTest />
+
+### 直线与仿射集
+
+如果把 $\theta$ 的范围从 $[0,1]$ 放开到**所有实数**，得到的就不是线段，而是穿过 $x_1, x_2$ 的**整条直线**：
+
+$$
+x = \theta x_1 + (1-\theta) x_2, \qquad \theta \in \mathbb{R}.
+$$
+
+$\theta = 1.2$ 时点跑到 $x_1$ 外侧，$\theta=-0.2$ 时点跑到 $x_2$ 外侧，$\theta=0.6$ 时在两点之间。
+
+<Def title="仿射集 affine set">
+
+集合 $C$ 是 <T zh="仿射集">affine set</T>，如果它包含其中任意两个不同点所确定的**整条直线**：
+
+$$
+x_1, x_2 \in C,\ \theta\in\mathbb{R} \;\Longrightarrow\; \theta x_1 + (1-\theta)x_2 \in C.
+$$
+
+</Def>
+
+<Example title="线性方程组的解集是仿射集">
+
+设 $A\in\mathbb{R}^{m\times n}$（$m$ 行 $n$ 列的矩阵），$b\in\mathbb{R}^m$。解集 $\{x \mid Ax = b\}$ 是仿射集。
+
+验证：取两个解 $x_1, x_2$，即 $Ax_1=b$，$Ax_2=b$。对**任意实数** $\theta$：
+
+$$
+A\big(\theta x_1 + (1-\theta)x_2\big) = \theta A x_1 + (1-\theta) A x_2 = \theta b + (1-\theta) b = b.
+$$
+
+所以组合点仍然是解。教授还举了：$\mathbb{R}^3$ 里的一个平面是仿射集，整个 $\mathbb{R}^3$ 也是仿射集。
+
+</Example>
+
+<Intuition>
+
+**每个仿射集都是凸集**：直线包含了线段，仿射集要求的更多（$\theta$ 取所有实数），自然满足凸集的要求（$\theta\in[0,1]$）。反过来不成立：一条线段是凸集，但不是仿射集（延长线不在里面）。
+
+</Intuition>
+
+<Exam>
+
+凸 vs 仿射的唯一区别就是 $\theta$ 的范围：凸集 $\theta\in[0,1]$（线段），仿射集 $\theta\in\mathbb{R}$（整条直线）。教授提示：“$\theta$ can be any real number” (09-03 课 00:59–01:03)。
+
+</Exam>
+
+## 凸组合与凸包
+
+### 凸组合
+
+两点的线段可以推广到 $k$ 个点。
+
+<Def title="凸组合 convex combination">
+
+$x_1,\dots,x_k$ 的 <T zh="凸组合">convex combination</T> 是指形如
+
+$$
+x = \theta_1 x_1 + \theta_2 x_2 + \cdots + \theta_k x_k, \qquad \theta_1+\cdots+\theta_k = 1,\ \ \theta_i \ge 0
+$$
+
+的点。
+
+</Def>
+
+大白话：给每个点一个“权重” $\theta_i$，权重都不能是负数、加起来正好等于 1，然后做加权平均。凸组合就是“加权平均”——加权平均永远不会跑到所有点的“外面”。
+
+两个限制缺一不可：**非负**（$\theta_i\ge0$）和**和为 1**（$\sum\theta_i=1$）。下面这个交互把三种组合放在一起对比：
+
+<Ch02Combos />
+
+### 凸包
+
+<Def title="凸包 convex hull">
+
+集合 $S$ 的 <T zh="凸包">convex hull</T> $\mathbf{conv}\,S$ 是 $S$ 中点的**所有凸组合**组成的集合：
+
+$$
+\mathbf{conv}\, S = \Big\{ \theta_1x_1 + \cdots + \theta_n x_n \;\Big|\; x_i\in S,\ \theta_i\ge 0,\ \sum_{i=1}^n \theta_i = 1 \Big\}.
+$$
+
+</Def>
+
+大白话：把 $S$ 想象成钉在木板上的一堆钉子，用橡皮筋把它们全部箍住——橡皮筋围出的区域就是凸包。如果 $S$ 是一个有凹口的形状，凸包会用一条直边把凹口“填平”。
+
+<Figure src="pages/L02/p04.png" caption="讲义：左边是有限点集的凸包（多边形，角上的点是“顶点”）；右边是一个不凸的形状，它的凸包把凹口填平。" />
+
+<Ch02Hull />
+
+### 凸包的两个重要性质（考过）
+
+<Thm title="凸包的性质">
+
+1. $\mathbf{conv}\,S$ **总是凸集**——不管 $S$ 本身是凸还是不凸、有限还是连续。
+2. $\mathbf{conv}\,S$ 是**包含 $S$ 的最小凸集**：任何包含 $S$ 的凸集 $T$ 都满足 $\mathbf{conv}\,S\subseteq T$。
+
+</Thm>
+
+<Reveal label="看证明（教授课上的论证）">
+
+**性质 1（反证）**：假设 $\mathbf{conv}\,S$ 不凸，那么存在 $u, v\in\mathbf{conv}\,S$ 和 $\theta\in[0,1]$，使 $\theta u+(1-\theta)v\notin \mathbf{conv}\,S$。但 $u$、$v$ 各自是 $S$ 中点的凸组合，设 $u=\sum_i \alpha_i x_i$、$v=\sum_j \beta_j y_j$，那么
+
+$$
+\theta u + (1-\theta) v = \sum_i \theta\alpha_i x_i + \sum_j (1-\theta)\beta_j y_j,
+$$
+
+系数全部非负，且总和 $=\theta\cdot1+(1-\theta)\cdot1=1$。所以它也是 $S$ 中点的凸组合，应当属于 $\mathbf{conv}\,S$，矛盾。
+
+**性质 2（最小性）**：设 $T$ 是任意一个包含 $S$ 的凸集。凸集对“两点凸组合”封闭，反复使用（归纳法）可知凸集对任意有限个点的凸组合也封闭。$S$ 里的点都在 $T$ 里，所以 $S$ 中点的所有凸组合都在 $T$ 里，即 $\mathbf{conv}\,S\subseteq T$。因此不可能有比 $\mathbf{conv}\,S$ 更小的、包含 $S$ 的凸集。
+
+</Reveal>
+
+<Exam>
+
+教授说这道题在以前的期末考过：大多数同学第一问（凸包是凸的）答对了，**第二问（为什么是最小的凸集）比较难**。他特别要求大家确保理解最小性的论证 (09-03 课 01:09–01:10)。
+
+</Exam>
+
+<Quiz q="点 x = 0.5x₁ + 0.7x₂ − 0.2x₃ 是 x₁,x₂,x₃ 的凸组合吗？" options={['是，系数和为 1', '不是，有一个系数是负数', '不是，系数和不为 1']} answer={1} explain="系数和 0.5+0.7−0.2=1，但 −0.2 < 0，违反非负要求。它是仿射组合，但不是凸组合。" />
+
+## 锥与凸锥
+
+### 锥、凸锥、锥组合
+
+<Def title="锥 cone / 凸锥 convex cone">
+
+- 集合 $C$ 是 <T zh="锥">cone</T>：对任意 $x\in C$ 和任意 $\theta\ge 0$，都有 $\theta x\in C$。
+- 集合 $C$ 是 <T zh="凸锥">convex cone</T>：它既是锥又是凸集。等价地，对任意 $x_1,x_2\in C$ 和 $\theta_1,\theta_2\ge0$：
+
+$$
+\theta_1 x_1 + \theta_2 x_2 \in C.
+$$
+
+- $\theta_1x_1+\theta_2x_2$（$\theta_1,\theta_2\ge0$）称为 <T zh="锥组合（非负组合）">conic combination</T>。
+
+</Def>
+
+大白话：
+
+- **锥**：集合里每个点 $x$，从原点出发穿过 $x$ 的整条射线 $\{\theta x\mid\theta\ge0\}$ 都在集合里。（取 $\theta=0$ 可知非空的锥一定包含原点。）
+- **凸锥**：再加上“凸”。几何上就是一个从原点张开的“扇形 / 冰淇淋筒”（教授原话是 ice cream cone）。
+- 锥组合与凸组合的**唯一区别**：锥组合只要系数非负，**不要求和为 1**。
+
+<Figure src="pages/L02/p05.png" caption="讲义：左边是凸锥（从原点 0 张开的扇形）；右边两块分开的扇形合在一起是锥（每个点的射线都在里面），但不是凸的——一块里的点和另一块里的点连线会跑出去。" />
+
+<Prof>
+
+两块扇形的例子 (09-03 课 01:14)：它满足锥的定义，但从一块里取一点、另一块里取一点，连线经过两块之间的空白——所以**锥不一定是凸的**，凸锥 = 锥 + 凸。
+
+</Prof>
+
+在上面“三种组合”交互里切到“锥组合”标签页，可以看到两个向量的所有锥组合恰好扫出一个凸锥。
+
+### Proper cone（真锥）
+
+<Def title="Proper cone">
+
+凸锥 $K\subseteq\mathbb{R}^n$ 是 <T zh="真锥 / 正常锥">proper cone</T>，如果它同时满足：
+
+- **closed**（闭）：包含自己的边界；
+- **solid**（实心）：内部非空，即 $\mathbf{int}\,K\neq\emptyset$；
+- **pointed**（尖）：不包含任何直线，即 $x\in K,\ -x\in K \Rightarrow x = 0$。
+
+</Def>
+
+<MathNote title="内部 interior 与边界 boundary">
+
+点 $x$ 是集合 $K$ 的**内点**，如果以 $x$ 为中心画一个足够小的球，整个球都在 $K$ 里。所有内点组成 $\mathbf{int}\,K$。边界点则是“任意小的球里既有 $K$ 中的点又有 $K$ 外的点”。比如第一象限 $\{x_1\ge0,x_2\ge0\}$ 的内部是开象限 $\{x_1>0,x_2>0\}$，边界是两条正半轴。
+
+</MathNote>
+
+大白话：closed = 不缺边；solid = 是“有体积”的，不是压扁成一条线或一个低维平面；pointed = 最多只含射线（半条线），不含一整条直线（否则 $x$ 和 $-x$ 都在里面）。
+
+<Example title="非负象限 nonnegative orthant">
+
+$$
+K = \mathbb{R}^n_+ = \{x\in\mathbb{R}^n \mid x_i \ge 0,\ i=1,\dots,n\}
+$$
+
+是 proper cone。以 $\mathbb{R}^2_+$（第一象限）为例：包含两条正半轴（闭）；内部是开象限（实心）；若 $x\ge0$ 且 $-x\ge0$ 则 $x=0$（尖）。
+
+反例：上半平面 $\{x_2\ge0\}$ 是闭的凸锥、也实心，但它包含整条 $x_1$ 轴（一条直线），所以**不是 pointed**。
+
+</Example>
+
+### 半正定锥 $\mathbb{S}^n_+$
+
+<MathNote title="对称矩阵、半正定、正定">
+
+- $\mathbb{S}^n$：所有 $n\times n$ **对称矩阵**（$X=X^T$，即 $X_{ij}=X_{ji}$）组成的集合。
+- $X$ **半正定** <T zh="半正定">positive semidefinite, PSD</T>，记作 $X\succeq 0$：对所有向量 $z$，$z^TXz\ge0$。等价于 $X$ 的所有**特征值** $\ge 0$。
+- $X$ **正定** <T zh="正定">positive definite, PD</T>，记作 $X\succ0$：对所有 $z\neq0$，$z^TXz>0$。等价于所有特征值 $>0$。
+- $z^TXz$ 叫二次型，二维时 $X=\begin{bmatrix}a&b\\b&c\end{bmatrix}$，$z^TXz = a z_1^2 + 2b z_1z_2 + c z_2^2$。
+
+</MathNote>
+
+<Def title="半正定锥 PSD cone">
+
+$$
+\mathbb{S}^n_+ = \{X\in\mathbb{S}^n \mid X\succeq 0\},\qquad X\in\mathbb{S}^n_+ \iff z^TXz\ge0\ \ \forall z\in\mathbb{R}^n.
+$$
+
+$$
+\mathbb{S}^n_{++} = \{X\in\mathbb{S}^n \mid X\succ 0\}\quad(\text{正定矩阵}).
+$$
+
+**性质**：$\mathbb{S}^n_+$ 是 proper cone。
+
+</Def>
+
+为什么是凸锥？若 $X,Y\succeq0$、$\theta_1,\theta_2\ge0$，则 $z^T(\theta_1X+\theta_2Y)z=\theta_1 z^TXz+\theta_2 z^TYz\ge0$。
+
+<Prof>
+
+教授逐条验证了 $\mathbb{S}^n_+$ 是 proper cone (09-03 课 01:20–01:26)：
+
+- **内部** = 正定矩阵 $\mathbb{S}^n_{++}$；**边界** = 奇异的半正定矩阵（至少一个特征值为 0）。
+- **闭**：包含边界（奇异 PSD 矩阵也算 PSD）。
+- **实心**：内部非空，比如单位阵 $I$ 是正定的。
+- **尖**：若 $X$ 和 $-X$ 都 PSD，则 $z^TXz\ge0$ 且 $\le0$，所以 $z^TXz=0$ 对所有 $z$ 成立，于是 $X=0$。
+
+他说半正定锥在后面的课里会反复用到（例如 SDP）。
+
+</Prof>
+
+<Quiz q="下面哪个集合是 proper cone？" options={['ℝ²中的上半平面 {x₂ ≥ 0}', 'ℝ²中的开象限 {x₁ > 0, x₂ > 0}', '非负象限 ℝ²₊', 'x₁ 轴上的非负半轴 {x₁ ≥ 0, x₂ = 0}']} answer={2} explain="上半平面含整条直线（不尖）；开象限不含边界（不闭）；非负半轴没有内部（不实心）。只有非负象限三条都满足。" />
+
+## 广义不等式
+
+普通的不等式 $x\le y$ 其实可以写成 $y - x\in\mathbb{R}_+$（差是非负数）。把 $\mathbb{R}_+$ 换成任意 proper cone $K$，就得到了**广义不等式**。
+
+<Def title="广义不等式 generalized inequality">
+
+对 proper cone $K$：
+
+$$
+x \preceq_K y \iff y - x \in K, \qquad\qquad x \prec_K y \iff y - x\in \mathbf{int}\,K.
+$$
+
+</Def>
+
+大白话：“$x$ 小于等于 $y$” 的意思是“$y$ 减 $x$ 落在锥 $K$ 里”。锥 $K$ 规定了什么叫“非负”。$\prec_K$ 是严格版本，要求差落在锥的**内部**。
+
+<Example title="两个最常用的广义不等式">
+
+- **分量不等式**（$K=\mathbb{R}^n_+$）：
+
+$$
+x\preceq_{\mathbb{R}^n_+} y \iff x_i\le y_i,\quad i=1,\dots,n.
+$$
+
+即每个分量都小于等于。
+
+- **矩阵不等式**（$K=\mathbb{S}^n_+$）：
+
+$$
+X\preceq_{\mathbb{S}^n_+} Y \iff Y - X \text{ 半正定}.
+$$
+
+这两个太常用了，下标通常省略，直接写 $x\preceq y$、$X\preceq Y$。
+
+</Example>
+
+<Warn>
+
+**广义不等式一般不是全序**：并不是任意两个元素都能比大小。
+
+- 向量：$x=(1,0)$，$y=(0,1)$。$x_1>y_1$ 但 $x_2 < y_2$，既不是 $x\preceq y$ 也不是 $y\preceq x$。
+- 矩阵：$X=\mathrm{diag}(1,0)$，$Y=\mathrm{diag}(0,1)$。$Y-X=\mathrm{diag}(-1,1)$ 和 $X-Y=\mathrm{diag}(1,-1)$ 都不是半正定，所以两者不可比较。
+
+另外注意方向：$X\preceq Y$ 是 **右边减左边** $Y-X\succeq0$。
+
+</Warn>
+
+<Ch02MatrixOrder />
+
+<Prof>
+
+教授从一维讲起 (09-03 课 01:26–01:38)：一维里任意两个数都能比较；但到了 $\mathbb{R}^n$ 或矩阵空间，两个点常常**不可比较**。广义不等式之所以要求 $K$ 是 proper cone，是为了让它成为一个合理的“偏序”。
+
+</Prof>
+
+<Reveal label="补充：对偶锥 dual cone（讲义未出现，教材 2.6 节）">
+
+讲义没有讲对偶锥，但它在教材里紧接着广义不等式出现，后面对偶理论偶尔会用到，这里简单提一下。锥 $K$ 的 <T zh="对偶锥">dual cone</T> 是
+
+$$
+K^* = \{y \mid y^Tx \ge 0\ \ \forall x\in K\},
+$$
+
+即“与 $K$ 中所有向量夹角都不超过 90°”的向量集合。例如 $(\mathbb{R}^n_+)^*=\mathbb{R}^n_+$，$(\mathbb{S}^n_+)^*=\mathbb{S}^n_+$（这两个锥是“自对偶”的）。
+
+</Reveal>
+
+## 常见的凸集
+
+### 超平面与半空间
+
+<MathNote title="内积 inner product">
+
+$a^Tx = a_1x_1 + \cdots + a_nx_n$ 是向量 $a$ 与 $x$ 的内积（对应分量相乘再相加）。几何上 $a^Tx = \|a\|\|x\|\cos\angle(a,x)$：内积为 0 表示两向量垂直，为正表示夹角小于 90°。
+
+</MathNote>
+
+<Def title="超平面 hyperplane 与半空间 halfspace">
+
+- 超平面：$\{x \mid a^Tx = b\}$，$a\neq 0$。向量 $a$ 叫 <T zh="法向量">normal vector</T>。
+- 半空间：$\{x \mid a^Tx\le b\}$，$a\ne0$。它的边界就是超平面 $a^Tx=b$。
+
+</Def>
+
+大白话：在 $\mathbb{R}^2$ 里超平面是一条直线，在 $\mathbb{R}^3$ 里是一个平面；$a$ 垂直于它。半空间就是超平面一侧的全部区域（包括超平面本身）。$a$ 指向 $a^Tx$ **增大**的方向，所以 $a^Tx\le b$ 是 $a$ 所指方向的**反面**那一侧。
+
+也可以写成 $\{x\mid a^T(x-x_0)=0\}$，其中 $x_0$ 是超平面上任意一点（$b=a^Tx_0$）：超平面上的每个点 $x$，从 $x_0$ 指向 $x$ 的向量都与 $a$ 垂直。
+
+**结论**：超平面既是仿射集也是凸集；半空间是凸集（但不是仿射集）。验证半空间：若 $a^Tx_1\le b$，$a^Tx_2\le b$，则 $a^T(\theta x_1+(1-\theta)x_2)=\theta a^Tx_1+(1-\theta)a^Tx_2\le\theta b+(1-\theta)b=b$。
+
+### 欧氏球与椭球
+
+<MathNote title="欧氏范数（长度）">
+
+$\|x\|_2=\sqrt{x_1^2+\cdots+x_n^2}=\sqrt{x^Tx}$ 是向量的长度。$\|x-x_c\|_2$ 就是点 $x$ 到点 $x_c$ 的距离。
+
+</MathNote>
+
+<Def title="欧氏球 Euclidean ball">
+
+中心 $x_c$、半径 $r$ 的球：
+
+$$
+B(x_c, r) = \{x \mid \|x - x_c\|_2 \le r\} = \{x_c + r u \mid \|u\|_2\le 1\}.
+$$
+
+</Def>
+
+两种写法：第一种是“到中心距离不超过 $r$ 的所有点”；第二种是“从中心出发，往任意方向 $u$ 走不超过 $r$ 的距离”（$u$ 是长度不超过 1 的向量，$ru$ 长度不超过 $r$）。
+
+<Def title="椭球 ellipsoid">
+
+$$
+\mathcal{E} = \{x \mid (x - x_c)^T P^{-1}(x-x_c)\le 1\},\qquad P\in\mathbb{S}^n_{++}\ (\text{对称正定}).
+$$
+
+- 半轴长度为 $\sqrt{\lambda_i}$，其中 $\lambda_i$ 是 $P$ 的特征值；半轴方向是 $P$ 的特征向量。
+- 等价表示：$\mathcal{E}=\{x_c + Au \mid \|u\|_2\le1\}$，$A$ 是方阵且非奇异，可取 $A=P^{1/2}$（对称平方根，$A\cdot A=P$）。
+- 球是特例：$P=r^2I$。
+
+</Def>
+
+大白话：$P$ 决定椭球的“形状和朝向”，$x_c$ 是中心。$P$ 必须对称正定，这样 $P^{-1}$ 存在，二次型 $(x-x_c)^TP^{-1}(x-x_c)$ 衡量的是一种“拉伸过的距离”。第二种写法说：把单位球里的每个 $u$ 用矩阵 $A$ 拉伸/旋转，再平移到 $x_c$，就得到椭球。
+
+<Figure src="L02/p10_f1.png" caption="讲义：椭球，中心 x_c，两条线段标出两个半轴。" width="340px" />
+
+<Example title="讲义例子：坐标轴方向的椭圆">
+
+取 $x_c=0$，
+
+$$
+P = \begin{bmatrix} r_1^2 & 0\\ 0 & r_2^2\end{bmatrix},\quad P^{-1}=\begin{bmatrix}1/r_1^2 & 0\\ 0& 1/r_2^2\end{bmatrix},\quad A=\begin{bmatrix} r_1 & 0\\0 & r_2\end{bmatrix}.
+$$
+
+代入 $x^TP^{-1}x\le1$ 得
+
+$$
+\frac{x_1^2}{r_1^2} + \frac{x_2^2}{r_2^2}\le 1,
+$$
+
+就是中学学过的椭圆方程。$P$ 的特征值是 $r_1^2, r_2^2$，所以半轴长 $\sqrt{\lambda_i}=r_i$。$r_1=r_2=r$ 时就是 $P=r^2I$ 的圆。
+
+</Example>
+
+<Ch02Ellipsoid />
+
+<Exam>
+
+椭球的要点 (09-03 课 01:45–01:51)：$P$ 对称正定；半轴长 $=\sqrt{\lambda_i(P)}$（注意是**平方根**）；$A=P^{1/2}$；球是 $P=r^2I$。
+
+</Exam>
+
+### 范数与范数球
+
+<Def title="范数 norm">
+
+函数 $\|\cdot\|$ 是 <T zh="范数">norm</T>，如果满足：
+
+1. $\|x\|\ge 0$，且 $\|x\|=0 \iff x=0$（非负、只有零向量长度为 0）；
+2. $\|tx\| = |t|\,\|x\|$，$t\in\mathbb{R}$（齐次性：放大 $t$ 倍，长度也放大 $|t|$ 倍）；
+3. $\|x+y\|\le\|x\|+\|y\|$（三角不等式：两边之和大于第三边）。
+
+</Def>
+
+范数就是“长度”的推广。常用的几种（$\|\cdot\|_{\text{symb}}$ 表示某个特定范数）：
+
+$$
+\|x\|_p = \Big(\sum_{i=1}^n |x_i|^p\Big)^{1/p}\ (p\ge1),\qquad \|x\|_1=\sum_{i=1}^n|x_i|,\qquad \|x\|_2=\sqrt{\sum_{i=1}^n x_i^2},
+$$
+
+$$
+\|x\|_\infty = \lim_{p\to\infty}\Big(\sum_{i=1}^n|x_i|^p\Big)^{1/p} = \max_i |x_i|.
+$$
+
+$\ell_1$ 是各分量绝对值之和（“曼哈顿距离”），$\ell_2$ 是普通长度，$\ell_\infty$ 是最大的那个分量的绝对值。
+
+<Steps title="为什么 p→∞ 时 ℓp 范数趋于 max|xᵢ|（讲义推导）" steps={[
+  { text: '设绝对值最大的分量是 x_N，即 |x_N| = max_i |x_i|。把每个 |x_i| 写成 α_i |x_N|，其中 α_i ∈ [0,1]（α_N = 1）。', math: '|x_i|^p = \\alpha_i^p\\,|x_N|^p,\\qquad 0\\le\\alpha_i\\le1' },
+  { text: '把 |x_N|^p 提出来：', math: '\\Big(\\sum_{i=1}^n|x_i|^p\\Big)^{1/p}=\\big((\\alpha_1^p+\\cdots+\\alpha_{N-1}^p+1+\\cdots)\\,|x_N|^p\\big)^{1/p} = (\\textstyle\\sum_i\\alpha_i^p)^{1/p}\\,|x_N|' },
+  { text: '括号里的和至少是 1（因为 α_N = 1），至多是 n（每项 ≤ 1）。', math: '1\\le \\textstyle\\sum_i \\alpha_i^p \\le n \\;\\Rightarrow\\; 1\\le (\\sum_i\\alpha_i^p)^{1/p}\\le n^{1/p}' },
+  { text: '当 p→∞ 时 n^{1/p}→1，被夹在中间的量也趋于 1（夹逼定理）。', math: '\\lim_{p\\to\\infty}\\|x\\|_p = |x_N| = \\max_i|x_i| = \\|x\\|_\\infty' },
+]} />
+
+<Figure src="pages/L02/p13.png" caption="讲义：二维单位球 ℓ₁（菱形）⊆ ℓ₂（圆）⊆ ℓ∞（正方形）；所有范数球都是凸集。" />
+
+<Thm title="范数球是凸集">
+
+对**任意**范数，范数球 $B(x_c,r)=\{x\mid \|x-x_c\|\le r\}$ 是凸集。（讲义：proof as exercise）
+
+</Thm>
+
+<Reveal label="看证明（讲义留作练习）">
+
+取 $x,y\in B(x_c,r)$，$\theta\in[0,1]$。把 $x_c$ 拆成 $\theta x_c+(1-\theta)x_c$：
+
+$$
+\|\theta x+(1-\theta)y - x_c\| = \|\theta(x-x_c)+(1-\theta)(y-x_c)\| \le \theta\|x-x_c\| + (1-\theta)\|y-x_c\| \le \theta r+(1-\theta)r = r.
+$$
+
+第一个不等号用了三角不等式和齐次性（$\theta,1-\theta\ge0$）；第二个用了 $x,y$ 在球内。所以组合点也在球内。
+
+</Reveal>
+
+<Ch02NormBall />
+
+教材里与范数球并列的还有 <T zh="范数锥">norm cone</T> $\{(x,t)\mid \|x\|\le t\}\subseteq\mathbb{R}^{n+1}$，它是一个凸锥；$\ell_2$ 范数锥就是教授说的“冰淇淋筒” <T zh="二阶锥">second-order cone</T>，后面 SOCP 一章会用到。（讲义未单列，作补充。）
+
+### 多面体 Polyhedra
+
+<Def title="多面体 polyhedron 与多胞形 polytope">
+
+<T zh="多面体">polyhedron</T> 是有限个线性不等式和等式的解集：
+
+$$
+\mathcal{P} = \{x \mid a_j^Tx\le b_j,\ j=1,\dots,m,\quad c_j^Tx = d_j,\ j=1,\dots,k\}.
+$$
+
+- 多面体 = 有限个半空间与超平面的交 ⇒ 是凸集（交集保凸，见下一节）。
+- <T zh="多胞形">polytope</T>：**有界**的多面体。
+
+</Def>
+
+<Figure src="L02/p14_f1.png" caption="讲义：五边形多胞形 𝒫，每条边对应一个不等式 aⱼᵀx ≤ bⱼ，箭头 a₁,…,a₅ 是向外的法向量。" width="320px" />
+
+线性规划（LP）的可行域就是多面体，第 5 章会大量用到。
+
+<Quiz q="下面哪个集合不是凸集？" options={['{x | Ax = b}', '{x | ‖x − x_c‖₁ ≤ 2}', '{x ∈ ℝ² | x₁² + x₂² ≥ 1}（单位圆外部）', '{x | aᵀx ≤ b, cᵀx = d}']} answer={2} explain="圆外部不凸：(1,0) 和 (−1,0) 都在里面，但中点 (0,0) 不在。其余分别是仿射集、范数球、多面体。" />
+
+## 保凸运算：如何证明一个集合是凸的
+
+讲义给出两种方法：
+
+1. **用定义**：$x_1,x_2\in C$，$0\le\theta\le1\Rightarrow\theta x_1+(1-\theta)x_2\in C$。
+2. **从简单凸集出发，经过保凸运算得到 $C$**。简单凸集：超平面、半空间、范数球……；保凸运算：
+   - 交集 intersection
+   - 仿射函数 affine function
+   - 透视函数与线性分式函数 perspective / linear-fractional function
+
+实践中第 2 种方法用得最多：把复杂集合拆成简单集合的组合。
+
+### 交集
+
+<Thm title="交集保凸">
+
+若每个 $S_i$（$i\in\mathcal{A}$）都是仿射集（或凸集、或凸锥），则 $\bigcap_{i\in\mathcal{A}}S_i$ 也是仿射集（或凸集、或凸锥）。
+
+注意：指标集 $\mathcal{A}$ **不必有限**：例如任意闭凸集都是（无穷多个）半空间的交。
+
+</Thm>
+
+证明（凸集情形）：$x_1,x_2$ 在交集里 ⇒ 它们在每个 $S_i$ 里 ⇒ 由 $S_i$ 凸，线段在每个 $S_i$ 里 ⇒ 线段在交集里。
+
+<Figure src="pages/L02/p16.png" caption="讲义：上图，凸集是无穷多个半空间 aₖᵀx ≤ bₖ 的交（n→∞）；下图，椭圆与一条直线的并集——并集不保凸。" />
+
+<Ch02Intersection />
+
+<Warn>
+
+**并集不保凸**。两个凸集的并通常不是凸的（讲义图：椭圆 ∪ 直线）。这和后面“逐点最小值不保凸”是同一个道理。
+
+</Warn>
+
+<Example title="半正定锥 = 无穷多个半空间的交">
+
+$$
+\mathbb{S}^n_+ = \bigcap_{z\in\mathbb{R}^n}\{X\in\mathbb{S}^n \mid z^TXz\ge 0\}.
+$$
+
+对固定的 $z$，$z^TXz=\sum_{i,j}z_iz_jX_{ij}$ 是 $X$ 的**线性**函数，所以 $\{X\mid z^TXz\ge0\}$ 是 $X$ 空间里的一个半空间。无穷多个半空间的交 ⇒ 凸。这是“交集保凸”最漂亮的用法之一。（教材例子）
+
+</Example>
+
+### 仿射函数
+
+<Def title="仿射函数 affine function">
+
+$f:\mathbb{R}^n\to\mathbb{R}^m$，$f(x)=Ax+b$，其中 $A\in\mathbb{R}^{m\times n}$，$b\in\mathbb{R}^m$。
+
+</Def>
+
+大白话：仿射函数 = 线性变换（旋转、拉伸、投影…）再加一个平移。它把直线映成直线、线段映成线段。
+
+<Thm title="仿射映射保凸">
+
+- **像**：若 $S\subseteq\mathbb{R}^n$ 是凸集，则 $f(S)=\{f(x)\mid x\in S\}$ 是凸集。
+- **原像**：若 $C\subseteq\mathbb{R}^m$ 是凸集，则 $f^{-1}(C)=\{x\in\mathbb{R}^n\mid f(x)\in C\}$ 是凸集。
+
+</Thm>
+
+关键在于仿射函数“保持凸组合”：
+
+$$
+f(\theta x + (1-\theta)y) = A(\theta x+(1-\theta)y)+b = \theta(Ax+b)+(1-\theta)(Ay+b)=\theta f(x)+(1-\theta)f(y).
+$$
+
+（用到 $b=\theta b+(1-\theta)b$。）所以像集里两点的线段 = 原集合里线段的像，仍在像集里。
+
+<Example title="椭球是凸的（讲义例子）">
+
+椭球 $\mathcal{E}=\{x\mid(x-x_c)^TP^{-1}(x-x_c)\le1\}$：
+
+- 是单位球 $\{u\mid\|u\|_2\le1\}$ 在仿射映射 $f(u)=P^{1/2}u+x_c$ 下的**像**；
+- 也是单位球在仿射映射 $g(x)=P^{-1/2}(x-x_c)$ 下的**原像**。验证：$\|g(x)\|_2^2 = (x-x_c)^TP^{-1/2}P^{-1/2}(x-x_c)=(x-x_c)^TP^{-1}(x-x_c)$，所以 $\|g(x)\|_2\le1\iff x\in\mathcal{E}$。
+
+单位球是凸的 ⇒ 椭球是凸的。
+
+</Example>
+
+其他常见例子（教材）：缩放与平移 $\alpha S+a$、投影 $\{x_1\mid (x_1,x_2)\in S\}$、两个集合之和 $S_1+S_2=\{x+y\mid x\in S_1,y\in S_2\}$ 都保凸；线性矩阵不等式（LMI）的解集 $\{x\mid x_1A_1+\cdots+x_nA_n\preceq B\}$ 是 $\mathbb{S}^m_+$ 在仿射映射 $x\mapsto B-\sum_i x_iA_i$ 下的原像，所以是凸集。
+
+### 透视函数与线性分式函数
+
+<Def title="透视函数 perspective function">
+
+$P:\mathbb{R}^{n+1}\to\mathbb{R}^n$，
+
+$$
+P(x,t) = \frac{x}{t},\qquad \mathbf{dom}\,P = \{(x,t)\mid t>0\}.
+$$
+
+</Def>
+
+大白话：把最后一个坐标 $t$ 当作“深度”，其余坐标除以它——这就是针孔相机成像：远处（$t$ 大）的物体变小。$\mathbf{dom}$ 表示定义域，这里要求 $t>0$。
+
+<Def title="线性分式函数 linear-fractional function">
+
+$f:\mathbb{R}^n\to\mathbb{R}^m$，
+
+$$
+f(x) = \frac{Ax+b}{c^Tx+d},\qquad \mathbf{dom}\,f=\{x\mid c^Tx+d>0\}.
+$$
+
+</Def>
+
+<Thm title="透视与线性分式函数保凸">
+
+凸集在透视函数、线性分式函数下的**像和原像**都是凸集。
+
+</Thm>
+
+<Steps title="透视函数把线段映成线段（讲义第 19 页）" steps={[
+  { text: '设 x = (x̃, x_{n+1})，y = (ỹ, y_{n+1})，最后一个坐标都 > 0。对 x、y 之间线段上的点做透视：', math: 'P(\\theta x+(1-\\theta)y)=\\frac{\\theta\\tilde x+(1-\\theta)\\tilde y}{\\theta x_{n+1}+(1-\\theta)y_{n+1}}' },
+  { text: '把分子拆开，并凑出 P(x) = x̃/x_{n+1} 与 P(y) = ỹ/y_{n+1}：', math: '=\\frac{\\theta x_{n+1}}{\\theta x_{n+1}+(1-\\theta)y_{n+1}}\\cdot\\frac{\\tilde x}{x_{n+1}}+\\frac{(1-\\theta)y_{n+1}}{\\theta x_{n+1}+(1-\\theta)y_{n+1}}\\cdot\\frac{\\tilde y}{y_{n+1}}' },
+  { text: '记第一个系数为 μ。因为分子分母都非负且分子 ≤ 分母，μ ∈ [0,1]；第二个系数正好是 1−μ。', math: '=\\mu P(x)+(1-\\mu)P(y),\\qquad \\mu=\\frac{\\theta x_{n+1}}{\\theta x_{n+1}+(1-\\theta)y_{n+1}}\\in[0,1]' },
+  { text: '所以 x 到 y 的线段被映成 P(x) 到 P(y) 的线段（θ 从 0 到 1 时 μ 也从 0 到 1）。线段映成线段 ⇒ 凸集的像是凸集。' },
+]} />
+
+<Figure src="pages/L02/p19.png" caption="讲义：ℝ³ 中从 x 到 y 的线段，经透视映射后变成 ℝ² 中从 P(x) 到 P(y) 的线段。" />
+
+**线性分式函数 = 仿射函数 + 透视函数**（讲义第 20 页）：
+
+$$
+f(x) = P(g(x)),\qquad g(x) = \begin{bmatrix}A\\ c^T\end{bmatrix}x + \begin{bmatrix}b\\ d\end{bmatrix}.
+$$
+
+$g$ 先算出 $(Ax+b,\ c^Tx+d)$，透视再用最后一个分量去除前面的分量。两步都保凸，所以只要 $c^Tx+d>0$，$f$ 保凸。
+
+<Quiz q="已知 C 是凸集，下面哪个集合不一定是凸的？" options={['{Ax + b | x ∈ C}', '{x | Ax + b ∈ C}', 'C ∪ {x | aᵀx = b}', 'C ∩ {x | ‖x‖₂ ≤ 1}']} answer={2} explain="并集不保凸。前两个是仿射映射的像与原像，最后一个是两个凸集的交。" />
+
+## 分离超平面与支撑超平面
+
+### 分离超平面定理
+
+<Thm title="分离超平面定理 separating hyperplane theorem">
+
+若 $C$ 和 $D$ 是**不相交的凸集**，则存在 $a\neq0$ 和 $b$，使得
+
+$$
+a^Tx\le b\ \ \text{对所有 } x\in C,\qquad a^Tx\ge b\ \ \text{对所有 } x\in D.
+$$
+
+超平面 $\{x\mid a^Tx=b\}$ 把 $C$ 和 $D$ **分开**。
+
+</Thm>
+
+大白话：两个互不重叠的凸“团”，一定能用一刀（一个超平面）把它们切到两边。$C$ 在 $a^Tx\le b$ 那一侧，$D$ 在 $a^Tx\ge b$ 那一侧，法向量 $a$ 从 $C$ 指向 $D$。注意不等号不严格——两个集合可以都“贴着”这条线。
+
+<Figure src="L02/p21_f1.png" caption="讲义：不相交的凸集 C、D 被超平面 aᵀx = b 分开，法向量 a 指向 D 一侧。" width="360px" />
+
+<Warn>
+
+“凸”这个条件很关键：如果其中一个集合不凸（比如一个月牙形把另一个圆半包围），即使不相交也可能找不到分离直线。
+
+</Warn>
+
+### 支撑超平面定理
+
+<Def title="支撑超平面 supporting hyperplane">
+
+设 $x_0$ 是集合 $C$ 边界上的一点。如果 $a\neq0$ 且
+
+$$
+a^Tx\le a^Tx_0\quad \text{对所有 } x\in C,
+$$
+
+则称 $\{x\mid a^Tx=a^Tx_0\}$ 是 $C$ 在 $x_0$ 处的 <T zh="支撑超平面">supporting hyperplane</T>。
+
+</Def>
+
+大白话：一条经过边界点 $x_0$ 的直线，整个集合都在它的同一侧——像一把尺子贴着集合的边缘放着。光滑边界处它就是切线。
+
+<Thm title="支撑超平面定理">
+
+若 $C$ 是凸集，则在 $C$ 的**每个**边界点处都存在支撑超平面。
+
+</Thm>
+
+<Figure src="L02/p22_f2.png" caption="讲义：在边界点 x₀ 处的支撑超平面 {x | aᵀx = aᵀx₀}，法向量 a 指向外侧。（注意：图中集合左侧有凹口，本身不凸，图只用来说明定义；在凹口处就找不到支撑超平面，这正说明定理需要“凸”的条件。）" width="360px" />
+
+<Ch02Separating />
+
+<Intuition>
+
+这两个定理是后面**对偶理论**的几何基础：强对偶、KKT 条件的很多证明，本质上就是“在某个凸集和另一个凸集之间插一张分离超平面”。现在先记住图像即可。
+
+</Intuition>
+
+## 本章小结
+
+<Summary>
+
+- **凸集**：任意两点的线段在集合内（$\theta\in[0,1]$）；**仿射集**：任意两点的整条直线在集合内（$\theta\in\mathbb{R}$）。仿射集 ⇒ 凸集。
+- **凸组合**：$\theta_i\ge0$ 且 $\sum\theta_i=1$；**锥组合**：只要 $\theta_i\ge0$。**凸包** $\mathbf{conv}\,S$ = 所有凸组合 = 包含 $S$ 的**最小**凸集（考过）。
+- **锥**：$x\in C\Rightarrow\theta x\in C\ (\theta\ge0)$；凸锥 = 锥 + 凸；**proper cone** = 闭 + 实心 + 尖。例：$\mathbb{R}^n_+$、$\mathbb{S}^n_+$。
+- **广义不等式**：$x\preceq_K y\iff y-x\in K$；$X\preceq Y\iff Y-X\succeq0$；不是全序。
+- **常见凸集**：超平面 $a^Tx=b$、半空间 $a^Tx\le b$、球、椭球（$P\succ0$，半轴 $\sqrt{\lambda_i}$，$A=P^{1/2}$）、任意范数球、多面体。
+- **保凸运算**：交集（可以无穷多个）、仿射映射的像与原像、透视、线性分式。**并集不保凸**。
+- **分离超平面**：两个不相交凸集可被超平面分开；**支撑超平面**：凸集每个边界点都有支撑超平面。
+
+</Summary>
+
+<Quiz q="关于凸包 conv S，下列说法正确的是？" options={['只有当 S 是凸集时 conv S 才是凸集', 'conv S 是包含 S 的最大凸集', 'conv S 是包含 S 的最小凸集，且总是凸的', 'conv S 是 S 中点所有锥组合的集合']} answer={2} explain="凸包无论 S 是否凸都是凸的，并且是包含 S 的最小凸集。D 描述的是锥包（conic hull）。" />
+
+<Quiz q="椭球 {x | (x−x_c)ᵀP⁻¹(x−x_c) ≤ 1} 中 P 的特征值为 9 和 4，两个半轴长分别是？" options={['9 和 4', '3 和 2', '1/3 和 1/2', '81 和 16']} answer={1} explain="半轴长 = √λᵢ = √9, √4 = 3, 2。" />
+
+<Quiz q="X = [[2,0],[0,1]]，Y = [[1,0],[0,3]]。以下哪项正确？" options={['X ⪯ Y', 'Y ⪯ X', 'X 和 Y 不可比较', 'X = Y']} answer={2} explain="Y − X = diag(−1, 2) 有负特征值，不是 PSD；X − Y = diag(1, −2) 也有负特征值。所以两者不可比较——矩阵不等式不是全序。" />
+
+<Quiz q="集合 {x ∈ ℝ² | x₁ ≥ 0, x₂ ≥ 0} ∪ {x ∈ ℝ² | x₁ ≤ 0, x₂ ≤ 0}（第一和第三象限的并）是：" options={['凸锥', '锥，但不是凸的', '既不是锥也不是凸集', 'proper cone']} answer={1} explain="每个点乘非负数仍在原象限里，所以是锥；但 (1,0) 与 (0,−1) 的中点 (0.5,−0.5) 在第四象限，不在集合里，所以不凸。这正是讲义“两块扇形”的例子。" />

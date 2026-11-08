@@ -1,0 +1,493 @@
+import { Ch07LagrangianSlider, Ch07ConcaveEnvelope, Ch07QuadDual, Ch07MaxCut } from '../widgets/ch07.jsx'
+
+从这一章开始，课程进入整门课最核心、也是期末考试分量最重的部分：<T zh="对偶理论">duality</T>。前面几章我们学会了“识别和写出”凸优化问题；对偶理论回答的是另一个问题：**能不能不直接解原问题，而是构造另一个（总是凸的、通常更好解的）问题，用它的答案去估计、甚至精确得到原问题的答案？**
+
+这一章（对应讲义 L7 前半部分）先搭好对偶理论的“零件”：Lagrangian、拉格朗日乘子、对偶函数 $g$，以及它的两个基本性质（总是凹的；总是给出下界）。然后我们把讲义里**所有例子的 dual function 完整推一遍**——这是教授明确要求大家“非常熟练”的技能。下一章再正式讨论对偶问题、强弱对偶、Slater 条件和几何解释。
+
+**本章路线**
+
+1. 回顾标准形式问题、定义域 $\mathcal D$ 与最优值 $p^\star$
+2. Lagrangian 与拉格朗日乘子（“惩罚”直觉）
+3. Lagrange dual function $g(\lambda,\nu)=\inf_x L$
+4. 性质 1：$g$ 永远是凹函数
+5. 性质 2：$g$ 永远是 $p^\star$ 的下界（lower bound property）
+6. 例子：标准形 LP、仿射约束与共轭函数、二次目标、max-cut（two-way partitioning）
+7. 原问题与对偶问题一览（为下一章铺路）
+
+## 出发点：一般形式的优化问题
+
+对偶理论**不要求问题是凸的**。我们考虑最一般的 <T zh="标准形式">standard form</T> 问题：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 0,\qquad i=1,\dots,m\\
+& h_i(x)=0,\qquad i=1,\dots,p
+\end{aligned}
+$$
+
+大白话：在满足 $m$ 个“小于等于 0”的不等式约束和 $p$ 个“等于 0”的等式约束的前提下，让目标 $f_0$ 尽量小。
+
+- 变量 $x\in\mathbb R^n$ 叫 <T zh="原变量">primal variable</T>，这个问题叫 <T zh="原问题">primal problem</T>。
+- 最优值记为 $p^\star$（p 代表 primal）。如果问题不可行，约定 $p^\star=+\infty$；如果目标可以无限往下走，$p^\star=-\infty$。
+- 定义域是所有函数定义域的交集：
+
+$$
+\mathcal D=\operatorname{dom} f_0\cap\bigcap_{i=1}^m\operatorname{dom} f_i\cap\bigcap_{i=1}^p\operatorname{dom} h_i .
+$$
+
+大白话：$\mathcal D$ 是“所有函数都有定义的那些 $x$”。注意 $\mathcal D$ 不是可行域——可行域还要求约束成立。
+
+<MathNote title="inf 与 sup：最小值/最大值的“升级版”">
+
+$\inf$（<T zh="下确界">infimum</T>）可以理解为“能逼近到的最小值”。例如 $\inf_{x>0} \frac1x = 0$：$\frac1x$ 永远取不到 0，但可以无限接近 0，所以没有“最小值”，但下确界是 0。如果函数可以无限往下走（比如 $\inf_{x\in\mathbb R} x=-\infty$），下确界就是 $-\infty$。
+
+$\sup$（<T zh="上确界">supremum</T>）同理，是“能逼近到的最大值”。
+
+教授在课上说：这门课里可以把 $\min$ 与 $\inf$、$\max$ 与 $\sup$ 当作一回事。用 $\inf$ 的好处是它**永远有定义**（可能是 $-\infty$），不用担心“最小值取不到”。
+
+</MathNote>
+
+## Lagrangian 与拉格朗日乘子
+
+### 动机：把约束“搬进”目标函数
+
+带约束的问题难，是因为我们必须时刻盯着约束。一个自然的想法是：**把约束变成目标函数里的“惩罚项”**，于是问题看上去就成了无约束问题。
+
+<Def title="Lagrangian（拉格朗日函数）">
+
+对上面的标准形式问题，定义 <T zh="拉格朗日函数">Lagrangian</T> $L:\mathbb R^n\times\mathbb R^m\times\mathbb R^p\to\mathbb R$，$\operatorname{dom}L=\mathcal D\times\mathbb R^m\times\mathbb R^p$：
+
+$$
+L(x,\lambda,\nu)=f_0(x)+\sum_{i=1}^m\lambda_i f_i(x)+\sum_{i=1}^p\nu_i h_i(x)
+$$
+
+- $\lambda_i$ 是第 $i$ 个不等式约束 $f_i(x)\le0$ 的 <T zh="拉格朗日乘子">Lagrange multiplier</T>；
+- $\nu_i$ 是第 $i$ 个等式约束 $h_i(x)=0$ 的 Lagrange multiplier；
+- 向量 $\lambda\in\mathbb R^m,\ \nu\in\mathbb R^p$ 统称 <T zh="对偶变量">dual variables</T>（因为它们之后会成为对偶问题的变量）。
+
+</Def>
+
+大白话：$L$ = 原目标 + 每个约束函数乘一个权重后加起来。每个约束配一个“价格” $\lambda_i$ 或 $\nu_i$。
+
+<Figure src="pages/L07/p03.png" caption="讲义 p03：标准形式问题与 Lagrangian 的定义" />
+
+### 惩罚直觉：为什么要求 λ ≥ 0
+
+<Intuition title="λ 越大，越惩罚违反约束">
+
+取 $\lambda_i\ge0$。看惩罚项 $\lambda_i f_i(x)$：
+
+- 若 $x$ **违反**约束（$f_i(x)>0$），惩罚项 $>0$，$L$ 被抬高——相当于“罚款”；$\lambda_i$ 越大，罚得越狠。
+- 若 $x$ **满足**约束（$f_i(x)\le0$），惩罚项 $\le0$，$L$ 甚至被拉低——相当于“奖励”。
+
+对等式约束，$h_i(x)$ 可正可负，所以 $\nu_i$ 也**正负都可以**（free）。
+
+这就是为什么 $\lambda\succeq0$ 而 $\nu$ 没有符号限制。（$\lambda\succeq 0$ 表示向量的每个分量都 $\ge0$，即逐分量不等式。）
+
+</Intuition>
+
+<Prof>
+
+教授的说法（10-06 课 00:08）：如果我们去最小化 $L$，一个违反约束的点会被加上一个惩罚，使目标值比预期更大，所以最小化过程自然会“躲开”违反约束的点。约束被“松弛”进了目标里，问题看上去就像无约束问题一样。
+
+</Prof>
+
+<Warn title="符号约定是最常见的失分点">
+
+- 只有**不等式**约束的乘子要求 $\lambda\succeq0$；**等式**约束的乘子 $\nu$ 是自由的。
+- Lagrangian 是按“$f_i(x)\le 0$”的形式写的。如果题目给的是 $x\succeq0$ 或 $a^Tx\ge b$，**必须先改写成** $-x\preceq0$、$b-a^Tx\le0$，再乘 $\lambda$。教授特意提醒过这一点（00:14）。
+
+</Warn>
+
+## Lagrange dual function
+
+### 定义
+
+<Def title="Lagrange dual function（拉格朗日对偶函数）">
+
+$$
+g(\lambda,\nu)=\inf_{x\in\mathcal D}L(x,\lambda,\nu)=\inf_{x\in\mathcal D}\Big(f_0(x)+\sum_{i=1}^m\lambda_i f_i(x)+\sum_{i=1}^p\nu_i h_i(x)\Big)
+$$
+
+</Def>
+
+大白话：先把 $(\lambda,\nu)$ 固定住，让 $x$ 在整个定义域里**自由**变化（不管约束！），找 $L$ 能达到的最低值——这个最低值就是 $g(\lambda,\nu)$。因为 $x$ 被“优化掉”了，$g$ 只是 $(\lambda,\nu)$ 的函数：输入 $m+p$ 个数，输出一个数。
+
+两点需要注意：
+
+1. $g$ 可能等于 $-\infty$：如果对某个 $(\lambda,\nu)$，$L$ 关于 $x$ 无下界，那么 $g(\lambda,\nu)=-\infty$。后面的例子里几乎每次都会遇到这个“两个分支”的情况。
+2. 计算 $g$ 时**不考虑约束**，$x$ 遍历整个 $\mathcal D$。约束的作用已经通过乘子“折算”进了 $L$ 里。
+
+下面这个交互用一维问题把这一切画出来。
+
+<Ch07LagrangianSlider />
+
+在交互里你应该看到三件事：
+
+- 左图中黑色曲线 $L(x,\lambda)$ 的最低点高度就是 $g(\lambda)$，它**始终在绿色的 $p^\star$ 下方**——这就是后面的“性质 2”。
+- $\lambda=0$ 时 $L=f_0$，最低点可能落在不可行区域；$\lambda$ 变大后，惩罚项把不可行区域抬高，最低点被推回可行域附近。
+- 右图 $g(\lambda)$ 整条曲线是**向下弯的**（凹）——即使在“非凸问题”预设里也一样。这就是“性质 1”。
+
+### 凸问题预设的手算验证
+
+以交互中的凸问题 $\min (x-2)^2$ s.t. $x-1\le0$ 为例，把定义完整算一遍：
+
+<Steps title="一维例子：求 g(λ)" steps={[
+  {text:'写 Lagrangian（λ ≥ 0）：', math:'L(x,\\lambda)=(x-2)^2+\\lambda(x-1)'},
+  {text:'固定 λ，L 是 x 的开口向上的抛物线，最小点由导数为 0 给出：', math:'\\frac{\\partial L}{\\partial x}=2(x-2)+\\lambda=0\\ \\Rightarrow\\ x(\\lambda)=2-\\frac{\\lambda}{2}'},
+  {text:'代回 L 得到 dual function：', math:'g(\\lambda)=\\Big(-\\frac{\\lambda}{2}\\Big)^2+\\lambda\\Big(1-\\frac{\\lambda}{2}\\Big)=\\lambda-\\frac{\\lambda^2}{4}'},
+  {text:'g 是开口向下的抛物线（凹）。原问题最优点是 x=1，p* = 1；而 g 的最大值在 λ=2 处：', math:'\\max_{\\lambda\\ge0} g(\\lambda)=g(2)=2-1=1=p^\\star'},
+]} />
+
+最后一步说明：对这个凸问题，最好的下界**恰好等于** $p^\star$。这就是下一章的“强对偶”。
+
+## 性质 1：dual function 总是凹的
+
+<Thm title="Property 1">
+
+不论原问题是否为凸问题，$g(\lambda,\nu)$ 关于 $(\lambda,\nu)$ 都是 <T zh="凹函数">concave function</T>。
+
+</Thm>
+
+<MathNote title="逐点下确界保持凹性">
+
+- <T zh="仿射函数">affine function</T> 指形如 $a^Tz+b$ 的函数（“直线/平面”），它既凸又凹。
+- 回忆第 3 章：一族凸函数的**逐点上确界** $\sup_\alpha f_\alpha(z)$ 是凸的。对称地，一族凹函数的**逐点下确界** $\inf_\alpha f_\alpha(z)$ 是凹的。
+- 几何上：很多条直线，每个位置取最低的那条，得到的“下包络”一定是向下弯的折线/曲线。
+
+</MathNote>
+
+<Steps title="证明 g 是凹函数" steps={[
+  {text:'把 x 固定为某个具体点。此时 f₀(x), fᵢ(x), hᵢ(x) 都只是常数，于是 L 作为 (λ,ν) 的函数是仿射的（常数 + 线性项）：', math:'(\\lambda,\\nu)\\ \\mapsto\\ \\underbrace{f_0(x)}_{\\text{常数}}+\\sum_{i=1}^m\\lambda_i\\underbrace{f_i(x)}_{\\text{常数}}+\\sum_{i=1}^p\\nu_i\\underbrace{h_i(x)}_{\\text{常数}}'},
+  {text:'仿射函数是凹函数。每个 x ∈ 𝒟 都给出这样一个仿射函数，于是得到一族（可能无穷多个）凹函数。', math:'\\{\\,\\ell_x(\\lambda,\\nu)=L(x,\\lambda,\\nu)\\ :\\ x\\in\\mathcal D\\,\\}'},
+  {text:'g 恰好是这一族函数的逐点下确界：', math:'g(\\lambda,\\nu)=\\inf_{x\\in\\mathcal D}\\ \\ell_x(\\lambda,\\nu)'},
+  {text:'一族凹函数的逐点下确界仍是凹的，所以 g 是凹的。注意整个证明从未用到 f₀, fᵢ 的凸性。', math:'g\\ \\text{concave}\\quad(\\text{无论原问题是否凸})'},
+]} />
+
+<Ch07ConcaveEnvelope />
+
+<Exam title="“对偶问题永远是凸问题”">
+
+教授称之为“very important property”（00:44）：因为 $g$ 是凹的，而约束 $\lambda\succeq0$ 是凸集，所以 **“最大化 $g$ s.t. $\lambda\succeq0$” 永远是凸优化问题**（最大化凹函数 = 最小化凸函数）。哪怕原问题是 NP-hard 的非凸问题，对偶问题也能高效求解。考试中常要求证明 $g$ 是凹的：记住“对每个固定 $x$ 是仿射函数 → 逐点下确界”这两句话。
+
+</Exam>
+
+<Quiz q="下列哪一项是“g(λ,ν) 一定是凹函数”的正确理由？" options={['因为原问题的目标函数 f₀ 是凸的', '因为对每个固定的 x，L 是 (λ,ν) 的仿射函数，而 g 是它们的逐点下确界', '因为 λ ⪰ 0', '因为 g 是二次函数']} answer={1} explain="证明完全不依赖原问题的凸性：L 关于 (λ,ν) 是仿射的，逐点下确界保持凹性。" />
+
+## 性质 2：下界性质（lower bound property）
+
+### 定理与证明
+
+我们说 $(\lambda,\nu)$ 是 <T zh="对偶可行">dual feasible</T> 的，如果 $\lambda\succeq0$（下一章还会要求 $g(\lambda,\nu)>-\infty$，那样的点才给出“有用”的界）。
+
+<Thm title="Property 2（lower bound property）">
+
+对任意原可行的 $x$ 和任意对偶可行的 $(\lambda,\nu)$（即 $\lambda\succeq0$），有
+
+$$
+g(\lambda,\nu)\le f_0(x).
+$$
+
+对所有可行 $x$ 取下确界，得到 $g(\lambda,\nu)\le p^\star$。
+
+</Thm>
+
+大白话：随便挑一组非负的 $\lambda$ 和任意的 $\nu$，算出来的 $g$ 都是原问题最优值的一个**下界**——不用解原问题，就知道“最优值至少是多少”。
+
+<Steps title="证明 Property 2（讲义 p13）" steps={[
+  {text:'原可行 x 意味着：所有不等式约束成立、所有等式约束成立：', math:'f_i(x)\\le 0\\ (i=1..m),\\qquad h_i(x)=0\\ (i=1..p)'},
+  {text:'对偶可行意味着 λᵢ ≥ 0。于是每个惩罚项 λᵢfᵢ(x) 是“非负数 × 非正数”≤ 0，每个 νᵢhᵢ(x) = νᵢ·0 = 0：', math:'\\sum_{i=1}^m\\lambda_i f_i(x)\\le 0,\\qquad \\sum_{i=1}^p\\nu_i h_i(x)=0'},
+  {text:'所以在这个可行点上，L 不超过 f₀：', math:'f_0(x)\\ \\ge\\ f_0(x)+\\sum_{i=1}^m\\lambda_i f_i(x)+\\sum_{i=1}^p\\nu_i h_i(x)=L(x,\\lambda,\\nu)'},
+  {text:'而 g 是 L 在所有 x′ 上的下确界，任何一个具体点上的值都不小于下确界：', math:'L(x,\\lambda,\\nu)\\ \\ge\\ \\inf_{x^\\prime\\in\\mathcal D}L(x^\\prime,\\lambda,\\nu)=g(\\lambda,\\nu)'},
+  {text:'把两步连起来；再对所有可行 x 取下确界即得 g ≤ p*：', math:'f_0(x)\\ \\ge\\ L(x,\\lambda,\\nu)\\ \\ge\\ g(\\lambda,\\nu)\\quad\\Longrightarrow\\quad p^\\star\\ge g(\\lambda,\\nu)'},
+]} />
+
+<Figure src="pages/L07/p13.png" caption="讲义 p13：Property 2 的陈述与证明" />
+
+<Intuition title="两个不等号分别从哪里来">
+
+第一个“$\ge$”靠的是**可行性 + $\lambda\succeq0$**（惩罚项在可行点上是奖励）；第二个“$\ge$”靠的是**下确界的定义**（计算 $g$ 时 $x$ 可以跑到任何地方，包括不可行区域，所以只会更小）。少了 $\lambda\succeq0$，第一个不等号就不成立——这就是对偶问题要加约束 $\lambda\succeq0$ 的原因。
+
+</Intuition>
+
+### 对偶间隙
+
+- 对一组原可行 $x$ 和对偶可行 $(\lambda,\nu)$，差值 $f_0(x)-g(\lambda,\nu)\ge0$ 叫这一组点的 <T zh="对偶间隙">duality gap</T>。
+- 最好的下界是 $d^\star=\max_{\lambda\succeq0,\nu}g(\lambda,\nu)$，于是 $d^\star\le p^\star$，称为 <T zh="弱对偶">weak duality</T>；$p^\star-d^\star\ge0$ 叫 <T zh="最优对偶间隙">optimal duality gap</T>。
+
+这些概念是下一章的主角，这里先记住：**弱对偶对任何问题都成立，凸不凸都行**。它的威力在于：对很难的（非凸、NP-hard）问题，随便一个对偶可行点都能给出一个非平凡的下界。
+
+<Quiz q="对一个最小化问题，取 λ = (−1, 2)（第一个分量为负）算出 g(λ,ν) = 5。能否断言 p* ≥ 5？" options={['能，g 总是下界', '不能，下界性质要求 λ ⪰ 0', '能，只要原问题是凸的', '不能，因为 g 不是凹的']} answer={1} explain="证明中“λᵢfᵢ(x) ≤ 0”依赖 λᵢ ≥ 0。λ 有负分量时，在可行点上惩罚项可能为正，下界性质不再成立。" />
+
+## 推导 dual 的三步法
+
+教授在课上反复强调（00:12, 00:41）“希望大家对推导对偶非常熟练”。所有例子都按同一套路：
+
+1. **写 Lagrangian**：先把所有不等式改写成“$\le 0$”形式，每个配 $\lambda_i\ge0$；每个等式配自由的 $\nu_i$。
+2. **求 dual function**：$g=\inf_x L$。通常把 $L$ 整理成“关于 $x$ 的仿射函数”或“关于 $x$ 的二次函数”，再讨论下确界（常常出现“有限值 / $-\infty$”两个分支）。
+3. **写 dual problem**：$\max g$ s.t. $\lambda\succeq0$；第 2 步里让 $g$ 有限的条件变成对偶问题的**显式约束**，再化简（能消去的变量消去）。
+
+<MathNote title="仿射函数的下确界（几乎每道题都要用）">
+
+设 $L(x)=a^Tx+b$，$x\in\mathbb R^n$ 任意取值。
+
+- 若 $a=0$：$L\equiv b$ 是常数，$\inf_x L=b$。
+- 若 $a\neq0$：取 $x=-t\,a$，则 $L=-t\|a\|^2+b\to-\infty$（$t\to+\infty$），所以 $\inf_x L=-\infty$。
+
+一句话：**一条不水平的直线（不平的平面）在整个空间上没有下界**。
+
+</MathNote>
+
+## 例子 1：标准形式 LP 的对偶
+
+<Example title="标准形 LP（讲义 p05）">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^Tx\\
+\text{subject to}\quad & Ax=b,\qquad x\succeq0
+\end{aligned}
+$$
+
+其中 $A\in\mathbb R^{m\times n}$，$x\in\mathbb R^n$。
+
+</Example>
+
+<Steps title="标准形 LP：Lagrangian → dual function → dual problem" steps={[
+  {text:'先把 x ⪰ 0 改写成 −x ⪯ 0（n 个不等式 fᵢ(x) = −xᵢ ≤ 0），配 λ ∈ ℝⁿ, λ ⪰ 0；等式 Ax − b = 0 配 ν ∈ ℝᵐ（自由）。', math:'f_i(x)=-x_i\\le0,\\qquad Ax-b=0'},
+  {text:'写 Lagrangian：', math:'L(x,\\lambda,\\nu)=c^Tx+\\nu^T(Ax-b)-\\lambda^Tx'},
+  {text:'把含 x 的项合并（νᵀAx = (Aᵀν)ᵀx），L 是 x 的仿射函数：', math:'L(x,\\lambda,\\nu)=-b^T\\nu+\\big(c+A^T\\nu-\\lambda\\big)^Tx'},
+  {text:'对 x ∈ ℝⁿ 取下确界：系数向量为 0 时得到常数，否则为 −∞：', math:'g(\\lambda,\\nu)=\\inf_x L=\\begin{cases}-b^T\\nu, & A^T\\nu-\\lambda+c=0\\\\ -\\infty, & \\text{otherwise}\\end{cases}'},
+  {text:'写对偶问题：最大化 g 时 −∞ 分支永远不会被选中，所以只保留有限分支，并把“让 g 有限”的条件变成约束：', math:'\\begin{aligned}\\max_{\\lambda,\\nu}\\ & -b^T\\nu\\\\ \\text{s.t. }\\ & A^T\\nu-\\lambda+c=0,\\quad \\lambda\\succeq0\\end{aligned}'},
+  {text:'λ 不出现在目标中，可以消去：λ = Aᵀν + c，而 λ ⪰ 0 就变成 Aᵀν + c ⪰ 0：', math:'\\begin{aligned}\\max_{\\nu}\\ & -b^T\\nu\\\\ \\text{s.t. }\\ & A^T\\nu+c\\succeq0\\end{aligned}'},
+  {text:'令 y = −ν，就得到讲义 p18 的常见写法（对偶仍然是一个 LP，变量个数 = 原问题约束个数 m）：', math:'\\begin{aligned}\\max_{y}\\ & b^Ty\\\\ \\text{s.t. }\\ & A^Ty\\preceq c\\end{aligned}'},
+]} />
+
+<Figure src="pages/L07/p05.png" caption="讲义 p05：标准形 LP 及其对偶" />
+
+<Prof>
+
+- 关于 $-\infty$ 分支（00:19–00:22）：如果系数向量某个分量是负的，就让对应的 $x_i\to+\infty$；是正的就让 $x_i\to-\infty$，$L$ 都会趋于 $-\infty$。对偶问题是最大化，所以 $-\infty$ 的分支“自然被抛弃”。
+- 关于消元（00:23）：$\lambda$ 能被消掉，**仅仅是因为它不出现在目标里**。如果它出现在目标中，两组约束都要保留。
+- “LP 的对偶还是 LP。”（00:24）
+
+</Prof>
+
+## 例子 2：仿射约束与共轭函数
+
+### 一般结论
+
+当**所有约束都是仿射的**，dual function 可以直接用 $f_0$ 的 <T zh="共轭函数">conjugate function</T> 写出来。
+
+<MathNote title="共轭函数回顾">
+
+$$
+f^*(y)=\sup_{x\in\operatorname{dom}f}\big(y^Tx-f(x)\big)
+$$
+
+大白话：用斜率为 $y$ 的线性函数 $y^Tx$ 去减 $f$，看差值最大能有多大。$f^*$ 总是凸的（逐点上确界）。还会用到一个恒等式：$\inf_x h(x)=-\sup_x\big(-h(x)\big)$——“最小值等于负的（负函数的最大值）”。
+
+</MathNote>
+
+<Example title="只含仿射约束的问题（讲义 p06）">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & Ax\preceq b,\qquad Cx=d
+\end{aligned}
+$$
+
+$f_0$ 不要求是凸的。$Ax\preceq b$ 配 $\lambda\succeq0$，$Cx=d$ 配自由的 $\nu$。
+
+</Example>
+
+<Steps title="用共轭函数表示 dual function" steps={[
+  {text:'写 Lagrangian：', math:'L(x,\\lambda,\\nu)=f_0(x)+\\lambda^T(Ax-b)+\\nu^T(Cx-d)'},
+  {text:'把含 x 的线性项合并：', math:'L(x,\\lambda,\\nu)=f_0(x)+\\big(A^T\\lambda+C^T\\nu\\big)^Tx-b^T\\lambda-d^T\\nu'},
+  {text:'对 x 取下确界；与 x 无关的常数项可以提到外面：', math:'g(\\lambda,\\nu)=\\inf_{x}\\Big(f_0(x)+\\big(A^T\\lambda+C^T\\nu\\big)^Tx\\Big)-b^T\\lambda-d^T\\nu'},
+  {text:'用 inf h = −sup(−h)，把括号写成“yᵀx − f₀(x)”的形式，其中 y = −Aᵀλ − Cᵀν：', math:'\\inf_x\\Big(f_0(x)+\\big(A^T\\lambda+C^T\\nu\\big)^Tx\\Big)=-\\sup_x\\Big(\\big(-A^T\\lambda-C^T\\nu\\big)^Tx-f_0(x)\\Big)=-f_0^*\\big(-A^T\\lambda-C^T\\nu\\big)'},
+  {text:'于是得到讲义 p06 的公式：', math:'g(\\lambda,\\nu)=-f_0^*\\big(-A^T\\lambda-C^T\\nu\\big)-b^T\\lambda-d^T\\nu'},
+  {text:'对偶问题：', math:'\\begin{aligned}\\max_{\\lambda,\\nu}\\ & -f_0^*\\big(-A^T\\lambda-C^T\\nu\\big)-b^T\\lambda-d^T\\nu\\\\ \\text{s.t. }\\ & \\lambda\\succeq0\\end{aligned}'},
+]} />
+
+<Warn title="共轭函数捷径只在“全部约束都是仿射”时适用">
+
+教授特别指出（00:35–00:36）：如果有非仿射的不等式约束，$L$ 中就出现 $\lambda_if_i(x)$ 这样的非线性项，不能再整理成“$f_0(x)+(\text{线性})^Tx$”，也就不能直接套共轭函数。
+
+</Warn>
+
+### 例：负熵目标
+
+讲义 p06 的例子：$f_0(x)=\sum_{i=1}^n x_i\log x_i$（定义域 $x\succ0$），它的共轭是 $f_0^*(y)=\sum_{i=1}^n e^{y_i-1}$。
+
+<Steps title="先算共轭 f₀*，再代入" steps={[
+  {text:'f₀ 对各分量可分离，所以共轭也可以逐分量计算：', math:'f_0^*(y)=\\sum_{i=1}^n\\sup_{x_i>0}\\big(y_ix_i-x_i\\log x_i\\big)'},
+  {text:'对单个分量求导令其为 0（被最大化的函数是凹的，驻点就是最大点）：', math:'\\frac{d}{dx_i}\\big(y_ix_i-x_i\\log x_i\\big)=y_i-\\log x_i-1=0\\ \\Rightarrow\\ x_i=e^{y_i-1}'},
+  {text:'代回：y·e^{y−1} − e^{y−1}(y−1) = e^{y−1}：', math:'f_0^*(y)=\\sum_{i=1}^n e^{y_i-1}'},
+  {text:'代入一般公式，y = −Aᵀλ − Cᵀν：', math:'g(\\lambda,\\nu)=-\\sum_{i=1}^n\\exp\\!\\Big(-\\big(A^T\\lambda+C^T\\nu\\big)_i-1\\Big)-b^T\\lambda-d^T\\nu'},
+]} />
+
+## 例子 3：二次目标 + 一个等式 + 一个不等式
+
+<Example title="讲义 p07">
+
+$$
+\begin{aligned}
+\min\quad & x_1^2+x_2^2\\
+\text{s.t.}\quad & 3x_1+5x_2=7\\
+& 6x_1+4x_2\le 9
+\end{aligned}
+$$
+
+不等式配 $\lambda\ge0$，等式配自由的 $\mu$（讲义这里用 $\mu$ 代替 $\nu$）。
+
+</Example>
+
+<Steps title="二次例子：完整推导 g(λ,μ)" steps={[
+  {text:'写 Lagrangian（讲义原式）：', math:'L(x,\\lambda,\\mu)=x_1^2+x_2^2+\\lambda(6x_1+4x_2-9)+\\mu(3x_1+5x_2-7)'},
+  {text:'按 x 整理：一个二次项 + 一个线性项 + 常数，其中 a 依赖于 (λ, μ)：', math:'L=\\|x\\|_2^2+a^Tx-9\\lambda-7\\mu,\\qquad a=\\begin{pmatrix}6\\lambda+3\\mu\\\\4\\lambda+5\\mu\\end{pmatrix}'},
+  {text:'L 关于 x 是开口向上的二次函数（凸），所以梯度为 0 的点就是最小点：', math:'\\frac{\\partial L}{\\partial x_1}=2x_1+6\\lambda+3\\mu=0,\\qquad \\frac{\\partial L}{\\partial x_2}=2x_2+4\\lambda+5\\mu=0'},
+  {text:'解出最小点：', math:'x_1=-\\frac{6\\lambda+3\\mu}{2},\\qquad x_2=-\\frac{4\\lambda+5\\mu}{2}\\qquad(\\text{即 } x=-\\tfrac12 a)'},
+  {text:'代回 L：‖−a/2‖² + aᵀ(−a/2) = ‖a‖²/4 − ‖a‖²/2 = −‖a‖²/4：', math:'\\inf_x L=-\\frac14\\|a\\|_2^2-9\\lambda-7\\mu'},
+  {text:'展开 ‖a‖²：(6λ+3μ)² + (4λ+5μ)² = 36λ²+36λμ+9μ² + 16λ²+40λμ+25μ²：', math:'\\|a\\|_2^2=52\\lambda^2+76\\lambda\\mu+34\\mu^2'},
+  {text:'除以 4 并带上负号，得到讲义结果：', math:'g(\\lambda,\\mu)=-13\\lambda^2-8.5\\mu^2-19\\lambda\\mu-9\\lambda-7\\mu'},
+  {text:'对偶问题（凹二次函数在 λ ≥ 0 上最大化，是一个凸 QP）：', math:'\\begin{aligned}\\max\\ & -13\\lambda^2-8.5\\mu^2-19\\lambda\\mu-9\\lambda-7\\mu\\\\ \\text{s.t. }\\ & \\lambda\\ge0\\end{aligned}'},
+]} />
+
+<Figure src="pages/L07/p07.png" caption="讲义 p07：二次例子的 Lagrangian、dual function 与 dual problem" />
+
+<Reveal label="看验证：这个例子的 p* 与 d* 相等">
+
+**原问题**：在直线 $3x_1+5x_2=7$ 上离原点最近的点是 $x^\star=\frac{7}{34}(3,5)=(\tfrac{21}{34},\tfrac{35}{34})$，$p^\star=\frac{49}{34}\approx1.441$。检查不等式：$6x_1+4x_2=\frac{7}{34}\cdot38\approx7.82\le9$，**不等式不起作用**（inactive）。
+
+**对偶问题**：既然不等式不起作用，猜 $\lambda^\star=0$。此时 $g(0,\mu)=-8.5\mu^2-7\mu$，令导数 $-17\mu-7=0$ 得 $\mu^\star=-\frac{7}{17}$，$d^\star=-8.5\cdot\frac{49}{289}+\frac{49}{17}=\frac{49}{34}$。
+
+所以 $d^\star=p^\star$。并且代回 $x=-\tfrac12a=-\tfrac12(3\mu^\star,5\mu^\star)=(\tfrac{21}{34},\tfrac{35}{34})=x^\star$：**对偶最优点处 $L$ 的最小点正好就是原问题的最优点**。这是 KKT 条件（第 9 章）的预告。
+
+</Reveal>
+
+<Ch07QuadDual />
+
+## 例子 4：Max-cut（two-way partitioning）
+
+这个例子展示对偶最重要的用途之一：**为一个 NP-hard 的非凸问题提供可计算的界**。
+
+### 问题与建模
+
+给定无向图 $G=(V,E)$，$|V|=n$。一个 <T zh="割">cut</T> 是把顶点分成两组 $S$ 与 $V\setminus S$；它的 <T zh="容量">capacity</T> 是“一端在 $S$、另一端在 $V\setminus S$”的边的条数。**Max-cut 问题**：找容量最大的割。它是 NP-complete 的。
+
+输入用 <T zh="邻接矩阵">adjacency matrix</T> $Q\in\mathbb R^{n\times n}$ 表示：$Q_{ij}=1$ 若 $(i,j)\in E$，否则为 0。无向图的 $Q$ 是对称的。
+
+决策变量 $x\in\mathbb R^n$：$x_i=1$ 若 $i\in S$，否则 $x_i=-1$。
+
+<Steps title="为什么割的容量是 c(x) = ¼ ΣΣ (1 − xᵢxⱼ) Qᵢⱼ" steps={[
+  {text:'看一对顶点 i, j。同侧时 xᵢxⱼ = 1，异侧时 xᵢxⱼ = −1：', math:'1-x_ix_j=\\begin{cases}0,& i,j\\ \\text{同侧}\\\\ 2,& i,j\\ \\text{异侧（这条边被割断）}\\end{cases}'},
+  {text:'乘上 Qᵢⱼ：不是边的 (i,j) 贡献 0；是边且被割断的贡献 2。', math:'(1-x_ix_j)Q_{ij}\\in\\{0,2\\}'},
+  {text:'双重求和里每条无向边出现两次（(i,j) 和 (j,i)），所以每条割边总共贡献 2 + 2 = 4，乘 ¼ 恰好计为 1：', math:'c(x)=\\frac14\\sum_{i=1}^n\\sum_{j=1}^n(1-x_ix_j)\\,Q_{ij}'},
+  {text:'拆开：第一部分是常数（= 边数的 2 倍再除以 4），第二部分是二次型：', math:'c(x)=\\frac14\\sum_{i,j}Q_{ij}-\\frac14\\,x^TQx'},
+]} />
+
+<Figure src="pages/L07/p10.png" caption="讲义 p10：max-cut 的定义、变量与容量公式" />
+
+<Prof>
+
+教授在课上讨论了其他建模方式（01:05–01:14）：若用 $x_i\in\{0,1\}$，乘积 $x_ix_j$ 区分不了情况，要改用 $(x_i-x_j)^2$；而“最大化一个凸二次函数”是非凸的、更难。他的“major point / key point”是：**同一个问题有多种建模方式，要选最接近凸的那种**，这样才能用凸优化的工具。
+
+</Prof>
+
+### 原问题：非凸、NP-hard
+
+最大化 $c(x)$ 等价于最小化 $x^TQx$（常数部分不影响最优解）：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & x^TQx\\
+\text{subject to}\quad & x_i^2-1=0,\qquad i=1,\dots,n
+\end{aligned}
+\qquad\Longrightarrow\qquad c_{\max}=\frac14\sum_{i,j}Q_{ij}-\frac14\,p^\star
+$$
+
+（$x_i\in\{-1,1\}$ 与 $x_i^2=1$ 等价。）即使 $Q\succeq0$（目标是凸的），这个问题也**不是凸问题**：凸问题要求等式约束是仿射的，而 $x_i^2-1=0$ 不是。教授的论证（01:21）：max-cut 是 NP-complete 的，如果它能写成凸问题就能高效求解，这与已知结论矛盾（除非 P = NP）。
+
+### 对偶：一个 SDP
+
+<Steps title="Max-cut 的 Lagrangian 与 dual function" steps={[
+  {text:'n 个等式约束各配一个乘子 λᵢ（等式 → 无符号限制）。讲义把乘子写成减号，等价于把 νᵢ 记为 −λᵢ：', math:'L(x,\\lambda)=x^TQx-\\sum_{i=1}^n\\lambda_i\\big(x_i^2-1\\big)'},
+  {text:'令 Λ = diag(λ₁,…,λₙ)。因为 Σλᵢxᵢ² = xᵀΛx，Σλᵢ = trace Λ：', math:'L(x,\\lambda)=x^T(Q-\\Lambda)x+\\operatorname{trace}\\Lambda'},
+  {text:'对 x ∈ ℝⁿ 取下确界：若 Q − Λ ⪰ 0，二次型 ≥ 0 且在 x = 0 处取 0；否则沿某个使二次型为负的方向放大 x，二次型 → −∞：', math:'g(\\lambda)=\\inf_x\\Big(x^T(Q-\\Lambda)x\\Big)+\\operatorname{trace}\\Lambda=\\begin{cases}\\operatorname{trace}\\Lambda,& Q-\\Lambda\\succeq0\\\\ -\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题（只保留有限分支）：目标关于 λ 线性，约束是线性矩阵不等式（LMI），所以是一个 SDP——凸的：', math:'\\begin{aligned}\\max\\ & \\operatorname{trace}\\Lambda\\\\ \\text{s.t. }\\ & Q-\\Lambda\\succeq0\\end{aligned}'},
+]} />
+
+<MathNote title="半正定（⪰ 0）与二次型">
+
+对称矩阵 $M$ 写作 $M\succeq0$（<T zh="半正定">positive semidefinite</T>），意思是对所有 $x$ 都有 $x^TMx\ge0$，等价于 $M$ 的所有特征值 $\ge0$。若 $M$ 有一个负特征值 $\mu$（对应特征向量 $v$），则 $(tv)^TM(tv)=t^2\mu\|v\|^2\to-\infty$。这就是上面 “$-\infty$ 分支”的来源。
+
+</MathNote>
+
+<Figure src="pages/L07/p12.png" caption="讲义 p12：max-cut 的对偶问题是一个 SDP" />
+
+### 用弱对偶得到最大割的上界（讲义 p15）
+
+对偶可行的 $\Lambda$（即 $Q-\Lambda\succeq0$）都给出 $p^\star$ 的下界。讲义还给了一个不借助一般定理的直接验证：
+
+<Steps title="直接证明 xᵀQx ≥ trace Λ" steps={[
+  {text:'Q − Λ ⪰ 0 意味着对任何 x 都有 xᵀ(Q − Λ)x ≥ 0，即：', math:'x^TQx\\ \\ge\\ x^T\\Lambda x'},
+  {text:'Λ 是对角阵，所以二次型就是加权平方和：', math:'x^T\\Lambda x=\\sum_{i=1}^n\\Lambda_{ii}x_i^2'},
+  {text:'原可行点满足 xᵢ² = 1：', math:'\\sum_{i=1}^n\\Lambda_{ii}x_i^2=\\sum_{i=1}^n\\Lambda_{ii}=\\operatorname{trace}\\Lambda'},
+  {text:'于是对所有可行 x 有 xᵀQx ≥ trace Λ，所以 p* ≥ trace Λ；换算成割的容量就是上界：', math:'c_{\\max}=\\frac14\\sum_{i,j}Q_{ij}-\\frac14p^\\star\\ \\le\\ \\frac14\\Big(\\sum_{i,j}Q_{ij}-\\operatorname{trace}\\Lambda\\Big)'},
+]} />
+
+一个最简单的对偶可行点：$\Lambda=\lambda_{\min}(Q)\,I$（$\lambda_{\min}$ 是最小特征值），因为 $Q-\lambda_{\min}I$ 的特征值都 $\ge0$。由此 $p^\star\ge n\lambda_{\min}(Q)$。解 SDP 得到的最优 $\Lambda^\star$ 给出最紧的这类界。
+
+<Ch07MaxCut />
+
+<Prof>
+
+教授在 01:36 处口误说成 “strong duality”，实际指的是弱对偶给出的下界 $p^\star\ge\operatorname{trace}\Lambda$。他还提到（01:37）：先解 SDP，再从对偶解中恢复一个原可行的 $x$，就得到 max-cut 的近似解——这是近似算法的思路。
+
+</Prof>
+
+<Exam title="Max-cut 必会要点">
+
+- 为什么用 $\pm1$ 变量、为什么有 $\frac14$、常数项 $\frac14\sum Q_{ij}$ 从哪来；
+- $x_i^2=1$ 是非仿射等式约束 → 即使 $Q\succeq0$ 也非凸；
+- 对偶是 SDP：$\max\operatorname{trace}\Lambda$ s.t. $Q-\Lambda\succeq0$；
+- 弱对偶给出 $p^\star$ 的下界，也就是最大割容量的**上界**。
+
+</Exam>
+
+## 原问题与对偶问题一览
+
+把三步法的结果总结成讲义 p08 的对照：
+
+| | 原问题 primal | 对偶问题 dual |
+|---|---|---|
+| 形式 | $\min f_0(x)$ s.t. $f_i(x)\le0,\ h_i(x)=0$ | $\max g(\lambda,\nu)$ s.t. $\lambda\succeq0$ |
+| 变量 | $x\in\mathbb R^n$ | $\lambda\in\mathbb R^m,\ \nu\in\mathbb R^p$ |
+| 凸性 | 凸或非凸都可能 | **永远是凸问题** |
+| 最优值 | $p^\star$ | $d^\star$ |
+
+教授的要点（00:43–00:44）：不管原问题多难，对偶问题都可以高效求解，而它的解能告诉我们原问题的信息——要么是一个界（近似），要么在强对偶成立时**就是**原问题的最优值。什么时候 $d^\star=p^\star$？这就是下一章的主题：强对偶、Slater 条件、LP 的强对偶定理，以及它们漂亮的几何解释。
+
+## 小结与自测
+
+<Summary>
+
+- **Lagrangian**：$L=f_0+\sum\lambda_if_i+\sum\nu_ih_i$；不等式乘子 $\lambda\succeq0$，等式乘子 $\nu$ 自由；不等式要先写成 $\le0$。
+- **Dual function**：$g(\lambda,\nu)=\inf_{x\in\mathcal D}L(x,\lambda,\nu)$，计算时不管约束，可能为 $-\infty$。
+- **性质 1**：$g$ 永远是凹的（仿射函数族的逐点下确界）→ 对偶问题永远是凸问题。
+- **性质 2**：$\lambda\succeq0$ 时 $g(\lambda,\nu)\le f_0(x)$ 对所有可行 $x$ 成立 → $g\le p^\star$，进而 $d^\star\le p^\star$（弱对偶）。
+- **三步法**：写 $L$ → 求 $\inf_x L$（常有“有限 / $-\infty$”两分支）→ 写对偶并把有限条件变成约束、消元。
+- **例子**：标准形 LP 的对偶是 $\max b^Ty$ s.t. $A^Ty\preceq c$；仿射约束时 $g=-f_0^*(-A^T\lambda-C^T\nu)-b^T\lambda-d^T\nu$；二次例子 $g=-13\lambda^2-8.5\mu^2-19\lambda\mu-9\lambda-7\mu$；max-cut 的对偶是 SDP。
+
+</Summary>
+
+<Quiz q="标准形 LP（min cᵀx s.t. Ax = b, x ⪰ 0）的 Lagrangian 整理为 −bᵀν + (c + Aᵀν − λ)ᵀx。为什么 g 只有两种取值？" options={['因为 L 是 x 的二次函数', '因为 L 是 x 的仿射函数：系数为 0 时是常数，否则无下界', '因为 λ ⪰ 0', '因为 A 满秩']} answer={1} explain="仿射函数在整个 ℝⁿ 上取下确界，只有“系数为零 → 常数”和“系数非零 → −∞”两种结果。" />
+
+<Quiz q="原问题有约束 x₁ + x₂ ≥ 1。写 Lagrangian 时这一项应该是？" options={['λ(x₁ + x₂ − 1)，λ ≥ 0', 'λ(1 − x₁ − x₂)，λ ≥ 0', 'ν(x₁ + x₂ − 1)，ν ≥ 0', 'λ(x₁ + x₂ − 1)，λ ≤ 0 也可以随意']} answer={1} explain="必须先改写为 1 − x₁ − x₂ ≤ 0，再乘以非负乘子 λ。（选 D 那样把符号吸收进 λ ≤ 0 在数学上等价，但容易出错，考试请用标准写法。）" />
+
+<Quiz q="max-cut 问题 min xᵀQx s.t. xᵢ² = 1 中，若 Q ⪰ 0，该问题是凸问题吗？" options={['是，因为目标是凸的', '不是，因为等式约束 xᵢ² − 1 = 0 不是仿射的', '是，因为它的对偶是 SDP', '取决于 n 的大小']} answer={1} explain="凸问题要求等式约束仿射。对偶是 SDP 只说明对偶问题凸，不能反推原问题凸。" />
+
+<Quiz q="对二次例子，取 λ = 0, μ = 0，得到 g(0,0) = 0。这说明什么？" options={['p* = 0', 'p* ≥ 0，一个平凡的下界', 'd* = 0', '对偶不可行']} answer={1} explain="任何对偶可行点都给出 p* 的下界。g(0,0)=0 只说明 p* ≥ 0（显然成立，因为目标是平方和）。最好的下界是 d* = 49/34。" />

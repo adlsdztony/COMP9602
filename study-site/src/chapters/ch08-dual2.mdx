@@ -1,0 +1,641 @@
+import { Ch08Geometry, Ch08LPPair, Ch08Slater, Ch08Game } from '../widgets/ch08.jsx'
+
+上一章我们造好了对偶理论的零件：Lagrangian $L$、dual function $g(\lambda,\nu)=\inf_xL$，并证明了两条性质——$g$ 永远是凹的，且对任意 $\lambda\succeq0$ 都有 $g(\lambda,\nu)\le p^\star$。这一章把零件组装起来：
+
+- 既然每个 $g(\lambda,\nu)$ 都是下界，**最好的下界**是多少？这就是 <T zh="拉格朗日对偶问题">Lagrange dual problem</T>。
+- 最好的下界 $d^\star$ 和真正的最优值 $p^\star$ 之间差多少？**永远 $d^\star\le p^\star$（弱对偶）**；什么时候 **$d^\star=p^\star$（强对偶）**？Slater 条件给出答案。
+- 为什么会这样？讲义 L8 从四个角度解释：**几何**、**灵敏度**、**鞍点（max-min）**、**博弈**。
+- 最后是对偶的用法：least-norm 问题、非凸问题的下界、一个“非凸但强对偶”的例子。
+
+本章覆盖讲义 L7 的后半部分（p08、p13–p18）以及 L8 全部内容。对偶是期末考试的核心，请务必把每个推导自己动手做一遍。
+
+**本章路线**
+
+1. Lagrange dual problem 与 dual feasible
+2. 弱对偶、对偶间隙
+3. 强对偶、约束规范与 Slater 条件
+4. LP 的强对偶定理与“原/对偶状态表”
+5. 几何解释：集合 $\mathcal G$、支撑线、集合 $\mathcal A$ 与 $P(u)$
+6. 灵敏度解释
+7. 鞍点解释与 max-min 不等式
+8. 博弈解释：二人零和博弈
+9. 对偶的应用：least-norm、非凸问题的下界、非凸却强对偶的例子
+
+## Lagrange 对偶问题
+
+### 定义
+
+每个 $\lambda\succeq0$ 都给出 $p^\star$ 的一个下界 $g(\lambda,\nu)$。自然要问：**能得到的最好（最大）的下界是多少？**
+
+<Def title="Lagrange dual problem">
+
+$$
+\begin{aligned}
+\text{maximize}\quad & g(\lambda,\nu)\\
+\text{subject to}\quad & \lambda\succeq0
+\end{aligned}
+$$
+
+- 它的最优值记为 $d^\star$（d 代表 dual）。
+- 若 $\lambda\succeq0$ 且 $g(\lambda,\nu)>-\infty$，称 $(\lambda,\nu)$ 为 <T zh="对偶可行">dual feasible</T>。
+- 达到最优的 $(\lambda^\star,\nu^\star)$ 称为 <T zh="对偶最优">dual optimal</T>，或 optimal Lagrange multipliers。
+
+</Def>
+
+大白话：在所有合法的乘子里，挑出让下界最高的那一组。注意：
+
+- **只有 $\lambda$ 有符号约束**，$\nu$ 是自由的。
+- 对偶问题是最大化，和原问题方向相反。
+- 由上一章的性质 1，$g$ 是凹的，$\{\lambda\succeq0\}$ 是凸集，所以**对偶问题永远是凸优化问题**——无论原问题凸不凸。
+
+### 隐式约束变显式
+
+$g$ 常常在一部分 $(\lambda,\nu)$ 上等于 $-\infty$。“$g>-\infty$”这个要求通常会以等式或矩阵不等式的形式出现。写对偶问题时，惯例是把它们**显式地**写成约束。上一章的例子都是这样做的：
+
+| 原问题 | dual function 有限的条件 | 显式的对偶问题 |
+|---|---|---|
+| 标准形 LP：$\min c^Tx$ s.t. $Ax=b,\ x\succeq0$ | $A^T\nu-\lambda+c=0$ | $\max -b^T\nu$ s.t. $A^T\nu+c\succeq0$ |
+| Max-cut：$\min x^TQx$ s.t. $x_i^2=1$ | $Q-\Lambda\succeq0$ | $\max\operatorname{trace}\Lambda$ s.t. $Q-\Lambda\succeq0$ |
+
+<Prof>
+
+教授的三步法（L7 00:12，L8 开头复习时再次强调）：(1) 写 Lagrangian；(2) 对 $x$ 取下确界得到 dual function，**这一步可能产生额外的约束，必须加进对偶问题**；(3) 在 $\lambda\succeq0$ 下最大化。
+
+</Prof>
+
+## 弱对偶
+
+<Thm title="Weak duality（弱对偶）">
+
+对任何优化问题（凸或非凸），
+
+$$
+d^\star\le p^\star .
+$$
+
+</Thm>
+
+<Steps title="证明弱对偶" steps={[
+  {text:'上一章的性质 2：对任意原可行 x 与任意 λ ⪰ 0 的 (λ, ν)：', math:'g(\\lambda,\\nu)\\le f_0(x)'},
+  {text:'左边不依赖 x，所以对右边的所有可行 x 取下确界，不等式仍成立：', math:'g(\\lambda,\\nu)\\le \\inf_{x\\ \\text{feasible}} f_0(x)=p^\\star'},
+  {text:'右边不依赖 (λ, ν)，所以对左边在 λ ⪰ 0 上取上确界，不等式仍成立：', math:'d^\\star=\\sup_{\\lambda\\succeq0,\\ \\nu} g(\\lambda,\\nu)\\le p^\\star'},
+]} />
+
+<Def title="对偶间隙 duality gap">
+
+- 对一组原可行 $x$、对偶可行 $(\lambda,\nu)$：$f_0(x)-g(\lambda,\nu)\ge0$ 是这组点的 duality gap。
+- $p^\star-d^\star\ge0$ 称为 <T zh="最优对偶间隙">optimal duality gap</T>。
+
+</Def>
+
+<Intuition title="对偶间隙是一个“最优性证书”">
+
+如果你手上有可行的 $x$ 和对偶可行的 $(\lambda,\nu)$，且 $f_0(x)-g(\lambda,\nu)=\varepsilon$，那么
+
+$$
+f_0(x)-p^\star\le f_0(x)-g(\lambda,\nu)=\varepsilon .
+$$
+
+也就是说，**不知道 $p^\star$ 也能确定 $x$ 离最优最多差 $\varepsilon$**。$\varepsilon=0$ 时 $x$ 一定是最优的。后面的算法章节（内点法）正是用它来判断何时停止。
+
+</Intuition>
+
+几个极端情况（由 $d^\star\le p^\star$ 直接推出）：
+
+- 原问题无下界（$p^\star=-\infty$）$\Rightarrow$ $d^\star=-\infty$，即对偶不可行。
+- 对偶无上界（$d^\star=+\infty$）$\Rightarrow$ $p^\star=+\infty$，即原问题不可行。
+
+<Exam title="弱对偶的用途">
+
+教授称弱对偶“very famous”。它对任何问题都成立，所以对很难的问题（非凸、NP-hard，如上一章的 max-cut），**解一个凸的对偶问题就能得到原问题最优值的非平凡下界**。考试常问：弱对偶是否要求凸性？答：**不要求**。
+
+</Exam>
+
+<Quiz q="某非凸最小化问题，你找到一个可行点 x 使 f₀(x) = 10，又找到 λ ⪰ 0 使 g(λ,ν) = 9.5。下列说法正确的是？" options={['p* = 9.5', 'p* 在 [9.5, 10] 之间', '因为问题非凸，什么都不能说', 'd* = 10']} answer={1} explain="弱对偶对非凸问题也成立：9.5 = g ≤ d* ≤ p* ≤ f₀(x) = 10。" />
+
+## 强对偶与 Slater 条件
+
+### 强对偶
+
+<Def title="Strong duality（强对偶）">
+
+若 $d^\star=p^\star$，即最优对偶间隙为 0，称强对偶成立。
+
+</Def>
+
+- 强对偶**一般不成立**（上一章 max-cut 通常有间隙）。
+- 对**凸问题通常成立**。
+- 保证凸问题强对偶成立的条件叫 <T zh="约束规范">constraint qualifications</T>（CQ）。有很多种，最著名的是 Slater 条件。
+
+<Prof>
+
+教授的实用观点（L7 01:39）：强对偶成立时，可以解对偶问题，然后**精确地**恢复原问题的最优值和最优解；不成立时，对偶只能给出一个界（近似）。
+
+</Prof>
+
+### Slater 条件
+
+<Thm title="Slater's constraint qualification">
+
+考虑凸问题
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le0,\quad i=1,\dots,m\\
+& Ax=b
+\end{aligned}
+$$
+
+（$f_0,\dots,f_m$ 为凸函数）。如果它是 <T zh="严格可行">strictly feasible</T> 的，即
+
+$$
+\exists\, x\in\operatorname{int}\mathcal D:\qquad f_i(x)<0,\ \ i=1,\dots,m,\qquad Ax=b,
+$$
+
+那么强对偶成立。
+
+</Thm>
+
+大白话：只要能找到一个点，它满足等式约束，并且**严格**满足所有不等式约束（每个不等式都留有“余量”，不是刚好卡在边界上），那么这个凸问题的对偶间隙就是 0。（$\operatorname{int}\mathcal D$ 表示定义域的内部；教材 Boyd & Vandenberghe 用的是相对内部 $\operatorname{relint}\mathcal D$，对本课的题目没有区别。）
+
+<Figure src="pages/L07/p17.png" caption="讲义 L7 p17：Slater's constraint qualification" />
+
+<Thm title="改进版（refined Slater）">
+
+**仿射不等式不需要严格成立**。把不等式分成非仿射的 $f_1,\dots,f_k$ 与仿射的 $f_{k+1},\dots,f_m$，只要
+
+$$
+\exists\, x\in\operatorname{relint}\mathcal D:\quad f_i(x)<0\ (i=1..k),\qquad f_i(x)\le0\ (i=k+1..m),\qquad Ax=b,
+$$
+
+强对偶就成立。特别地，**如果所有约束都是仿射的（例如 LP），只要可行就有强对偶**。
+
+</Thm>
+
+<Prof>
+
+教授的直觉（L7 01:44）：仿射不等式如果刚好取等号，就可以把它当成等式约束看待，而等式约束本来就不要求“严格”，所以它们不需要严格成立。他还强调 Slater 是一个很“温和”（mild）的条件，大多数问题都存在严格可行点。
+
+</Prof>
+
+<Ch08Slater />
+
+<Warn title="Slater 是充分条件，不是必要条件">
+
+- Slater 成立 $\Rightarrow$ 强对偶（对凸问题）。反过来**不成立**：Slater 不成立时强对偶仍可能成立（交互中“正好相切”的情形：$d^\star=p^\star=0$，只是对偶最优取不到）。
+- Slater 只对**凸**问题有意义。非凸问题即使有严格可行点也可能有间隙；反过来，本章最后会看到一个非凸问题也有强对偶。
+
+</Warn>
+
+<Quiz q="凸问题 min x² s.t. x ≤ 0, −x ≤ 0（即 x = 0）。强对偶是否有保证？" options={['没有，因为不存在 x 同时满足 x < 0 和 −x < 0', '有，因为两个约束都是仿射的，按改进版 Slater 只需可行', '没有，因为可行域只有一个点', '有，但只因为目标是二次的']} answer={1} explain="改进版 Slater：仿射不等式可以取等号。x = 0 可行，所以强对偶成立（事实上 p* = d* = 0）。" />
+
+## LP 的强对偶定理
+
+<Thm title="Strong duality theorem for LP（讲义 L7 p18）">
+
+如果一个 LP（任何形式）有最优解 $x^\star$，那么它的对偶也有最优解 $y^\star$，并且 $c^Tx^\star=b^Ty^\star$。
+
+$$
+\text{Primal:}\ \ \min c^Tx\ \ \text{s.t. } Ax=b,\ x\succeq0
+\qquad\qquad
+\text{Dual:}\ \ \max b^Ty\ \ \text{s.t. } A^Ty\preceq c
+$$
+
+</Thm>
+
+这正是改进版 Slater 的推论：LP 的约束全是仿射的，可行即强对偶。
+
+<Figure src="pages/L07/p18_crop.png" caption="讲义 L7 p18：LP 原问题/对偶问题的状态组合表（Y = 可能，N = 不可能）" />
+
+<Steps title="读懂状态表：每个 N 从哪来" steps={[
+  {text:'原问题有最优解 ⇒ 由 LP 强对偶，对偶也有最优解且值相等。所以“原有最优”那一列只有第一行是 Y。', math:'p^\\star\\ \\text{finite}\\ \\Rightarrow\\ d^\\star=p^\\star\\ \\text{finite}'},
+  {text:'原问题无界（p* = −∞）⇒ 由弱对偶 d* ≤ −∞，对偶不可能有可行点。所以“原无界”那一列只有“对偶不可行”是 Y。', math:'p^\\star=-\\infty\\ \\Rightarrow\\ d^\\star=-\\infty\\ \\Rightarrow\\ \\text{dual infeasible}'},
+  {text:'对称地，对偶无界（d* = +∞）⇒ p* = +∞，原问题不可行。', math:'d^\\star=+\\infty\\ \\Rightarrow\\ p^\\star=+\\infty\\ \\Rightarrow\\ \\text{primal infeasible}'},
+  {text:'原问题与对偶问题可以同时不可行（表右下角 Y）。这是唯一一个“两边都没有有限值”的组合，此时 p* = +∞ 而 d* = −∞，间隙无穷大。', math:'p^\\star=+\\infty,\\quad d^\\star=-\\infty'},
+]} />
+
+<Exam title="LP 状态表很可能被考到">
+
+教授在 L8 开头复习时专门讲了这四种情况（L8 00:12–00:14）：两边都有最优且相等；原无界 ⇒ 对偶不可行；对偶无界 ⇒ 原不可行；两边可以同时不可行。记住用弱对偶推出每个 N。
+
+</Exam>
+
+### 动手：并排看一对 LP
+
+为了能在平面上同时画出两个问题，我们用一对二维 LP。原问题是
+
+$$
+\min\ c^Tx\quad\text{s.t.}\quad Ax\succeq b,\ \ x\succeq0,\qquad A=\begin{pmatrix}1&2\\3&1\end{pmatrix},\ b=\begin{pmatrix}4\\6\end{pmatrix}.
+$$
+
+先用三步法推出它的对偶：
+
+<Steps title="不等式形 LP 的对偶" steps={[
+  {text:'把约束改写成 ≤ 0 形式：b − Ax ⪯ 0 配 y ⪰ 0；−x ⪯ 0 配 w ⪰ 0：', math:'L(x,y,w)=c^Tx+y^T(b-Ax)-w^Tx'},
+  {text:'整理成 x 的仿射函数：', math:'L=b^Ty+\\big(c-A^Ty-w\\big)^Tx'},
+  {text:'对 x 取下确界：', math:'g(y,w)=\\begin{cases}b^Ty,& c-A^Ty-w=0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题：max bᵀy s.t. c − Aᵀy = w ⪰ 0，y ⪰ 0；消去 w：', math:'\\max_y\\ b^Ty\\quad\\text{s.t.}\\quad A^Ty\\preceq c,\\ \\ y\\succeq0'},
+]} />
+
+<Ch08LPPair />
+
+在交互中你会发现：两个点都可行时，$c^Tx\ge b^Ty$ 永远成立（弱对偶）；跳到最优后两边相等（取 $c=(3,2)$ 时，$x^\star=(1.6,1.2)$，$y^\star=(0.6,0.8)$，$p^\star=d^\star=7.2$）。
+
+## 几何解释
+
+为了画图，只考虑**一个**不等式约束 $f_1(x)\le0$ 的问题。
+
+### 集合 𝒢 与支撑线
+
+把每个 $x\in\mathcal D$ 映射成平面上的一个点 $(u,t)=(f_1(x),f_0(x))$：横坐标是约束值，纵坐标是目标值。所有这样的点组成
+
+$$
+\mathcal G=\{(f_1(x),f_0(x))\mid x\in\mathcal D\}\subseteq\mathbb R^2 .
+$$
+
+<Steps title="用 𝒢 重新表达 p* 与 g(λ)" steps={[
+  {text:'可行 ⇔ f₁(x) ≤ 0 ⇔ 对应点在 t 轴左侧（含 t 轴）。p* 是这些点中最低的高度：', math:'p^\\star=\\inf\\{\\,t\\ :\\ (u,t)\\in\\mathcal G,\\ u\\le0\\,\\}'},
+  {text:'dual function 只依赖 f₀(x) 和 f₁(x) 的值，所以可以写成在 𝒢 上的下确界：', math:'g(\\lambda)=\\inf_{x\\in\\mathcal D}\\big(f_0(x)+\\lambda f_1(x)\\big)=\\inf_{(u,t)\\in\\mathcal G}\\big(t+\\lambda u\\big)'},
+  {text:'固定 λ，t + λu = α 是一族平行直线，斜率都是 −λ（注意负号！）。让 α 从大往小降，直线往下平移：', math:'t=\\alpha-\\lambda u'},
+  {text:'α 降到最小、直线刚好还碰着 𝒢 时，α 就是 g(λ)。这条直线是 𝒢 的非竖直支撑线（supporting hyperplane），它与 t 轴（u = 0）的交点高度正是 g(λ)：', math:'\\lambda u+t=g(\\lambda)\\quad\\text{在}\\ u=0\\ \\text{处}\\quad t=g(\\lambda)'},
+  {text:'对偶问题：在所有斜率 −λ（λ ≥ 0）的支撑线中，选截距最高的那条：', math:'d^\\star=\\max_{\\lambda\\ge0}\\ g(\\lambda)'},
+]} />
+
+<Figure src="L08/p03_f1.png" caption="讲义 L8 p03：左图为支撑线 λu + t = g(λ) 与 t 轴的交点；右图为若干条支撑线中截距最高的 d*，它低于 p*（对偶间隙）" />
+
+<Intuition title="为什么 g(λ) ≤ p*（几何版）">
+
+支撑线把整个 $\mathcal G$ 压在上方：对每个 $(u,t)\in\mathcal G$ 都有 $t\ge g(\lambda)-\lambda u$。对可行点有 $u\le0$，又 $\lambda\ge0$，所以 $-\lambda u\ge0$，于是 $t\ge g(\lambda)$。也就是说，所有可行点都不低于截距 $g(\lambda)$，最低的可行点 $p^\star$ 当然也不低于它。这就是 $\lambda\ge0$ 在几何上的作用：**直线必须向右下倾斜**，在 t 轴左侧它只会更高。
+
+</Intuition>
+
+<Ch08Geometry />
+
+<Prof>
+
+教授特意强调（L8 01:02）：直线 $\lambda u+t=g(\lambda)$ 的斜率是 $-\lambda$，**不是** $\lambda$。符号很容易搞错。他还在黑板上对比了两种 $\mathcal G$：有“凹陷”的非凸集合，支撑线够不到 $p^\star$，产生间隙；下边界是凸的集合，$p^\star$ 和 $d^\star$ 在 t 轴上重合。
+
+</Prof>
+
+### 集合 𝒜 与扰动函数 P(u)
+
+<Def title="epigraph variation：集合 𝒜">
+
+$$
+\mathcal A=\{(u,t)\mid f_1(x)\le u,\ f_0(x)\le t\ \text{for some }x\in\mathcal D\}
+$$
+
+</Def>
+
+大白话：$\mathcal A$ 是把 $\mathcal G$ 里的每个点都“向右、向上无限延伸”后得到的集合（$\mathcal G\subseteq\mathcal A$）。因为直线斜率 $-\lambda\le0$，往右上方加点不会改变最低的支撑线，所以**用 $\mathcal A$ 代替 $\mathcal G$，所有几何解释不变**。
+
+$\mathcal A$ 的下边界是 <T zh="扰动函数/值函数">perturbation function</T>：
+
+$$
+P(u)=\min_x f_0(x)\quad\text{s.t. } f_1(x)\le u .
+$$
+
+大白话：把约束右端从 $0$ 放宽（或收紧）到 $u$ 后的最优值。显然 $P(0)=p^\star$；$u$ 越大约束越松，所以 $P$ 是非增的。
+
+<Figure src="pages/L08/p04_crop.png" caption="讲义 L8 p04：集合 𝒜（灰）与其下边界 P(u)（红）" />
+
+<Thm title="几何解释下的强对偶（讲义 L8 p04）">
+
+- 若 $\mathcal A$ 在 $(0,p^\star)$ 处存在**非竖直**的支撑超平面，则强对偶成立。
+- 对凸问题，$\mathcal A$ 是凸集（$P(u)$ 是凸函数），因此在 $(0,p^\star)$ 处存在支撑超平面。
+- Slater 条件：若存在 $(\tilde u,\tilde t)\in\mathcal A$ 且 $\tilde u<0$，则 $(0,p^\star)$ 处的支撑超平面必然是非竖直的。
+
+</Thm>
+
+<Steps title="非竖直支撑线 ⇒ 强对偶（补充证明）" steps={[
+  {text:'设 t + λ*u = α 是 𝒜 在 (0, p*) 处的非竖直支撑线：𝒜 全在它上方，且 (0, p*) 在线上，所以 α = p*：', math:'t+\\lambda^\\star u\\ \\ge\\ p^\\star\\qquad\\forall (u,t)\\in\\mathcal A'},
+  {text:'先说明 λ* ≥ 0：若 λ* < 0，因为 𝒜 向右无限延伸，(u+s, t) 也在 𝒜 中（s → +∞），左边 → −∞，矛盾。', math:'\\lambda^\\star\\ge0'},
+  {text:'每个 x ∈ 𝒟 对应的点 (f₁(x), f₀(x)) 都在 𝒜 中，所以对所有 x：', math:'f_0(x)+\\lambda^\\star f_1(x)\\ \\ge\\ p^\\star\\quad\\Rightarrow\\quad g(\\lambda^\\star)\\ge p^\\star'},
+  {text:'结合弱对偶，夹逼得到强对偶，且 λ* 是对偶最优：', math:'p^\\star\\le g(\\lambda^\\star)\\le d^\\star\\le p^\\star\\quad\\Rightarrow\\quad d^\\star=p^\\star'},
+]} />
+
+<Steps title="Slater ⇒ 支撑线非竖直" steps={[
+  {text:'在 (0, p*) 处的竖直线就是 t 轴 u = 0。它是支撑线意味着 𝒜 整个落在它的一侧；由于 𝒜 向右无限延伸，只能是右侧：', math:'\\mathcal A\\subseteq\\{(u,t):u\\ge0\\}'},
+  {text:'但 Slater 给出一个严格可行点 x̃，f₁(x̃) < 0，对应的点 (ũ, t̃) 在 t 轴左侧，与上式矛盾：', math:'(\\tilde u,\\tilde t)=(f_1(\\tilde x),f_0(\\tilde x))\\in\\mathcal A,\\quad \\tilde u<0'},
+  {text:'所以支撑线不可能是竖直的，必有有限的斜率 −λ*，由上一个推导即得强对偶。', math:'\\text{Slater}\\ \\Rightarrow\\ \\text{non-vertical}\\ \\Rightarrow\\ d^\\star=p^\\star'},
+]} />
+
+在几何交互中切到“凸但 Slater 不成立”：集合整个在 $u\ge0$ 一侧，只在 t 轴上碰到一点。此时 $(0,p^\star)$ 处的支撑线是竖直的，$g(\lambda)$ 随 $\lambda$ 增大逼近 $p^\star$ 但永远取不到——对偶最优不可达。（还有更“坏”的凸例子，Slater 不成立时会出现真正的正间隙，见 Boyd & Vandenberghe §5.2.5。）
+
+### P(u) 是凸函数（讲义 L8 p05）
+
+<Steps title="证明：凸问题的 P(u) 是凸的" steps={[
+  {text:'设 x₁* 是 P(u₁) 的最优点，x₂* 是 P(u₂) 的最优点；α₁, α₂ ≥ 0，α₁ + α₂ = 1。', math:'P(u_1)=f_0(x_1^\\star),\\quad f_1(x_1^\\star)\\le u_1;\\qquad P(u_2)=f_0(x_2^\\star),\\quad f_1(x_2^\\star)\\le u_2'},
+  {text:'由 f₁ 凸，组合点 α₁x₁* + α₂x₂* 满足放宽到 α₁u₁ + α₂u₂ 的约束：', math:'f_1(\\alpha_1x_1^\\star+\\alpha_2x_2^\\star)\\le\\alpha_1f_1(x_1^\\star)+\\alpha_2f_1(x_2^\\star)\\le\\alpha_1u_1+\\alpha_2u_2'},
+  {text:'所以它是 P(α₁u₁ + α₂u₂) 的一个可行点，目标值不小于最优值：', math:'f_0(\\alpha_1x_1^\\star+\\alpha_2x_2^\\star)\\ \\ge\\ P(\\alpha_1u_1+\\alpha_2u_2)'},
+  {text:'再由 f₀ 凸，连起来：', math:'\\alpha_1P(u_1)+\\alpha_2P(u_2)=\\alpha_1f_0(x_1^\\star)+\\alpha_2f_0(x_2^\\star)\\ \\ge\\ f_0(\\alpha_1x_1^\\star+\\alpha_2x_2^\\star)\\ \\ge\\ P(\\alpha_1u_1+\\alpha_2u_2)'},
+  {text:'这正是凸函数的定义。注意证明只用到凸性，没用到 Slater。', math:'P\\ \\text{is convex}'},
+]} />
+
+<Figure src="pages/L08/p05.png" caption="讲义 L8 p05：P(u) 为凸函数的证明" />
+
+<Exam title="几何解释的逻辑链">
+
+凸问题 ⇒ $\mathcal A$ 凸、$P(u)$ 凸 ⇒ $(0,p^\star)$ 处有支撑线 ⇒（Slater）支撑线非竖直 ⇒ $d^\star=p^\star$。教授说唯一的“失败”情形就是支撑线竖直（L8 00:43–00:44）。三个要点要能在图上指出来：$g(\lambda)$ 是斜率 $-\lambda$ 的最低支撑线的截距；$p^\star$ 是 $u\le0$ 部分的最低点；$d^\star$ 是这些截距的最大值。
+
+</Exam>
+
+## 灵敏度解释
+
+把约束右端扰动一下：
+
+$$
+\begin{aligned}
+\text{原问题：}&\ \min f_0(x)\ \ \text{s.t. } f_i(x)\le0,\ h_i(x)=0 &&\text{对偶：}\ \max g(\lambda,\nu)\ \ \text{s.t. }\lambda\succeq0\\
+\text{扰动后：}&\ \min f_0(x)\ \ \text{s.t. } f_i(x)\le u_i,\ h_i(x)=v_i &&\text{对偶：}\ \max g(\lambda,\nu)-u^T\lambda-v^T\nu\ \ \text{s.t. }\lambda\succeq0
+\end{aligned}
+$$
+
+<Steps title="扰动问题的 dual function" steps={[
+  {text:'扰动后约束写成 fᵢ(x) − uᵢ ≤ 0、hᵢ(x) − vᵢ = 0，Lagrangian 多出两个常数项：', math:'\\tilde L(x,\\lambda,\\nu)=f_0(x)+\\sum_i\\lambda_i\\big(f_i(x)-u_i\\big)+\\sum_i\\nu_i\\big(h_i(x)-v_i\\big)=L(x,\\lambda,\\nu)-u^T\\lambda-v^T\\nu'},
+  {text:'常数项不影响对 x 的下确界：', math:'\\tilde g(\\lambda,\\nu)=g(\\lambda,\\nu)-u^T\\lambda-v^T\\nu'},
+]} />
+
+记 $p^\star(u,v)$ 为扰动问题的最优值（$p^\star(0,0)$ 就是原来的 $p^\star$；一个约束时它就是上一节的 $P(u)$）。
+
+<Thm title="局部灵敏度（讲义 L8 p06）">
+
+若强对偶成立且 $p^\star(u,v)$ 在 $(0,0)$ 处可微，则
+
+$$
+\lambda_i^\star=-\frac{\partial p^\star(0,0)}{\partial u_i},\qquad \nu_i^\star=-\frac{\partial p^\star(0,0)}{\partial v_i}.
+$$
+
+</Thm>
+
+大白话：最优乘子 $\lambda_i^\star$ 就是“把第 $i$ 个约束放宽一点点，最优值能下降多快”——约束的**影子价格**。$\lambda_i^\star$ 大说明这个约束“卡得很紧”，放松它收益很大；$\lambda_i^\star=0$ 说明微小放宽毫无收益（约束没起作用，正如上一章二次例子中的不等式）。
+
+一个约束时：$\lambda^\star=-P'(0)$，即 $P(u)$ 在 $u=0$ 处切线斜率的相反数——这与几何解释里“支撑线斜率为 $-\lambda^\star$”完全是同一幅图。灵敏度分析会在第 10 章进一步展开。
+
+## 鞍点解释
+
+为简单起见，假设没有等式约束（结论可以直接推广）：$L(x,\lambda)=f_0(x)+\sum_i\lambda_if_i(x)$。
+
+### 把 p* 和 d* 写成 inf-sup 与 sup-inf
+
+$$
+p^\star=\inf_x\ \sup_{\lambda\succeq0}L(x,\lambda),\qquad d^\star=\sup_{\lambda\succeq0}\ \inf_xL(x,\lambda).
+$$
+
+第二个式子就是对偶问题的定义。第一个式子需要推导：
+
+<Steps title="为什么 p* = inf_x sup_λ L(x,λ)" steps={[
+  {text:'固定 x，先看内层的 sup over λ ⪰ 0。若 x 违反某个约束（fᵢ(x) > 0），让该 λᵢ → ∞，L → +∞：', math:'f_i(x)>0\\ \\Rightarrow\\ \\sup_{\\lambda\\succeq0}L(x,\\lambda)=+\\infty'},
+  {text:'若 x 可行（所有 fᵢ(x) ≤ 0），每个 λᵢfᵢ(x) ≤ 0，最大值在 λᵢfᵢ(x) = 0 处（例如 λ = 0）取得：', math:'x\\ \\text{feasible}\\ \\Rightarrow\\ \\sup_{\\lambda\\succeq0}L(x,\\lambda)=f_0(x)'},
+  {text:'所以内层 sup 是一个“带无穷惩罚”的目标：可行时等于 f₀，不可行时为 +∞：', math:'\\sup_{\\lambda\\succeq0}L(x,\\lambda)=\\begin{cases}f_0(x),& x\\ \\text{feasible}\\\\+\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'外层再对 x 取 inf，+∞ 的点自然不会被选中，结果就是原问题：', math:'\\inf_x\\sup_{\\lambda\\succeq0}L(x,\\lambda)=\\inf\\{f_0(x): f_i(x)\\le0\\}=p^\\star'},
+]} />
+
+于是弱对偶和强对偶可以写成（讲义 L8 p07）：
+
+$$
+\text{weak:}\ \ \sup_{\lambda\succeq0}\inf_xL(x,\lambda)\le\inf_x\sup_{\lambda\succeq0}L(x,\lambda),\qquad
+\text{strong:}\ \ \sup_{\lambda\succeq0}\inf_xL(x,\lambda)=\inf_x\sup_{\lambda\succeq0}L(x,\lambda).
+$$
+
+大白话：**先后顺序**的问题。$d^\star$ 是“$\lambda$ 先选、$x$ 后选（后选的人能针对先选的人）”；$p^\star$ 是“$x$ 先选、$\lambda$ 后选”。后选的一方占便宜，所以 $x$ 后选时 $L$ 更小。
+
+### max-min 不等式
+
+<Thm title="Max-min inequality（对任意 f, W, Z 成立）">
+
+$$
+\sup_{z\in Z}\ \inf_{w\in W}f(w,z)\ \le\ \inf_{w\in W}\ \sup_{z\in Z}f(w,z)
+$$
+
+</Thm>
+
+<Steps title="证明 max-min 不等式（补充）" steps={[
+  {text:'任取 w₀ ∈ W, z₀ ∈ Z。“下确界 ≤ 任一点的值 ≤ 上确界”：', math:'\\inf_{w\\in W}f(w,z_0)\\ \\le\\ f(w_0,z_0)\\ \\le\\ \\sup_{z\\in Z}f(w_0,z)'},
+  {text:'左边只依赖 z₀，右边只依赖 w₀。左边对 z₀ 取 sup、右边对 w₀ 取 inf，不等式仍成立：', math:'\\sup_{z_0\\in Z}\\inf_{w\\in W}f(w,z_0)\\ \\le\\ \\inf_{w_0\\in W}\\sup_{z\\in Z}f(w_0,z)'},
+  {text:'取 f = L、w = x、z = λ、Z = {λ ⪰ 0}，就得到弱对偶 d* ≤ p*——这是弱对偶的另一个证明。', math:'d^\\star\\le p^\\star'},
+]} />
+
+当等号成立时，称 $f$ 满足 <T zh="强 max-min 性质 / 鞍点性质">strong max-min property (saddle-point property)</T>。
+
+### 鞍点
+
+<Def title="Saddle point（鞍点，讲义 L8 p08）">
+
+$(\tilde w,\tilde z)\in W\times Z$ 是 $f$ 的鞍点，如果
+
+$$
+f(\tilde w,z)\ \le\ f(\tilde w,\tilde z)\ \le\ f(w,\tilde z)\qquad\forall w\in W,\ z\in Z .
+$$
+
+等价地：$f(\tilde w,\tilde z)=\inf_{w\in W}f(w,\tilde z)$ 且 $f(\tilde w,\tilde z)=\sup_{z\in Z}f(\tilde w,z)$。
+
+</Def>
+
+大白话：在 $\tilde z$ 固定时，$\tilde w$ 是最小点（沿 $w$ 方向是“谷底”）；在 $\tilde w$ 固定时，$\tilde z$ 是最大点（沿 $z$ 方向是“山顶”）。就像马鞍的中心：前后方向是最低点，左右方向是最高点。
+
+<Reveal label="看证明：有鞍点 ⇒ 强 max-min 性质成立">
+
+设 $(\tilde w,\tilde z)$ 是鞍点。则
+
+$$
+\inf_w\sup_z f\ \le\ \sup_z f(\tilde w,z)\ =\ f(\tilde w,\tilde z)\ =\ \inf_w f(w,\tilde z)\ \le\ \sup_z\inf_w f .
+$$
+
+第一个“$\le$”：inf 不超过在 $\tilde w$ 处的值；两个“$=$”是鞍点的定义；最后一个“$\le$”：sup 不小于在 $\tilde z$ 处的值。再结合 max-min 不等式 $\sup_z\inf_wf\le\inf_w\sup_zf$，四个量全部相等，即强 max-min 性质成立。
+
+</Reveal>
+
+<Thm title="原/对偶最优点与 Lagrangian 的鞍点">
+
+若 $x^\star$、$\lambda^\star$ 分别是原问题与对偶问题的最优点，且强对偶成立，则 $(x^\star,\lambda^\star)$ 是 Lagrangian 的鞍点：
+
+$$
+L(x^\star,\lambda)\ \le\ L(x^\star,\lambda^\star)\ \le\ L(x,\lambda^\star)\qquad\forall x,\ \forall\lambda\succeq0 .
+$$
+
+反之，若 $(x^\star,\lambda^\star)$ 是 Lagrangian 的鞍点，则它们分别是原/对偶最优点且强对偶成立。
+
+</Thm>
+
+<Reveal label="看证明（补充）">
+
+**(⇒)** 强对偶：$f_0(x^\star)=p^\star=d^\star=g(\lambda^\star)$。
+
+- 右半边：$g(\lambda^\star)=\inf_xL(x,\lambda^\star)\le L(x^\star,\lambda^\star)=f_0(x^\star)+\sum_i\lambda_i^\star f_i(x^\star)\le f_0(x^\star)$。两端相等，所以中间全是等号：$L(x^\star,\lambda^\star)=\inf_xL(x,\lambda^\star)$，即 $L(x^\star,\lambda^\star)\le L(x,\lambda^\star)$ 对所有 $x$ 成立；并且 $\sum_i\lambda_i^\star f_i(x^\star)=0$。
+- 左半边：$x^\star$ 可行，对任意 $\lambda\succeq0$ 有 $L(x^\star,\lambda)=f_0(x^\star)+\sum_i\lambda_if_i(x^\star)\le f_0(x^\star)=L(x^\star,\lambda^\star)$。
+
+**(⇐)** 由上面“有鞍点 ⇒ 强 max-min 性质”，$\inf_x\sup_\lambda L=\sup_\lambda\inf_xL$，即 $p^\star=d^\star$，且 $x^\star$ 达到外层 inf、$\lambda^\star$ 达到外层 sup。
+
+（证明中出现的 $\sum_i\lambda_i^\star f_i(x^\star)=0$ 就是下一章的“互补松弛”。）
+
+</Reveal>
+
+<Exam title="鞍点解释要点">
+
+- max-min 不等式**永远成立**（任意 $f,W,Z$），它就是弱对偶。
+- 等号成立 ⇔ 强 max-min 性质 ⇔ 存在鞍点。
+- 强对偶 + 原/对偶最优 ⇔ $(x^\star,\lambda^\star)$ 是 Lagrangian 的鞍点（L8 01:23）。
+
+</Exam>
+
+## 博弈解释：二人零和博弈
+
+### 设定
+
+<Figure src="pages/L08/p09.png" caption="讲义 L8 p09：二人零和博弈与支付矩阵 P" />
+
+- 玩家 $x$ 从 $1..n$ 中选策略 $i$，玩家 $y$ 从 $1..m$ 中选策略 $j$。
+- $P_{ij}$：当 $x$ 出 $i$、$y$ 出 $j$ 时，**$x$ 付给 $y$ 的钱**（负数表示 $y$ 付给 $x$）。<T zh="零和">zero-sum</T>：一方付出的正是另一方得到的。$P\in\mathbb R^{n\times m}$ 称为 <T zh="支付矩阵">payoff matrix</T>。
+- <T zh="混合策略">mixed strategy</T>：$u_i$ 是 $x$ 选 $i$ 的概率，$v_j$ 是 $y$ 选 $j$ 的概率；$u\succeq0,\ \mathbf 1^Tu=1$，$v\succeq0,\ \mathbf 1^Tv=1$（$\mathbf 1$ 是全 1 向量）。
+- 期望支付：$\mathbb E[\text{payoff}]=\sum_{i,j}u_iP_{ij}v_j=u^TPv$。$x$ 想让它小，$y$ 想让它大。
+
+例：石头剪刀布就是二人零和博弈。囚徒困境则不是零和的（一方的损失不等于另一方的收益）。
+
+### x 先公布策略：LP 1
+
+<Steps title="x 先出，y 针对性回应" steps={[
+  {text:'u 固定后，y 解一个关于 v 的 LP。线性函数在单纯形上的最大值在某个顶点（纯策略）取到，即选 Pᵀu 中最大的分量：', math:'\\max_v\\ u^TPv\\ \\ \\text{s.t. }\\ \\mathbf 1^Tv=1,\\ v\\succeq0\\quad=\\quad\\max_{j=1..m}\\ (P^Tu)_j'},
+  {text:'x 预料到这一点，选 u 使这个最大值最小：', math:'\\min_u\\ \\max_{j}\\ (P^Tu)_j\\ \\ \\text{s.t. }\\ \\mathbf 1^Tu=1,\\ u\\succeq0'},
+  {text:'用上镜图（epigraph）技巧引入 t 表示“max”，得到 LP 1：', math:'p_1^\\star=\\min_{u,t}\\ t\\quad\\text{s.t.}\\quad P^Tu\\preceq t\\mathbf 1,\\ \\ \\mathbf 1^Tu=1,\\ \\ u\\succeq0'},
+]} />
+
+### y 先公布策略：LP 2
+
+<Steps title="y 先出，x 针对性回应" steps={[
+  {text:'v 固定后，x 选 Pv 中最小的分量：', math:'\\min_u\\ u^TPv\\ \\ \\text{s.t. }\\ \\mathbf 1^Tu=1,\\ u\\succeq0\\quad=\\quad\\min_{i=1..n}\\ (Pv)_i'},
+  {text:'y 选 v 使这个最小值最大，再用 epigraph 技巧，得到 LP 2：', math:'p_2^\\star=\\max_{v,t}\\ t\\quad\\text{s.t.}\\quad Pv\\succeq t\\mathbf 1,\\ \\ \\mathbf 1^Tv=1,\\ \\ v\\succeq0'},
+]} />
+
+直觉上后出手的人占便宜，似乎应有 $p_1^\star\ge p_2^\star$（这就是 max-min 不等式）。讲义的结论更强：
+
+### LP 1 与 LP 2 互为对偶
+
+<Steps title="推导 LP 1 的对偶（补充）" steps={[
+  {text:'LP 1 的约束：P ᵀu − t𝟏 ⪯ 0 配 v ⪰ 0；𝟏ᵀu = 1 配 μ（自由）；−u ⪯ 0 配 w ⪰ 0：', math:'\\mathcal L=t+v^T(P^Tu-t\\mathbf 1)+\\mu(\\mathbf 1^Tu-1)-w^Tu'},
+  {text:'按变量 t 和 u 整理：', math:'\\mathcal L=-\\mu+t\\,(1-\\mathbf 1^Tv)+u^T\\big(Pv+\\mu\\mathbf 1-w\\big)'},
+  {text:'对 t、u 取下确界：两个仿射系数都必须为 0，否则 −∞：', math:'g=\\begin{cases}-\\mu,& \\mathbf 1^Tv=1,\\ \\ Pv+\\mu\\mathbf 1=w\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题：消去 w ⪰ 0 得 Pv + μ𝟏 ⪰ 0；令 t′ = −μ，这正是 LP 2：', math:'\\max_{v,t^\\prime}\\ t^\\prime\\quad\\text{s.t.}\\quad Pv\\succeq t^\\prime\\mathbf 1,\\ \\ \\mathbf 1^Tv=1,\\ \\ v\\succeq0'},
+]} />
+
+由 LP 强对偶，$p_1^\star=p_2^\star$：**先公布策略没有劣势**（no advantage to play second）。
+
+<Ch08Game />
+
+设 $u^\star$、$v^\star$ 分别是 LP 1、LP 2 的最优解，$f(u,v)=u^TPv$。则 $(u^\star,v^\star)$ 是 $f$ 的鞍点：
+
+$$
+f(u^\star,v)\le f(u^\star,v^\star)\le f(u,v^\star)\qquad\forall u,v\ (\text{在各自的单纯形上}).
+$$
+
+它也是一个 <T zh="纳什均衡">Nash equilibrium</T>：$u^\star$ 是对 $v^\star$ 的最佳回应，$v^\star$ 也是对 $u^\star$ 的最佳回应，谁都不想单方面改变策略。教授指出（L8 01:48）：零和博弈的鞍点正是 Nash 均衡。
+
+<Reveal label="看证明：(u*, v*) 是鞍点（补充）">
+
+记 $p^\star=p_1^\star=p_2^\star$。
+
+- 对任意 $v$：$u^{\star T}Pv=(P^Tu^\star)^Tv\le\max_j(P^Tu^\star)_j=p_1^\star$（概率加权平均不超过最大值）。
+- 对任意 $u$：$u^TPv^\star=\sum_iu_i(Pv^\star)_i\ge\min_i(Pv^\star)_i=p_2^\star$。
+- 取 $v=v^\star$、$u=u^\star$ 得 $p^\star\le f(u^\star,v^\star)\le p^\star$，所以 $f(u^\star,v^\star)=p^\star$，于是 $f(u^\star,v)\le p^\star=f(u^\star,v^\star)\le f(u,v^\star)$。
+
+</Reveal>
+
+例：石头剪刀布中，按对称性 $u^\star=v^\star=(\tfrac13,\tfrac13,\tfrac13)$，博弈值为 0。
+
+## 对偶的应用
+
+### 应用 I：等式约束的 least-norm 问题
+
+<Example title="讲义 L8 p14">
+
+$$
+\min_x\ \|x\|_2^2\quad\text{s.t.}\quad Ax=b
+$$
+
+即：在满足线性方程组的所有解中，找长度最小的那个（$A$ 行满秩，$AA^T$ 可逆）。
+
+</Example>
+
+<Steps title="least-norm：从对偶求出原问题的解" steps={[
+  {text:'只有等式约束，配自由的 ν：', math:'L(x,\\nu)=x^Tx+\\nu^T(Ax-b)'},
+  {text:'L 关于 x 是开口向上的二次函数，令梯度为 0：', math:'\\nabla_xL=2x+A^T\\nu=0\\ \\Rightarrow\\ x=-\\tfrac12A^T\\nu'},
+  {text:'代回：xᵀx = ¼νᵀAAᵀν，νᵀAx = −½νᵀAAᵀν：', math:'g(\\nu)=\\tfrac14\\nu^TAA^T\\nu-\\tfrac12\\nu^TAA^T\\nu-b^T\\nu=-\\tfrac14\\nu^TAA^T\\nu-b^T\\nu'},
+  {text:'对偶问题是一个无约束的凹二次最大化（ν 无符号约束）：', math:'\\max_\\nu\\ -\\tfrac14\\nu^TAA^T\\nu-b^T\\nu'},
+  {text:'令梯度为 0 求 ν*：', math:'\\nabla_\\nu g=-\\tfrac12AA^T\\nu-b=0\\ \\Rightarrow\\ \\nu^\\star=-2(AA^T)^{-1}b'},
+  {text:'代回 x = −½Aᵀν*，得到原问题的最优解（凸 + 仿射约束 ⇒ 强对偶，所以这就是原问题的解）：', math:'x^\\star=A^T(AA^T)^{-1}b,\\qquad p^\\star=d^\\star=b^T(AA^T)^{-1}b'},
+]} />
+
+这就是对偶的典型用法：**通过对偶问题求出原问题的解析解**。
+
+### 应用 II：非凸问题的非平凡下界
+
+<Example title="讲义 L8 p15">
+
+$$
+\min_x\ x^TWx\quad\text{s.t.}\quad x_i\in\{-1,1\},\ i=1,\dots,n,\qquad W\succeq0
+$$
+
+</Example>
+
+- **松弛**（relaxation）：把 $x_i\in\{-1,1\}$ 放宽成 $-1\le x_i\le1$，得到凸问题，但它的解是 $x=0$、值为 $0$——只是一个**平凡**的下界（$W\succeq0$ 本来就保证 $x^TWx\ge0$）。
+- **对偶**：与上一章 max-cut 完全相同（把 $Q$ 换成 $W$）。对偶问题 $\max\operatorname{trace}\Lambda$ s.t. $W-\Lambda\succeq0$，任何对偶可行的 $\Lambda$ 都给出下界。
+
+<Steps title="一个具体的对偶下界" steps={[
+  {text:'取 Λ = λ_min(W)·I（λ_min 为 W 的最小特征值）。W − λ_min I 的特征值都 ≥ 0，所以对偶可行：', math:'W-\\lambda_{\\min}(W)I\\succeq0'},
+  {text:'它给出的下界：', math:'p^\\star\\ \\ge\\ \\operatorname{trace}\\big(\\lambda_{\\min}(W)I\\big)=n\\,\\lambda_{\\min}(W)'},
+  {text:'只要 W 正定（λ_min > 0），这个界就严格好于松弛给出的 0；解 SDP 得到的最优 Λ* 给出更紧的界。', math:'n\\,\\lambda_{\\min}(W)\\ \\ge\\ 0'},
+]} />
+
+### 非凸问题也可以有强对偶
+
+讲义 L8 p16 写着“Strong duality ⇏ convex problem”：强对偶**不能**推出问题是凸的。例子是一个非凸的 QCQP（二次约束二次规划）：
+
+$$
+\min_x\ x^TAx\quad\text{s.t.}\quad x^Tx=1,\qquad A\in\mathbb S^n
+$$
+
+（$\mathbb S^n$ 表示 $n\times n$ 对称矩阵。）约束 $x^Tx=1$ 是单位球面，不是凸集；$A$ 也可能不定。
+
+<Steps title="直接求解：p* = λ_min(A)" steps={[
+  {text:'A 对称，有一组单位正交特征向量 v₁..vₙ：Avᵢ = λᵢvᵢ，‖vᵢ‖ = 1。把 x 写成它们的线性组合：', math:'x=\\sum_{i=1}^n\\alpha_iv_i'},
+  {text:'由正交性，交叉项消失：', math:'x^TAx=\\Big(\\sum_i\\alpha_iv_i\\Big)^TA\\Big(\\sum_i\\alpha_iv_i\\Big)=\\sum_{i=1}^n\\alpha_i^2\\lambda_i\\|v_i\\|_2^2=\\sum_{i=1}^n\\alpha_i^2\\lambda_i'},
+  {text:'约束 xᵀx = 1 等价于系数平方和为 1：', math:'x^Tx=\\sum_{i=1}^n\\alpha_i^2=1'},
+  {text:'于是 xᵀAx 是 λᵢ 的加权平均（权重 αᵢ² 和为 1），最小值是最小特征值，取 αⱼ = 1（λⱼ 最小）、其余为 0：', math:'p^\\star=\\lambda_{\\min}(A),\\qquad x^\\star=v_j'},
+]} />
+
+<Figure src="pages/L08/p16.png" caption="讲义 L8 p16：非凸问题的直接求解" />
+
+<Steps title="对偶：d* 也等于 λ_min(A)" steps={[
+  {text:'一个等式约束，配自由的 ν：', math:'L(x,\\nu)=x^TAx+\\nu\\,(x^Tx-1)=x^T(A+\\nu I)x-\\nu'},
+  {text:'对 x 取下确界（与 max-cut 同理：半正定时最小为 0，否则 −∞）：', math:'g(\\nu)=\\begin{cases}-\\nu,& A+\\nu I\\succeq0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题：', math:'\\max_\\nu\\ -\\nu\\quad\\text{s.t.}\\quad A+\\nu I\\succeq0'},
+  {text:'用特征分解 A = Qᵀ diag(λ₁..λₙ) Q，A + νI 的特征值是 λᵢ + ν：', math:'A+\\nu I=Q^T\\operatorname{diag}(\\lambda_1+\\nu,\\dots,\\lambda_n+\\nu)\\,Q\\succeq0\\iff\\nu\\ge-\\lambda_{\\min}'},
+  {text:'−ν 在 ν ≥ −λ_min 上的最大值在 ν = −λ_min 处取得：', math:'d^\\star=\\lambda_{\\min}(A)=p^\\star'},
+]} />
+
+所以这个非凸问题的对偶间隙为 0。教训：**凸性 + CQ ⇒ 强对偶**，但强对偶并不需要凸性。
+
+## 小结与自测
+
+<Summary>
+
+- **对偶问题**：$\max g(\lambda,\nu)$ s.t. $\lambda\succeq0$，最优值 $d^\star$；永远是凸问题；“$g$ 有限”的条件写成显式约束。
+- **弱对偶** $d^\star\le p^\star$：任何问题都成立；对偶间隙 $f_0(x)-g(\lambda,\nu)$ 是最优性证书。
+- **强对偶** $d^\star=p^\star$：一般不成立，凸问题通常成立。**Slater**：凸问题存在严格可行点 ⇒ 强对偶；仿射不等式可以不严格；LP 只要可行即强对偶。
+- **LP 状态表**：有最优 ⇔ 对方有最优且值相等；一方无界 ⇒ 另一方不可行；可以双方都不可行。
+- **几何**：$g(\lambda)$ 是 $\mathcal G$ 的斜率 $-\lambda$ 支撑线的截距；$\mathcal A$ 凸、$P(u)$ 凸；Slater ⇒ 支撑线非竖直 ⇒ 强对偶。
+- **灵敏度**：$\lambda_i^\star=-\partial p^\star/\partial u_i$，影子价格。
+- **鞍点**：$p^\star=\inf_x\sup_\lambda L$，$d^\star=\sup_\lambda\inf_xL$；max-min 不等式 = 弱对偶；强对偶 + 最优 ⇔ Lagrangian 鞍点。
+- **博弈**：LP 1 与 LP 2 互为对偶，$p_1^\star=p_2^\star$，最优混合策略是鞍点 / Nash 均衡。
+- **应用**：least-norm 解 $x^\star=A^T(AA^T)^{-1}b$；非凸问题的 SDP 下界；$\min x^TAx$ s.t. $\|x\|=1$ 是非凸但强对偶的例子。
+
+</Summary>
+
+<Quiz q="在几何解释中，dual function g(λ) 对应的支撑线 λu + t = g(λ) 的斜率是？" options={['λ', '−λ', '1/λ', '取决于 𝒢 的形状']} answer={1} explain="改写为 t = g(λ) − λu，斜率为 −λ。教授特意强调过这个负号。" />
+
+<Quiz q="原问题 LP 无界（p* = −∞），那么它的对偶问题？" options={['有最优解', '无界', '不可行', '可能有最优解也可能无界']} answer={2} explain="弱对偶 d* ≤ p* = −∞，所以对偶没有任何可行点（否则其目标值就是一个有限下界）。" />
+
+<Quiz q="下列关于 Slater 条件的说法哪个正确？" options={['它是强对偶的充要条件', '它对非凸问题同样保证强对偶', '它要求存在点使所有非仿射不等式严格成立，且等式与仿射不等式成立', '它要求原问题的最优解在可行域内部']} answer={2} explain="Slater 是凸问题强对偶的充分（不是必要）条件，只要求存在一个严格可行点（仿射约束可以取等号），与最优解位置无关。" />
+
+<Quiz q="关于 max-min 不等式 sup_z inf_w f ≤ inf_w sup_z f，正确的是？" options={['只对凸-凹函数成立', '对任意 f, W, Z 都成立，用在 Lagrangian 上就是弱对偶', '等号永远成立', '只对 LP 成立']} answer={1} explain="它对任意函数和集合都成立；等号成立（强 max-min 性质）才需要额外条件，例如存在鞍点。" />

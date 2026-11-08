@@ -1,0 +1,829 @@
+import { Ch03Jensen, Ch03Tangent, Ch03EpiSublevel, Ch03PointwiseMax, Ch03Composition, Ch03Conjugate } from '../widgets/ch03.jsx'
+
+上一章讲了“好的可行区域”——凸集。这一章讲“好的目标函数”——<T zh="凸函数">convex function</T>。一个优化问题是**凸优化问题**，要求目标函数和不等式约束函数都是凸函数（下一章正式定义）。凸函数最重要的好处是：**局部最小就是全局最小**，梯度为零的点就是最优点。
+
+所以这一章的核心技能是：**拿到一个函数，判断（证明）它是不是凸的**。教授说这是整门课的基本功——以后每一个凸优化问题，你都要先说明它的目标和约束是凸的。
+
+<Prof>
+
+教授反复强调 (09-15 课 00:02)：验证凸性有三种方法——(1) 直接用定义；(2) 对二阶可微函数，证明 Hessian 半正定 $\nabla^2 f(x)\succeq 0$，“通常更强大也更容易用”；(3) 证明它是由简单凸函数经过**保凸运算**拼出来的。本章就是围绕这三种方法展开的。
+
+</Prof>
+
+**本章路线：**
+
+1. 定义：凸、严格凸、凹；Jensen 不等式；扩展值延拓；限制到直线
+2. 常见凸/凹函数清单（$\mathbb{R}$ 与 $\mathbb{R}^n$）
+3. sublevel set 与 epigraph
+4. 一阶条件（切线是下估计）、二阶条件（Hessian 半正定）、全局/局部最小
+5. 保凸运算：非负加权和、仿射复合、逐点最大/上确界、复合规则（表格）、最小化、透视
+6. 共轭函数
+7. 拟凸函数；对数凹/对数凸函数
+
+## 凸函数的定义
+
+### 凸、严格凸、凹
+
+<MathNote title="函数与定义域">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 表示 $f$ 吃进一个 $n$ 维向量、吐出一个实数。$\mathbf{dom}\,f$（domain）是 $f$ 有定义的那些 $x$ 组成的集合，例如 $\log x$ 的定义域是 $\mathbb{R}_{++}=\{x\mid x>0\}$（严格正数）。
+
+</MathNote>
+
+<Def title="凸函数 convex function">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 是凸函数，如果
+
+1. $\mathbf{dom}\,f$ 是**凸集**，并且
+2. 对所有 $x,y\in\mathbf{dom}\,f$ 和 $0\le\theta\le1$：
+
+$$
+f(\theta x+(1-\theta)y)\ \le\ \theta f(x)+(1-\theta)f(y).
+$$
+
+第 2 条叫 <T zh="Jensen 不等式">Jensen's inequality</T>。
+
+</Def>
+
+大白话：在函数图像上任取两个点 $(x,f(x))$ 和 $(y,f(y))$，连一条线段（**弦**，chord）。左边 $f(\theta x+(1-\theta)y)$ 是两点之间某处**曲线的高度**，右边 $\theta f(x)+(1-\theta)f(y)$ 是同一位置**弦的高度**。凸 = 曲线永远不高于弦，即“碗口朝上”。
+
+<Figure src="pages/L03/p03.png" caption="讲义：凸函数的定义。右上角图——曲线在 (x, f(x)) 与 (y, f(y)) 之间的部分位于弦的下方。" />
+
+<Def title="严格凸、凹、严格凹">
+
+- **严格凸** <T zh="严格凸">strictly convex</T>：$\mathbf{dom}\,f$ 凸，且对 $x\neq y$、$0<\theta<1$：
+
+$$
+f(\theta x+(1-\theta)y) < \theta f(x)+(1-\theta)f(y).
+$$
+
+- **凹** <T zh="凹函数">concave</T>：$-f$ 是凸函数，即不等号反向 $f(\theta x+(1-\theta)y)\ge\theta f(x)+(1-\theta)f(y)$。
+- **严格凹**：$-f$ 严格凸。
+
+</Def>
+
+严格凸是把 $\le$ 换成 $<$：去掉等号的同时，$\theta$ 必须严格在 $(0,1)$ 内（端点 $\theta=0,1$ 时两边永远相等），且 $x\ne y$。直线 $f(x)=ax+b$ 是凸的，但不是严格凸的（弦和曲线重合）。
+
+<Exam>
+
+教授多次强调 (09-08 课 00:20；09-10 课 00:04；09-15 课 00:02)：**凸函数的定义包含两部分**——定义域是凸集 + Jensen 不等式。证明题里漏掉“定义域是凸集”会被扣分。
+
+</Exam>
+
+<Ch03Jensen />
+
+### 扩展值延拓 extended-value extension
+
+为了不必时时操心定义域，常把凸函数延拓到整个 $\mathbb{R}^n$：
+
+$$
+\tilde f(x)=\begin{cases} f(x), & x\in\mathbf{dom}\,f\\ +\infty, & x\notin\mathbf{dom}\,f.\end{cases}
+$$
+
+大白话：定义域外面统统规定为 $+\infty$（“无穷贵，绝不会被选中”）。这样 Jensen 不等式在全空间都成立（右边若有 $+\infty$，不等式自动成立）。对凹函数则在定义域外取 $-\infty$。这个记号在后面的**复合规则**里很关键（讲义第 22 页）。
+
+### 限制到直线（教材补充）
+
+<Thm title="restriction to a line">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 是凸的，当且仅当对任意 $x\in\mathbf{dom}\,f$ 和任意方向 $v$，一元函数
+
+$$
+g(t)=f(x+tv),\qquad \mathbf{dom}\,g=\{t\mid x+tv\in\mathbf{dom}\,f\}
+$$
+
+是凸的。
+
+</Thm>
+
+大白话：多元函数是凸的 ⇔ 沿着**任何一条直线**切下来的“剖面”都是一元凸函数。这让我们可以把 $n$ 维问题化成一维问题来检查（教材 3.1.1 节，讲义未单列，但常用于证明 $\log\det X$ 是凹的）。
+
+## 常见的凸函数与凹函数
+
+### $\mathbb{R}$ 上的例子（讲义第 4 页）
+
+| 函数 | 定义域 | 凸/凹 | 说明 |
+|---|---|---|---|
+| 仿射 $ax+b$ | $\mathbb{R}$ | 既凸又凹 | 直线，“曲率为零” |
+| 指数 $e^{ax}$ | $\mathbb{R}$ | 凸（任意 $a$） | $a$ 的正负只改变方向 |
+| 幂函数 $x^\alpha$ | $\mathbb{R}_{++}$ | $\alpha\ge1$ 或 $\alpha\le0$ 时凸 | 例：$x^2$、$1/x$ |
+| 幂函数 $x^\alpha$ | $\mathbb{R}_{++}$ | $0\le\alpha\le1$ 时凹 | 例：$\sqrt{x}$ |
+| 绝对值的幂 $\lvert x\rvert^p$ | $\mathbb{R}$ | $p\ge1$ 时凸 | $p=1$ 时是 V 形 $\lvert x\rvert$ |
+| 负熵 $x\log x$ | $\mathbb{R}_{++}$ | 凸 | 形状像一个“对勾” |
+| 对数 $\log x$ | $\mathbb{R}_{++}$ | 凹 | |
+
+<Intuition>
+
+记忆窍门：一元函数的凸性看二阶导 $f''$ 的符号（后面会证明）。例如 $(x^\alpha)''=\alpha(\alpha-1)x^{\alpha-2}$，在 $x>0$ 时符号由 $\alpha(\alpha-1)$ 决定：$\alpha\ge1$ 或 $\alpha\le0$ 时 $\ge0$（凸），$0\le\alpha\le1$ 时 $\le0$（凹）。$(x\log x)''=1/x>0$，$(\log x)''=-1/x^2 < 0$。
+
+</Intuition>
+
+### $\mathbb{R}^n$ 上的例子（讲义第 5 页）
+
+- **仿射函数** $f(x)=a^Tx+b$ 既凸又凹（它的图像是一个超平面，是“平的”）。
+- **所有范数都是凸的**，例如 $\|x\|_p=\big(\sum_{i=1}^n|x_i|^p\big)^{1/p}$（$p\ge1$）、$\|x\|_\infty=\max_k|x_k|$。
+
+<Reveal label="为什么所有范数都是凸的？">
+
+用范数的三角不等式和齐次性：对 $\theta\in[0,1]$，
+
+$$
+\|\theta x+(1-\theta)y\|\le\|\theta x\|+\|(1-\theta)y\|=\theta\|x\|+(1-\theta)\|y\|.
+$$
+
+这正是 Jensen 不等式；定义域 $\mathbb{R}^n$ 是凸集。
+
+</Reveal>
+
+<Example title="教材补充：几个重要的 ℝⁿ 上的凸/凹函数（讲义未单列，作业和考试常见）">
+
+- **最大值** $f(x)=\max\{x_1,\dots,x_n\}$：凸（它是 $n$ 个线性函数的逐点最大，见后文）。
+- **二次比线性** $f(x,y)=x^2/y$，$y>0$：凸（它是 $x^2$ 的透视，见后文）。
+- **log-sum-exp** $f(x)=\log\big(e^{x_1}+\cdots+e^{x_n}\big)$：凸。它是 $\max_i x_i$ 的“光滑版本”：$\max_i x_i\le f(x)\le\max_i x_i+\log n$。讲义第 25 页的复合规则例子就用到了它。
+- **几何平均** $f(x)=\big(\prod_{i=1}^n x_i\big)^{1/n}$，$x\in\mathbb{R}^n_{++}$：凹。
+- **对数行列式** $f(X)=\log\det X$，$X\in\mathbb{S}^n_{++}$：凹（用“限制到直线”证明，教材 3.1.5 节）。
+
+</Example>
+
+<Quiz q="下面哪个函数在给定定义域上是凹函数？" options={['e^{−x}，x ∈ ℝ', 'x^{−1}，x > 0', 'x^{0.3}，x > 0', '|x|^{1.5}，x ∈ ℝ']} answer={2} explain="x^α 在 0 ≤ α ≤ 1 时是凹的。e^{ax} 对任何 a 都凸；x^{−1} 的 α = −1 ≤ 0，凸；|x|^p 在 p ≥ 1 时凸。" />
+
+## Sublevel set 与 epigraph
+
+这两个概念把“凸函数”和上一章的“凸集”联系起来。
+
+<Def title="α-sublevel set（α-下水平集）">
+
+$$
+C_\alpha=\{x\in\mathbf{dom}\,f\mid f(x)\le\alpha\}.
+$$
+
+**凸函数的 sublevel set 都是凸集**（对每个 $\alpha$）。
+
+</Def>
+
+大白话：$C_\alpha$ 是“函数值不超过 $\alpha$ 的所有点”。在一元情形里，就是把一条水平线 $y=\alpha$ 画上去，曲线落在这条线下方的那些 $x$。例如 $f(x)=|x|$ 时 $C_\alpha=[-\alpha,\alpha]$。二元情形下它是等高线围出来的区域。
+
+证明很直接：若 $f(x)\le\alpha$，$f(y)\le\alpha$，则 $f(\theta x+(1-\theta)y)\le\theta f(x)+(1-\theta)f(y)\le\alpha$。
+
+<Warn>
+
+讲义上的问题：**如果一个函数的所有 sublevel set 都是凸集，它一定是凸函数吗？——不一定！** 反例：$f(x)=\sqrt{|x|}$。它的 sublevel set 都是区间 $[-\alpha^2,\alpha^2]$（凸集），但函数本身像一只“蝴蝶/海鸥”，不是凸的。这类函数叫**拟凸函数**（本章最后一节）。
+
+</Warn>
+
+<Def title="Epigraph（上图）">
+
+$$
+\mathbf{epi}\,f=\{(x,t)\in\mathbb{R}^{n+1}\mid x\in\mathbf{dom}\,f,\ f(x)\le t\}.
+$$
+
+</Def>
+
+大白话：epigraph 是函数图像**上方**（含图像本身）的整片区域——“epi” 是希腊语前缀“在……之上”。注意它活在 $\mathbb{R}^{n+1}$ 里（多了一个“高度”坐标 $t$）。
+
+<Thm title="epigraph 刻画">
+
+$$
+f \text{ 是凸函数} \iff \mathbf{epi}\,f \text{ 是凸集}.
+$$
+
+</Thm>
+
+<Figure src="L03/p06_f2.png" caption="讲义：一个先升、再降、再升的函数，阴影是 epi f。函数不凸，所以 epi f 也不是凸集（在凹陷处连线会穿到阴影外）。" width="380px" />
+
+<Steps title="证明 f 凸 ⇔ epi f 凸（讲义第 7 页）" steps={[
+  { text: '(⇒) 设 f 凸。任取 epi f 中两点 (x, t₁), (y, t₂)，即 f(x) ≤ t₁，f(y) ≤ t₂。', math: 'f(x)\\le t_1,\\qquad f(y)\\le t_2' },
+  { text: '由 Jensen 不等式，再把 f(x)、f(y) 换成更大的 t₁、t₂：', math: 'f(\\theta x+(1-\\theta)y)\\le\\theta f(x)+(1-\\theta)f(y)\\le\\theta t_1+(1-\\theta)t_2' },
+  { text: '这说明两点的凸组合 (θx+(1−θ)y, θt₁+(1−θ)t₂) 也在 epi f 里 ⇒ epi f 是凸集。', math: '\\big(\\theta x+(1-\\theta)y,\\ \\theta t_1+(1-\\theta)t_2\\big)\\in\\mathbf{epi}\\,f' },
+  { text: '(⇐) 设 epi f 凸。取图像上的两点 (x, f(x)) 和 (y, f(y))——它们在 epi f 的边界上，当然属于 epi f。', math: '(x,f(x)),\\ (y,f(y))\\in\\mathbf{epi}\\,f' },
+  { text: '它们的凸组合也在 epi f 里；按 epi f 的定义，“第一坐标的函数值 ≤ 第二坐标”，这正是 Jensen 不等式。', math: '\\big(\\theta x+(1-\\theta)y,\\ \\theta f(x)+(1-\\theta)f(y)\\big)\\in\\mathbf{epi}\\,f\\ \\Rightarrow\\ f(\\theta x+(1-\\theta)y)\\le\\theta f(x)+(1-\\theta)f(y)' },
+]} />
+
+<Ch03EpiSublevel />
+
+<Exam>
+
+两个必记结论 (09-08 课 00:46–00:53)：$f$ 凸 $\iff$ $\mathbf{epi}\,f$ 凸；sublevel set 全凸**推不出** $f$ 凸（反例 $\sqrt{|x|}$）。
+
+</Exam>
+
+## 一阶条件
+
+### 可微函数
+
+<MathNote title="梯度 gradient">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 的梯度是所有偏导数排成的**列向量**：
+
+$$
+\nabla f(x)=\Big(\frac{\partial f(x)}{\partial x_1},\dots,\frac{\partial f(x)}{\partial x_n}\Big).
+$$
+
+偏导 $\partial f/\partial x_i$ 是“只让 $x_i$ 变、其余坐标固定时 $f$ 的变化率”。一元情形下梯度就是导数 $f'(x)$。梯度指向函数**增长最快**的方向。
+
+</MathNote>
+
+$f$ 称为**可微**的，如果 $\mathbf{dom}\,f$ 是开集，且在每个 $x\in\mathbf{dom}\,f$ 处梯度都存在。
+
+讲义第 8 页两条性质（在开的定义域上）：
+
+- $f$ 凸 $\Rightarrow$ $f$ **连续**（成立）。教授的论证：如果函数在某点“跳一下”，在跳跃处取弦，弦会跑到曲线下方，违反 Jensen 不等式。
+- $f$ 凸 $\Rightarrow$ $f$ 处处可微（不成立）。反例：$|x|$ 在 $0$ 处有个尖角，不可导。
+
+### 一阶条件
+
+<Thm title="一阶条件 first-order condition">
+
+设 $f$ 可微、$\mathbf{dom}\,f$ 是凸集。则
+
+$$
+f \text{ 凸}\iff f(y)\ \ge\ f(x)+\nabla f(x)^T(y-x)\qquad\forall x,y\in\mathbf{dom}\,f.
+$$
+
+严格凸 $\iff$ 对 $x\neq y$ 不等号严格成立（$\ge$ 换成 $>$）。
+
+</Thm>
+
+大白话：右边 $f(x)+\nabla f(x)^T(y-x)$ 是 $f$ 在 $x$ 处的**一阶 Taylor 近似**——一元时就是 $x$ 处的**切线**（多元时是切平面）。定理说：凸函数的切线（切平面）**处处在图像下方**，是 $f$ 的**全局下估计** <T zh="下估计">global underestimator</T>。
+
+这句话非常深刻：只用 $x$ **一个点**的局部信息（函数值和梯度），就得到了 $f$ 在**整个定义域**上的下界。特别地，若 $\nabla f(x)=0$，则 $f(y)\ge f(x)$ 对所有 $y$ 成立——$x$ 就是全局最小点！
+
+<Ch03Tangent />
+
+<Steps title="证明 ⇐：一阶条件 ⇒ Jensen 不等式（09-10 课 00:20）" steps={[
+  { text: '取 x, y 和 θ ∈ [0,1]，令 z 为它们的凸组合。', math: 'z=\\theta x+(1-\\theta)y' },
+  { text: '在 z 处用两次一阶条件（以 z 为切点，分别看 x 和 y）：', math: 'f(x)\\ge f(z)+\\nabla f(z)^T(x-z),\\qquad f(y)\\ge f(z)+\\nabla f(z)^T(y-z)' },
+  { text: '第一式乘 θ，第二式乘 1−θ（都非负，不等号方向不变），相加：', math: '\\theta f(x)+(1-\\theta)f(y)\\ge f(z)+\\nabla f(z)^T\\big(\\theta(x-z)+(1-\\theta)(y-z)\\big)' },
+  { text: '括号里 = θx+(1−θ)y − z = 0，所以梯度项消失，得到 Jensen 不等式。', math: '\\theta f(x)+(1-\\theta)f(y)\\ge f(z)=f(\\theta x+(1-\\theta)y)' },
+]} />
+
+<Steps title="证明 ⇒：凸 ⇒ 一阶条件（09-10 课 00:23）" steps={[
+  { text: '由凸性，对 t ∈ (0,1]，在 x 与 y 之间取点 x + t(y−x)：', math: 'f(x+t(y-x))\\le(1-t)f(x)+tf(y)' },
+  { text: '两边减 f(x) 再除以 t > 0，整理得：', math: 'f(y)\\ge f(x)+\\frac{f(x+t(y-x))-f(x)}{t}' },
+  { text: '令 t → 0：右边分式是 f 在 x 处沿方向 y−x 的方向导数，等于 ∇f(x)ᵀ(y−x)（教材附录 A.4）。', math: 'f(y)\\ge f(x)+\\nabla f(x)^T(y-x)' },
+]} />
+
+## 二阶条件
+
+<MathNote title="Hessian 矩阵">
+
+二阶可微：$\mathbf{dom}\,f$ 开，且每点 Hessian 存在。Hessian 是所有二阶偏导排成的 $n\times n$ 矩阵：
+
+$$
+\nabla^2 f(x)_{ij}=\frac{\partial^2 f(x)}{\partial x_i\partial x_j},\qquad
+\nabla^2 f(x)=\begin{bmatrix}\frac{\partial^2 f}{\partial x_1^2}&\cdots&\frac{\partial^2 f}{\partial x_1\partial x_n}\\ \vdots&\ddots&\vdots\\ \frac{\partial^2 f}{\partial x_n\partial x_1}&\cdots&\frac{\partial^2 f}{\partial x_n^2}\end{bmatrix}\in\mathbb{S}^n.
+$$
+
+因为混合偏导可交换次序，Hessian 是**对称**矩阵。一元时它就是 $f''(x)$，描述“弯曲程度”（曲率）。
+
+</MathNote>
+
+<Thm title="二阶条件 second-order condition">
+
+设 $f$ 二阶可微、$\mathbf{dom}\,f$ 是凸集。
+
+- $f$ 凸 $\iff$ $\nabla^2 f(x)\succeq0$（半正定）对所有 $x\in\mathbf{dom}\,f$。
+- 若 $\nabla^2 f(x)\succ0$（正定）对所有 $x\in\mathbf{dom}\,f$，则 $f$ **严格凸**。
+- 第二条**反过来不成立**：$f(x)=x^4$ 严格凸，但 $f''(0)=0$。
+
+</Thm>
+
+大白话：一元时，凸 ⇔ $f''\ge0$ ⇔ 曲线处处“向上弯”（斜率不减）。多元时，“向上弯”要在**每个方向**都成立，这就是 Hessian 半正定（对任意方向 $z$，$z^T\nabla^2f(x)z\ge0$）。
+
+<Example title="二次函数（必背）">
+
+$f(x)=\tfrac12x^TPx+q^Tx+r$，$P\in\mathbb{S}^n$：
+
+$$
+\nabla f(x)=Px+q,\qquad\nabla^2 f(x)=P.
+$$
+
+所以 $f$ 凸 $\iff$ $P\succeq0$。一元例子：$x^2$ 的 $f''=2>0$。
+
+注意系数：如果写成 $x^TAx+q^Tx+r$（没有 $\tfrac12$，$A$ 对称），则 $\nabla f=2Ax+q$，$\nabla^2f=2A$ (09-10 课 00:50)。
+
+</Example>
+
+<Example title="最小二乘（必背）">
+
+$f(x)=\|Ax-b\|_2^2$：
+
+$$
+\nabla f(x)=2A^T(Ax-b),\qquad\nabla^2 f(x)=2A^TA.
+$$
+
+**对任意矩阵 $A$**（方的、长的、扁的、对称或不对称）都有 $A^TA\succeq0$，因为 $z^TA^TAz=(Az)^T(Az)=\|Az\|_2^2\ge0$。所以最小二乘**永远是凸的**。教授把它和第一课的直线拟合联系起来 (09-10 课 00:56–00:59)。
+
+</Example>
+
+<Reveal label="看证明（一元情形，讲义第 13–14 页）">
+
+**(⇒) 凸 ⇒ $f''\ge0$**。对 $x$ 和 $y$ 分别用一阶条件：
+
+$$
+f(y)\ge f(x)+f'(x)(y-x),\qquad f(x)\ge f(y)+f'(y)(x-y).
+$$
+
+合起来：$f'(x)(y-x)\le f(y)-f(x)\le f'(y)(y-x)$，所以 $(f'(x)-f'(y))(x-y)\ge0$，即
+
+$$
+\frac{f'(x)-f'(y)}{x-y}\ge0.
+$$
+
+令 $x\to y$，左边趋于 $f''(y)$，所以 $f''\ge0$。（大白话：导数是单调不减的。）
+
+**(⇐) $f''\ge0$ ⇒ 凸**。对 $x < y$，用分部积分：
+
+$$
+\int_x^y f''(z)(y-z)\,dz=(x-y)f'(x)+f(y)-f(x).
+$$
+
+左边被积函数 $f''(z)\ge0$、$y-z\ge0$，所以积分 $\ge0$，即 $f(y)\ge f(x)+f'(x)(y-x)$——这就是一阶条件，所以 $f$ 凸。（$x>y$ 的情形同理。）
+
+</Reveal>
+
+<Exam>
+
+- 二阶条件是检查凸性的“主力武器”，Hessian 半正定是关键 (09-10 课)。
+- **Hessian 正定是严格凸的充分不必要条件**，标准反例 $x^4$ (09-10 课 00:34–00:37)。
+- 必背：二次函数与最小二乘的梯度和 Hessian；$A^TA\succeq0$ 对任意 $A$ 成立。
+
+</Exam>
+
+<Quiz q="f(x₁,x₂) = x₁² + 4x₁x₂ + x₂² 是凸函数吗？" options={['是，因为每项系数都是正的', '不是，Hessian 有负特征值', '是，因为它是二次函数', '无法判断']} answer={1} explain="Hessian = [[2,4],[4,2]]，特征值 6 和 −2。有负特征值 ⇒ 不是半正定 ⇒ 不是凸函数。例如沿方向 (1,−1)：f(t,−t) = −2t²，是向下弯的。" />
+
+## 全局最小与局部最小
+
+<Thm title="全局最小（讲义第 15 页，无约束）">
+
+1. 若 $f$ 凸且可微，$\nabla f(x^*)=0$，则 $f(y)\ge f(x^*)$ 对所有 $y$ 成立，$x^*$ 是**全局最小点**。
+2. 若 $f$ 二阶可微，$\nabla f(x^*)=0$，且 $\nabla^2f(x)\succeq0$ 对**所有** $x$ 成立（即 $f$ 凸），则 $x^*$ 是全局最小点。
+
+</Thm>
+
+第 1 条直接来自一阶条件：把 $\nabla f(x^*)=0$ 代进 $f(y)\ge f(x^*)+\nabla f(x^*)^T(y-x^*)$ 即可。这就是第一课里“偏导数设为 0”求最小二乘闭式解的理论依据；教授说它是后面 **KKT 条件**的特例。
+
+<Warn>
+
+- **凸函数不一定有全局最小点**：$f(x)=x$ 和 $f(x)=e^x$ 都是凸的，但都取不到最小值（$e^x$ 无限接近 0 却碰不到）。
+- **这些结论只适用于无约束问题**。讲义例子：$f(x,y)=x^2+y^2$ 的无约束最小点是 $(0,0)$；但若定义域是 $\{(x,y)\mid xy\ge1,\ x\ge0,\ y\ge0\}$，原点根本不在里面，“令梯度为 0”就不管用了，需要更复杂的方法（后面的对偶与 KKT）。
+- 讲义第 2 条写的 $\nabla^2 f(x)\succeq0$ 必须对**所有** $x$ 成立；只在 $x^*$ 一点成立推不出全局最小。
+
+</Warn>
+
+<Def title="局部最小（讲义第 16 页）">
+
+$x^*$ 是无约束问题的**局部最小点**，如果存在 $\varepsilon>0$，使得对所有满足 $\|x-x^*\|_2\le\varepsilon$ 的 $x$，都有 $f(x^*)\le f(x)$。
+
+**必要条件**：若 $f$ 二阶可微且 $x^*$ 是局部最小点，则
+
+$$
+\nabla f(x^*)=0,\qquad\nabla^2f(x^*)\succeq0.
+$$
+
+</Def>
+
+大白话：局部最小只要求“在 $x^*$ 附近一个小球里最小”。在局部最小点，梯度必须为零（否则沿负梯度方向走一点点就能变小），而且 Hessian 必须半正定（否则沿某个方向是“向下弯”的）。反过来，$\nabla f(x^*)=0$ 且 $\nabla^2f(x^*)\succ0$ 能保证 $x^*$ 是**严格局部**最小点；只有当 $f$ 是凸函数时，局部最小才一定是全局最小。
+
+## 保凸运算
+
+实际中最常用的方法：把复杂函数拆成简单凸函数，然后用下面这些“保持凸性的运算”拼回去。讲义列出的运算：非负加权和、与仿射函数复合、逐点最大与上确界、复合、最小化、透视。
+
+### 非负加权和与仿射复合
+
+<Thm title="非负倍数、求和、仿射复合（讲义第 18 页）">
+
+- **非负倍数**：$f$ 凸、$\alpha\ge0$ ⇒ $\alpha f$ 凸。
+- **求和**：$f_1,f_2$ 凸 ⇒ $f_1+f_2$ 凸（可推广到无穷和、积分）。
+- **与仿射函数复合**：$f$ 凸 ⇒ $f(Ax+b)$ 凸（对任意 $A\in\mathbb{R}^{m\times n}$，$b\in\mathbb{R}^m$）。
+
+</Thm>
+
+大白话：凸函数“碗”加“碗”还是“碗”；把输入先做一次线性变换+平移再喂给凸函数，不会破坏“碗”的形状（相当于把碗拉伸、旋转、平移）。
+
+<Warn>
+
+讲义写的是“$f(Ax+b)$ 凸 **iff** $f$ 凸”，但**只有 ⇐ 方向一般成立**。反例：取 $A=0$，则 $f(Ax+b)=f(b)$ 是常数，无论 $f$ 凸不凸，它都是凸的。考试时写“$f$ 凸 ⇒ $f(Ax+b)$ 凸”最稳妥。
+
+</Warn>
+
+<Example title="讲义例子">
+
+- **线性不等式的对数障碍函数** <T zh="对数障碍">log barrier</T>：
+
+$$
+f(x)=-\sum_{i=1}^m\log(b_i-a_i^Tx),\qquad\mathbf{dom}\,f=\{x\mid a_i^Tx < b_i,\ i=1,\dots,m\}.
+$$
+
+  $-\log u$ 是凸的，$u=b_i-a_i^Tx$ 是仿射的，所以每一项凸；再求和，仍凸。（第 13 章内点法会用到它。）
+
+- **仿射函数的任意范数** $f(x)=\|Ax+b\|$：范数凸 + 仿射复合 ⇒ 凸。
+
+</Example>
+
+### 逐点最大与逐点上确界
+
+<Thm title="逐点最大 pointwise maximum（讲义第 19 页）">
+
+若 $f_1,\dots,f_m$ 都是凸函数，则
+
+$$
+f(x)=\max\{f_1(x),\dots,f_m(x)\}
+$$
+
+是凸函数。
+
+</Thm>
+
+为什么？$\mathbf{epi}\,f$ = 各个 $\mathbf{epi}\,f_i$ 的**交集**（$t\ge\max_i f_i(x)$ ⇔ 对每个 $i$，$t\ge f_i(x)$），而交集保凸。
+
+讲义追问：**那逐点最小 $\min\{f_1,\dots,f_m\}$ 呢？——一般不是凸的。** 例如 $\min(x,-x)=-|x|$ 是凹的。（最小值的 epigraph 是并集，并集不保凸。）
+
+<Ch03PointwiseMax />
+
+<Example title="讲义例子">
+
+- **分段线性函数** $f(x)=\max_{i=1,\dots,m}(a_i^Tx+b_i)$：仿射函数的最大值，凸。
+- **最大的 $r$ 个分量之和**（$x\in\mathbb{R}^n$，$x_{[i]}$ 表示第 $i$ 大的分量）：
+
+$$
+f(x)=x_{[1]}+x_{[2]}+\cdots+x_{[r]}
+$$
+
+  是凸的。证明：它等于“从 $n$ 个分量里任选 $r$ 个求和”中的最大者
+
+$$
+f(x)=\max\{x_{i_1}+\cdots+x_{i_r}\mid 1\le i_1 < i_2 < \cdots < i_r\le n\},
+$$
+
+  这是 $\binom{n}{r}$ 个线性函数的最大值，所以凸 (09-10 第二段录音 00:06)。
+
+</Example>
+
+<Thm title="逐点上确界 pointwise supremum（讲义第 20 页）">
+
+若对每个 $y\in\mathcal{A}$，$f(x,y)$ 关于 $x$ 是凸的，则
+
+$$
+g(x)=\sup_{y\in\mathcal{A}}f(x,y)
+$$
+
+是凸的。
+
+</Thm>
+
+<MathNote title="上确界 sup 与下确界 inf">
+
+$\sup$（supremum）是“最小上界”，可以理解为“最大值”的推广：有时最大值取不到（比如 $\{1-1/n\}$ 的最大值不存在，但 $\sup=1$），用 $\sup$ 就不必担心这一点；$\sup$ 也可能是 $+\infty$。$\inf$（infimum）同理，是“最大下界”，即“最小值”的推广。
+
+</MathNote>
+
+这里 $y$ 可以取**无穷多个**值——相当于无穷多个凸函数的逐点最大。
+
+<Example title="到集合最远点的距离（讲义）">
+
+$$
+f(x)=\sup_{y\in C}\|x-y\|
+$$
+
+对**任意**集合 $C$（凸不凸都行）都是凸的：对固定的 $y$，$\|x-y\|$ 是 $x$ 的凸函数；对 $y$ 取上确界保凸。
+
+教材补充：对称矩阵的最大特征值 $\lambda_{\max}(X)=\sup_{\|y\|_2=1}y^TXy$ 是凸的（对每个 $y$，$y^TXy$ 是 $X$ 的线性函数）。
+
+</Example>
+
+### 最小化
+
+<Thm title="最小化 minimization（讲义第 21 页）">
+
+若 $f(x,y)$ 关于 $(x,y)$ **联合凸**，$C$ 是**凸集**，则
+
+$$
+g(x)=\inf_{y\in C}f(x,y)
+$$
+
+是凸函数。
+
+</Thm>
+
+注意和逐点上确界的区别：sup 只要求对每个固定 $y$ 关于 $x$ 凸；inf 要求**联合凸**，而且 $C$ 要是凸集——条件强得多。
+
+<Example title="到集合的距离">
+
+$$
+\mathbf{dist}(x,S)=\inf_{y\in S}\|x-y\|_2
+$$
+
+在 **$S$ 是凸集**时是凸函数（$\|x-y\|$ 关于 $(x,y)$ 联合凸）。$S$ 不凸时一般不成立：例如 $S=\{-1,1\}$ 两个点，$\mathbf{dist}(x,S)$ 是一个“M 形”，在 $x=0$ 处有个凸起。
+
+</Example>
+
+<Exam>
+
+- 逐点最大/上确界**保凸**，逐点最小**不保凸**（09-10 第二段录音 00:05）。
+- $\mathbf{dist}(x,S)$ 在 $S$ 凸时凸 (09-15 课 00:09)。
+- 最大的 $r$ 个分量之和是凸的——会写“选 $r$ 个下标的最大值”这个证明。
+
+</Exam>
+
+### 复合规则 composition
+
+设 $g:\mathbb{R}^n\to\mathbb{R}$，$h:\mathbb{R}\to\mathbb{R}$，$f(x)=h(g(x))$。复合什么时候保凸？
+
+先看最简单的一元、二阶可微情形，用链式法则求两次导：
+
+$$
+f''(x)=h''(g(x))\,g'(x)^2+h'(g(x))\,g''(x).
+$$
+
+大白话：$f''$ 由两项组成。第一项 $h''\cdot(g')^2$：$h$ 凸（$h''\ge0$）时它 $\ge0$。第二项 $h'\cdot g''$：要让它 $\ge0$，需要 $h'$ 和 $g''$ **同号**——要么 $h$ 非减（$h'\ge0$）且 $g$ 凸（$g''\ge0$），要么 $h$ 非增（$h'\le0$）且 $g$ 凹（$g''\le0$）。这就得到了下面的规则表。
+
+<Prof>
+
+教授说：“你不必把所有规则背下来——记住这个二阶导公式，需要哪种情形就自己推。” (09-15 课 00:24)
+
+</Prof>
+
+**标量复合规则表**（$f=h\circ g$，$\tilde h$ 是 $h$ 的扩展值延拓）：
+
+| $g$（内层） | $h$（外层） | $\tilde h$ 的单调性 | 结论 $f=h(g(x))$ | 例子 |
+|---|---|---|---|---|
+| 凸 | 凸 | 非减 nondecreasing | **凸** | $e^{g(x)}$，$g$ 凸 |
+| 凹 | 凸 | 非增 nonincreasing | **凸** | $1/g(x)$，$g$ 凹且为正 |
+| 凹 | 凹 | 非减 | **凹** | $\log g(x)$，$g$ 凹且为正 |
+| 凸 | 凹 | 非增 | **凹** | （教材） |
+
+前两行是讲义第 22 页的原文；后两行由“$f$ 凹 ⇔ $-f$ 凸”对称得到（教材 3.2.4 节）。
+
+<Warn>
+
+**单调性要求的是扩展值延拓 $\tilde h$，不是 $h$ 本身。**
+
+- “$\tilde h$ 非减”意味着 $\mathbf{dom}\,h$ 必须**向负方向无限延伸**：如果定义域在左端 $a$ 处截断，那么在 $a$ 左边 $\tilde h=+\infty$，从 $+\infty$ 跳回有限值是在**下降**，破坏了非减性。
+- “$\tilde h$ 非增”意味着 $\mathbf{dom}\,h$ 必须**向正方向无限延伸**。
+
+例：$h(u)=u^2$，$\mathbf{dom}\,h=\mathbb{R}_+$。$h$ 在定义域上递增，但 $\tilde h$ 不是非减的，所以不能套第一行。（教授口误说成“跳到负无穷”，按扩展值定义应该是 $+\infty$。）
+
+</Warn>
+
+<Example title="讲义第 22 页的两个例子">
+
+- $\exp g(x)$ 在 $g$ 凸时凸：$h(u)=e^u$ 凸、处处递增、定义域是整个 $\mathbb{R}$。
+- $1/g(x)$ 在 $g$ 凹且为正时凸：$h(u)=1/u$（$u>0$）凸、递减，$\tilde h$ 在 $u\le0$ 处为 $+\infty$——在**左边**是 $+\infty$，所以 $\tilde h$ 仍是非增的。
+
+</Example>
+
+<Ch03Composition />
+
+**向量复合**：$g:\mathbb{R}^n\to\mathbb{R}^k$，$h:\mathbb{R}^k\to\mathbb{R}$，
+
+$$
+f(x)=h(g(x))=h\big(g_1(x),\dots,g_k(x)\big).
+$$
+
+| 每个 $g_i$ | $h$ | $\tilde h$ 的单调性 | 结论 |
+|---|---|---|---|
+| 凸 | 凸 | 对**每个**自变量非减 | $f$ 凸 |
+| 凹 | 凸 | 对每个自变量非增 | $f$ 凸 |
+
+它来自向量版的二阶导公式（$n=1$，$g,h$ 二阶可微）：
+
+$$
+f''(x)=g'(x)^T\,\nabla^2h(g(x))\,g'(x)+\nabla h(g(x))^Tg''(x).
+$$
+
+第一项在 $h$ 凸（$\nabla^2 h\succeq0$）时 $\ge0$；第二项要求 $\nabla h$ 的每个分量与对应的 $g_i''$ 同号。
+
+<Example title="讲义第 25 页的例子">
+
+- $\sum_{i=1}^m\log g_i(x)$ 在 $g_i$ 凹且为正时是**凹**的（$h(z)=\sum_i\log z_i$ 凹、对每个分量递增）。
+- $\log\sum_{i=1}^m\exp g_i(x)$ 在 $g_i$ 凸时是**凸**的（$h$ = log-sum-exp，凸且对每个分量递增）。
+
+</Example>
+
+<MathNote title="链式法则 chain rule（讲义第 24 页）">
+
+$g:\mathbb{R}^n\to\mathbb{R}^k$，$h:\mathbb{R}^k\to\mathbb{R}^p$，$f=h\circ g$，则导数（Jacobian 矩阵）满足
+
+$$
+Df(x)=Dh(g(x))\,Dg(x),\qquad Df(x)\in\mathbb{R}^{p\times n},\quad Df(x)_{ij}=\frac{\partial f_i(x)}{\partial x_j}.
+$$
+
+对标量函数，$Df(x)=\nabla f(x)^T$ 是**行向量**。一元时就是熟悉的 $f'(x)=h'(g(x))\,g'(x)$。（教材附录 A.4。）
+
+</MathNote>
+
+<Quiz q="g(x) 是凸函数。下面哪个一定是凸的？" options={['−log(−g(x))，在 g(x) < 0 处', 'e^{−g(x)}', '√g(x)，在 g(x) ≥ 0 处', 'g(x)²']} answer={0} explain="A：−g 是凹且为正，h(u) = −log u 凸、非增，套第二行 ⇒ 凸。B：e^{−u} 凸但递减，需要 g 凹，不适用。C：√u 是凹的。D：h(u) = u² 在 ℝ 上不单调，不能保证（例如 g(x) = x² − 1，g² = (x²−1)² 不凸）。" />
+
+### 透视 perspective
+
+<Def title="函数的透视 perspective of a function（讲义第 26 页）">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 的透视是 $g:\mathbb{R}^{n+1}\to\mathbb{R}$：
+
+$$
+g(x,t)=t\,f(x/t),\qquad\mathbf{dom}\,g=\{(x,t)\mid x/t\in\mathbf{dom}\,f,\ t>0\}.
+$$
+
+若 $f$ 凸，则 $g$ 凸。
+
+</Def>
+
+<Example title="讲义例子">
+
+- $f(x)=x^Tx$ ⇒ $g(x,t)=t\cdot(x/t)^T(x/t)=x^Tx/t$ 在 $t>0$ 上凸。
+- $f(x)=-\log x$ ⇒ $g(x,t)=-t\log(x/t)=t\log t-t\log x$ 在 $\mathbb{R}^2_{++}$ 上凸——这就是**相对熵** <T zh="相对熵">relative entropy</T>。
+- 若 $f$ 凸，则
+
+$$
+g(x)=(c^Tx+d)\,f\!\left(\frac{Ax+b}{c^Tx+d}\right)
+$$
+
+  在 $\{x\mid c^Tx+d>0,\ (Ax+b)/(c^Tx+d)\in\mathbf{dom}\,f\}$ 上凸（透视 + 仿射复合）。
+
+</Example>
+
+<Steps title="证明：f 凸 ⇒ 透视 g 凸（讲义第 27 页）" steps={[
+  { text: '看 g 的 epigraph。对 t > 0：', math: '(x,t,s)\\in\\mathbf{epi}\\,g\\iff t f(x/t)\\le s' },
+  { text: '两边除以 t > 0：', math: '\\iff f(x/t)\\le s/t\\iff (x/t,\\ s/t)\\in\\mathbf{epi}\\,f' },
+  { text: '所以 epi g 是 epi f 在透视映射 (x, t, s) ↦ (x/t, s/t) 下的原像。上一章讲过：凸集在透视映射下的原像是凸集。', math: '\\mathbf{epi}\\,g=P^{-1}(\\mathbf{epi}\\,f)' },
+  { text: 'f 凸 ⇒ epi f 凸 ⇒ epi g 凸 ⇒ g 凸。' },
+]} />
+
+<Warn>
+
+教授提醒 (09-15 课 00:49–00:59)：**函数的透视**（本节，$tf(x/t)$）和**透视映射**（上一章的 $P(x,t)=x/t$，用在证明里）是两个不同的东西，别混淆。
+
+</Warn>
+
+## 共轭函数
+
+<Def title="共轭函数 conjugate function（讲义第 28 页）">
+
+$$
+f^*(y)=\sup_{x\in\mathbf{dom}\,f}\big(y^Tx-f(x)\big).
+$$
+
+</Def>
+
+大白话：对每个“斜率” $y$，看直线 $y^Tx$（过原点）与函数图像 $f(x)$ 之间的**竖直差** $y^Tx-f(x)$，取最大的那个，就是 $f^*(y)$。几何上：把斜率为 $y$ 的直线向下平移，直到恰好贴住 $f$ 的图像（成为支撑线），它在纵轴上的截距就是 $-f^*(y)$。
+
+<Figure src="L03/p28_f1.png" caption="讲义：共轭函数的几何意义。f*(y) 是直线 xy 与曲线 f(x) 之间的最大竖直间隙；平移后的支撑线与纵轴交于 (0, −f*(y))。" width="400px" />
+
+<Thm title="f* 总是凸的">
+
+**无论 $f$ 是否凸，$f^*$ 都是凸函数**。
+
+</Thm>
+
+原因：对每个固定的 $x$，$y^Tx-f(x)$ 是 $y$ 的**仿射函数**；$f^*$ 是这些仿射函数的逐点上确界，而逐点上确界保凸 (09-15 课 01:08)。
+
+<Ch03Conjugate />
+
+<Example title="例 1：仿射函数 f(x) = ax + b">
+
+$$
+f^*(y)=\sup_x\,(yx-ax-b)=\sup_x\,\big((y-a)x-b\big)=\begin{cases}-b,&y=a\\+\infty,&\text{otherwise.}\end{cases}
+$$
+
+$y\ne a$ 时 $(y-a)x$ 可以随 $x$ 趋于正无穷（或负无穷）而无限增大，所以上确界是 $+\infty$。只有 $y=a$ 时剩下常数 $-b$。
+
+</Example>
+
+<Steps title="例 2：f(x) = −log x，dom f = ℝ₊₊" steps={[
+  { text: '第 1 步，把含 x 的项合并：', math: 'f^*(y)=\\sup_{x>0}\\,(xy+\\log x)' },
+  { text: '第 2 步，把括号里看成 x 的函数：xy 线性，log x 凹，所以整体是凹函数，求最大值可以令导数为 0。', math: '\\frac{d}{dx}(xy+\\log x)=y+\\frac1x=0\\ \\Rightarrow\\ x^*=-\\frac1y' },
+  { text: '第 3 步，检查 x* 是否在定义域里：需要 x* > 0，即 y < 0。若 y ≥ 0，xy + log x 随 x → ∞ 无限增大，上确界为 +∞。', math: 'x^*>0\\iff y<0' },
+  { text: '第 4 步，y < 0 时把 x* 代回：', math: 'f^*(y)=(-\\tfrac1y)y+\\log(-\\tfrac1y)=-1-\\log(-y)' },
+  { text: '结论：', math: 'f^*(y)=\\begin{cases}-1-\\log(-y),&y<0\\\\+\\infty,&\\text{otherwise}\\end{cases}' },
+]} />
+
+<Prof>
+
+教授总结的求共轭“套路” (09-15 课 01:13–01:16)：(1) 合并 $x$ 的项；(2) 看成 $x$ 的函数，检查是否凹；(3) 令导数为 0；(4) 检查解是否在 $\mathbf{dom}\,f$ 里；(5) 代回；(6) 其余情形上确界为 $+\infty$。
+
+他还指出：共轭函数出现在**对偶问题**里时，通常只保留有界的那一段（$f^*<\infty$），因为对偶问题会对共轭函数做最小化，$+\infty$ 的部分自然不会被选中。由共轭函数推出的对偶问题总是凸的。
+
+</Prof>
+
+## 拟凸函数
+
+<Def title="拟凸 quasiconvex（讲义第 29 页）">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 是 <T zh="拟凸">quasiconvex</T>，如果 $\mathbf{dom}\,f$ 是凸集，并且对**所有** $\alpha$，sublevel set
+
+$$
+C_\alpha=\{x\in\mathbf{dom}\,f\mid f(x)\le\alpha\}
+$$
+
+都是凸集。
+
+- $f$ 是 **quasiconcave**（拟凹）：$-f$ 是拟凸的。
+- $f$ 是 **quasilinear**（拟线性）：既拟凸又拟凹。
+
+</Def>
+
+大白话：凸函数要求“碗形”；拟凸函数只要求“单谷”——一元情形下就是“先下降（或平）后上升”，任何水平线截下去，低于水平线的部分都是**一整段**而不会断成几截。每个凸函数都是拟凸的（sublevel set 是凸集），反过来不对。
+
+<Figure src="pages/L03/p29.png" caption="讲义：拟凸函数。水平线 α 截出的 sublevel set 是区间 [a, b]；β 截出的是半直线 (−∞, c]。每个 sublevel set 都是区间，所以函数拟凸，尽管曲线本身不凸。" />
+
+回到前面“Epigraph 与 sublevel set”交互，选“讲义 p29 形状”“√|x|”或“ceil(x)”：拖动 $\alpha$，sublevel set 始终是一段；而“x⁴/4 − x²”在某些 $\alpha$ 下会断成两段，所以连拟凸都不是。
+
+<Example title="讲义第 30 页的例子">
+
+- $\sqrt{|x|}$ 在 $\mathbb{R}$ 上拟凸（sublevel set 是区间），但**不凸**。
+- $\mathrm{ceil}(x)=\inf\{z\in\mathbb{Z}\mid z\ge x\}$（向上取整）是**拟线性**的：阶梯函数，不连续，所以不凸；但 sublevel set 和 superlevel set 都是半直线。
+- $\log x$ 在 $\mathbb{R}_{++}$ 上拟线性（单调函数的 sublevel set 都是半直线）。
+- $f(x_1,x_2)=x_1x_2$ 在 $\mathbb{R}^2_{++}$ 上**拟凹**：superlevel set $\{x_1x_2\ge\alpha\}$ 是双曲线上方的区域，是凸集。（它不凹：Hessian $\begin{bmatrix}0&1\\1&0\end{bmatrix}$ 不是半负定。）
+- **线性分式函数**
+
+$$
+f(x)=\frac{a^Tx+b}{c^Tx+d},\qquad\mathbf{dom}\,f=\{x\mid c^Tx+d>0\}
+$$
+
+  是拟线性的：$f(x)\le\alpha\iff a^Tx+b\le\alpha(c^Tx+d)$，这是一个半空间（与定义域相交）。
+
+</Example>
+
+<Thm title="拟凸函数的性质（讲义第 31 页）">
+
+- **修正的 Jensen 不等式**：$f$ 拟凸 ⇔ 对 $0\le\theta\le1$，
+
+$$
+f(\theta x+(1-\theta)y)\le\max\{f(x),f(y)\}.
+$$
+
+- **一阶条件**：可微的 $f$（定义域凸）拟凸 ⇔
+
+$$
+f(y)\le f(x)\ \Longrightarrow\ \nabla f(x)^T(y-x)\le0.
+$$
+
+- 保持拟凸性的运算见教材 3.4.4 节。
+
+</Thm>
+
+大白话：第一条说“两点之间的函数值不超过两端较大的那个”——比凸函数的要求（不超过加权平均）宽松。第二条说：如果 $y$ 的函数值不比 $x$ 大，那么从 $x$ 指向 $y$ 的方向与梯度夹角至少 90°——梯度 $\nabla f(x)$ 是 sublevel set $C_{f(x)}$ 在 $x$ 处的一个**支撑超平面**的法向量。
+
+<Prof>
+
+教授说拟凸函数是凸函数的“近亲”：定义用到了凸集，但函数本身不必凸。如果目标函数是拟凸而不是凸的，有些算法仍然可以用 (09-08 课 00:48；09-15 课 01:23–01:35)。第 5 章会讲拟凸优化问题的二分法求解。
+
+</Prof>
+
+<Quiz q="关于 f(x) = √|x|，下列哪个说法正确？" options={['凸函数', '拟凸但不凸', '既不凸也不拟凸', '凹函数']} answer={1} explain="sublevel set {√|x| ≤ α} = [−α², α²] 都是区间（凸集），所以拟凸。但取 x = 0 与 y = 1：中点 0.5 处 √0.5 ≈ 0.71，而弦的高度只有 0.5，曲线高于弦，所以不凸。它也不是凹的（例如 x = −1 与 y = 1 的中点 0 处函数值 0 低于弦高 1）。" />
+
+## 对数凹与对数凸函数
+
+<Def title="log-concave / log-convex（讲义第 32 页）">
+
+- **正**函数 $f$ 是 <T zh="对数凹">log-concave</T>，如果 $\log f$ 是凹的。等价地，对 $0\le\theta\le1$：
+
+$$
+f(\theta x+(1-\theta)y)\ \ge\ f(x)^\theta f(y)^{1-\theta}.
+$$
+
+- $f$ 是 <T zh="对数凸">log-convex</T>，如果 $\log f$ 是凸的。
+
+</Def>
+
+等价形式的来历：$\log f$ 凹 ⇔ $\log f(\theta x+(1-\theta)y)\ge\theta\log f(x)+(1-\theta)\log f(y)=\log\big(f(x)^\theta f(y)^{1-\theta}\big)$，两边取指数（$e^u$ 递增，不等号方向不变）即得。大白话：凸/凹函数比的是“算术平均”，对数凹/凸比的是“几何平均”。
+
+<Example title="讲义例子：幂函数 xᵃ，x > 0">
+
+$\log x^a=a\log x$。$\log x$ 是凹的，所以
+
+- $a\ge0$ 时 $a\log x$ 凹 ⇒ $x^a$ **对数凹**；
+- $a\le0$ 时 $a\log x$ 凸 ⇒ $x^a$ **对数凸**。
+
+教材中的其他常见例子：$e^{ax}$ 既对数凹又对数凸；高斯密度 $e^{-x^2/2}$ 是对数凹的（$\log$ 后为 $-x^2/2$，凹）。
+
+</Example>
+
+<Intuition>
+
+对数凹在概率统计里非常常见（许多概率密度都是对数凹的），因为最大似然估计时要对 $\log$ 似然做最大化——对数凹保证了这是一个凸优化问题。这和第一课里的“最大似然 ⇒ 最小二乘”是一脉相承的。
+
+</Intuition>
+
+## 本章小结
+
+<Summary>
+
+- **定义**：$\mathbf{dom}\,f$ 凸 + Jensen 不等式 $f(\theta x+(1-\theta)y)\le\theta f(x)+(1-\theta)f(y)$；凹 ⇔ $-f$ 凸；严格凸用 $<$（$x\ne y$，$0<\theta<1$）。
+- **epigraph**：$f$ 凸 ⇔ $\mathbf{epi}\,f$ 凸；凸函数 sublevel set 凸，反之不成立（$\sqrt{|x|}$）。
+- **一阶条件**：$f(y)\ge f(x)+\nabla f(x)^T(y-x)$，切线是全局下估计；$\nabla f(x^*)=0$ ⇒ 全局最小（无约束、凸）。
+- **二阶条件**：凸 ⇔ $\nabla^2 f\succeq0$；$\nabla^2f\succ0$ ⇒ 严格凸（反之不成立，$x^4$）。二次函数 $\nabla^2f=P$，最小二乘 $\nabla^2f=2A^TA\succeq0$。
+- **保凸运算**：非负加权和；仿射复合 $f(Ax+b)$；逐点最大/上确界（min 不保凸）；复合规则（看 $f''=h''g'^2+h'g''$，单调性看 $\tilde h$）；联合凸函数在凸集上的最小化；透视 $tf(x/t)$。
+- **共轭** $f^*(y)=\sup_x(y^Tx-f(x))$ 总是凸的；例：仿射 → 单点 $-b$；$-\log x$ → $-1-\log(-y)$（$y<0$）。
+- **拟凸**：所有 sublevel set 凸；$f(\theta x+(1-\theta)y)\le\max\{f(x),f(y)\}$。**对数凹**：$\log f$ 凹。
+
+</Summary>
+
+<Quiz q="f(x) = max{ ‖Ax − b‖₂ , eˣ¹ } （x ∈ ℝⁿ，x₁ 是第一个分量）是凸函数吗？" options={['是：两项都凸，逐点最大保凸', '不是：逐点最大不保凸', '不是：eˣ¹ 不是 x 的凸函数', '无法判断']} answer={0} explain="‖Ax−b‖₂ 是范数与仿射的复合，凸；e^{x₁} 是 e^u（凸、递增）与线性函数 x₁ 的复合，凸。逐点最大保凸。" />
+
+<Quiz q="已知 f(x,y) 对每个固定 y 关于 x 是凸的（但不一定关于 (x,y) 联合凸）。下面哪个一定是凸的？" options={['inf_y f(x,y)', 'sup_y f(x,y)', 'min{f(x,y₁), f(x,y₂)}', '以上都不一定']} answer={1} explain="逐点上确界只要求对每个 y 关于 x 凸。最小化需要联合凸且 y 的范围是凸集；min 一般不保凸。" />
+
+<Quiz q="f(x) = x log x（x > 0）的共轭函数 f*(y) 是？（提示：sup_x (xy − x log x)，令导数为 0）" options={['e^{y−1}', 'y log y − y', 'e^{y}', '−1 − log(−y)']} answer={0} explain="d/dx (xy − x log x) = y − log x − 1 = 0 ⇒ x* = e^{y−1} > 0（对任意 y 都在定义域里）。代回：x*y − x*(y−1) = x* = e^{y−1}。" />
+
+<Quiz q="关于 Hessian 和凸性，下列哪个说法错误？" options={['∇²f(x) ⪰ 0 对所有 x 成立 ⇔ f 凸（f 二阶可微、定义域凸）', '∇²f(x) ≻ 0 对所有 x 成立 ⇒ f 严格凸', 'f 严格凸 ⇒ ∇²f(x) ≻ 0 对所有 x 成立', '对任意矩阵 A，‖Ax − b‖₂² 都是凸的']} answer={2} explain="反例 x⁴：严格凸，但 f''(0) = 0，Hessian 在 0 处不是正定的。" />

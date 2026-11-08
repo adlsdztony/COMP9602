@@ -1,0 +1,564 @@
+import { Ch16SetCheck, Ch16QPDual } from '../widgets/ch16.jsx'
+
+这一页把两次作业逐题拆开讲。作业一（A1）考的是 [凸集](#/c/convex-sets) 和 [凸函数](#/c/convex-functions)，作业二（A2）考的是 [凸问题](#/c/convex-problems) 与 [对偶](#/c/duality-1)。期末考试的题型和作业很像，尤其是“推导对偶问题”这一类，所以作业是最好的复习材料。
+
+**使用方法**：每道题先读题面和“考察知识点”，再看“提示”，**自己动手写 5–10 分钟**，然后再点开 `<Reveal>` 里的完整解答对照。
+
+本页路线：
+
+- 作业一：6 道题，凸集判定 → 凸锥 → Hessian 判凸 → 保凸运算 → 二次函数 → log-concave。解答依据**官方参考答案**（已逐页核对原 PDF），并补上了它省略的步骤。
+- 作业二：5 道题，全部是 Lagrange 对偶。课程**没有发布官方答案**，下面是**非官方解答**，每一步都重新推导过。
+- 课程项目的要求与时间线。
+
+<Exam>
+
+教授在第一课说过：期末 5 道大题里，有一道是“把文字描述建模 / 写出它的对偶”，学生在这道题上得分通常最低。作业二的 5 道题就是这类题的标准练习。
+
+</Exam>
+
+## 作业一：凸集与凸函数
+
+截止时间：2026 年 10 月 4 日（周日）23:59，满分 100，占总评 12%。
+
+### A1 Q1（10 分）：判断集合是否为凸
+
+> 证明下面两个集合是否为凸集：
+>
+> (a) $S_a=\{(x,y)\in\mathbb{R}^2 : xy\le 0\}\cap\{(x,y)\in\mathbb{R}^2 : y\ge 3x\}$
+>
+> (b) $S_b=\{(x,y)\in\mathbb{R}^2_+ : e^{2y}\ge e^{\sqrt{2x}}\}$
+
+**考察知识点**：[凸集的定义](#/c/convex-sets)（任意两点连线留在集合内）、半空间 <T zh="半空间">halfspace</T> 的交是凸的、用单调函数化简不等式。
+
+**提示**：(a) 先别急着套定理，把两个条件联立，看看这个集合到底长什么样；(b) $e^t$ 严格递增，两边可以“去掉 $e$”。若怀疑不凸，就找两个点，检查它们的**中点**。
+
+<Reveal label="看 (a) 的完整解答">
+
+结论：**凸**。
+
+<Steps title="A1 Q1(a)" steps={[
+  {text:'第一步：证明 x 不能大于 0。若 x > 0，则 y ≥ 3x > 0，于是 xy > 0，与 xy ≤ 0 矛盾。', math:'x\\le 0'},
+  {text:'第二步：证明 y ≥ 0。若 x < 0，xy ≤ 0 两边除以负数 x 要变号，得 y ≥ 0；若 x = 0，由 y ≥ 3x 直接得 y ≥ 0。', math:'y\\ge 0'},
+  {text:'第三步：反过来，若 x ≤ 0 且 y ≥ 0，则 xy ≤ 0（非正 × 非负），且 y ≥ 0 ≥ 3x。所以两个条件都成立。', math:'S_a=\\{(x,y): x\\le 0,\\ y\\ge 0\\}'},
+  {text:'第四步：这是“西北象限”，等于两个半空间 {x ≤ 0} 与 {y ≥ 0} 的交。半空间是凸的，凸集的交还是凸的。', math:'S_a=\\{x\\le 0\\}\\cap\\{y\\ge 0\\}\\ \\Rightarrow\\ \\text{convex}'},
+]} />
+
+</Reveal>
+
+<Reveal label="看 (b) 的完整解答">
+
+结论：**不凸**。
+
+<Steps title="A1 Q1(b)" steps={[
+  {text:'第一步：指数函数严格递增，所以可以把两边的 e 去掉，不等号方向不变。', math:'e^{2y}\\ge e^{\\sqrt{2x}}\\iff 2y\\ge\\sqrt{2x}\\iff y\\ge\\sqrt{x/2}\\quad(x,y\\ge 0)'},
+  {text:'第二步：边界 y = √(x/2) 是凹函数，“凹函数上方”的区域一般不是凸的。下面找具体反例。', math:'(x_1,y_1)=(0,0),\\qquad (x_2,y_2)=(2,1)'},
+  {text:'第三步：两点都在集合里：(0,0) 处 1 ≥ 1；(2,1) 处 e² ≥ e^{√4} = e²。', math:'e^{0}\\ge e^{0},\\qquad e^{2}\\ge e^{2}'},
+  {text:'第四步：中点 (1, 1/2) 不在集合里，因为 1 < √2。所以集合不凸。', math:'e^{2\\cdot\\frac12}=e^{1}\\ <\\ e^{\\sqrt{2}}'},
+]} />
+
+</Reveal>
+
+<Ch16SetCheck />
+
+<Warn>
+
+- (a) 中的 $\{xy\le 0\}$ **本身不凸**（它是第二、四象限的并），也不是半空间。不能说“两个凸集的交所以凸”，必须先把交集化简成象限，再用“两个半空间的交”。
+- 证明“不凸”只要**一个**反例；证明“凸”必须对**任意**两点和任意 $\theta\in[0,1]$ 成立（或用保凸运算）。
+
+</Warn>
+
+### A1 Q2（15 分）：矩阵集合是否为凸锥
+
+> 设 $n\ge 2$，固定 $r\succ 0$（即每个 $r_i>0$），定义
+>
+> $$
+> C=\{A\in\mathbb{S}^n : x^TAx\ge 0\ \text{对所有满足}\ r_i\le x_i\le 3r_i\ \text{的}\ x\}.
+> $$
+>
+> 判断真假并证明：(a) $C$ 是凸锥 <T zh="凸锥">convex cone</T>；(b) $\mathbb{S}^n_+\subseteq C$。
+
+这里 $\mathbb{S}^n$ 是 $n\times n$ 对称矩阵，$\mathbb{S}^n_+$ 是半正定 <T zh="半正定">PSD</T> 矩阵（对**所有** $x$ 都有 $x^TAx\ge 0$）。
+
+**考察知识点**：[凸锥的定义](#/c/convex-sets)（对非负组合封闭）、PSD 矩阵的定义。
+
+**提示**：凸锥 ⇔ 对任意 $A,B\in C$ 和 $\alpha,\beta\ge 0$，都有 $\alpha A+\beta B\in C$。注意 $x^TAx$ 对 $A$ 是**线性**的。
+
+<Reveal label="看完整解答">
+
+**(a) 真。**
+
+<Steps title="A1 Q2(a)" steps={[
+  {text:'取 A, B ∈ C，α, β ≥ 0。记方盒 𝓑 = {x : r_i ≤ x_i ≤ 3r_i}。对每个 x ∈ 𝓑，x^TAx ≥ 0 且 x^TBx ≥ 0。', math:'x^T(\\alpha A+\\beta B)x=\\alpha\\,x^TAx+\\beta\\,x^TBx\\ \\ge 0\\quad\\forall x\\in\\mathcal B'},
+  {text:'αA + βB 仍然对称，所以属于 C。取 β = 0 得到“锥”（对非负缩放封闭）；取 α + β = 1 得到“凸”。', math:'\\alpha A+\\beta B\\in C\\ \\Rightarrow\\ C\\ \\text{is a convex cone}'},
+  {text:'另一种看法：C 是无穷多个（过原点的）半空间之交，每个半空间对应一个 x ∈ 𝓑。', math:'C=\\bigcap_{x\\in\\mathcal B}\\{A\\in\\mathbb S^n:\\ \\operatorname{tr}(A\\,xx^T)\\ge 0\\}'},
+]} />
+
+**(b) 真。** 若 $A\succeq 0$，则对**所有** $x\in\mathbb{R}^n$ 有 $x^TAx\ge 0$，当然对方盒里的 $x$ 也成立，所以 $A\in C$。直观上：$C$ 的条件只要求在一个子集上非负，比 PSD 更弱，所以 $C$ 更大。
+
+</Reveal>
+
+<Warn>
+
+不要把 $C$ 误认为就是 $\mathbb{S}^n_+$。比如 $n=2$ 时 $A=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ 不是 PSD（特征值为 $\pm1$），但方盒里的 $x$ 全是正分量，$x^TAx=2x_1x_2>0$，所以 $A\in C$。因此 $\mathbb{S}^n_+\subsetneq C$。
+
+</Warn>
+
+### A1 Q3（15 分）：用 Hessian 和复合规则证明凸性
+
+> 设 $f(x,t)=-\log(t^2-2x^Tx)$，$\operatorname{dom}f=\{(x,t)\in\mathbb{R}^n\times\mathbb{R}: t>\sqrt2\,\|x\|_2\}$。
+>
+> (a) 证明 $h(x,t)=t-\dfrac{2x^Tx}{t}$ 在 $\operatorname{dom}f$ 上是凹的；
+> (b) 证明 $-\log\big(t-\frac{2x^Tx}{t}\big)$ 在 $\operatorname{dom}f$ 上是凸的；
+> (c) 证明 $f$ 在 $\operatorname{dom}f$ 上是凸的。
+
+**考察知识点**：[二阶条件](#/c/convex-functions)（$\nabla^2 f\succeq 0$ ⇔ 凸）、quadratic-over-linear 函数 $x^Tx/t$ 是凸的、[复合规则](#/c/convex-functions)（$-\log$ 是凸且递减，作用在凹函数上得到凸函数）。
+
+**提示**：先说明定义域是凸的（三角不等式）。(a) 只需证 $q(x,t)=x^Tx/t$ 凸——算 Hessian，然后把二次型凑成完全平方。(c) 注意 $t^2-2x^Tx=t\cdot h(x,t)$。
+
+<Reveal label="看完整解答">
+
+**定义域是凸的**（2 分）：对 $\theta\in[0,1]$，由三角不等式
+
+$$
+\sqrt2\,\|\theta x_1+(1-\theta)x_2\|_2\le\theta\sqrt2\|x_1\|_2+(1-\theta)\sqrt2\|x_2\|_2<\theta t_1+(1-\theta)t_2 .
+$$
+
+它其实是二阶锥 <T zh="二阶锥">second-order cone</T> 的内部。另外在定义域上 $t>0$。
+
+<Steps title="(a) h 是凹的" steps={[
+  {text:'令 q(x,t) = x^Tx / t（t > 0）。逐项求导：∂q/∂x = 2x/t，∂q/∂t = −x^Tx/t²。再求一次导得到 Hessian：', math:'\\nabla^2 q(x,t)=\\begin{pmatrix}\\frac{2}{t}I_n & -\\frac{2x}{t^2}\\\\[1mm] -\\frac{2x^T}{t^2} & \\frac{2\\|x\\|_2^2}{t^3}\\end{pmatrix}'},
+  {text:'对任意方向 (v, τ) 计算二次型，提出 2/t 后正好是一个完全平方：', math:'(v,\\tau)^T\\nabla^2q\\,(v,\\tau)=\\frac{2}{t}\\|v\\|_2^2-\\frac{4\\tau}{t^2}x^Tv+\\frac{2\\tau^2}{t^3}\\|x\\|_2^2=\\frac{2}{t}\\Big\\|v-\\frac{\\tau}{t}x\\Big\\|_2^2\\ \\ge 0'},
+  {text:'所以 Hessian 半正定，q 在开凸集 {t > 0} 上凸。h = t − 2q 是“线性函数减去凸函数”，所以是凹的。', math:'h=t-2q\\ \\text{concave}'},
+]} />
+
+<Steps title="(b) −log h 是凸的" steps={[
+  {text:'在定义域上 h > 0（分子分母都为正），所以 −log h 有定义。', math:'h(x,t)=\\frac{t^2-2x^Tx}{t}=\\frac{(t-\\sqrt2\\|x\\|_2)(t+\\sqrt2\\|x\\|_2)}{t}>0'},
+  {text:'取 p = θp₁ + (1−θ)p₂。由 h 凹：h(p) ≥ θh(p₁) + (1−θ)h(p₂)。由 −log 递减：', math:'-\\log h(p)\\le-\\log\\big(\\theta h(p_1)+(1-\\theta)h(p_2)\\big)'},
+  {text:'再由 −log 凸（Jensen）：', math:'\\le\\theta\\big(-\\log h(p_1)\\big)+(1-\\theta)\\big(-\\log h(p_2)\\big)'},
+]} />
+
+**(c)** 因为 $t^2-2x^Tx=t\cdot h(x,t)$ 且 $t>0,\ h>0$：
+
+$$
+f(x,t)=-\log\big(t\,h(x,t)\big)=-\log t-\log h(x,t).
+$$
+
+第一项在 $t>0$ 上凸，第二项由 (b) 凸，凸函数之和仍凸。
+
+</Reveal>
+
+<Warn>
+
+- 只写“$-\log$ 是凸的，$h$ 是凹的，所以复合是凸的”不够：复合规则需要外层函数**凸且非增**，两个条件都要说明。
+- 二阶条件只在**开凸集**上适用，所以要先确认定义域是凸的。
+
+</Warn>
+
+### A1 Q4（20 分）：逐点上确界与方向导数
+
+> (a) 对 $x\in\mathbb{R}^n$（$n\ge2$），令 $q_x(t)=\sum_{i=1}^n x_i\cos((i-1)t)$，$t\in[0,\pi]$。证明
+> $f(x)=\sup_{t\in[0,\pi]}q_x(t)-\inf_{t\in[0,\pi]}q_x(t)$ 在 $\mathbb{R}^n$ 上是凸的。（提示：固定 $t$ 时 $q_x(t)$ 对 $x$ 是仿射的。）
+>
+> (b) 设 $g:\mathbb{R}^n\to\mathbb{R}$ 凸，$B\in\mathbb{R}^{n\times p}$，$c\in\mathbb{R}^p$，$y\in\operatorname{dom}g$。证明
+> $f(x)=c^Tx+\inf_{\alpha>0}\dfrac{g(y+\alpha Bx)-g(y)}{\alpha}$ 在 $\mathbb{R}^p$ 上是凸的。
+
+**考察知识点**：[逐点上确界保凸](#/c/convex-functions)（任意多个凸函数的 sup 仍凸）、仿射复合保凸、凸函数差商的单调性。
+
+**提示**：(a) “sup 减 inf”不是现成的保凸运算，想办法把它写成**一个** sup：$\sup_t a_t-\inf_s a_s=\sup_{s,t}(a_t-a_s)$。(b) inf 一般不保凸！先证明差商 $\psi_d(\alpha)$ 关于 $\alpha$ 单调不减，于是 inf 就是 $\alpha\to0^+$ 的极限（方向导数）。
+
+<Reveal label="看 (a) 的完整解答">
+
+<Steps title="A1 Q4(a)" steps={[
+  {text:'把 q 写成内积：固定 t 时它是 x 的线性函数。', math:'q_x(t)=\\langle x,c(t)\\rangle,\\qquad c(t)=\\big(1,\\cos t,\\dots,\\cos((n-1)t)\\big)'},
+  {text:'q 关于 t 连续、区间 [0,π] 紧，所以 sup 和 inf 都有限且可达。把差写成对一对 (s,t) 的 sup：', math:'f(x)=\\sup_{t}q_x(t)-\\inf_{s}q_x(s)=\\sup_{(s,t)\\in[0,\\pi]^2}\\big\\langle x,\\ c(t)-c(s)\\big\\rangle'},
+  {text:'每个固定的 (s,t) 给出一个 x 的线性函数；线性函数族的逐点上确界是凸的。', math:'f\\ \\text{convex on }\\mathbb R^n'},
+]} />
+
+</Reveal>
+
+<Reveal label="看 (b) 的完整解答">
+
+<Steps title="A1 Q4(b)" steps={[
+  {text:'固定方向 d ∈ ℝⁿ，定义差商 ψ_d(α)。', math:'\\psi_d(\\alpha)=\\frac{g(y+\\alpha d)-g(y)}{\\alpha},\\quad\\alpha>0'},
+  {text:'单调性：对 0 < α < β，y + αd 是 y 和 y + βd 的凸组合。用 g 的凸性，减去 g(y) 再除以 α，得到 ψ_d(α) ≤ ψ_d(β)。', math:'y+\\alpha d=\\Big(1-\\frac{\\alpha}{\\beta}\\Big)y+\\frac{\\alpha}{\\beta}(y+\\beta d)'},
+  {text:'所以 inf 等于 α → 0⁺ 的极限，也就是方向导数 G(d) = g′(y; d)。g 在全空间有限且凸，所以这个极限有限。', math:'\\inf_{\\alpha>0}\\psi_d(\\alpha)=\\lim_{\\alpha\\to0^+}\\psi_d(\\alpha)=:G(d)'},
+  {text:'G 是凸的：固定 α，由 y + α(θd₁+(1−θ)d₂) = θ(y+αd₁) + (1−θ)(y+αd₂) 和 g 的凸性得到下式，再令 α → 0⁺。', math:'\\psi_{\\theta d_1+(1-\\theta)d_2}(\\alpha)\\le\\theta\\psi_{d_1}(\\alpha)+(1-\\theta)\\psi_{d_2}(\\alpha)'},
+  {text:'x ↦ Bx 线性，凸函数与仿射映射复合仍凸；再加上线性项 c^Tx 仍凸。', math:'f(x)=c^Tx+G(Bx)\\ \\text{convex on }\\mathbb R^p'},
+]} />
+
+</Reveal>
+
+<Warn>
+
+- **逐点下确界一般不保凸**（只有“对另一个变量做部分最小化，且原函数**联合**凸”时才保凸）。(b) 正是靠“差商单调，所以 inf 等于极限”绕开了这一点。
+- (a) 不能说“sup 凸、inf 凹，所以差凸”：凸减凹 = 凸 + 凸，这其实是对的；但要先说明 $\inf_t q_x(t)$ 是线性函数族的 inf（凹），这一步最好写出来。官方答案用的是更干净的“合成一个 sup”的写法。
+
+</Warn>
+
+### A1 Q5（20 分）：积分定义的二次函数
+
+> 设 $F_1,\dots,F_m$ 是 CDF（取值在 $[0,1]$），$y\in\mathbb{R}$ 固定。对 $a\in\mathbb{R}^m$ 令 $F(u)=\sum_i a_iF_i(u)$，$\operatorname{dom}C=\{a\succeq0,\ \mathbf1^Ta=1\}$，$\omega(u)=1/(1+(u-y)^2)$，
+>
+> $$
+> C_\omega(a)=\int_{-\infty}^{y}\omega(u)F(u)^2\,du+\int_{y}^{\infty}\omega(u)\big(1-F(u)\big)^2\,du .
+> $$
+>
+> 证明 $C_\omega$ 是 $a$ 的二次函数（二次型 + 仿射项 + 常数），且在 $\operatorname{dom}C$ 上是凸的。
+
+**考察知识点**：[二次函数的凸性](#/c/convex-functions)（$a^TQa+\dots$ 凸 ⇔ $Q\succeq0$）、PSD 的定义 $v^TQv\ge0$。
+
+**提示**：展开 $(1-F)^2=1-2F+F^2$，把两段 $F^2$ 合并成整条实轴上的积分。然后定义 $q_{ij}=\int\omega F_iF_j$，证明 $v^TQv$ 是一个“非负函数的积分”。
+
+<Reveal label="看完整解答">
+
+<Steps title="A1 Q5" steps={[
+  {text:'可积性：0 ≤ F_i ≤ 1，且 ω 在全实轴上的积分是 π（代换 s = u − y），所以下面所有积分都收敛。', math:'\\int_{-\\infty}^{\\infty}\\frac{du}{1+(u-y)^2}=\\int_{-\\infty}^{\\infty}\\frac{ds}{1+s^2}=\\pi'},
+  {text:'展开第二个积分里的平方，并把两段 F² 合在一起：', math:'C_\\omega(a)=\\int_{-\\infty}^{\\infty}\\omega F^2\\,du-2\\int_y^{\\infty}\\omega F\\,du+\\int_y^{\\infty}\\omega\\,du'},
+  {text:'代入 F = Σ a_i F_i，定义三个常数：', math:'q_{ij}=\\int_{-\\infty}^{\\infty}\\omega F_iF_j\\,du,\\quad r_i=\\int_y^{\\infty}\\omega F_i\\,du,\\quad \\rho=\\int_y^{\\infty}\\omega\\,du'},
+  {text:'于是得到“二次型 + 仿射项 + 常数”，Q = (q_ij) 对称。', math:'C_\\omega(a)=a^TQa-2r^Ta+\\rho'},
+  {text:'Q 半正定：对任意 v，v^TQv 是一个非负函数的积分（ω > 0，平方 ≥ 0）。', math:'v^TQv=\\int_{-\\infty}^{\\infty}\\omega(u)\\Big(\\sum_i v_iF_i(u)\\Big)^2du\\ \\ge 0'},
+  {text:'Hessian = 2Q ⪰ 0，所以 C_ω 在 ℝ^m 上凸；dom C（概率单纯形）是凸集，限制在凸集上仍凸。', math:'\\nabla^2C_\\omega(a)=2Q\\succeq0'},
+]} />
+
+</Reveal>
+
+<Warn>
+
+证 $Q\succeq0$ 时不能只看 $q_{ij}\ge0$（元素非负 ≠ 半正定）。正确做法是写出 $v^TQv$ 并说明它 $\ge0$。
+
+</Warn>
+
+### A1 Q6（20 分）：log-concave 乘积的凹性
+
+> 设 $\lambda_i>0,\ \kappa_i>0$，
+> $f(x)=\prod_{i=1}^n\big(1-e^{-\kappa_ix_i}\big)^{\lambda_i}$，$\operatorname{dom}f=\{x\in\mathbb{R}^n_+:\sum_i\lambda_ie^{-\kappa_ix_i}\le1\}$。证明 $f$ 在定义域上是凹的。
+> （提示：令 $s_i=\kappa_ix_i$；可用 Cauchy–Schwarz；注意定义域的边界。）
+
+**考察知识点**：[二阶条件](#/c/convex-functions)、[log-concave 函数](#/c/convex-functions)、$G=e^L$ 时 $\nabla^2G=G(\nabla^2L+\nabla L\nabla L^T)$、Cauchy–Schwarz 不等式。
+
+**提示**：$\log f$ 是 log-concave 的（每项 $\log(1-e^{-s})$ 都凹），但 log-concave **不等于**凹！所以必须直接证 $\nabla^2G\preceq0$。关键是用 Cauchy–Schwarz 把 $(a^Tv)^2$ 和 $\sum b_iv_i^2$ 联系起来，定义域条件 $\sum\lambda_ie^{-s_i}\le1$ 恰好在这里派上用场。
+
+<MathNote>
+
+**Cauchy–Schwarz 不等式**：对任意向量 $p,q$，$(p^Tq)^2\le\|p\|_2^2\,\|q\|_2^2$，即 $\big(\sum_ip_iq_i\big)^2\le\big(\sum_ip_i^2\big)\big(\sum_iq_i^2\big)$。大白话：两个向量内积的平方不超过它们长度平方的乘积。
+
+</MathNote>
+
+<Reveal label="看完整解答">
+
+<Steps title="A1 Q6" steps={[
+  {text:'Step 1 换元：s_i = κ_i x_i 是正对角缩放（可逆线性映射），保凹性。只需证 G 在 D 上凹。', math:'G(s)=\\prod_i(1-e^{-s_i})^{\\lambda_i},\\qquad D=\\Big\\{s\\in\\mathbb R^n_+:\\ \\sum_i\\lambda_ie^{-s_i}\\le1\\Big\\}'},
+  {text:'Step 2 D 是凸集：ψ(s) = Σ λ_i e^{−s_i} 是凸函数，D 是它的 1-下水平集与非负象限的交。', math:'D=\\{s\\succeq0\\}\\cap\\{\\psi(s)\\le1\\}'},
+  {text:'Step 3 在内部（s ≻ 0）令 L = log G，z_i = e^{−s_i} ∈ (0,1)。L 可分离，Hessian 是对角阵：', math:'\\partial_iL=\\frac{\\lambda_iz_i}{1-z_i}=:a_i,\\qquad \\partial_i^2L=-\\frac{\\lambda_iz_i}{(1-z_i)^2}=:-b_i,\\qquad \\partial_i\\partial_jL=0\\ (i\\ne j)'},
+  {text:'由 G = e^L 和乘积求导法则 ∂_ij G = G(∂_iL ∂_jL + ∂_ijL)：', math:'\\nabla^2G=G\\big(\\nabla^2L+\\nabla L\\,\\nabla L^T\\big)=G\\big(aa^T-\\operatorname{diag}(b)\\big)'},
+  {text:'Step 4 关键恒等式：a_i² / b_i = λ_i z_i = λ_i e^{−s_i}。用 Cauchy–Schwarz（把 a_i v_i 拆成 (a_i/√b_i)(√b_i v_i)）：', math:'(a^Tv)^2\\le\\Big(\\sum_i\\frac{a_i^2}{b_i}\\Big)\\Big(\\sum_ib_iv_i^2\\Big)=\\Big(\\sum_i\\lambda_ie^{-s_i}\\Big)\\Big(\\sum_ib_iv_i^2\\Big)'},
+  {text:'于是二次型 ≤ 0：因为 G ≥ 0、定义域条件给出 Σλ_i e^{−s_i} − 1 ≤ 0、b_i > 0。', math:'v^T\\nabla^2G\\,v=G\\Big((a^Tv)^2-\\sum_ib_iv_i^2\\Big)\\le G\\Big(\\sum_i\\lambda_ie^{-s_i}-1\\Big)\\Big(\\sum_ib_iv_i^2\\Big)\\le0'},
+  {text:'Step 5 边界：s_i = 0 处不可导。取 s^ε = s + ε𝟏，它严格在内部（见下式）。对 s^ε, t^ε 用内部的凹性，再令 ε → 0，由 G 连续得到 D 上的凹性。', math:'\\sum_i\\lambda_ie^{-s_i-\\varepsilon}=e^{-\\varepsilon}\\sum_i\\lambda_ie^{-s_i}\\le e^{-\\varepsilon}<1'},
+]} />
+
+</Reveal>
+
+<Warn>
+
+- **log-concave 不蕴含 concave**（例如 $e^{-x^2}$ 是 log-concave 但不是凹的）。本题的凹性必须依赖定义域条件 $\sum\lambda_ie^{-s_i}\le1$；去掉它结论就不成立。
+- 二阶条件需要在开集上用，所以先在内部 $\{s\succ0,\ \sum\lambda_ie^{-s_i}<1\}$ 证明，再用连续性推到边界（Step 5）。
+
+</Warn>
+
+## 作业二：凸问题与对偶（非官方解答）
+
+截止时间：2026 年 11 月 12 日（周四）23:59，满分 100，占总评 12%。
+
+<Warn title="非官方解答">
+
+课程没有发布作业二的官方答案。下面的解答是本站独立推导的**非官方解答**，每一步都重新验算过，但仍请以教授 / TA 的讲解为准。
+
+</Warn>
+
+所有题都按 [对偶推导三步法](#/c/duality-1) 来做：
+
+1. 写 Lagrangian：不等式约束先化成 $f_i\le0$，配 $\lambda_i\ge0$；等式配 $\nu_i$（无符号限制）。
+2. 求 dual function $g=\inf_x L$：能求导就令梯度为零；对 $\inf$ 发散到 $-\infty$ 的情况单独讨论（这就产生了 effective domain，即 $g>-\infty$ 的地方）。
+3. 写 dual problem：$\max g$ s.t. $\lambda\ge0$（加上 $g$ 有限的条件），再判断是否强对偶（[Slater 条件](#/c/duality-2)）。
+
+### A2 Q1（20 分）：log det 问题的对偶
+
+> $$
+> \begin{aligned}
+> \text{minimize}\quad & \log\det X^{-1}\\
+> \text{subject to}\quad & A_i^TXA_i\preceq B_i,\quad i=1,\dots,m,
+> \end{aligned}
+> $$
+>
+> 变量 $X\in\mathbb{S}^n_{++}$，$A_i\in\mathbb{R}^{n\times k_i}$，$B_i\in\mathbb{S}^{k_i}_{++}$，且 $\sum_iA_iA_i^T\succ0$。推导 Lagrange 对偶：给出对偶变量及其取值范围、dual function 及其 effective domain，并证明对偶间隙为零。
+> 提示：$\log\det(X^{-1})=-\log\det X$，$\nabla_X\log\det X=X^{-1}$。
+
+**考察知识点**：[广义不等式约束的对偶](#/c/duality-4)（矩阵约束 $\preceq$ 的乘子是 PSD 矩阵，内积是 $\operatorname{tr}$）、$-\log\det$ 是凸的、[Slater 条件与强对偶](#/c/duality-2)。
+
+<MathNote>
+
+- 迹 <T zh="迹">trace</T> $\operatorname{tr}(M)$ = 对角线元素之和。对称矩阵的“内积”是 $\langle Z,Y\rangle=\operatorname{tr}(ZY)$。
+- 循环性质：$\operatorname{tr}(ABC)=\operatorname{tr}(CAB)$。
+- 矩阵不等式 $Y\preceq B$ 写成 $Y-B\preceq0$，对应乘子 $Z\succeq0$，Lagrangian 加上 $\operatorname{tr}\big(Z(Y-B)\big)$。
+
+</MathNote>
+
+**提示**：用循环性质把所有含 $X$ 的项合成 $\operatorname{tr}(XW)$，其中 $W=\sum_iA_iZ_iA_i^T$。然后分 $W\succ0$ 和 $W$ 奇异两种情况求 $\inf_X$。
+
+<Reveal label="看完整解答（非官方）">
+
+<Steps title="A2 Q1" steps={[
+  {text:'凸性：目标 −log det X 在 S^n_{++} 上凸；约束函数 X ↦ A_i^TXA_i − B_i 是仿射的。所以这是凸问题。乘子 Z_i ∈ S^{k_i}，要求 Z_i ⪰ 0。', math:'L(X,Z)=-\\log\\det X+\\sum_{i=1}^m\\operatorname{tr}\\big(Z_i(A_i^TXA_i-B_i)\\big)'},
+  {text:'用循环性质 tr(Z_iA_i^TXA_i) = tr(X A_iZ_iA_i^T)，把含 X 的项合并：', math:'L=-\\log\\det X+\\operatorname{tr}(XW)-\\sum_i\\operatorname{tr}(B_iZ_i),\\qquad W=\\sum_{i=1}^mA_iZ_iA_i^T'},
+  {text:'情况 1：W ≻ 0。L 对 X 凸，令梯度 −X^{-1} + W = 0 得 X = W^{-1}，代回：', math:'\\inf_{X\\succ0}L=\\log\\det W+n-\\sum_i\\operatorname{tr}(B_iZ_i)'},
+  {text:'情况 2：W 不是正定（Z_i ⪰ 0 时 W ⪰ 0，所以此时 W 奇异）。取单位向量 v 使 Wv = 0，令 X_t = I + t vv^T。则 tr(X_tW) = tr W 不变，而 −log det X_t = −log(1+t) → −∞。', math:'\\inf_{X\\succ0}L=-\\infty'},
+  {text:'dual function：', math:'g(Z)=\\begin{cases}n+\\log\\det\\Big(\\sum_iA_iZ_iA_i^T\\Big)-\\sum_i\\operatorname{tr}(B_iZ_i), & \\sum_iA_iZ_iA_i^T\\succ0\\\\ -\\infty, & \\text{otherwise}\\end{cases}'},
+  {text:'dual problem（effective domain：Z_i ⪰ 0 且 Σ A_iZ_iA_i^T ≻ 0）：', math:'\\max_{Z_i\\succeq0}\\ \\ n+\\log\\det\\Big(\\sum_{i=1}^mA_iZ_iA_i^T\\Big)-\\sum_{i=1}^m\\operatorname{tr}(B_iZ_i)'},
+  {text:'零间隙之一（Slater）：取 X̂ = εI。因为 B_i ≻ 0，ε 足够小时 εA_i^TA_i ≺ B_i 对所有 i 成立，严格可行点存在。', math:'A_i^T(\\varepsilon I)A_i=\\varepsilon A_i^TA_i\\prec B_i'},
+  {text:'零间隙之二（p* 有限）：题设 ΣA_iA_i^T ≻ 0 说明 Z_i = I 在 effective domain 里，由弱对偶 p* ≥ g(I) > −∞；而 X̂ 可行所以 p* < +∞。凸 + Slater + p* 有限 ⇒ 强对偶，且对偶最优可达。', math:'p^\\star=d^\\star'},
+]} />
+
+最优性条件（选读）：$X^\star=\big(\sum_iA_iZ_i^\star A_i^T\big)^{-1}$，互补松弛 $\operatorname{tr}\big(Z_i^\star(B_i-A_i^TX^\star A_i)\big)=0$。
+
+</Reveal>
+
+<Warn>
+
+- 矩阵约束的乘子是**矩阵** $Z_i\succeq0$，不是标量；乘法用 $\operatorname{tr}$。
+- 题设 $\sum_iA_iA_i^T\succ0$ 的作用要说出来：它保证对偶可行集非空（$Z_i=I$ 可行），从而 $p^\star$ 有下界。
+- 把 dual function 写成 $\log\det W+n-\dots$ 时**不要漏掉常数 $n$**（来自 $\operatorname{tr}(W^{-1}W)=\operatorname{tr}I=n$）。
+
+</Warn>
+
+### A2 Q2（20 分）：几何平均的对偶刻画与 AM-GM
+
+> 对 $x\in\mathbb{R}^n_{++}$，几何平均 $G(x)=\big(\prod_{i=1}^nx_i\big)^{1/n}$。
+>
+> (a) 推导下面问题（变量是 $v$）的 Lagrange dual function：$\min\ \frac1nx^Tv$ s.t. $\sum_{i=1}^n\log v_i=0,\ v\in\mathbb{R}^n_{++}$。
+> (b) 证明 $G(x)=\inf\big\{\tfrac1nv^Tx:\ v\in\mathbb{R}^n_{++},\ \prod_iv_i=1\big\}$。
+> (c) 证明 $G$ 在 $\mathbb{R}^n_{++}$ 上是凹的，并取 $v=\mathbf1$ 推出算术–几何平均不等式（AM-GM）。
+
+**考察知识点**：[dual function 的推导与分情况讨论](#/c/duality-1)、[弱对偶](#/c/duality-2)、[逐点下确界保凹](#/c/convex-functions)。
+
+**提示**：(a) 拉格朗日函数对每个 $v_i$ 可分离，按 $\nu>0,\ \nu=0,\ \nu<0$ 三种情况讨论。(b) **不要用 AM-GM 证明 (b)**——(c) 要用 (b) 推出 AM-GM，那样就循环论证了。用 (a) 的 dual function 配合**弱对偶**给下界即可。
+
+<Reveal label="看 (a) 的完整解答（非官方）">
+
+<Steps title="A2 Q2(a)" steps={[
+  {text:'Lagrangian（等式约束，ν ∈ ℝ 无符号限制），对 i 可分离：', math:'L(v,\\nu)=\\sum_{i=1}^n\\Big(\\frac{x_i}{n}v_i+\\nu\\log v_i\\Big)'},
+  {text:'ν > 0：令 v₁ → 0⁺，ν log v₁ → −∞，而 x₁v₁/n → 0，所以 g(ν) = −∞。', math:'g(\\nu)=-\\infty\\quad(\\nu>0)'},
+  {text:'ν = 0：目标恒正，且 v → 0⁺ 时趋于 0，所以下确界是 0（不可达）。', math:'g(0)=0'},
+  {text:'ν < 0：记 μ = −ν > 0。每项 x_iv_i/n − μ log v_i 是凸的，令导数 x_i/n − μ/v_i = 0 得 v_i = nμ/x_i，代回：', math:'\\min_{v_i>0}\\Big(\\frac{x_i}{n}v_i-\\mu\\log v_i\\Big)=\\mu\\big(1+\\log x_i-\\log(n\\mu)\\big)'},
+  {text:'对 i 求和，并用 (1/n)Σ log x_i = log G(x)：', math:'g(\\nu)=-n\\nu\\Big(1+\\log G(x)-\\log(-n\\nu)\\Big)\\quad(\\nu<0)'},
+  {text:'汇总：effective domain 是 ν ≤ 0（ν → 0⁻ 时上式趋于 0，与 g(0) = 0 衔接）。', math:'g(\\nu)=\\begin{cases}-n\\nu\\big(1+\\log G(x)-\\log(-n\\nu)\\big),&\\nu<0\\\\0,&\\nu=0\\\\-\\infty,&\\nu>0\\end{cases}'},
+]} />
+
+验算：令 $s=-n\nu>0$，$g=s(1+\log G-\log s)$，对 $s$ 求导得 $\log G-\log s=0$，即 $s=G(x)$，此时 $g=G(x)$。所以 $d^\star=G(x)$，和 (b) 吻合。
+
+</Reveal>
+
+<Reveal label="看 (b)(c) 的完整解答（非官方）">
+
+<Steps title="A2 Q2(b)：不借助 AM-GM" steps={[
+  {text:'注意 ∏v_i = 1 ⇔ Σ log v_i = 0，所以 (b) 的 inf 正是 (a) 中问题的最优值 p*。', math:'p^\\star=\\inf\\Big\\{\\tfrac1nx^Tv:\\ v\\succ0,\\ \\textstyle\\sum_i\\log v_i=0\\Big\\}'},
+  {text:'下界（弱对偶）：取 ν̂ = −G(x)/n，由 (a) 得 g(ν̂) = G(x)。对任意可行 v，约束项为 0，所以目标值 = L(v, ν̂) ≥ inf L = g(ν̂)。', math:'\\tfrac1nx^Tv=L(v,\\hat\\nu)\\ \\ge\\ g(\\hat\\nu)=G(x)\\quad\\Rightarrow\\quad p^\\star\\ge G(x)'},
+  {text:'可达：取 v*_i = G(x)/x_i（就是 (a) 中 μ = G/n 时的最小点）。它可行，且目标值恰为 G(x)。', math:'\\prod_iv_i^\\star=\\frac{G(x)^n}{\\prod_ix_i}=1,\\qquad \\tfrac1n\\sum_ix_iv_i^\\star=\\tfrac1n\\sum_iG(x)=G(x)'},
+  {text:'所以 inf = G(x)，且在 v* 处取到。', math:'G(x)=\\min\\Big\\{\\tfrac1nv^Tx:\\ v\\succ0,\\ \\textstyle\\prod_iv_i=1\\Big\\}'},
+]} />
+
+**(c)** 对每个固定的可行 $v$，$x\mapsto\frac1nv^Tx$ 是线性（仿射）函数；由 (b)，$G$ 是这一族线性函数的**逐点下确界**，所以 $G$ 是凹的。取 $v=\mathbf1$（$\prod1=1$，可行），由 (b) 得
+
+$$
+G(x)\le\tfrac1n\mathbf1^Tx\quad\Longleftrightarrow\quad\Big(\prod_ix_i\Big)^{1/n}\le\frac1n\sum_ix_i ,
+$$
+
+这就是 AM-GM。
+
+</Reveal>
+
+<Warn>
+
+- **循环论证陷阱**：如果 (b) 用 AM-GM 证明，(c) 再“由 (b) 推出 AM-GM”就是循环的。上面用 (a) 的弱对偶给出下界，避开了这个问题。
+- (a) 中的问题**不是凸问题**：等式约束 $\sum\log v_i=0$ 不是仿射的。但这里对偶间隙恰好为零（$d^\star=G(x)=p^\star$）——强对偶不要求凸，凸只是常用的充分条件。
+- 等式约束的乘子 $\nu$ **没有符号限制**；$\nu\le0$ 是从“$g$ 有限”推出来的，不是事先假设的。
+
+</Warn>
+
+### A2 Q3（20 分）：带一个线性约束的 QP
+
+> 设 $Q\in\mathbb{S}^n_{++}$，$q,a\in\mathbb{R}^n$，$b\in\mathbb{R}$，$a\ne0$：
+> $\min\ \frac12x^TQx+q^Tx$ s.t. $a^Tx\le b$。
+>
+> (a) 推导 Lagrange 对偶（dual function 与 effective domain）；(b) 给出最优乘子 $\lambda^\star$ 和原问题最优解 $x^\star$ 的显式公式；(c) 对 $Q=I\in\mathbb{S}^2$，$q=(-2,-1)$，$a=(1,1)$，$b=1$，求 $\lambda^\star$、$x^\star$ 和共同的最优值。
+
+**考察知识点**：[QP](#/c/problem-zoo)、[dual function 的计算](#/c/duality-1)、[KKT 与互补松弛](#/c/duality-3)。
+
+**提示**：$Q\succ0$ 时 Lagrangian 对 $x$ 是严格凸二次函数，令梯度为零即可。对偶是一元凹二次函数在 $\lambda\ge0$ 上求最大——先求无约束最大点，再“截断到 0”。
+
+<Reveal label="看完整解答（非官方）">
+
+<Steps title="A2 Q3(a)(b)" steps={[
+  {text:'Lagrangian（λ ≥ 0），令 ∇ₓL = Qx + q + λa = 0：', math:'L(x,\\lambda)=\\tfrac12x^TQx+q^Tx+\\lambda(a^Tx-b),\\qquad x(\\lambda)=-Q^{-1}(q+\\lambda a)'},
+  {text:'代回得 dual function。它对每个 λ ∈ ℝ 都有限，所以 effective domain 是 ℝ（dual problem 再加 λ ≥ 0）。', math:'g(\\lambda)=-\\tfrac12(q+\\lambda a)^TQ^{-1}(q+\\lambda a)-\\lambda b'},
+  {text:'展开成 λ 的一元二次函数，二次项系数 −½ a^TQ^{-1}a < 0（a ≠ 0，Q^{-1} ≻ 0），所以 g 严格凹：', math:'g(\\lambda)=-\\tfrac12q^TQ^{-1}q-\\lambda\\big(a^TQ^{-1}q+b\\big)-\\tfrac12\\lambda^2\\,a^TQ^{-1}a'},
+  {text:'dual problem：max g(λ) s.t. λ ≥ 0。令 g′(λ) = 0 得无约束最大点，再投影到 λ ≥ 0：', math:'\\lambda^\\star=\\max\\Big\\{0,\\ -\\frac{b+a^TQ^{-1}q}{a^TQ^{-1}a}\\Big\\},\\qquad x^\\star=-Q^{-1}(q+\\lambda^\\star a)'},
+  {text:'强对偶：约束是仿射的，Slater 只需可行；a ≠ 0 时总可行（例如 x = ta，t 足够负）。所以 p* = d* = g(λ*)，并且 (x*, λ*) 满足 KKT。', math:'Qx^\\star+q+\\lambda^\\star a=0,\\quad a^Tx^\\star\\le b,\\quad \\lambda^\\star\\ge0,\\quad \\lambda^\\star(a^Tx^\\star-b)=0'},
+]} />
+
+**解读**：若无约束最优点 $x_0=-Q^{-1}q$ 本身可行（$a^Tx_0\le b$，即 $b+a^TQ^{-1}q\ge0$），则 $\lambda^\star=0$，约束不起作用；否则 $\lambda^\star>0$，约束取等号。
+
+<Steps title="A2 Q3(c) 数值" steps={[
+  {text:'Q = I，所以 Q^{-1} = I。算三个量：', math:'a^Ta=2,\\qquad a^Tq=-2-1=-3,\\qquad q^Tq=5'},
+  {text:'无约束最大点：−(b + a^Tq)/(a^Ta) = −(1 − 3)/2 = 1 > 0，所以：', math:'\\lambda^\\star=1'},
+  {text:'原问题最优解：', math:'x^\\star=-(q+\\lambda^\\star a)=-\\big((-2,-1)+(1,1)\\big)=(1,0)'},
+  {text:'验证：a^Tx* = 1 = b（约束取等，互补松弛成立）；Qx* + q + λ*a = (1,0) + (−2,−1) + (1,1) = 0（稳定性成立）。', math:'f_0(x^\\star)=\\tfrac12\\cdot1+(-2)\\cdot1=-\\tfrac32'},
+  {text:'对偶侧：g(λ) = −5/2 + 2λ − λ²，在 λ = 1 取最大，值相同。', math:'g(1)=-\\tfrac52+2-1=-\\tfrac32=p^\\star'},
+]} />
+
+几何解释：无约束最优点 $(2,1)$ 违反 $x_1+x_2\le1$；因为 $Q=I$，等高线是圆，最优解就是 $(2,1)$ 到直线 $x_1+x_2=1$ 的正交投影 $(1,0)$。
+
+</Reveal>
+
+<Ch16QPDual />
+
+<Warn>
+
+- 只令 $g'(\lambda)=0$ 而**忘了截断到 $\lambda\ge0$**，会在约束不起作用时得到负的乘子。
+- dual function 的 effective domain（$g>-\infty$ 的地方）是 $\mathbb{R}$；对偶**问题**的可行域才是 $\lambda\ge0$。题目两者都问到了，别混。
+
+</Warn>
+
+### A2 Q4（20 分）：相对熵问题的对偶（softmax 形式）
+
+> $$
+> \begin{aligned}
+> \text{minimize}\quad & f_0(x)=\sum_{k=1}^nx_k\log(x_k/y_k)\\
+> \text{subject to}\quad & Ax=b,\quad \mathbf1^Tx=1,
+> \end{aligned}
+> $$
+>
+> 变量 $x\in\mathbb{R}^n_{++}$，参数 $y\in\mathbb{R}^n_{++}$，$A=[a_1\ \cdots\ a_n]\in\mathbb{R}^{m\times n}$，$b\in\mathbb{R}^m$；假设可行集含 $\mathbb{R}^n_{++}$ 中的点。
+>
+> (a) 推导 Lagrange 对偶；消去 $\mathbf1^Tx=1$ 的乘子后，证明 reduced dual 是 $\max_z\ b^Tz-\log\sum_ky_ke^{a_k^Tz}$。给出完整 dual function 及其 effective domain。若 $z^\star$ 是 reduced dual 的最优解，证明 $x_k^\star=\dfrac{y_ke^{a_k^Tz^\star}}{\sum_jy_je^{a_j^Tz^\star}}$。
+>
+> (b) 记 reduced dual 目标为 $g$，$p(z)_k=\dfrac{y_ke^{a_k^Tz}}{\sum_jy_je^{a_j^Tz}}$。证明 $p(z)\succ0$，$\mathbf1^Tp(z)=1$，且 $\nabla g(z)=b-Ap(z)$，$f_0(p(z))-g(z)=(Ap(z)-b)^Tz$。
+
+**考察知识点**：[只有等式约束时对偶无约束](#/c/duality-3)、对熵函数逐分量求 inf、[部分最大化消去乘子](#/c/duality-4)、log-sum-exp 的梯度是 softmax、从对偶最优解恢复原问题最优解。
+
+**提示**：Lagrangian 对 $k$ 可分离，每项 $x_k\log(x_k/y_k)+c_kx_k$ 的最小值是 $-y_ke^{-1-c_k}$。消去 $\mu$（$\mathbf1^Tx=1$ 的乘子）就是对 $\mu$ 做一维最大化。最后令 $z=-\nu$。
+
+<Reveal label="看完整解答（非官方）">
+
+<Steps title="A2 Q4(a)" steps={[
+  {text:'Lagrangian：ν ∈ ℝ^m 配 Ax = b，μ ∈ ℝ 配 1^Tx = 1（都是等式，无符号限制）。记 c_k = a_k^Tν + μ，则 L 对 k 可分离：', math:'L=\\sum_k\\Big(x_k\\log\\frac{x_k}{y_k}+c_kx_k\\Big)-b^T\\nu-\\mu'},
+  {text:'对 x_k > 0 求最小：导数 log(x_k/y_k) + 1 + c_k = 0 得 x_k = y_k e^{−1−c_k}；代回，log(x_k/y_k) = −1 − c_k，所以这一项的值是 −x_k：', math:'\\min_{x_k>0}\\Big(x_k\\log\\frac{x_k}{y_k}+c_kx_k\\Big)=-y_ke^{-1-c_k}'},
+  {text:'完整 dual function（对所有 (ν, μ) 有限，effective domain 是 ℝ^m × ℝ）：', math:'g(\\nu,\\mu)=-e^{-1-\\mu}\\sum_{k=1}^ny_ke^{-a_k^T\\nu}-b^T\\nu-\\mu'},
+  {text:'令 z = −ν，S(z) = Σ y_k e^{a_k^Tz} > 0。对 μ 最大化：导数 e^{−1−μ}S − 1 = 0 ⇒ μ* = log S − 1，代回得 −1 − (log S − 1) = −log S：', math:'\\max_\\mu\\ \\Big(b^Tz-e^{-1-\\mu}S(z)-\\mu\\Big)=b^Tz-\\log S(z)'},
+  {text:'reduced dual（无约束）：', math:'\\max_{z\\in\\mathbb R^m}\\ \\ b^Tz-\\log\\sum_{k=1}^ny_ke^{a_k^Tz}'},
+  {text:'恢复原问题解：把 ν = −z*、μ* = log S(z*) − 1 代入 x_k = y_k e^{−1−a_k^Tν−μ}，指数变成 a_k^Tz* − log S(z*)：', math:'x_k^\\star=\\frac{y_ke^{a_k^Tz^\\star}}{\\sum_jy_je^{a_j^Tz^\\star}}=p(z^\\star)_k'},
+  {text:'为什么它真的最优：由 (b)，∇g(z*) = 0 ⇒ Ap(z*) = b，且 1^Tp = 1、p ≻ 0，所以 p(z*) 原可行；再由 (b) 的恒等式，间隙 f₀(p(z*)) − g(z*) = 0。原可行且与对偶值相等 ⇒ 最优。', math:'f_0(p(z^\\star))=g(z^\\star)\\le p^\\star'},
+]} />
+
+强对偶的依据：约束全是仿射的，且存在 $\mathbb{R}^n_{++}$ 中（定义域的内部）的可行点，refined Slater 成立；目标在单纯形上有下界（log-sum 不等式给出 $f_0\ge-\log\sum_ky_k$），所以 $p^\star$ 有限、对偶最优可达。
+
+**(b)**
+
+<Steps title="A2 Q4(b)" steps={[
+  {text:'每个 p(z)_k 是正数相除，所以 p(z) ≻ 0；分子求和恰好等于分母，所以和为 1。', math:'\\mathbf1^Tp(z)=\\frac{\\sum_ky_ke^{a_k^Tz}}{S(z)}=1'},
+  {text:'梯度：log S 的梯度是“以 p 为权重的 a_k 的加权平均”，也就是 Ap(z)。', math:'\\nabla\\log S(z)=\\frac{\\sum_ky_ke^{a_k^Tz}\\,a_k}{S(z)}=\\sum_kp(z)_ka_k=Ap(z)\\ \\Rightarrow\\ \\nabla g(z)=b-Ap(z)'},
+  {text:'值恒等式：log(p_k / y_k) = a_k^Tz − log S。代入 f₀ 并用 1^Tp = 1：', math:'f_0(p(z))=\\sum_kp_k\\big(a_k^Tz-\\log S\\big)=(Ap(z))^Tz-\\log S(z)'},
+  {text:'减去 g(z) = b^Tz − log S(z)：', math:'f_0(p(z))-g(z)=(Ap(z)-b)^Tz'},
+]} />
+
+解读：$p(z)$ 永远满足 $\mathbf1^Tp=1$、$p\succ0$，只差 $Ap=b$；对偶梯度 $\nabla g=b-Ap$ 正好是这个“残差”。当残差为 0 时间隙也为 0。
+
+</Reveal>
+
+<Warn>
+
+- 求 $\inf_{x_k}$ 时最容易算错的是代回值：利用 $\log(x_k/y_k)=-1-c_k$ 化简，每项最小值是 $-x_k$，不是 0。
+- 只有等式约束时，对偶是**无约束**的（教授：“remember, that is a nice property”）。
+- $z=-\nu$ 的符号替换要写清楚，否则最后的 $x_k^\star$ 指数符号会反。
+
+</Warn>
+
+### A2 Q5（20 分）：盒约束与对偶下界
+
+> 凸问题 $\min f_0(x)$ s.t. $f_i(x)\le0\ (i=1..m)$，$l_i\le x_i\le u_i\ (i=1..n)$，$f_0,\dots,f_m$ 凸且可微，$l_i<u_i$。乘子 $\lambda\in\mathbb{R}^m_+$；$\mu,\nu\in\mathbb{R}^n_+$ 分别对应 $x\preceq u$ 和 $l\preceq x$：
+>
+> $$
+> L(x,\lambda,\mu,\nu)=f_0(x)+\sum_{i=1}^m\lambda_if_i(x)+\mu^T(x-u)+\nu^T(l-x).
+> $$
+>
+> (a) 固定 $x\in\mathbb{R}^n$ 和 $\lambda\succeq0$，证明可以选 $\mu,\nu\succeq0$ 使 $x$ 是 $L(\cdot,\lambda,\mu,\nu)$ 的最小点，并给出显式公式。
+> (b) 取 $\bar x=(l+u)/2$、$\lambda=0$，证明 $p^\star\ge f_0(\bar x)-\big(\frac{u-l}{2}\big)^T|\nabla f_0(\bar x)|$。对数值问题 $\min\ \frac12(x_1^2+4x_2^2+x_1x_2)-\mathbf1^Tx$ s.t. $\mathbf1^Tx\le1,\ 0\le x_i\le1$，求 (a) 给出的对偶可行点和对应的下界。
+
+**考察知识点**：[弱对偶给下界](#/c/duality-2)（任意对偶可行点都给出 $p^\star$ 的下界）、凸可微函数的最小点 ⇔ 梯度为零、正部 $(\cdot)_+=\max\{0,\cdot\}$。
+
+**提示**：$L$ 对 $x$ 凸可微，所以 “$x$ 是最小点” ⇔ $\nabla_xL=0$。盒约束的乘子只出现在梯度里的 $\mu-\nu$ 这一项，把任意一个向量拆成“正部减负部”即可。
+
+<Reveal label="看完整解答（非官方）">
+
+<Steps title="A2 Q5(a)" steps={[
+  {text:'L 对 x 凸（凸函数的非负组合 + 仿射项）且可微，所以 x 是最小点 ⇔ 梯度为零。记 h 为下式中的“不含 μ, ν 的部分”：', math:'\\nabla_xL=\\underbrace{\\nabla f_0(x)+\\sum_i\\lambda_i\\nabla f_i(x)}_{h}+\\mu-\\nu=0\\iff\\mu-\\nu=-h'},
+  {text:'取正部和负部（逐分量）：', math:'\\mu_j=\\max\\{0,\\,-h_j\\},\\qquad \\nu_j=\\max\\{0,\\,h_j\\}'},
+  {text:'检验：h_j ≥ 0 时 μ_j − ν_j = 0 − h_j；h_j < 0 时 μ_j − ν_j = −h_j − 0。两种情况都满足，且 μ, ν ⪰ 0。另外：', math:'\\mu_j+\\nu_j=|h_j|'},
+]} />
+
+<Steps title="A2 Q5(b) 一般公式" steps={[
+  {text:'λ = 0，x̄ = (l+u)/2，h = ∇f₀(x̄)，按 (a) 取 μ, ν。则 x̄ 最小化 L，所以 dual function 的值就是 L 在 x̄ 处的值。记 d = (u−l)/2 ⪰ 0：', math:'\\bar x-u=-d,\\qquad l-\\bar x=-d'},
+  {text:'代入：', math:'g(0,\\mu,\\nu)=L(\\bar x,0,\\mu,\\nu)=f_0(\\bar x)-(\\mu+\\nu)^Td=f_0(\\bar x)-d^T|\\nabla f_0(\\bar x)|'},
+  {text:'(0, μ, ν) 是对偶可行的（全都 ⪰ 0），由弱对偶：', math:'p^\\star\\ \\ge\\ f_0(\\bar x)-\\Big(\\frac{u-l}{2}\\Big)^T|\\nabla f_0(\\bar x)|'},
+]} />
+
+<Steps title="A2 Q5(b) 数值" steps={[
+  {text:'这里 l = (0,0)，u = (1,1)，x̄ = (½,½)，d = (½,½)。梯度：', math:'\\nabla f_0(x)=\\Big(x_1+\\tfrac12x_2-1,\\ \\ 4x_2+\\tfrac12x_1-1\\Big)\\ \\Rightarrow\\ \\nabla f_0(\\bar x)=\\Big(-\\tfrac14,\\ \\tfrac54\\Big)'},
+  {text:'目标值：', math:'f_0(\\bar x)=\\tfrac12\\Big(\\tfrac14+1+\\tfrac14\\Big)-1=-\\tfrac14'},
+  {text:'对偶可行点（由 (a)，h = ∇f₀(x̄)）：', math:'\\lambda=0,\\qquad \\mu=\\Big(\\tfrac14,\\ 0\\Big),\\qquad \\nu=\\Big(0,\\ \\tfrac54\\Big)'},
+  {text:'下界：', math:'p^\\star\\ge-\\tfrac14-\\Big(\\tfrac12\\cdot\\tfrac14+\\tfrac12\\cdot\\tfrac54\\Big)=-\\tfrac14-\\tfrac34=-1'},
+]} />
+
+**自己验证一下这个下界有多松**（题目没问）：无约束最优点 $(\tfrac{14}{15},\tfrac{2}{15})$ 违反 $\mathbf1^Tx\le1$，所以该约束是 active 的。由 KKT：$x_1+x_2=1$，$\nabla f_0=-\lambda\mathbf1$ ⇒ $x^\star=(\tfrac78,\tfrac18)$，$\lambda^\star=\tfrac1{16}$，$p^\star=-\tfrac{17}{32}\approx-0.53$。下界 $-1$ 正确但偏松，因为 $\lambda=0$ 完全忽略了 active 的约束。
+
+</Reveal>
+
+<Warn>
+
+- 盒约束 $l\le x\le u$ 要拆成 $x-u\le0$ 和 $l-x\le0$ 两组，各配一组非负乘子，符号不要写反。
+- 弱对偶给的是**下界**：$g(\lambda,\mu,\nu)\le p^\star$。不要写成上界。
+- (a) 的 $\mu,\nu$ 不唯一（任意 $\mu-\nu=-h$、$\mu,\nu\succeq0$ 都行），题目给的是使 $\mu+\nu$ 最小的那组，因而下界最紧。
+
+</Warn>
+
+## 课程项目与时间线
+
+**项目（占总评 24%）**：选一个研究领域（最好是自己的研究方向），调研其中的优化问题，找一个**有意义且文献中尚未解决**的新问题，把它建模成（凸）优化问题；设计算法（可以用课上学的，也可以来自文献），尽量分析收敛性和复杂度；用 Python 或 MATLAB 实现，并在典型输入上测试 (1) 正确性（能找到全局最优）和 (2) 性能（例如收敛所需迭代次数）。
+
+| 项目 | 要求 |
+|---|---|
+| 组队 | 最多 2 人；鼓励单人（单人加分：+10，封顶 100） |
+| 格式 | IEEE 双栏、10 号字，**不超过 5 页** |
+| 章节顺序 | Title → Abstract → Introduction → Related work → Model → Algorithm → Evaluation → Conclusion → Reference |
+| 评分 | 选题与组队邮件 5%、文献调研 15%、建模 15%、算法设计 20%、算法评估 15%、写作 15%、完整性 15% |
+| 学术诚信 | 直接照搬已有论文的模型或算法按严重抄袭处理 |
+
+| 时间（香港时间） | 事项 |
+|---|---|
+| 2026-10-04（日）23:59 | 作业一截止 |
+| 2026-11-12（四）23:59 | 作业二截止 |
+| 2026-11-15（日）23:59 | 项目选题与组队：每组一封邮件发给 TA、抄送 Prof. Wu（含成员信息、暂定题目、几句话描述研究领域和优化问题；邮箱见项目说明 PDF） |
+| 2026-12-22（二）23:59 | 项目报告 PDF 提交到 Moodle |
+
+<Summary>
+
+- 作业一的核心工具：凸集用定义 / 半空间之交；凸函数用二阶条件（把二次型凑成平方）、复合规则、逐点 sup、部分最小化；凹性证明可能要借助 Cauchy–Schwarz 和定义域条件。
+- 作业二全部是对偶：**写 Lagrangian → 求 inf（分情况讨论 $-\infty$）→ 写 dual problem → 用 Slater 论证强对偶 → 用 KKT 或“最小化 Lagrangian”恢复原问题解**。
+- 常见失分点：乘子符号、忘记截断到 $\lambda\ge0$、漏掉常数项、把 log-concave 当成 concave、循环论证。
+
+</Summary>
+
+<Quiz q="A2 Q3(c) 中，如果把约束改成 x₁ + x₂ ≤ 4，最优乘子 λ* 是多少？" options={['0', '1', '-1/2', '2']} answer={0} explain="无约束最优点 (2,1) 满足 2+1 = 3 ≤ 4，约束不起作用；公式 −(b + aᵀq)/(aᵀa) = −(4 − 3)/2 = −1/2 < 0，截断后 λ* = 0。" />
+
+<Quiz q="对等式约束 h(x) = 0 的乘子 ν，下面哪种说法正确？" options={['必须 ν ≥ 0', '必须 ν ≤ 0', '没有符号限制，但 dual function 有限的区域可能会限制它', '必须 ν = 0']} answer={2} explain="等式约束的乘子本身无符号限制。像 A2 Q2(a) 那样，求 inf 时 ν > 0 会让 g = −∞，于是 effective domain 变成 ν ≤ 0——这是推出来的，不是假设的。" />
+
+<Quiz q="函数 e^{−x²} 是 log-concave 的。它是凹函数吗？" options={['是，log-concave 蕴含 concave', '不是，log-concave 不蕴含 concave', '只在 x > 0 时是', '无法判断']} answer={1} explain="log e^{−x²} = −x² 是凹的，所以它 log-concave；但 e^{−x²} 在 |x| > 1/√2 处二阶导为正，不是凹函数。A1 Q6 必须另外利用定义域条件才能证明凹性。" />

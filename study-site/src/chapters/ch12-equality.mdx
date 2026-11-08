@@ -1,0 +1,585 @@
+import { Ch12EqualityNewton, Ch12InfeasibleNewton, Ch12Elimination } from '../widgets/ch12.jsx'
+
+上一章我们会解 $\min f(x)$ 了：梯度下降、牛顿法。这一章加上一类最简单的约束——**线性等式约束** $Ax=b$。为什么只有等式？因为凸优化问题里等式约束只能是仿射的，而它是“最容易处理”的约束；下一章的内点法会把不等式约束变成目标里的 barrier 项，最后要解的正是**等式约束问题**。所以这一章是从“无约束”走向“一般约束”的桥梁。
+
+**本章路线**
+
+1. 问题设定与最优条件（KKT 方程组，$n+p$ 个方程），KKT 矩阵；等式约束二次规划可直接求解
+2. 方法一：消元法（把约束“吃掉”，变成无约束问题）
+3. 方法二：解对偶问题（对偶通常是无约束的）
+4. 方法三：带等式约束的牛顿法（可行起点）——Newton step、KKT 系统、Newton decrement、算法、与消元法等价
+5. 不可行起点牛顿法：原始-对偶 Newton step、残差 $r$、对 $\|r\|_2$ 回溯
+6. 三种方法的数值比较与总结
+
+## 1. 等式约束问题与最优条件
+
+### 1.1 问题与假设
+
+<Def title="等式约束凸优化 Equality constrained minimization（讲义第 3 页）">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f(x)\\
+\text{subject to}\quad & Ax=b
+\end{aligned}
+$$
+
+- $f$ 凸、**二阶连续可微**（牛顿法要用 Hessian）；
+- $A\in\mathbb{R}^{p\times n}$，$\mathbf{rank}\,A=p\lt n$；
+- 最优值 $p^\star$ 有限且可取到。
+
+</Def>
+
+记号：$x\in\mathbb{R}^n$ 有 $n$ 个变量，$Ax=b$ 是 $p$ 个线性方程。
+
+<MathNote title="矩阵的秩 rank 与“行满秩”">
+
+$\mathbf{rank}\,A$ 是 $A$ 中线性无关的行（或列）的最大个数。$\mathbf{rank}\,A=p$（行数）叫**行满秩**：每一个等式约束都不能由其他约束推出，“每一条都有用”。$p\lt n$ 说明约束比变量少，可行集 $\{x\mid Ax=b\}$ 是一个 $n-p$ 维的“平面”（2D 中一条直线，3D 中一条直线或一个平面）。行满秩还保证 $AA^T$ 可逆，后面会用到。
+
+</MathNote>
+
+### 1.2 最优条件：KKT 方程组
+
+<Thm title="最优条件（讲义第 3 页）">
+
+$x^\star$ 是最优解，当且仅当存在 $\nu^\star\in\mathbb{R}^p$ 使
+
+$$
+\nabla f(x^\star)+A^T\nu^\star=0,\qquad Ax^\star=b
+$$
+
+</Thm>
+
+大白话：两条：(1) 站在可行集上（$Ax^\star=b$）；(2) 在最优点，目标函数的梯度可以被约束的法向量“抵消掉”——$\nabla f(x^\star)$ 是 $A$ 的行向量的线性组合。等价地：在可行集内的任何方向上，$f$ 都没有下坡可走。
+
+<Steps title="从一般 KKT 条件得到它（教授的推导）" steps={[
+  {text: '写 Lagrangian，ν ∈ ℝᵖ 是等式约束的乘子：', math: 'L(x,\\nu)=f(x)+\\nu^T(Ax-b)'},
+  {text: '原始可行性 (primal feasibility)：', math: 'Ax^\\star=b'},
+  {text: '对偶可行性 (λ ⪰ 0) 和互补松弛 (λᵢfᵢ = 0)：只有不等式约束才有，这里都没有。', math: '\\text{(无)}'},
+  {text: 'Lagrangian 对 x 的梯度为零 (stationarity)，这是最有用的一条：', math: '\\nabla_x L=\\nabla f(x^\\star)+A^T\\nu^\\star=0'},
+  {text: '数一数：n 个 stationarity 方程 + p 个可行性方程 = n + p 个方程，未知数 (x, ν) 也是 n + p 个。', math: '\\underbrace{\\nabla f(x)+A^T\\nu=0}_{n\\text{ 个}},\\quad \\underbrace{Ax=b}_{p\\text{ 个}}'},
+]} />
+
+<Prof>
+
+有了最优条件，我们就有了“目标”：找到满足它的 $(x^\star,\nu^\star)$，就同时得到了原始最优解和对偶最优解。求解等式约束问题 $\Leftrightarrow$ 求解这 $n+p$ 个 KKT 方程。(10-27 课 00:08)
+
+</Prof>
+
+<Intuition>
+
+2D 例子：约束 $a^Tx=b$ 是一条直线，$A^T=a$ 是直线的法向量。最优条件 $\nabla f(x^\star)=-\nu^\star a$ 说：**最优点处梯度与直线垂直**（与法向量平行），也就是等高线恰好与直线**相切**。下一节的第一个交互里可以直接看到这一点。
+
+</Intuition>
+
+### 1.3 等式约束二次规划：KKT 矩阵
+
+如果 KKT 方程全是线性的，就能一次解出来。最典型的是二次目标。
+
+<Example title="等式约束 QP（讲义第 4 页）">
+
+$$
+\text{minimize}\ \ \tfrac12x^TPx+q^Tx+r\qquad\text{subject to}\ \ Ax=b,\qquad P\in\mathbb{S}^n_+
+$$
+
+（$\mathbb{S}^n_+$ 表示 $n\times n$ 半正定对称矩阵。）$\nabla f(x)=Px+q$，最优条件 $Px^\star+q+A^T\nu^\star=0$、$Ax^\star=b$ 写成矩阵形式：
+
+$$
+\begin{bmatrix}P & A^T\\ A & 0\end{bmatrix}
+\begin{bmatrix}x^\star\\ \nu^\star\end{bmatrix}
+=
+\begin{bmatrix}-q\\ b\end{bmatrix}
+$$
+
+左边的系数矩阵叫 <T zh="KKT 矩阵">KKT matrix</T>。**若 KKT 矩阵非奇异，$(x^\star,\nu^\star)$ 唯一确定**（直接解线性方程组）。
+
+</Example>
+
+<MathNote title="分块矩阵乘法">
+
+$\begin{bmatrix}P&A^T\\A&0\end{bmatrix}\begin{bmatrix}x\\\nu\end{bmatrix}$ 按“块”相乘：第一块行 $=Px+A^T\nu$，第二块行 $=Ax+0\cdot\nu=Ax$。所以上面的矩阵方程正是 $Px+A^T\nu=-q$ 与 $Ax=b$ 两组方程。“非奇异”就是可逆。
+
+</MathNote>
+
+<Example title="小算例">
+
+$\min\ x_1^2+x_2^2$ s.t. $x_1+x_2=1$。$P=2I$，$q=0$，$A=[1\ 1]$，$b=1$。KKT 方程：$2x_1+\nu=0$，$2x_2+\nu=0$，$x_1+x_2=1$。得 $x_1=x_2=\tfrac12$，$\nu^\star=-1$。检查：$\nabla f(x^\star)=(1,1)$，正好平行于法向量 $(1,1)$。
+
+</Example>
+
+对一般（非二次）的 $f$，KKT 方程是非线性的，需要迭代。讲义介绍了三条路线：**消元**、**对偶**、**带等式约束的牛顿法**。
+
+<Quiz q="等式约束问题（n 个变量、p 个等式约束）的 KKT 方程组一共有多少个方程？" options={['n', 'p', 'n + p', 'n − p']} answer={2} explain="n 个 stationarity 方程 ∇f(x)+Aᵀν=0，加 p 个可行性方程 Ax=b，未知数 (x,ν) 也是 n+p 个。" />
+
+## 2. 方法一：消元法
+
+### 2.1 参数化可行集
+
+<Def title="可行集的参数化（讲义第 5 页）">
+
+$$
+\{x\mid Ax=b\}=\{Fz+\hat x\mid z\in\mathbb{R}^{n-p}\}
+$$
+
+- $\hat x$ 是任意一个特解（$A\hat x=b$）；
+- $F\in\mathbb{R}^{n\times(n-p)}$ 满足 $\mathbf{range}\,F=\mathbf{nullspace}\,A$，即 $\mathbf{rank}\,F=n-p$ 且 $AF=0$。
+
+</Def>
+
+<MathNote title="零空间 nullspace 与值域 range">
+
+$\mathbf{nullspace}\,A=\{v\mid Av=0\}$：所有被 $A$ 映成 0 的向量——也就是“沿着可行集移动的方向”。$\mathbf{range}\,F=\{Fz\mid z\}$：$F$ 的列向量能组合出来的所有向量。$\mathbf{range}\,F=\mathbf{nullspace}\,A$ 意思是 $F$ 的列恰好是零空间的一组基。
+
+</MathNote>
+
+为什么任何 $z$ 都给出可行点？$A(Fz+\hat x)=AFz+A\hat x=0+b=b$。反过来，每个可行点也能写成这种形式。所以变量 $z$ 是“可行集上的坐标”，维数从 $n$ 降到 $n-p$。
+
+### 2.2 化为无约束问题并还原
+
+<Def title="消元后的问题 Reduced problem">
+
+$$
+\text{minimize}\quad \tilde f(z)=f(Fz+\hat x),\qquad z\in\mathbb{R}^{n-p}
+$$
+
+这是关于 $z$ 的**无约束**问题，可以直接用上一章的梯度下降/牛顿法。解出 $z^\star$ 后还原：
+
+$$
+x^\star=Fz^\star+\hat x,\qquad \nu^\star=-(AA^T)^{-1}A\nabla f(x^\star)
+$$
+
+</Def>
+
+<Steps title="ν* 的公式从哪来" steps={[
+  {text: '最优条件第一行：', math: '\\nabla f(x^\\star)+A^T\\nu^\\star=0'},
+  {text: '两边左乘 A：', math: 'A\\nabla f(x^\\star)+AA^T\\nu^\\star=0'},
+  {text: 'A 行满秩 ⇒ AAᵀ（p×p）可逆，解出：', math: '\\nu^\\star=-(AA^T)^{-1}A\\nabla f(x^\\star)'},
+]} />
+
+<Prof>
+
+消元法的思路是：把一个新问题转化成一个我们已经会解的老问题（无约束），解完再把新问题的解还原回来。(10-27 课 00:19)
+
+</Prof>
+
+<Example title="资源分配 Resource allocation（讲义第 6 页）">
+
+$$
+\text{minimize}\ \ f_1(x_1)+f_2(x_2)+\cdots+f_n(x_n)\qquad\text{subject to}\ \ x_1+x_2+\cdots+x_n=b
+$$
+
+把总量 $b$ 分给 $n$ 个人，$f_i$ 是第 $i$ 个人的（凸）代价，要让总代价最小。这里 $A=\mathbf 1^T$（全 1 行向量）。
+
+消元：$x_n=b-x_1-\cdots-x_{n-1}$，得到无约束问题
+
+$$
+\text{minimize}\ \ f_1(x_1)+\cdots+f_{n-1}(x_{n-1})+f_n(b-x_1-\cdots-x_{n-1})
+$$
+
+对应参数化：
+
+$$
+\hat x=b\,e_n=\begin{bmatrix}0\\ \vdots\\0\\ b\end{bmatrix},\qquad F=\begin{bmatrix}I\\ -\mathbf 1^T\end{bmatrix}\in\mathbb{R}^{n\times(n-1)}
+$$
+
+验证：$A\hat x=b$；$AF=\mathbf 1^T_{n-1}-\mathbf 1^T_{n-1}=0$（$F$ 每一列是 $e_i-e_n$，各分量之和为 0）。
+
+</Example>
+
+下面的交互取 $n=2$：$f(x)=x_1^2+2e^{x_2}$，约束 $x_1+x_2=b$，$\hat x=(0,b)$，$F=(1,-1)^T$，于是 $\tilde f(z)=z^2+2e^{b-z}$。
+
+<Ch12Elimination />
+
+<Warn>
+
+消元法需要先找到 $F$ 和 $\hat x$（一般要做矩阵分解），而且消元后可能破坏原问题的稀疏结构。下面的“带等式约束的牛顿法”不需要显式求 $F$。
+
+</Warn>
+
+<Quiz q="消元法中，F 必须满足什么条件，才能保证 x = Fz + x̂ 对任意 z 都可行？" options={['AF = I', 'AF = 0（F 的列张成 A 的零空间）', 'F = Aᵀ', 'F 可逆']} answer={1} explain="A(Fz+x̂) = AFz + Ax̂ = AFz + b，要对任意 z 等于 b，必须 AF=0；再加上 rank F = n−p 才能覆盖整个可行集。" />
+
+## 3. 方法二：解对偶问题
+
+<Def title="对偶函数（讲义第 7 页）">
+
+$$
+g(\nu)=-b^T\nu+\inf_x\big(f(x)+\nu^TAx\big)=-b^T\nu-\sup_x\big((-A^T\nu)^Tx-f(x)\big)=-b^T\nu-f^*(-A^T\nu)
+$$
+
+其中 $f^*(y)=\sup_x(y^Tx-f(x))$ 是 $f$ 的共轭函数 <T zh="共轭函数">conjugate</T>。对偶问题为
+
+$$
+\text{maximize}\quad -b^T\nu-f^*(-A^T\nu)
+$$
+
+</Def>
+
+大白话：中间那步用了 $\inf_x(\cdot)=-\sup_x(-\,\cdot)$，从而出现共轭函数。性质（讲义第 7 页）：
+
+- 对偶问题**通常是无约束的**（对偶约束只来自不等式乘子 $\lambda\succeq0$，这里没有）。若 $g$ 二阶可微，就可以用梯度下降或牛顿法求解。
+- **强对偶总成立**：Slater 条件要求不等式约束严格可行，等式约束没有这个要求，所以只要原问题有最优解，$d^\star=p^\star$。
+- **还原 $x^\star$**：$x^\star$ 是 $L(x,\nu^\star)$ 关于 $x$ 的最小点。
+
+<Prof>
+
+“一旦强对偶成立、知道了 $\nu^\star$，$x^\star$ 就是 $L(x,\nu^\star)$ 的最小点”——这是一个非常重要的性质，不只适用于等式约束问题，对一般满足强对偶的问题都成立。(10-27 课 00:30–00:31)
+
+</Prof>
+
+<Example title="对数 barrier / 解析中心（讲义第 8 页）">
+
+$$
+\text{minimize}\ \ f(x)=-\sum_{i=1}^n\log x_i\qquad\text{subject to}\ \ Ax=b
+$$
+
+共轭：$f^*(y)=\sum_{i=1}^n\big(-1-\log(-y_i)\big)=-n-\sum_i\log(-y_i)$。代入得对偶问题
+
+$$
+\text{maximize}\quad -b^T\nu+n+\sum_{i=1}^n\log(A^T\nu)_i
+$$
+
+它没有显式约束，只有定义域限制 $(A^T\nu)_i\gt0$。还原：令 $\partial L/\partial x_i=-1/x_i+(A^T\nu)_i=0$，得
+
+$$
+x_i=\frac{1}{(A^T\nu)_i},\qquad i=1,\dots,n
+$$
+
+</Example>
+
+<Quiz q="为什么等式约束凸问题的强对偶总是成立（只要 p* 有限可取到）？" options={['因为目标函数是二次的', '因为 Slater 条件只要求不等式约束严格可行，没有不等式约束时自动满足', '因为对偶问题总是线性规划', '因为 A 行满秩']} answer={1} explain="Slater 条件对仿射（等式）约束不要求“严格”，只要可行即可；本问题没有不等式约束，所以条件自动成立。" />
+
+## 4. 方法三：带等式约束的牛顿法（可行起点）
+
+### 4.1 基本思路
+
+<Def title="思路（讲义第 9 页）">
+
+- 从一个**可行**点 $x^{(0)}$（$Ax^{(0)}=b$）出发；
+- 每一步找一个 Newton 方向 $\Delta x_{\text{nt}}$，使 $x^{(k)}+t\Delta x_{\text{nt}}$ 仍满足 $Ax=b$：
+
+$$
+A(x^{(k)}+t\Delta x_{\text{nt}})=b\iff A\Delta x_{\text{nt}}=0\quad(\text{因为 }Ax^{(k)}=b)
+$$
+
+</Def>
+
+大白话：方向必须在 $A$ 的零空间里——只能沿着可行集滑动，不能离开它。这样所有迭代点 $x^{(0)},x^{(1)},\dots$ 都可行，所以叫 <T zh="可行起点">feasible start</T>。找可行起点本身只要解线性方程组 $Ax=b$。
+
+### 4.2 Newton step 与 KKT 系统
+
+<Def title="带等式约束的 Newton step（讲义第 10 页）">
+
+$\Delta x_{\text{nt}}$ 是下面这个二次近似问题（变量 $v$）的解：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \hat f(x+v)=f(x)+\nabla f(x)^Tv+\tfrac12v^T\nabla^2f(x)\,v\\
+\text{subject to}\quad & A(x+v)=b
+\end{aligned}
+$$
+
+它是一个等式约束 QP，由第 1.3 节，解满足 KKT 系统（$w$ 是乘子）：
+
+$$
+\begin{bmatrix}\nabla^2f(x) & A^T\\ A & 0\end{bmatrix}
+\begin{bmatrix}\Delta x_{\text{nt}}\\ w\end{bmatrix}
+=
+\begin{bmatrix}-\nabla f(x)\\ 0\end{bmatrix}
+$$
+
+**Newton step 只在 KKT 矩阵非奇异的点上有定义。**
+
+</Def>
+
+<Steps title="推导 KKT 系统（教授板书）" steps={[
+  {text: '对二次近似问题写 Lagrangian（乘子记作 w）：', math: '\\hat L(v,w)=f(x)+\\nabla f(x)^Tv+\\tfrac12v^T\\nabla^2f(x)v+w^T\\big(A(x+v)-b\\big)'},
+  {text: '对 v 求梯度令为零 (stationarity)：', math: '\\nabla f(x)+\\nabla^2f(x)\\,v+A^Tw=0'},
+  {text: '可行性 A(x+v)=b，且 x 已可行 (Ax=b)：', math: 'Av=0'},
+  {text: '两组方程写成分块矩阵形式：', math: '\\begin{bmatrix}\\nabla^2f(x)&A^T\\\\A&0\\end{bmatrix}\\begin{bmatrix}v\\\\w\\end{bmatrix}=\\begin{bmatrix}-\\nabla f(x)\\\\0\\end{bmatrix}'},
+]} />
+
+讲义的两点解释：当 $f$ 接近二次时，$x+\Delta x_{\text{nt}}$ 是 $x^\star$ 的很好估计，而 $w$ 是对偶最优 $\nu^\star$ 的很好估计。和无约束一样，“在约束下最小化局部二次模型”，在最优点附近非常准确。
+
+<Ch12EqualityNewton />
+
+在交互里注意：红色 Newton 步始终贴着橙线（$A\Delta x_{\text{nt}}=0$）；走到最优点后，黑色梯度箭头与法向量 $a$ 共线，芯片里的 $w$ 稳定下来，就是 $\nu^\star$。
+
+<Exam>
+
+KKT 矩阵 $\begin{bmatrix}\nabla^2f&A^T\\A&0\end{bmatrix}$ 要能默写；要知道 KKT 矩阵非奇异 ⇒ 解唯一 / Newton step 有定义；要能从二次近似 + Lagrangian 推出 KKT 系统。
+
+</Exam>
+
+### 4.3 Newton decrement
+
+<Def title="带等式约束的牛顿减量（讲义第 11 页）">
+
+$$
+\lambda(x)=\big(\Delta x_{\text{nt}}^T\nabla^2f(x)\,\Delta x_{\text{nt}}\big)^{1/2}=\big(-\nabla f(x)^T\Delta x_{\text{nt}}\big)^{1/2}
+$$
+
+性质：
+
+1. $\tfrac12\lambda^2$ 估计 $f(x)-p^\star$：
+
+$$
+f(x)-\inf_{A(x+v)=b}\hat f(x+v)=\tfrac12\lambda(x)^2
+$$
+
+2. 沿 Newton 方向的方向导数：
+
+$$
+\frac{d}{dt}f(x+t\Delta x_{\text{nt}})\Big|_{t=0}=\nabla f(x)^T\Delta x_{\text{nt}}=-\lambda(x)^2
+$$
+
+3. **一般地** $\lambda(x)\ne\big(\nabla f(x)^T\nabla^2f(x)^{-1}\nabla f(x)\big)^{1/2}$。
+
+</Def>
+
+<Steps title="为什么两个表达式相等：ΔxᵀHΔx = −∇fᵀΔx" steps={[
+  {text: 'KKT 系统第一行（记 H=∇²f(x), Δx=Δx_nt）：', math: 'H\\Delta x+A^Tw=-\\nabla f(x)'},
+  {text: '两边左乘 Δxᵀ：', math: '\\Delta x^TH\\Delta x+\\Delta x^TA^Tw=-\\nabla f(x)^T\\Delta x'},
+  {text: '第二项 ΔxᵀAᵀw = (AΔx)ᵀw，而 KKT 第二行给出 AΔx=0，所以它消失：', math: '\\Delta x^TH\\Delta x=-\\nabla f(x)^T\\Delta x=\\lambda(x)^2'},
+]} />
+
+<Prof>
+
+定义的形式和无约束时一样（都是 $\Delta x_{\text{nt}}^T\nabla^2f\,\Delta x_{\text{nt}}$），但这里的 $\Delta x_{\text{nt}}$ 是解 KKT 系统得到的，所以 $\lambda$ 的数值**不等于**无约束时那个用 Hessian 和梯度写出的具体式子 $(\nabla f^T\nabla^2f^{-1}\nabla f)^{1/2}$。这一点他特别强调。(10-27 课 01:00)
+
+</Prof>
+
+### 4.4 算法
+
+<Def title="带等式约束的牛顿法 Newton's method with equality constraints（讲义第 12 页）">
+
+```text
+given  起点 x ∈ dom f 且 Ax = b，容差 ε > 0
+repeat
+    1. 计算 Newton step 和 decrement：Δx_nt，λ(x)   （解 KKT 系统）
+    2. 停止准则：若 λ²/2 ≤ ε，退出
+    3. 线搜索：用回溯线搜索选步长 t
+    4. 更新：x := x + t Δx_nt
+```
+
+这是一个**可行下降法** <T zh="可行下降法">feasible descent method</T>：$x^{(k)}$ 都可行，且 $f(x^{(k+1)})\lt f(x^{(k)})$。
+
+</Def>
+
+- **可行性保持**：$A\Delta x_{\text{nt}}=0$，所以 $A(x+t\Delta x_{\text{nt}})=Ax=b$。
+- **下降**：方向导数 $=-\lambda^2\lt0$，回溯保证充分下降。
+- 与无约束牛顿法相比，唯一不同是 (a) $\Delta x_{\text{nt}}$、$\lambda$ 的算法（解 KKT 系统），(b) 起点必须可行。
+
+### 4.5 与消元法等价
+
+<Thm title="Newton 法与消元法（讲义第 13 页）">
+
+设 $\tilde f(z)=f(Fz+\hat x)$，$A\hat x=b$，$\mathbf{rank}\,F=n-p$，$AF=0$。对 $\tilde f$ 从 $z^{(0)}$ 出发做**无约束**牛顿法得到 $z^{(k)}$；对原问题从 $x^{(0)}=Fz^{(0)}+\hat x$ 出发做**带等式约束**的牛顿法得到 $x^{(k)}$。则
+
+$$
+x^{(k)}=Fz^{(k)}+\hat x\qquad\text{对所有 }k
+$$
+
+</Thm>
+
+大白话：两种做法每一步走到的点都一模一样（只是坐标不同）。所以**收敛表现与无约束牛顿法完全相同**——上一章关于两阶段、二次收敛的结论都直接适用。在消元交互里对 $z$ 做 Newton 步，其实就是在左图直线上做带等式约束的 Newton 步。
+
+<Quiz q="可行起点的等式约束牛顿法中，为什么所有迭代点都满足 Ax=b？" options={['因为每步都把 x 投影回可行集', '因为 KKT 系统第二行保证 AΔx_nt = 0，而起点可行', '因为步长 t 总是 1', '因为 f 是凸函数']} answer={1} explain="A(x+tΔx_nt) = Ax + tAΔx_nt = b + 0 = b。可行性来自起点可行 + 方向在 A 的零空间中。" />
+
+## 5. 不可行起点牛顿法
+
+### 5.1 思路：放宽“起点必须可行”
+
+找可行起点有时也不方便（例如还要求 $x\succ0$ 在定义域内）。<T zh="不可行起点牛顿法">infeasible start Newton method</T> 允许 $x$ 不满足 $Ax=b$。还是最小化二次近似、要求 $A(x+v)=b$，但现在 $Ax\ne b$，所以第二行变成 $Av=-(Ax-b)$：
+
+$$
+\begin{bmatrix}\nabla^2f(x) & A^T\\ A & 0\end{bmatrix}
+\begin{bmatrix}\Delta x_{\text{nt}}\\ w\end{bmatrix}
+=-\begin{bmatrix}\nabla f(x)\\ Ax-b\end{bmatrix}
+$$
+
+和可行起点相比，**矩阵不变**，只是右端第二块从 $0$ 变成了 $Ax-b$（讲义第 14 页）。这个方法基于 <T zh="原始-对偶 Newton 步">primal-dual Newton step</T>：原始变量 $x$ 和对偶变量 $\nu$ 一起更新。
+
+### 5.2 原始-对偶 Newton step 与残差
+
+<Figure src="pages/L12/p15_kkt.png" caption="原始-对偶 Newton step：上式用 ν⁺ = ν + Δν_nt（即上一页的 w），下式改写成对 (Δx_nt, Δν_nt) 的方程；Δx_nt 是原始 Newton 步，Δν_nt 是对偶 Newton 步（讲义第 15 页）。" />
+
+<Def title="原始-对偶 Newton step 与残差（讲义第 15 页）">
+
+把 $w$ 记作 $\nu^+=\nu+\Delta\nu_{\text{nt}}$，代入并把 $A^T\nu$ 移到右边：
+
+$$
+\begin{bmatrix}\nabla^2f(x) & A^T\\ A & 0\end{bmatrix}
+\begin{bmatrix}\Delta x_{\text{nt}}\\ \Delta\nu_{\text{nt}}\end{bmatrix}
+=-\begin{bmatrix}\nabla f(x)+A^T\nu\\ Ax-b\end{bmatrix}
+$$
+
+**残差** <T zh="残差">residual</T>：
+
+$$
+r(x,\nu)=\big(\nabla f(x)+A^T\nu,\ Ax-b\big)=\big(r_{\text{dual}}(x,\nu),\ r_{\text{pri}}(x,\nu)\big)
+$$
+
+最优条件 $\iff r(x,\nu)=0$。
+
+</Def>
+
+大白话：残差就是把 KKT 方程的两组“左边减右边”堆成一个向量。$r_{\text{dual}}$ 衡量 stationarity 差多少，$r_{\text{pri}}$ 衡量离可行集差多少。两者都为零就到最优了。记号 $(a,b)$ 表示把两个列向量上下堆起来。
+
+<Thm title="另一种推导：对残差做线性化（讲义第 16 页）">
+
+记 $y=(x,\nu)$，最优条件是 $r(y)=0$。用一阶 Taylor 近似 $r(y+\Delta y)\approx r(y)+Dr(y)\Delta y=0$，其中 $r$ 的导数（Jacobian）正是 KKT 矩阵：
+
+$$
+Dr(y)=\begin{bmatrix}\nabla^2f(x)&A^T\\A&0\end{bmatrix}
+$$
+
+所以 $\Delta y=(\Delta x_{\text{nt}},\Delta\nu_{\text{nt}})$ 满足 $Dr(y)\Delta y=-r(y)$——和上面一模一样。
+
+</Thm>
+
+大白话：这是“用牛顿法解方程 $r(y)=0$”。对梯度条件做线性化，等价于对原目标做二阶近似，两条路得到同一个 Newton step。
+
+### 5.3 算法：对 $\|r\|_2$ 做回溯
+
+<Def title="不可行起点牛顿法（讲义第 17 页）">
+
+```text
+given  起点 x ∈ dom f，ν，容差 ε > 0，α ∈ (0, 1/2)，β ∈ (0, 1)
+repeat
+    1. 计算原始与对偶 Newton step：Δx_nt，Δν_nt
+    2. 对 ‖r‖₂ 做回溯线搜索：
+         t := 1
+         while ‖r(x + tΔx_nt, ν + tΔν_nt)‖₂ > (1 − αt)‖r(x, ν)‖₂ :
+             t := βt
+    3. 更新：x := x + tΔx_nt，ν := ν + tΔν_nt
+until  Ax = b 且 ‖r(x, ν)‖₂ ≤ ε
+```
+
+</Def>
+
+注意两点：线搜索盯的是**残差的范数** $\|r\|_2$，不是 $f$；停止条件要求**同时** $Ax=b$ 和 $\|r\|_2\le\epsilon$（残差小不代表严格可行，所以单独要求 $Ax=b$）。
+
+### 5.4 为什么不用 $f$ 做线搜索
+
+<Thm title="不是关于 f 的下降法（讲义第 18 页）">
+
+$f(x^{(k+1)})\gt f(x^{(k)})$ 是可能的：
+
+$$
+\frac{d}{dt}f(x+t\Delta x_{\text{nt}})\Big|_{t=0}=\nabla f(x)^T\Delta x_{\text{nt}}
+=-\Delta x_{\text{nt}}^T\big(\nabla^2f(x)\Delta x_{\text{nt}}+A^Tw\big)
+=-\Delta x_{\text{nt}}^T\nabla^2f(x)\Delta x_{\text{nt}}+(Ax-b)^Tw
+$$
+
+第一项 $\le0$，但当 $Ax\ne b$ 时第二项符号不确定。
+
+</Thm>
+
+（第二个等号用 KKT 第一行 $\nabla f=-(\nabla^2f\,\Delta x+A^Tw)$；第三个等号用第二行 $A\Delta x=-(Ax-b)$。）这是合理的：从不可行点走向可行集，有时必须“爬坡”。
+
+<Thm title="但残差范数一定下降（讲义第 18 页）">
+
+记 $y=(x,\nu)$，$\Delta y=(\Delta x_{\text{nt}},\Delta\nu_{\text{nt}})$，则
+
+$$
+\frac{d}{dt}\|r(y+t\Delta y)\|_2\Big|_{t=0}=-\|r(y)\|_2
+$$
+
+</Thm>
+
+<Steps title="推导" steps={[
+  {text: '先对范数的平方求导（链式法则，‖r‖² = rᵀr）：', math: '\\frac{d}{dt}\\|r(y+t\\Delta y)\\|_2^2\\Big|_{t=0}=2\\,r(y)^TDr(y)\\Delta y'},
+  {text: 'Newton step 满足 Dr(y)Δy = −r(y)：', math: '=-2\\,r(y)^Tr(y)=-2\\|r(y)\\|_2^2'},
+  {text: '而 d‖r‖²/dt = 2‖r‖·d‖r‖/dt，两边除以 2‖r(y)‖₂：', math: '\\frac{d}{dt}\\|r(y+t\\Delta y)\\|_2\\Big|_{t=0}=-\\|r(y)\\|_2'},
+]} />
+
+所以 $\|r\|_2$ 沿 Newton 方向严格下降（只要还没到最优），回溯条件 $\|r(\cdot)\|_2\le(1-\alpha t)\|r\|_2$ 正是“实际下降量 ≥ 预测下降量 $t\|r\|_2$ 的 $\alpha$ 倍”，和上一章 Armijo 条件同一个模子。
+
+<Thm title="一旦走了整步，就永远可行">
+
+若某一步取 $t=1$，则下一个迭代点可行，之后所有迭代点都可行：
+
+$$
+A(x+\Delta x_{\text{nt}})-b=(Ax-b)+A\Delta x_{\text{nt}}=(Ax-b)-(Ax-b)=0
+$$
+
+此后就变成了可行起点的牛顿法（$r_{\text{pri}}=0$，右端第二块为 0）。
+
+</Thm>
+
+<Ch12InfeasibleNewton />
+
+更一般地，若取步长 $t\lt1$，原始残差变为 $(1-t)(Ax-b)$：每步按比例缩小，但不会变成 0，直到某一步 $t=1$。在交互的表格里可以验证这一点。
+
+<Exam>
+
+教授在这部分花的时间最多：
+- 不可行起点牛顿法**不是**关于 $f$ 的下降法（会推出方向导数含 $(Ax-b)^Tw$ 这一项）；
+- 所以线搜索用 $\|r\|_2$，并会推 $\frac{d}{dt}\|r(y+t\Delta y)\|_2\big|_{t=0}=-\|r(y)\|_2$；
+- 停止条件要 $Ax=b$ **和** $\|r\|_2\le\epsilon$ 同时成立；
+- 原始与对偶变量都更新；走过一次 $t=1$ 后永远可行。
+
+</Exam>
+
+<Quiz q="不可行起点牛顿法中，回溯线搜索的判断条件是关于什么的？" options={['f(x+tΔx) ≤ f(x) + αt∇fᵀΔx', '‖r(x+tΔx, ν+tΔν)‖₂ ≤ (1−αt)‖r(x,ν)‖₂', 'λ²/2 ≤ ε', 'Ax = b']} answer={1} explain="不可行起点时 f 未必沿 Newton 方向下降，但 ‖r‖₂ 的方向导数是 −‖r‖₂ < 0，所以对残差范数做回溯。" />
+
+## 6. 数值例子与三种方法比较
+
+讲义第 19–20 页在同一个问题（解析中心 $\min -\sum\log x_i$ s.t. $Ax=b$，$A\in\mathbb{R}^{100\times500}$）上比较了三种方法：
+
+<Figure src="L12/p19_f1.png" caption="方法 1：带等式约束的牛顿法（需要 x⁽⁰⁾ ≻ 0 且 Ax⁽⁰⁾ = b），不同起点下 f(x⁽ᵏ⁾)−p* 的收敛曲线：先缓后陡，二次收敛。" />
+
+<Figure src="L12/p20_f1.png" caption="方法 2：对对偶问题用牛顿法（需要 Aᵀν⁽⁰⁾ ≻ 0），纵轴 p*−g(ν⁽ᵏ⁾)。这个例子里对偶变量只有 100 维，收敛最快。" />
+
+<Figure src="L12/p20_f2.png" caption="方法 3：不可行起点牛顿法（只需要 x⁽⁰⁾ ≻ 0，ν 任意），纵轴是残差 ‖r(x⁽ᵏ⁾,ν⁽ᵏ⁾)‖₂；四个不同起点在 10–21 步内降到 1e-10 左右。" />
+
+三幅图都有共同特征：前面一段较平（阻尼阶段），最后几步“断崖式”下降（二次收敛阶段），和上一章的牛顿法一致。
+
+| 方法 | 需要什么 | 核心思路 | 输出/还原 |
+|---|---|---|---|
+| 1. 消元 | $F,\hat x$：$AF=0$，$A\hat x=b$ | 对 $z\in\mathbb{R}^{n-p}$ 做无约束优化 | $x^\star=Fz^\star+\hat x$，$\nu^\star=-(AA^T)^{-1}A\nabla f(x^\star)$ |
+| 2. 对偶 | 已知 $f^*$；强对偶（自动成立） | 对偶问题通常无约束 | $x^\star=\arg\min_xL(x,\nu^\star)$ |
+| 3a. 可行起点牛顿 | $Ax^{(0)}=b$ | KKT Newton step，$A\Delta x=0$ | 可行下降，$\lambda^2/2\le\epsilon$ 停止 |
+| 3b. 不可行起点牛顿 | 任意 $x\in\mathbf{dom}f$，$\nu$ | 原始-对偶 step，对 $\Vert r\Vert_2$ 回溯 | $Ax=b$ 且 $\Vert r\Vert_2\le\epsilon$ 停止 |
+
+### 6.1 求解 KKT 系统
+
+三种牛顿类方法每一步的主要计算量，都是解一个 KKT 系统
+
+$$
+\begin{bmatrix}H & A^T\\ A & 0\end{bmatrix}\begin{bmatrix}v\\ w\end{bmatrix}=-\begin{bmatrix}g\\ h\end{bmatrix}
+$$
+
+（$H=\nabla^2f(x)$，$g$、$h$ 是右端项）。讲义只要求“KKT 矩阵非奇异时可解”；补充两种常见解法（Boyd 10.4）：
+
+- **直接 LDLᵀ 分解**整个 $(n+p)\times(n+p)$ 对称矩阵（注意它不是正定的，不能用 Cholesky）。
+- **消元（Schur 补）**：若 $H$ 可逆，由第一行 $v=-H^{-1}(g+A^Tw)$，代入第二行得
+$$
+AH^{-1}A^T\,w=h-AH^{-1}g
+$$
+先解这个 $p\times p$ 系统得 $w$，再回代求 $v$。当 $H$ 是对角或带状矩阵（例如 $f$ 可分）时非常快。
+
+<Warn>
+
+KKT 矩阵非奇异 $\iff$ $\nabla^2f(x)$ 在 $A$ 的零空间上正定（即 $Av=0,\ v\ne0\Rightarrow v^T\nabla^2f(x)v\gt0$），且 $A$ 行满秩（补充结论）。所以即使 $\nabla^2f$ 只是半正定，KKT 矩阵也可能可逆。
+
+</Warn>
+
+## 本章小结
+
+<Summary>
+
+- 问题 $\min f(x)$ s.t. $Ax=b$（$\mathbf{rank}A=p\lt n$）。最优条件：$\nabla f(x^\star)+A^T\nu^\star=0$，$Ax^\star=b$，共 $n+p$ 个方程；几何上梯度与可行集的法向平行。
+- 二次目标：一次解 KKT 线性方程组，KKT 矩阵 $\begin{bmatrix}P&A^T\\A&0\end{bmatrix}$ 非奇异则解唯一。
+- 方法一消元：$x=Fz+\hat x$（$AF=0$），化成无约束问题；$\nu^\star=-(AA^T)^{-1}A\nabla f(x^\star)$。
+- 方法二对偶：$g(\nu)=-b^T\nu-f^*(-A^T\nu)$，通常无约束；强对偶总成立；$x^\star=\arg\min_xL(x,\nu^\star)$。
+- 方法三可行起点牛顿：解 KKT 系统得 $\Delta x_{\text{nt}}$（$A\Delta x_{\text{nt}}=0$）；$\lambda^2=\Delta x^T\nabla^2f\Delta x=-\nabla f^T\Delta x$（不等于无约束公式）；$\lambda^2/2\le\epsilon$ 停止；可行下降法；等价于对消元后的问题用无约束牛顿法。
+- 不可行起点牛顿：右端第二块换成 $Ax-b$，原始-对偶同时更新；残差 $r=(\nabla f+A^T\nu,\ Ax-b)$；不是 $f$ 的下降法，对 $\|r\|_2$ 回溯（$\frac{d}{dt}\|r\|_2=-\|r\|_2$）；走过 $t=1$ 后永远可行；停止要 $Ax=b$ 且 $\|r\|_2\le\epsilon$。
+
+</Summary>
+
+<Quiz q="带等式约束的牛顿法中，λ(x)² 等于下列哪个？" options={['∇f(x)ᵀ∇²f(x)⁻¹∇f(x)', '−∇f(x)ᵀΔx_nt = Δx_ntᵀ∇²f(x)Δx_nt（Δx_nt 由 KKT 系统求出）', '‖Ax − b‖₂²', '‖∇f(x)‖₂²']} answer={1} explain="定义形式与无约束相同，但 Δx_nt 来自 KKT 系统，所以一般不等于 ∇fᵀ∇²f⁻¹∇f。" />
+
+<Quiz q="不可行起点牛顿法某一步接受了 t = 0.5，之前 Ax − b = (2, −4)。这一步之后 Ax − b 等于多少？" options={['(0, 0)', '(1, −2)', '(2, −4)', '(4, −8)']} answer={1} explain="AΔx_nt = −(Ax−b)，所以 A(x+tΔx_nt)−b = (1−t)(Ax−b) = 0.5·(2,−4) = (1,−2)。只有 t=1 才会一步变可行。" />
+
+<Quiz q="对于资源分配问题 min Σfᵢ(xᵢ) s.t. Σxᵢ = b，下列哪个 F 可用于消元？" options={['F = I', 'F = [I; −1ᵀ]（上面 n−1 阶单位阵，下面一行全 −1）', 'F = 1（全 1 向量）', 'F = b·eₙ']} answer={1} explain="A = 1ᵀ，AF = 1ᵀ − 1ᵀ = 0，且 rank F = n−1，满足 range F = nullspace A。b·eₙ 是特解 x̂，不是 F。" />

@@ -1,0 +1,652 @@
+import { Ch00InnerProduct, Ch00NormBall, Ch00MatVec, Ch00Quadratic, Ch00Hyperplane, Ch00Gradient, Ch00Taylor } from '../widgets/ch00.jsx'
+
+这一章是讲义里**没有**、但后面每一章都要用的数学工具箱。凸优化的讲义默认你熟悉线性代数和多元微积分：它会直接写 $a^Tx \le b$、$P \succeq 0$、$\nabla f(x)$、$\nabla^2 f(x)$、$\inf$、$\mathbf{dom}\, f$ 这样的符号，而不解释。如果这些符号让你卡住，后面的凸集、凸函数、对偶、算法都会读不下去。
+
+所以这里先把它们一次讲清楚，而且每个概念都配一个**图形直觉**：向量是箭头、内积是“投影长度”、范数是“长度的不同量法”、正定矩阵是“碗”、梯度是“最陡上坡方向”、Taylor 近似是“用切线/抛物线贴住曲线”。读完这一章，你应该能流畅地读懂第 1 章以后的所有公式。
+
+**本章路线**
+
+1. 向量与 $\mathbb{R}^n$：一个向量就是一列数，也是一个箭头。
+2. 内积 $x^Ty$：夹角、投影、正交。
+3. 范数 $\|x\|$：$\ell_1, \ell_2, \ell_\infty$ 和它们的单位球。
+4. 矩阵：乘法、转置、线性方程组 $Ax=b$。
+5. 对称矩阵、特征值、正定/半正定，以及记号 $\mathbb{S}^n, \mathbb{S}^n_+, \mathbb{S}^n_{++}$。
+6. 超平面 $a^Tx=b$ 与半空间。
+7. 集合与函数的记号：$\{x \mid \dots\}$、$\mathbf{dom}\, f$、仿射函数。
+8. 梯度、Hessian、Taylor 近似、常用梯度公式。
+9. $\sup/\inf$、$\max/\min$、$\arg\min$。
+10. 章末：符号速查表。
+
+## 向量与 $\mathbb{R}^n$
+
+### 一个向量 = 一列数 = 一个箭头
+
+在优化里，我们要决定的往往不止一个数。例如第 1 章的饮食问题要决定 $n$ 种食物各吃多少，这 $n$ 个数放在一起，就是一个<T zh="向量">vector</T>：
+
+$$
+x = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix}
+$$
+
+大白话：$x$ 就是把 $n$ 个实数竖着排成一列。$x_i$（带下标）表示第 $i$ 个分量。所有这样的 $n$ 维实向量组成的集合记作 $\mathbb{R}^n$（读作 “R n”），$\mathbb{R}$ 就是全体实数。写 $x \in \mathbb{R}^n$ 的意思是 “$x$ 是一个 $n$ 维实向量”，$\in$ 读作“属于”。
+
+当 $n=2$ 时，$x=(x_1,x_2)$ 可以画成平面上从原点指向点 $(x_1,x_2)$ 的**箭头**。几乎所有几何直觉都先在 $\mathbb{R}^2$ 里建立，再“照搬”到高维。
+
+<MathNote title="本站的约定">
+
+- 向量默认是**列向量**（竖着的）。为了排版方便，正文里常写成 $x=(x_1,\dots,x_n)$，意思仍是列向量。
+- 粗体 $\mathbf{x}$ 和普通 $x$ 在讲义里混用，都表示向量。
+- $\mathbf{0}$ 或 $0$ 表示全零向量，$\mathbf{1}$ 表示全 1 向量 $(1,1,\dots,1)$。
+
+</MathNote>
+
+### 向量的加法、数乘与线性组合
+
+两个向量**逐分量**相加：$x+y=(x_1+y_1,\dots,x_n+y_n)$；数乘把每个分量都乘以同一个数：$\alpha x=(\alpha x_1,\dots,\alpha x_n)$。几何上，加法是“首尾相接”（平行四边形法则），数乘是把箭头拉长/缩短（$\alpha$ 为负则反向）。
+
+把这两个操作组合起来，就得到<T zh="线性组合">linear combination</T>：
+
+$$
+\theta_1 x_1 + \theta_2 x_2 + \cdots + \theta_k x_k, \qquad \theta_i \in \mathbb{R}
+$$
+
+大白话：用一些系数 $\theta_i$ 把几个向量“按比例混合”。第 2 章会给系数加条件：系数和为 1 叫 *affine combination*；再要求系数非负就是 *convex combination*（凸组合），它是整门课最核心的概念之一。
+
+<Example title="向量运算">
+
+$x=(1,2)$，$y=(3,-1)$。那么 $x+y=(4,1)$，$2x=(2,4)$，$0.5x+0.5y=(2,0.5)$——最后这个点正好是 $x$ 与 $y$ 两点连线的中点。
+
+</Example>
+
+### 向量之间的不等号
+
+讲义会写 $x \succeq 0$ 或 $x \ge 0$（$x$ 是向量），意思是**每个分量**都 $\ge 0$。类似地 $x \preceq y$ 表示 $x_i \le y_i$ 对所有 $i$ 成立。
+
+<Warn title="向量不能“整体比大小”">
+
+对两个向量，$x \le y$ 只是“逐分量都小于等于”的缩写。很多向量对之间**既不是** $x \le y$ **也不是** $y \le x$，例如 $(1,3)$ 和 $(2,0)$。这就是为什么第 6 章的多目标优化需要专门讨论“谁更优”。
+
+</Warn>
+
+## 内积：夹角与投影
+
+### 定义
+
+<Def title="内积 inner product">
+
+对 $x, y \in \mathbb{R}^n$，它们的<T zh="内积">inner product</T>（也叫点积 dot product）是
+
+$$
+x^Ty = \sum_{i=1}^n x_i y_i = x_1y_1 + x_2y_2 + \cdots + x_ny_n
+$$
+
+</Def>
+
+大白话：两个向量对应分量相乘再全部加起来，得到**一个数**。记号 $x^T$ 中的 $T$ 表示<T zh="转置">transpose</T>：把列向量“躺平”成行向量；行向量乘列向量正好就是上面的求和。也常写成 $\langle x, y\rangle$ 或 $x \cdot y$。
+
+<Example title="算一个内积">
+
+$x=(1,2,3)$，$y=(4,0,-1)$：$x^Ty = 1\cdot 4 + 2 \cdot 0 + 3\cdot(-1) = 1$。
+
+线性函数 $f(x)=c^Tx = c_1x_1+\dots+c_nx_n$ 就是一个内积——饮食问题里的“总卡路里”$\sum_j c_jx_j$ 正是 $c^Tx$。
+
+</Example>
+
+### 几何意义：夹角与投影
+
+在 $\mathbb{R}^2$ 或 $\mathbb{R}^3$ 中可以证明
+
+$$
+x^Ty = \|x\|_2\,\|y\|_2 \cos\theta
+$$
+
+其中 $\|x\|_2=\sqrt{x_1^2+\cdots+x_n^2}$ 是箭头的长度（下一节详细讲），$\theta$ 是两个箭头的夹角。大白话：**内积 = 两个长度相乘，再乘以夹角的余弦**。于是：
+
+- $x^Ty > 0$：夹角小于 90°（大致同向）；
+- $x^Ty = 0$：夹角正好 90°，称 $x$ 与 $y$ <T zh="正交">orthogonal</T>，记作 $x \perp y$；
+- $x^Ty < 0$：夹角大于 90°（大致反向）。
+
+另一个更有用的读法是**投影**：把 $y$ 往 $x$ 所在的直线上“打光投影”，影子的长度（带符号）是 $\dfrac{x^Ty}{\|x\|_2}$，影子本身这个向量是
+
+$$
+\text{proj}_x(y) = \frac{x^Ty}{x^Tx}\, x
+$$
+
+大白话：内积衡量的是“$y$ 有多少成分沿着 $x$ 的方向”。
+
+<Ch00InnerProduct />
+
+<Intuition title="为什么优化里到处都是内积">
+
+- 线性目标 $c^Tx$：沿着 $c$ 方向走，目标值增加得最快；与 $c$ 垂直地走，目标值不变。
+- 超平面 $a^Tx=b$：所有“在 $a$ 方向上投影长度相同”的点（本章后面讲）。
+- 梯度：$f$ 在方向 $d$ 上的变化率是 $\nabla f(x)^Td$，也是一个内积。
+
+</Intuition>
+
+<Thm title="Cauchy–Schwarz 不等式">
+
+$$
+|x^Ty| \le \|x\|_2\, \|y\|_2
+$$
+
+</Thm>
+
+大白话：因为 $|\cos\theta|\le 1$，内积的绝对值不会超过两个长度的乘积；等号成立当且仅当 $x$ 与 $y$ 共线。这个不等式在第 3、7 章的证明里会反复出现。
+
+<Quiz q="x = (2, -1)，y = (1, 2)。x 与 y 的关系是？" options={['同向（夹角小于 90°）', '正交（夹角 90°）', '反向（夹角大于 90°）']} answer={1} explain="xᵀy = 2·1 + (−1)·2 = 0，内积为 0 就是正交。" />
+
+## 范数：度量向量的“长度”
+
+### 三种常用范数
+
+<T zh="范数">norm</T> $\|x\|$ 是给向量“量长度”的函数。最常用的三种：
+
+$$
+\|x\|_2 = \sqrt{x_1^2+\cdots+x_n^2} = \sqrt{x^Tx},\qquad
+\|x\|_1 = |x_1|+\cdots+|x_n|,\qquad
+\|x\|_\infty = \max_i |x_i|
+$$
+
+大白话：
+
+- $\ell_2$ 范数（Euclidean norm）是我们日常的“直线距离”；不写下标的 $\|x\|$ 通常就指它。
+- $\ell_1$ 范数是“曼哈顿距离”：在棋盘格街道上只能横着竖着走的总路程。
+- $\ell_\infty$ 范数只看“最大的那个分量”。
+
+一般地，$p \ge 1$ 时 $\|x\|_p = (|x_1|^p+\cdots+|x_n|^p)^{1/p}$，上面三个是 $p=2,1,\infty$ 的特例。两点之间的距离用 $\|x-y\|$ 表示。
+
+<Example title="同一个向量，三种长度">
+
+$x=(3,-4)$：$\|x\|_2=\sqrt{9+16}=5$，$\|x\|_1=3+4=7$，$\|x\|_\infty=\max(3,4)=4$。总有 $\|x\|_\infty \le \|x\|_2 \le \|x\|_1$。
+
+</Example>
+
+<Def title="范数的三条公理">
+
+函数 $\|\cdot\|$ 是范数，当且仅当对所有 $x,y$ 和实数 $t$：
+
+1. 非负：$\|x\|\ge 0$，且 $\|x\|=0 \iff x=0$；
+2. 齐次：$\|tx\| = |t|\,\|x\|$；
+3. 三角不等式：$\|x+y\| \le \|x\|+\|y\|$。
+
+</Def>
+
+大白话：长度非负、拉长 $t$ 倍长度就乘 $|t|$、“两边之和大于第三边”。第 3 章会用这三条证明**所有范数都是凸函数**。
+
+### 单位球的形状
+
+<T zh="单位球">unit ball</T> 是所有长度 $\le 1$ 的点：$\{x \mid \|x\| \le 1\}$。不同范数的单位球形状差别很大：$\ell_2$ 是圆，$\ell_1$ 是菱形（转了 45° 的正方形），$\ell_\infty$ 是正方形。
+
+<Ch00NormBall />
+
+<Intuition title="形状为什么重要">
+
+$\ell_1$ 球有“尖角”，而且尖角正好落在坐标轴上。第 6 章会看到：用 $\ell_1$ 范数做惩罚时，最优解常常落在尖角上，也就是很多分量恰好为 0（稀疏解）。所有范数球都是**凸集**（第 2 章），这是它们在凸优化里好用的原因。
+
+</Intuition>
+
+<Quiz q="点 (0.6, 0.6) 在哪个单位球内部（‖x‖ ≤ 1）？" options={['只在 ℓ∞ 球内', 'ℓ∞ 和 ℓ2 球内，但不在 ℓ1 球内', '三个球都在内']} answer={1} explain="‖x‖∞ = 0.6，‖x‖₂ ≈ 0.85，都 ≤ 1；但 ‖x‖₁ = 1.2 > 1。" />
+
+## 矩阵：乘法与转置
+
+### 矩阵就是一张数表，也是一个“变换”
+
+一个 $m\times n$ 的<T zh="矩阵">matrix</T> $A \in \mathbb{R}^{m\times n}$ 有 $m$ 行 $n$ 列，第 $i$ 行第 $j$ 列的元素记作 $a_{ij}$ 或 $A_{ij}$。
+
+**矩阵乘向量** $Ax$（要求 $x\in\mathbb{R}^n$）得到一个 $m$ 维向量，第 $i$ 个分量是 $A$ 的第 $i$ 行与 $x$ 的内积：
+
+$$
+(Ax)_i = \sum_{j=1}^n a_{ij} x_j = a_i^T x
+$$
+
+这里 $a_i^T$ 表示 $A$ 的第 $i$ 行。大白话：$Ax$ 一次性算出了 $m$ 个内积。这正是“$m$ 个线性约束”的紧凑写法：饮食问题的 $m$ 条维生素约束 $\sum_j a_{ij}x_j \ge b_i$ 合起来就是 $Ax \succeq b$。
+
+另一种同样重要的读法：$Ax = x_1 A_{:,1} + x_2 A_{:,2} + \cdots + x_n A_{:,n}$，即**$A$ 的各列的线性组合**，系数是 $x$ 的分量。
+
+<Example title="矩阵乘向量">
+
+$$
+\begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}\begin{bmatrix} 1 \\ 2 \end{bmatrix} = \begin{bmatrix} 2\cdot1+1\cdot2 \\ 1\cdot1+3\cdot 2\end{bmatrix} = \begin{bmatrix} 4 \\ 7 \end{bmatrix}
+$$
+
+</Example>
+
+**矩阵乘矩阵** $AB$（$A$ 是 $m\times n$，$B$ 是 $n\times p$）：结果是 $m\times p$，$(AB)_{ij}$ = $A$ 的第 $i$ 行与 $B$ 的第 $j$ 列的内积。注意一般 $AB \ne BA$（顺序不能随便换）。
+
+### 转置
+
+<T zh="转置">transpose</T> $A^T$ 把行变成列：$(A^T)_{ij}=A_{ji}$。常用规则：
+
+$$
+(A^T)^T = A,\qquad (A+B)^T=A^T+B^T,\qquad (AB)^T = B^TA^T
+$$
+
+大白话：转置一个乘积要**倒序**。例如 $(Ax)^T = x^TA^T$，于是 $\|Ax\|_2^2 = (Ax)^T(Ax) = x^TA^TAx$——这在最小二乘里马上就会用到。
+
+<MathNote title="单位矩阵与逆矩阵">
+
+- 单位矩阵 $I$：对角线全为 1、其余为 0 的方阵，满足 $Ix=x$。
+- 方阵 $A$ 的逆 $A^{-1}$：满足 $AA^{-1}=A^{-1}A=I$。只有当 $A$ <T zh="非奇异/可逆">nonsingular</T> 时才存在。
+- 2×2 矩阵求逆公式：$\begin{bmatrix} a & b\\ c& d\end{bmatrix}^{-1} = \dfrac{1}{ad-bc}\begin{bmatrix} d & -b\\ -c & a\end{bmatrix}$，前提是行列式 $ad-bc\ne 0$。第 1 章最小二乘的闭式解就用了它。
+
+</MathNote>
+
+## 线性方程组 $Ax=b$
+
+给定 $A\in\mathbb{R}^{m\times n}$ 和 $b\in\mathbb{R}^m$，求 $x$ 使 $Ax=b$——这是 $m$ 个方程、$n$ 个未知数的<T zh="线性方程组">system of linear equations</T>。三种典型情况：
+
+- **方阵且可逆**（$m=n$，$A^{-1}$ 存在）：唯一解 $x=A^{-1}b$。几何上（$n=2$）是两条直线交于一点。
+- **方程少于未知数**（$m < n$，“欠定”）：通常有无穷多解，解集是一个仿射集合（第 2 章）。例如一个方程 $x_1+x_2=1$ 的解是一整条直线。
+- **方程多于未知数**（$m > n$，“超定”）：通常**无解**。这时退而求其次，找让 $Ax$ 离 $b$ 最近的 $x$，即最小化 $\|Ax-b\|_2^2$——这就是第 1 章的<T zh="最小二乘">least squares</T>，解满足 $A^TAx = A^Tb$（本章后面会推导）。
+
+<Example title="2×2 方程组">
+
+$2x_1+x_2=4,\ x_1+3x_2=7$，即 $\begin{bmatrix}2&1\\1&3\end{bmatrix}x = \begin{bmatrix}4\\7\end{bmatrix}$。行列式 $2\cdot 3-1\cdot1=5\ne0$，所以 $x=\frac15\begin{bmatrix}3&-1\\-1&2\end{bmatrix}\begin{bmatrix}4\\7\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix}$。
+
+</Example>
+
+在后面的算法章节（牛顿法、等式约束优化）中，每一步的核心计算都是解一个线性方程组，所以讲义说“计算量大约是 $n^3$”——那正是解 $n\times n$ 方程组的代价。
+
+## 对称矩阵与特征值
+
+### 对称矩阵
+
+方阵 $A$ 称为<T zh="对称矩阵">symmetric matrix</T>，如果 $A^T=A$，即 $a_{ij}=a_{ji}$（关于主对角线镜像对称）。所有 $n\times n$ 实对称矩阵组成的集合记作 $\mathbb{S}^n$。Hessian 矩阵、二次函数里的 $P$、协方差矩阵都是对称的。
+
+### 特征值与特征向量
+
+<Def title="特征值 eigenvalue / 特征向量 eigenvector">
+
+若非零向量 $v$ 和数 $\lambda$ 满足
+
+$$
+Av = \lambda v
+$$
+
+则称 $\lambda$ 是 $A$ 的<T zh="特征值">eigenvalue</T>，$v$ 是对应的<T zh="特征向量">eigenvector</T>。
+
+</Def>
+
+大白话：矩阵作用在一般向量上会让它**既伸缩又转向**；但在特征向量方向上，$A$ 只做伸缩，不转向，伸缩倍数就是 $\lambda$（$\lambda$ 为负则翻转方向）。
+
+<Thm title="对称矩阵的谱定理（简化版）">
+
+$A\in\mathbb{S}^n$ 的 $n$ 个特征值都是**实数**，且可以找到 $n$ 个**两两正交**的单位特征向量。等价地 $A = Q\Lambda Q^T$，其中 $Q$ 的列是这些特征向量，$\Lambda$ 是特征值组成的对角矩阵。
+
+</Thm>
+
+大白话：对称矩阵的作用 = 先转到特征向量组成的坐标系，在每个轴上按 $\lambda_i$ 伸缩，再转回来。所以单位圆被对称矩阵变成一个**椭圆**，椭圆的轴就是特征向量方向，半轴长是 $|\lambda_i|$。
+
+<Ch00MatVec />
+
+<MathNote title="2×2 对称矩阵的特征值怎么算">
+
+对 $A=\begin{bmatrix}a&b\\b&c\end{bmatrix}$，解 $\det(A-\lambda I)=(a-\lambda)(c-\lambda)-b^2=0$ 得
+
+$$
+\lambda_{1,2} = \frac{a+c}{2} \pm \sqrt{\left(\frac{a-c}{2}\right)^2+b^2}
+$$
+
+两个有用的事实：$\lambda_1+\lambda_2 = a+c$（迹 trace），$\lambda_1\lambda_2 = ac-b^2$（行列式 determinant）。
+
+</MathNote>
+
+## 正定与半正定矩阵
+
+### 二次型
+
+给定对称矩阵 $P\in\mathbb{S}^n$，函数
+
+$$
+q(x) = x^TPx = \sum_{i=1}^n\sum_{j=1}^n P_{ij}x_ix_j
+$$
+
+叫<T zh="二次型">quadratic form</T>。在 $n=2$、$P=\begin{bmatrix}p&r\\r&s\end{bmatrix}$ 时，$x^TPx = p x_1^2 + 2r x_1x_2 + s x_2^2$。大白话：它是一个只含“二次项”的多项式，图像是一个过原点的曲面。
+
+### 定义与判别法
+
+<Def title="半正定 PSD 与正定 PD">
+
+$P\in\mathbb{S}^n$ 称为
+
+- <T zh="半正定">positive semidefinite</T>（PSD），记 $P\succeq 0$，如果对所有 $x$：$x^TPx \ge 0$；
+- <T zh="正定">positive definite</T>（PD），记 $P\succ 0$，如果对所有 $x\ne 0$：$x^TPx > 0$。
+
+记号：$\mathbb{S}^n_+ = \{P\in\mathbb{S}^n \mid P\succeq 0\}$（所有半正定矩阵），$\mathbb{S}^n_{++}=\{P\in\mathbb{S}^n\mid P\succ 0\}$（所有正定矩阵）。$A\succeq B$ 的意思是 $A-B\succeq 0$。
+
+</Def>
+
+注意：$\succeq$ 是**矩阵**的“不等号”，不是逐元素比较。一个所有元素都是正数的矩阵不一定半正定（例如 $\begin{bmatrix}1&2\\2&1\end{bmatrix}$），一个有负元素的矩阵也可能正定（例如 $\begin{bmatrix}2&-1\\-1&2\end{bmatrix}$）。
+
+<Thm title="用特征值判断">
+
+$P\in\mathbb{S}^n$：$P\succeq 0 \iff$ 所有特征值 $\lambda_i\ge 0$；$P\succ 0\iff$ 所有特征值 $\lambda_i > 0$。
+
+对 $2\times2$ 矩阵 $\begin{bmatrix}a&b\\b&c\end{bmatrix}$：正定 $\iff a>0$ 且 $ac-b^2>0$；半正定 $\iff a\ge0,\ c\ge 0,\ ac-b^2\ge 0$。
+
+</Thm>
+
+<Reveal label="为什么特征值决定正负（看推导）">
+
+用谱分解 $P=Q\Lambda Q^T$，令 $y=Q^Tx$（只是换了个正交坐标系，$y=0 \iff x=0$）：
+
+$$
+x^TPx = x^TQ\Lambda Q^Tx = y^T\Lambda y = \lambda_1y_1^2+\cdots+\lambda_ny_n^2
+$$
+
+每一项是 $\lambda_i$ 乘一个平方数。所以只要所有 $\lambda_i\ge0$，和就 $\ge0$；若某个 $\lambda_i<0$，取 $y$ 只在第 $i$ 个分量非零，和就变负。
+
+</Reveal>
+
+### 碗、槽与马鞍
+
+上面的推导说明：在特征向量坐标系里，二次型就是 $\lambda_1y_1^2+\lambda_2y_2^2$。于是图形只有三种基本形状：
+
+- 两个特征值都 $>0$（正定）：**碗**，等高线是椭圆，原点是唯一最低点；
+- 一个 $>0$、一个 $=0$（半正定但不正定）：**槽**（像半根水管），等高线是平行直线，最低点有一整条线；
+- 一正一负（不定 indefinite）：**马鞍**，等高线是双曲线，原点在一个方向上是最低点、在另一个方向上是最高点。
+
+<Ch00Quadratic />
+
+<Intuition title="与凸性的联系（提前剧透）">
+
+第 3 章会证明：二次函数 $f(x)=\tfrac12x^TPx+q^Tx+r$ 是凸函数 $\iff P\succeq 0$。更一般地，二阶可导函数 $f$ 是凸的 $\iff$ 它的 Hessian 处处半正定 $\nabla^2f(x)\succeq0$。所以“半正定 = 碗形 = 凸”是全课最常用的判断工具之一。
+
+</Intuition>
+
+<Quiz q="P = [[1, 2], [2, 1]]（每个元素都 > 0）。P 是什么类型？" options={['正定', '半正定但不正定', '不定（马鞍）']} answer={2} explain="ac − b² = 1 − 4 = −3 < 0，两个特征值是 3 和 −1，一正一负，是不定矩阵。元素都为正并不能说明半正定。" />
+
+## 超平面与半空间
+
+<Def title="超平面 hyperplane 与半空间 halfspace">
+
+给定非零向量 $a\in\mathbb{R}^n$ 和数 $b$：
+
+$$
+\text{超平面：}\ \{x \mid a^Tx = b\},\qquad \text{半空间：}\ \{x\mid a^Tx\le b\}
+$$
+
+</Def>
+
+大白话：在 $\mathbb{R}^2$ 里超平面就是一条直线，在 $\mathbb{R}^3$ 里是一个平面，在 $\mathbb{R}^n$ 里是 $n-1$ 维的“平板”。半空间是超平面把空间切开后的一半。
+
+几何读法（用上内积的投影意义）：$a^Tx=b$ 说的是“$x$ 在 $a$ 方向上的投影长度都等于 $b/\|a\|_2$”。所以：
+
+- $a$ 是超平面的<T zh="法向量">normal vector</T>，与超平面垂直；
+- 超平面上任取一点 $x_0$，则 $\{x\mid a^Tx=b\} = \{x\mid a^T(x-x_0)=0\}$：从 $x_0$ 出发、与 $a$ 正交的所有方向；
+- $a$ 指向 $a^Tx$ **增大**的一侧，所以半空间 $a^Tx\le b$ 是 $a$ **背对**的那一侧；
+- 超平面到原点的距离是 $|b|/\|a\|_2$。
+
+<Ch00Hyperplane />
+
+<Example title="LP 的可行域由半空间拼成">
+
+饮食问题的约束 $2x_1+x_2\ge 6$ 可以改写成 $(-2,-1)^Tx \le -6$，是一个半空间。多个半空间的交集叫多面体 polyhedron（第 2 章），线性规划的可行域就是多面体。
+
+</Example>
+
+## 集合与函数的记号
+
+### 集合构造记号
+
+$\{x \mid \text{条件}\}$（也写 $\{x : \text{条件}\}$）读作“所有满足条件的 $x$ 组成的集合”。竖线 $\mid$ 读作“使得”。例如：
+
+- $\{x\in\mathbb{R}^2\mid \|x\|_2\le1\}$：单位圆盘；
+- $\{x\mid Ax=b\}$：线性方程组的解集；
+- $\{x\mid f_i(x)\le 0,\ i=1,\dots,m\}$：满足所有约束的点，即<T zh="可行集">feasible set</T>。
+
+其他常用符号：$\cap$（交集，同时属于两个集合）、$\cup$（并集）、$\subseteq$（子集）、$\emptyset$（空集）、$\forall$（对所有）、$\exists$（存在）、$\implies$（推出）、$\iff$（当且仅当）。
+
+### 函数与定义域
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 表示 $f$ 吃进一个 $n$ 维向量、吐出一个实数。但很多函数并不是处处有定义，比如 $\log x$ 只在 $x>0$ 时有定义。$f$ 真正有定义的那些点组成的集合叫<T zh="定义域">domain</T>，记作 $\mathbf{dom}\, f$：
+
+$$
+\mathbf{dom}\,\log = \{x\in\mathbb{R}\mid x>0\},\qquad \mathbf{dom}\,(1/x) = \{x \mid x\ne 0\}
+$$
+
+为什么要强调定义域？因为凸函数的定义第一句就是“$\mathbf{dom}\, f$ 是凸集”（第 1、3 章），优化问题的定义域也是所有函数定义域的交集（第 4 章）。
+
+### 线性函数与仿射函数
+
+- <T zh="线性函数">linear function</T>：$f(x)=c^Tx$（或向量值的 $f(x)=Ax$）。满足 $f(\alpha x+\beta y)=\alpha f(x)+\beta f(y)$，图像过原点。
+- <T zh="仿射函数">affine function</T>：线性函数加一个常数，$f(x)=c^Tx+d$（或 $f(x)=Ax+b$）。图像是“不一定过原点的平面”。
+
+大白话：仿射 = 线性 + 平移。在优化里两者经常混用，讲义说“线性约束”时一般指仿射约束 $a^Tx\le b$。仿射函数**既是凸的也是凹的**。
+
+## 梯度：多元函数的导数
+
+### 从导数到偏导数
+
+一元函数的导数 $f'(x)$ 是曲线在 $x$ 处切线的斜率。对多元函数 $f(x_1,\dots,x_n)$，固定其他变量、只对 $x_i$ 求导，就得到<T zh="偏导数">partial derivative</T> $\dfrac{\partial f}{\partial x_i}$。
+
+<Def title="梯度 gradient">
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 在 $x$ 处的<T zh="梯度">gradient</T> 是所有偏导数排成的列向量：
+
+$$
+\nabla f(x) = \begin{bmatrix} \dfrac{\partial f}{\partial x_1}(x) \\ \vdots \\ \dfrac{\partial f}{\partial x_n}(x)\end{bmatrix}
+$$
+
+</Def>
+
+大白话：$\nabla$（读作 nabla 或 del）把一个“吐出数”的函数变成一个“吐出向量”的函数；每个点都有一个梯度向量。
+
+<Example title="算一个梯度">
+
+$f(x)=x_1^2+3x_1x_2+2x_2^2$。对 $x_1$ 求偏导时把 $x_2$ 当常数：$\partial f/\partial x_1 = 2x_1+3x_2$；同理 $\partial f/\partial x_2 = 3x_1+4x_2$。所以 $\nabla f(x) = (2x_1+3x_2,\ 3x_1+4x_2)$，在点 $(1,1)$ 处 $\nabla f = (5,7)$。
+
+</Example>
+
+### 几何意义：最陡上坡、垂直于等高线
+
+<T zh="等高线">level set / contour</T> 是函数值相同的点：$\{x\mid f(x)=c\}$，就像地图上的等高线。关于梯度有三个要牢记的事实：
+
+1. **方向导数**：从 $x$ 沿单位方向 $d$ 走，$f$ 的变化率是 $\nabla f(x)^Td$（一个内积）。
+2. **最陡上升方向**：由 Cauchy–Schwarz，$\nabla f(x)^Td$ 在 $d$ 与 $\nabla f(x)$ 同向时最大。所以梯度指向 $f$ 增长最快的方向，$-\nabla f(x)$ 是下降最快的方向（第 11 章梯度下降法就是沿它走）。
+3. **垂直于等高线**：沿等高线走 $f$ 不变，变化率为 0，所以 $\nabla f(x)^Td=0$，即梯度与等高线的切线方向正交。
+
+<Ch00Gradient />
+
+<Thm title="无约束最优的必要条件（预告）">
+
+若 $f$ 可微且 $x^\star$ 是 $f$ 的（局部）最小点，则 $\nabla f(x^\star)=0$。对**凸**函数，这个条件还是**充分**的：$\nabla f(x^\star)=0 \iff x^\star$ 是全局最小点（第 4、11 章）。
+
+</Thm>
+
+## Hessian 矩阵
+
+一阶导数告诉我们“坡有多陡”，二阶导数告诉我们“弯曲得多厉害”。多元函数的二阶导数是一个矩阵：
+
+<Def title="Hessian">
+
+$$
+\nabla^2 f(x) = \begin{bmatrix}
+\dfrac{\partial^2 f}{\partial x_1^2} & \cdots & \dfrac{\partial^2 f}{\partial x_1\partial x_n}\\
+\vdots & \ddots & \vdots\\
+\dfrac{\partial^2 f}{\partial x_n\partial x_1} & \cdots & \dfrac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix},\qquad \left(\nabla^2 f(x)\right)_{ij} = \frac{\partial^2 f}{\partial x_i\partial x_j}
+$$
+
+</Def>
+
+大白话：先对 $x_j$ 求偏导再对 $x_i$ 求偏导，放在第 $i$ 行第 $j$ 列。对“足够光滑”的函数，求导顺序可以交换，所以 Hessian 是**对称矩阵**，$\nabla^2 f(x)\in\mathbb{S}^n$。
+
+<Example title="接上例">
+
+$f(x)=x_1^2+3x_1x_2+2x_2^2$，$\nabla f=(2x_1+3x_2,\ 3x_1+4x_2)$，再求一次导：
+
+$$
+\nabla^2 f(x) = \begin{bmatrix}2 & 3\\ 3& 4\end{bmatrix}
+$$
+
+它与 $x$ 无关（二次函数的 Hessian 是常数矩阵）。行列式 $2\cdot4-9=-1<0$，所以不定——这个函数是马鞍形，不是凸函数。
+
+</Example>
+
+Hessian 的特征值描述了各个方向上的弯曲程度：都 $\ge 0$ 时函数在该点附近“像碗”。这正是第 3 章的二阶凸性条件 $\nabla^2f(x)\succeq0$。
+
+## Taylor 近似
+
+### 一阶与二阶
+
+在点 $x$ 附近，光滑函数可以用多项式近似：
+
+$$
+f(y) \approx \underbrace{f(x) + \nabla f(x)^T(y-x)}_{\text{一阶近似 } \hat f_1(y)} \;+\; \frac12 (y-x)^T\nabla^2 f(x)(y-x)
+$$
+
+大白话：
+
+- **一阶 Taylor 近似** $\hat f_1$ 是一个仿射函数：一元时是切线，二元时是切平面。只用了“坡度”信息。
+- **二阶 Taylor 近似**（整个右边）再加上“弯曲”信息，一元时是贴在曲线上的抛物线。
+- 离展开点 $x$ 越近越准；二阶比一阶贴得更紧。
+
+一元情形就是熟悉的 $f(x+h)\approx f(x)+f'(x)h+\tfrac12f''(x)h^2$。
+
+<Ch00Taylor />
+
+<Intuition title="后面哪里会用到">
+
+- 第 3 章的一阶凸性条件：$f$ 凸 $\iff f(y)\ge f(x)+\nabla f(x)^T(y-x)$，即“**切线（切平面）永远在图像下方**”。在上面的交互里选 $e^x$ 可以看到红色切线始终在黑色曲线下面。
+- 第 11 章梯度下降：用一阶近似决定走哪个方向；牛顿法：最小化二阶近似，得到牛顿步 $-\nabla^2f(x)^{-1}\nabla f(x)$。
+
+</Intuition>
+
+## 常用梯度公式
+
+下面几个公式在整门课里会被反复使用，值得背下来（$a, b$ 是常向量，$A$ 是常矩阵，$P\in\mathbb{S}^n$）：
+
+| 函数 $f(x)$ | 梯度 $\nabla f(x)$ | Hessian $\nabla^2 f(x)$ |
+|---|---|---|
+| $a^Tx + c$ | $a$ | $0$ |
+| $x^Tx = \Vert x\Vert_2^2$ | $2x$ | $2I$ |
+| $x^TPx$（$P$ 对称） | $2Px$ | $2P$ |
+| $\tfrac12x^TPx+q^Tx+r$ | $Px+q$ | $P$ |
+| $\Vert Ax-b\Vert_2^2$ | $2A^T(Ax-b)$ | $2A^TA$ |
+
+大白话：这些公式和一元的 $(ax)'=a$、$(px^2)'=2px$ 长得几乎一样，只是要注意转置和矩阵放在哪一边。
+
+<Reveal label="为什么 ∇(aᵀx) = a、∇(xᵀPx) = 2Px（逐分量验证）">
+
+$a^Tx=\sum_j a_jx_j$，对 $x_i$ 求偏导只剩 $a_i$，所以梯度是 $a$。
+
+$x^TPx=\sum_j\sum_k P_{jk}x_jx_k$。对 $x_i$ 求偏导：含 $x_i$ 的项有 $j=i$ 的 $\sum_k P_{ik}x_k$ 和 $k=i$ 的 $\sum_j P_{ji}x_j$，所以 $\partial/\partial x_i = (Px)_i + (P^Tx)_i$。$P$ 对称时就是 $2(Px)_i$。若 $P$ 不对称，一般公式是 $\nabla(x^TPx)=(P+P^T)x$。
+
+</Reveal>
+
+<Steps title="推导 ∇‖Ax − b‖² 并得到最小二乘的正规方程" steps={[
+  {text: '先把平方范数写成内积（‖v‖² = vᵀv）：', math: '\\|Ax-b\\|_2^2 = (Ax-b)^T(Ax-b)'},
+  {text: '展开。注意 (Ax)ᵀb = bᵀAx 都是数，可以合并：', math: '= x^TA^TAx - 2b^TAx + b^Tb'},
+  {text: '第一项是 xᵀPx 型，P = AᵀA 是对称的，梯度为 2AᵀAx；第二项是 (−2Aᵀb)ᵀx，梯度为 −2Aᵀb；第三项是常数：', math: '\\nabla \\|Ax-b\\|_2^2 = 2A^TAx - 2A^Tb = 2A^T(Ax-b)'},
+  {text: '令梯度为 0（最优性必要条件；这个函数是凸的，所以也充分）：', math: 'A^TA\\,x = A^Tb'},
+  {text: '若 AᵀA 可逆，得到最小二乘的闭式解：', math: 'x^\\star = (A^TA)^{-1}A^Tb'},
+]} />
+
+<Quiz q="f(x) = 3x₁ − x₂ + 5 的梯度是？" options={['(3, −1, 5)', '(3, −1)', '(0, 0)']} answer={1} explain="f = aᵀx + c，a = (3, −1)，梯度就是 a；常数 5 求导为 0。" />
+
+## sup / inf、max / min 与 arg min
+
+### 最大值和最小值
+
+一个数集 $S$ 的<T zh="最小值">minimum</T> $\min S$ 是 $S$ 里**确实存在的**最小元素。函数的最小值 $\min_{x\in C} f(x)$ 是 $f$ 在集合 $C$ 上取到的最小函数值。
+
+### 上确界与下确界
+
+问题是最小值不一定存在。例如 $f(x)=e^x$ 在 $\mathbb{R}$ 上：函数值可以无限接近 0，但永远取不到 0。这时用<T zh="下确界">infimum</T>：
+
+<Def title="inf 与 sup">
+
+$\inf S$ 是 $S$ 的**最大下界**：在所有“不超过 $S$ 中每一个元素”的数里，最大的那个。$\sup S$（<T zh="上确界">supremum</T>）是**最小上界**。约定：若 $S$ 无下界，$\inf S=-\infty$；若 $S=\emptyset$，$\inf S=+\infty$、$\sup S=-\infty$。
+
+</Def>
+
+大白话：$\inf$ 是“能逼近到的最低水平”，不要求真的达到；如果达到了，$\inf$ 就等于 $\min$。
+
+<Example title="inf 与 min 的区别">
+
+- $\inf_{x\in\mathbb{R}} e^x = 0$，但 $\min$ 不存在（取不到 0）。
+- $\inf_{x>0} 1/x = 0$；$\sup_{x>0} 1/x = +\infty$。
+- $\inf_{x\in\mathbb{R}} x^2 = \min_{x\in\mathbb{R}}x^2 = 0$，在 $x=0$ 处取到。
+- $\inf_{x\in\mathbb{R}} x = -\infty$：问题“无下界” unbounded below。
+
+</Example>
+
+这就是为什么讲义把优化问题的<T zh="最优值">optimal value</T> 定义为 $p^\star=\inf\{f_0(x)\mid x \text{ 可行}\}$ 而不是 $\min$：它总有定义（可能是 $\pm\infty$）。第 7 章的对偶函数 $g(\lambda,\nu)=\inf_x L(x,\lambda,\nu)$ 也用 $\inf$。
+
+### arg min
+
+$\min_x f(x)$ 给出的是**最小的函数值**；$\arg\min_x f(x)$ 给出的是**取到最小值的那个（些）点**：
+
+$$
+\arg\min_{x\in C} f(x) = \{x\in C \mid f(x) = \min_{y\in C} f(y)\}
+$$
+
+<Example title="min 与 arg min">
+
+$f(x)=(x-3)^2+1$：$\min_x f(x) = 1$（最优值），$\arg\min_x f(x)=3$（最优解）。最优解通常记作 $x^\star$，所以 $p^\star = f(x^\star)$。
+
+</Example>
+
+<Warn title="max 与 min 的互换">
+
+$\max_x f(x) = -\min_x\,(-f(x))$，而且两个问题的 $\arg$ 相同。所以“最大化 $f$”总可以改写成“最小化 $-f$”——这是第 1 章标准形式只写 min 的原因。
+
+</Warn>
+
+<Quiz q="inf { 1/n : n = 1, 2, 3, … } 等于多少？是否能取到？" options={['等于 1，能取到', '等于 0，取不到', '等于 0，能取到']} answer={1} explain="1/n 可以任意接近 0 但永远大于 0，所以下确界是 0 且不是最小值。" />
+
+## 符号速查表
+
+| 符号 | 读法 / 含义 | 例子或备注 |
+|---|---|---|
+| $\mathbb{R}^n$ | 所有 $n$ 维实向量 | $x\in\mathbb{R}^n$ |
+| $\mathbb{R}^{m\times n}$ | 所有 $m\times n$ 实矩阵 | $A\in\mathbb{R}^{m\times n}$ |
+| $x_i$ | 向量 $x$ 的第 $i$ 个分量 | |
+| $x^T,\ A^T$ | 转置 | $(AB)^T=B^TA^T$ |
+| $x^Ty$ | 内积 $\sum_i x_iy_i$ | $=0$ 表示正交 |
+| $\Vert x\Vert_2$ | 欧氏长度 $\sqrt{x^Tx}$ | 单位球是圆 |
+| $\Vert x\Vert_1$ | 绝对值之和 | 单位球是菱形 |
+| $\Vert x\Vert_\infty$ | 最大绝对值分量 | 单位球是正方形 |
+| $x\succeq 0$（$x$ 是向量） | 每个分量 $\ge0$ | 也写 $x\ge0$ |
+| $I,\ A^{-1}$ | 单位矩阵、逆矩阵 | $AA^{-1}=I$ |
+| $\mathbb{S}^n$ | $n\times n$ 对称矩阵 | $A^T=A$ |
+| $P\succeq 0$ / $\mathbb{S}^n_+$ | 半正定：$x^TPx\ge0$ | 特征值全 $\ge0$ |
+| $P\succ 0$ / $\mathbb{S}^n_{++}$ | 正定：$x^TPx>0\ (x\ne0)$ | 特征值全 $>0$ |
+| $\lambda,\ v$ | 特征值、特征向量 | $Av=\lambda v$ |
+| $\{x\mid a^Tx=b\}$ | 超平面，法向量 $a$ | $\mathbb{R}^2$ 中是直线 |
+| $\{x\mid a^Tx\le b\}$ | 半空间 | |
+| $\{x\mid \cdots\}$ | 满足条件的 $x$ 的集合 | $\mid$ 读作“使得” |
+| $\mathbf{dom}\, f$ | $f$ 的定义域 | $\mathbf{dom}\log=\mathbb{R}_{++}$ |
+| $f:\mathbb{R}^n\to\mathbb{R}$ | 输入 $n$ 维向量、输出实数 | |
+| $\nabla f(x)$ | 梯度（偏导数向量） | 最陡上升方向 |
+| $\nabla^2 f(x)$ | Hessian（二阶偏导矩阵） | 对称矩阵 |
+| $\inf,\ \sup$ | 下确界、上确界 | 不要求取到 |
+| $\min,\ \max$ | 最小值、最大值 | 必须取到 |
+| $\arg\min$ | 取到最小值的点 | $x^\star$ |
+| $p^\star,\ x^\star$ | 最优值、最优解 | $p^\star=f_0(x^\star)$ |
+| $\forall,\ \exists$ | 对所有、存在 | |
+| $\implies,\ \iff$ | 推出、当且仅当 | |
+| $\cap,\ \cup,\ \subseteq$ | 交集、并集、子集 | |
+| $\mathbb{R}_+,\ \mathbb{R}_{++}$ | 非负实数、正实数 | |
+
+<Summary>
+
+- 向量是一列数，也是一个箭头；$x^Ty$ 衡量两个向量“同向的程度”，等于 0 就是正交。
+- 范数量长度：$\ell_2$ 圆、$\ell_1$ 菱形、$\ell_\infty$ 正方形；所有范数都满足三角不等式。
+- $Ax$ 一次算 $m$ 个内积；$Ax=b$ 可能有唯一解、无穷解或无解（无解时用最小二乘）。
+- 对称矩阵有实特征值和正交特征向量；$P\succeq0 \iff$ 特征值全非负 $\iff x^TPx$ 是碗或槽。
+- 超平面 $a^Tx=b$ 与法向量 $a$ 垂直，半空间 $a^Tx\le b$ 在 $a$ 背对的一侧。
+- 梯度指向最陡上升方向且垂直于等高线；Hessian 描述弯曲；Taylor 近似用切线/抛物线贴住函数。
+- 背熟：$\nabla(a^Tx)=a$，$\nabla(x^TPx)=2Px$，$\nabla\|Ax-b\|_2^2=2A^T(Ax-b)$。
+- $\inf$ 不要求取到，$\min$ 要求取到；$\arg\min$ 给的是“点”，不是“值”。
+
+</Summary>
+
+<Quiz q="下列哪个矩阵属于 𝕊²₊₊（正定）？" options={['[[1, 0], [0, 0]]', '[[2, −1], [−1, 2]]', '[[0, 1], [1, 0]]']} answer={1} explain="[[2,−1],[−1,2]]：a = 2 > 0，ac − b² = 4 − 1 = 3 > 0，特征值为 1 和 3，正定。第一个只是半正定（有特征值 0），第三个特征值为 ±1，不定。" />
+
+<Quiz q="在点 x 处 ∇f(x) = (3, 4)。沿哪个单位方向走，f 下降最快？" options={['(3, 4)', '(−0.6, −0.8)', '(0.8, −0.6)']} answer={1} explain="最快下降方向是 −∇f / ‖∇f‖ = −(3,4)/5 = (−0.6, −0.8)。(0.8, −0.6) 与梯度垂直，是沿等高线走，f 几乎不变。" />
+
+<Quiz q="f(x) = ‖Ax − b‖₂²，其中 A 是 3×2 矩阵。∇f(x) 和 ∇²f(x) 的尺寸分别是？" options={['3 维向量，3×3 矩阵', '2 维向量，2×2 矩阵', '2 维向量，3×3 矩阵']} answer={1} explain="x ∈ ℝ²，所以梯度是 2 维（2Aᵀ(Ax−b)：Aᵀ 是 2×3 乘 3 维向量），Hessian 2AᵀA 是 2×2。" />
+
+<Quiz q="超平面 {x | x₁ + x₂ = 2} 的法向量和它到原点的距离是？" options={['法向量 (1, 1)，距离 √2', '法向量 (1, −1)，距离 2', '法向量 (1, 1)，距离 2']} answer={0} explain="a = (1,1)，距离 |b|/‖a‖₂ = 2/√2 = √2。" />

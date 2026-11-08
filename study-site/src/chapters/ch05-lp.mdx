@@ -1,0 +1,412 @@
+import { Ch05Bisection, Ch05LP2D, Ch05Chebyshev, Ch05PiecewiseLinear } from '../widgets/ch05.jsx'
+
+上一章我们定义了凸优化问题，并证明了它“局部最优 = 全局最优”。这一章做两件事：
+
+1. **放宽一点点**：目标函数只要求<T zh="拟凸">quasiconvex</T>，而不是凸。这时局部最优不再保证是全局最优，但我们仍然能用“**二分法 + 凸可行性问题**”高效求解。这部分在讲义 L4 的最后几页，L5 开头教授又复习了一遍。
+2. **收紧到最简单的一类**：<T zh="线性规划">linear program, LP</T>——目标和约束全是仿射函数。我们会看 LP 的几何（最优解在顶点）、各种标准形式及其互相转换，以及几个经典的建模例子。
+
+整数规划（ILP）、LP 松弛、全单模矩阵这些 L5 后半部分的内容，和 L6 的开头连在一起，放在第 6 章讲。
+
+**本章路线**
+
+- 拟凸优化问题：定义、为什么局部最优不一定全局最优
+- 用一族凸函数 $\phi_t$ 表示拟凸函数（三个例子）
+- 凸可行性问题 + 二分法，迭代次数 $\lceil\log_2((u-l)/\epsilon)\rceil$
+- LP 的一般形式、几何意义（最优解在顶点）
+- 标准形式与规范形式，以及互相转换（松弛变量、自由变量拆分）
+- 例子：diet problem、网络流、分段线性最小化、Chebyshev 中心、线性分式规划
+
+## 拟凸优化
+
+### 问题形式
+
+<Def title="拟凸优化问题 quasiconvex optimization problem">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 0,\quad i=1,\dots,m\\
+& Ax=b
+\end{aligned}
+$$
+
+其中 $f_0:\mathbb{R}^n\to\mathbb{R}$ 是**拟凸**的，$f_1,\dots,f_m$ 是**凸**的。
+
+</Def>
+
+和凸问题相比，只有目标放宽了：不等式约束仍是凸的，等式约束仍是仿射的，所以**可行集仍是凸集**。
+
+<MathNote title="拟凸函数回顾">
+
+函数 $f$ 是拟凸的，如果它所有的下水平集 $S_\alpha=\{x\in\mathbf{dom}\,f\mid f(x)\le\alpha\}$ 都是凸集（对每个 $\alpha$）。凸函数一定是拟凸的，反之不然：比如一维里任何“先降后升”（单峰）的函数都是拟凸的，哪怕中间有平台、曲线是“鼓起来”的。
+
+</MathNote>
+
+<Warn title="拟凸问题：局部最优不一定是全局最优">
+
+讲义特别提醒这一点。教授在黑板上画了一条带**水平平台**的拟凸曲线：平台上每个点都是局部最优（往左往右挪一点，函数值不变，没有变小），但真正的全局最小在山谷底部。原因是目标不是凸的——下水平集虽然凸，但函数可以“平”。
+
+</Warn>
+
+### 用一族凸函数表示拟凸函数
+
+拟凸函数本身不好直接优化，但它的每个下水平集都是凸集，所以可以“一层一层”地用凸函数描述。
+
+<Def title="拟凸函数的凸表示">
+
+若 $f_0$ 拟凸，则存在一族以 $t\in\mathbb{R}$ 为下标的函数 $\phi_t$，满足：
+
+- 对每个固定的 $t$，$\phi_t(x)$ 是 $x$ 的凸函数；
+- $f_0$ 的 $t$-下水平集恰好是 $\phi_t$ 的 0-下水平集：
+
+$$
+f_0(x)\le t\quad\Longleftrightarrow\quad \phi_t(x)\le 0 .
+$$
+
+</Def>
+
+大白话：“$f_0(x)$ 不超过 $t$”这句话，可以翻译成一个**凸不等式** $\phi_t(x)\le 0$。这样的表示一定存在，而且**不唯一**。讲义给了三个例子：
+
+<Example title="三种 φ_t">
+
+1. **指示函数**：
+
+$$
+\phi_t(x)=\begin{cases}0, & f_0(x)\le t\\ \infty, & \text{otherwise}\end{cases}
+$$
+
+它是凸集 $\{f_0\le t\}$ 的指示函数，所以对 $x$ 是凸的；且 $\phi_t(x)\le 0$ 恰好当 $f_0(x)\le t$。
+
+2. **到下水平集的距离**：
+
+$$
+\phi_t(x)=\operatorname{dist}\big(x,\{z\mid f_0(z)\le t\}\big)
+$$
+
+到一个凸集的距离是凸函数，且在集合上（闭集时）恰好为 0。
+
+3. **凸 / 凹 的比值**：设 $f_0(x)=\dfrac{p(x)}{q(x)}$，$p$ 凸、$q$ 凹，且在 $\mathbf{dom}\,f_0$ 上 $q(x)>0$。取
+
+$$
+\phi_t(x)=p(x)-t\,q(x).
+$$
+
+当 $t\ge 0$ 时，$-t\,q$ 是凸的（凹函数乘负数变凸），所以 $\phi_t$ 对 $x$ 凸；又因为 $q(x)>0$，两边同乘 $q(x)$ 不改变不等号方向：$\dfrac{p(x)}{q(x)}\le t\iff p(x)-t\,q(x)\le 0$。
+
+</Example>
+
+<Prof>
+
+教授在 L5 开头复习时强调了一个容易犯的错误：**分别对每个变量凸，不等于联合凸**。例如 $f(x_1,x_2)=x_1x_2$：固定 $x_2$ 时对 $x_1$ 是仿射的，固定 $x_1$ 时对 $x_2$ 也是仿射的，但它整体不是凸函数。同理，$\phi_t(x)$ 对 $x$ 凸（$t$ 固定），但对 $(x,t)$ 联合起来**不一定**凸。(09-22 课 00:04–00:06)
+
+</Prof>
+
+### 凸可行性问题与二分法
+
+设 $p^\star$ 是拟凸问题的最优值。对一个固定的 $t$，解下面的**凸可行性问题**：
+
+$$
+\begin{aligned}
+\text{find}\quad & x\\
+\text{subject to}\quad & \phi_t(x)\le 0,\qquad f_i(x)\le 0,\ i=1,\dots,m,\qquad Ax=b
+\end{aligned}
+\tag{1}
+$$
+
+- 若 (1) **可行**：找到的 $x$ 满足 $f_0(x)\le t$，所以 $p^\star\le t$。
+- 若 (1) **不可行**：没有任何可行 $x$ 能让 $f_0(x)\le t$，所以 $p^\star>t$。
+
+每次回答一个“能不能做到 $\le t$”的是非题，就把 $p^\star$ 所在的范围砍掉一半——这就是<T zh="二分法">bisection method</T>。
+
+<Def title="拟凸优化的二分法">
+
+**给定** $l\le p^\star$，$u\ge p^\star$，容差 $\epsilon>0$。
+
+**重复**
+
+1. $t:=(l+u)/2$
+2. 求解凸可行性问题 (1)
+3. 若 (1) 可行，$u:=t$；否则 $l:=t$
+
+**直到** $u-l\le\epsilon$。
+
+</Def>
+
+<Thm title="迭代次数">
+
+二分法恰好需要 $\left\lceil \log_2\!\left(\dfrac{u-l}{\epsilon}\right)\right\rceil$ 次迭代（这里 $u,l$ 是初始值）。
+
+</Thm>
+
+推导：每次迭代区间长度减半，$k$ 次后长度是 $(u-l)/2^k$。要求 $(u-l)/2^k\le\epsilon$，即 $2^k\ge(u-l)/\epsilon$，取对数得 $k\ge\log_2((u-l)/\epsilon)$。例如 $u-l=1$、$\epsilon=10^{-3}$ 时需要 $\lceil\log_2 1000\rceil=10$ 次。
+
+<Ch05Bisection />
+
+<Prof>
+
+教授的解释：可行说明“$t$ 是达得到的”，所以可以把上界压下来；不可行说明连 $t$ 都达不到，最优值一定比 $t$ 大，所以把下界抬上去。区间始终包住 $p^\star$。这个算法是通用的——它只需要一个能解凸可行性问题的“黑盒”。(09-22 课 00:09–00:14)
+
+</Prof>
+
+<Exam>
+
+教授在课上提了一个概念题：**为什么不直接解 “minimize $t$ s.t. $\phi_t(x)\le0$, $f_i(x)\le0$, $Ax=b$”（对 $(x,t)$ 一起优化）？** 答：只有当 $\phi_t(x)$ 对 $(x,t)$ **联合凸**时，那才是凸问题；而表示只保证对 $x$ 凸（$t$ 固定）。联合不凸时直接法不行，但二分法每一步固定 $t$，仍然只需解凸问题。(09-22 课 00:14–00:16)
+
+</Exam>
+
+<Quiz q="用二分法求拟凸问题，初始 l = 0、u = 8，要求 ε = 0.01。需要多少次迭代？" options={['8', '9', '10', '800']} answer={2} explain="⌈log₂(8/0.01)⌉ = ⌈log₂ 800⌉ = ⌈9.64⌉ = 10。" />
+
+<Quiz q="某一步 t = 3 时凸可行性问题不可行，下一步应该怎么更新？" options={['u := 3', 'l := 3', '停止，p* = 3', '把 ε 减半']} answer={1} explain="不可行 ⇒ 没有可行 x 使 f₀(x) ≤ 3 ⇒ p* > 3，所以把下界抬到 3。" />
+
+## 线性规划 LP
+
+### 一般形式
+
+<Def title="线性规划 linear program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x + d\\
+\text{subject to}\quad & Gx\preceq h\\
+& Ax=b
+\end{aligned}
+$$
+
+其中 $x\in\mathbb{R}^n$，$c\in\mathbb{R}^n$，$d$ 是常数；$G\in\mathbb{R}^{p\times n}$、$h\in\mathbb{R}^p$（$p$ 个线性不等式）；$A\in\mathbb{R}^{m\times n}$、$b\in\mathbb{R}^m$（$m$ 个等式）。
+
+</Def>
+
+符号说明：$Gx\preceq h$ 是**逐分量**的不等式，即 $G$ 的每一行 $g_i^T$ 都满足 $g_i^Tx\le h_i$。常数 $d$ 不影响最优点 $x^\star$，经常省略。
+
+讲义的一句话：LP 是“目标和约束函数都是仿射函数的凸问题”。仿射函数既凸又凹，所以 LP 当然是凸问题。
+
+### 几何意义：最优解在顶点
+
+- 每个不等式 $g_i^Tx\le h_i$ 是一个<T zh="半空间">half-space</T>，每个等式是一个超平面。它们的交是一个<T zh="多面体">polyhedron</T> $\mathcal{P}$——这就是可行集。
+- 目标 $c^Tx$ 的<T zh="等值线">level sets</T> $\{x\mid c^Tx=\text{常数}\}$ 是一族**互相平行**的超平面（二维里是平行直线），法向量都是 $c$。
+- $c$ 指向目标**增加**的方向；我们要最小化，所以沿 $-c$ 方向推等值线，**最后一条还碰得到 $\mathcal{P}$ 的等值线**上的点就是最优点。
+
+<Figure src="L05/p02_f2.png" caption="LP 的几何：灰色多面体 P 是可行集，虚线是 cᵀx 的等值线；沿 −c 推到最后，碰到的顶点就是 x*" />
+
+**结论**：LP 的最优解在多面体的一个**顶点**上取到；若 $-c$ 恰好垂直于某条边（面），则整条边（面）上的点都最优——但这条边也包含顶点，所以“总有一个最优顶点”（在问题有界、且多面体有顶点时）。教授说严格证明在理论里，这里给出的是直观。
+
+<Ch05LP2D />
+
+<Exam>
+
+LP 的几何是教授强调的直观：等值线垂直于 $c$；最优点是沿 $-c$ 方向的最后一条等值线；最优在顶点或沿一条边。(09-22 课 00:22–00:25)
+
+</Exam>
+
+### 标准形式与规范形式
+
+<Def title="LP 的标准形式 standard form">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x\\
+\text{subject to}\quad & Ax=b,\qquad x\succeq 0
+\end{aligned}
+$$
+
+</Def>
+
+<Def title="LP 的规范形式 canonical form">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x\\
+\text{subject to}\quad & Ax\succeq b,\qquad x\succeq 0
+\end{aligned}
+$$
+
+</Def>
+
+这里 $\succeq$ 都是逐分量的 $\ge$。这几种形式**可以互相转换**，只需要增加或减少变量。工具有两个：<T zh="松弛变量">slack variable</T>（把不等式变等式）和<T zh="自由变量拆分">splitting free variables</T>（把任意符号的变量变成非负变量）。
+
+### 一般形式 → 标准形式
+
+<Steps title="三步把一般 LP 化成标准形式" steps={[
+  { text: '第 1 步：松弛变量。对 Gx ⪯ h 引入非负松弛 s，把不等式变成等式。', math: 'Gx\\preceq h\\quad\\Longleftrightarrow\\quad Gx+s=h,\\ \\ s\\succeq 0' },
+  { text: '第 2 步：自由变量拆分。标准形式要求所有变量非负，但原来的 x 每个分量可正可负可为零。把 x 写成两个非负向量之差。', math: 'x=x^+-x^-,\\qquad x^+\\succeq 0,\\ x^-\\succeq 0' },
+  { text: '于是目标变成：', math: 'c^Tx=c^Tx^+-c^Tx^-' },
+  { text: '第 3 步：合并。新变量是 (x⁺, x⁻, s)，全部非负，约束全部是等式——标准形式。', math: '\\begin{aligned}\\text{minimize}\\quad & c^Tx^+-c^Tx^-+d\\\\ \\text{subject to}\\quad & Gx^+-Gx^-+s=h\\\\ & Ax^+-Ax^-=b\\\\ & x^+\\succeq 0,\\ x^-\\succeq 0,\\ s\\succeq 0\\end{aligned}' },
+]} />
+
+### 规范形式 → 标准形式
+
+把 $Ax\succeq b$ 写成 $Ax-s=b$，$s\succeq 0$（$A\in\mathbb{R}^{m\times n}$ 时 $s\in\mathbb{R}^m$）。原来已有 $x\succeq 0$，现在 $s\succeq 0$，于是变成标准形式。
+
+<Warn title="松弛变量的符号">
+
+课上有学生问加还是减。规则：**“小于等于”约束加松弛，“大于等于”约束减松弛。** $a^Tx\le b\iff a^Tx+s=b$；$a^Tx\ge b\iff a^Tx-s=b$，两处都要求 $s\ge 0$。(09-22 课 00:35)
+
+</Warn>
+
+<Quiz q="把约束 2x₁ − x₂ ≥ 3 化成标准形式中的等式，正确的是？" options={['2x₁ − x₂ + s = 3, s ≥ 0', '2x₁ − x₂ − s = 3, s ≥ 0', '2x₁ − x₂ − s = 3, s ≤ 0', '2x₁ − x₂ = 3 + s, s 任意']} answer={1} explain="“≥” 约束要减去一个非负松弛：左边比 3 多出来的部分就是 s ≥ 0。" />
+
+<Quiz q="LP 中变量 x₃ 没有符号限制（自由变量）。化成标准形式时应该怎么处理？" options={['直接加约束 x₃ ≥ 0', '令 x₃ = x₃⁺ − x₃⁻，x₃⁺, x₃⁻ ≥ 0', '令 x₃ = (x₃)²', '把 x₃ 删除']} answer={1} explain="任何实数都能写成两个非负数之差，这样不丢失任何可行点。" />
+
+## LP 的例子
+
+### Diet problem 与网络流
+
+这两个例子在第 1 章已经讲过，讲义 L5 只是提一下（“discussed in the first lecture”），这里快速复习。
+
+<Example title="Diet problem（饮食问题）">
+
+有 $n$ 种食物，食物 $j$ 每毫克含 $c_j$ 卡路里，含维生素 $i$ $a_{ij}$ 毫克；每天至少需要维生素 $i$ $b_i$ 毫克。变量 $x_j$ = 食物 $j$ 吃多少毫克。
+
+$$
+\min \sum_{j=1}^{n} c_j x_j
+\quad \text{s.t.} \quad
+\sum_{j=1}^{n} a_{ij} x_j \ge b_i,\ i = 1,\dots,m,
+\qquad
+x_j \ge 0,\ j = 1,\dots,n.
+$$
+
+目标（总卡路里）和约束（维生素摄入量）都是线性的，所以是 LP。变体：在卡路里上限 $\sum_jc_jx_j\le d$ 下最大化总维生素 $\sum_i\sum_ja_{ij}x_j$，也是 LP。注意它恰好是**规范形式**（$Ax\succeq b$，$x\succeq 0$）。
+
+</Example>
+
+<Example title="最大流 max flow">
+
+有向图 $G=(V,E)$，边 $(i,j)$ 容量 $u_{ij}$，源点 $s$、汇点 $t$。变量 $x_{ij}$ 是边上的流量，$v$ 是从 $s$ 到 $t$ 的总流量。
+
+$$
+\max\ v\quad\text{s.t.}\quad
+\sum_{j:(i,j)\in E} x_{ij} - \sum_{j:(j,i)\in E} x_{ji} =
+\begin{cases} v, & i = s,\\ 0, & i \in V\setminus\{s,t\},\\ -v, & i = t,\end{cases}
+\qquad 0 \le x_{ij} \le u_{ij}.
+$$
+
+第一组约束是<T zh="流量守恒">flow conservation</T>：中间节点“流出 = 流入”。全部线性，所以是 LP，可在多项式时间内求解。
+
+</Example>
+
+<Figure src="pages/L01/p17_graph.png" caption="网络流：从源点 s 到汇点 t 的有向图，每条边有容量 u_ij" />
+
+### 分段线性最小化
+
+$$
+\text{minimize}\quad \max_{i=1,\dots,m}\left(a_i^T x+b_i\right)
+$$
+
+目标是 $m$ 个仿射函数的逐点最大值——一个“折线 / 多面”形状的凸函数，叫<T zh="极小极大">minimax</T> 问题。它是凸的，但目标里有 $\max$，**不是** LP 的形式。用上一章的上境图技巧可以化成 LP：
+
+<Steps title="分段线性最小化 → LP" steps={[
+  { text: '上境图：引入一个标量 t 代表整个 max 表达式，目标变成 min t。', math: '\\min\\ t\\quad\\text{s.t.}\\quad t=\\max_i\\left(a_i^Tx+b_i\\right)' },
+  { text: '约束里不能有 max。先把等号放宽成 ≥（因为在最小化 t，最优时会自动取等号）：', math: 't\\ge\\max_i\\left(a_i^Tx+b_i\\right)' },
+  { text: '“t 大于等于 m 个数的最大值” 等价于 “t 大于等于其中每一个”，于是 max 被拆成 m 个线性不等式：', math: 't\\ge a_i^Tx+b_i,\\qquad i=1,\\dots,m' },
+  { text: '得到等价的 LP（变量是 x 和 t）：', math: '\\begin{aligned}\\text{minimize}\\quad & t\\\\ \\text{subject to}\\quad & a_i^T x+b_i\\le t,\\quad i=1,\\dots,m\\end{aligned}' },
+]} />
+
+<Ch05PiecewiseLinear />
+
+<Prof>
+
+教授强调：这个等价**依赖于目标的方向**。约束本身允许任意大的 $t$，是“最小化”把 $t$ 压到 $\max$ 上。他说“epigraph + 去掉 max”这个技巧后面会用很多次。(09-22 课 00:43–00:45)
+
+</Prof>
+
+### Chebyshev 中心：多面体里最大的球
+
+给定多面体和一个球：
+
+$$
+\mathcal P=\{x\mid a_i^Tx\le b_i,\ i=1,\dots,m\},\qquad
+\mathcal B=\{x_c+u\mid \|u\|_2\le r\}.
+$$
+
+<T zh="切比雪夫中心">Chebyshev center</T> 是能放进 $\mathcal P$ 的最大球的球心 $x_c$。变量是球心 $x_c\in\mathbb{R}^n$ 和半径 $r$，目标是最大化 $r$。
+
+<Figure src="L05/p06_f1.png" caption="多面体内最大的内切圆，圆心就是 Chebyshev 中心 x_cheb" />
+
+难点在约束：“球在多面体里”意味着球上**每一个**点都要满足**每一个**不等式——有无穷多个 $u$，也就是无穷多个约束。LP 只允许有限个约束，所以要想办法把 $u$ 消掉。
+
+<MathNote title="为什么 sup 等于 r‖a‖₂？">
+
+内积 $a^Tu=\|a\|_2\|u\|_2\cos\theta$，其中 $\theta$ 是两向量夹角。在 $\|u\|_2\le r$ 的球里，要让它最大：长度取满 $\|u\|_2=r$，方向和 $a$ 一致（$\cos\theta=1$）。所以最大值点是 $u^\star=r\,a/\|a\|_2$（先把 $a$ 归一化得到方向，再乘以半径），最大值是 $r\|a\|_2$。这里 $\sup$ 表示上确界（最大值）。
+
+</MathNote>
+
+<Steps title="从“球在多面体里”推出 LP 约束" steps={[
+  { text: '原话直译：球上每个点都在 P 里。', math: 'x_c+u\\in\\mathcal P\\quad\\forall\\,\\|u\\|_2\\le r' },
+  { text: '把“在 P 里”写成每个不等式：', math: 'a_i^T(x_c+u)\\le b_i\\quad\\forall i,\\ \\forall\\,\\|u\\|_2\\le r' },
+  { text: '“对所有 u 成立” ⇔ “对最坏的 u 成立”，用 sup 表示最坏情况，u 就从约束里消失了：', math: 'a_i^Tx_c+\\sup_{\\|u\\|_2\\le r}a_i^Tu\\le b_i' },
+  { text: '内层 sup 有闭式解（见上面的补课）：', math: '\\sup_{\\|u\\|_2\\le r}a_i^Tu=r\\,\\|a_i\\|_2,\\qquad u^\\star=r\\,\\frac{a_i}{\\|a_i\\|_2}' },
+  { text: '代回去，得到对 (x_c, r) 线性的约束（‖aᵢ‖₂ 是已知常数）：', math: 'a_i^Tx_c+r\\,\\|a_i\\|_2\\le b_i,\\qquad i=1,\\dots,m' },
+]} />
+
+于是 Chebyshev 中心可以通过解 LP 求得：
+
+$$
+\begin{aligned}
+\text{maximize}\quad & r\\
+\text{subject to}\quad & a_i^Tx_c+r\,\|a_i\|_2\le b_i,\qquad i=1,\dots,m .
+\end{aligned}
+$$
+
+<Ch05Chebyshev />
+
+<Prof>
+
+教授的总结：不能停在“看起来很明确”的约束形式上（比如“对所有 $\|u\|_2\le r$”），一定要化到**变量个数和约束个数都明确且有限**的形式——约束里不能留 sup、max、min、inf。(09-22 课 01:01) 第 6 章的鲁棒 LP 用的是完全相同的套路。
+
+</Prof>
+
+<Exam>
+
+Chebyshev 中心的推导是重点：从“球在多面体内”出发，经过 $\sup_{\|u\|_2\le r}a_i^Tu=r\|a_i\|_2$，得到 $a_i^Tx_c+r\|a_i\|_2\le b_i$。要能完整写出每一步。
+
+</Exam>
+
+<Quiz q="Chebyshev 中心 LP 的约束 aᵢᵀx_c + r‖aᵢ‖₂ ≤ bᵢ 中，为什么是“线性”的？" options={['因为 ‖aᵢ‖₂ 是线性函数', '因为 aᵢ、bᵢ 是给定数据，‖aᵢ‖₂ 只是一个常数系数，变量 x_c、r 都以一次方出现', '因为 r 总是 1', '因为球是凸集']} answer={1} explain="范数作用在已知数据 aᵢ 上，不作用在变量上，所以它只是 r 前面的一个常数系数。" />
+
+### 线性分式规划（补充）
+
+讲义 L4 的拟凸例子 3（凸/凹比值）有一个最常见的特例：分子分母都是仿射函数。这在教材 4.3.2 节叫<T zh="线性分式规划">linear-fractional program</T>：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)=\frac{c^Tx+d}{e^Tx+f}\\
+\text{subject to}\quad & Gx\preceq h,\quad Ax=b
+\end{aligned}
+\qquad \mathbf{dom}\,f_0=\{x\mid e^Tx+f>0\}.
+$$
+
+仿射函数既凸又凹，所以分子“凸”、分母“凹”且为正，$f_0$ 是拟凸的（实际上是拟线性的）。按例子 3 取 $\phi_t(x)=c^Tx+d-t(e^Tx+f)$，每一步的可行性问题就是一个 **LP 可行性问题**，用二分法即可求解。
+
+<MathNote title="（教材补充）一次换元直接变成 LP">
+
+令 $y=\dfrac{x}{e^Tx+f}$，$z=\dfrac{1}{e^Tx+f}$，线性分式规划等价于 LP：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^Ty+dz\\
+\text{subject to}\quad & Gy-hz\preceq 0,\quad Ay-bz=0,\quad e^Ty+fz=1,\quad z\ge 0 .
+\end{aligned}
+$$
+
+这一点讲义没有写，了解即可。
+
+</MathNote>
+
+## 本章小结
+
+<Summary>
+
+- **拟凸问题**：目标拟凸、约束凸、等式仿射；可行集凸，但**局部最优不一定全局最优**。
+- **凸表示**：$f_0(x)\le t\iff\phi_t(x)\le0$，$\phi_t$ 对 $x$ 凸（$t$ 固定）。三个例子：指示函数、到下水平集的距离、$p/q$ 时取 $\phi_t=p-tq$。
+- **二分法**：$t=(l+u)/2$，可行则 $u:=t$，否则 $l:=t$；恰好 $\lceil\log_2((u-l)/\epsilon)\rceil$ 次。不直接最小化 $t$ 是因为 $\phi_t(x)$ 未必对 $(x,t)$ 联合凸。
+- **LP**：$\min c^Tx+d$ s.t. $Gx\preceq h$，$Ax=b$。可行集是多面体；最优在顶点（或整条边）。
+- **形式转换**：标准形式 $Ax=b,x\succeq0$；规范形式 $Ax\succeq b,x\succeq0$。“≤”加松弛、“≥”减松弛；自由变量 $x=x^+-x^-$。
+- **建模技巧**：$\min\max_i(a_i^Tx+b_i)$ → $\min t$ s.t. $a_i^Tx+b_i\le t$；Chebyshev 中心用 $\sup_{\|u\|\le r}a^Tu=r\|a\|_2$ 消掉无穷多约束。
+
+</Summary>
+
+<Quiz q="下面哪个问题可以等价写成 LP？" options={['minimize ‖x‖₂  s.t. Ax ⪯ b', 'minimize max(x₁ − x₂, 2x₂ + 1, −x₁)  s.t. x ⪰ 0', 'minimize x₁x₂  s.t. x₁ + x₂ = 1', 'minimize x₁²  s.t. x₁ ≥ 1']} answer={1} explain="仿射函数的最大值可用上境图化成 LP：min t s.t. t ≥ 每一项。‖x‖₂ 和 x₁² 不是分段线性的；x₁x₂ 甚至不凸。" />
+
+<Quiz q="二维 LP 中，当 −c 恰好垂直于可行多边形的一条边、且这条边就在最优的方向上时，最优解集是？" options={['空集', '唯一一个顶点', '整条边（包括两个端点）', '整个多边形']} answer={2} explain="等值线与这条边平行，推到最后时整条边同时被碰到，边上每一点目标值相同且最小。" />
+
+<Quiz q="关于拟凸问题，下列说法正确的是？" options={['它的可行集可能非凸', '它的局部最优一定是全局最优', '对固定的 t，“是否存在可行 x 使 f₀(x) ≤ t” 是一个凸可行性问题', '它不能被高效求解']} answer={2} explain="用凸表示 φₜ，f₀(x) ≤ t 等价于凸约束 φₜ(x) ≤ 0，加上凸的 fᵢ 和仿射等式，就是凸可行性问题，二分法即可。" />

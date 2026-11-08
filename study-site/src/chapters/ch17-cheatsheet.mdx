@@ -1,0 +1,303 @@
+import { Ch17ConvexityDrill, Ch17RateCompare } from '../widgets/ch17.jsx'
+
+这一页把全课程（L1–L15）压缩成一张速查表：每章的核心定义、必背公式、教授强调的考点，以及常见题型的解题套路。适合考前最后一轮过一遍；看不懂的条目点链接回到对应章节。
+
+本页路线：
+
+- 考试信息 → 凸集 → 凸函数（含凸性判定练习）→ 凸问题与 LP → 问题族 → 对偶（Lagrangian / KKT / 灵敏度）→ 算法（GD、Newton、内点法、次梯度、定位法）→ 常见题型套路。
+
+<Exam>
+
+**考试信息**（据课堂录音）：期末闭卷、现场考、不能用电子设备，占总评 40%；教授在 L11 提到考试在 **12 月 15 日上午**（以 Moodle 公告为准）。共 5 道大题，其中一道是“把文字描述的问题建模 / 写出它的对偶”，历届学生在这道题得分最低。教授说本课“只有一个核心理论：对偶理论”。
+
+</Exam>
+
+## 凸集（L2）
+
+[详见第 2 章](#/c/convex-sets)
+
+| 概念 | 定义 / 公式 | 一句话 |
+|---|---|---|
+| 仿射集 affine set | $\theta x_1+(1-\theta)x_2\in C,\ \forall\theta\in\mathbb{R}$ | 包含过任意两点的整条直线 |
+| 凸集 convex set | $\theta x_1+(1-\theta)x_2\in C,\ \forall\theta\in[0,1]$ | 包含任意两点之间的线段 |
+| 凸组合 / 锥组合 | $\sum\theta_ix_i$，$\theta_i\ge0,\ \sum\theta_i=1$ / 只要 $\theta_i\ge0$ | 锥组合不要求和为 1 |
+| 凸包 convex hull | 所有凸组合的集合 | 包含 $S$ 的**最小**凸集（考过） |
+| 凸锥 convex cone | $\theta_1x_1+\theta_2x_2\in C,\ \theta_i\ge0$ | 锥 + 凸；锥本身可以不凸 |
+| 超平面 / 半空间 | $\{a^Tx=b\}$ / $\{a^Tx\le b\}$，$a\ne0$ | $a$ 是法向量 |
+| 球 / 椭球 | $\{x:\Vert x-x_c\Vert_2\le r\}$ / $\{x:(x-x_c)^TP^{-1}(x-x_c)\le1\}$，$P\succ0$ | 椭球半轴长 $\sqrt{\lambda_i(P)}$ |
+| 范数锥 norm cone | $\{(x,t):\Vert x\Vert\le t\}$ | 2-范数时叫二阶锥 SOC |
+| 多面体 polyhedron | $\{x:Ax\preceq b,\ Cx=d\}$ | 有限个半空间和超平面的交 |
+| PSD 锥 | $\mathbb{S}^n_+=\{X=X^T:\ X\succeq0\}$ | proper cone；内部是 $\mathbb{S}^n_{++}$ |
+| 对偶锥 dual cone | $K^*=\{y:\ y^Tx\ge0\ \forall x\in K\}$ | $\mathbb{R}^n_+$、$\mathbb{S}^n_+$、SOC 都自对偶 |
+
+**保持集合凸性的运算**：交集（可以无穷多个）、仿射映射的像与原像、透视函数 perspective、线性分式函数 linear-fractional。**并集不保凸。**
+
+**广义不等式**：$x\preceq_Ky\iff y-x\in K$。$X\preceq Y$ 表示 $Y-X$ 半正定。它是偏序，不是全序（两个矩阵可能无法比较）。Proper cone 三条件：闭、有内点（solid）、尖（pointed，不含直线）。
+
+**分离 / 支撑超平面定理**：两个不相交的凸集 $C,D$ 之间存在 $a\ne0,b$ 使 $a^Tx\le b$（$x\in C$）且 $a^Tx\ge b$（$x\in D$）。
+
+## 凸函数（L3）
+
+[详见第 3 章](#/c/convex-functions)
+
+### 定义与判定条件
+
+| 条件 | 公式 | 备注 |
+|---|---|---|
+| 定义（Jensen） | $\operatorname{dom}f$ 凸，且 $f(\theta x+(1-\theta)y)\le\theta f(x)+(1-\theta)f(y)$ | 两部分缺一不可（教授反复强调） |
+| 一阶条件 | $f(y)\ge f(x)+\nabla f(x)^T(y-x)$ | 切线是全局下估计 |
+| 二阶条件 | $\nabla^2f(x)\succeq0,\ \forall x\in\operatorname{dom}f$ | $\succ0$ ⇒ 严格凸，反之不成立（$x^4$） |
+| 上图 epigraph | $f$ 凸 $\iff\operatorname{epi}f=\{(x,t):f(x)\le t\}$ 凸 | |
+| 下水平集 | $f$ 凸 ⇒ 所有 $\{x:f(x)\le\alpha\}$ 凸 | **反之不成立**（$\sqrt{\lvert x\rvert}$） |
+| 限制到直线 | $f$ 凸 $\iff g(t)=f(x+tv)$ 对所有 $x,v$ 凸 | 用于 $\log\det$ |
+
+**必背梯度 / Hessian**：$f=\tfrac12x^TPx+q^Tx+r$：$\nabla f=Px+q$，$\nabla^2f=P$。$f=\Vert Ax-b\Vert_2^2$：$\nabla f=2A^T(Ax-b)$，$\nabla^2f=2A^TA\succeq0$（所以最小二乘永远是凸的）。
+
+### 常见凸 / 凹函数清单
+
+| 凸 convex | 凹 concave |
+|---|---|
+| $e^{ax}$；$x^a$（$a\ge1$ 或 $a\le0$，$x>0$）；$\lvert x\rvert^p$（$p\ge1$）；$x\log x$ | $x^a$（$0\le a\le1$）；$\log x$ |
+| 任意范数 $\Vert x\Vert_p$；$\max_ix_i$；前 $r$ 大分量之和 | 几何平均 $(\prod x_i)^{1/n}$；$\min_ix_i$ |
+| $\log\sum_ie^{x_i}$（log-sum-exp）；$x^2/y$（$y>0$）；$x^TY^{-1}x$ | $\log\det X$（$X\succ0$） |
+| $\lambda_{\max}(X)$；$\Vert X\Vert_2$（最大奇异值） | $\lambda_{\min}(X)$ |
+| 仿射函数 $a^Tx+b$（既凸又凹） | 仿射函数 |
+
+### 保凸运算与复合规则
+
+| 运算 | 结论 |
+|---|---|
+| 非负加权和 $\sum w_if_i$，$w_i\ge0$ | 凸 |
+| 仿射复合 $f(Ax+b)$ | 凸 |
+| 逐点最大 / 上确界 $\sup_{y}f(x,y)$ | 凸（对每个 $y$ 凸即可，**逐点最小不保凸**） |
+| 部分最小化 $\inf_{y\in C}f(x,y)$ | 凸（要求 $f$ 对 $(x,y)$ **联合**凸、$C$ 凸） |
+| 透视 $g(x,t)=tf(x/t)$，$t>0$ | 凸 |
+| 距离 $\operatorname{dist}(x,S)$ | 凸 $\iff S$ 凸 |
+
+**标量复合 $f(x)=h(g(x))$**：由 $f''=h''(g)\,g'^2+h'(g)\,g''$ 推出（教授说别死记，会推就行）：
+
+| 外层 $h$ | 外层单调性（扩展值 $\tilde h$） | 内层 $g$ | 结果 $f$ |
+|---|---|---|---|
+| 凸 | 非减 | 凸 | 凸 |
+| 凸 | 非增 | 凹 | 凸 |
+| 凹 | 非减 | 凹 | 凹 |
+| 凹 | 非增 | 凸 | 凹 |
+
+例：$e^{g}$（$g$ 凸）凸；$\log g$（$g$ 凹且正）凹；$1/g$（$g$ 凹且正）凸；$-\log(-f)$（$f$ 凸且负）凸。
+
+### 共轭、拟凸、log-concave
+
+- **共轭函数** $f^*(y)=\sup_x\big(y^Tx-f(x)\big)$：**总是凸的**（仿射函数族的 sup）。例：$f=\tfrac12x^TQx$（$Q\succ0$）⇒ $f^*=\tfrac12y^TQ^{-1}y$；$f=-\log x$ ⇒ $f^*(y)=-\log(-y)-1$（$y<0$）；$f=\Vert x\Vert$ ⇒ $f^*$ 是对偶范数单位球的示性函数（球内为 0，球外为 $+\infty$）。
+- **拟凸 quasiconvex**：所有下水平集凸。例：$\sqrt{\lvert x\rvert}$、$\lceil x\rceil$、线性分式函数（拟线性），$x_1x_2$ 在 $\mathbb{R}^2_{++}$ 上拟凹。
+- **log-concave**：$\log f$ 凹。$x^a$ 在 $a\ge0$ 时 log-concave，$a\le0$ 时 log-convex。log-concave **不蕴含**凹。
+
+### 题型：判断函数凸性的 5 种方法
+
+| # | 方法 | 什么时候用 |
+|---|---|---|
+| 1 | 定义（Jensen 不等式） | 函数形式简单，或要证明“不凸”时找反例 |
+| 2 | 二阶条件：算 Hessian，证 $v^T\nabla^2f\,v\ge0$ | 可二次求导；技巧是把二次型**凑成完全平方**或用 Cauchy–Schwarz（A1 Q3、Q6） |
+| 3 | 一阶条件 $f(y)\ge f(x)+\nabla f(x)^T(y-x)$ | 较少用，多用于证明性质 |
+| 4 | 限制到直线 $g(t)=f(x+tv)$ | 矩阵函数如 $\log\det X$ |
+| 5 | 保凸运算：从已知凸函数“搭积木” | **最常用**：sup/max、仿射复合、复合规则、部分最小化、透视（A1 Q4） |
+
+**先检查定义域是否凸！** 二阶条件只能在开凸集上用。
+
+<Ch17ConvexityDrill />
+
+## 凸问题、LP 与整数规划（L4–L5）
+
+[详见第 4 章](#/c/convex-problems)、[第 5 章](#/c/lp)
+
+**标准形式**：$\min f_0(x)$ s.t. $f_i(x)\le0$，$h_i(x)=0$。**凸问题** = $f_0,f_i$ 凸 + $h_i$ **仿射**（$Ax=b$）。非仿射的等式（即使是凸函数）会破坏凸性。凸问题的**局部最优 = 全局最优**。
+
+**最优性条件**（$f_0$ 可微）：$x$ 最优 $\iff\nabla f_0(x)^T(y-x)\ge0$ 对所有可行 $y$。
+
+| 情形 | 条件 |
+|---|---|
+| 无约束 | $\nabla f_0(x)=0$ |
+| 仅等式 $Ax=b$ | $Ax=b$，$\nabla f_0(x)+A^T\nu=0$ |
+| 非负象限 $x\succeq0$ | $x\succeq0$，$\nabla f_0(x)\succeq0$，$x_i\,(\nabla f_0(x))_i=0$ |
+
+**等价变换**：消去等式（$x=Fz+x_0$，$\mathcal R(F)=\mathcal N(A)$）；引入等式；松弛变量 $a_i^Tx+s_i=b_i,\ s_i\ge0$；**epigraph 形式** $\min t$ s.t. $f_0(x)\le t$；对部分变量先最小化。
+
+**拟凸问题 + 二分法**：$f_0(x)\le t\iff\phi_t(x)\le0$（$\phi_t$ 对 $x$ 凸）。每步解一个凸可行性问题：可行则 $u:=t$，否则 $l:=t$。迭代次数 $\lceil\log_2((u-l)/\epsilon)\rceil$。比值 $p/q$ 的例子：$\phi_t=p-tq$。
+
+**LP 技巧**：
+
+| 技巧 | 写法 |
+|---|---|
+| 标准形式 | $\min c^Tx$ s.t. $Ax=b,\ x\succeq0$（$\le$ 加松弛、$\ge$ 减剩余变量） |
+| 自由变量 | $x=x^+-x^-$，$x^\pm\succeq0$ |
+| 分段线性 / max | $\min\max_i(a_i^Tx+b_i)\ \to\ \min t$ s.t. $a_i^Tx+b_i\le t$ |
+| Chebyshev 中心 | $\max r$ s.t. $a_i^Tx_c+r\Vert a_i\Vert_2\le b_i$（用 $\sup_{\Vert u\Vert_2\le r}a_i^Tu=r\Vert a_i\Vert_2$） |
+| LP 几何 | 最优点在顶点或一条边上；等高线垂直于 $c$ |
+
+**整数规划**（教授说往届 ILP 建模失分多）：顶点覆盖 $x_i+x_j\ge1$；独立集 $x_i+x_j\le1$；匹配 $\sum_{e\ni v}x_e=1$；$b$-匹配 $\le b$。**不要用变量的乘积或除法。** 顶点覆盖、最大独立集 NP-hard；最短路、二部图匹配多项式可解。**TUM**（所有方子式行列式 $\in\{-1,0,1\}$）+ 整数 $b$ ⇒ LP 顶点是整数 ⇒ LP 松弛就是精确解（有向图 / 二部图的关联矩阵是 TUM）。顶点覆盖 LP 舍入（$x_i\ge\tfrac12$ 取 1）是 2-近似。
+
+## 问题族（L6）
+
+[详见第 6 章](#/c/problem-zoo)
+
+| 类型 | 标准形式 | 凸的条件 / 要点 |
+|---|---|---|
+| LP | $\min c^Tx$ s.t. $Gx\preceq h,\ Ax=b$ | 总是凸 |
+| QP | $\min\tfrac12x^TPx+q^Tx$ s.t. $Gx\preceq h,\ Ax=b$ | $P\succeq0$；最小二乘解 $x^\star=(A^TA)^{-1}A^Tb$ |
+| QCQP | 约束 $\tfrac12x^TP_ix+q_i^Tx+r_i\le0$ | 所有 $P_i\succeq0$ |
+| SOCP | $\min f^Tx$ s.t. $\Vert A_ix+b_i\Vert_2\le c_i^Tx+d_i,\ Fx=g$ | $A_i=0$ 退化为 LP；$c_i=0$ 退化为 QCQP |
+| GP | $\min f_0(x)$ s.t. $f_i(x)\le1$（posynomial），$h_i(x)=1$（monomial） | **本身不凸**；令 $y=\log x$ 并取 log 后变成凸（log-sum-exp） |
+| SDP | $\min c^Tx$ s.t. $x_1F_1+\dots+x_nF_n+G\preceq0,\ Ax=b$ | LMI 约束；$\lambda_{\max}(A(x))\le t\iff A(x)\preceq tI$ |
+
+包含关系：LP ⊂ QP ⊂ QCQP ⊂ SOCP ⊂ SDP。
+
+- **Monomial** $c\,x_1^{a_1}\cdots x_n^{a_n}$（$c>0$，$a_i$ 任意实数）；**posynomial** = monomial 之和。GP 求最大化时取**倒数**（不是取负号）。
+- **鲁棒 LP**：$a_i\in\{\bar a_i+P_iu:\Vert u\Vert_2\le1\}$ ⇒ $\bar a_i^Tx+\Vert P_i^Tx\Vert_2\le b_i$（SOCP）。随机版本：$\bar a_i^Tx+\Phi^{-1}(\eta)\Vert\Sigma_i^{1/2}x\Vert_2\le b_i$，需要 $\eta\ge\tfrac12$。
+- **多目标**：最优 ⇒ Pareto 最优，反之不然；标量化 $\min\lambda^Tf_0(x)$，$\lambda\succ_{K^*}0$ 得到 Pareto 最优点。
+
+## 对偶（L7–L10）
+
+[第 7 章](#/c/duality-1) · [第 8 章](#/c/duality-2) · [第 9 章](#/c/duality-3) · [第 10 章](#/c/duality-4)
+
+| 概念 | 公式 | 要点 |
+|---|---|---|
+| Lagrangian | $L(x,\lambda,\nu)=f_0(x)+\sum_i\lambda_if_i(x)+\sum_i\nu_ih_i(x)$ | $\lambda\succeq0$ 只对不等式；$\nu$ 无符号限制；$\ge$ 约束先改写成 $\le0$ |
+| dual function | $g(\lambda,\nu)=\inf_xL(x,\lambda,\nu)$ | **永远凹**（仿射函数族的 inf），即使原问题不凸 |
+| 下界性质 | $\lambda\succeq0\Rightarrow g(\lambda,\nu)\le p^\star$ | 任意对偶可行点给出下界 |
+| dual problem | $\max g(\lambda,\nu)$ s.t. $\lambda\succeq0$ | 永远是凸问题 |
+| 弱对偶 | $d^\star\le p^\star$ | 总成立；$p^\star-d^\star$ 是对偶间隙 |
+| 强对偶 | $d^\star=p^\star$ | 凸问题通常成立；非凸问题也可能成立（特征值例子） |
+| Slater 条件 | 凸问题 + 存在 $x\in\operatorname{relint}\mathcal D$ 使 $f_i(x)<0$、$Ax=b$ | ⇒ 强对偶且对偶最优可达；**仿射不等式只需可行** |
+| 仿射函数的 inf | $\inf_x(c^Tx+d)=d$ 若 $c=0$，否则 $-\infty$ | 求对偶时产生“隐式约束” |
+| 共轭捷径 | 约束全为仿射 $Ax\preceq b,\ Cx=d$ 时 $g=-b^T\lambda-d^T\nu-f_0^*(-A^T\lambda-C^T\nu)$ | 非仿射约束不能用 |
+
+**常见对偶对（建议默写）**：
+
+| 原问题 | 对偶问题 |
+|---|---|
+| $\min c^Tx$ s.t. $Ax=b,\ x\succeq0$ | $\max -b^T\nu$ s.t. $A^T\nu+c\succeq0$ |
+| $\min c^Tx$ s.t. $Ax\preceq b$ | $\max -b^T\lambda$ s.t. $A^T\lambda+c=0,\ \lambda\succeq0$ |
+| $\min x^Tx$ s.t. $Ax=b$ | $\max -\tfrac14\nu^TAA^T\nu-b^T\nu$（无约束） |
+| 两路划分 $\min x^TWx$ s.t. $x_i^2=1$ | $\max -\mathbf1^T\nu$ s.t. $W+\operatorname{diag}(\nu)\succeq0$（SDP，给出下界） |
+| SDP $\min c^Tx$ s.t. $\sum_ix_iF_i+G\preceq0$ | $\max -\operatorname{tr}(GZ)$ s.t. $Z\succeq0,\ \operatorname{tr}(F_iZ)+c_i=0$ |
+
+**LP 对偶的情形**：LP 只要有一方可行就强对偶；$p^\star=-\infty$（原无界）⇒ 对偶不可行；也可能两边都不可行。
+
+**广义不等式** $f_i(x)\preceq_{K_i}0$：乘子 $\lambda_i\in K_i^*$（对偶锥），乘积用内积 $\langle\lambda_i,f_i\rangle$，矩阵情形是 $\operatorname{tr}(Z_iF_i)$。
+
+**几何解释**：$g(\lambda)$ 是斜率为 $-\lambda$、托住集合 $\mathcal G=\{(f_1(x),f_0(x))\}$ 的最低直线在 $t$ 轴上的截距。Slater 保证支撑线不是竖直的。
+
+### KKT 条件
+
+$$
+\begin{aligned}
+&\text{原始可行：}& f_i(x^\star)\le0,\ h_i(x^\star)=0\\
+&\text{对偶可行：}& \lambda^\star\succeq0\\
+&\text{互补松弛：}& \lambda_i^\star f_i(x^\star)=0\\
+&\text{稳定性：}& \nabla f_0(x^\star)+\sum_i\lambda_i^\star\nabla f_i(x^\star)+\sum_i\nu_i^\star\nabla h_i(x^\star)=0
+\end{aligned}
+$$
+
+大白话：可行、乘子非负、“要么约束取等号，要么乘子为 0”、Lagrangian 梯度为零。**凸 + 可微 + Slater ⇒ KKT 是最优的充要条件。**
+
+- **灵敏度**：扰动 $f_i\le u_i,\ h_i=v_i$ 后 $p^\star(u,v)\ge p^\star(0,0)-\lambda^{\star T}u-\nu^{\star T}v$；可微时 $\lambda_i^\star=-\partial p^\star/\partial u_i$。$\lambda_i^\star$ 大 ⇒ 放松该约束收益大（“影子价格”）。
+- **鞍点**：强对偶时 $(x^\star,\lambda^\star)$ 是 $L$ 的鞍点；max-min 不等式 $\sup_\lambda\inf_x L\le\inf_x\sup_\lambda L$ 总成立。零和博弈的两个 LP 互为对偶 ⇒ 后手没有优势。
+- **Water-filling**：$\min-\sum_i\log(N_i+p_i)$ s.t. $p\succeq0,\ \mathbf1^Tp=P$ ⇒ $p_i^\star=(1/\lambda^\star-N_i)^+$，$\sum_ip_i^\star=P$；水位 $=1/\lambda^\star$。
+
+### 题型：求对偶问题的标准步骤
+
+1. 把问题写成标准形式（$\ge$ 改成 $\le0$，矩阵约束写成 $\preceq0$）。
+2. 给每个约束配乘子：不等式 $\lambda_i\ge0$，等式 $\nu_i$ 自由，矩阵约束 $Z\succeq0$。
+3. 写 Lagrangian，**按 $x$ 合并同类项**（线性项、二次项、可分离的各分量）。
+4. 求 $g=\inf_xL$：可微凸 ⇒ 令梯度为 0 并代回；线性项 ⇒ 系数必须为 0，否则 $-\infty$；把 $g>-\infty$ 的条件写成显式约束（effective domain）。
+5. 写 $\max g$ s.t. $\lambda\succeq0$ + 隐式约束；化简（如消去可以解析最大化的乘子，A2 Q4）。
+6. 讨论强对偶：凸 + Slater（仿射约束只需可行）；LP 只要可行就强对偶。
+
+### 题型：用 KKT 解析求解的步骤
+
+1. 确认问题凸、可微，并验证 Slater ⇒ KKT 充要。
+2. 写出四组 KKT 条件。
+3. **先用等式**（教授：“equalities are most useful”）：稳定性方程解出 $x$ 关于乘子的表达式；用等式约束消元。
+4. 对互补松弛**分情况**：约束 active（$f_i=0$）或乘子为 0。
+5. 每种情况解出候选点后，**回头检查不等式**（$f_i\le0$、$\lambda\ge0$），留下满足全部条件的那个。
+6. 也可以先解对偶得 $(\lambda^\star,\nu^\star)$，再最小化 $L(x,\lambda^\star,\nu^\star)$ 恢复 $x^\star$。
+
+## 算法（L11–L15）
+
+[第 11 章](#/c/unconstrained) · [第 12 章](#/c/equality) · [第 13 章](#/c/interior-point) · [第 14 章](#/c/subgradient) · [第 15 章](#/c/localization)
+
+### 无约束与等式约束
+
+| 方法 | 更新 / 方向 | 收敛 | 要点 |
+|---|---|---|---|
+| 下降法框架 | $x^+=x+t\Delta x$，需 $\nabla f(x)^T\Delta x<0$ | — | 方向 → 线搜索 → 更新 → 停止判据 |
+| 回溯线搜索 | 当 $f(x+t\Delta x)>f(x)+\alpha t\nabla f(x)^T\Delta x$ 时 $t:=\beta t$ | — | $\alpha\in(0,\tfrac12)$，$\beta\in(0,1)$ |
+| 梯度下降 GD | $\Delta x=-\nabla f(x)$ | **线性**：$f(x^{(k)})-p^\star\le c^k(f(x^{(0)})-p^\star)$，$c<1$ | 条件数大时很慢；精确线搜索迭代少，回溯每步便宜 |
+| Newton | $\Delta x_{nt}=-\nabla^2f(x)^{-1}\nabla f(x)$ | 阻尼阶段 + **二次**收敛阶段 | 由二阶近似 $\hat f$ 求极小得到；每步贵（Hessian 求逆） |
+| Newton 减量 | $\lambda(x)^2=\nabla f^T\nabla^2f^{-1}\nabla f=\Delta x_{nt}^T\nabla^2f\,\Delta x_{nt}$ | 停止：$\lambda^2/2\le\epsilon$ | $f(x)-\inf_v\hat f(x+v)=\tfrac12\lambda^2$；$\nabla f^T\Delta x_{nt}=-\lambda^2$ |
+| 等式约束 Newton | $\begin{pmatrix}\nabla^2f&A^T\\A&0\end{pmatrix}\begin{pmatrix}\Delta x\\w\end{pmatrix}=\begin{pmatrix}-\nabla f\\0\end{pmatrix}$ | 同 Newton | 可行起点；$A\Delta x=0$ 使迭代保持可行，是下降法 |
+| 不可行起点 Newton | $\begin{pmatrix}\nabla^2f&A^T\\A&0\end{pmatrix}\begin{pmatrix}\Delta x\\\Delta\nu\end{pmatrix}=-\begin{pmatrix}\nabla f+A^T\nu\\Ax-b\end{pmatrix}$ | — | **不是** $f$ 的下降法；线搜索对 $\Vert r\Vert_2$：$\Vert r(y+t\Delta y)\Vert_2\le(1-\alpha t)\Vert r(y)\Vert_2$ |
+
+等式约束最优性条件：$\nabla f(x^\star)+A^T\nu^\star=0$，$Ax^\star=b$（$n+p$ 个方程）。KKT 矩阵非奇异 ⇒ 解唯一。
+
+<Ch17RateCompare />
+
+### 内点法
+
+| 概念 | 公式 |
+|---|---|
+| 对数障碍 log barrier | $\phi(x)=-\sum_{i=1}^m\log(-f_i(x))$ |
+| 中心路径 central path | $x^\star(t)=\arg\min\ tf_0(x)+\phi(x)$ s.t. $Ax=b$ |
+| 中心路径上的对偶点 | $\lambda_i^\star(t)=-1/\big(tf_i(x^\star(t))\big)$，对偶间隙 $=m/t$ |
+| 修正 KKT | 互补松弛换成 $-\lambda_if_i(x)=1/t$ |
+| Barrier 方法 | 中心化（Newton）→ $x:=x^\star(t)$ → 若 $m/t<\epsilon$ 停止 → $t:=\mu t$ |
+| Phase I | $\min s$ s.t. $f_i(x)\le s,\ Ax=b$：$s^\star<0$ 严格可行；$s^\star>0$ 不可行 |
+| Primal-dual | 对残差 $r_t(x,\lambda,\nu)$ 做一步 Newton；代理间隙 $\hat\eta=-f(x)^T\lambda$，$t=\mu m/\hat\eta$ |
+| Primal-dual 步长 | $s^{\max}=\min\{1,\min\{-\lambda_i/\Delta\lambda_i:\Delta\lambda_i<0\}\}$，再保证 $f(x)\prec0$，最后对 $\Vert r_t\Vert$ 回溯 |
+
+### 次梯度法与定位法
+
+| 概念 | 公式 / 结论 |
+|---|---|
+| 次梯度 | $f(y)\ge f(x)+g^T(y-x)\ \forall y$；可微 $\iff\partial f(x)=\{\nabla f(x)\}$ |
+| 最优性 | $0\in\partial f(x^\star)$ |
+| 更新 | $x^{(k+1)}=x^{(k)}-\alpha_kg^{(k)}$；**不是下降法**，要记录 $f_{\text{best}}$ |
+| 收敛界 | $f_{\text{best}}^{(k)}-f^\star\le\dfrac{R^2+G^2\sum_{i=1}^k\alpha_i^2}{2\sum_{i=1}^k\alpha_i}$ |
+| 步长规则 | 常数 $\alpha$ → 误差 $G^2\alpha/2$；常数步长度 $\gamma$ → $G\gamma/2$；平方可和不可和 / 不可和递减 → 收敛到 $f^\star$ |
+| Polyak 步长 | $\alpha_k=(f(x^{(k)})-f^\star)/\Vert g^{(k)}\Vert_2^2$ |
+| 投影次梯度 | $x^{(k+1)}=P\big(x^{(k)}-\alpha_kg^{(k)}\big)$；仿射集投影 $P(z)=z-A^T(AA^T)^{-1}(Az-b)$ |
+| 对偶次梯度 | $\lambda_i:=\big(\lambda_i+\alpha f_i(x^\star(\lambda))\big)_+$（约束违反就“涨价”） |
+| 割平面 | 中性割 $g^T(z-x)\le0$；深割 $g^T(z-x)+h\le0$，$h>0$ |
+| 椭球法 | $\tilde g=g/\sqrt{g^TPg}$，$x^+=x-\frac{1}{n+1}P\tilde g$，$P^+=\frac{n^2}{n^2-1}\big(P-\frac{2}{n+1}P\tilde g\tilde g^TP\big)$ |
+| 椭球体积 | $\operatorname{vol}(\mathcal E^{(k+1)})<e^{-1/(2n)}\operatorname{vol}(\mathcal E^{(k)})$；每步 $O(n^2)$；停止 $\sqrt{g^TPg}\le\epsilon$ |
+| 中心的选法 | 重心 CG、解析中心 ACCPM（$-\sum\log(b_i-a_i^Tx)$ 的最小点）、Chebyshev 中心、最大内接椭球 MVE |
+
+**速度对比**：Newton / 内点法几十步；次梯度法上千步（但每步很便宜、能处理不可微）；定位法每步比次梯度贵、但更有效率。
+
+## 常见题型与套路
+
+| 题型 | 套路 |
+|---|---|
+| 判断集合凸性 | 化简成半空间 / 范数球 / PSD 锥的交；不凸就找两点看中点（A1 Q1） |
+| 判断函数凸性 | 见上面 5 种方法；先查定义域；注意 log-concave ≠ concave |
+| 文字题建模 | 变量 → 目标 → 每句话一个约束；用 epigraph 去掉 max / 绝对值；ILP 不能有变量乘积 |
+| 识别 / 转换问题类型 | 对照问题族表；GP 用 $y=\log x$；$\lambda_{\max}$ 用 LMI；鲁棒 LP 化 SOCP |
+| 求对偶 | 6 步标准流程；最后讨论 Slater |
+| KKT 解析求解 | 先等式、再分情况讨论互补松弛、最后验证不等式 |
+| 对偶下界 | 任取对偶可行点，弱对偶 $g\le p^\star$（A2 Q5） |
+| 算法单步计算 | 写出方向、步长、更新；GD / Newton / 次梯度 / 椭球更新式要能手算一步 |
+| 算法比较 | 收敛速度（线性 / 二次 / 次线性）vs 每步代价 |
+
+<Summary>
+
+- 凸性判定：定义、二阶条件、保凸运算三板斧；复合规则会用 $f''=h''g'^2+h'g''$ 推。
+- 凸问题：等式必须仿射；局部即全局；会写 LP/QP/SOCP/GP/SDP 的标准形式。
+- 对偶：Lagrangian → $\inf_x$ → dual problem → Slater → KKT。对偶函数永远凹、弱对偶永远成立。
+- 算法：GD 线性、Newton 二次、内点法间隙 $m/t$、次梯度法不是下降法、椭球体积每步至少缩小 $e^{-1/(2n)}$。
+
+</Summary>
+
+<Quiz q="下面哪个条件能保证凸问题强对偶成立？" options={['目标函数严格凸', 'Slater 条件：存在严格可行点', '原问题有唯一最优解', '对偶函数可微']} answer={1} explain="凸问题 + Slater（存在 relint 中的严格可行点；仿射不等式只需可行）⇒ 强对偶，且对偶最优可达。" />
+
+<Quiz q="次梯度法使用常数步长 α 时，f_best 最终会怎样？" options={['精确收敛到 f*', '收敛到 f* 的 G²α/2 邻域内', '发散', '收敛到 f* 的 Gα/2 邻域内']} answer={1} explain="由收敛界 (R² + G²kα²)/(2kα) → G²α/2（k → ∞）。常数步长度 γ 时才是 Gγ/2。" />
+
+<Quiz q="障碍法中，中心路径上的点 x*(t) 的对偶间隙是多少？" options={['1/t', 'm/t', 't/m', '0']} answer={1} explain="λᵢ = −1/(t fᵢ(x*(t))) 构成对偶可行点，代入得 f₀(x*(t)) − g(λ, ν) = m/t，所以 m/t 小于 ε 时停止。" />

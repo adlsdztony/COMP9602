@@ -1,0 +1,642 @@
+import { Ch04OptimalValue, Ch04LocalGlobal, Ch04OptimalityCondition, Ch04Eliminate, Ch04Transforms } from '../widgets/ch04.jsx'
+
+前三章我们只是在“认零件”：什么是凸集、什么是凸函数。这一章开始把零件组装成**优化问题**。我们要回答三个问题：
+
+1. 一个优化问题的“标准写法”长什么样？最优值、最优点、可行点这些词到底指什么？
+2. 什么样的问题叫 <T zh="凸优化问题">convex optimization problem</T>？为什么它这么好——好到“局部最优就是全局最优”？
+3. 怎么判断一个点是不是最优（最优性条件）？怎么把一个问题改写成**等价**但更好处理的形式？
+
+这一章是后面所有内容的地基：第 5、6 章的 LP、QP、SOCP、SDP 都是这里“凸问题标准形式”的特例；第 7–10 章的对偶理论和 KKT 条件也都建立在这个标准形式上。
+
+**本章路线**
+
+- 标准形式：$f_0$、$f_i$、$h_i$，最优值 $p^\star$，可行 / 最优 / 局部最优
+- 可行性问题（feasibility problem）
+- 凸优化问题的定义，以及“等式约束必须是仿射的”
+- 定理：凸问题的局部最优 = 全局最优（含证明）
+- 可微目标的最优性条件 $\nabla f_0(x)^T(y-x)\ge 0$，以及三种特殊情形（无约束、等式约束、非负象限）
+- 等价变换：消去等式约束、引入等式约束、松弛变量、上境图形式、对部分变量先求最小
+- 为什么“稍微改一点”就可能变得很难
+
+## 优化问题的标准形式
+
+### 标准形式长什么样
+
+不管问题来自哪里（排课、投资、训练神经网络），我们都先把它写成同一个“模板”，这个模板叫 <T zh="标准形式">standard form</T>：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 0,\quad i=1,\dots,m\\
+& h_i(x)=0,\quad i=1,\dots,p
+\end{aligned}
+$$
+
+逐个符号解释：
+
+- $x\in\mathbb{R}^n$：<T zh="优化变量">optimization variable</T>，是我们要决定的 $n$ 个数排成的向量。
+- $f_0:\mathbb{R}^n\to\mathbb{R}$：<T zh="目标函数 / 代价函数">objective (cost) function</T>，输入一个 $x$，输出一个数，我们希望它越小越好。
+- $f_i$（$i=1,\dots,m$）：<T zh="不等式约束函数">inequality constraint functions</T>，要求 $f_i(x)\le 0$。
+- $h_i$（$i=1,\dots,p$）：<T zh="等式约束函数">equality constraint functions</T>，要求 $h_i(x)=0$。
+- “subject to”（常缩写为 s.t.）读作“满足……条件”。
+
+用大白话说：**在所有满足这 $m$ 个不等式和 $p$ 个等式的 $x$ 里，找一个让 $f_0(x)$ 最小的。**
+
+<Intuition title="标准形式的两条“格式规矩”">
+
+- **只写 minimize。** 要最大化 $g(x)$，就改成最小化 $-g(x)$——最大的 $g$ 恰好对应最小的 $-g$。
+- **右边统一是 0。** 比如约束 $x_1+x_2\ge 3$，先移项成 $3-x_1-x_2\le 0$，于是 $f_1(x)=3-x_1-x_2$。常数也要搬到左边。
+
+</Intuition>
+
+<Prof>
+
+教授说标准形式就是所有问题都要先化成的“默认形式”（default form）。后面讲的对偶理论、KKT 条件都是在凸的标准形式上建立起来的，所以化标准形式这一步一定要熟练。(09-17 课 00:02)
+
+</Prof>
+
+### 最优值 $p^\star$
+
+<Def title="最优值 optimal value">
+
+$$
+p^\star=\inf\{\,f_0(x)\mid f_i(x)\le 0,\ i=1,\dots,m,\ h_i(x)=0,\ i=1,\dots,p\,\}
+$$
+
+- 若问题<T zh="不可行">infeasible</T>（没有任何 $x$ 满足约束），约定 $p^\star=+\infty$；
+- 若问题<T zh="无下界">unbounded below</T>（目标可以无限变小），则 $p^\star=-\infty$。
+
+</Def>
+
+大白话：$p^\star$ 是在可行的 $x$ 上，$f_0$ 能“逼近到的最小的数”。
+
+<MathNote title="inf（下确界）和 min 有什么区别？">
+
+$\inf S$（读作 infimum，下确界）是集合 $S$ 的“最大的下界”：所有比 $S$ 中每个数都小（或等于）的数里，最大的那一个。
+
+它和 $\min$ 的区别是：**$\min$ 必须被集合里的某个元素真的取到，而 $\inf$ 不需要。** 比如 $S=\{1/x\mid x>0\}=(0,\infty)$：没有最小元素（0 不在集合里），但 $\inf S=0$。
+
+同理，$\sup$（上确界）是“最小的上界”。之所以用 $\inf$ 定义 $p^\star$，就是因为最小值不一定能取到。
+
+</MathNote>
+
+<Warn title="optimal value 和 optimal point 不是一回事">
+
+- <T zh="最优值">optimal value</T> 指一个**数** $p^\star$（目标函数的值）。
+- <T zh="最优点 / 最优解">optimal point</T> 指一个**向量** $x^\star$（变量的取值）。
+
+教授反复区分这两个词，考试作答时千万别混用。
+
+</Warn>
+
+### 可行点、最优点、局部最优点
+
+<Def title="可行 / 最优 / 局部最优">
+
+- $x$ 是<T zh="可行的">feasible</T>：$x\in\mathbf{dom}\,f_0$ 且满足所有约束。
+- 可行的 $x$ 是<T zh="最优的">optimal</T>：$f_0(x)=p^\star$。所有最优点组成<T zh="最优解集">optimal set</T> $X_{\text{opt}}=\{x\mid x\text{ 可行},\ f_0(x)=p^\star\}$。
+- $x$ 是<T zh="局部最优">locally optimal</T>：存在某个半径 $R>0$，使 $x$ 是下面这个“只在 $x$ 附近找”的问题的最优点：
+
+$$
+\begin{aligned}
+\text{minimize (over } z)\quad & f_0(z)\\
+\text{subject to}\quad & f_i(z)\le 0,\ i=1,\dots,m,\qquad h_i(z)=0,\ i=1,\dots,p\\
+& \|z-x\|_2\le R
+\end{aligned}
+$$
+
+</Def>
+
+这里 $\mathbf{dom}\,f_0$ 是 $f_0$ 的<T zh="定义域">domain</T>，即 $f_0$ 有定义的点（例如 $\log x$ 要求 $x>0$）。$\|z-x\|_2$ 是 $z$ 与 $x$ 的欧氏距离。局部最优的意思是：**在 $x$ 周围半径 $R$ 的小球里，没有比它更好的可行点**——但球外可能有。
+
+<Example title="三个一维例子（定义域都是 x 大于 0）">
+
+- $f_0(x)=1/x$：$p^\star=0$，但**取不到**——$x\to\infty$ 时 $f_0\to 0$，可永远不等于 0。有最优值，没有最优点。
+- $f_0(x)=-\log x$：$p^\star=-\infty$，问题无下界，也没有最优点。
+- $f_0(x)=x\log x$：有最优点。求导令其为零：$f_0'(x)=\log x+1=0$，得 $x^\star=1/e$，$p^\star=-1/e\approx-0.368$。
+
+</Example>
+
+<Ch04OptimalValue />
+
+<Exam>
+
+“有最优值但没有最优点”的例子（$1/x$）、“无下界”的例子（$-\log x$）是教授课上专门讲的；还要会用“求导 = 0”求出 $x\log x$ 的 $x^\star$ 和 $p^\star$。
+
+</Exam>
+
+### 隐式约束
+
+标准形式里写出来的约束叫<T zh="显式约束">explicit constraints</T>。但还有一种藏起来的约束：$x$ 必须在所有函数的定义域里，即
+
+$$
+x\in\mathcal{D}=\bigcap_{i=0}^{m}\mathbf{dom}\,f_i\ \cap\ \bigcap_{i=1}^{p}\mathbf{dom}\,h_i
+$$
+
+这叫<T zh="隐式约束">implicit constraint</T>。例如目标里有 $-\sum_i\log(b_i-a_i^Tx)$，就隐含要求 $a_i^Tx\lt b_i$。没有显式约束（$m=p=0$）的问题叫<T zh="无约束问题">unconstrained problem</T>。
+
+## 可行性问题
+
+有时我们根本不关心“好不好”，只想知道“**有没有**”满足条件的点：
+
+$$
+\begin{aligned}
+\text{find}\quad & x\\
+\text{subject to}\quad & f_i(x)\le 0,\ i=1,\dots,m,\qquad h_i(x)=0,\ i=1,\dots,p
+\end{aligned}
+$$
+
+这叫<T zh="可行性问题">feasibility problem</T>。它其实是一般问题的特例：令目标 $f_0(x)=0$（常数），即
+
+$$
+\text{minimize}\ \ 0\quad\text{subject to}\ \ f_i(x)\le 0,\ \ h_i(x)=0 .
+$$
+
+大白话：目标恒为 0，所有可行点都一样好，所以“最优点”就是“任意一个可行点”。此时 $p^\star=0$（可行）或 $p^\star=+\infty$（不可行）。
+
+<Prof>
+
+教授说：没有目标的问题，随便放一个常数当目标（0、1、−1 都行）就变成了优化问题，求解器会返回某个可行点。(09-17 课 00:04)
+
+</Prof>
+
+<Quiz q="某问题的可行集是空集。它的最优值是多少？" options={['0', '+∞', '−∞', '没有定义']} answer={1} explain="约定：不可行问题的 p* = +∞（空集的下确界是 +∞）。无下界才是 −∞。" />
+
+## 凸优化问题
+
+### 定义
+
+<Def title="标准形式的凸优化问题">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 0,\quad i=1,\dots,m\\
+& a_i^T x=b_i,\quad i=1,\dots,p
+\end{aligned}
+$$
+
+要求三件事：
+
+1. 目标 $f_0$ 是**凸函数**；
+2. 不等式约束 $f_1,\dots,f_m$ 都是**凸函数**；
+3. 等式约束是**仿射的**（affine）：$a_i^Tx=b_i$。
+
+把 $a_i^T$ 作为行叠成矩阵 $A\in\mathbb{R}^{p\times n}$、$b_i$ 叠成向量 $b$，等式约束可以合写成 $Ax=b$。
+
+</Def>
+
+<MathNote title="仿射 affine 是什么？">
+
+形如 $h(x)=a^Tx-b$ 的函数叫仿射函数，其中 $a^Tx=a_1x_1+\cdots+a_nx_n$ 是内积。它的图像是“平的”（直线、平面、超平面），比线性函数多了一个常数项。$a^Tx=b$ 的解集是一个<T zh="超平面">hyperplane</T>——它是凸集。
+
+</MathNote>
+
+**重要性质：凸问题的可行集是凸集。** 理由三步：
+
+1. 每个 $\{x\mid f_i(x)\le 0\}$ 是凸函数 $f_i$ 的 0-<T zh="下水平集">sublevel set</T>，而凸函数的下水平集是凸的（第 3 章）；
+2. 每个 $\{x\mid a_i^Tx=b_i\}$ 是超平面，是凸的；
+3. 凸集的交集仍是凸集。可行集正是这些集合的交。
+
+所以凸问题 = “在一个**凸集**上最小化一个**凸函数**”。
+
+### 为什么等式约束必须是仿射的
+
+<Warn title="不能写成 “h_i 是凸函数”">
+
+如果允许 $h(x)=0$ 中 $h$ 只是凸函数，可行集就可能不凸。例如 $h(x)=x_1^2+x_2^2-1$ 是凸函数，但 $\{x\mid h(x)=0\}$ 是单位**圆周**——圆周不是凸集（两点连线穿过圆内部）。凸函数只保证 $\{h\le 0\}$（实心圆盘）是凸的，不保证 $\{h=0\}$ 是凸的。
+
+等式 $h(x)=0$ 等价于 $h(x)\le 0$ 且 $-h(x)\le 0$。要两边都是凸约束，就需要 $h$ 和 $-h$ 都是凸的，即 $h$ 既凸又凹——这正是仿射函数。
+
+</Warn>
+
+<Prof>
+
+教授在课上专门提问“为什么等式约束不要求是凸的”，并强调：本课程里的 convex program 指的就是“凸目标 + 凸不等式约束 + 仿射等式约束”。(09-17 课 00:05–00:10)
+
+</Prof>
+
+### 也允许广义不等式
+
+凸问题中的不等式也可以是<T zh="广义不等式">generalized inequality</T>，例如讲义上的例子：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x\\
+\text{subject to}\quad & A_0+A_1x_1+A_2x_2+\dots+A_nx_n\preceq 0
+\end{aligned}
+$$
+
+其中 $A_0,\dots,A_n$ 是对称矩阵，$\preceq 0$ 表示左边的矩阵**半负定**（negative semidefinite），即“左边矩阵的相反数是半正定的”。左边是 $x$ 的仿射函数（矩阵值），这种约束叫<T zh="线性矩阵不等式">linear matrix inequality, LMI</T>，它是凸约束——第 6 章 SDP 会细讲。
+
+<MathNote title="半正定 / 半负定">
+
+对称矩阵 $X$ 是<T zh="半正定">positive semidefinite</T>，记作 $X\succeq 0$，意思是对任意向量 $v$ 都有 $v^TXv\ge 0$（等价地：所有特征值 $\ge 0$）。$X\preceq 0$ 表示 $-X\succeq 0$，即所有特征值 $\le 0$。
+
+</MathNote>
+
+<Quiz q="下面哪个问题是（标准形式的）凸优化问题？" options={['min x₁² + x₂²  s.t.  x₁² + x₂² = 1', 'min eˣ¹ + x₂²  s.t.  x₁ + x₂ = 1,  x₁² ≤ 4', 'max x₁² + x₂²  s.t.  x₁ + x₂ ≤ 1', 'min x₁x₂  s.t.  x ⪰ 0']} answer={1} explain="B：目标凸、x₁²−4 ≤ 0 是凸约束、等式仿射。A 的等式约束不是仿射（圆周不凸）；C 是最大化凸函数（等于最小化凹函数）；D 的目标 x₁x₂ 不是凸函数。" />
+
+## 局部最优即全局最优
+
+### 定理与证明
+
+<Thm title="凸问题：局部最优 ⇒ 全局最优">
+
+凸优化问题的任何局部最优点都是（全局）最优点。
+
+</Thm>
+
+这条定理是凸优化“好用”的根本原因：算法只需要“看附近、往下走”，走到走不动的地方就是全局最优，不会被假的“坑”困住。
+
+证明用反证法，思路是：**如果远处有更好的点 $y$，那么从 $x$ 往 $y$ 走一小步，就能在 $x$ 附近找到更好的点，与“局部最优”矛盾。**
+
+<Steps title="证明：局部最优 ⇒ 全局最优" steps={[
+  { text: '假设 x 是局部最优（在半径 R 的小球内最好），但存在可行点 y 使 f₀(y) 比 f₀(x) 还小。记可行集为 C。', math: 'f_0(y) < f_0(x),\\qquad y\\in C' },
+  { text: '在 x 和 y 的连线上取一点 z，θ 取得很小（0 到 1 之间），使 z 离 x 足够近（距离小于 R）。', math: 'z=\\theta y+(1-\\theta)x,\\qquad \\|z-x\\|_2=\\theta\\|y-x\\|_2 \\le R' },
+  { text: 'C 是凸集（凸问题的可行集是凸的），x、y 都在 C 里，所以它们的连线上的 z 也在 C 里：z 可行。', math: 'z\\in C' },
+  { text: '由 f₀ 的凸性（Jensen 不等式），再用 f₀(y) < f₀(x)：', math: 'f_0(z)\\le \\theta f_0(y)+(1-\\theta)f_0(x) < \\theta f_0(x)+(1-\\theta)f_0(x)=f_0(x)' },
+  { text: '于是在 x 的 R-邻域里找到了更好的可行点 z，与 x 是局部最优矛盾。所以不存在这样的 y，x 是全局最优。', math: '\\Rightarrow\\ \\text{contradiction}' },
+]} />
+
+注意证明用到了**两次凸性**：第 3 步用可行集凸（保证 $z$ 可行），第 4 步用目标凸（保证 $f_0(z)$ 更小）。
+
+### 几何图像：等高线与可行域
+
+教授在黑板上画的图：目标 $f_0=x_1^2+x_2^2$ 的<T zh="等高线 / 水平集">level curves</T> $\{x\mid f_0(x)=\alpha\}$ 是同心圆，<T zh="下水平集">sublevel sets</T> $\{x\mid f_0(x)\le\alpha\}$ 是实心圆盘。在凸可行域 $C$ 上最小化 $f_0$，就是**不断缩小圆盘，直到它和 $C$ 只剩下刚好接触的那一点**——那就是最优点。
+
+一个问题“不凸”有两种方式：(a) 目标不凸；(b) 可行域不凸。两种情况下都可能出现“局部最优但不是全局最优”的点。下面的交互把这三种情形都放在一起：
+
+<Ch04LocalGlobal />
+
+<Exam>
+
+- 能完整写出“局部最优 ⇒ 全局最优”的反证法证明（凸组合 $z=\theta y+(1-\theta)x$ + Jensen 不等式）。
+- 知道非凸问题失败的两种原因：非凸目标、非凸可行域。
+
+</Exam>
+
+<Quiz q="在上面的“可行域非凸”情形里，左边圆上离目标最近的点为什么不是全局最优？" options={['因为目标函数不凸', '因为可行域不凸，局部最优可以不是全局最优', '因为它不是局部最优', '因为最优值取不到']} answer={1} explain="目标仍是凸的（同心圆等高线），但可行域是两个圆的并，不是凸集，于是定理的第 3 步（连线上的 z 仍可行）失效。" />
+
+## 最优性条件：可微凸目标
+
+定理告诉我们“局部 = 全局”，但给我们一个候选点 $x$，怎么**验证**它是最优的？如果 $f_0$ 可微，有一个漂亮的判据。
+
+### 先补课：梯度与方向导数
+
+<MathNote title="梯度与方向导数">
+
+$f_0:\mathbb{R}^n\to\mathbb{R}$ 的<T zh="梯度">gradient</T> 是偏导数排成的向量：$\nabla f_0(x)=\big(\tfrac{\partial f_0}{\partial x_1},\dots,\tfrac{\partial f_0}{\partial x_n}\big)^T$。它指向 $f_0$ **增长最快**的方向。
+
+<T zh="方向导数">directional derivative</T>：站在 $x$，沿方向 $v$ 走，$f_0$ 的变化率是
+
+$$
+\frac{d}{dt}f_0(x+tv)\Big|_{t=0}=\nabla f_0(x)^T v .
+$$
+
+也就是梯度和方向的内积。取 $v=e_i$（第 $i$ 个坐标轴方向）就得到偏导数 $\partial f_0/\partial x_i$——方向导数是偏导数推广到任意方向。
+
+内积的符号告诉我们方向：$\nabla f_0(x)^Tv\lt 0$ 表示沿 $v$ 走 $f_0$ 会**下降**（$v$ 与梯度夹角大于 90°）；$\ge 0$ 表示不会下降（夹角 ≤ 90°）。
+
+</MathNote>
+
+<Prof>
+
+教授对方向导数公式 $\frac{d}{dt}f_0(x+tv)|_{t=0}=\nabla f_0(x)^Tv$ 的原话是“remember, understand”——一定要记住并理解。(09-17 课 00:45)
+
+</Prof>
+
+### 一般可行集上的最优性条件
+
+<Thm title="可微凸目标的最优性条件">
+
+设 $f_0$ 凸且可微，可行集为 $X$（凸集）。则 $x$ 是最优点，当且仅当 $x\in X$ 且
+
+$$
+\nabla f_0(x)^T(y-x)\ \ge\ 0\qquad\text{对所有可行的 } y\in X .
+$$
+
+</Thm>
+
+大白话：**从 $x$ 出发朝任何一个可行点 $y$ 走（方向 $y-x$），$f_0$ 都不会下降（一阶近似意义下）。** 几何上：每个 $y-x$ 与梯度 $\nabla f_0(x)$ 的夹角都不超过 90°。
+
+若 $\nabla f_0(x)\neq 0$，这还有一个漂亮的解读：$-\nabla f_0(x)$ 定义了可行集 $X$ 在 $x$ 处的一个<T zh="支撑超平面">supporting hyperplane</T>——整个可行集都在超平面 $\{y\mid \nabla f_0(x)^T(y-x)=0\}$ 的一侧。
+
+<Ch04OptimalityCondition />
+
+<Steps title="证明（两个方向）" steps={[
+  { text: '【充分性：条件 ⇒ 最优】凸可微函数的一阶条件（第 3 章）：函数永远在它的切线（切平面）上方。', math: 'f_0(y)\\ge f_0(x)+\\nabla f_0(x)^T(y-x)' },
+  { text: '若对所有可行 y 都有 ∇f₀(x)ᵀ(y−x) ≥ 0，代入上式得 f₀(y) ≥ f₀(x)，所以 x 最优。', math: 'f_0(y)\\ge f_0(x)\\quad\\forall y\\in X' },
+  { text: '【必要性：最优 ⇒ 条件】反证。设 x 最优，但某个可行 y 使内积为负。考虑连线上的点 z(θ)，因为 X 凸，它可行。', math: 'z(\\theta)=\\theta y+(1-\\theta)x\\in X,\\quad \\nabla f_0(x)^T(y-x)<0' },
+  { text: '沿这条线求导（方向导数，方向 v = y − x）：', math: '\\frac{d}{d\\theta}f_0(z(\\theta))\\Big|_{\\theta=0}=\\nabla f_0(x)^T(y-x)<0' },
+  { text: '导数为负说明 θ 稍大于 0 时 f₀(z(θ)) 比 f₀(x) 更小，与 x 最优矛盾。', math: 'f_0(z(\\theta))<f_0(x)\\ \\text{for small } \\theta>0' },
+]} />
+
+### 特例一：无约束问题
+
+<Thm title="无约束最优性条件">
+
+对 $\text{minimize}\ f_0(x)$（无约束，$f_0$ 凸可微），$x$ 最优当且仅当
+
+$$
+x\in\mathbf{dom}\,f_0,\qquad \nabla f_0(x)=0 .
+$$
+
+</Thm>
+
+这就是微积分里“令导数为零”的方法——上面求 $x\log x$ 最小值用的正是它。
+
+<Reveal label="看证明">
+
+- **必要性**：$f_0$ 可微 ⇒ $\mathbf{dom}\,f_0$ 是开集，所以 $x$ 附近的点都可行。取 $y=x-\theta\nabla f_0(x)$（$\theta>0$ 很小，沿负梯度走一小步），代入一般条件：
+
+$$
+\nabla f_0(x)^T(y-x)=-\theta\,\|\nabla f_0(x)\|_2^2\ \ge\ 0
+$$
+
+而左边 $\le 0$，只能等于 0，于是 $\nabla f_0(x)=0$。
+
+- **充分性**：若 $\nabla f_0(x)=0$，则对任意 $y$ 有 $\nabla f_0(x)^T(y-x)=0\ge 0$，由一般条件 $x$ 最优。
+
+</Reveal>
+
+<Prof>
+
+为什么附近的 $y$ 都可行？教授给的理由是：可微函数的定义域是开集。(09-17 课 00:54)
+
+</Prof>
+
+### 特例二：只有等式约束
+
+<Thm title="等式约束最优性条件">
+
+对 $\text{minimize}\ f_0(x)\ \text{s.t.}\ Ax=b$（$f_0$ 凸可微），$x$ 最优当且仅当存在 $\nu\in\mathbb{R}^p$ 使
+
+$$
+x\in\mathbf{dom}\,f_0,\qquad Ax=b,\qquad \nabla f_0(x)+A^T\nu=0 .
+$$
+
+</Thm>
+
+$\nu$ 叫等式约束的<T zh="乘子">multiplier</T>。大白话：在最优点，梯度必须能写成 $A$ 的行向量的组合（$\nabla f_0(x)=-A^T\nu$），也就是梯度**垂直于**可行直线/平面的方向——沿可行方向走，一阶上 $f_0$ 不变。
+
+<MathNote title="零空间与值域">
+
+- $A$ 的<T zh="零空间">null space</T> $N(A)=\{\mu\mid A\mu=0\}$：被 $A$ 映成 0 的向量。
+- $A^T$ 的<T zh="值域 / 列空间">range</T> $R(A^T)=\{A^T\nu\mid \nu\in\mathbb{R}^p\}$：$A$ 的行向量的所有线性组合。
+- 线性代数基本事实：$N(A)^\perp=R(A^T)$——与零空间里每个向量都垂直的向量，恰好是 $A$ 的行的组合。
+
+</MathNote>
+
+<Steps title="证明（必要性）" steps={[
+  { text: '若 x、y 都可行，则 A(y−x)=b−b=0，所以 y−x 属于零空间。反过来 x+μ（μ∈N(A)）都可行。', math: 'y=x+\\mu,\\quad \\mu\\in N(A)' },
+  { text: '一般最优性条件给出：对所有 μ∈N(A)，∇f₀(x)ᵀμ ≥ 0。', math: '\\nabla f_0(x)^T\\mu\\ge 0\\quad\\forall\\mu\\in N(A)' },
+  { text: '零空间是子空间，−μ 也在里面，于是 ∇f₀(x)ᵀ(−μ) ≥ 0。两式合起来只能等于 0。', math: '\\nabla f_0(x)^T\\mu=0\\quad\\forall\\mu\\in N(A)' },
+  { text: '这说明 ∇f₀(x) 垂直于整个零空间，所以属于 N(A)^⊥ = R(Aᵀ)。', math: '\\nabla f_0(x)\\in N(A)^\\perp=R(A^T)' },
+  { text: '于是存在某个向量（记作 −ν）使 ∇f₀(x) = Aᵀ(−ν)，移项即得结论。', math: '\\nabla f_0(x)+A^T\\nu=0' },
+]} />
+
+充分性：若条件成立，对任意可行 $y$，$\nabla f_0(x)^T(y-x)=-\nu^TA(y-x)=-\nu^T(b-b)=0\ge 0$，由一般条件 $x$ 最优。
+
+<Prof>
+
+教授指出：这其实是后面要讲的 KKT 条件的特例，$\nu$ 就是等式约束的乘子。(09-17 课 00:58)
+
+</Prof>
+
+### 特例三：非负象限上的最小化
+
+<Thm title="非负象限最优性条件">
+
+对 $\text{minimize}\ f_0(x)\ \text{s.t.}\ x\succeq 0$，$x$ 最优当且仅当
+
+$$
+x\in\mathbf{dom}\,f_0,\qquad x\succeq 0,\qquad
+\begin{cases}
+\nabla f_0(x)_i\ \ge 0, & x_i=0,\\
+\nabla f_0(x)_i\ =\ 0, & x_i>0.
+\end{cases}
+$$
+
+</Thm>
+
+这里向量的 $\succeq 0$ 表示**每个分量都** $\ge 0$。紧凑写法：$\nabla f_0(x)\succeq 0$，且对每个 $i$ 有 $x_i\,\nabla f_0(x)_i=0$。这叫<T zh="互补性">complementarity</T>：每个分量上，“$x_i$”和“$\partial_i f_0$”至少有一个是 0。
+
+直觉：如果 $x_i>0$（还没碰到边界），那这个方向可以左右自由移动，像无约束一样需要偏导为 0；如果 $x_i=0$（被墙挡住），只能往正方向走，所以只需要往正方向走不下降，即偏导 $\ge 0$。在上面交互的“非负象限”标签页里可以看到：最优点落在坐标轴上时，梯度垂直于那条轴且指向象限内部。
+
+<Reveal label="看证明">
+
+**必要性**（教授的论证）：最优 ⇒ 对所有 $y\succeq 0$，$\nabla f_0(x)^Ty-\nabla f_0(x)^Tx\ge 0$。
+
+1. 第一项是 $y$ 的线性函数。若 $\nabla f_0(x)$ 有某个分量为负，让对应的 $y_i\to\infty$，左边趋于 $-\infty$，矛盾。所以 $\nabla f_0(x)\succeq 0$。
+2. 取 $y=0$ 得 $\nabla f_0(x)^Tx\le 0$；取 $y=2x$ 得 $\nabla f_0(x)^Tx\ge 0$。所以 $\sum_i \nabla f_0(x)_i\,x_i=0$。
+3. 每一项 $\nabla f_0(x)_i x_i\ge 0$（两个因子都 $\ge 0$），而总和为 0，所以每一项都等于 0。
+
+**充分性**：若条件成立，对任意 $y\succeq 0$：$\nabla f_0(x)^T(y-x)=\sum_i\nabla f_0(x)_iy_i-\sum_i\nabla f_0(x)_ix_i=\sum_i\nabla f_0(x)_iy_i\ge 0$。
+
+</Reveal>
+
+<Exam>
+
+最优性条件是高频考点：一般形式 $\nabla f_0(x)^T(y-x)\ge 0$、无约束 $\nabla f_0(x)=0$、等式约束 $\nabla f_0(x)+A^T\nu=0$、非负象限的互补条件 $x_i\nabla f_0(x)_i=0$。教授强调互补条件里乘积**必须恰好为 0**。三个特例都应能从一般形式推出来。
+
+</Exam>
+
+<Quiz q="minimize f₀(x) s.t. x ⪰ 0 的某个最优点 x* = (0, 3)。关于 ∇f₀(x*) 一定成立的是？" options={['∇f₀(x*) = 0', '∂₁f₀ ≥ 0 且 ∂₂f₀ = 0', '∂₁f₀ = 0 且 ∂₂f₀ ≥ 0', '∂₁f₀ ≤ 0 且 ∂₂f₀ = 0']} answer={1} explain="x₁ = 0 在边界上，只要求 ∂₁f₀ ≥ 0；x₂ = 3 > 0 在内部，要求 ∂₂f₀ = 0。" />
+
+## 等价变换
+
+<Def title="等价问题 equivalent problems">
+
+两个问题（非正式地）称为<T zh="等价的">equivalent</T>，如果从一个问题的解可以很容易得到另一个问题的解，反之亦然。
+
+</Def>
+
+为什么要变来变去？教授的理由：**有的算法只能处理某种特定形式**（例如只能处理不等式约束、或只能处理线性目标），所以要先把问题改写成算法能吃的样子。下面是讲义上的五种常用技巧。
+
+### 消去等式约束
+
+原问题：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 0,\ i=1,\dots,m\\
+& Ax=b
+\end{aligned}
+$$
+
+做法（三步）：
+
+1. 找一个<T zh="特解">particular solution</T> $x_0$，满足 $Ax_0=b$（解一个线性方程组）。
+2. 找一个矩阵 $F$，使它的值域恰好是 $A$ 的零空间：$R(F)=N(A)$。
+3. 换元 $x=Fz+x_0$，得到新问题（变量是 $z$）：
+
+$$
+\begin{aligned}
+\text{minimize (over } z)\quad & f_0(Fz+x_0)\\
+\text{subject to}\quad & f_i(Fz+x_0)\le 0,\ i=1,\dots,m
+\end{aligned}
+$$
+
+等式约束消失了。新变量 $z$ 的维数是 $\dim N(A)=n-\operatorname{rank}(A)$——维数可能变小。
+
+**为什么等价？**
+
+- 每个 $Fz+x_0$ 都满足约束：因为 $R(F)\subseteq N(A)$，所以 $AF=0$，于是 $A(Fz+x_0)=0+b=b$。
+- 每个满足 $Ax=b$ 的 $x$ 都能写成 $Fz+x_0$：$x-x_0\in N(A)=R(F)$，所以 $x-x_0=Fz$ 对某个 $z$ 成立。
+
+所以“所有可行的 $x$”和“所有 $z$”一一对应，目标值和不等式约束都没变。另外，凸函数复合仿射映射仍是凸的，所以**凸问题消元后仍是凸问题**。
+
+<Ch04Eliminate />
+
+### 引入等式约束
+
+反过来，有时**增加**变量和等式约束反而更方便。原问题：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(A_0x+b_0)\\
+\text{subject to}\quad & f_i(A_ix+b_i)\le 0,\quad i=1,\dots,m
+\end{aligned}
+$$
+
+等价问题（变量是 $x,y_0,\dots,y_m$）：
+
+$$
+\begin{aligned}
+\text{minimize (over } x,\,y_i)\quad & f_0(y_0)\\
+\text{subject to}\quad & f_i(y_i)\le 0,\quad i=1,\dots,m\\
+& y_i=A_ix+b_i,\quad i=0,1,\dots,m
+\end{aligned}
+$$
+
+大白话：给每个“$A_ix+b_i$”起个名字 $y_i$。复合函数 $f_i(A_ix+b_i)$ 变成了简单函数 $f_i(y_i)$，代价是多了一些变量和（仿射的）等式约束。这一招在后面对偶理论里会反复出现。
+
+### 引入松弛变量
+
+对线性不等式约束：
+
+$$
+\text{minimize}\ f_0(x)\quad\text{s.t.}\quad a_i^Tx\le b_i,\ i=1,\dots,m
+$$
+
+引入<T zh="松弛变量">slack variables</T> $s\in\mathbb{R}^m$，等价于：
+
+$$
+\begin{aligned}
+\text{minimize (over } x,\,s)\quad & f_0(x)\\
+\text{subject to}\quad & a_i^Tx+s_i=b_i,\quad i=1,\dots,m\\
+& s_i\ge 0,\quad i=1,\dots,m
+\end{aligned}
+$$
+
+$s_i=b_i-a_i^Tx$ 就是第 $i$ 个约束“还剩多少余量”。原不等式成立 ⇔ $s_i\ge 0$。于是每个不等式变成“一个等式 + 一个非负约束”。第 5 章把 LP 化成标准形式时，用的就是这一招。
+
+### 上境图形式
+
+<Def title="上境图形式 epigraph form">
+
+标准形式问题等价于
+
+$$
+\begin{aligned}
+\text{minimize (over } x,t)\quad & t\\
+\text{subject to}\quad & f_0(x)-t\le 0\\
+& f_i(x)\le 0,\quad i=1,\dots,m\\
+& Ax=b
+\end{aligned}
+$$
+
+</Def>
+
+多引入一个标量变量 $t$，把原目标“搬进”约束 $f_0(x)\le t$，新目标就是**线性的** $t$。约束 $f_0(x)\le t$ 的意思是点 $(x,t)$ 在 $f_0$ 的<T zh="上境图">epigraph</T>（函数图像上方的区域）里。
+
+为什么等价？约束只要求 $t\ge f_0(x)$，但我们在**最小化** $t$，所以最优时 $t$ 会被一路往下压，直到 $t=f_0(x)$。最终 $t^\star=p^\star$。若原问题是凸的，$f_0(x)-t$ 关于 $(x,t)$ 也是凸的，所以上境图形式仍是凸问题。
+
+<Ch04Transforms />
+
+<Prof>
+
+教授的解释：把 $t$ 尽量往下推，$t$ 就被迫等于 $f_0(x)$，于是 $(x^\star,p^\star)$ 就是上境图在最优处的那个点。(09-17 课 01:31) 第 5 章的分段线性最小化、第 6 章的最大特征值最小化都会用到这个技巧。
+
+</Prof>
+
+### 对部分变量先求最小
+
+如果约束只涉及一部分变量：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x_1,x_2)\\
+\text{subject to}\quad & f_i(x_1)\le 0,\quad i=1,\dots,m
+\end{aligned}
+\qquad\Longleftrightarrow\qquad
+\begin{aligned}
+\text{minimize}\quad & \tilde f_0(x_1)\\
+\text{subject to}\quad & f_i(x_1)\le 0,\quad i=1,\dots,m
+\end{aligned}
+$$
+
+其中
+
+$$
+\tilde f_0(x_1)=\inf_{x_2} f_0(x_1,x_2).
+$$
+
+大白话：先固定 $x_1$，对 $x_2$ 求最小（这一步没有约束，可以用无约束算法甚至公式直接解），把结果代回，就得到一个只含 $x_1$ 的更小的问题。补充一个事实：若 $f_0$ 关于 $(x_1,x_2)$ 联合凸，则 $\tilde f_0$ 也是凸的（第 3 章“对部分变量取下确界保凸”），所以凸性保持。
+
+<Example title="对部分变量求最小">
+
+$\text{minimize}\ x_1^2+(x_2-x_1)^2+x_1$，约束 $x_1\ge -2$。固定 $x_1$，对 $x_2$ 最小化：显然 $x_2=x_1$ 时 $(x_2-x_1)^2=0$ 最小，于是 $\tilde f_0(x_1)=x_1^2+x_1$。新问题 $\min\,x_1^2+x_1$ s.t. $x_1\ge -2$，令导数 $2x_1+1=0$ 得 $x_1^\star=-\tfrac12$，满足约束，$p^\star=-\tfrac14$，且 $x_2^\star=-\tfrac12$。
+
+</Example>
+
+<Exam>
+
+教授要求掌握这几种变换：消去等式（$x=Fz+x_0$，$R(F)=N(A)$，$AF=0$）、引入等式、松弛变量（$a_i^Tx+s_i=b_i$，$s_i\ge0$）、上境图形式（线性目标 $t$）、对部分变量求最小。考试可能要求你把一个给定问题改写成某种形式并说明为何等价。
+
+</Exam>
+
+<Quiz q="把 minimize f₀(x) 改写成上境图形式 minimize t s.t. f₀(x) ≤ t 之后，为什么不需要写成 f₀(x) = t？" options={['因为 f₀ 是凸的', '因为最小化 t 会自动把 t 压到 f₀(x)，最优时约束是紧的', '因为等式约束不允许出现', '因为 t 是整数']} answer={1} explain="约束只要求 t ≥ f₀(x)，而目标是让 t 尽量小，最优时 t* = f₀(x*)。并且写成 ≤ 才能保持凸性（f₀(x) = t 一般不是仿射等式）。" />
+
+## 凸的标准形式为什么特殊
+
+讲义特别提醒：**对问题做一点点改动，就（可能）让它变得非常难**。下面这些改动都会破坏凸性：
+
+- 最大化一个凸函数，或最小化一个凹函数；
+- 出现非凸的不等式约束；
+- 出现凸但非仿射的等式约束（比如上面的圆周 $x_1^2+x_2^2=1$）。
+
+一旦不是凸问题，“局部 = 全局”、高效的算法、对偶理论都不再保证成立。
+
+<Prof>
+
+教授课上的说法更夸张：“any slight perturbation would make the problem unsolvable”。以讲义为准：是“potentially”（可能）变得很难，而不是一定无法求解。(09-17 课 01:35)
+
+</Prof>
+
+<Warn title="拟凸问题去哪了？">
+
+讲义 L4 的后半部分（第 17–21 页）讲的是<T zh="拟凸优化">quasiconvex optimization</T>：目标只要求拟凸，此时局部最优**不一定**是全局最优，要用“二分法 + 凸可行性问题”求解。这部分和 L5 的复习合在一起，放在下一章（第 5 章）开头详细讲。
+
+</Warn>
+
+## 本章小结
+
+<Summary>
+
+- **标准形式**：minimize $f_0(x)$ s.t. $f_i(x)\le 0$，$h_i(x)=0$。最优值 $p^\star=\inf\{\dots\}$；不可行时 $+\infty$，无下界时 $-\infty$。最优值（数）≠ 最优点（向量）；最优值可能取不到（$1/x$）。
+- **可行性问题** = 目标为常数 0 的优化问题。
+- **凸问题**：凸目标 + 凸不等式约束 + **仿射**等式约束 $Ax=b$。可行集是凸集。也允许 LMI 这类广义不等式。
+- **局部最优 = 全局最优**：反证，取 $z=\theta y+(1-\theta)x$，用可行集凸 + 目标凸。
+- **最优性条件**（$f_0$ 可微凸）：$\nabla f_0(x)^T(y-x)\ge 0\ \forall y$ 可行。特例：无约束 $\nabla f_0(x)=0$；等式约束 $\nabla f_0(x)+A^T\nu=0$；非负象限 $\nabla f_0(x)\succeq0$、$x_i\nabla f_0(x)_i=0$。
+- **等价变换**：消去等式（$x=Fz+x_0$）、引入等式（$y_i=A_ix+b_i$）、松弛变量、上境图形式、对部分变量求最小。
+
+</Summary>
+
+<Quiz q="关于凸优化问题，下列说法错误的是？" options={['可行集一定是凸集', '任何局部最优点都是全局最优点', '最优点一定唯一', '等式约束必须是仿射的']} answer={2} explain="凸问题的最优点可以不唯一（例如目标是常数，或 LP 中目标与某条边平行），但最优点集合一定是凸集。" />
+
+<Quiz q="f₀ 凸可微，问题是 minimize f₀(x) s.t. Ax = b。某可行点 x 满足 ∇f₀(x) = Aᵀw（w 是某个向量）。x 是否最优？" options={['是，取 ν = −w 即满足 ∇f₀(x) + Aᵀν = 0', '不是，必须 ∇f₀(x) = 0', '无法判断，还需要 Hessian', '只有 A 可逆时才是']} answer={0} explain="条件只要求梯度落在 R(Aᵀ) 里。∇f₀(x) = Aᵀw 等价于 ∇f₀(x) + Aᵀ(−w) = 0，加上 x 可行，x 就是最优点。" />
+
+<Quiz q="用“消去等式约束”时，矩阵 F 必须满足什么？" options={['F 可逆', 'R(F) = N(A)，因此 AF = 0', 'F = Aᵀ', 'F 的列与 A 的行相同']} answer={1} explain="F 的列要张成 A 的零空间，这样 x = Fz + x₀ 恰好遍历所有满足 Ax = b 的点。" />

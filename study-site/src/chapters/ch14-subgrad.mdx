@@ -1,0 +1,577 @@
+import { Ch14SupportLines, Ch14SubgradMethod, Ch14Projected, Ch14Subdiff2D } from '../widgets/ch14.jsx'
+
+到目前为止，算法部分（梯度下降、Newton 法、内点法）都有一个默认前提：函数**可微**，Newton 和内点法甚至要求**二阶可微**（要算 Hessian 并求逆）。可是很多重要的函数在某些点上有“尖角”：$|x|$、$\|x\|_1$、$\max_i(a_i^Tx+b_i)$……在尖角处梯度不存在。这一章引入 <T zh="次梯度">subgradient</T>——梯度的推广——并给出最简单的非光滑优化算法：<T zh="次梯度法">subgradient method</T>。
+
+和前后章的关系：第 13 章内点法需要二阶可微；本章放宽到**只要凸、不必可微**；第 15 章的定位法（割平面、椭球法）也建立在 subgradient 之上；之后的分解方法（decomposition）会大量用到“对偶问题上的投影次梯度法”。
+
+本章路线：
+
+1. subgradient 的定义与几何意义（支撑超平面）
+2. 例子：可微函数、$\max\{f_1,f_2\}$、$|x|$、$\|x\|_1$
+3. subdifferential $\partial f(x)$ 及其性质；计算规则
+4. 最优性条件：$0\in\partial f(x^\star)$ 与广义 KKT
+5. subgradient method：算法、非下降性、$f_{\text{best}}$
+6. 步长规则与收敛结论（含证明思路）、停止准则
+7. 例子：分段线性函数最小化
+8. 约束问题：投影次梯度法（原问题、对偶问题）、约束次梯度法、Polyak 步长
+
+## 次梯度 Subgradient
+
+### 定义
+
+先回忆第 3 章的**一阶条件**：可微函数 $f$ 是凸的，当且仅当
+
+$$
+f(y) \ge f(x) + \nabla f(x)^T(y-x)\quad \text{对所有 } x,y
+$$
+
+大白话：在任何一点画切线（切平面），整个函数图像都在切线**上方**——切线是 $f$ 的一个**下估计**（under-estimator）。
+
+subgradient 就是把这个不等式里的 $\nabla f(x)$ 换成一个“合格的”向量 $g$：
+
+<Def title="subgradient 与 supergradient">
+
+向量 $g\in\mathbb{R}^n$ 称为 $f$ 在 $x$ 处的一个 **subgradient**，如果
+
+$$
+f(y) \ \ge\ f(x) + g^{T}(y - x)\qquad \text{对所有 } y\in\operatorname{dom}f.
+$$
+
+反过来，如果 $f(y)\le f(x)+g^T(y-x)$ 对所有 $y$ 成立，则 $g$ 称为 **supergradient**（用于凹函数）。
+
+</Def>
+
+大白话：过点 $(x,f(x))$、斜率为 $g$ 的直线（高维是超平面）整条都在函数图像下方，$g$ 就是一个 subgradient。
+
+<MathNote title="内积与超平面">
+
+$g^T(y-x)=\sum_i g_i(y_i-x_i)$ 是向量内积。函数 $y\mapsto f(x)+g^T(y-x)$ 是一个仿射函数，它的图像是过 $(x,f(x))$ 的超平面（一维时是直线），$g$ 决定它的倾斜方向和陡峭程度。
+
+</MathNote>
+
+<Prof>
+
+教授（11-03 课 01:13:42）：这个不等式看起来就像可微凸函数的一阶条件，subgradient 扮演了梯度的角色。关键区别是：一阶条件要求 $f$ 处处可微，而 subgradient 的定义**既不需要可微，也不需要凸**。
+
+</Prof>
+
+### 几何意义：支撑超平面
+
+<Figure src="L14/p03_f2.png" caption="讲义 p.3：在光滑点 x₁ 只有一条支撑线（切线），斜率 g₁ 是唯一的 subgradient；在拐点 x₂ 有许多支撑线，斜率 g₂、g₃ 都是 subgradient。" />
+
+subgradient 就是在 $x$ 处**支撑**函数图像的超平面的斜率（法向量）：
+- 在光滑点，只有一条支撑线——切线，所以只有一个 subgradient；
+- 在拐点（尖角），可以把直线绕着尖角“转动”，在一定范围内都不会穿过图像，所以有无穷多个 subgradient。
+
+<Ch14SupportLines />
+
+### 例子
+
+**可微凸函数。** 若 $f$ 凸且在 $x$ 处可微，则 $\nabla f(x)$ 是 $f$ 在 $x$ 处**唯一**的 subgradient。对非可微函数，$g$ 可以有很多选择。
+
+**绝对值 $|x|$。** $x>0$ 时 subgradient 只有 $+1$；$x<0$ 时只有 $-1$；在 $x=0$ 处，任何 $g\in[-1,1]$ 都满足 $|y|\ge g\,y$，所以都是 subgradient。
+
+**两个函数的最大值（讲义 p.5）。** 设 $f=\max\{f_1,f_2\}$，$f_1,f_2$ 凸且可微。$f$ 是凸的，但在 $f_1=f_2$ 处有尖角。在点 $x_0$：
+
+- 若 $f_1(x_0)>f_2(x_0)$：唯一 subgradient $g=\nabla f_1(x_0)$；
+- 若 $f_2(x_0)>f_1(x_0)$：唯一 subgradient $g=\nabla f_2(x_0)$；
+- 若 $f_1(x_0)=f_2(x_0)$：subgradient 组成线段 $[\nabla f_1(x_0),\nabla f_2(x_0)]$（两者的任意凸组合）。
+
+<Figure src="L14/p05_f1.png" caption="讲义 p.5：f = max{f₁, f₂}。在 f₁ = f₂ 的交点 x₀ 处，f₁、f₂ 的切线斜率之间的任何斜率都给出支撑线。" />
+
+**ℓ1 范数 $\|x\|_1=\sum_i|x_i|$。** 逐个坐标套用 $|x|$ 的结论：$g_i=\operatorname{sign}(x_i)$（$x_i\ne 0$ 时），$x_i=0$ 时 $g_i$ 可取 $[-1,1]$ 中任意值。所以 $\operatorname{sign}(x)$ 总是一个合法的 subgradient（约定 $\operatorname{sign}(0)=0$）。
+
+<Intuition>
+
+subgradient 有两个用途（讲义 p.4）：（1）设计**不可微凸优化**的算法；（2）凸分析——把最优性条件、对偶理论推广到不可微问题。一句话：**凡是原来用梯度的地方，都可以换成 subgradient**。
+
+</Intuition>
+
+<Quiz q="f(x) = |x| 在 x = 0 处，下列哪个不是 subgradient？" options={['g = 0', 'g = 0.7', 'g = −1', 'g = 1.2']} answer={3} explain="需要 |y| ≥ g·y 对所有 y 成立。g = 1.2 时取 y = 1：1 ≥ 1.2 不成立。∂|·|(0) = [−1, 1]。" />
+
+## 次微分 Subdifferential
+
+<Def title="subdifferential">
+
+$f$ 在 $x$ 处**所有** subgradient 组成的集合称为 subdifferential，记作 $\partial f(x)$。
+
+</Def>
+
+性质（讲义 p.6）：
+
+- $\partial f(x)$ 是一个**闭凸集**（可能为空）。
+- 若 $f$ 是凸函数：
+  - 对 $x\in\operatorname{int}\operatorname{dom}f$（定义域内部），$\partial f(x)$ **非空**；
+  - 若 $f$ 在 $x$ 处可微，则 $\partial f(x)=\{\nabla f(x)\}$；
+  - **反之**，若 $\partial f(x)=\{g\}$（只有一个元素），则 $f$ 在 $x$ 处可微且 $g=\nabla f(x)$。
+
+<Steps title="为什么 ∂f(x) 是凸集" steps={[
+  {text:'设 g₁、g₂ 都是 subgradient，θ ∈ [0,1]。对任意 y 有两条不等式：', math:'f(y)\\ge f(x)+g_1^T(y-x),\\qquad f(y)\\ge f(x)+g_2^T(y-x)'},
+  {text:'第一条乘 θ，第二条乘 1−θ，相加：', math:'f(y)\\ge f(x)+\\bigl(\\theta g_1+(1-\\theta)g_2\\bigr)^T(y-x)'},
+  {text:'所以凸组合 θg₁+(1−θ)g₂ 也是 subgradient，∂f(x) 是凸集。（它是无穷多个关于 g 的线性不等式的解集——闭半空间的交——因此也是闭的。）', math:'\\theta g_1+(1-\\theta)g_2\\in\\partial f(x)'}
+]} />
+
+<Exam>
+
+教授（01:24:20–01:27:21）强调这是**双向**的：对凸函数，$f$ 在 $x$ 处可微 $\iff$ $\partial f(x)$ 是单点集。非空性需要凸性且 $x$ 在定义域内部。
+
+</Exam>
+
+二维时 $\partial f(x)$ 可以是点、线段或一整块多边形。拖动下面的点感受一下：
+
+<Ch14Subdiff2D />
+
+<MathNote title="计算 subgradient 的常用规则（补充，讲义未单列）">
+
+实际中常用下列规则求**一个** subgradient（weak subgradient calculus，只求一个就够算法用）：
+
+- **非负缩放**：$\partial(\alpha f)(x)=\alpha\,\partial f(x)$，$\alpha\ge 0$。
+- **求和**：$\partial(f_1+f_2)(x)=\partial f_1(x)+\partial f_2(x)$（集合的和；只需各取一个相加）。
+- **仿射复合**：若 $h(x)=f(Ax+b)$，则 $\partial h(x)=A^T\partial f(Ax+b)$。
+- **逐点最大**：若 $f=\max_i f_i$，取任一**激活**的 $j$（$f_j(x)=f(x)$），则 $g\in\partial f_j(x)$ 就是 $f$ 的 subgradient；完整的 $\partial f(x)$ 是所有激活 $f_j$ 的次微分的并的凸包（strong calculus，正是上面 $\max\{f_1,f_2\}$ 例子中的线段）。
+
+</MathNote>
+
+<Quiz q="对凸函数 f，若 ∂f(x) = {(1, 2)}，可以得出什么？" options={['f 在 x 处不可微', 'f 在 x 处可微，且 ∇f(x) = (1, 2)', 'x 是最小点', '什么也得不出']} answer={1} explain="凸函数的次微分是单点集 ⇔ 在该点可微，且该点就是梯度。" />
+
+## 最优性条件
+
+### 无约束：0 ∈ ∂f(x*)
+
+可微凸函数：$f(x^\star)=\inf_xf(x)\iff\nabla f(x^\star)=0$。推广到不可微凸函数：
+
+<Thm title="无约束最优性条件（讲义 p.7）">
+
+$$
+f(x^\star) = \inf_x f(x) \iff 0 \in \partial f(x^\star).
+$$
+
+</Thm>
+
+**证明**只有一行：把 $g=0$ 代入 subgradient 定义，
+
+$$
+f(y) \ge f(x^\star) + 0^T(y-x^\star) = f(x^\star)\quad\text{对所有 } y \iff 0\in\partial f(x^\star).
+$$
+
+左边恰好说“$x^\star$ 是全局最小点”。大白话：最小点处存在一条**水平**的支撑线。在上面的一维交互里，拐点处的区间包含 0 时就是最小点。
+
+### 有约束：广义 KKT
+
+考虑凸问题 minimize $f_0(x)$ s.t. $f_i(x)\le 0$，$i=1,\dots,m$，假设每个 $f_i$ 凸、定义在整个 $\mathbb{R}^n$ 上（因此处处可求 subgradient），并且 **Slater 条件**成立。
+
+<Thm title="广义 KKT（讲义 p.8）">
+
+$x^\star$ 原始最优、$\lambda^\star$ 对偶最优，当且仅当
+
+$$
+\begin{aligned}
+& f_i(x^\star) \le 0, \qquad \lambda_i^\star \ge 0,\qquad i=1,\dots,m,\\
+& \lambda_i^\star f_i(x^\star) = 0,\\
+& 0 \in \partial f_0(x^\star) + \sum_{i=1}^m \lambda_i^\star\, \partial f_i(x^\star).
+\end{aligned}
+$$
+
+</Thm>
+
+四组条件依次是：原始可行、对偶可行、互补松弛、Lagrangian 的“驻点”条件。和第 9 章的 KKT 相比，唯一变化是最后一行：$\nabla$ 换成 $\partial$，“$=0$” 换成 “$0\in$ 集合”。若 $f_i$ 都可微，最后一行就变回 $\nabla f_0(x^\star)+\sum\lambda_i^\star\nabla f_i(x^\star)=0$。
+
+<Prof>
+
+教授（01:30:09）把这称为“对可能不可微的凸规划的 generalized KKT”。最后一行的意思是：0 是 Lagrangian 的一个 subgradient。
+
+</Prof>
+
+## 次梯度法 Subgradient method
+
+### 与梯度法的比较
+
+讲义 p.9 的要点：
+
+- 一个用于最小化**不可微凸函数**的简单算法；
+- 和梯度法很像，但：
+  - 步长**不用线搜索**决定；
+  - **不是下降法**：函数值可能上升；
+- 和内点法、Newton 法相比：
+  - 可能**慢得多**；
+  - 能用于**更广泛**的问题；
+  - 大规模问题时**内存需求小得多**（不需要存 Hessian 或求逆）；
+  - 做分布式求解时，可以和原始或对偶分解（decomposition）结合。
+
+<Prof>
+
+教授（01:33:26）：步长不用线搜索，是因为方法不保证 $f$ 每步下降，线搜索没有意义；短期看它明显更慢，但长期趋势是下降的。好处是每步非常便宜，只需存 subgradient，不需要 Hessian 或它的逆。
+
+</Prof>
+
+### 算法
+
+<Def title="Subgradient method（无约束，讲义 p.10）">
+
+**given** 起点 $x^{(1)}\in\operatorname{dom}f$。
+
+**repeat**
+1. 求 $f$ 在 $x^{(k)}$ 处的**任意一个** subgradient $g^{(k)}$；
+2. 选择步长 $\alpha_k>0$；
+3. 更新 $x^{(k+1)}=x^{(k)}-\alpha_kg^{(k)}$。
+
+**until** 满足停止准则。
+
+</Def>
+
+因为不是下降法，必须记录**迄今最好**的值：
+
+$$
+f_{\text{best}}^{(k)} = \min_{i=1,\dots,k} f\big(x^{(i)}\big).
+$$
+
+<Warn>
+
+为什么 $-g$ 不一定是下降方向？在尖角处，有些 subgradient 指向“侧面”。例如 $f(x)=|x_1|+2|x_2|$ 在 $(1,0)$ 处，$g=(1,2)$ 是合法 subgradient（$x_2=0$ 时第二个分量可取 $[-2,2]$），沿 $-g$ 走一小步 $x_2$ 变成负数，$2|x_2|$ 增长比 $|x_1|$ 下降快，$f$ 反而变大。所以只能保证“长期趋势”下降，需要 $f_{\text{best}}$。
+
+</Warn>
+
+### 步长规则
+
+步长在算法运行**之前**就定好（讲义 p.11），有四类：
+
+| 规则 | 公式 | 说明 |
+|---|---|---|
+| constant step size | $\alpha_k=\alpha$ | 常数步长 |
+| constant step length | $\alpha_k=\gamma/\|g^{(k)}\|_2$ | 每步走的距离 $\|x^{(k+1)}-x^{(k)}\|_2=\gamma$ 恒定 |
+| square summable but not summable | $\sum\alpha_k^2<\infty$，$\sum\alpha_k=\infty$ | 例：$\alpha_k=a/(b+k)$，$a>0,b\ge 0$ |
+| nonsummable diminishing | $\lim\alpha_k=0$，$\sum\alpha_k=\infty$ | 例：$\alpha_k=a/\sqrt k$，$a>0$ |
+
+<MathNote title="级数“可和”是什么意思">
+
+$\sum_{k=1}^\infty\alpha_k<\infty$ 表示无穷多项加起来是有限数（summable）；$=\infty$ 表示加起来发散。
+- $\sum 1/k=\infty$（调和级数发散），但 $\sum 1/k^2=\pi^2/6<\infty$。所以 $1/k$ 是“平方可和但不可和”。
+- $\sum 1/\sqrt k=\infty$，$\sum (1/\sqrt k)^2=\sum 1/k=\infty$。所以 $1/\sqrt k$ 是“不可和递减”，但不是平方可和。
+
+直觉：$\sum\alpha_k=\infty$ 保证“总路程无限”，从多远都能走到最优点；$\alpha_k\to 0$ 保证最后步子足够小，不会在最优点附近来回跳。
+
+</MathNote>
+
+### 收敛结论
+
+**假设**（讲义 p.12）：
+- $f^\star=\inf_xf(x)>-\infty$，且存在最小点 $x^\star$ 使 $f(x^\star)=f^\star$；
+- subgradient 一致有界：对所有 $g\in\partial f$，$\|g\|_2\le G$；
+- 起点不太远：$R\ge\|x^{(1)}-x^\star\|_2$。
+
+<Thm title="主要界（讲义 p.12）">
+
+$$
+f_{\text{best}}^{(k)} - f^\star \ \le\ \frac{R^2 + G^2\sum_{i=1}^{k}\alpha_i^2}{2\sum_{i=1}^{k}\alpha_i}.
+$$
+
+</Thm>
+
+<Reveal label="看证明思路（详见 Moodle 上 subgrad_method_notes.pdf）">
+
+<Steps title="主要界的推导" steps={[
+  {text:'看到最优点的距离平方。展开 x⁽ᵏ⁺¹⁾ = x⁽ᵏ⁾ − α_k g⁽ᵏ⁾：', math:'\\|x^{(k+1)}-x^\\star\\|_2^2 = \\|x^{(k)}-x^\\star\\|_2^2 - 2\\alpha_k g^{(k)T}(x^{(k)}-x^\\star) + \\alpha_k^2\\|g^{(k)}\\|_2^2'},
+  {text:'由 subgradient 定义（取 y = x*）：f* ≥ f(x⁽ᵏ⁾) + g⁽ᵏ⁾ᵀ(x* − x⁽ᵏ⁾)，即 g⁽ᵏ⁾ᵀ(x⁽ᵏ⁾ − x*) ≥ f(x⁽ᵏ⁾) − f*。代入：', math:'\\|x^{(k+1)}-x^\\star\\|_2^2 \\le \\|x^{(k)}-x^\\star\\|_2^2 - 2\\alpha_k\\bigl(f(x^{(k)})-f^\\star\\bigr) + \\alpha_k^2\\|g^{(k)}\\|_2^2'},
+  {text:'从 1 到 k 累加（望远镜求和），左边 ≥ 0，右边初始距离 ≤ R²：', math:'0 \\le R^2 - 2\\sum_{i=1}^k \\alpha_i\\bigl(f(x^{(i)})-f^\\star\\bigr) + \\sum_{i=1}^k\\alpha_i^2\\|g^{(i)}\\|_2^2'},
+  {text:'每个 f(x⁽ⁱ⁾) − f* ≥ f_best⁽ᵏ⁾ − f*，并用 ‖g‖ ≤ G：', math:'2\\Bigl(\\sum_{i=1}^k\\alpha_i\\Bigr)\\bigl(f_{\\text{best}}^{(k)}-f^\\star\\bigr) \\le R^2 + G^2\\sum_{i=1}^k\\alpha_i^2'},
+  {text:'两边除以 2Σα 即得主要界。注意第 2 步是关键：我们没有说 f 下降，而是说“到 x* 的距离”在 f 还不够好时会下降。', math:'f_{\\text{best}}^{(k)} - f^\\star \\le \\frac{R^2 + G^2\\sum_{i=1}^{k}\\alpha_i^2}{2\\sum_{i=1}^{k}\\alpha_i}'}
+]} />
+
+</Reveal>
+
+记 $\bar f=\lim_{k\to\infty}f_{\text{best}}^{(k)}$。把四种步长代入主要界：
+
+**常数步长 $\alpha_k=\alpha$**（讲义 p.13）：
+
+$$
+f_{\text{best}}^{(k)} - f^\star \le \frac{R^2 + G^2 k \alpha^2}{2k\alpha}\ \xrightarrow{k\to\infty}\ \frac{G^2\alpha}{2}.
+$$
+
+分子分母都是 $k$ 的一次式，$k\to\infty$ 时 $R^2$ 被“稀释”掉，剩下 $G^2\alpha/2$。
+
+**常数步长度 $\alpha_k=\gamma/\|g^{(k)}\|_2$**：用中间形式（不放大 $\|g\|$），并用 $\alpha_i\ge\gamma/G$ 放缩分母：
+
+$$
+f_{\text{best}}^{(k)} - f^\star \le \frac{R^2 + \sum_{i=1}^{k}\alpha_i^2\|g^{(i)}\|_2^2}{2\sum_{i=1}^{k}\alpha_i} \le \frac{R^2 + \gamma^2 k}{2\gamma k / G}\ \xrightarrow{k\to\infty}\ \frac{G\gamma}{2}.
+$$
+
+**平方可和但不可和**（讲义 p.14）：分子 $R^2+G^2\sum\alpha_i^2$ 收敛到有限数，分母 $\to\infty$，所以 $f_{\text{best}}^{(k)}\to f^\star$。
+
+**不可和递减**（讲义 p.15）：取 $\alpha_k=\gamma_k/\|g^{(k)}\|_2$，$\gamma_k\to0$ 且 $\sum\gamma_k=\infty$：
+
+$$
+f_{\text{best}}^{(k)} - f^\star \le \frac{R^2 + \sum_{i=1}^{k}\gamma_i^2}{2\sum_{i=1}^k\alpha_i} \le \frac{R^2 + \sum_{i=1}^{k}\gamma_i^2}{(2/G)\sum_{i=1}^{k}\gamma_i}\ \xrightarrow{k\to\infty}\ 0.
+$$
+
+（因为 $\gamma_k\to0$，$\sum\gamma_i^2$ 相对 $\sum\gamma_i$ 增长得慢得多，比值趋于 0。）
+
+<Thm title="收敛结论汇总">
+
+| 步长规则 | 结论 |
+|---|---|
+| 常数步长 $\alpha$ | $\bar f-f^\star\le G^2\alpha/2$（收敛到次优邻域） |
+| 常数步长度 $\gamma$ | $\bar f-f^\star\le G\gamma/2$ |
+| 平方可和不可和 | $\bar f=f^\star$（收敛到最优） |
+| 不可和递减 | $\bar f=f^\star$（收敛到最优） |
+
+</Thm>
+
+<Exam>
+
+教授（11-05 课 00:10:13）：精确的代数推导“不是考试重点”，但**各规则的极限结论**是。还有：“实践中大多数情况用第三种或第四种”，因为它们理论上真正收敛到最优。
+
+</Exam>
+
+### 停止准则
+
+主要界本身可以当停止准则（讲义 p.16）：一旦
+
+$$
+\frac{R^2 + G^2\sum_{i=1}^{k}\alpha_i^2}{2\sum_{i=1}^{k}\alpha_i} \le \epsilon,
+$$
+
+就保证 $f_{\text{best}}^{(k)}-f^\star\le\epsilon$。但讲义特别标注：**可能非常非常慢**。注意，不能像梯度法那样用“梯度接近 0”停止——最优点处的 subgradient 不一定是 0（只是 0 属于 $\partial f$）。
+
+### 例子：分段线性函数最小化
+
+$$
+\text{minimize}\quad f(x) = \max_{i=1,\dots,m}\big(a_i^{T}x + b_i\big).
+$$
+
+求 subgradient：找一个**激活**的下标 $j$，即 $a_j^Tx+b_j=\max_i(a_i^Tx+b_i)$，取 $g=a_j$。更新为 $x^{(k+1)}=x^{(k)}-\alpha_ka_j$。
+
+<Prof>
+
+教授（11-05 课 00:18:25）：在每段开区间上函数是光滑的，subgradient 就是那一段的斜率 $a_i$；在断点处多段同时激活，取哪个都可以（“it's your call”），没有通用理论告诉你选哪个——这也是方法不单调的原因之一。
+
+</Prof>
+
+<Ch14SubgradMethod />
+
+讲义的数值例子：$n=20$ 个变量，$m=100$ 段仿射函数。
+
+<Figure src="L14/p18_f1.png" caption="讲义 p.18 左：常数步长度 γ = 0.05、0.01、0.005。γ 越小，前期越慢，但最终能更接近最优（地板更低）——与 Gγ/2 的界一致。" />
+
+<Figure src="L14/p18_f2.png" caption="讲义 p.18 右：不可和递减 α_k = 0.1/√k 与平方可和 α_k = 1/k。两者持续下降，但都需要上千次迭代。" />
+
+<Prof>
+
+教授（11-05 课 00:24:01）：“γ 越小越接近最优，但收敛越慢。”而且 subgradient 方法通常需要**几千次**迭代，而 Newton、内点法往往只需几十次。
+
+</Prof>
+
+<Quiz q="用常数步长 α = 0.01，已知 ‖g‖₂ ≤ G = 10。k → ∞ 时 f_best 至多比 f* 大多少？" options={['0.05', '0.5', '1', '会收敛到 f*']} answer={1} explain="G²α/2 = 100 × 0.01 / 2 = 0.5。" />
+
+<Quiz q="下列步长中，哪个是“平方可和但不可和”？" options={['α_k = 0.1', 'α_k = 1/√k', 'α_k = 1/k', 'α_k = 1/k²']} answer={2} explain="Σ1/k 发散，Σ1/k² 收敛。1/√k 平方后是 1/k 仍发散；1/k² 本身可和，总路程有限，可能走不到最优点。" />
+
+## 约束问题的次梯度方法
+
+考虑
+
+$$
+\text{minimize}\quad f(x)\qquad \text{subject to}\quad x \in \mathcal{C},
+$$
+
+$f:\mathbb{R}^n\to\mathbb{R}$ 凸，$\mathcal C\subseteq\mathbb{R}^n$ 凸（由一组等式/不等式约束确定的可行集）。三种方法（讲义 p.19）：
+
+1. 原问题上的**投影次梯度法**；
+2. 对偶问题上的投影次梯度法；
+3. 约束优化的次梯度法（objective step / feasibility step）。
+
+### 投影次梯度法（原问题）
+
+<Def title="Projected subgradient method（讲义 p.20–21）">
+
+$$
+x^{(k+1)} = P\big(x^{(k)} - \alpha_k g^{(k)}\big),\qquad g^{(k)} \in \partial f(x^{(k)}),
+$$
+
+其中 $P$ 是到 $\mathcal C$ 的**欧氏投影**：
+
+$$
+P(z) = \operatorname*{argmin}_{s \in \mathcal{C}} \|z - s\|_2 .
+$$
+
+算法：给定起点 $x^{(1)}\in\operatorname{dom}f$（**不必**在 $\mathcal C$ 里），重复“求 subgradient → 选步长 → 走一步再投影”直到停止。
+
+</Def>
+
+大白话：先当作无约束走一步；如果走出了可行集，就拉回到 $\mathcal C$ 中离它最近的点。
+
+<Ch14Projected />
+
+**收敛（讲义 p.23）**：结论与无约束情形**完全相同**——常数步长收敛到最优邻域，不可和递减步长收敛到最优。关键在于：
+
+$$
+\text{对 } x^\star\in\mathcal C:\qquad \|P(z) - x^\star\|_2 \le \|z - x^\star\|_2 ,
+$$
+
+即**投影不会增大到 $x^\star$ 的距离**。回看上面的证明，它只追踪“到 $x^\star$ 的距离”，所以加一步投影证明照样成立。
+
+<Prof>
+
+教授（11-05 课 00:38:41）：“投影不会增加到 $x^\star$ 的距离，所以我们分析过的收敛结果仍然成立”，这是唯一新增的一步。一般情况下投影本身也是一个优化问题，可能有闭式解，也可能要数值求解。
+
+</Prof>
+
+### 到仿射集的投影
+
+对 $\mathcal C=\{x\mid Ax=b\}$（$A$ 行满秩，所以 $AA^T$ 可逆），投影有闭式（讲义 p.22）：
+
+$$
+P(z) = z - A^{T}(AA^{T})^{-1}(Az - b) = \big(I - A^{T}(AA^{T})^{-1}A\big)z + A^{T}(AA^{T})^{-1}b.
+$$
+
+<Steps title="推导投影公式（用第 7–9 章的 Lagrange 方法）" steps={[
+  {text:'投影问题：在 As = b 上找离 z 最近的点。', math:'\\min_s\\ \\tfrac12\\|s-z\\|_2^2\\quad\\text{s.t.}\\ As=b'},
+  {text:'Lagrangian 对 s 求梯度令为 0：', math:'s - z + A^T\\nu = 0 \\ \\Rightarrow\\ s = z - A^T\\nu'},
+  {text:'代入约束 As = b 解出 ν：', math:'Az - AA^T\\nu = b\\ \\Rightarrow\\ \\nu = (AA^T)^{-1}(Az-b)'},
+  {text:'回代得到投影。大白话：从 z 出发，沿 A 的行空间方向退回，恰好退掉“违反等式”的那部分。', math:'P(z) = z - A^T(AA^T)^{-1}(Az-b)'}
+]} />
+
+若当前点已可行（$Ax^{(k)}=b$），投影次梯度更新化简为
+
+$$
+x^{(k+1)} = x^{(k)} - \alpha_k\big(I - A^{T}(AA^{T})^{-1}A\big)g^{(k)}.
+$$
+
+（$I-A^T(AA^T)^{-1}A$ 把 $g$ 投影到 $A$ 的零空间，保证走完仍满足 $Ax=b$。）
+
+<Example title="ℓ1 最小化 + 等式约束（讲义 p.24）">
+
+minimize $\|x\|_1$ subject to $Ax=b$。subgradient 取 $g=\operatorname{sign}(x)$，更新
+
+$$
+x^{(k+1)} = x^{(k)} - \alpha_k\big(I - A^{T}(AA^{T})^{-1}A\big)\operatorname{sign}\big(x^{(k)}\big).
+$$
+
+实例：$n=1000$，$m=50$，$\alpha_k=0.1/k$。$\|x\|_1$ 在 0 处不可微，Newton 类方法用不了，但 subgradient 方法可以。
+
+</Example>
+
+<Figure src="L14/p24_f1.png" caption="讲义 p.24：ℓ1 最小化的 f_best − f* 随迭代下降，3000 步从约 3 降到约 0.05——慢但稳定。" />
+
+### 对偶问题上的投影次梯度法
+
+原问题（凸，Slater 条件成立）：minimize $f_0(x)$ s.t. $f_i(x)\le 0$。对偶问题：maximize $g(\lambda)$ s.t. $\lambda\succeq 0$。把它写成最小化 $-g(\lambda)$，可行集 $\{\lambda\succeq0\}$ 的投影就是逐分量取 $\max(\cdot,0)$，记作 $(\cdot)_+$：
+
+$$
+\lambda^{(k+1)} = \big(\lambda^{(k)} - \alpha_k h^{(k)}\big)_+,\qquad h^{(k)} \in \partial(-g)\big(\lambda^{(k)}\big).
+$$
+
+需要 Slater 条件，是为了**强对偶**：对偶最优值等于原始最优值，才能从对偶解恢复原始解。
+
+**$-g$ 的 subgradient（讲义 p.26）。** 对 $\lambda\succeq0$，令 $x^\star(\lambda)=\operatorname{argmin}_z\bigl(f_0(z)+\sum_i\lambda_if_i(z)\bigr)$。则
+
+$$
+h_i = -f_i\big(x^\star(\lambda)\big),\qquad i=1,\dots,m
+$$
+
+是 $-g$ 在 $\lambda$ 处的一个 subgradient。代入更新式，两个负号抵消：
+
+$$
+x^{(k)} = x^\star\big(\lambda^{(k)}\big),\qquad \lambda_i^{(k+1)} = \Big(\lambda_i^{(k)} + \alpha_k f_i\big(x^{(k)}\big)\Big)_+.
+$$
+
+<Steps title="验证 h 确实是 −g 的 subgradient（讲义 p.27）" steps={[
+  {text:'要证的不等式（−g 的 subgradient 定义），等价于：', math:'g(\\lambda\') \\le g(\\lambda) - h^T(\\lambda\'-\\lambda)\\quad\\text{对所有 } \\lambda\''},
+  {text:'g(λ′) 是对 x 取最小，所以把任意一个 x 代进去都给出上界；代入 x*(λ)：', math:'g(\\lambda\') = \\min_x\\Bigl(f_0(x)+\\sum_i\\lambda_i\' f_i(x)\\Bigr) \\le f_0(x^\\star(\\lambda)) + \\sum_i \\lambda_i\' f_i(x^\\star(\\lambda))'},
+  {text:'加减 Σλᵢfᵢ(x*(λ))，前一部分正好是 g(λ)：', math:'= \\underbrace{f_0(x^\\star(\\lambda)) + \\sum_i\\lambda_i f_i(x^\\star(\\lambda))}_{g(\\lambda)} + \\sum_i (\\lambda_i\'-\\lambda_i) f_i(x^\\star(\\lambda))'},
+  {text:'而 fᵢ(x*(λ)) = −hᵢ，得证。', math:'g(\\lambda\') \\le g(\\lambda) - h^T(\\lambda\'-\\lambda)'}
+]} />
+
+<Figure src="pages/L14/p28.png" caption="讲义 p.28：对偶投影次梯度法算法框。每步先在当前价格 λ⁽ᵏ⁾ 下最小化 Lagrangian 得到 x⁽ᵏ⁾，再更新 λ。" />
+
+<Intuition title="价格解释（讲义 p.29）">
+
+把 $\lambda_i$ 看作资源 $i$ 的**价格**，$f_i(x)$ 是资源使用超出额度的量。更新 $\lambda_i\leftarrow(\lambda_i+\alpha f_i(x))_+$ 就是**调价规则**：
+- 资源被**过度使用**（$f_i(x)>0$）→ 涨价；
+- 资源**用不完**（$f_i(x)<0$）→ 降价；
+- 价格永远不为负（$(\cdot)_+$）。
+
+</Intuition>
+
+收敛性：原始迭代点 $x^{(k)}$ 一般**不可行**，只在极限意义下变得可行（有时可由 $x^{(k)}$ 构造一个可行的次优点 $\tilde x^{(k)}$）；对偶函数值 $g(\lambda^{(k)})$ 收敛到 $f^\star=f_0(x^\star)$。
+
+<Example title="单位方框上的严格凸二次规划（讲义 p.30–31）">
+
+$P\succ0$，minimize $\frac12x^TPx-q^Tx$ s.t. $x_i^2\le1$，$i=1,\dots,n$。
+
+- Lagrangian：$L(x,\lambda)=\frac12x^T\bigl(P+\mathbf{diag}(2\lambda)\bigr)x-q^Tx-\mathbf1^T\lambda$。
+- 固定 $\lambda$，令 $\nabla_xL=0$：$x^\star(\lambda)=\bigl(P+\mathbf{diag}(2\lambda)\bigr)^{-1}q$（$P+\mathbf{diag}(2\lambda)\succ0$，可逆）。
+- 对偶次梯度法：
+
+$$
+x^{(k)} = \big(P + \mathbf{diag}(2\lambda^{(k)})\big)^{-1}q,\qquad \lambda_i^{(k+1)} = \Big(\lambda_i^{(k)} + \alpha_k\big((x_i^{(k)})^2 - 1\big)\Big)_+.
+$$
+
+数值：$n=50$，固定步长 $\alpha=0.1$，$f^\star\approx-5.3$。
+
+</Example>
+
+<Figure src="L14/p30_f2.png" caption="讲义 p.31：对偶函数值 g(λ⁽ᵏ⁾) 从下方上升到 f* ≈ −5.3；附近可行点的目标值 f₀(x̃⁽ᵏ⁾) 从上方振荡后收敛，两条曲线在 20 步左右会合。" />
+
+### 约束优化的次梯度法
+
+问题：minimize $f_0(x)$ s.t. $f_i(x)\le0$（$f_i$ 凸，不必可微）。更新仍是 $x^{(k+1)}=x^{(k)}-\alpha_kg^{(k)}$，但 subgradient **有策略地**选（讲义 p.32）：
+
+$$
+g^{(k)} \in \begin{cases}\ \partial f_0(x^{(k)}), & \text{若所有 } f_i(x^{(k)}) \le 0 \quad(\text{objective step}),\\ \ \partial f_j(x^{(k)}), & \text{若某个 } f_j(x^{(k)}) > 0 \quad(\text{feasibility step}).\end{cases}
+$$
+
+大白话：当前点可行，就当无约束问题处理，往目标下降方向走；不可行，就沿某个被违反约束的 subgradient 往回走，把它拉回可行域。
+
+**收敛（讲义 p.33）**：假设存在最优 $x^\star$、Slater 条件成立、$\|g^{(k)}\|_2\le G$、$\|x^{(1)}-x^\star\|_2\le R$。则对 $\alpha_k>0$、$\alpha_k\to0$、$\sum\alpha_i=\infty$，有 $f_{\text{best}}^{(k)}\to f^\star$，其中 best 只在**可行**迭代点里取：
+
+$$
+f_{\text{best}}^{(k)} = \min\big\{ f_0(x^{(i)}) \ \big|\ x^{(i)} \text{ feasible},\ i = 1,\dots,k\big\}.
+$$
+
+### Polyak 步长
+
+<Def title="Polyak step size（讲义 p.34）">
+
+$$
+\alpha_k = \frac{f(x^{(k)}) - f^\star}{\|g^{(k)}\|_2^2}.
+$$
+
+</Def>
+
+大白话：离最优越远（$f-f^\star$ 越大）步子越大。缺点是要知道 $f^\star$——实际中常用一个估计值。在 **feasibility step** 中，$f$ 是被违反的约束 $f_j$，目标是 $f_j\le0$，可以直接取 $f^\star=0$：$\alpha_k=f_j(x^{(k)})/\|g^{(k)}\|_2^2$，步长自动适应违反的程度。（上面的次梯度法实验室里也可以选 Polyak 步长试试。）
+
+<Example title="不等式形式 LP（讲义 p.34）">
+
+minimize $c^Tx$ s.t. $a_i^Tx\le b_i$，$n=20$，$m=200$，$f^\star\approx-3.4$。objective step 用 $\alpha_k=1/k$，feasibility step 用 Polyak 步长。
+
+</Example>
+
+<Figure src="L14/p34_f1.png" caption="讲义 p.34：约束次梯度法在 LP 上的收敛。曲线呈台阶状（objective/feasibility 交替），约 2500 步降到 0.05 左右——依然很慢。" />
+
+<Exam>
+
+- 投影更新 $x^{(k+1)}=P(x^{(k)}-\alpha g^{(k)})$；**投影不增加到 $x^\star$ 的距离** ⇒ 收敛结论不变；仿射集投影公式。
+- ℓ1 范数的 subgradient：$\operatorname{sign}(x)$（0 处可取 $[-1,1]$）。
+- 对偶：$h_i=-f_i(x^\star(\lambda))$；更新 $\lambda_i\leftarrow(\lambda_i+\alpha f_i(x^{(k)}))_+$；“过度使用就涨价”；原始迭代点只在极限可行。
+- 约束次梯度法：可行用 $\partial f_0$，不可行用违反约束的 $\partial f_j$；$f_{\text{best}}$ 只取可行点。
+- Polyak 步长公式，feasibility step 中 $f^\star=0$。
+
+</Exam>
+
+## 本章小结
+
+<Summary>
+
+- **subgradient**：$f(y)\ge f(x)+g^T(y-x)$，几何上是支撑超平面的斜率；可微凸函数时唯一且等于 $\nabla f(x)$。
+- **subdifferential** $\partial f(x)$：闭凸集；凸 $f$ 在内部非空；可微 $\iff$ 单点集。$|x|$ 在 0 处为 $[-1,1]$；$\max\{f_1,f_2\}$ 在交点处为线段。
+- **最优性**：$0\in\partial f(x^\star)$；约束情形为广义 KKT（$0\in\partial f_0+\sum\lambda_i\partial f_i$）。
+- **subgradient method**：$x^{(k+1)}=x^{(k)}-\alpha_kg^{(k)}$；**不是下降法**，记录 $f_{\text{best}}$；步长事先确定。
+- **收敛**：主要界 $\frac{R^2+G^2\sum\alpha_i^2}{2\sum\alpha_i}$；常数步长 → $G^2\alpha/2$；常数步长度 → $G\gamma/2$；平方可和/不可和递减 → $f^\star$。很慢（上千步）。
+- **约束**：投影次梯度（投影不增距离）；对偶投影次梯度（价格调整）；约束次梯度法（objective/feasibility step）；Polyak 步长。
+
+</Summary>
+
+<Quiz q="关于 subgradient method，下列说法错误的是？" options={['每步的 f(x⁽ᵏ⁾) 不一定下降', '步长通过回溯线搜索确定', '需要记录 f_best', '每步只需一个 subgradient，内存需求小']} answer={1} explain="步长是事先确定的规则，不用线搜索——因为方法不是下降法，线搜索没有意义。" />
+
+<Quiz q="在对偶投影次梯度法中，若 f₂(x⁽ᵏ⁾) = 0.4 > 0，α = 0.5，λ₂⁽ᵏ⁾ = 1，则 λ₂⁽ᵏ⁺¹⁾ = ?" options={['0.8', '1.2', '1.4', '0']} answer={1} explain="λ₂ ← (1 + 0.5 × 0.4)₊ = 1.2。资源 2 被过度使用，价格上涨。" />
+
+<Quiz q="为什么投影次梯度法的收敛结论与无约束情形相同？" options={['因为投影后 f 一定下降', '因为投影不会增大到 x* 的距离，而证明只依赖这个距离', '因为可行集是有界的', '因为步长足够小']} answer={1} explain="收敛证明追踪的是 ‖x⁽ᵏ⁾ − x*‖²；对 x* ∈ C，‖P(z) − x*‖ ≤ ‖z − x*‖，所以多一步投影不会破坏证明。" />

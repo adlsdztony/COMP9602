@@ -1,0 +1,806 @@
+import { Ch06ILP, Ch06VertexCover, Ch06QP, Ch06SOC, Ch06Robust, Ch06GP, Ch06Pareto, Ch06Hierarchy } from '../widgets/ch06.jsx'
+
+前两章建立了“凸问题”的框架，并详细看了最简单的一类——LP。这一章是一次“动物园参观”：把常见的问题家族逐个认识一遍。每一类我们都关心三件事：**长什么样（标准形式）**、**为什么是（或不是）凸的**、**怎样把实际问题化成这种形式**。
+
+第一站是整数规划（ILP）：它**不是**凸问题，但我们可以用 LP 松弛来近似它，某些特殊结构（全单模矩阵）下甚至能精确求解。之后依次是 QP、QCQP、SOCP（含鲁棒 LP）、GP、SDP，以及目标是向量的多目标优化。章末用一张“家族层级图”把它们的包含关系串起来。
+
+**本章路线**
+
+- 整数线性规划：建模、复杂度、LP 松弛、integrality gap、近似比、顶点覆盖 2-近似、全单模（TU）
+- 二次规划 QP、最小二乘、随机代价的 LP、QCQP
+- 二阶锥规划 SOCP，鲁棒 LP（确定性椭球 / 随机高斯）
+- 几何规划 GP：单项式、正项式、log 变换
+- 半定规划 SDP 与 LMI：最小化最大特征值
+- 向量优化：K-凸、Pareto 最优、标量化、对偶锥、投资组合
+- 问题家族层级图
+
+## 整数线性规划 ILP
+
+### 定义与几何
+
+<Def title="整数（线性）规划 integer linear program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x+d\\
+\text{subject to}\quad & Gx\preceq h\\
+& Ax=b\\
+& x\in\mathbb{Z}^n
+\end{aligned}
+$$
+
+</Def>
+
+就是 LP 再加一句“所有变量必须取整数”（$\mathbb{Z}^n$ 表示每个分量都是整数的向量）。很多应用里变量是二值的，$x_i\in\{0,1\}$，表示“选 / 不选”。
+
+几何上，可行集是多面体里的**格点**（整数点）——一堆离散的点，显然不是凸集，所以 **ILP 不是凸问题**。
+
+<Figure src="pages/L05/p08.png" caption="ILP：可行集是蓝色多面体内的格点，橙色虚线是等值线，沿 −c 推进" />
+
+ILP 的主要用途是描述<T zh="组合优化">combinatorial optimization</T> 问题。可行集虽然有限，但点数可能随问题规模**指数增长**，穷举不现实。
+
+### 用 ILP 给组合问题建模
+
+<Prof>
+
+教授说过去考试里很多同学**不会把组合问题写成 ILP**。他的方法：(1) 先决定变量代表什么（通常每个顶点一个 $x_v$ 或每条边一个 $x_e$，取 0/1）；(2) 写目标（看关键词 smallest / largest 决定 min 还是 max）；(3) 把题目里每句话**逐字翻译**成约束，再化成线性不等式；(4) 变量和约束个数要是多项式的。**不要用变量的乘积或除法**（非线性，会导致非凸）。(09-22 课 01:12–01:18)
+
+</Prof>
+
+<Example title="最短路 shortest path">
+
+有向图 $G=(V,E)$，源 $s$、汇 $t$，边 $(i,j)$ 的代价 $c_{ij}$。$x_{ij}=1$ 表示边在路径上。
+
+$$
+\begin{aligned}
+\min\quad & \sum_{(i,j)\in E} c_{ij}x_{ij}\\
+\text{s.t.}\quad & \sum_{j:(i,j)\in E}x_{ij}-\sum_{j:(j,i)\in E}x_{ji}=
+\begin{cases}1, & i=s,\\ 0, & i\in V\setminus\{s,t\},\\ -1, & i=t,\end{cases}\\
+& x_{ij}\in\{0,1\},\ \forall (i,j)\in E .
+\end{aligned}
+$$
+
+约束是流量守恒：源点净流出 1，汇点净流入 1，中间点流入 = 流出。
+
+</Example>
+
+<Example title="最小顶点覆盖 minimum vertex cover">
+
+无向图 $G=(V,E)$，找最小的顶点集 $S$，使每条边至少有一个端点在 $S$ 里。$x_i=1$ 表示顶点 $i$ 被选。
+
+$$
+\min\ \sum_{i\in V}x_i\quad\text{s.t.}\quad x_i+x_j\ge 1\ \ \forall(i,j)\in E,\qquad x_i\in\{0,1\}.
+$$
+
+为什么是 $x_i+x_j\ge1$？一条边两端 $(x_i,x_j)$ 有 4 种组合，只有 $(0,0)$（两端都没选）是不允许的，而 $x_i+x_j\ge 1$ 恰好只排除 $(0,0)$。
+
+</Example>
+
+<Example title="最大独立集 maximum independent set">
+
+找最大的顶点集 $S$，使 $S$ 内部没有边。
+
+$$
+\max\ \sum_{i\in V}x_i\quad\text{s.t.}\quad x_i+x_j\le 1\ \ \forall(i,j)\in E,\qquad x_i\in\{0,1\}.
+$$
+
+一条边两端只禁止 $(1,1)$，所以 $x_i+x_j\le 1$。顶点覆盖和独立集是**互补**的：$C$ 是最小顶点覆盖 ⇔ $V\setminus C$ 是最大独立集。
+
+</Example>
+
+<Example title="最大权二分图（完美）匹配 与 b-匹配">
+
+二分图（顶点分两组，边只连接两组之间），边权 $w_{ij}$。每个顶点恰好连一条被选的边（完美匹配）：
+
+$$
+\max\ \sum_{(i,j)\in E}w_{ij}x_{ij}\quad\text{s.t.}\quad \sum_{j:(i,j)\in E}x_{ij}=1\ \ \forall i\in V,\qquad x_{ij}\in\{0,1\}.
+$$
+
+完美匹配不一定存在，存在条件由 Hall 婚姻定理（marriage theorem）给出。把“$=1$”换成“$\le b$”就是最大权 **$b$-匹配**（一般无向图，每个顶点至多连 $b$ 条被选的边）：
+
+$$
+\max\ \sum_{e\in E}w_e x_e\quad\text{s.t.}\quad \sum_{e\text{ 与 }v\text{ 相连}}x_e\le b\ \ \forall v\in V,\qquad x_e\in\{0,1\}.
+$$
+
+</Example>
+
+<Exam>
+
+复杂度分类（讲义 L5 第 14 页，很可能考）：
+
+- **NP-hard**：最小顶点覆盖、最大独立集（二者互补）。
+- **多项式时间可解**：最短路、最大权二分图匹配、$b$-匹配。
+
+“整数规划一般是 NP-hard 的”；后两类之所以容易，是因为它们有特殊结构（见下面的全单模）。
+
+</Exam>
+
+### LP 松弛与 integrality gap
+
+**松弛**（relaxation）：去掉整数约束 $x\in\mathbb{Z}^n$（0/1 变量放宽成 $0\le x_i\le1$），得到一个 LP，叫 <T zh="LP 松弛">LP relaxation</T>，其最优值记为 $\mathrm{OPT}_f(I)$（$f$ 表示 fractional，分数的）。LP 可以高效求解。
+
+问题是：LP 的最优点往往不是整数点（在顶点上，但顶点坐标可能是分数），不能直接当 ILP 的解。
+
+<Def title="integrality gap">
+
+$$
+\text{integrality gap}=\sup_{I}\ \frac{\mathrm{OPT}(I)}{\mathrm{OPT}_f(I)}
+$$
+
+$\mathrm{OPT}(I)$ 是实例 $I$ 上 ILP 的精确最优值，$\mathrm{OPT}_f(I)$ 是松弛 LP 的最优值，sup 取遍这一类问题的所有实例 $I$（所有可能的 $A,b,G,h,c$）。
+
+</Def>
+
+对最小化问题，松弛的可行集更大，所以 $\mathrm{OPT}_f(I)\le\mathrm{OPT}(I)$，比值 $\ge 1$。LP 的值是 ILP 的一个**下界**。
+
+<Ch06ILP />
+
+### 近似算法与近似比
+
+一个自然的想法：把 LP 解**取整**成一个可行的整数点，作为 ILP 的近似解。但讲义提醒：“怎么取整才能得到最优”**可能和原 ILP 一样难**（一个分数点附近可能有 $2^n$ 个整数点）。所以我们退一步：设计<T zh="近似算法">approximation algorithm</T>（多项式时间，返回可行但不一定最优的解），并**证明**它离最优有多远。
+
+<Figure src="pages/L05/p16.png" caption="把 LP 解取整成可行整数点，并用近似比衡量它与真正最优的差距" />
+
+<Def title="近似比 approximation ratio">
+
+$$
+\alpha=\sup_{I}\frac{A(I)}{\mathrm{OPT}(I)}
+$$
+
+$A(I)$ 是近似算法在实例 $I$ 上得到的目标值。对最小化问题 $\alpha\ge 1$，越接近 1 越好。
+
+</Def>
+
+<Prof>
+
+教授强调：OPT 指的是**最优目标值**，不是最优解。而且你不需要知道 OPT 的确切值——只要能把 $A(I)/\mathrm{OPT}(I)$ **从上方界住**就够了。$\alpha$ 是对所有实例的**最坏情况**保证。(09-24 课 00:06–00:21)
+
+</Prof>
+
+### 例子：顶点覆盖的 2-近似
+
+<Steps title="LP 松弛 + 取整 = 2-近似" steps={[
+  { text: '松弛：把 xᵢ ∈ {0,1} 放宽成 xᵢ ≥ 0（上界 xᵢ ≤ 1 可以省略，因为最小化会把值往下压）。解这个 LP 得 x*。', math: '\\min\\ \\sum_i x_i\\quad\\text{s.t.}\\quad x_i+x_j\\ge 1\\ \\forall (i,j)\\in E,\\quad x_i\\ge 0' },
+  { text: '已知事实（课上引用，不证）：存在最优 LP 解是“半整数”的。', math: 'x_i^\\star\\in\\{0,\\tfrac12,1\\}' },
+  { text: '取整规则：x*ᵢ ≥ ½ 就选，否则不选。它是可行的：每条边 x*ᵢ + x*ⱼ ≥ 1，所以两端至少有一个 ≥ ½，被选中。', math: '\\hat x_i=\\begin{cases}1,& x_i^\\star\\ge \\tfrac12\\\\ 0,& \\text{otherwise}\\end{cases}' },
+  { text: '每个分量都满足 x̂ᵢ ≤ 2x*ᵢ（选中的 x*ᵢ ≥ ½，所以 1 ≤ 2x*ᵢ；没选的 0 ≤ 2x*ᵢ）。求和：', math: '\\sum_i\\hat x_i\\le 2\\sum_i x_i^\\star=2\\,\\mathrm{OPT}_f(I)\\le 2\\,\\mathrm{OPT}(I)' },
+  { text: '最后一步用了 LP 是下界。所以近似比 α = 2。', math: '\\alpha=\\sup_I\\frac{A(I)}{\\mathrm{OPT}(I)}\\le 2' },
+]} />
+
+<Ch06VertexCover />
+
+<Quiz q="在三角形图上，顶点覆盖的 LP 松弛最优值是多少？" options={['1', '1.5', '2', '3']} answer={1} explain="每个顶点取 ½，三条边都满足 ½ + ½ = 1，总和 1.5；而整数最优是 2，所以这个实例上 OPT/OPT_f = 4/3。" />
+
+### 全单模矩阵 TU
+
+如果 LP 松弛的最优解**本身就是整数**，那松弛是<T zh="精确的">exact</T>，根本不需要取整。什么时候会这样？
+
+<MathNote title="行列式 determinant">
+
+方阵的行列式是一个数。$2\times2$：$\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc$。$3\times3$ 用对角线法则：三条主对角方向乘积之和减去三条副对角方向乘积之和。<T zh="子矩阵">submatrix</T> 是从矩阵中任选若干行、若干列交叉得到的矩阵。
+
+</MathNote>
+
+<Def title="全单模 totally unimodular (TU)">
+
+整数矩阵 $M$ 是全单模的，如果它的**每一个方子矩阵**的行列式都是 $-1$、$0$ 或 $1$。
+
+</Def>
+
+$M$ 本身不必是方阵。取 $1\times1$ 子矩阵可知：TU 矩阵的每个元素都只能是 $-1,0,1$。
+
+<Example title="TU 矩阵的例子">
+
+- **有向图的关联矩阵**：行是顶点、列是边；边 $(u,v)$ 那一列在 $u$ 行是 $-1$（出），在 $v$ 行是 $+1$（入）。
+- **无向二分图的关联矩阵**：边 $\{u,v\}$ 那一列在 $u$、$v$ 两行都是 $1$。（补充：非二分图不行，奇圈会给出行列式为 $\pm2$ 的子矩阵。）
+
+</Example>
+
+<Figure src="pages/L05/p19.png" caption="TU 矩阵的两个例子：有向图的关联矩阵（上）和无向二分图的关联矩阵（下）" />
+
+<Thm title="TU ⇒ 整数顶点">
+
+若 $A$ 是 TU 矩阵、$b$ 是整数向量，则多面体
+
+$$
+P=\{x\mid Ax=b,\ x\succeq 0\}\qquad\text{或}\qquad P=\{x\mid Ax\succeq b,\ x\succeq 0\}
+$$
+
+的所有顶点都是整数点。
+
+</Thm>
+
+<Figure src="L05/p20_f1.png" caption="多面体的顶点都是整数点时，LP 的最优顶点同时也是 IP 的最优解" />
+
+**推论**：标准形式或规范形式的 LP，若 $A$ 是 TU、$b$ 是整数，则存在**整数最优解**。理由：LP（有界时）最优在某个顶点取到，而所有顶点都是整数点。所以这样的 ILP 只需解它的 LP 松弛——这就是**最短路**和**二分图最大权匹配**多项式可解的原因。
+
+<Example title="最短路的 LP 松弛（讲义 L5 第 22 页）">
+
+图有 4 个顶点、5 条有向边 $(1,2),(1,3),(1,4),(2,3),(4,3)$，$s=1$、$t=3$。变量顺序 $(x_{12},x_{13},x_{14},x_{23},x_{43})$，约束写成 $Ax=b$，$x\succeq0$：
+
+$$
+A=\begin{bmatrix}-1&-1&-1&0&0\\ 1&0&0&-1&0\\ 0&1&0&1&1\\ 0&0&1&0&-1\end{bmatrix},\qquad
+b=\begin{bmatrix}-1\\0\\1\\0\end{bmatrix}.
+$$
+
+$A$ 是有向图的关联矩阵（TU），$b$ 是整数，所以 LP 松弛的最优解自动是 0/1 的。
+
+</Example>
+
+<Figure src="pages/L05/p22.png" caption="最短路的 LP 松弛：约束矩阵 A 是有向图关联矩阵，因此是 TU" />
+
+<Exam>
+
+TU 的定义（所有方子矩阵行列式 $\in\{-1,0,1\}$）；有向图关联矩阵与二分图关联矩阵是 TU；TU + 整数 $b$ ⇒ 顶点全是整数 ⇒ LP 松弛精确。最短路、二分图匹配是例子。另外要会顶点覆盖的 2-近似证明，以及 integrality gap 与近似比的定义。
+
+</Exam>
+
+<Quiz q="矩阵 [[1, 1], [−1, 1]] 是 TU 吗？" options={['是，元素都在 {−1, 0, 1} 里', '不是，整个矩阵的行列式是 2', '是，因为它是方阵', '无法判断']} answer={1} explain="1×1 子矩阵都没问题，但 2×2 的行列式 = 1·1 − 1·(−1) = 2，不在 {−1, 0, 1} 里。" />
+
+## 二次规划 QP
+
+### 定义与几何
+
+<Def title="二次规划 quadratic program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \tfrac12 x^T P x + q^T x + r\\
+\text{subject to}\quad & Gx\preceq h\\
+& Ax=b
+\end{aligned}
+\qquad P\in\mathbb{S}^n_+ .
+$$
+
+</Def>
+
+$\mathbb{S}^n_+$ 表示 $n\times n$ 对称半正定矩阵的集合。目标的 Hessian（二阶导数矩阵）就是 $P$，所以 $P\succeq0$ 正好保证目标是凸的。约束和 LP 完全一样——**在多面体上最小化一个凸二次函数**。
+
+<MathNote title="二次函数的等高线">
+
+$P\succ0$（正定）时，$\tfrac12x^TPx+q^Tx+r$ 的等高线是一族同心**椭圆**（高维是椭球），中心是无约束最小点。$P$ 的特征向量决定椭圆的轴方向，特征值越大，该方向上椭圆越“窄”。
+
+</MathNote>
+
+<Figure src="L06/p03_f2.png" caption="QP：虚线是二次目标的等高线，最优点 x* 是最小等高线与多面体的切点" />
+
+<Prof>
+
+教授的要点：QP 的最优点**不一定是顶点**，可以落在一条边的中间。这是和 LP 最大的几何区别。(09-24 课 00:53–00:55)
+
+</Prof>
+
+<Ch06QP />
+
+### 最小二乘：无约束 QP
+
+$$
+\text{minimize}\quad \|Ax-b\|_2^2
+$$
+
+<Steps title="最小二乘的闭式解" steps={[
+  { text: '展开平方范数（‖v‖² = vᵀv）：', math: '\\|Ax-b\\|_2^2=(Ax-b)^T(Ax-b)=x^TA^TAx-2(A^Tb)^Tx+b^Tb' },
+  { text: '这是 P = 2AᵀA ⪰ 0 的无约束 QP。由第 4 章的无约束最优性条件，令梯度为零：', math: '\\nabla f_0(x)=2A^TAx-2A^Tb=0' },
+  { text: '得到正规方程 AᵀAx = Aᵀb。若 A 的列线性无关，AᵀA 可逆：', math: 'x^\\star=(A^TA)^{-1}A^Tb' },
+]} />
+
+$A$ 不必是方阵；闭式解要求 $A$ 的列线性无关（教授特别提到）。这正是第 1 章线性回归例子用的公式。
+
+### 随机代价的 LP
+
+若 LP 的代价向量 $c$ 是随机的，均值 $\bar c$、协方差矩阵 $\Sigma$（$\Sigma_{ij}=\mathrm{cov}(c_i,c_j)$）。$c^Tx$ 的均值是 $\bar c^Tx$，方差是 $x^T\Sigma x$。既想期望代价小、又想风险（方差）小：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \bar c^Tx+\gamma\,x^T\Sigma x=\mathbb{E}[c^Tx]+\gamma\,\mathrm{var}(c^Tx)\\
+\text{subject to}\quad & Gx\preceq h,\quad Ax=b
+\end{aligned}
+$$
+
+$\gamma>0$ 是<T zh="风险厌恶参数">risk-aversion parameter</T>：越大越看重降低方差。协方差矩阵总是半正定的，所以这是一个凸 QP——教授原话：“随机 LP 最终就是一个二次规划”。
+
+<Reveal label="看方差公式的推导">
+
+$\mathrm{var}(c^Tx)=\mathbb{E}\big[(c^Tx-\bar c^Tx)^2\big]=\mathbb{E}\big[x^T(c-\bar c)(c-\bar c)^Tx\big]=x^T\,\mathbb{E}\big[(c-\bar c)(c-\bar c)^T\big]\,x=x^T\Sigma x$。
+
+</Reveal>
+
+### QCQP
+
+<Def title="二次约束二次规划 QCQP">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \tfrac12 x^T P_0 x+q_0^T x+r_0\\
+\text{subject to}\quad & \tfrac12 x^T P_i x+q_i^T x+r_i\le 0,\quad i=1,\dots,m\\
+& Ax=b
+\end{aligned}
+\qquad P_i\in\mathbb{S}^n_+,\ i=0,\dots,m .
+$$
+
+</Def>
+
+约束也可以是凸二次的。若 $P_1,\dots,P_m$ 正定，每个二次约束定义一个**椭球**，可行集 = 若干椭球与一个仿射集的交，是凸集。
+
+<Example title="把盒子约束写成二次约束">
+
+$x\in[0,1]^n\iff x_i(x_i-1)\le 0$，即 $x_i^2-x_i\le 0$，$i=1,\dots,n$。每个都是凸二次约束（$P_i=2e_ie_i^T\succeq0$）。对比：二值约束 $x_i\in\{0,1\}$ 等价于**等式** $x_i^2=x_i$——这是非凸的。把等式放宽成不等式，就是保持凸性的松弛。
+
+</Example>
+
+<Quiz q="QP 的目标 ½xᵀPx + qᵀx + r 是凸函数的条件是？" options={['P 的所有元素非负', 'P ⪰ 0（半正定）', 'q ⪰ 0', 'P 可逆']} answer={1} explain="目标的 Hessian 就是 P，二阶条件：凸 ⇔ Hessian 半正定。" />
+
+## 二阶锥规划 SOCP
+
+### 定义与二阶锥
+
+<Def title="二阶锥规划 second-order cone program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f^T x\\
+\text{subject to}\quad & \|A_i x+b_i\|_2\le c_i^T x+d_i,\quad i=1,\dots,m\\
+& Fx=g
+\end{aligned}
+\qquad A_i\in\mathbb{R}^{n_i\times n},\ F\in\mathbb{R}^{p\times n}.
+$$
+
+</Def>
+
+识别模式：**左边是（仿射函数的）2-范数，右边是仿射函数**。每个这样的约束叫<T zh="二阶锥约束">second-order cone (SOC) constraint</T>，因为它等价于
+
+$$
+(A_ix+b_i,\ c_i^Tx+d_i)\in\mathcal{C}=\{(y,t)\mid \|y\|_2\le t\}\subseteq\mathbb{R}^{n_i+1}.
+$$
+
+$\mathcal C$ 是欧氏范数的<T zh="范数锥">norm cone</T>，又叫<T zh="二阶锥 / 冰淇淋锥">second-order cone / ice-cream cone</T>。它是凸函数 $\|y\|_2$ 的上境图，所以是凸集；凸集在仿射映射下的原像仍是凸集，所以 SOC 约束是凸约束。
+
+<Figure src="L06/p07_f2.png" caption="三维中的二阶锥边界 {(x₁, x₂, t) : √(x₁² + x₂²) ≤ t}" />
+
+<Ch06SOC />
+
+### SOCP 比 LP、QCQP 更一般
+
+- 若 $A_i=0$（讲义写作 $n_i=0$）：左边变成常数 $\|b_i\|_2$，约束是线性的 —— 退化为 **LP**。
+- 若 $c_i=0$（且 $d_i\ge0$）：约束 $\|A_ix+b_i\|_2\le d_i$，两边平方得 $\|A_ix+b_i\|_2^2\le d_i^2$，是凸二次约束 —— 得到 **QCQP**。
+
+所以 LP ⊂ QCQP ⊂ SOCP（严格说，QCQP 能通过这样的改写变成 SOCP）。
+
+<Exam>
+
+SOC 约束的识别（“范数 ≤ 仿射”）以及两个特例（$A_i=0$ → LP，$c_i=0$ → QCQP）是教授强调的要点。
+
+</Exam>
+
+### 鲁棒 LP：确定性（椭球）不确定性
+
+LP 的参数（$c$、$a_i$、$b_i$）在实际中可能不确定。这里关注约束向量 $a_i$ 的不确定性。有两种处理方式：确定性的（对一个集合里的所有 $a_i$ 都成立）和随机的（以一定概率成立）。
+
+**确定性**：
+
+$$
+\min\ c^Tx\quad\text{s.t.}\quad a_i^Tx\le b_i\ \ \forall a_i\in\mathcal E_i,\quad i=1,\dots,m,
+$$
+
+不确定集是椭球 $\mathcal E_i=\{\bar a_i+P_iu\mid \|u\|_2\le 1\}$，中心 $\bar a_i$，形状由 $P_i\in\mathbb{R}^{n\times n}$ 决定（半轴长是 $P_i^2$ 特征值的平方根）。
+
+<Steps title="鲁棒约束 → SOC 约束" steps={[
+  { text: '把 aᵢ 用椭球的参数化代入：', math: 'a_i^Tx\\le b_i\\ \\forall a_i\\in\\mathcal E_i\\iff(\\bar a_i+P_iu)^Tx\\le b_i\\ \\ \\forall\\,\\|u\\|_2\\le 1' },
+  { text: '“对所有 u 成立” ⇔ “对最坏的 u 成立”：', math: '\\iff\\ \\sup_{\\|u\\|_2\\le1}(\\bar a_i+P_iu)^Tx\\le b_i' },
+  { text: '拆开，第一项与 u 无关：', math: '\\sup_{\\|u\\|_2\\le1}(\\bar a_i+P_iu)^Tx=\\bar a_i^Tx+\\sup_{\\|u\\|_2\\le1}u^TP_i^Tx' },
+  { text: '由 Cauchy–Schwarz，单位球上线性函数的最大值是范数，在 u = Pᵢᵀx/‖Pᵢᵀx‖₂ 处取到：', math: '\\sup_{\\|u\\|_2\\le1}u^T(P_i^Tx)=\\|P_i^Tx\\|_2' },
+  { text: '得到 SOC 约束（左边线性 + 范数 ≤ 常数）：', math: '\\bar a_i^Tx+\\|P_i^Tx\\|_2\\le b_i' },
+]} />
+
+所以鲁棒 LP 等价于 SOCP：$\min c^Tx$ s.t. $\bar a_i^Tx+\|P_i^Tx\|_2\le b_i$。范数项可以看作对不确定性的“安全余量”。这和第 5 章 Chebyshev 中心用的是同一个“取 sup 消掉 $u$”的技巧。
+
+### 鲁棒 LP：随机（高斯）不确定性
+
+**随机**：设 $a_i\sim\mathcal N(\bar a_i,\Sigma_i)$（高斯分布，均值 $\bar a_i$，协方差 $\Sigma_i$），要求每个约束以至少 $\eta$ 的概率成立（<T zh="机会约束">chance constraint</T>）：
+
+$$
+\min\ c^Tx\quad\text{s.t.}\quad \mathrm{prob}(a_i^Tx\le b_i)\ge\eta,\quad i=1,\dots,m .
+$$
+
+<MathNote title="标准正态分布的 CDF Φ">
+
+$\Phi(z)=\dfrac{1}{\sqrt{2\pi}}\displaystyle\int_{-\infty}^{z}e^{-s^2/2}\,ds$ 是标准正态 $\mathcal N(0,1)$ 的累积分布函数：随机变量 $\le z$ 的概率。它严格递增，所以有反函数 $\Phi^{-1}$。$\Phi(0)=\tfrac12$，所以 $\Phi^{-1}(\eta)\ge0\iff\eta\ge\tfrac12$。若 $u\sim\mathcal N(\bar u,\sigma^2)$，则 $(u-\bar u)/\sigma\sim\mathcal N(0,1)$（标准化）。
+
+</MathNote>
+
+<Steps title="机会约束 → SOC 约束" steps={[
+  { text: 'u = aᵢᵀx 是高斯的：均值 ū = āᵢᵀx，标准差 σ = ‖Σᵢ^{1/2}x‖₂（方差 xᵀΣᵢx）。', math: 'u=a_i^Tx\\sim\\mathcal N\\big(\\bar a_i^Tx,\\ \\|\\Sigma_i^{1/2}x\\|_2^2\\big)' },
+  { text: '标准化后用 Φ 写出概率：', math: '\\mathrm{prob}(u\\le b_i)=\\Phi\\!\\left(\\frac{b_i-\\bar u}{\\sigma}\\right)\\ge\\eta' },
+  { text: 'Φ 严格递增，两边取 Φ⁻¹：', math: '\\iff\\ \\frac{b_i-\\bar u}{\\sigma}\\ge\\Phi^{-1}(\\eta)' },
+  { text: '移项得到：', math: '\\iff\\ \\bar a_i^Tx+\\Phi^{-1}(\\eta)\\,\\|\\Sigma_i^{1/2}x\\|_2\\le b_i' },
+]} />
+
+当 $\eta\ge\tfrac12$ 时 $\Phi^{-1}(\eta)\ge0$，这是 SOC 约束，问题是 SOCP。若 $\eta\lt\tfrac12$，范数前的系数为负，约束变成非凸的。
+
+<Ch06Robust />
+
+<Exam>
+
+鲁棒 LP 的两种推导都要会：确定性用 $\sup_{\|u\|_2\le1}u^TP_i^Tx=\|P_i^Tx\|_2$；随机用标准化和 $\Phi^{-1}$。随机情形**必须** $\eta\ge\tfrac12$ 才是凸的。
+
+</Exam>
+
+<Quiz q="机会约束 prob(aᵢᵀx ≤ bᵢ) ≥ η 在什么条件下是 SOC 约束？" options={['任意 η', 'η ≥ 1/2', 'η ≤ 1/2', 'η = 1']} answer={1} explain="需要 Φ⁻¹(η) ≥ 0，即 η ≥ ½。否则范数项系数为负，可行域非凸。" />
+
+## 几何规划 GP
+
+### 单项式与正项式
+
+<Def title="单项式 monomial">
+
+$$
+f(x)=c\,x_1^{\alpha_1}x_2^{\alpha_2}\cdots x_n^{\alpha_n},\qquad \mathbf{dom}\,f=\mathbb{R}^n_{++},\qquad c>0,\ \alpha_i\in\mathbb{R}.
+$$
+
+</Def>
+
+$\mathbb{R}^n_{++}$ 表示所有分量都**严格正**。注意和多项式的区别：多项式的指数是非负整数、系数可以为负；单项式的指数可以是**任意实数**（负数、分数都行），但系数必须为正。例如 $2.3\,x_1^{-1}x_2^{0.5}$ 是单项式。
+
+<Def title="正项式 posynomial">
+
+$$
+f(x)=\sum_{k=1}^{K}c_k\,x_1^{\alpha_{1k}}x_2^{\alpha_{2k}}\cdots x_n^{\alpha_{nk}},\qquad \mathbf{dom}\,f=\mathbb{R}^n_{++},\qquad c_k>0 .
+$$
+
+</Def>
+
+正项式就是若干单项式之和（“posynomial” = positive + polynomial）。
+
+<Def title="几何规划 geometric program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le 1,\quad i=1,\dots,m\\
+& h_i(x)=1,\quad i=1,\dots,p
+\end{aligned}
+$$
+
+其中 $f_0,\dots,f_m$ 是**正项式**，$h_1,\dots,h_p$ 是**单项式**。
+
+</Def>
+
+<Warn title="GP 本身不是凸问题">
+
+讲义页边特别写着 “GP by itself is not convex”。正项式在 $x$ 下一般不是凸的，单项式等式也不是仿射的。例如单项式约束 $x_1x_2\le 1$ 的可行域在双曲线下方，是非凸的。注意约束右边是 1 而不是 0——这是故意的，因为取对数后 $\log1=0$。
+
+</Warn>
+
+### log 变换：变成凸问题
+
+换元 $y_i=\log x_i$（即 $x_i=e^{y_i}$），再对目标和每个约束取对数。
+
+- **单项式** $f(x)=c\,x_1^{a_1}\cdots x_n^{a_n}$：
+
+$$
+\log f(e^{y_1},\dots,e^{y_n})=\log c+a_1y_1+\cdots+a_ny_n=a^Ty+b,\qquad b=\log c
+$$
+
+变成**仿射**函数。（因为 $\log(e^{y})^{a}=ay$，乘积的对数是对数之和。）
+
+- **正项式** $f(x)=\sum_k c_kx^{a_k}$：
+
+$$
+\log f(e^{y})=\log\Big(\sum_{k=1}^{K}e^{a_k^Ty+b_k}\Big),\qquad b_k=\log c_k
+$$
+
+变成 <T zh="log-sum-exp 函数">log-sum-exp</T> 复合仿射映射——第 3 章证过 log-sum-exp 是凸的，复合仿射仍凸。
+
+<Def title="凸形式的 GP">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \log\Big(\sum_{k=1}^{K}\exp(a_{0k}^T y+b_{0k})\Big)\\
+\text{subject to}\quad & \log\Big(\sum_{k=1}^{K}\exp(a_{ik}^T y+b_{ik})\Big)\le 0,\quad i=1,\dots,m\\
+& Gy+d=0
+\end{aligned}
+$$
+
+</Def>
+
+目标和不等式约束是凸的（log-sum-exp），等式约束 $h_i(x)=1$ 取对数后变成仿射的 $Gy+d=0$。于是 **GP 在 $y$ 下是凸问题**（在 $x$ 下不是）。
+
+<Ch06GP />
+
+<Prof>
+
+教授的建议：研究中如果某个问题能写成 GP，就先写成 GP，再做这个对数变换，然后用凸优化求解。他也提醒“我不是说 GP 很像凸问题”——变换前它不是凸的。(09-29 课 00:06–00:18)
+
+</Prof>
+
+### 例子：最大化盒子体积
+
+变量：高 $h$、宽 $w$、深 $d$。约束：墙面总面积不超过 $a$，地板面积不超过 $b$，宽高比 $h/w$ 在 $[c,e]$ 之间，深宽比 $d/w$ 在 $[f,g]$ 之间。目标：体积最大。
+
+$$
+\begin{aligned}
+\max\quad & hwd\\
+\text{s.t.}\quad & 2(hw+hd)\le a,\quad wd\le b\\
+& c\le h/w\le e,\quad f\le d/w\le g
+\end{aligned}
+\qquad\Longrightarrow\qquad
+\begin{aligned}
+\min\quad & h^{-1}w^{-1}d^{-1}\\
+\text{s.t.}\quad & (2/a)hw+(2/a)hd\le 1,\quad (1/b)wd\le 1\\
+& c\,h^{-1}w\le 1,\quad (1/e)hw^{-1}\le 1\\
+& f\,wd^{-1}\le 1,\quad (1/g)w^{-1}d\le 1
+\end{aligned}
+$$
+
+- 左边“不是 GP”：GP 要最小化正项式，而这里是最大化单项式。
+- **取倒数而不是取负号**：$\max hwd\iff\min (hwd)^{-1}$。取负号会得到负系数，不再是正项式；取倒数只改变指数的符号。
+- 每个约束化成“正项式 $\le1$”：例如 $c\le h/w\iff c\,w/h\le1$，$h/w\le e\iff (1/e)\,h/w\le1$。第一个约束是两个单项式之和（正项式），其余都是单项式。
+
+<Exam>
+
+教授说可能出“识别 / 转换 GP”的题：会判断单项式、正项式；知道 GP 在 $x$ 下不凸、$y=\log x$ 后凸；最大化时用**倒数**技巧。
+
+</Exam>
+
+<Quiz q="下列哪个是正项式（posynomial）？" options={['x₁ − x₂', '3x₁^{0.5}x₂^{−2} + x₁x₃', '−2x₁x₂', 'x₁² + x₂² − 1']} answer={1} explain="正项式是系数为正的单项式之和，指数可以是任意实数。A、C、D 都含负系数。" />
+
+## 半定规划 SDP
+
+### 定义与 LMI
+
+<Def title="半定规划 semidefinite program">
+
+$$
+\begin{aligned}
+\text{minimize}\quad & c^T x\\
+\text{subject to}\quad & x_1F_1+x_2F_2+\cdots+x_nF_n+G\preceq 0\\
+& Ax=b
+\end{aligned}
+\qquad F_i,\ G\in\mathbb{S}^k .
+$$
+
+</Def>
+
+$\mathbb{S}^k$ 是 $k\times k$ 对称矩阵的集合。变量仍是向量 $x\in\mathbb{R}^n$；$F_i$、$G$、$A$、$b$ 都是给定的。不等式 $\preceq0$ 表示左边的矩阵半负定（$-X\succeq0$）。左边是 $x$ 的仿射（矩阵值）函数，这个约束叫<T zh="线性矩阵不等式">linear matrix inequality, LMI</T>——“线性”指的是左边关于 $x$ 线性（仿射）。
+
+SDP 只有**一个**广义不等式约束（多个 LMI 可以拼成一个分块对角的大 LMI），目标仿射，等式仿射。它包含了 LP（对角矩阵的 LMI 就是一组线性不等式）和 SOCP。
+
+### 例子：最小化最大特征值
+
+给定对称矩阵 $A_0,\dots,A_n\in\mathbb{S}^k$，令 $A(x)=A_0+x_1A_1+\cdots+x_nA_n$，求
+
+$$
+\min_x\ \lambda_{\max}\big(A(x)\big).
+$$
+
+$\lambda_{\max}$ 是最大特征值——这是一个 min-max 问题。用上境图技巧：
+
+$$
+\min_{x,t}\ t\quad\text{s.t.}\quad \lambda_{\max}\big(A(x)\big)\le t
+\qquad\Longleftrightarrow\qquad
+\min_{x,t}\ t\quad\text{s.t.}\quad A(x)\preceq tI .
+$$
+
+右边的约束 $A(x)-tI=A_0-tI+\sum_ix_iA_i\preceq0$ 是 $(x,t)$ 的 LMI，所以这是 SDP。关键是下面这个等价：
+
+<MathNote title="特征分解">
+
+对称矩阵 $A$ 可以分解成 $A=Q\Lambda Q^T$，其中 $Q$ 是正交矩阵（$Q^TQ=QQ^T=I$，列是特征向量），$\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_k)$ 是特征值组成的对角矩阵。
+
+</MathNote>
+
+<Steps title="证明 λ_max(A(x)) ≤ t ⇔ A(x) ⪯ tI" steps={[
+  { text: '特征分解 A(x) = QΛQᵀ，并用 I = QQᵀ：', math: 'A(x)-tI\\preceq0\\iff Q(\\Lambda-tI)Q^T\\preceq 0\\iff Q(tI-\\Lambda)Q^T\\succeq 0' },
+  { text: '记 H = tI − Λ（对角矩阵）。对任意 v，令 u = Qᵀv（Q 可逆，u 也是任意的）：', math: 'v^TQHQ^Tv=u^THu=\\sum_i H_{ii}u_i^2=\\sum_i (t-\\lambda_i)u_i^2' },
+  { text: '这个和对所有 u 都 ≥ 0，当且仅当每个对角元 ≥ 0（取 u = eᵢ 得必要性；每项非负则和非负得充分性）：', math: 't-\\lambda_i\\ge 0\\quad\\forall i' },
+  { text: '即 t 不小于所有特征值，也就是不小于最大特征值。每一步都是双向等价。', math: 't\\ge\\max_i\\lambda_i=\\lambda_{\\max}(A(x))' },
+]} />
+
+<Prof>
+
+教授强调 $\lambda_{\max}(A(x))\le t\iff A(x)\preceq tI$ 的推导要靠特征分解和正交矩阵 $Q$，并且每一步都是“两个方向”的等价。另外 $t=\lambda_{\max}$ 的等式可以放宽成 $\ge$，因为最优时会取等号。(09-29 课 00:31–00:43)
+
+</Prof>
+
+<Quiz q="约束 [[x₁, 1], [1, x₂]] ⪰ 0 是什么类型的约束？" options={['线性不等式', 'LMI（关于 x 仿射的矩阵不等式），所以是凸约束', '非凸约束', 'SOC 约束，但不是 LMI']} answer={1} explain="矩阵 = x₁E₁₁ + x₂E₂₂ + (常数矩阵)，关于 x 仿射，⪰ 0 就是 LMI。（它等价于 x₁ ≥ 0, x₂ ≥ 0, x₁x₂ ≥ 1。）" />
+
+## 向量优化与多目标
+
+### 一般的向量优化问题
+
+<Def title="向量优化问题 vector optimization">
+
+$$
+\begin{aligned}
+\text{minimize (w.r.t. } K)\quad & f_0(x)\\
+\text{subject to}\quad & f_i(x)\le0,\quad i=1,\dots,m\\
+& h_i(x)=0,\quad i=1,\dots,p
+\end{aligned}
+$$
+
+$f_0:\mathbb{R}^n\to\mathbb{R}^q$ 是**向量值**目标，$K\subseteq\mathbb{R}^q$ 是一个<T zh="正常锥">proper cone</T>（闭、凸、有内点、不含直线），$f_i,h_i$ 仍是标量函数。
+
+</Def>
+
+麻烦在于：向量之间没有“全序”（$(1,3)$ 和 $(2,2)$ 哪个小？），所以“最小”必须用锥诱导的广义不等式 $\preceq_K$ 来定义（$u\preceq_Kv\iff v-u\in K$）。“关于 $K$ 最小化”的意思是找可行的 $x^\star$，使 $f_0(x^\star)\preceq_Kf_0(x)$ 对所有可行 $x$ 成立。常用的 $K$：非负象限 $\mathbb{R}^q_+$、半正定锥 $\mathbb{S}^n_+$。
+
+<Def title="凸向量优化问题与 K-凸">
+
+$$
+\text{minimize (w.r.t. } K)\ f_0(x)\quad\text{s.t.}\quad f_i(x)\le0,\ Ax=b,
+$$
+
+其中 $f_0$ 是 $K$-凸的，$f_1,\dots,f_m$ 凸。$f:\mathbb{R}^n\to\mathbb{R}^m$ 是 <T zh="K-凸">K-convex</T> 的，如果 $\mathbf{dom}\,f$ 凸，且对任意 $x,y\in\mathbf{dom}\,f$、$0\le\theta\le1$：
+
+$$
+f(\theta x+(1-\theta)y)\ \preceq_K\ \theta f(x)+(1-\theta)f(y).
+$$
+
+</Def>
+
+就是 Jensen 不等式把标量的 $\le$ 换成 $\preceq_K$。$K=\mathbb{R}^m_+$ 时，$K$-凸 ⇔ 每个分量都是凸函数。
+
+### 多目标优化
+
+最常见的特例：$K=\mathbb{R}^q_+$，$f_0(x)=\big(F_1(x),\dots,F_q(x)\big)$ —— $q$ 个不同的目标，“大致说，希望所有 $F_i$ 都小”。逐分量序下 $f_0(x)\preceq f_0(y)$ 当且仅当每个 $F_i(x)\le F_i(y)$。要最大化的目标取负号即可。
+
+### 最优点 vs Pareto 最优点
+
+<Def title="可达集 achievable set">
+
+$$
+\mathcal O=\{\,f_0(x)\mid x\ \text{可行}\,\}\subseteq\mathbb{R}^q
+$$
+
+</Def>
+
+注意 $\mathcal O$ 在**目标空间**里（坐标是 $F_1,F_2,\dots$），不是在变量 $x$ 的空间——教授特别强调要分清。
+
+<Def title="最优 optimal">
+
+可行的 $x^\star$ 是最优的，如果 $f_0(x^\star)$ 是 $\mathcal O$ 的**最小元**（minimum）：对所有可行 $y$，$f_0(x^\star)\preceq_Kf_0(y)$。
+
+</Def>
+
+大白话：在**每个**目标上都同时最好。这通常不存在。
+
+<Figure src="L06/p23_f2.png" caption="最优点：f₀(x*) 在 𝒪 的左下角，比 𝒪 中所有点都好（每个分量都不大）" width="360px" />
+
+<Def title="Pareto 最优 Pareto optimal">
+
+可行的 $x$ 是 Pareto 最优的，如果 $f_0(x)$ 是 $\mathcal O$ 的**极小元**（minimal）：
+
+$$
+y\ \text{可行},\quad f_0(y)\preceq_Kf_0(x)\ \Longrightarrow\ f_0(y)=f_0(x).
+$$
+
+</Def>
+
+大白话：**没有任何可行点能在所有目标上都不比它差、且至少一个更好**。几何上：$f_0(x)$ 左下方的区域（比它好的点）里，除了它自己，没有 $\mathcal O$ 的点。
+
+<Figure src="L06/p24_f1.png" caption="Pareto 最优点 f₀(x^po)：左下方的浅色框（比它好的区域）里没有 𝒪 的其他点" width="420px" />
+
+- 最优 ⇒ Pareto 最优，反之不成立。
+- Pareto 最优值通常有很多个，构成<T zh="Pareto 前沿">Pareto front</T>（$\mathcal O$ 左下方的边界），它们之间是**权衡**（trade-off）：一个目标更好，另一个就更差。
+
+<Prof>
+
+教授用“选男/女朋友”举例：两个标准（外貌、能力）都要最大化。如果某个候选人两项都最好，那就是“最优”；被别人全面超过的候选人直接淘汰；剩下的几个各有所长，都是 Pareto 最优，选谁取决于你更看重哪个标准。他说目标空间的这张图“非常重要，一定要理解”。(09-29 课 00:56–01:13)
+
+</Prof>
+
+### 标量化与对偶锥
+
+怎样找 Pareto 最优点？把向量目标“加权求和”变成标量问题——<T zh="标量化">scalarization</T>。
+
+<MathNote title="对偶锥 dual cone">
+
+$$
+K^*=\{\,y\mid y^Tx\ge0\ \text{对所有 } x\in K\,\}
+$$
+
+即与 $K$ 中**每个**向量夹角都不超过 90° 的方向的集合。例子：$(\mathbb{R}^n_+)^*=\mathbb{R}^n_+$，$(\mathbb{S}^n_+)^*=\mathbb{S}^n_+$——两者都是<T zh="自对偶">self-dual</T> 的。$\lambda\succ_{K^*}0$ 表示 $\lambda$ 在 $K^*$ 的内部（对 $\mathbb{R}^q_+$ 就是每个分量都严格正）。
+
+</MathNote>
+
+<Thm title="标量化给出 Pareto 最优点">
+
+选 $\lambda\succ_{K^*}0$，求解标量问题
+
+$$
+\text{minimize}\ \ \lambda^Tf_0(x)\quad\text{s.t.}\quad f_i(x)\le0,\ \ h_i(x)=0 .
+$$
+
+若 $x$ 是这个标量问题的最优点，则 $x$ 是原向量问题的 Pareto 最优点。
+
+</Thm>
+
+<Reveal label="看证明（反证）">
+
+设 $x$ 不是 Pareto 最优，则存在可行 $y$ 使 $f_0(y)\preceq_Kf_0(x)$ 且 $f_0(y)\ne f_0(x)$，即 $f_0(x)-f_0(y)\in K$ 且非零。因为 $\lambda$ 在 $K^*$ 的内部，它与 $K$ 中任何非零向量的内积**严格**为正：$\lambda^T\big(f_0(x)-f_0(y)\big)>0$，即 $\lambda^Tf_0(y)<\lambda^Tf_0(x)$，与 $x$ 是标量问题的最优点矛盾。
+
+</Reveal>
+
+几何意义：$\lambda^Tf_0=$ 常数 是目标空间里法向为 $\lambda$ 的一族平行直线。最小化 $\lambda^Tf_0$ 就是用这样的直线从左下方去“托”住 $\mathcal O$，切点就是 Pareto 最优点。改变 $\lambda$，切点沿边界滑动。
+
+<Thm title="凸向量问题：几乎所有 Pareto 点都能找到">
+
+对**凸**向量优化问题，改变 $\lambda\succ_{K^*}0$，可以找到**几乎所有**的 Pareto 最优点。
+
+</Thm>
+
+<Figure src="L06/p27_f2.png" caption="标量化：λ₁、λ₂ 对应的支撑线分别切到 f₀(x₁)、f₀(x₂)；非凸部分的 f₀(x₃) 是 Pareto 最优，但没有任何支撑线能切到它" width="440px" />
+
+如果 $\mathcal O$ 不是凸的，前沿上“凹进去”的部分（如 $f_0(x_3)$）没有支撑直线，任何 $\lambda$ 都找不到它们。这就是讲义写“almost all”的原因。
+
+<Ch06Pareto />
+
+对 $q$ 个目标，$\lambda^Tf_0(x)=\sum_i\lambda_iF_i(x)$ 就是<T zh="加权和">weighted sum</T>：$\lambda_i$ 越大越看重 $F_i$。
+
+### 例子：风险–收益投资组合
+
+$x_i$ 是投资在资产 $i$ 上的资金比例，$p$ 是随机收益向量（均值 $\bar p$、协方差 $\Sigma$）。期望收益 $\bar p^Tx$ 要最大，风险（方差）$x^T\Sigma x$ 要最小：
+
+$$
+\begin{aligned}
+\text{minimize (w.r.t. } \mathbb{R}^2_+)\quad & \big(-\bar p^Tx,\ x^T\Sigma x\big)\\
+\text{subject to}\quad & \mathbf 1^Tx=1,\qquad x\succeq0 .
+\end{aligned}
+$$
+
+$\mathbf 1^Tx=1$ 表示比例之和为 1，$x\succeq0$ 表示不允许卖空。标量化时取 $\lambda=(1,\gamma)$：
+
+$$
+\text{minimize}\ \ -\bar p^Tx+\gamma\,x^T\Sigma x\quad\text{s.t.}\quad \mathbf 1^Tx=1,\ x\succeq0 .
+$$
+
+对固定的 $\gamma>0$，这是一个 **QP**。$\gamma$ 是风险厌恶系数；让 $\gamma$ 从小到大变化，就描出整条风险–收益 Pareto 前沿（这个问题是凸的，所以几乎所有 Pareto 点都能这样找到）。
+
+<Exam>
+
+- 最优 vs Pareto 最优的定义与区别（最优 ⇒ Pareto 最优，反之不然）；目标空间 $\mathcal O$ 的图。
+- 标量化：$\lambda\in\mathrm{int}\,K^*$ 给出 Pareto 最优点（反证法证明）；凸问题能找到几乎所有 Pareto 点；非凸前沿上的点可能找不到。
+- 对偶锥：$\mathbb{R}^n_+$、$\mathbb{S}^n_+$ 自对偶。投资组合标量化后对每个 $\gamma$ 是 QP。
+
+</Exam>
+
+<Quiz q="关于 Pareto 最优，下面哪个说法正确？" options={['Pareto 最优点一定是最优点', '最优点一定是 Pareto 最优点', 'Pareto 最优点一定唯一', '任何 λ ⪰ 0（允许有分量为 0）的标量化解都是 Pareto 最优']} answer={1} explain="最优点在所有目标上都最好，自然没有点能支配它。反之不成立；Pareto 点通常很多；λ 要在 K* 的内部（严格正）才有保证。" />
+
+## 问题家族层级图
+
+把这三章遇到的问题放在一起看。嵌套表示“是……的特例”：
+
+$$
+\text{LP}\ \subset\ \text{QP}\ \subset\ \text{QCQP}\ \subset\ \text{SOCP}\ \subset\ \text{SDP}\ \subset\ \text{凸优化}
+$$
+
+- LP → QP：取 $P=0$。
+- QP → QCQP：约束的 $P_i=0$。
+- QCQP → SOCP：凸二次约束可以改写成 SOC 约束（$c_i=0$ 的特例反过来看）。
+- SOCP → SDP：SOC 约束可以写成 LMI。
+- GP 本身不凸，但 log 变换后是凸问题；拟凸问题、ILP 不在凸框内；向量优化通过标量化回到标量问题。
+
+<Ch06Hierarchy />
+
+## 本章小结
+
+<Summary>
+
+- **ILP**：LP + $x\in\mathbb{Z}^n$，非凸、一般 NP-hard。建模用 0/1 变量和线性和（顶点覆盖 $x_i+x_j\ge1$，独立集 $\le1$，匹配 $=1$，$b$-匹配 $\le b$），不用乘积。顶点覆盖、独立集 NP-hard；最短路、二分图匹配、$b$-匹配多项式可解。
+- **松弛与近似**：integrality gap $\sup_I\mathrm{OPT}/\mathrm{OPT}_f$；近似比 $\sup_IA/\mathrm{OPT}$；顶点覆盖 LP 取整（$x^\star_i\ge\tfrac12$）是 2-近似。
+- **TU**：所有方子矩阵行列式 $\in\{-1,0,1\}$；TU + 整数 $b$ ⇒ 整数顶点 ⇒ LP 松弛精确。
+- **QP**：$P\succeq0$；最优可在边内部。最小二乘 $x^\star=(A^TA)^{-1}A^Tb$。随机代价 LP → QP。**QCQP**：所有 $P_i\succeq0$，可行集是椭球之交。
+- **SOCP**：$\|A_ix+b_i\|_2\le c_i^Tx+d_i$；包含 LP、QCQP。鲁棒 LP（椭球 → $\|P_i^Tx\|_2$；高斯 → $\Phi^{-1}(\eta)\|\Sigma_i^{1/2}x\|_2$，需 $\eta\ge\tfrac12$）是 SOCP。
+- **GP**：单项式 / 正项式；$y=\log x$ 后单项式 → 仿射、正项式 → log-sum-exp，变凸。最大化用倒数。
+- **SDP**：LMI $\sum x_iF_i+G\preceq0$；$\lambda_{\max}(A(x))\le t\iff A(x)\preceq tI$。
+- **向量优化**：K-凸；最优 ⇒ Pareto 最优；$\lambda\in\mathrm{int}\,K^*$ 标量化给出 Pareto 点；凸时几乎能找到全部。
+
+</Summary>
+
+<Quiz q="鲁棒约束 aᵀx ≤ b 对所有 a ∈ {ā + Pu : ‖u‖₂ ≤ 1} 成立，等价于？" options={['āᵀx ≤ b', 'āᵀx + ‖Pᵀx‖₂ ≤ b', 'āᵀx + ‖x‖₂ ≤ b', 'āᵀx − ‖Pᵀx‖₂ ≤ b']} answer={1} explain="取最坏情况：sup over ‖u‖ ≤ 1 of uᵀPᵀx = ‖Pᵀx‖₂，加在名义约束上。" />
+
+<Quiz q="对 GP 做变换 y = log x 后，单项式约束 h(x) = 1 变成了什么？" options={['log-sum-exp 不等式', '仿射等式 aᵀy + b = 0', '二次约束', '仍是单项式等式']} answer={1} explain="log(c x^a) = aᵀy + log c，等式右边 log 1 = 0，所以是仿射等式。" />
+
+<Quiz q="下面哪一类问题不一定是凸问题？" options={['SOCP', 'P ⪰ 0 的 QP', '原变量 x 下的 GP', 'SDP']} answer={2} explain="GP 在 x 下一般不凸（例如 x₁x₂ ≤ 1 的区域非凸），需要做 y = log x 变换后才是凸问题。" />
+
+<Quiz q="某 ILP 的约束矩阵是有向图的关联矩阵，右端 b 是整数向量。求解它最简单的方法是？" options={['枚举所有整数点', '解它的 LP 松弛，最优顶点自动是整数', '用二分法', '把它写成 GP']} answer={1} explain="有向图关联矩阵是 TU，配合整数 b，多面体的顶点都是整数点，LP 松弛是精确的。" />

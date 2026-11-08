@@ -1,0 +1,609 @@
+import { Ch13LogBarrier, Ch13CentralPath, Ch13BarrierMethod, Ch13PhaseI } from '../widgets/ch13.jsx'
+
+前两章我们学会了两件事：第 11 章用 Newton 法解**无约束**问题，第 12 章把 Newton 法推广到**等式约束** $Ax=b$。但现实中的凸优化问题几乎总带着**不等式约束** $f_i(x)\le 0$（预算不能超、容量不能超……）。这一章的 <T zh="内点法">interior-point method</T> 要回答：**怎样把不等式约束“藏”进目标函数，从而继续用 Newton 法？**
+
+核心想法只有一句话：用一个光滑的“墙”——<T zh="对数障碍函数">logarithmic barrier</T>——代替“越界就是无穷大”的硬约束，然后让这堵墙越来越陡、越来越贴近真实边界。迭代点始终待在可行域的**内部**（interior），这就是名字的由来。
+
+本章路线：
+
+1. 问题设定与假设（Slater 条件）
+2. 基本思想：indicator function → log barrier
+3. barrier 函数 $\phi$ 的梯度与 Hessian
+4. central path、analytic center
+5. central path 上的对偶点与 duality gap $m/t$；KKT 解释
+6. barrier method 算法、参数 $\mu$、收敛（外循环次数）
+7. Phase I：如何找到严格可行的起点
+8. primal-dual interior-point method（残差、Newton 系统、线搜索、收敛对比）
+
+## 问题设定 Setting
+
+我们要解的标准形式问题是
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x) \\
+\text{subject to}\quad & f_i(x) \le 0,\quad i=1,\dots,m \\
+& Ax = b
+\end{aligned}
+$$
+
+大白话：在满足 $m$ 个不等式约束和若干线性等式约束的前提下，让 $f_0$ 最小。
+
+<Def title="内点法的四条假设">
+
+- 每个 $f_i$（包括 $f_0$）是**凸函数**，并且**二阶连续可微**（twice continuously differentiable）——因为要用 Newton 法，必须能算 Hessian。
+- $A\in\mathbb{R}^{p\times n}$ 且 $\operatorname{rank}A=p$：等式约束之间没有多余的（线性无关）。
+- 最优值 $p^\star$ 有限且能取到（attained）。
+- **严格可行** <T zh="严格可行">strictly feasible</T>：存在 $\tilde x\in\operatorname{dom}f_0$ 使得 $f_i(\tilde x)<0$（所有 $i$）且 $A\tilde x=b$。
+
+</Def>
+
+最后一条就是第 8 章的 **Slater 条件**。它保证 <T zh="强对偶">strong duality</T> 成立，并且对偶最优解能取到——后面我们会用对偶来证明算法的精度。
+
+<MathNote title="梯度、Hessian、半正定">
+
+- 梯度 $\nabla f(x)$：由各个偏导数组成的向量，指向函数增长最快的方向。
+- Hessian $\nabla^2 f(x)$：二阶偏导数组成的 $n\times n$ 矩阵，描述“弯曲程度”。
+- $H\succeq 0$（半正定，positive semidefinite）：对任意向量 $v$ 都有 $v^THv\ge 0$。凸函数的 Hessian 处处半正定。
+- $vv^T$（列向量乘行向量）是一个矩阵，它总是半正定的，因为 $u^T(vv^T)u=(v^Tu)^2\ge 0$。
+
+</MathNote>
+
+## 基本思想：从 indicator 到 log barrier
+
+### 把不等式约束搬进目标函数
+
+第一步是一个“作弊”式的改写。定义非正实数的 <T zh="指示函数">indicator function</T>：
+
+$$
+I_-(u) = \begin{cases} 0, & u \le 0 \\ \infty, & u > 0 \end{cases}
+$$
+
+大白话：只要 $u$ 没越界（$u\le 0$）就不罚分；一旦越界，罚无穷大。于是原问题**完全等价**于
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x) + \sum_{i=1}^m I_-(f_i(x)) \\
+\text{subject to}\quad & Ax = b
+\end{aligned}
+$$
+
+现在只剩等式约束了！可惜 $I_-$ 既不连续也不可微，Newton 法用不了。
+
+### 用 log barrier 光滑地近似
+
+取一个参数 $t>0$，用 $-\frac{1}{t}\log(-u)$ 代替 $I_-(u)$：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & f_0(x) - \frac{1}{t}\sum_{i=1}^m \log(-f_i(x)) \\
+\text{subject to}\quad & Ax = b
+\end{aligned}
+$$
+
+逐项解释：
+- 当 $f_i(x)<0$（在可行域内部），$-f_i(x)>0$，$\log$ 有定义；
+- 当 $f_i(x)\to 0^-$（靠近边界），$\log(-f_i(x))\to-\infty$，于是这一项 $\to+\infty$——像一堵墙把迭代点挡在内部；
+- 系数 $\frac1t$ 越小（$t$ 越大），墙在内部越“平”、越接近 0，整体越像 $I_-$。
+
+这是一个**只有等式约束**的光滑凸问题，第 12 章的 Newton 法可以直接用。并且 $t\to\infty$ 时近似越来越好。
+
+<Figure src="L13/p04_f1.png" caption="讲义 p.4：不同 t 下的 −(1/t)log(−u)（实线）与 indicator I₋(u)（虚线）。t 越大越贴近。" />
+
+<Ch13LogBarrier />
+
+<Intuition>
+
+把 indicator 想成一堵**无限高、无限薄**的墙：墙内随便走，碰到就“死”。log barrier 是一堵**有坡度的墙**：离边界越近坡越陡。$t$ 越大，坡越集中在边界附近，内部越平坦。
+
+</Intuition>
+
+<Quiz q="为什么 log barrier 要求 fᵢ(x) < 0 而不是 ≤ 0？" options={['因为 log(0) 无定义（= −∞），在边界上 barrier 是无穷大', '因为 fᵢ 不是凸函数', '只是习惯写法，没有区别']} answer={0} explain="−log(−fᵢ) 只在 fᵢ < 0 时有限，所以 barrier 方法的所有迭代点必须严格在可行域内部，这也是需要“严格可行起点”的原因。" />
+
+## 对数障碍函数 Logarithmic barrier function
+
+<Def title="logarithmic barrier">
+
+$$
+\phi(x) = -\sum_{i=1}^m \log\bigl(-f_i(x)\bigr), \qquad \operatorname{dom}\phi = \{x \mid f_i(x) < 0,\ i=1,\dots,m\}
+$$
+
+</Def>
+
+大白话：$\phi$ 把所有不等式约束的“墙”加在一起；它的定义域恰好是**严格可行**的点。
+
+**$\phi$ 是凸函数。** 理由（第 3 章的复合规则）：$-\log(u)$ 是凸且**单调递减**的；$u=-f_i(x)$ 是凹函数（因为 $f_i$ 凸）。“凸且递减的函数”复合“凹函数”得到凸函数，所以每一项 $-\log(-f_i(x))$ 凸，求和仍凸。
+
+$\phi$ 二阶连续可微，梯度和 Hessian 为：
+
+$$
+\nabla\phi(x) = \sum_{i=1}^m \frac{1}{-f_i(x)}\,\nabla f_i(x)
+$$
+
+$$
+\nabla^2\phi(x) = \sum_{i=1}^m \frac{1}{f_i(x)^2}\,\nabla f_i(x)\nabla f_i(x)^T + \sum_{i=1}^m \frac{1}{-f_i(x)}\,\nabla^2 f_i(x)
+$$
+
+<Steps title="用链式法则推导 ∇φ 与 ∇²φ" steps={[
+  {text:'只看一项 h(x) = −log(−fᵢ(x))。外层函数 u ↦ −log(−u) 的导数是 −1/u（注意 −u 内部的负号与外层负号抵消）。', math:'\\frac{d}{du}\\bigl[-\\log(-u)\\bigr] = -\\frac{1}{-u}\\cdot(-1) = -\\frac{1}{u} = \\frac{1}{-u}'},
+  {text:'链式法则：乘上内层 fᵢ 的梯度。因为 fᵢ<0，系数 1/(−fᵢ) > 0。', math:'\\nabla h(x) = \\frac{1}{-f_i(x)}\\nabla f_i(x)'},
+  {text:'再对 ∇h 求导（乘积法则）：系数 1/(−fᵢ) 的梯度是 ∇fᵢ / fᵢ²，乘以 ∇fᵢ^T；再加上系数乘以 ∇²fᵢ。', math:'\\nabla^2 h(x) = \\frac{1}{f_i(x)^2}\\nabla f_i\\nabla f_i^T + \\frac{1}{-f_i(x)}\\nabla^2 f_i'},
+  {text:'对 i 求和即得 ∇φ 和 ∇²φ。第一项是 vv^T 形式（半正定），第二项正系数乘半正定的 ∇²fᵢ，所以 ∇²φ ⪰ 0 —— 再次确认 φ 是凸的。', math:'\\nabla^2\\phi(x)\\succeq 0'}
+]} />
+
+<Warn>
+
+注意 $\frac{1}{f_i(x)^2}$ 这一项：当 $x$ 靠近边界，$f_i(x)\to 0$，Hessian 会**爆炸式变大**。这正是下一节“为什么不能直接取很大的 $t$”的原因。
+
+</Warn>
+
+### 为什么不直接让 t → ∞？
+
+既然 $t$ 越大近似越好，为什么不一开始就取 $t=10^{8}$？讲义 p.6 的回答：
+
+- 当 $t$ 很大时，从随机起点出发用 Newton 法**很难**求解，因为最优点贴近边界，那里 Hessian 变化剧烈，Newton 的二次模型很快失效。
+- 解决办法：解**一串** $t$ 逐渐增大的问题，每次用上一个 $t$ 的解作为下一次 Newton 法的起点（<T zh="热启动">warm start</T>）。
+
+这就是 barrier method 的骨架。为方便，以后把目标乘以 $t$（不改变最优点），写成 $t f_0(x)+\phi(x)$。
+
+## 中心路径 Central path
+
+<Def title="central path">
+
+对每个 $t>0$，令 $x^\star(t)$ 为下面问题的解（假设存在且唯一）：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & t f_0(x) + \phi(x) \\
+\text{subject to}\quad & Ax = b
+\end{aligned}
+$$
+
+集合 $\{x^\star(t)\mid t>0\}$ 称为 **central path**，其中的点叫 **central points**。
+
+</Def>
+
+大白话：每个 $t$ 对应一个“折中点”——既想让 $f_0$ 小（权重 $t$），又不想靠近边界（$\phi$）。把所有 $t$ 的折中点连起来就是一条曲线。它始终位于可行集的**内部**。
+
+### 例子：LP 的 central path
+
+考虑 LP：minimize $c^Tx$ subject to $a_i^Tx\le b_i$，$i=1,\dots,6$。此时 $\phi(x)=-\sum_i\log(b_i-a_i^Tx)$。
+
+$x^\star(t)$ 的最优性条件是 $tc+\nabla\phi(x^\star(t))=0$，即 $\nabla\phi(x^\star(t))=-tc$。几何上：**超平面 $c^Tx=c^Tx^\star(t)$ 与 $\phi$ 经过 $x^\star(t)$ 的等高线相切**（因为 $\phi$ 的梯度和 $c$ 平行）。
+
+<Figure src="L13/p07_f2.png" caption="讲义 p.7：LP 的 central path。虚线是 φ 的等高线；x*(t) 从中心出发，沿曲线走向最优顶点 x*；超平面 cᵀx = cᵀx*(10) 与等高线相切。" />
+
+<Ch13CentralPath />
+
+### Analytic center
+
+当 $t\to 0$ 时，目标里 $f_0$ 的权重消失，$x^\star(t)$ 趋于只最小化 $\phi$ 的点——这就是 analytic center，也是 central path 的起点。
+
+<Def title="analytic center">
+
+一组凸不等式与线性等式 $f_i(x)\le 0$（$i=1,\dots,m$）、$Fx=g$ 的 **analytic center** 定义为
+
+$$
+\begin{aligned}
+\text{minimize}\quad & -\sum_{i=1}^m \log(-f_i(x)) \\
+\text{subject to}\quad & Fx = g
+\end{aligned}
+$$
+
+的最优点。对线性不等式 $a_i^Tx\le b_i$，$x_{\text{ac}}$ 最小化 $\phi(x)=-\sum_{i=1}^m\log(b_i-a_i^Tx)$。
+
+</Def>
+
+大白话：$-\log(b_i-a_i^Tx)$ 最小 ⇔ 松弛量 $b_i-a_i^Tx$（离第 $i$ 条边的“距离”）大。analytic center 就是让所有松弛量的**乘积**最大的点，直觉上是多边形“最胖”的中间位置。第 15 章的 ACCPM 还会再用到它。
+
+<Figure src="L13/p08_f1.png" caption="讲义 p.8：多边形的 analytic center x_ac 与 φ 的等高线。" />
+
+## Central path 上的对偶点与 duality gap
+
+这一节是内点法理论的灵魂：**每个 central point 都免费送你一个对偶可行点**，从而可以精确地知道离最优还差多少。
+
+### 从 x*(t) 构造对偶可行点
+
+$x^\star(t)$ 是 centering 问题的最优点，所以满足（第 12 章的等式约束最优性条件）：$Ax^\star=b$、$f_i(x^\star)<0$，并且存在 $w$ 使得
+
+$$
+t\nabla f_0(x^\star) + \sum_{i=1}^m \frac{1}{-f_i(x^\star)}\nabla f_i(x^\star) + A^T w = 0 .
+$$
+
+<Thm title="central path 上的对偶点（讲义 p.10）">
+
+定义
+
+$$
+\lambda_i^\star(t) = \frac{1}{-t\, f_i(x^\star(t))}, \qquad \nu^\star(t) = \frac{w}{t}
+$$
+
+则 $(\lambda^\star(t),\nu^\star(t))$ 是原问题的**对偶可行点**。
+
+</Thm>
+
+<Steps title="为什么是对偶可行的" steps={[
+  {text:'回忆原问题的 Lagrangian（第 7 章）：', math:'L(x,\\lambda,\\nu) = f_0(x) + \\sum_{i=1}^m \\lambda_i f_i(x) + \\nu^T(Ax-b)'},
+  {text:'把最优性条件整体除以 t，并代入 λᵢ*(t)、ν*(t) 的定义：', math:'\\nabla f_0(x^\\star) + \\sum_{i=1}^m \\underbrace{\\tfrac{1}{-t f_i(x^\\star)}}_{\\lambda_i^\\star(t)} \\nabla f_i(x^\\star) + A^T \\underbrace{\\tfrac{w}{t}}_{\\nu^\\star(t)} = 0'},
+  {text:'左边正是 ∇ₓL(x*(t), λ*(t), ν*(t))。L 关于 x 是凸的（λ ≥ 0 时），梯度为 0 ⇒ x*(t) 最小化 Lagrangian。', math:'x^\\star(t) = \\arg\\min_x L(x,\\lambda^\\star(t),\\nu^\\star(t))'},
+  {text:'因为 fᵢ(x*) < 0 且 t > 0，所以 λᵢ*(t) > 0。λ ⪰ 0 且 dual function 有限 ⇒ 对偶可行。', math:'\\lambda^\\star(t) \\succ 0'}
+]} />
+
+### Duality gap = m/t
+
+既然 $x^\star(t)$ 最小化 Lagrangian，dual function 的值就是 Lagrangian 在这一点的值：
+
+$$
+g(\lambda^\star(t),\nu^\star(t)) = L(x^\star(t),\lambda^\star(t),\nu^\star(t)) = f_0(x^\star(t)) - \frac{m}{t}
+$$
+
+计算一下：$\sum_i\lambda_i^\star f_i(x^\star)=\sum_i\frac{f_i}{-tf_i}=-\frac{m}{t}$，而 $Ax^\star-b=0$ 所以 $\nu$ 那一项为 0。
+
+于是由弱对偶（第 8 章），
+
+$$
+f_0(x^\star(t)) \ \ge\ p^\star \ \ge\ d^\star \ \ge\ g(\lambda^\star(t),\nu^\star(t)) = f_0(x^\star(t)) - \frac{m}{t}
+$$
+
+<Thm title="central point 的精度">
+
+$$
+f_0(x^\star(t)) - p^\star \le \frac{m}{t}
+$$
+
+即 central point $x^\star(t)$ 至多是 $m/t$-次优（suboptimal）的，$t\to\infty$ 时 $f_0(x^\star(t))\to p^\star$。
+
+</Thm>
+
+大白话：**duality gap 恰好是 $m/t$**——约束个数除以 $t$。我们不需要知道 $p^\star$ 就能确切地说“离最优不超过 $m/t$”。想要精度 $\epsilon$，只需让 $t>m/\epsilon$。这就是 barrier method 停止准则 $m/t<\epsilon$ 的来源。
+
+在上面的 central path 交互中，你可以看到 $c^Tx^\star(t)-p^\star$ 始终不超过 $m/t$（$m=6$）。
+
+<Exam>
+
+**duality gap $= m/t$** 是本章最重要的结论之一：知道对偶点 $\lambda_i^\star(t)=-1/(tf_i(x^\star(t)))$ 怎么来的、为何对偶可行、gap 怎么算出来。
+
+</Exam>
+
+### KKT 条件的解释
+
+把 $x=x^\star(t)$、$\lambda=\lambda^\star(t)$、$\nu=\nu^\star(t)$ 放在一起，它们满足 **modified KKT conditions**（讲义 p.12）：
+
+1. 原始约束：$f_i(x)\le 0$，$i=1,\dots,m$；$Ax=b$
+2. 对偶约束：$\lambda\succeq 0$
+3. **近似互补松弛** <T zh="近似互补松弛">approximate complementary slackness</T>：$-\lambda_i f_i(x) = 1/t$，$i=1,\dots,m$
+4. Lagrangian 对 $x$ 的梯度为 0：$\nabla f_0(x)+\sum_{i=1}^m\lambda_i\nabla f_i(x)+A^T\nu=0$
+
+和第 9 章标准 KKT 唯一的区别在第 3 条：标准 KKT 要求 $\lambda_if_i(x)=0$（complementary slackness），这里是 $-\lambda_if_i(x)=1/t$。$t\to\infty$ 时 $1/t\to 0$，就变回精确的 KKT。
+
+<Prof>
+
+教授（11-03 课 00:23:50）：第三组条件 $\lambda_if_i(x)=-1/t$ 在标准 KKT 里就是互补松弛，这里只是“近似为零”；$t$ 很大时它几乎为零。整个算法的目标就是在 $t\to\infty$ 的过程中逼近满足 KKT 条件。barrier method 和 primal-dual 方法都建立在这组 modified KKT 上。
+
+</Prof>
+
+<Quiz q="某问题有 m = 50 个不等式约束，central point x*(t) 在 t = 10⁴ 时最多比最优值差多少？" options={['10⁻⁴', '5×10⁻³', '50', '无法确定，需要知道 p*']} answer={1} explain="duality gap = m/t = 50/10⁴ = 5×10⁻³，与 p* 的具体值无关。" />
+
+## Barrier method 算法
+
+<Def title="Barrier method（讲义 p.9）">
+
+**given** 严格可行的 $x$，$t:=t^{(0)}>0$，$\mu>1$，容差 $\epsilon>0$。
+
+**repeat**
+1. **Centering step**：从当前 $x$ 出发，计算 $x^\star(t)$——最小化 $tf_0+\phi$，subject to $Ax=b$。
+2. **Update**：$x:=x^\star(t)$。
+3. **Stopping criterion**：若 $m/t<\epsilon$ 则退出。
+4. **Increase $t$**：$t:=\mu t$。
+
+</Def>
+
+术语：
+- 第 1 步用第 12 章等式约束 Newton 法求解，其中的 Newton 步叫 **inner iterations**；
+- 步骤 1–4 走一圈叫一次 **outer iteration**（一次 centering step）。
+
+**$\mu$ 的选择是一个取舍（trade-off）**：
+- $\mu$ 大：$t$ 增长快 ⇒ 外循环次数少；但新旧 $t$ 相差大，上一个解离新的 $x^\star(t)$ 远，每次 centering 需要的 Newton 步多。
+- $\mu$ 小：每次 centering 很快（热启动很近），但外循环次数多。
+- 讲义给出的典型取值：$\mu=10$ 到 $20$（更实际的参数选择见教材 p.570）。
+
+### 收敛分析：外循环次数
+
+<Thm title="外循环次数（讲义 p.13）">
+
+达到精度 $\epsilon$ 所需的外循环（centering）次数为
+
+$$
+\left\lceil \frac{\log\bigl(m / (\epsilon\, t^{(0)})\bigr)}{\log \mu} \right\rceil
+$$
+
+再加上计算 $x^\star(t^{(0)})$ 的初始 centering 一次。
+
+</Thm>
+
+<Steps title="推导迭代次数" steps={[
+  {text:'k 次更新后 t 变成：', math:'t = \\mu^k t^{(0)}'},
+  {text:'停止条件 m/t < ε，代入：', math:'\\frac{m}{\\mu^k t^{(0)}} < \\epsilon \\iff \\mu^k > \\frac{m}{\\epsilon t^{(0)}}'},
+  {text:'两边取对数（μ > 1，log μ > 0，不等号方向不变）：', math:'k > \\frac{\\log\\bigl(m/(\\epsilon t^{(0)})\\bigr)}{\\log\\mu}'},
+  {text:'k 取整数，所以向上取整。大白话：外循环次数只和 log(1/ε) 成正比，精度提高 10 倍只多几步。', math:'k = \\left\\lceil \\frac{\\log(m/(\\epsilon t^{(0)}))}{\\log\\mu}\\right\\rceil'}
+]} />
+
+<Example title="讲义中的几何规划（GP）">
+
+$m=100$ 个不等式、$n=50$ 个变量的 geometric program：minimize $\log\bigl(\sum_{k=1}^5\exp(a_{0k}^Tx+b_{0k})\bigr)$ s.t. $\log\bigl(\sum_{k=1}^5\exp(a_{ik}^Tx+b_{ik})\bigr)\le 0$。下图是 duality gap $m/t$（对数坐标）随**累计 Newton 迭代次数**的变化，分别取 $\mu=2,50,150$。
+
+</Example>
+
+<Figure src="L13/p13_f2.png" caption="讲义 p.13：barrier method 的收敛。阶梯形：平台 = 一次 centering 中的若干 Newton 步，台阶下降 = t 乘以 μ。μ=2 需要约 100 步 Newton，μ=50、150 只需约 40 步。" />
+
+<Ch13BarrierMethod />
+
+<Intuition>
+
+阶梯图是理解 barrier method 的关键画面：**每个台阶的宽度** = 那次 centering 用了多少 Newton 步，**台阶的高度** = $\log\mu$。$\mu$ 太小，台阶又矮又多；$\mu$ 太大，台阶变高但每级变宽。总步数在一个很宽的 $\mu$ 范围内都差不多，所以实践中 $\mu=10\sim20$ 就够好。
+
+</Intuition>
+
+<Quiz q="m = 100, t⁽⁰⁾ = 1, ε = 10⁻⁶, μ = 10。外循环次数（不含初始 centering）是多少？" options={['6', '8', '10', '100']} answer={1} explain="log(m/(ε t⁽⁰⁾))/log μ = log₁₀(10⁸)/1 = 8。" />
+
+## Phase I：寻找严格可行起点
+
+barrier method 第一行就写着 “given **strictly feasible** $x$”。如果手上没有这样的点怎么办？先解一个**可行性问题**
+
+$$
+\text{find } x \quad\text{such that}\quad f_i(x)\le 0,\ i=1,\dots,m,\qquad Ax=b. \tag{1}
+$$
+
+<Def title="Phase I">
+
+计算 barrier method 所需的严格可行起点的过程叫 **Phase I**（随后真正的优化叫 Phase II）。Phase I 方法本身也是用 barrier method 去解一个**辅助问题**——而辅助问题的严格可行点很容易手工写出来。
+
+</Def>
+
+### Basic phase I method
+
+引入一个标量 $s$，作为所有 $f_i$ 的共同上界：
+
+$$
+\begin{aligned}
+\text{minimize over } (x,s)\quad & s \\
+\text{subject to}\quad & f_i(x)\le s,\quad i=1,\dots,m \\
+& Ax=b
+\end{aligned} \tag{2}
+$$
+
+大白话：先允许约束被违反 $s$ 那么多，然后尽量把 $s$ 往下压。问题 (2) 的严格可行点很好找：任取满足 $Ax=b$ 的 $x$，再取 $s>\max_if_i(x)$ 即可。
+
+设 $\bar p^\star$ 为 (2) 的最优值，四种情形（讲义 p.15）：
+
+| 情形 | 结论 |
+|---|---|
+| 找到 $(x,s)$ 可行且 $s<0$ | $x$ 对 (1) **严格可行**，可以启动 barrier method |
+| $\bar p^\star>0$ | (1) **不可行** |
+| $\bar p^\star=0$ 且能取到 | (1) **可行但不严格可行** |
+| $\bar p^\star=0$ 但取不到 | (1) **不可行** |
+
+<Prof>
+
+教授（11-03 课 00:07:00–00:12:40）逐一讲了这四种情形：把 $s$ 看作所有 $f_i$ 的上界然后往下压。注意“$\bar p^\star=0$ 但取不到”时，$s$ 只能从上方无限逼近 0，永远找不到 $f_i(x)\le 0$ 全部成立的 $x$，所以不可行。
+
+</Prof>
+
+<Ch13PhaseI />
+
+### Sum of infeasibilities 方法
+
+给每个约束单独一个松弛变量：
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \mathbf{1}^T s \\
+\text{subject to}\quad & s \succeq 0, \qquad f_i(x) \le s_i,\quad i=1,\dots,m \\
+& Ax = b
+\end{aligned} \tag{3}
+$$
+
+- **(3) 的最优值为 0 且能取到，当且仅当 (1) 可行。**
+- 起点容易：任取满足 $Ax=b$ 的 $x$，令 $s_i=\max(f_i(x),0)+1$。
+- 用 barrier method 解 (3)。得到的 $x$ **可行但不一定严格可行**，通常稍微扰动一下即可。
+
+<Prof>
+
+教授（00:16:29）强调了它的实际用处：如果问题不可行，最优解里**非零的 $s_i$ 正好指出哪些约束被违反了**。建模实际问题时可以借此找出相互矛盾的约束，然后修改模型。
+
+</Prof>
+
+### Phase I via infeasible-start Newton method
+
+把原问题改写为（多一个标量 $s$ 和一个等式 $s=0$）：
+
+$$
+\min\ f_0(x) \quad \text{s.t.}\quad f_i(x) \le s,\ i=1,\dots,m,\quad Ax = b,\quad s = 0
+$$
+
+用第 12 章的 **infeasible-start Newton method** 解 centering 型问题
+
+$$
+\min\quad t^{(0)} f_0(x) - \sum_{i=1}^m \log\bigl(s - f_i(x)\bigr) \qquad \text{s.t.}\quad Ax=b,\ s=0
+$$
+
+- 初始化：任取 $x\in\operatorname{dom}f_0\cap\dots\cap\operatorname{dom}f_m$，任取 $s>\max_if_i(x)$。**不需要**满足 $Ax=b$ 或 $s=0$，只需要 $\log$ 有定义。
+- 算法收敛时 $s\to 0$ 且 $Ax=b$，于是 $x$ 对原问题可行。
+
+<MathNote title="回顾：infeasible-start Newton（第 12 章）">
+
+对 $\min f_0(x)$ s.t. $Ax=b$，从任意 $x$（不必满足 $Ax=b$）和对偶变量 $\nu$ 出发，解 KKT 系统
+
+$$
+\begin{bmatrix}\nabla^2 f_0(x) & A^T\\ A & 0\end{bmatrix}\begin{bmatrix}\Delta x\\ \Delta\nu\end{bmatrix} = -\begin{bmatrix}\nabla f_0(x)+A^T\nu \\ Ax-b\end{bmatrix}.
+$$
+
+右边两块分别是 dual residual 和 primal residual。它**不是**下降法（$f_0$ 可能变大），而是让残差范数 $\|r\|_2$ 下降，所以线搜索也在 $\|r\|_2$ 上做：从 $s=1$ 开始乘 $\beta$，直到 $\|r(y+s\Delta y)\|_2\le(1-\alpha s)\|r(y)\|_2$。
+
+</MathNote>
+
+<Exam>
+
+- barrier method **需要严格可行起点**，Phase I 就是用来找它的（教授多次重复）。
+- basic phase I 的**四种情形**要能背出来。
+- sum-of-infeasibilities：只保证可行、不一定严格可行；非零 $s_i$ 指出违反的约束。
+- infeasible-start Newton 版本的关键技巧：$\log(s-f_i(x))$ 且 $s$ 足够大，起点不需要满足 $Ax=b$。
+
+</Exam>
+
+<Quiz q="用 basic phase I 解得 p̄* = 0.3。结论是？" options={['原问题严格可行', '原问题可行但不严格', '原问题不可行', '需要再跑 sum of infeasibilities 才知道']} answer={2} explain="p̄* > 0 说明无论怎么选 x，总有某个 fᵢ(x) ≥ 0.3 > 0，所以不可行。" />
+
+## Primal-dual interior-point method
+
+barrier method 是“两层循环”：外层更新 $t$，内层把 centering 解到很精确。primal-dual 方法的想法是：**别那么较真**——直接对 modified KKT 条件用 Newton 法，同时更新原始变量和对偶变量，每步顺便更新 $t$。
+
+### 残差 Residual
+
+modified KKT 条件（与 barrier method 相同）：
+
+$$
+f_i(x)\le 0,\quad Ax=b,\quad \lambda\succeq 0,\quad -\lambda_i f_i(x) = \frac{1}{t},\quad \nabla f_0(x)+\sum_{i=1}^m\lambda_i\nabla f_i(x)+A^T\nu=0.
+$$
+
+把其中的**等式**部分写成残差函数（讲义 p.18）：
+
+$$
+r_t(x,\lambda,\nu)=
+\begin{bmatrix}
+\nabla f_0(x) + Df(x)^T\lambda + A^T\nu \\
+-\operatorname{diag}(\lambda)\,f(x) - \frac{1}{t}\mathbf{1} \\
+Ax - b
+\end{bmatrix} = 0
+$$
+
+符号说明：$f(x)=(f_1(x),\dots,f_m(x))\in\mathbb{R}^m$；$Df(x)\in\mathbb{R}^{m\times n}$ 是它的 Jacobian（第 $i$ 行是 $\nabla f_i(x)^T$）；$\operatorname{diag}(\lambda)$ 是以 $\lambda$ 为对角元的对角矩阵；$\mathbf 1$ 是全 1 向量。
+
+三块分别叫：
+- $r_{\text{dual}}=\nabla f_0(x)+Df(x)^T\lambda+A^T\nu$：**dual residual**（Lagrangian 的梯度）；
+- $r_{\text{cent}}=-\operatorname{diag}(\lambda)f(x)-\frac1t\mathbf1$：**centrality residual**（近似互补松弛）；
+- $r_{\text{pri}}=Ax-b$：**primal residual**（等式约束）。
+
+残差为 0 ⇔ modified KKT 的等式部分成立。注意 $f(x)\prec 0$ 与 $\lambda\succ 0$ **不在** $r_t$ 里，必须由算法（线搜索）来维持。
+
+### Newton 步
+
+记 $y=(x,\lambda,\nu)$，$\Delta y=(\Delta x,\Delta\lambda,\Delta\nu)$。Newton 法 = 把 $r_t$ 在 $y$ 处线性化并令其为 0：
+
+$$
+r_t(y+\Delta y)\approx r_t(y) + Dr_t(y)\,\Delta y = 0,
+$$
+
+展开得到（讲义 p.19）：
+
+$$
+\begin{bmatrix}
+\nabla^2 f_0(x) + \sum_{i=1}^m \lambda_i\nabla^2 f_i(x) & Df(x)^T & A^T \\
+-\operatorname{diag}(\lambda)\,Df(x) & -\operatorname{diag}(f(x)) & 0 \\
+A & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}\Delta x\\ \Delta\lambda\\ \Delta\nu\end{bmatrix}
+= -
+\begin{bmatrix} r_{\text{dual}} \\ r_{\text{cent}} \\ r_{\text{pri}} \end{bmatrix}
+$$
+
+<Steps title="逐块求导（教授 00:37–00:40 的讲法）" steps={[
+  {text:'第一行 r_dual 对 x、λ、ν 求导：对 x 得 Lagrangian 的 Hessian；对 λ 得 Df^T；对 ν 得 A^T。', math:'\\Bigl[\\nabla^2 f_0 + \\textstyle\\sum_i \\lambda_i \\nabla^2 f_i,\\ \\ Df(x)^T,\\ \\ A^T\\Bigr]'},
+  {text:'第二行 r_cent 的第 i 个分量是 −λᵢ fᵢ(x) − 1/t：对 x 求导得 −λᵢ∇fᵢ^T（合起来 −diag(λ)Df）；对 λᵢ 求导得 −fᵢ（合起来 −diag(f)）；与 ν 无关。', math:'\\Bigl[-\\operatorname{diag}(\\lambda)Df(x),\\ \\ -\\operatorname{diag}(f(x)),\\ \\ 0\\Bigr]'},
+  {text:'第三行 Ax − b：对 x 求导是 A，对 λ、ν 都是 0。', math:'\\bigl[A,\\ 0,\\ 0\\bigr]'}
+]} />
+
+这个大矩阵叫 **KKT matrix**；只有它可逆时 Newton 方向才有定义。
+
+### 算法
+
+<Def title="Primal-dual interior-point method（讲义 p.20, Algorithm 11.2）">
+
+**given** $x$ 满足 $f_1(x)<0,\dots,f_m(x)<0$，$\lambda\succ 0$，$\mu>1$，$\epsilon_{\text{feas}}>0$，$\epsilon>0$。
+
+**repeat**
+1. **Determine $t$**：令 $t:=\mu m/\hat\eta$。
+2. 计算 primal-dual 搜索方向 $\Delta y_{\text{pd}}$。
+3. **Line search and update**：确定步长 $s>0$，令 $y:=y+s\Delta y_{\text{pd}}$。
+
+**until** $\|r_{\text{pri}}\|_2\le\epsilon_{\text{feas}}$，$\|r_{\text{dual}}\|_2\le\epsilon_{\text{feas}}$，且 $\hat\eta\le\epsilon$。
+
+</Def>
+
+其中 **surrogate duality gap**（替代对偶间隙）为
+
+$$
+\hat\eta(x,\lambda) = -f(x)^T\lambda = -\sum_{i=1}^m \lambda_i f_i(x).
+$$
+
+大白话：如果当前点恰好在 central path 上，$-\lambda_if_i=1/t$，于是 $\hat\eta=m/t$——正是 duality gap。不在 central path 上时，$\hat\eta$ 是 gap 的“替身”。于是 $m/\hat\eta$ 就是“当前点对应的 $t$”，$t:=\mu m/\hat\eta$ 即“把当前 $t$ 放大 $\mu$ 倍”。
+
+要点：
+- **没有内外循环之分**，只有一个主循环，每一步都更新 $t$。
+- 迭代点不必满足 $Ax=b$（通过 $r_{\text{pri}}$ 在停止条件里保证），但必须保持 $f(x)\prec 0$、$\lambda\succ 0$。
+- 外形更像 Newton 法而不像 barrier method；“内点”特色体现在 centrality residual 里。
+
+### 回溯线搜索（三步）
+
+记 $x^+=x+s\Delta x_{\text{pd}}$，$\lambda^+=\lambda+s\Delta\lambda_{\text{pd}}$，$\nu^+=\nu+s\Delta\nu_{\text{pd}}$。
+
+<Steps title="Primal-dual 的步长规则（讲义 p.21）" steps={[
+  {text:'第 1 步：保证 λ⁺ ⪰ 0。找最大的不超过 1 的步长。只有 Δλᵢ < 0 的分量会把 λᵢ 推向 0，它在 s = −λᵢ/Δλᵢ 时恰好到 0。', math:'s^{\\max} = \\sup\\{s\\in[0,1]\\mid \\lambda + s\\Delta\\lambda \\succeq 0\\} = \\min\\Bigl\\{1,\\ \\min\\{-\\lambda_i/\\Delta\\lambda_i \\mid \\Delta\\lambda_i < 0\\}\\Bigr\\}'},
+  {text:'第 2 步：保证 f(x⁺) ≺ 0（严格可行）。从 s = 0.99 s^max 开始，不断乘 β ∈ (0,1)，直到满足。', math:'s := 0.99\\,s^{\\max},\\quad s := \\beta s \\ \\text{until}\\ f(x^+) \\prec 0'},
+  {text:'第 3 步：标准的回溯线搜索，但看的是残差范数而不是目标函数。继续乘 β 直到残差充分下降。', math:'\\|r_t(x^+,\\lambda^+,\\nu^+)\\|_2 \\le (1-\\alpha s)\\,\\|r_t(x,\\lambda,\\nu)\\|_2'}
+]} />
+
+<Prof>
+
+教授（11-03 课 00:59:02–01:00:21）总结：三步里**前两步是为了保证原始、对偶迭代点的可行性**（$\lambda\succ0$、$f(x)\prec0$），第三步是在残差上做的标准回溯线搜索。之所以看残差而不是目标，是因为和 infeasible-start Newton 一样，沿 Newton 方向**残差范数一定下降**（方向导数为 $-\|r\|_2$），目标函数却不一定。
+
+</Prof>
+
+### 收敛与比较
+
+<Figure src="L13/p22_f1.png" caption="讲义 p.22：同一个 GP 上 primal-dual 方法的收敛。左：surrogate gap η̂；右：r_feas = (‖r_pri‖² + ‖r_dual‖²)^½。大约 24 步就到 10⁻¹⁰ 以下，末段比线性收敛更快。" />
+
+- 比 barrier method **更高效**，尤其需要高精度时；
+- 收敛速度**优于线性**（末段呈超线性）。
+
+<Intuition>
+
+为什么快？barrier method 的收敛曲线是**阶梯**：每级平台都要用很多 Newton 步把 centering 解准。primal-dual 每一步 Newton 都同时更新 $t$ 和 $(x,\lambda,\nu)$，相当于“每级台阶只走一步”（教授 01:04:54–01:07:40）。
+
+</Intuition>
+
+<Prof>
+
+教授（01:07:58）的建议：对于目标和约束函数都**二阶可微**的凸问题，内点法是高效的默认选择，primal-dual 版本尤其高效。
+
+</Prof>
+
+<Exam>
+
+- 三个残差的名字与含义（primal / dual / centrality residual）。
+- $\hat\eta=-f(x)^T\lambda$，在 central path 上 $=m/t$；$t:=\mu m/\hat\eta$。
+- **步长三步法**与 $s^{\max}$ 公式——教授明确总结过，很可能考。
+- primal-dual 与 barrier 的对比：单循环 vs 双循环；迭代点不必满足 $Ax=b$；阶梯 vs 一步一级。
+
+</Exam>
+
+<Quiz q="primal-dual 方法中 λ = (1, 2, 0.5)，Δλ = (−2, 1, −2)。s^max = ?" options={['0.25', '0.5', '1', '2']} answer={0} explain="只看 Δλᵢ < 0 的分量：−1/(−2) = 0.5，−0.5/(−2) = 0.25，再和 1 取最小 ⇒ 0.25。" />
+
+## 本章小结
+
+<Summary>
+
+- **思路**：indicator $I_-$ 不可微 → 用 $-\frac1t\log(-u)$ 近似 → 得到等式约束的光滑问题，用 Newton 法求解。
+- **barrier** $\phi(x)=-\sum\log(-f_i(x))$，凸；$\nabla\phi=\sum\frac{1}{-f_i}\nabla f_i$，$\nabla^2\phi=\sum\frac{1}{f_i^2}\nabla f_i\nabla f_i^T+\sum\frac{1}{-f_i}\nabla^2f_i$。
+- **central path** $x^\star(t)=\arg\min\, tf_0+\phi$ s.t. $Ax=b$，从 analytic center 走向最优点。
+- **对偶点** $\lambda_i^\star=-1/(tf_i(x^\star))$，$\nu^\star=w/t$；**duality gap $=m/t$**；modified KKT 的近似互补松弛 $-\lambda_if_i=1/t$。
+- **barrier method**：centering → $t:=\mu t$，停止 $m/t<\epsilon$；外循环 $\lceil\log(m/(\epsilon t^{(0)}))/\log\mu\rceil$ 次；$\mu$ 取舍，典型 10–20。
+- **Phase I**：basic（四种情形）、sum of infeasibilities（定位违反的约束）、infeasible-start Newton（起点无需 $Ax=b$）。
+- **primal-dual**：对残差 $r_t$ 做 Newton；$\hat\eta=-f^T\lambda$；$t=\mu m/\hat\eta$；三步线搜索；比 barrier 更快。
+
+</Summary>
+
+<Quiz q="关于 barrier method 中的 μ，下列说法正确的是？" options={['μ 越大越好，因为外循环次数越少', 'μ 越小越好，因为每次 centering 越快', 'μ 是取舍：大 μ 外循环少但每次 centering 的 Newton 步多，典型取 10–20', 'μ 必须小于 1']} answer={2} explain="外循环数 ∝ 1/log μ，但每次 centering 的起点离新目标更远。总 Newton 步数在较宽范围内对 μ 不敏感。" />
+
+<Quiz q="在 central path 上，下列哪个等式成立？" options={['λᵢ fᵢ(x) = 0', '−λᵢ fᵢ(x) = 1/t', '−λᵢ fᵢ(x) = m/t', 'λᵢ = t fᵢ(x)']} answer={1} explain="这就是近似互补松弛；对 i 求和得到 −Σλᵢfᵢ = m/t，即 duality gap。" />
+
+<Quiz q="为什么 primal-dual 内点法的线搜索在残差范数 ‖r_t‖₂ 上做，而不是在 f₀ 上做？" options={['因为 f₀ 不可微', '因为迭代点可能不满足 Ax = b，f₀ 不一定下降，而沿 Newton 方向残差范数一定下降', '因为残差更容易计算', '因为题目规定']} answer={1} explain="和 infeasible-start Newton 一样，方法不是对 f₀ 的下降法；‖r‖₂ 沿 Newton 方向的方向导数为 −‖r‖₂ < 0。" />

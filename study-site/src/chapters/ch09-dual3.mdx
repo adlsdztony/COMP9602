@@ -1,0 +1,537 @@
+import { Ch09KKTGeometry, Ch09CompSlack, Ch09DualRecover, Ch09WaterFilling } from '../widgets/ch09.jsx'
+
+前两章我们学会了：给任何优化问题写出 Lagrangian、求对偶函数 $g(\lambda,\nu)$、写出对偶问题，并知道在 Slater 条件下 <T zh="强对偶">strong duality</T>（$p^\star=d^\star$）成立。但到目前为止，对偶还只是“给原问题一个下界”的工具。**这一章回答：如果强对偶成立，原问题最优解 $x^\star$ 和对偶最优解 $(\lambda^\star,\nu^\star)$ 之间到底满足什么关系？能不能直接用这些关系把最优解“解”出来？**
+
+答案就是这门课最核心的考点——<T zh="KKT 条件（Karush-Kuhn-Tucker 条件）">KKT conditions</T>。它由四组条件组成，其中最“神奇”的一组叫 <T zh="互补松弛">complementary slackness</T>。后半学期几乎所有算法（牛顿法、内点法……）都可以看作“在数值上求解 KKT 方程组”。
+
+**本章路线**
+
+1. 热身：课堂上的三个“对偶的用法”例子（解析求解、给下界、非凸也可能强对偶）。
+2. 互补松弛：从强对偶的不等式链推出来；LP 版本的互补松弛定理及其充分性、必要性证明。
+3. KKT 条件：四个条件、几何意义、“强对偶 ⇒ KKT 必要”“凸 + KKT ⇒ 最优（充分）”“凸 + Slater ⇒ 充要”。
+4. 用 KKT 直接解题：一个两变量的例子，以及“从对偶解恢复原问题解”的套路。
+5. 经典应用：water-filling（注水）功率分配问题及其推广。
+
+## 0. 先回顾记号
+
+本章始终讨论这个标准形式的问题（不一定是凸的）：
+
+$$
+\begin{array}{ll}
+\text{minimize} & f_0(x)\\
+\text{subject to} & f_i(x)\le 0,\quad i=1,\dots,m\\
+& h_i(x)=0,\quad i=1,\dots,p
+\end{array}
+$$
+
+大白话：在满足 $m$ 个不等式约束和 $p$ 个等式约束的前提下，让目标 $f_0$ 尽量小。记最优值为 $p^\star$。
+
+- <T zh="拉格朗日函数">Lagrangian</T>：$L(x,\lambda,\nu)=f_0(x)+\sum_{i=1}^m\lambda_i f_i(x)+\sum_{i=1}^p\nu_i h_i(x)$。$\lambda_i$ 是第 $i$ 个不等式约束的乘子，$\nu_i$ 是第 $i$ 个等式约束的乘子。
+- <T zh="对偶函数">dual function</T>：$g(\lambda,\nu)=\inf_x L(x,\lambda,\nu)$，即“固定乘子，把 $L$ 对 $x$ 求最小”。
+- 对偶问题：$\max\ g(\lambda,\nu)$ s.t. $\lambda\succeq 0$（$\succeq 0$ 表示向量每个分量都 $\ge 0$）。最优值记为 $d^\star$。
+- <T zh="弱对偶">weak duality</T>：永远有 $d^\star\le p^\star$；强对偶：$d^\star=p^\star$。
+
+<MathNote title="inf 与 min；梯度">
+
+- $\inf$（下确界 infimum）可以理解为“最小值”，只是它允许“取不到但能无限接近”，也允许是 $-\infty$。比如 $\inf_{x>0} x = 0$ 但取不到。
+- 多元函数 $f(x)$（$x\in\mathbb{R}^n$）的<T zh="梯度">gradient</T> $\nabla f(x)$ 是把每个偏导数排成的列向量 $\big(\tfrac{\partial f}{\partial x_1},\dots,\tfrac{\partial f}{\partial x_n}\big)^T$。它指向函数**上升最快**的方向，$-\nabla f$ 则指向下降最快的方向。
+- 无约束可微函数在最小点处梯度为 $0$（必要条件）；若函数是凸的，梯度为 $0$ 的点**一定**是全局最小点（充分）。这两句话是本章所有证明的基石。
+
+</MathNote>
+
+## 1. 热身：对偶的三种用法（课堂黑板例子）
+
+教授在讲互补松弛之前，先在黑板上演示了三个例子，分别说明对偶能干什么。这些例子不在讲义 PDF 里，但都是课堂重点。
+
+### 1.1 用对偶求解析解：最小范数问题
+
+设 $A\in\mathbb{R}^{p\times n}$ 行满秩（$AA^T$ 可逆），求解
+
+$$
+\min_x\ x^Tx\qquad \text{s.t. } Ax=b .
+$$
+
+大白话：在所有满足线性方程 $Ax=b$ 的解里，找长度（2-范数平方 $x^Tx=\|x\|_2^2$）最小的那个。这是一个凸问题。
+
+<Steps title="通过对偶求最小范数解" steps={[
+  {text:'第 1 步：写 Lagrangian。只有等式约束，给它配乘子向量 v（p 维）。', math:'L(x,v)=x^Tx+v^T(Ax-b)'},
+  {text:'第 2 步：求对偶函数。L 是 x 的凸二次函数且 x 无约束，所以令梯度为 0 即得最小点。', math:'\\nabla_x L=2x+A^Tv=0\\ \\Rightarrow\\ x=-\\tfrac12 A^Tv'},
+  {text:'代回 L：x^Tx = ¼ vᵀAAᵀv，vᵀAx = −½ vᵀAAᵀv。', math:'g(v)=-\\tfrac14\\,v^TAA^Tv-b^Tv'},
+  {text:'第 3 步：对偶问题是对 v 无约束地最大化一个凹二次函数——没有任何约束！', math:'\\max_v\\ -\\tfrac14\\,v^TAA^Tv-b^Tv'},
+  {text:'第 4 步：令 ∇g = 0 求对偶最优解。', math:'-\\tfrac12AA^Tv-b=0\\ \\Rightarrow\\ v^\\star=-2(AA^T)^{-1}b'},
+  {text:'第 5 步：用第 2 步的公式从 v* 恢复 x*（为什么可以这样做，见第 2 节“结论一”）。', math:'x^\\star=-\\tfrac12A^Tv^\\star=A^T(AA^T)^{-1}b'},
+  {text:'检查：Ax* = AAᵀ(AAᵀ)⁻¹b = b 可行；p* = bᵀ(AAᵀ)⁻¹b = g(v*)，强对偶成立。', math:'p^\\star=d^\\star=b^T(AA^T)^{-1}b'}
+]} />
+
+<Prof>
+
+教授特别强调了一个“好性质”：**如果原问题只有等式约束，对偶问题往往是无约束的**（“remember, that is a nice property”，10-13 课 00:11）。对偶问题中出现显式约束，通常是因为在“对 $x$ 求 inf”时需要分情况讨论（比如某种情况下 inf 是 $-\infty$），下面 1.3 节就有这种情况。
+
+</Prof>
+
+### 1.2 用对偶给一个非平凡的下界
+
+设 $W\succeq 0$（$W$ 半正定，即对所有 $x$ 有 $x^TWx\ge 0$），考虑
+
+$$
+\min_x\ x^TWx\qquad\text{s.t. } x_i\in\{-1,1\},\ i=1,\dots,n .
+$$
+
+这是一个整数规划（max-cut 类问题），非凸，很难求解。$x_i\in\{-1,1\}$ 等价于 $x_i^2=1$。因为 $W\succeq0$，平凡下界是 $p^\star\ge0$。对偶能给出更好的下界：
+
+- Lagrangian：$L(x,\nu)=x^TWx+\sum_i\nu_i(x_i^2-1)=x^T(W+\mathrm{diag}(\nu))x-\mathbf{1}^T\nu$，这里 $\mathrm{diag}(\nu)$ 是对角线为 $\nu_1,\dots,\nu_n$ 的对角矩阵。
+- 对 $x$ 求 inf：若 $W+\mathrm{diag}(\nu)\succeq0$，二次型最小为 $0$（取 $x=0$），所以 $g(\nu)=-\mathbf{1}^T\nu$；否则存在方向使二次型趋于 $-\infty$，$g(\nu)=-\infty$。
+- 对偶问题：$\max_\nu\ -\mathbf{1}^T\nu$ s.t. $W+\mathrm{diag}(\nu)\succeq 0$。
+- 任取一个可行 $\nu$ 就得到下界。例如 $\nu=-\lambda_{\min}(W)\mathbf{1}$ 可行（$\lambda_{\min}$ 是最小特征值），给出 $p^\star\ge n\,\lambda_{\min}(W)$，当 $\lambda_{\min}(W)>0$ 时严格好于 $0$。
+
+大白话：**弱对偶永远成立，所以任意一个对偶可行点都给原问题一个下界**——这对难解的非凸问题特别有用。
+
+### 1.3 非凸问题也可能强对偶：特征值问题
+
+$A$ 是对称矩阵（不一定半正定），求
+
+$$
+\min_x\ x^TAx\qquad\text{s.t. } x^Tx=1 .
+$$
+
+约束 $x^Tx=1$（单位球面）不是仿射的，所以这**不是凸问题**。
+
+<Steps title="原问题直接分析" steps={[
+  {text:'特征分解：A = QΛQᵀ，Q 的列 v₁,…,vₙ 是单位正交特征向量，Avᵢ = λᵢvᵢ，λ₁ ≤ … ≤ λₙ。', math:'A=Q\\Lambda Q^T'},
+  {text:'把 x 写成特征向量的组合 x = Σαᵢvᵢ，则目标与约束都变得很简单。', math:'x^TAx=\\sum_i\\lambda_i\\alpha_i^2,\\qquad x^Tx=\\sum_i\\alpha_i^2=1'},
+  {text:'在 Σαᵢ² = 1 的前提下最小化 Σλᵢαᵢ²：把全部“权重”放在最小特征值上。', math:'\\alpha_1=1,\\ \\alpha_{i\\ne1}=0\\ \\Rightarrow\\ x^\\star=v_1,\\ p^\\star=\\lambda_{\\min}(A)'}
+]} />
+
+<Steps title="对偶分析" steps={[
+  {text:'Lagrangian（等式约束，乘子 ν 是标量）。', math:'L(x,\\nu)=x^TAx+\\nu(x^Tx-1)=x^T(A+\\nu I)x-\\nu'},
+  {text:'分情况求 inf：A+νI ⪰ 0 时最小值在 x=0 取到，为 −ν；否则二次型无下界。', math:'g(\\nu)=\\begin{cases}-\\nu,& A+\\nu I\\succeq0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题——“分情况”产生了显式约束：', math:'\\max_\\nu\\ -\\nu\\quad\\text{s.t. } A+\\nu I\\succeq 0'},
+  {text:'A+νI = Q(Λ+νI)Qᵀ ⪰ 0 当且仅当所有 λᵢ+ν ≥ 0，即 ν ≥ −λ_min。最大化 −ν，取最小的 ν：', math:'\\nu^\\star=-\\lambda_{\\min}(A),\\qquad d^\\star=\\lambda_{\\min}(A)=p^\\star'}
+]} />
+
+<Exam>
+
+**强对偶不只属于凸问题。** 教授两次强调：“For non-convex programs, strong duality may also hold.”（10-13 课 00:19、00:39）。Slater 条件是**凸问题**强对偶的充分条件；非凸问题也可能碰巧强对偶，比如这个特征值问题。
+
+</Exam>
+
+<Quiz q="原问题只有等式约束 Ax=b、目标是严格凸二次函数时，对偶问题通常是什么样的？" options={['有很多不等式约束的问题','无约束的凹二次最大化问题','和原问题完全一样','一定无界']} answer={1} explain="对 x 求 inf 不需要分情况（二次函数总有最小值），对偶函数是 v 的凹二次函数，对偶问题无约束。" />
+
+## 2. 互补松弛 Complementary slackness
+
+### 2.1 从强对偶的不等式链推出来
+
+**假设强对偶成立**（注意：这里**没有**假设问题是凸的），$x^\star$ 是原问题最优解，$(\lambda^\star,\nu^\star)$ 是对偶最优解。
+
+<Figure src="pages/L09/p03.png" caption="讲义原页：Complementary slackness 的推导" />
+
+<Steps title="互补松弛的推导（讲义 p3）" steps={[
+  {text:'强对偶：原最优值 = 对偶最优值；再把 g 的定义展开。', math:'f_0(x^\\star)=g(\\lambda^\\star,\\nu^\\star)=\\inf_x\\Big(f_0(x)+\\sum_{i=1}^m\\lambda_i^\\star f_i(x)+\\sum_{i=1}^p\\nu_i^\\star h_i(x)\\Big)'},
+  {text:'inf 是所有 x 中的最小值，当然 ≤ 在某个特定点 x = x* 处的值。', math:'\\le f_0(x^\\star)+\\sum_{i=1}^m\\lambda_i^\\star f_i(x^\\star)+\\sum_{i=1}^p\\nu_i^\\star h_i(x^\\star)'},
+  {text:'x* 可行 ⇒ hᵢ(x*) = 0 且 fᵢ(x*) ≤ 0；对偶可行 ⇒ λᵢ* ≥ 0。所以每一项 λᵢ*fᵢ(x*) ≤ 0，等式项为 0。', math:'\\le f_0(x^\\star)'},
+  {text:'链条首尾都是 f₀(x*)，所以中间两个“≤”都必须取等号！', math:'f_0(x^\\star)=\\cdots=f_0(x^\\star)\\ \\Rightarrow\\ \\text{两个不等式都是等式}'}
+]} />
+
+两个“≤ 取等号”分别给出两个结论：
+
+<Thm title="强对偶的两个推论">
+
+1. **结论一（第一个 ≤ 取等）**：$x^\star$ 是 $L(x,\lambda^\star,\nu^\star)$ 关于 $x$ 的最小点。
+2. **结论二（第二个 ≤ 取等）**：$\sum_i\lambda_i^\star f_i(x^\star)=0$。由于每一项都 $\le 0$，它们之和为 0 只能是**每一项都为 0**：
+
+$$
+\lambda_i^\star f_i(x^\star)=0,\qquad i=1,\dots,m .
+$$
+
+这就是 **complementary slackness（互补松弛）**。等价地：
+
+$$
+\lambda_i^\star>0\ \Longrightarrow\ f_i(x^\star)=0,\qquad\qquad f_i(x^\star)<0\ \Longrightarrow\ \lambda_i^\star=0 .
+$$
+
+</Thm>
+
+大白话：
+- 约束 $f_i(x^\star)=0$ 叫<T zh="活跃的/紧的">active / tight</T>（最优点正好“贴在”这个约束的边界上）；$f_i(x^\star)<0$ 叫 <T zh="不活跃的/松弛的">inactive / slack</T>（最优点离边界还有距离）。
+- 互补松弛说：**乘子和约束的“松弛量”不能同时非零**。约束有松弛（没用满），它的乘子就必须是 0；乘子是正的，约束就必须用满。“互补”就是“你不为 0 我就为 0”。
+
+<Intuition>
+
+把 $\lambda_i$ 想成约束 $i$ 的“价格”（下一章会严格说明：$\lambda_i^\star$ 衡量“把约束放松一点，最优值能下降多少”）。如果一个约束本来就没用满（有剩余），再放松它也没有任何好处，所以它的价格是 0。只有“卡住”最优解的约束，才有正的价格。
+
+</Intuition>
+
+<Ch09CompSlack />
+
+<Prof>
+
+教授指出“结论一”是 1.1 节例子背后的原理：**一旦知道了对偶最优解 $(\lambda^\star,\nu^\star)$，就可以通过最小化 $L(x,\lambda^\star,\nu^\star)$ 来恢复原问题最优解**，不必直接求解原问题。“usually that's how we do it”（10-13 课 00:50）。
+
+</Prof>
+
+<Warn>
+
+“结论一”的精确用法：若强对偶成立、对偶最优解已知，且 $L(x,\lambda^\star,\nu^\star)$ 的最小点**唯一**（比如 $L$ 关于 $x$ 严格凸），那么这个唯一的最小点就是 $x^\star$。如果最小点不唯一，最小点集合里可能有不可行的点，需要再用原问题可行性挑选。
+
+</Warn>
+
+### 2.2 LP 的互补松弛：先推导对偶
+
+考虑 canonical form（规范形式）的线性规划，$x\in\mathbb{R}^n$，$A\in\mathbb{R}^{m\times n}$：
+
+$$
+\text{(P)}\quad \min_x\ c^Tx\quad\text{s.t. } Ax\ge b,\ x\ge 0 \qquad\qquad \text{(D)}\quad \max_y\ b^Ty\quad\text{s.t. } A^Ty\le c,\ y\ge 0 .
+$$
+
+<Steps title="推导 LP 的对偶并看清“配对关系”" steps={[
+  {text:'把约束写成 ≤ 0 的形式：b − Ax ≤ 0（乘子 y ≥ 0），−x ≤ 0（乘子 λ ≥ 0，n 维）。', math:'L(x,y,\\lambda)=c^Tx+y^T(b-Ax)-\\lambda^Tx'},
+  {text:'按 x 合并同类项。', math:'L=b^Ty+x^T(c-A^Ty-\\lambda)'},
+  {text:'L 对 x 是线性的：系数不为 0 时 inf = −∞；系数为 0 时 g = bᵀy。', math:'g(y,\\lambda)=\\begin{cases}b^Ty,& c-A^Ty-\\lambda=0\\\\-\\infty,&\\text{otherwise}\\end{cases}'},
+  {text:'对偶问题：max bᵀy s.t. λ = c − Aᵀy, y ≥ 0, λ ≥ 0。消去 λ 得 Aᵀy ≤ c。', math:'\\max_y\\ b^Ty\\quad\\text{s.t. } A^Ty\\le c,\\ y\\ge0'},
+  {text:'关键观察：x ≥ 0 的乘子 λⱼ 恰好等于对偶约束 j 的“松弛量”。', math:'\\lambda_j=c_j-(A^Ty)_j'}
+]} />
+
+这解释了为什么 LP 的互补松弛是“成对”的：每个原约束 $i$ 配一个对偶变量 $y_i$；每个原变量 $x_j$ 配一个对偶约束 $j$。教授还提到：对偶的对偶就是原问题，原问题与对偶问题的地位是对称的（10-13 课 01:00）。
+
+<Figure src="pages/L09/p04.png" caption="讲义原页：Complementary slackness for LP" />
+
+<Thm title="LP 互补松弛定理">
+
+设 $x$ 是 (P) 的可行解，$y$ 是 (D) 的可行解。则 $x,y$ 分别是 (P)、(D) 的最优解**当且仅当**
+
+$$
+y_i\big(b_i-(Ax)_i\big)=0,\quad \forall i=1,\dots,m;\qquad x_j\big(c_j-(A^Ty)_j\big)=0,\quad \forall j=1,\dots,n .
+$$
+
+等价的“二选一”形式：
+- 对每个 $i$：要么 $(Ax)_i=b_i$，要么 $(Ax)_i>b_i$ 且 $y_i=0$；
+- 对每个 $j$：要么 $(A^Ty)_j=c_j$，要么 $(A^Ty)_j<c_j$ 且 $x_j=0$。
+
+</Thm>
+
+大白话：原问题某个约束有剩余 ⇒ 对应对偶变量为 0；对偶某个约束有剩余 ⇒ 对应原变量为 0。
+
+**充分性证明**（满足互补松弛的可行对 ⇒ 都最优）：
+
+<Steps title="Proof of sufficiency（讲义 p5）" steps={[
+  {text:'把第一族条件对 i 求和。', math:'\\sum_i y_i(b_i-(Ax)_i)=0\\ \\Rightarrow\\ b^Ty=y^TAx'},
+  {text:'把第二族条件对 j 求和。', math:'\\sum_j x_j(c_j-(A^Ty)_j)=0\\ \\Rightarrow\\ c^Tx=x^TA^Ty=y^TAx'},
+  {text:'两式合并：这对可行解的原目标值 = 对偶目标值。', math:'c^Tx=b^Ty'},
+  {text:'设 x*、y* 是真正的最优解。y 对偶可行 ⇒ bᵀy ≤ bᵀy*；弱对偶 ⇒ bᵀy* ≤ cᵀx*；x* 最优 ⇒ cᵀx* ≤ cᵀx。', math:'c^Tx=b^Ty\\le b^Ty^\\star\\le c^Tx^\\star\\le c^Tx'},
+  {text:'首尾相同，全部取等：cᵀx = cᵀx*（x 最优），bᵀy = bᵀy*（y 最优）。∎', math:'c^Tx=c^Tx^\\star,\\qquad b^Ty=b^Ty^\\star'}
+]} />
+
+**必要性证明**（都最优 ⇒ 满足互补松弛）：LP 只要有最优解就一定强对偶（教授：“strong duality always holds for LP”），所以 2.1 节的一般互补松弛适用：
+- 约束 $b-Ax\le0$ 的乘子是 $y$：$y_i\big(b_i-(Ax)_i\big)=0$；
+- 约束 $-x\le 0$ 的乘子是 $\lambda$：$\lambda_jx_j=0$。代入 $\lambda_j=c_j-(A^Ty)_j$ 即得 $x_j\big(c_j-(A^Ty)_j\big)=0$。∎
+
+<Intuition>
+
+充分性告诉我们一个**验证最优性的快捷方法**：手上有一对可行解 $x,y$，只要 $c^Tx=b^Ty$（或互补松弛成立），它们就都是最优的——不必真的去求解。教授称之为“pretty close to strong duality”。
+
+</Intuition>
+
+<Quiz q="LP 中，若最优解 x* 使第 3 个原约束严格成立 (Ax*)₃ > b₃，那么关于对偶最优解 y* 能得出什么？" options={['y₃* > 0','y₃* = 0','y₃* < 0','无法判断']} answer={1} explain="互补松弛：y₃*(b₃ − (Ax*)₃) = 0，而括号里严格小于 0，所以 y₃* = 0。" />
+
+## 3. KKT 条件
+
+### 3.1 四个条件
+
+<Figure src="pages/L09/p07.png" caption="讲义原页：Karush-Kuhn-Tucker (KKT) conditions" />
+
+<Def title="KKT 条件（f_i, h_i 可微）">
+
+对问题 $\min f_0(x)$ s.t. $f_i(x)\le 0$, $h_i(x)=0$，以下四组条件称为 KKT 条件（关于 $x,\lambda,\nu$）：
+
+1. **原始可行 primal constraints**：$f_i(x)\le0,\ i=1,\dots,m$；$h_i(x)=0,\ i=1,\dots,p$。
+2. **对偶可行 dual constraints**：$\lambda\succeq 0$。
+3. **互补松弛 complementary slackness**：$\lambda_if_i(x)=0,\ i=1,\dots,m$。
+4. **梯度为零 / 驻点条件 stationarity**（Lagrangian 对 $x$ 的梯度为零）：
+
+$$
+\nabla f_0(x)+\sum_{i=1}^m\lambda_i\nabla f_i(x)+\sum_{i=1}^p\nu_i\nabla h_i(x)=0 .
+$$
+
+</Def>
+
+逐条大白话：
+1. $x$ 得满足原问题的所有约束；
+2. 不等式约束的乘子必须非负（等式约束的乘子 $\nu$ 正负都行）；
+3. 每个不等式约束：要么用满，要么乘子为 0；
+4. 在 $x$ 处，目标函数的梯度被约束梯度的线性组合“抵消”掉。这是一个含 $n$ 个方程（每个坐标一个）的方程组。
+
+<Prof>
+
+- KKT 条件对**任何**数学规划都可以写出来，不要求凸；凸性在后面的“充分性”中才登场。
+- 条件 4 用到梯度，所以**必须可微**（10-13 课 01:19）。
+- 解题时“**等式最有用**”（“the equalities are most useful”，01:42）：先用驻点方程、活跃约束、互补松弛这些等式把未知数解出来，再回头检查不等式。
+
+</Prof>
+
+<Warn>
+
+写 KKT 时，“对偶可行”只写 $\lambda\succeq 0$（以及不等式乘子的非负性）。推导对偶函数时因为分情况讨论而**冒出来的约束**（如 1.3 节的 $A+\nu I\succeq0$、LP 中的 $A^Ty\le c$）**不算** KKT 的对偶约束——教授在 L10 开头专门提醒过“remember that”（10-20 课 00:06）。
+
+</Warn>
+
+### 3.2 几何直觉：$-\nabla f_0$ 落在活跃约束梯度张成的锥里
+
+只考虑不等式约束。由互补松弛，不活跃约束的 $\lambda_i=0$，驻点条件只剩活跃约束：
+
+$$
+-\nabla f_0(x^\star)=\sum_{i:\ f_i(x^\star)=0}\lambda_i\nabla f_i(x^\star),\qquad \lambda_i\ge 0 .
+$$
+
+大白话：
+- $-\nabla f_0$ 是“目标函数最想去的方向”（下降最快）。
+- $\nabla f_i$ 指向约束 $f_i$ 增大的方向，也就是**走出可行域**的方向（边界的外法向）。
+- 上式说：最想去的方向，恰好是若干条“墙”的外法向的**非负组合**——它落在这些外法向张成的<T zh="锥">cone</T>里。换句话说：你想去的地方全被墙挡住了，沿任何可行方向走都不会让目标下降。这就是最优！
+- 如果某个 $\lambda_i$ 算出来是负的，说明 $-\nabla f_0$ 有一部分指向可行域内部（离开这面墙反而更好），那就不是最优。
+
+<Ch09KKTGeometry />
+
+### 3.3 性质一：强对偶 ⇒ KKT 是必要条件（不需要凸）
+
+<Thm title="KKT 必要性（讲义 p8）">
+
+对任何目标和约束可微的优化问题，**如果强对偶成立**，那么任意原问题最优解 $x^\star$ 与对偶最优解 $(\lambda^\star,\nu^\star)$ 一定满足 KKT 条件。（**不假设凸性**。）
+
+</Thm>
+
+<Steps title="证明" steps={[
+  {text:'条件 1、2：x* 是原问题最优解，当然原始可行；(λ*, ν*) 是对偶最优解，当然 λ* ⪰ 0。', math:'f_i(x^\\star)\\le0,\\ h_i(x^\\star)=0,\\ \\lambda^\\star\\succeq0'},
+  {text:'条件 3：就是 2.1 节推出的结论二。', math:'\\lambda_i^\\star f_i(x^\\star)=0'},
+  {text:'条件 4：2.1 节结论一说 x* 最小化 L(x, λ*, ν*)；L 对 x 可微且 x 无约束，无约束可微函数的最小点处梯度为 0。', math:'\\nabla_xL(x^\\star,\\lambda^\\star,\\nu^\\star)=\\nabla f_0(x^\\star)+\\sum_i\\lambda_i^\\star\\nabla f_i(x^\\star)+\\sum_i\\nu_i^\\star\\nabla h_i(x^\\star)=0'}
+]} />
+
+<Warn title="“必要”的意思与两个反例">
+
+- **必要 ≠ 充分**：非凸问题中，满足 KKT 的点可能不是最优的。例：$\min -x^2$ s.t. $-1\le x\le 1$（非凸目标）。$x=0,\lambda=0$ 满足全部 KKT（$-2x=0$），但 $x=0$ 是**最大**点，真正的最小点是 $x=\pm1$。所以非凸时 KKT 只能用来**筛选候选点**。
+- **没有强对偶时，KKT 可能连必要都不是**：$\min x$ s.t. $x^2\le 0$。唯一可行点 $x^\star=0$。驻点条件 $1+\lambda\cdot 2x^\star=1\ne 0$，找不到任何 $\lambda$！原因是 Slater 不成立（没有严格可行点 $x^2<0$），强对偶失效（可验证 $g(\lambda)=-\tfrac{1}{4\lambda}$，$d^\star=0$ 但取不到）。
+
+</Warn>
+
+### 3.4 性质二：凸问题 + KKT ⇒ 最优（充分条件）
+
+<Figure src="pages/L09/p09.png" caption="讲义原页：KKT conditions for convex programs" />
+
+<Thm title="KKT 充分性（讲义 p9）">
+
+对**凸问题**（$f_0,f_i$ 凸且可微，$h_i$ 仿射），任意满足 KKT 条件的 $\tilde x,\tilde\lambda,\tilde\nu$ 分别是原问题和对偶问题的最优解，并且对偶间隙为 0。
+
+</Thm>
+
+<Steps title="证明" steps={[
+  {text:'λ̃ᵢ ≥ 0、fᵢ 凸 ⇒ λ̃ᵢfᵢ 凸；hᵢ 仿射 ⇒ ν̃ᵢhᵢ 仿射（正负都无所谓）。凸函数之和是凸的。', math:'L(x,\\tilde\\lambda,\\tilde\\nu)=f_0(x)+\\sum_i\\tilde\\lambda_if_i(x)+\\sum_i\\tilde\\nu_ih_i(x)\\ \\text{关于 }x\\text{ 是凸的}'},
+  {text:'KKT 条件 4 说 L 在 x̃ 处梯度为 0；凸函数梯度为 0 的点就是全局最小点。', math:'\\tilde x=\\arg\\min_x L(x,\\tilde\\lambda,\\tilde\\nu)'},
+  {text:'所以对偶函数在 (λ̃, ν̃) 处的值就是 L(x̃, λ̃, ν̃)；再用互补松弛（λ̃ᵢfᵢ(x̃)=0）和原始可行（hᵢ(x̃)=0）。', math:'g(\\tilde\\lambda,\\tilde\\nu)=\\inf_xL(x,\\tilde\\lambda,\\tilde\\nu)=f_0(\\tilde x)+\\sum_i\\tilde\\lambda_if_i(\\tilde x)+\\sum_i\\tilde\\nu_ih_i(\\tilde x)=f_0(\\tilde x)'},
+  {text:'设 (λ*, ν*) 对偶最优、x* 原最优。λ̃ 可行 ⇒ 第一个 ≤；弱对偶 ⇒ 第二个 ≤；x̃ 可行 ⇒ 第三个 ≤。', math:'g(\\tilde\\lambda,\\tilde\\nu)\\le g(\\lambda^\\star,\\nu^\\star)\\le f_0(x^\\star)\\le f_0(\\tilde x)'},
+  {text:'首尾相等 ⇒ 全部取等：x̃ 原最优，(λ̃, ν̃) 对偶最优，且 d* = p*（强对偶）。∎', math:'g(\\tilde\\lambda,\\tilde\\nu)=d^\\star=p^\\star=f_0(\\tilde x)'}
+]} />
+
+注意这个证明的副产品：**凸问题只要找到一组 KKT 点，强对偶就自动成立**——不需要事先验证 Slater。
+
+### 3.5 合起来：凸 + Slater ⇒ KKT 充要
+
+<Thm title="KKT 充要条件（讲义 p10）">
+
+若凸问题的目标和约束可微，且满足 **Slater 条件**（存在严格可行点），则：
+
+$$
+x^\star\ \text{原最优},\ (\lambda^\star,\nu^\star)\ \text{对偶最优}\quad\Longleftrightarrow\quad (x^\star,\lambda^\star,\nu^\star)\ \text{满足 KKT}.
+$$
+
+</Thm>
+
+理由：Slater ⇒ 强对偶（第 8 章）⇒ 性质一给出“⇒”；凸 ⇒ 性质二给出“⇐”。
+
+| 情形 | KKT 必要？ | KKT 充分？ |
+|---|---|---|
+| 一般问题（可能非凸），强对偶成立 | 是 | 否（只是候选） |
+| 一般问题，强对偶不成立 | 不一定 | 否 |
+| 凸问题 | 不一定（需强对偶） | **是** |
+| 凸问题 + Slater | **是** | **是** |
+
+<Exam>
+
+- 能针对给定问题**完整写出四组 KKT 条件**（教授称 KKT “very famous and important”）。
+- 记住“必要（强对偶）/ 充分（凸）/ 充要（凸 + Slater）”这三个结论及其证明链。
+- KKT 的重要性（讲义 p11）：可以直接解 KKT 得到原问题和对偶问题的解析解；后半学期的很多算法都可理解为“求解 KKT 条件的方法”。
+
+</Exam>
+
+<Quiz q="一个凸问题满足 Slater 条件。你找到一点 x̃ 和乘子 λ̃ ⪰ 0 满足驻点条件和原始可行，但某个约束 f₂(x̃) < 0 而 λ̃₂ = 0.5。x̃ 一定是最优解吗？" options={['一定是，因为凸','不一定，因为互补松弛不满足，这组 (x̃, λ̃) 不是 KKT 点','一定不是','只有 LP 才能判断']} answer={1} explain="λ̃₂f₂(x̃) = 0.5·f₂(x̃) ≠ 0，KKT 第 3 条不满足，充分性定理不适用。（这组乘子不对，但 x̃ 也有可能碰巧最优，只是不能由此断定。）" />
+
+## 4. 用 KKT 直接解题
+
+### 4.1 一个简单例子（讲义 p12）
+
+$$
+\min_x\ x_1^2+2x_2^2\qquad\text{s.t. } x_1+x_2\ge 3 .
+$$
+
+把约束写成标准形式 $f_1(x)=3-x_1-x_2\le 0$，乘子 $\lambda\ge0$。Lagrangian：
+
+$$
+L(x,\lambda)=x_1^2+2x_2^2+\lambda(3-x_1-x_2).
+$$
+
+这是凸问题（目标凸、约束线性），且有严格可行点（如 $x=(3,3)$），所以 KKT 充要。四组条件：
+
+1. 原始可行：$x_1+x_2\ge 3$；
+2. 对偶可行：$\lambda\ge0$；
+3. 互补松弛：$\lambda(3-x_1-x_2)=0$；
+4. 驻点：$\dfrac{\partial L}{\partial x_1}=2x_1-\lambda=0$，$\dfrac{\partial L}{\partial x_2}=4x_2-\lambda=0$。
+
+<Steps title="按“先等式、后不等式”求解" steps={[
+  {text:'由驻点方程用 λ 表示 x。', math:'x_1=\\lambda/2,\\qquad x_2=\\lambda/4'},
+  {text:'情况 A：λ = 0。则 x = (0,0)，但 0+0 < 3 不可行，排除。', math:'\\lambda=0\\Rightarrow x=(0,0)\\ \\text{不可行}'},
+  {text:'情况 B：λ > 0。互补松弛要求约束活跃：x₁ + x₂ = 3。', math:'\\tfrac{\\lambda}{2}+\\tfrac{\\lambda}{4}=\\tfrac{3\\lambda}{4}=3\\ \\Rightarrow\\ \\lambda^\\star=4'},
+  {text:'代回得 x*，并检查所有不等式：可行 ✓，λ* ≥ 0 ✓，互补松弛 4·0 = 0 ✓。', math:'x^\\star=(2,1),\\qquad p^\\star=4+2=6'},
+  {text:'验证强对偶：对偶函数 g(λ) = min_x L，代入 x(λ)。最大值在 λ = 4，值为 6 = p*。', math:'g(\\lambda)=3\\lambda-\\tfrac38\\lambda^2,\\qquad g(4)=12-6=6'}
+]} />
+
+### 4.2 从对偶解恢复原问题解
+
+上例展示了一个通用套路（课堂反复强调）：
+
+1. 对固定的乘子，求 $x(\lambda,\nu)=\arg\min_x L(x,\lambda,\nu)$（通常令 $\nabla_xL=0$）；
+2. 代入得到对偶函数 $g(\lambda,\nu)$，求对偶最优 $(\lambda^\star,\nu^\star)$；
+3. 若强对偶成立且最小点唯一，则 $x^\star=x(\lambda^\star,\nu^\star)$。检查它是否原始可行，可行即最优。
+
+下面的交互让你直观看到：只有在 $\lambda=\lambda^\star$ 时，$x(\lambda)$ 才同时满足“可行 + 互补松弛”。
+
+<Ch09DualRecover />
+
+<Quiz q="上例中若约束改为 x₁ + x₂ ≥ −1，KKT 的解是什么？" options={['x* = (2,1), λ* = 4','x* = (0,0), λ* = 0','x* = (−2/3, −1/3), λ* = 4/3','无解']} answer={1} explain="无约束最小点 (0,0) 已满足 0 ≥ −1，约束不活跃。取 λ = 0，驻点 x = (0,0)，可行且互补松弛 0·(−1−0)=0 成立。" />
+
+## 5. 经典应用：Water-filling（注水）
+
+### 5.1 问题（讲义 p13，课本 Example 5.2）
+
+有 $k$ 个通信信道，信道 $i$ 的噪声功率为 $N_i>0$（课本记作 $\alpha_i$），总发射功率预算为 $P$。给信道 $i$ 分配功率 $p_i$，其容量（传输速率）约为 $\log(1+p_i/N_i)$（信噪比越大越好，但边际收益递减）。最大化总容量等价于：
+
+$$
+\min_p\ -\sum_{i=1}^k\log\Big(1+\frac{p_i}{N_i}\Big)\qquad\text{s.t. } \sum_{i=1}^kp_i\le P,\quad p_i\ge0,\ i=1,\dots,k .
+$$
+
+- 目标是凸的：$\log$ 是凹函数，加负号变凸；
+- 约束都是线性的，且有严格可行点（如 $p_i=P/(2k)$），**Slater 成立 ⇒ KKT 充要**（10-20 课 00:12）。
+
+### 5.2 写出 KKT（讲义 p14）
+
+给总功率约束 $\sum_ip_i-P\le 0$ 配乘子 $\lambda\ge0$，给每个 $-p_i\le0$ 配乘子 $\mu_i\ge0$：
+
+$$
+L(p,\lambda,\mu)=-\sum_{i=1}^k\log\Big(1+\frac{p_i}{N_i}\Big)+\lambda\Big(\sum_{i=1}^kp_i-P\Big)+\sum_{i=1}^k\mu_i(-p_i).
+$$
+
+<MathNote title="对数的导数">
+
+$\dfrac{d}{dp}\log\!\Big(1+\dfrac{p}{N}\Big)=\dfrac{1/N}{1+p/N}=\dfrac{1}{N+p}$。所以 $-\log(1+p/N)$ 的导数是 $-\dfrac{1}{N+p}$。（这里 $\log$ 是自然对数。）
+
+</MathNote>
+
+1. 原始可行：$\sum_ip_i\le P$，$p_i\ge0$；
+2. 对偶可行：$\lambda\ge0$，$\mu_i\ge0$；
+3. 互补松弛：$\lambda\big(\sum_ip_i-P\big)=0$，$\mu_ip_i=0$；
+4. 驻点：
+
+$$
+\frac{\partial L}{\partial p_i}=-\frac{1}{N_i+p_i}+\lambda-\mu_i=0\quad\Longleftrightarrow\quad \frac{1}{\lambda-\mu_i}=p_i+N_i .
+$$
+
+### 5.3 分情况求解（讲义 p15）
+
+<Figure src="pages/L09/p15.png" caption="讲义原页：根据 KKT 分情况得到 water-filling 解" />
+
+<Steps title="Water-filling 的完整推导" steps={[
+  {text:'第 0 步：总功率约束一定活跃。若 λ = 0，驻点给出 μᵢ = −1/(Nᵢ+pᵢ) < 0，违反对偶可行。所以 λ > 0，互补松弛 ⇒ Σpᵢ = P。（直觉：多给功率永远能提高容量，功率不会剩。）', math:'\\lambda>0\\ \\Rightarrow\\ \\sum_ip_i=P'},
+  {text:'情况 pᵢ > 0：互补松弛 μᵢpᵢ = 0 ⇒ μᵢ = 0，代入驻点。', math:'p_i=\\frac{1}{\\lambda}-N_i,\\qquad\\text{此时需 }\\ \\frac1\\lambda-N_i>0\\iff\\lambda<\\frac{1}{N_i}'},
+  {text:'情况 pᵢ = 0：驻点给出 Nᵢ = 1/(λ − μᵢ)；因为 μᵢ ≥ 0，λ − μᵢ ≤ λ，所以 1/(λ−μᵢ) ≥ 1/λ。', math:'N_i=p_i+N_i=\\frac{1}{\\lambda-\\mu_i}\\ge\\frac1\\lambda\\ \\Rightarrow\\ \\lambda\\ge\\frac1{N_i}'},
+  {text:'合并两种情况，得到阈值形式（(·)⁺ 表示 max{0, ·}）。', math:'p_i=\\begin{cases}\\dfrac1\\lambda-N_i,&\\lambda<\\dfrac1{N_i}\\\\[4pt]0,&\\lambda\\ge\\dfrac1{N_i}\\end{cases}\\;=\\;\\Big(\\frac1\\lambda-N_i\\Big)^+'},
+  {text:'用 Σpᵢ = P 确定 λ。左边关于 1/λ 单调递增（连续、分段线性），所以解唯一。', math:'\\sum_{i=1}^k\\Big(\\frac1\\lambda-N_i\\Big)^+=P'},
+  {text:'顺便得到 μᵢ：分到功率的信道 μᵢ = 0；没分到的 μᵢ = λ − 1/Nᵢ ≥ 0。', math:'\\mu_i=\\max\\Big\\{0,\\ \\lambda-\\frac1{N_i}\\Big\\}'}
+]} />
+
+### 5.4 为什么叫“注水”
+
+令**水位** $w=1/\lambda$。把每个信道想象成一个水槽，槽底高度是 $N_i$：
+
+- 往这些水槽里一共倒 $P$ 体积的水；水先流进最低的槽，水面升到下一个槽底时，那个槽也开始进水；所有有水的槽水面一样高；
+- 最终水面高度就是 $w=1/\lambda^\star$，槽 $i$ 中的水深就是 $p_i^\star=(w-N_i)^+$；
+- 槽底比水面还高（噪声太大）的信道，一点功率都不分到。
+
+大白话：**好信道（噪声小）多分功率，坏信道少分甚至不分；而所有被使用的信道，“噪声 + 功率”都相等。**
+
+<Ch09WaterFilling />
+
+<Example title="数值算例">
+
+$N=(1,2,3,5)$，$P=4$。按 $N_i$ 从小到大尝试“前 $K$ 个信道有水”：
+
+- 若 $K$ 个信道有水，则 $\sum_{i\le K}(w-N_i)=P$ ⇒ $w=\dfrac{P+\sum_{i\le K}N_i}{K}$，并要求 $N_K\le w\le N_{K+1}$。
+- $K=1$：$w=5$，但 $5>N_2=2$，第 2 个槽也会进水，不对。
+- $K=2$：$w=(4+3)/2=3.5>N_3=3$，不对。
+- $K=3$：$w=(4+6)/3=10/3\approx3.33$，满足 $3\le 3.33\le 5$。✓
+
+所以 $p^\star=(2.33,\,1.33,\,0.33,\,0)$，$\lambda^\star=0.3$，$\mu_4=\lambda^\star-1/5=0.1\ge0$ ✓。
+
+</Example>
+
+<Prof>
+
+教授在 10-20 课的黑板上给出了“编程版”注水算法：每一步找当前水面 $N_i+p_i$ 最低的槽，给它加一小份 $\delta$；重复直到 $\sum_ip_i=P$。算法停止时 KKT 条件自然成立。他还提到这个问题没有“一个公式”的闭式解，而是由算法求得 $\lambda$（实际上排序后可以像上面的算例那样精确求出）。
+
+</Prof>
+
+### 5.5 推广：一般的可分凸目标（讲义 p16–p17）
+
+<Figure src="pages/L09/p16.png" caption="讲义原页：Water-filling 的推广" />
+
+把 $-\log(1+p_i/N_i)$ 换成一般的函数：
+
+$$
+\min_p\ f(p)=\sum_{i=1}^kf_i(p_i)\qquad\text{s.t. } \sum_{i=1}^kp_i\le P,\ p_i\ge0,
+$$
+
+要求：$f$ 凸且二阶可微、$\nabla^2f(p)\succ0$（对可分函数即每个 $f_i''>0$，所以 $f_i'$ 严格递增、可逆）；$\dfrac{\partial f}{\partial p_i}<0$（多给资源总能降低目标）；$f$ 对每个 $p_i$ 可分。
+
+<Steps title="推广情形的 KKT 推导（讲义 p17）" steps={[
+  {text:'Lagrangian 与驻点条件。', math:'L=f(p)+\\lambda\\Big(\\sum_ip_i-P\\Big)-\\sum_i\\mu_ip_i,\\qquad f_i\'(p_i)+\\lambda-\\mu_i=0'},
+  {text:'pᵢ > 0：μᵢ = 0，所以 fᵢ\'(pᵢ) = −λ，用反函数解出 pᵢ。', math:'p_i=(f_i\')^{-1}(-\\lambda)'},
+  {text:'pᵢ = 0：μᵢ = fᵢ\'(0) + λ ≥ 0。', math:'\\lambda\\ge-f_i\'(0)'},
+  {text:'合并，λ 仍由 Σpᵢ = P 决定。', math:'p_i=\\begin{cases}(f_i\')^{-1}(-\\lambda),&\\lambda<-f_i\'(0)\\\\0,&\\lambda\\ge-f_i\'(0)\\end{cases}'},
+  {text:'验证：fᵢ(p) = −log(1+p/Nᵢ) 时 fᵢ\'(p) = −1/(Nᵢ+p)，反函数给出 1/λ − Nᵢ，回到 5.3。', math:'(f_i\')^{-1}(-\\lambda)=\\frac1\\lambda-N_i'}
+]} />
+
+讲义方框里的算法：**每次把资源分给当前<T zh="边际效用">marginal utility</T> $\partial f/\partial p_i$ 最小（最负，即目标下降最快）的变量，直到资源 $P$ 用完。** 因为 $f_i'$ 随 $p_i$ 递增，给某个变量加得越多，它的边际收益就越小，自然轮到别的变量——最终所有分到资源的变量的边际效用都相等（$=-\lambda$），这就是推广版的“水面一样高”。
+
+<Exam>
+
+water-filling 是 KKT 的标准考题：能从 KKT 出发推出 $p_i^\star=(1/\lambda^\star-N_i)^+$、说明 $\sum_ip_i=P$ 必然成立（$\lambda>0$ 的论证）、解释水位 $=1/\lambda$，并描述注水算法。
+
+</Exam>
+
+<Quiz q="在 water-filling 中，若某信道噪声 Nⱼ 大于最终水位 1/λ*，则：" options={['pⱼ* > 0 且 μⱼ = 0','pⱼ* = 0 且 μⱼ = λ* − 1/Nⱼ > 0','pⱼ* = 1/λ* − Nⱼ < 0','总功率约束不活跃']} answer={1} explain="Nⱼ > 1/λ* ⇔ λ* > 1/Nⱼ，属于 pⱼ = 0 的情况；由驻点条件 μⱼ = λ* − 1/Nⱼ > 0。功率不可能为负。" />
+
+## 小结
+
+<Summary>
+
+- **互补松弛**：强对偶 ⇒ $\lambda_i^\star f_i(x^\star)=0$。约束不活跃则乘子为 0；乘子为正则约束活跃。同时 $x^\star$ 最小化 $L(x,\lambda^\star,\nu^\star)$——这是“由对偶解恢复原解”的依据。
+- **LP 互补松弛定理**：可行对 $(x,y)$ 最优 ⇔ $y_i(b_i-(Ax)_i)=0$ 且 $x_j(c_j-(A^Ty)_j)=0$。
+- **KKT 四条件**：原始可行、对偶可行 $\lambda\succeq0$、互补松弛、$\nabla_xL=0$。几何上：$-\nabla f_0$ 落在活跃约束梯度的锥里。
+- **三个结论**：强对偶 ⇒ KKT 必要（不需凸）；凸 ⇒ KKT 充分（且自动强对偶）；凸 + Slater ⇒ KKT 充要。非凸时 KKT 点只是候选。
+- **解题套路**：先用等式（驻点、活跃约束）解，再分情况检查不等式；或先解对偶再最小化 Lagrangian 恢复 $x^\star$。
+- **Water-filling**：$p_i^\star=(1/\lambda^\star-N_i)^+$，水位 $1/\lambda^\star$ 由 $\sum_ip_i=P$ 确定；推广为“边际效用相等”。
+
+</Summary>
+
+<Quiz q="下列哪一项不是 KKT 条件的一部分？" options={['λ ⪰ 0','λᵢfᵢ(x) = 0','∇f₀(x) + Σλᵢ∇fᵢ(x) + Σνᵢ∇hᵢ(x) = 0','ν ⪰ 0']} answer={3} explain="等式约束的乘子 ν 没有符号限制，只有不等式约束的乘子 λ 需要非负。" />
+
+<Quiz q="对非凸、可微且强对偶成立的问题，满足 KKT 的点 (x̃, λ̃, ν̃)：" options={['一定是最优解','原最优解一定满足 KKT，但满足 KKT 的点不一定最优','既不必要也不充分','只有当 λ̃ = 0 时才最优']} answer={1} explain="强对偶 ⇒ KKT 必要；充分性需要凸性（证明中用到 L 关于 x 是凸的）。" />
+
+<Quiz q="问题 min x₁² + x₂² s.t. x₁ + x₂ ≥ 2。KKT 解是？" options={['x* = (1,1), λ* = 2','x* = (2,0), λ* = 4','x* = (0,0), λ* = 0','x* = (1,1), λ* = 1']} answer={0} explain="驻点：2x₁ − λ = 0, 2x₂ − λ = 0 ⇒ x₁ = x₂ = λ/2；λ = 0 不可行，故约束活跃 λ = 2，x* = (1,1)，p* = 2。" />
+
+<Quiz q="凸问题的证明“KKT ⇒ 最优”中，哪一步用到了凸性？" options={['λ̃ ⪰ 0','由 ∇ₓL(x̃) = 0 推出 x̃ 是 L(·, λ̃, ν̃) 的全局最小点','弱对偶 g ≤ p*','hᵢ(x̃) = 0']} answer={1} explain="只有凸函数才能由“梯度为 0”推出“全局最小”。λ̃ ⪰ 0 与 fᵢ 凸一起保证了 L 关于 x 凸。" />

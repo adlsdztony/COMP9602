@@ -1,0 +1,608 @@
+import { Ch11GradientDescent, Ch11Backtracking, Ch11SteepestNorms, Ch11Newton1D, Ch11NewtonVsGD } from '../widgets/ch11.jsx'
+
+前十章我们一直在做“理论”：什么是凸集、凸函数，怎么把问题写成标准形式，怎么写对偶、KKT 条件。从这一章开始进入课程的**算法部分**：真的给你一个凸问题，计算机要**怎么一步步算出**最优解？
+
+最简单的情形是 <T zh="无约束优化">unconstrained optimization</T>——没有任何约束，只要让 $f(x)$ 尽量小。这一章的两个主角是 <T zh="梯度下降法">gradient descent</T> 和 <T zh="牛顿法">Newton's method</T>。下一章（等式约束）、再下一章（内点法）都是在牛顿法的基础上一层层加约束，所以这一章是整个算法部分的地基。
+
+**本章路线**
+
+1. 问题设定：无约束问题、假设、最优条件 $\nabla f(x^\star)=0$，为什么要迭代算法、何时停止
+2. 下降法通用框架 <T zh="一般下降法">general descent method</T>：方向 $\Delta x$ + 步长 $t$
+3. 选步长：<T zh="精确线搜索">exact line search</T> 与 <T zh="回溯线搜索">backtracking line search</T>
+4. 梯度下降：算法、线性收敛、条件数与 zig-zag（补充：强凸性）
+5. <T zh="最速下降法">steepest descent</T>：不同范数下的“最陡”方向
+6. 牛顿法：Newton step、<T zh="牛顿减量">Newton decrement</T>、阻尼牛顿与两阶段收敛、仿射不变性、代价
+
+## 1. 无约束优化问题
+
+### 1.1 问题与假设
+
+<Def title="无约束优化问题 Unconstrained minimization">
+
+$$
+\text{minimize}\quad f(x)
+$$
+
+讲义第 3 页的假设：
+
+- $f:\mathbb{R}^n\to\mathbb{R}$ 是**凸**的，且**二阶连续可微** <T zh="二阶连续可微">twice continuously differentiable</T>，因此 $\mathbf{dom}\,f$ 是开集；
+- 最优值 $p^\star=\inf_x f(x)$ 有限，并且能取到（存在 $x^\star$ 使 $f(x^\star)=p^\star$）。
+
+</Def>
+
+大白话：我们只考虑“光滑的碗”。“二阶可微”是因为后面牛顿法要用到二阶导数（Hessian）；“最优值能取到”是为了保证真的有一个碗底可以找。
+
+<MathNote title="梯度、Hessian 是什么">
+
+- **梯度** <T zh="梯度">gradient</T> $\nabla f(x)$：把 $f$ 对每个变量的偏导数排成一个列向量，$\nabla f(x)=\big(\frac{\partial f}{\partial x_1},\dots,\frac{\partial f}{\partial x_n}\big)^T$。它指向 $f$ **增长最快**的方向，并且**垂直于等高线**。
+- **Hessian** $\nabla^2 f(x)$：所有二阶偏导数组成的 $n\times n$ 对称矩阵，第 $(i,j)$ 个元素是 $\frac{\partial^2 f}{\partial x_i\partial x_j}$。它描述函数的“弯曲程度”。一维时它就是 $f''(x)$。
+- $f$ 凸（且二阶可微）等价于 $\nabla^2 f(x)\succeq 0$（半正定，记号 $\succeq 0$），一维就是 $f''(x)\ge 0$。
+- 例：$f(x)=\tfrac12(x_1^2+\gamma x_2^2)$，则 $\nabla f(x)=(x_1,\ \gamma x_2)^T$，$\nabla^2 f(x)=\begin{bmatrix}1&0\\0&\gamma\end{bmatrix}$。
+
+</MathNote>
+
+<Prof>
+
+为什么定义域必须是开集？如果定义域有“边界”，函数在边界点上就不可微了；要在整个定义域上二阶可微，定义域只能是开的。所谓“没有约束”，其实还剩一个隐含约束：$x$ 必须在定义域内，比如 $f(x)=-\log x$ 隐含要求 $x>0$。(10-22 课 00:23)
+
+</Prof>
+
+### 1.2 最优条件：$\nabla f(x^\star)=0$
+
+<Thm title="无约束凸问题的最优条件">
+
+在上面的假设下，$x^\star$ 是最优解当且仅当
+
+$$
+\nabla f(x^\star)=0 \qquad (n\ \text{个方程，}n\ \text{个未知数})
+$$
+
+</Thm>
+
+大白话：碗底的地方坡度为零。对凸函数来说，“坡度为零”不仅是必要条件，也是充分条件——不会有“假的碗底”。这其实就是 KKT 条件在没有约束时的样子：只剩下“Lagrangian 的梯度 = 0”，而此时 Lagrangian 就是 $f$ 本身。
+
+<Reveal label="为什么梯度为零就一定是最优（看证明）">
+
+凸函数的一阶条件（第 3 章）：对任意 $y$，$f(y)\ge f(x^\star)+\nabla f(x^\star)^T(y-x^\star)$。若 $\nabla f(x^\star)=0$，右边就是 $f(x^\star)$，所以 $f(y)\ge f(x^\star)$ 对所有 $y$ 成立，$x^\star$ 就是全局最小点。
+
+</Reveal>
+
+### 1.3 为什么需要迭代算法、何时停止
+
+解 $\nabla f(x)=0$ 能直接解出来吗？只在特殊情况下可以：
+
+- 如果 $f$ 是**二次函数** $f(x)=\tfrac12x^TPx+q^Tx+r$，那么 $\nabla f(x)=Px+q$ 是仿射函数，$\nabla f=0$ 就是线性方程组 $Px=-q$，直接解。
+- 但只要 $f$ 里有 $\log$、$\exp$、高次项等，$\nabla f(x)=0$ 就是非线性方程组，一般**没有闭式解**，只能用数值方法一步步逼近。
+
+<Def title="迭代算法 Iterative algorithm">
+
+产生一个点列 $x^{(0)},x^{(1)},x^{(2)},\dots\in\mathbf{dom}\,f$，使得当 $k\to\infty$ 时
+
+$$
+f(x^{(k)})\to p^\star \quad(\text{亦即 } \nabla f(x^{(k)})\to 0)
+$$
+
+**停止准则** <T zh="停止准则">stopping criterion</T>：给定容差 $\epsilon>0$，当
+
+$$
+f(x^{(k)})-p^\star\le\epsilon \quad\text{或}\quad \|\nabla f(x^{(k)})\|_2\le\epsilon
+$$
+
+时停止。
+
+</Def>
+
+记号说明：上标 $(k)$ 表示“第 $k$ 次迭代”，不是 $k$ 次方。$\|\cdot\|_2$ 是欧氏长度 $\|v\|_2=\sqrt{v_1^2+\dots+v_n^2}$。
+
+<Prof>
+
+实际中我们一般用梯度范数 $\|\nabla f(x^{(k)})\|_2\le\epsilon$ 来判断停止，因为它不需要知道 $p^\star$——如果我们早就知道 $p^\star$，那也就不用迭代了。(10-22 课 00:29)
+
+</Prof>
+
+<Quiz q="对 f(x)=½xᵀPx+qᵀx（P≻0），求最小点需要迭代算法吗？" options={['需要，必须用梯度下降', '不需要，∇f=Px+q=0 是线性方程组，直接解 x*=−P⁻¹q', '不需要，因为最小值一定在原点']} answer={1} explain="二次函数的梯度是仿射的，令其为零得到线性方程组，可以直接求解。只有非二次（含 log、exp 等）时才需要迭代。" />
+
+## 2. 下降法的通用框架
+
+### 2.1 更新公式
+
+所有本章的算法都长同一个样子：从当前点出发，选一个方向、走一段距离：
+
+$$
+x^{(k+1)}=x^{(k)}+t^{(k)}\Delta x^{(k)}\qquad\text{并且要求}\quad f(x^{(k+1)})<f(x^{(k)})
+$$
+
+- $\Delta x$ 叫 <T zh="搜索方向/步方向">step / search direction</T>（注意 $\Delta x$ 是一个整体记号，是一个向量）；
+- $t>0$ 叫 <T zh="步长">step size / step length</T>；
+- 常简写为 $x^+=x+t\Delta x$ 或 $x:=x+t\Delta x$（“:=”表示“赋值为”）。
+
+<Def title="一般下降法 General descent method（讲义第 4 页）">
+
+```text
+given  起点 x ∈ dom f
+repeat
+    1. 确定一个下降方向 Δx                (descent direction)
+    2. 线搜索：选步长 t > 0                (line search)
+    3. 更新：x := x + t Δx                 (update)
+until  满足停止准则
+```
+
+</Def>
+
+所以设计一个下降算法，只要回答两个问题：**(i) 往哪走（$\Delta x$）**，**(ii) 走多远（$t$）**。
+
+### 2.2 下降方向的条件
+
+<Thm title="下降方向 Descent direction">
+
+若 $f(x^+)<f(x)$，则必须有
+
+$$
+\nabla f(x)^T\Delta x<0
+$$
+
+满足这个条件的 $\Delta x$ 称为 <T zh="下降方向">descent direction</T>。
+
+</Thm>
+
+大白话：$\nabla f(x)^T\Delta x$ 是“沿着 $\Delta x$ 走时 $f$ 的变化率”（方向导数）。它为负，才是在下坡。
+
+<Steps title="为什么必须 ∇f(x)ᵀΔx < 0（教授板书）" steps={[
+  {text: '凸函数的一阶条件：任意 y 都满足', math: 'f(y)\\ \\ge\\ f(x)+\\nabla f(x)^T(y-x)'},
+  {text: '令 y = x⁺ = x + tΔx，则 y − x = tΔx：', math: 'f(x+t\\Delta x)\\ \\ge\\ f(x)+t\\,\\nabla f(x)^T\\Delta x'},
+  {text: '想要 f(x+tΔx) < f(x)，就要右边的 f(x)+t∇fᵀΔx 小于 f(x)（否则左边 ≥ 右边 ≥ f(x)）。由于 t > 0：', math: '\\nabla f(x)^T\\Delta x<0'},
+]} />
+
+<Intuition>
+
+几何上：$\nabla f(x)$ 指向上坡最陡的方向，且垂直于等高线。$\nabla f^T\Delta x<0$ 意味着 $\Delta x$ 与 $\nabla f$ 的夹角**大于 90°**——也就是 $\Delta x$ 指向等高线“里面”（更低的那一侧）。
+
+</Intuition>
+
+<MathNote title="内积与夹角">
+
+$a^Tb=a_1b_1+\dots+a_nb_n=\|a\|_2\|b\|_2\cos\theta$，$\theta$ 是两向量夹角。所以 $a^Tb<0\iff\theta>90^\circ$。
+
+</MathNote>
+
+<Exam>
+
+“判断某个方向是不是下降方向”是常见题型：算出 $\nabla f(x)^T\Delta x$，看符号。也要会用一阶条件推出这个结论。
+
+</Exam>
+
+## 3. 选步长：线搜索
+
+方向定了以后，$f(x+t\Delta x)$ 就只是一元函数 $t\mapsto f(x+t\Delta x)$。选 $t$ 的过程叫 <T zh="线搜索">line search</T>（沿着一条直线搜索）。
+
+### 3.1 精确线搜索
+
+<Def title="精确线搜索 Exact line search">
+
+$$
+t=\arg\min_{t>0}\ f(x+t\Delta x)
+$$
+
+</Def>
+
+大白话：沿着这条射线，找函数值最低的那个点。“$\arg\min$”表示“取到最小值的那个自变量”。
+
+<Prof>
+
+精确线搜索本身就是一个一维优化问题，难度和原问题类似（只是变量从向量 $x$ 变成了标量 $t$），每次迭代都做一遍很花时间。所以实际中更常用回溯线搜索。(10-22 课 00:40, 01:22)
+
+</Prof>
+
+### 3.2 回溯线搜索
+
+<Def title="回溯线搜索 Backtracking line search（讲义第 5 页）">
+
+参数：$\alpha\in(0,\tfrac12)$，$\beta\in(0,1)$。从 $t=1$ 开始，重复 $t:=\beta t$，直到
+
+$$
+f(x+t\Delta x)\ \le\ f(x)+\alpha\,t\,\nabla f(x)^T\Delta x
+$$
+
+```text
+t := 1
+while f(x + t·Δx) > f(x) + α·t·∇f(x)ᵀΔx :
+    t := β·t
+```
+
+</Def>
+
+大白话：先大胆走一整步 $t=1$；如果函数值下降得“不够多”，就把步子缩成原来的 $\beta$ 倍再试，直到下降量至少达到“线性预测下降量的 $\alpha$ 倍”。这个不等式叫 **Armijo 条件**（充分下降条件）。
+
+<Intuition title="教授的板书图（讲义上没有）">
+
+固定 $x$ 和 $\Delta x$，令 $g(t)=f(x+t\Delta x)$，它是 $t$ 的凸函数。
+
+1. **切线** $\ell(t)=f(x)+t\,\nabla f(x)^T\Delta x$：$g$ 在 $t=0$ 的切线，斜率为负。凸函数永远在切线上方。
+2. **$\alpha$-线** $h(t)=f(x)+\alpha t\,\nabla f(x)^T\Delta x$：起点同为 $f(x)$，但斜率只有切线的 $\alpha$ 倍，更平缓，所以在 $t$ 很小时它位于 $g$ 的上方。
+3. $g(t)\le h(t)$ 的 $t$ 构成区间 $(0,t_0]$，$t_0$ 是 $g$ 与 $h$ 的交点。
+4. 从 $t=1$ 开始，只要点 $(t,g(t))$ 在 $\alpha$-线上方就缩小 $t$；因为 $(0,t_0]$ 非空，循环一定会停。
+
+</Intuition>
+
+<Ch11Backtracking />
+
+在上面的交互里你会看到：最终接受的 $t$ 一定落在 $(0,t_0]$ 里；$\beta$ 越小缩得越快但可能“缩过头”，$\beta$ 越接近 1 尝试次数越多。（补充：可以证明最终 $t\ge\min\{1,\beta t_0\}$，即步长不会无限小。）
+
+<Prof>
+
+回溯的目的，是保证每一步函数值至少下降 $-\alpha t\nabla f^T\Delta x$ 这么多，即每一步都有“实打实”的进展。(10-22 课 00:49)
+
+</Prof>
+
+<Warn>
+
+条件里是 $\alpha t\nabla f^T\Delta x$，不是 $\alpha\nabla f^T\Delta x$——别漏了 $t$。并且 $\nabla f^T\Delta x<0$，所以右边比 $f(x)$ 小。$\alpha$ 的范围是 $(0,\tfrac12)$，$\beta$ 的范围是 $(0,1)$。
+
+</Warn>
+
+<Exam>
+
+精确 vs 回溯线搜索：算法、参数 $\alpha,\beta$ 的范围、为什么循环会终止（切线、$\alpha$-线、$t_0$ 的几何图）。教授花了很长时间画这张图，很可能考。
+
+</Exam>
+
+<Quiz q="回溯线搜索中，若当前 t 满足 f(x+tΔx) > f(x)+αt∇f(x)ᵀΔx，下一步做什么？" options={['t := t/β（放大）', 't := βt（缩小）', '停止并接受 t', '换一个方向 Δx']} answer={1} explain="不满足充分下降条件，说明步子太大，乘以 β∈(0,1) 缩小后再试。" />
+
+## 4. 梯度下降法
+
+### 4.1 算法
+
+最自然的下降方向是负梯度 $\Delta x=-\nabla f(x)$。检查：
+
+$$
+\nabla f(x)^T\Delta x=-\nabla f(x)^T\nabla f(x)=-\|\nabla f(x)\|_2^2<0\quad(\text{只要 }\nabla f(x)\neq 0)
+$$
+
+所以它总是下降方向。
+
+<Def title="梯度下降法 Gradient descent method（讲义第 6 页）">
+
+```text
+given  起点 x ∈ dom f
+repeat
+    1. Δx := −∇f(x)
+    2. 线搜索：用精确或回溯线搜索选步长 t
+    3. 更新：x := x + t Δx
+until  停止准则满足（通常 ‖∇f(x)‖₂ ≤ ε）
+```
+
+</Def>
+
+<Prof>
+
+神经网络训练里的随机梯度下降（SGD）就是这个更新 $w:=w-\eta\nabla(\text{loss})$，$\eta$ 是步长（学习率），只是梯度用一小批样本估计，而不是用全部数据。这就是梯度下降在机器学习里的地位。(10-22 课 00:58)
+
+</Prof>
+
+### 4.2 收敛：线性收敛
+
+讲义第 7 页用下面这个非二次函数做实验：
+
+$$
+f(x_1,x_2)=e^{x_1+3x_2-0.1}+e^{x_1-3x_2-0.1}+e^{-x_1-0.1}
+$$
+
+<Figure src="pages/L11/p07_plot.png" caption="梯度下降的收敛曲线：纵轴是误差 f(x⁽ᵏ⁾)−p*（对数坐标），横轴是迭代次数 k。两条线都近似直线 → 线性收敛；精确线搜索比回溯更快。" />
+
+<Def title="线性收敛 Linear convergence">
+
+误差至少像几何级数一样趋于 0：存在 $c\in(0,1)$ 使
+
+$$
+f(x^{(k)})-p^\star\ \le\ c^k\,\big(f(x^{(0)})-p^\star\big)
+$$
+
+</Def>
+
+大白话：每迭代一次，误差至少乘一个固定的因子 $c$。在对数坐标下 $\log(\text{误差})\approx k\log c+\text{常数}$，是一条**斜直线**——这就是“线性”这个名字的来源。
+
+<Prof>
+
+精确线搜索每步都取最优步长，所以迭代次数少；回溯只保证“足够的下降”，所以迭代次数多。但回溯每一步便宜得多，所以比较总耗时要看每步的代价（图上横轴只是迭代次数）。梯度下降简单优雅，但性能“平庸”(mediocre)。(10-22 课 00:53, 00:56)
+
+</Prof>
+
+### 4.3 条件数与 zig-zag（补充：强凸性）
+
+> 本小节是 Boyd 教材 9.1、9.3 节的补充内容，讲义只说了“可能很慢”。了解它可以解释**为什么**慢。
+
+<Def title="强凸 Strong convexity（补充）">
+
+若存在 $m>0$ 使得对所有 $x$，$\nabla^2 f(x)\succeq mI$，称 $f$ <T zh="强凸">strongly convex</T>。通常同时存在 $M$ 使 $\nabla^2 f(x)\preceq MI$。
+
+</Def>
+
+记号：$A\succeq B$ 表示 $A-B$ 半正定。$mI\preceq\nabla^2 f\preceq MI$ 意思是：函数在任何方向上的弯曲程度都在 $m$ 和 $M$ 之间。比值 $\kappa=M/m$ 叫 <T zh="条件数">condition number</T>，它衡量“碗”有多扁：$\kappa=1$ 是正圆碗，$\kappa$ 很大是又长又窄的山谷。
+
+强凸的两个常用推论（补充）：
+
+$$
+f(x)-p^\star\le\frac{1}{2m}\|\nabla f(x)\|_2^2,\qquad
+f(x^{(k)})-p^\star\le c^k\big(f(x^{(0)})-p^\star\big),\ \ c=1-\frac{m}{M}\ (\text{精确线搜索})
+$$
+
+第一个说：梯度小 ⇒ 离最优值近，这正是“用 $\|\nabla f\|_2\le\epsilon$ 停止”的理论依据。第二个说：收敛因子 $c$ 由条件数决定，$\kappa=M/m$ 越大，$c$ 越接近 1，收敛越慢。
+
+<Example title="二次函数 f(x) = ½(x₁² + γx₂²)">
+
+$\nabla^2 f=\mathrm{diag}(1,\gamma)$，所以 $m=\min(1,\gamma)$，$M=\max(1,\gamma)$，条件数 $\kappa=\max(\gamma,1/\gamma)$。用精确线搜索、从 $x^{(0)}=(\gamma,1)$ 出发（$\gamma\ge1$），可以算出
+
+$$
+x^{(k)}=\Big(\frac{\gamma-1}{\gamma+1}\Big)^k\begin{pmatrix}\gamma\\(-1)^k\end{pmatrix},\qquad
+f(x^{(k)})=\Big(\frac{\gamma-1}{\gamma+1}\Big)^{2k}f(x^{(0)})
+$$
+
+$\gamma=1$ 时一步到位；$\gamma=10$ 时每步误差只乘 $(9/11)^2\approx0.67$；$\gamma=100$ 时因子约 $0.96$，非常慢。$x_2$ 分量的符号 $(-1)^k$ 来回翻转——这就是 **zig-zag**。
+
+</Example>
+
+<Ch11GradientDescent />
+
+<Intuition>
+
+为什么会 zig-zag？精确线搜索会一直走到“与等高线相切”的位置，所以相邻两步的方向互相**垂直**。在细长的椭圆里，负梯度几乎垂直于长轴，只能在短轴方向来回弹，沿长轴前进得很慢。
+
+</Intuition>
+
+<Quiz q="梯度下降在 f=½(x₁²+γx₂²) 上，γ 从 2 变成 50，会怎样？" options={['收敛更快，因为曲率更大', '收敛更慢，zig-zag 更严重，因为条件数变大', '不变，梯度下降不受条件数影响', '一步收敛']} answer={1} explain="条件数 κ=γ 变大，等高线变得细长，收敛因子 ((κ−1)/(κ+1))² 接近 1，梯度下降明显变慢。" />
+
+## 5. 最速下降法
+
+<Def title="规范化最速下降方向 Normalized steepest descent direction（讲义第 8 页）">
+
+给定一个范数 $\|\cdot\|$，
+
+$$
+\Delta x_{\text{nsd}}=\arg\min\{\nabla f(x)^Tv\ \mid\ \|v\|=1\}
+$$
+
+</Def>
+
+大白话：在所有“长度为 1”的方向里，挑一个让方向导数 $\nabla f(x)^Tv$ **最负**的——也就是“单位步长下降得最快”的方向。这里“长度”用哪种范数来量，会影响答案。
+
+<MathNote title="范数 norm">
+
+范数是衡量向量“长度”的函数。常见的：$\|v\|_2=\sqrt{\sum v_i^2}$（欧氏）、$\|v\|_1=\sum|v_i|$、$\|v\|_\infty=\max_i|v_i|$、二次范数 $\|v\|_P=\sqrt{v^TPv}$（$P\succ0$）。“单位球” $\{v\mid\|v\|\le1\}$ 在 2D 中分别是圆、菱形、正方形、椭圆。
+
+</MathNote>
+
+<Thm title="欧氏范数下的最速下降 = 梯度下降">
+
+用欧氏范数 $\|\cdot\|_2$ 时，
+
+$$
+\Delta x_{\text{nsd}}=-\frac{\nabla f(x)}{\|\nabla f(x)\|_2}
+$$
+
+它与 $-\nabla f(x)$ 只差一个正的倍数 $\|\nabla f(x)\|_2$，这个倍数可以并到步长 $t$ 里。所以**欧氏范数下最速下降法就是梯度下降法**，性能一样。
+
+</Thm>
+
+<Reveal label="为什么（Cauchy–Schwarz）">
+
+对 $\|v\|_2=1$，$\nabla f^Tv\ge-\|\nabla f\|_2\|v\|_2=-\|\nabla f\|_2$，等号在 $v$ 与 $\nabla f$ 反向时取到，即 $v=-\nabla f/\|\nabla f\|_2$。
+
+</Reveal>
+
+换别的范数，“最陡”的方向就不同了（补充，Boyd 9.4）：
+
+- 二次范数 $\|\cdot\|_P$：$\Delta x_{\text{nsd}}\propto-P^{-1}\nabla f(x)$。如果 $P$ 选得好（接近 Hessian），相当于先把扁椭圆“拉圆”再做梯度下降，可以大幅加速——取 $P=\nabla^2 f(x)$ 就得到下一节的牛顿方向。
+- $\ell_1$ 范数：只沿 $|\partial f/\partial x_i|$ 最大的那个坐标走（坐标下降）。
+
+<Ch11SteepestNorms />
+
+<Quiz q="关于最速下降法，下列哪项正确？" options={['任何范数下最速下降方向都等于 −∇f', '欧氏范数下最速下降方向与 −∇f 同向，因此与梯度下降性能相同', '最速下降方向一定不是下降方向', 'ℓ₁ 范数下最速下降方向是 −∇f/‖∇f‖₁']} answer={1} explain="只有在欧氏范数下，Δx_nsd = −∇f/‖∇f‖₂ 与负梯度同向；其他范数下方向一般不同。" />
+
+## 6. 牛顿法
+
+### 6.1 Newton step 与二阶近似
+
+<Def title="牛顿方向 Newton step（讲义第 9 页）">
+
+$$
+\Delta x_{\text{nt}}=-\nabla^2 f(x)^{-1}\nabla f(x)
+$$
+
+</Def>
+
+大白话：用 Hessian 的逆“修正”负梯度——在弯得厉害的方向少走，在平缓的方向多走。需要同时计算梯度和 Hessian。
+
+它为什么是下降方向？因为凸函数 $\nabla^2 f(x)\succ0$（正定），其逆也正定，所以 $\nabla f^T\Delta x_{\text{nt}}=-\nabla f^T\nabla^2 f^{-1}\nabla f<0$（只要 $\nabla f\ne0$）。
+
+<MathNote title="二阶 Taylor 近似与正定矩阵">
+
+一元时 $f(x+v)\approx f(x)+f'(x)v+\tfrac12f''(x)v^2$；多元时把 $f'$ 换成梯度、$f''$ 换成 Hessian：$f(x+v)\approx f(x)+\nabla f(x)^Tv+\tfrac12v^T\nabla^2 f(x)v$。矩阵 $H$ **正定**（记 $H\succ0$）指对所有非零 $v$ 都有 $v^THv>0$；正定矩阵一定可逆。
+
+</MathNote>
+
+<Thm title="解释：x + Δx_nt 是二阶近似的最小点">
+
+令
+
+$$
+\hat f(x+v)=f(x)+\nabla f(x)^Tv+\tfrac12 v^T\nabla^2 f(x)\,v
+$$
+
+则 $v=\Delta x_{\text{nt}}$ 正是 $\hat f(x+v)$ 关于 $v$ 的最小点。
+
+</Thm>
+
+<Steps title="推导 Newton step（教授板书）" steps={[
+  {text: '把 x 固定，只把 v 当变量（暂时不管步长 t），写出二次模型：', math: '\\hat f(x+v)=f(x)+\\nabla f(x)^Tv+\\tfrac12 v^T\\nabla^2 f(x)\\,v'},
+  {text: '对 v 求梯度（f(x) 是常数；线性项的梯度是 ∇f(x)；二次项 ½vᵀHv 的梯度是 Hv）：', math: '\\nabla_v\\hat f=\\nabla f(x)+\\nabla^2 f(x)\\,v'},
+  {text: 'f̂ 是关于 v 的凸二次函数，令梯度为零即得最小点：', math: '\\nabla^2 f(x)\\,v=-\\nabla f(x)'},
+  {text: 'Hessian 正定可逆，两边左乘其逆：', math: 'v=-\\nabla^2 f(x)^{-1}\\nabla f(x)=\\Delta x_{\\text{nt}}'},
+]} />
+
+<Intuition>
+
+$f$ 二阶可微，所以在 $x^\star$ 附近二次模型非常准。离得近的时候，Newton step 一步跳到二次模型的碗底，而这个碗底几乎就是 $f$ 的碗底——所以牛顿法在最优点附近收敛极快。离得远时，二次模型可能不准，一整步跳过头，这就需要线搜索来“阻尼”。
+
+</Intuition>
+
+### 6.2 Newton decrement
+
+<Def title="牛顿减量 Newton decrement（讲义第 10 页）">
+
+$$
+\lambda(x)=\big(\nabla f(x)^T\,\nabla^2 f(x)^{-1}\,\nabla f(x)\big)^{1/2}
+$$
+
+</Def>
+
+大白话：$\lambda(x)$ 是一个数，衡量 $x$ 离 $x^\star$ 有多近，而且**不需要知道 $x^\star$**。它有两个重要性质：
+
+**性质 1：$\tfrac12\lambda^2$ 是对 $f(x)-p^\star$ 的估计。**
+
+$$
+f(x)-\inf_v\hat f(x+v)=f(x)-\hat f(x+\Delta x_{\text{nt}})=\tfrac12\lambda(x)^2
+$$
+
+即“二次模型预测的下降量”恰好是 $\lambda^2/2$。
+
+<Steps title="验证性质 1" steps={[
+  {text: '把 v = Δx_nt 代入二次模型：', math: 'f(x)-\\hat f(x+\\Delta x_{\\text{nt}})=-\\nabla f^T\\Delta x_{\\text{nt}}-\\tfrac12\\Delta x_{\\text{nt}}^T\\nabla^2 f\\,\\Delta x_{\\text{nt}}'},
+  {text: '记 H=∇²f, g=∇f，则 Δx_nt=−H⁻¹g。第一项：', math: '-g^T\\Delta x_{\\text{nt}}=g^TH^{-1}g=\\lambda^2'},
+  {text: '第二项：', math: '\\tfrac12\\Delta x_{\\text{nt}}^TH\\Delta x_{\\text{nt}}=\\tfrac12 g^TH^{-1}HH^{-1}g=\\tfrac12\\lambda^2'},
+  {text: '相减：', math: '\\lambda^2-\\tfrac12\\lambda^2=\\tfrac12\\lambda^2'},
+]} />
+
+**性质 2：沿牛顿方向的方向导数是 $-\lambda^2$。**
+
+$$
+\nabla f(x)^T\Delta x_{\text{nt}}=-\lambda(x)^2
+$$
+
+（上面第 2 步已经算过。）这说明 $\lambda^2$ 也度量了“沿牛顿方向下坡有多陡”，而且回溯线搜索条件可以直接写成 $f(x+t\Delta x_{\text{nt}})\le f(x)-\alpha t\lambda^2$。
+
+<Prof>
+
+$\lambda$ 是对“$x$ 离 $x^\star$ 有多近”的一个估计。牛顿减量就是二次模型被 Newton step 预测的下降量（的两倍），也是 $f$ 沿牛顿方向的方向导数（的相反数）。(10-22 课 01:18–01:20)
+
+</Prof>
+
+下面的交互把这两件事画在一维上：虚线抛物线是 $\hat f$，红点是它的最低点 $x+\Delta x_{\text{nt}}$，绿色竖线长度就是 $\lambda^2/2$。
+
+<Ch11Newton1D />
+
+### 6.3 牛顿法算法：阻尼牛顿与纯牛顿
+
+<Def title="（阻尼/保护）牛顿法 Damped (guarded) Newton's method（讲义第 11 页）">
+
+```text
+given  起点 x ∈ dom f，容差 ε > 0
+repeat
+    1. 计算 Newton step 和 decrement：
+         Δx_nt := −∇²f(x)⁻¹ ∇f(x)
+         λ²    := ∇f(x)ᵀ ∇²f(x)⁻¹ ∇f(x)
+    2. 停止准则：若 λ²/2 ≤ ε，退出
+    3. 线搜索：用回溯线搜索选步长 t
+    4. 更新：x := x + t Δx_nt
+```
+
+**纯牛顿法** <T zh="纯牛顿法">pure Newton's method</T>：固定 $t=1$，不做线搜索——**可能不收敛**。
+
+</Def>
+
+注意停止准则在第 2 步、用的是 $\lambda^2/2\le\epsilon$：因为 $\lambda^2/2$ 正是 $f(x)-p^\star$ 的估计。
+
+<Warn>
+
+纯牛顿（$t=1$）不保证每步都让 $f$ 下降：离最优点远时二次模型不准，一整步可能跳过头，甚至越跳越远。在上面一维交互里选 $f(x)=\log(e^x+e^{-x})$、把起点拖到 $x=1.3$ 附近试一下纯牛顿就能看到发散。带回溯线搜索的阻尼版本才是保证下降的方法。（课堂录音这段转录有误，以讲义为准。）
+
+</Warn>
+
+### 6.4 收敛：两个阶段
+
+<Figure src="pages/L11/p12_plot.png" caption="牛顿法的收敛曲线（f(x)=cᵀx−Σlog(bᵢ−aᵢᵀx)，m=500，n=100）：前几步下降较缓（阻尼阶段），之后误差曲线“断崖式”下跌（二次收敛阶段）。对比梯度下降的直线，只需 7–8 步。" />
+
+讲义第 12 页：牛顿法的收敛分两个阶段：
+
+1. **阻尼牛顿阶段** <T zh="阻尼牛顿阶段">damped Newton phase</T>：$t<1$，大多数迭代需要回溯；误差下降较慢。
+2. **二次收敛阶段** <T zh="二次收敛阶段">quadratically convergent phase</T>：$t=1$，不再需要回溯；$\|\nabla f(x)\|_2$ **二次地**收敛到 0，也就是说**每次迭代正确的有效数字位数大约翻一倍**。
+
+<Def title="二次收敛 Quadratic convergence">
+
+误差满足 $e_{k+1}\le C\,e_k^2$。例如 $e_k=10^{-2}\to10^{-4}\to10^{-8}\to10^{-16}$。在对数坐标下是一条越来越陡、向下弯的曲线。
+
+</Def>
+
+<Thm title="收敛速度（补充：Boyd 9.5.3 的经典结论）">
+
+若 $f$ 强凸（$mI\preceq\nabla^2f\preceq MI$）且 Hessian 是 Lipschitz 连续的（常数 $L$），则存在 $\eta>0$，使得
+
+- 当 $\|\nabla f(x)\|_2\ge\eta$ 时（阻尼阶段），每步 $f$ 至少下降一个固定量 $\gamma>0$；
+- 当 $\|\nabla f(x)\|_2<\eta$ 时（二次阶段），回溯总是接受 $t=1$，且 $\frac{L}{2m^2}\|\nabla f(x^{(k+1)})\|_2\le\Big(\frac{L}{2m^2}\|\nabla f(x^{(k)})\|_2\Big)^2$。
+
+因此总迭代次数 $\le\frac{f(x^{(0)})-p^\star}{\gamma}+\log_2\log_2(\epsilon_0/\epsilon)$；后一项实际上 $\le 5$ 或 $6$。
+
+</Thm>
+
+大白话：先花一些步“走近”，一旦进入二次收敛区，再走五六步就能达到机器精度。
+
+<Ch11NewtonVsGD />
+
+<Exam>
+
+- 牛顿方向的推导（从二阶近似出发，对 $v$ 求梯度令为零）；
+- 牛顿减量的定义及两个恒等式 $f(x)-\inf_v\hat f=\tfrac12\lambda^2$、$\nabla f^T\Delta x_{\text{nt}}=-\lambda^2$，停止准则 $\lambda^2/2\le\epsilon$；
+- 阻尼牛顿的两阶段行为，纯牛顿为何可能不收敛；
+- 线性收敛 vs 二次收敛的曲线形状（对数坐标下直线 vs 向下弯的曲线）。
+
+</Exam>
+
+### 6.5 仿射不变性（补充）
+
+> Boyd 9.5.1 的补充内容，可用来解释“为什么牛顿法不怕条件数”。
+
+做变量替换 $x=Ty$（$T$ 可逆），令 $\tilde f(y)=f(Ty)$。可以验证 $\nabla\tilde f(y)=T^T\nabla f(x)$，$\nabla^2\tilde f(y)=T^T\nabla^2 f(x)T$，于是
+
+$$
+\Delta y_{\text{nt}}=-\big(T^T\nabla^2 f\,T\big)^{-1}T^T\nabla f=-T^{-1}\nabla^2 f^{-1}\nabla f=T^{-1}\Delta x_{\text{nt}}
+$$
+
+也就是说 $x+\Delta x_{\text{nt}}=T(y+\Delta y_{\text{nt}})$：**无论怎么线性地拉伸坐标，牛顿法走出的点完全相同**，牛顿减量 $\lambda$ 也不变。这叫 <T zh="仿射不变性">affine invariance</T>。
+
+相比之下，梯度下降对坐标缩放非常敏感：把圆碗拉成扁碗（条件数变大），梯度下降就开始 zig-zag。牛顿法相当于每一步都用 Hessian 自动把碗“拉圆”。在本章第一个交互里，任何 $\gamma$ 下牛顿法都会**一步**到达原点（因为二次函数的二次模型就是它自己）。
+
+### 6.6 代价：为什么机器学习里很少用牛顿法
+
+<Prof>
+
+每次迭代都要计算并存储 $\nabla^2 f(x)$（$n\times n$ 矩阵），再求解线性方程组 $\nabla^2 f(x)\,v=-\nabla f(x)$（相当于求逆，一般 $O(n^3)$）。在机器学习里变量个数 $n$ 动辄上百万，Hessian 根本存不下，所以那里几乎都用梯度下降 / SGD。牛顿法迭代次数少，但每步贵；梯度下降每步便宜，但迭代次数多。(10-22 课 01:27)
+
+</Prof>
+
+| | 梯度下降 | 牛顿法 |
+|---|---|---|
+| 方向 | $-\nabla f(x)$ | $-\nabla^2 f(x)^{-1}\nabla f(x)$ |
+| 需要 | 梯度 | 梯度 + Hessian（并求解线性方程组） |
+| 每步代价 | 低，$O(n)$ | 高，约 $O(n^3)$ |
+| 收敛速度 | 线性，受条件数影响大 | 先阻尼、后二次；仿射不变 |
+| 停止准则 | $\Vert\nabla f\Vert_2\le\epsilon$ | $\lambda^2/2\le\epsilon$ |
+
+<Quiz q="牛顿法进入二次收敛阶段后，误差从 1e-3 下一步大约会变成多少量级？" options={['1e-4', '1e-6', '1e-3 × 0.9', '不变']} answer={1} explain="二次收敛：e_{k+1} ≈ C·e_k²，有效数字位数大约翻倍，1e-3 → 约 1e-6。" />
+
+## 本章小结
+
+<Summary>
+
+- 无约束凸问题 $\min f(x)$ 的最优条件是 $\nabla f(x^\star)=0$；除二次函数外一般没有闭式解，需要迭代；常用 $\|\nabla f\|_2\le\epsilon$ 停止。
+- 下降法框架：$x^+=x+t\Delta x$；下降方向需满足 $\nabla f(x)^T\Delta x<0$（由一阶条件推出）。
+- 线搜索：精确 $t=\arg\min_{t>0}f(x+t\Delta x)$；回溯从 $t=1$ 起不断 $t:=\beta t$ 直到 $f(x+t\Delta x)\le f(x)+\alpha t\nabla f^T\Delta x$，$\alpha\in(0,\tfrac12)$，$\beta\in(0,1)$。
+- 梯度下降 $\Delta x=-\nabla f$：简单，线性收敛；条件数大时 zig-zag、很慢。欧氏范数下最速下降就是梯度下降。
+- 牛顿法 $\Delta x_{\text{nt}}=-\nabla^2f^{-1}\nabla f$ 是二次模型的最小点；牛顿减量 $\lambda^2=\nabla f^T\nabla^2f^{-1}\nabla f$，满足 $f-\inf\hat f=\tfrac12\lambda^2$、$\nabla f^T\Delta x_{\text{nt}}=-\lambda^2$，用 $\lambda^2/2\le\epsilon$ 停止。
+- 阻尼牛顿（回溯）两阶段：先 $t<1$，后 $t=1$ 二次收敛；纯牛顿可能不收敛。牛顿法仿射不变、迭代少，但每步要算 Hessian，大规模问题代价高。
+
+</Summary>
+
+<Quiz q="用回溯线搜索的阻尼牛顿法，第 k 步 λ(x)² = 2×10⁻⁹，ε = 10⁻⁸。会发生什么？" options={['继续算 Newton step 并做线搜索', '停止，因为 λ²/2 = 10⁻⁹ ≤ ε', '改用梯度下降', '把 t 设为 1 继续']} answer={1} explain="停止准则是 λ²/2 ≤ ε。λ²/2 = 10⁻⁹ ≤ 10⁻⁸，所以停止。" />
+
+<Quiz q="下列哪个 Δx 一定是 x 处的下降方向（∇f(x) ≠ 0，f 严格凸二阶可微）？" options={['Δx = ∇f(x)', 'Δx = −∇²f(x)⁻¹∇f(x)', 'Δx 与 ∇f(x) 垂直', 'Δx = ∇²f(x)∇f(x)']} answer={1} explain="∇fᵀΔx_nt = −∇fᵀ∇²f⁻¹∇f = −λ² < 0（Hessian 逆正定）。A 是上升方向，C 的方向导数为 0，D 的方向导数为正。" />
+
+<Quiz q="梯度下降在对数坐标误差图上呈一条斜直线，这说明它是：" options={['二次收敛', '线性收敛（误差按几何级数下降）', '不收敛', '超线性收敛']} answer={1} explain="log(误差) 随 k 线性下降 ⇔ 误差每步乘一个固定因子 c<1，即线性收敛。" />

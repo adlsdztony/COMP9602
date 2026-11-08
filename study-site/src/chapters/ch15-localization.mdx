@@ -1,0 +1,429 @@
+import { Ch15CuttingPlane, Ch15Ellipsoid, Ch15Bisection, Ch15VolumeRace } from '../widgets/ch15.jsx'
+
+上一章的 subgradient method 每次只记住**一个点**，沿 $-g$ 走一小步，便宜但很慢。这一章换一种思路：维护一个**一定包含最优点的集合**（多边形或椭球），每问一次 oracle 就把这个集合切掉一块，让它越来越小，把最优点“围”出来。这类方法叫 <T zh="定位法">localization methods</T>，也叫 <T zh="割平面法">cutting-plane methods</T>。
+
+说明：本讲（L15）没有课堂录音，下面的直觉解释和推导是根据讲义补充的，讲义原有的定义、公式、算法都完整保留。
+
+本章路线：
+
+1. 定位法概览，与内点法、次梯度法的比较
+2. cutting-plane oracle；neutral cut 与 deep cut
+3. 用 subgradient 构造 cut：无约束与带约束（objective cut / feasibility cut）
+4. 通用的定位（割平面）算法框架；查询点的选择：center of gravity、analytic center（ACCPM）、Chebyshev center、MVE
+5. 一维特例：二分法 bisection
+6. 椭球法 ellipsoid method：思想、更新公式、算法、停止准则与收敛
+7. 带约束的椭球法：deep cut 更新与停止准则
+
+## 定位法概览
+
+讲义 p.3 的要点：
+
+- 也叫 **cutting-plane methods**；
+- 思想：把要找的点“定位”在某个集合里，这个集合每一步都变小；
+- 算法家族：ellipsoid method、center of gravity method、analytic centering method、Chebyshev center method……
+- 在内点法能用的问题上，**不如内点法高效**；
+- **但**能解一般的凸问题和拟凸问题，并且**可能不需要**目标和约束函数可微；
+- 与 subgradient 方法相比：**可能高效得多**，但**每步需要更多内存和计算**。
+
+<Intuition>
+
+subgradient 方法只记一个点，每次 oracle 给出的信息（一个 subgradient）用完就扔。定位法把所有 cut 都“记账”：集合里存着历史上所有 cut 的信息，所以每次 oracle 调用都被利用得更充分。
+
+</Intuition>
+
+## Cutting-plane oracle
+
+<Def title="cutting-plane oracle（separation oracle，讲义 p.4）">
+
+**oracle**：一个回答问题的“黑盒”，我们不关心它怎么得到答案。设目标集合为 $X\subseteq\mathbb{R}^n$（如最优点集）。在点 $x$ 查询 cutting-plane oracle，它会：
+
+- **断言** $x\in X$；或者
+- **返回一个分离超平面**：向量 $a\ne0$ 和数 $b$，使得
+
+$$
+a^T z \le b \quad \text{对所有 } z \in X, \qquad a^T x \ge b .
+$$
+
+$(a,b)$ 称为一个 **cutting plane**（或 **cut**）。它把半空间 $\{z\mid a^Tz>b\}$ 从搜索范围中**排除**。
+
+</Def>
+
+大白话：oracle 回答“不在这里，而且这一整片都不用找了”。被丢掉的半空间里一个 $X$ 的点都没有（因为 $X$ 里的点都满足 $a^Tz\le b$），所以不会丢掉答案。
+
+### Neutral cut 与 deep cut
+
+<Def title="neutral cut / deep cut（讲义 p.5）">
+
+- 若 $a^Tx=b$（查询点 $x$ 恰好在被切半空间的**边界**上），称为 **neutral cut**；
+- 若 $a^Tx>b$（$x$ 在被切半空间的**内部**），称为 **deep cut**。
+
+</Def>
+
+<Figure src="pages/L15/p05.png" caption="讲义 p.5：上图 neutral cut，切线正好穿过 x；下图 deep cut，x 在被丢掉的那一侧内部。阴影是保留的区域，X 在其中。" />
+
+deep cut 比经过同一点的 neutral cut 切掉更多——连 $x$ 本身也被切掉了——所以通常更好。
+
+## 用 subgradient 构造 cut
+
+### 无约束问题
+
+问题：minimize $f_0(x)$，$f_0:\mathbb{R}^n\to\mathbb{R}$ 凸；$X$ 为最优点集。给定 $x$，求 $g\in\partial f_0(x)$，则（讲义 p.6）
+
+$$
+x^\star \in \{ z \mid g^T(z-x) \le 0 \}.
+$$
+
+所以 $g^T(z-x)\le0$ 就是 $x$ 处的一个 cutting plane：$a=g$，$b=g^Tx$（neutral cut）。
+
+<Steps title="为什么最优点一定在这一侧" steps={[
+  {text:'subgradient 定义（第 14 章），取 z = x*：', math:'f_0(x^\\star) \\ge f_0(x) + g^T(x^\\star - x)'},
+  {text:'移项：', math:'g^T(x^\\star - x) \\le f_0(x^\\star) - f_0(x)'},
+  {text:'x* 是最优点，所以右边 ≤ 0：', math:'g^T(x^\\star - x) \\le 0'},
+  {text:'大白话：沿 g 的方向（上坡）走，f₀ 只会变大，最优点只能在“下坡”那一侧。', math:'x^\\star\\in\\{z\\mid g^T(z-x)\\le 0\\}'}
+]} />
+
+<Figure src="pages/L15/p06.png" caption="讲义 p.6：f 的等高线、点 x、subgradient g，以及被排除的半空间 gᵀ(z−x) ≥ 0。" />
+
+定位的思路（讲义 p.7）：在 $x^{(k)}$ 求 $g\in\partial f_0(x^{(k)})$，于是 $x^\star\in\{z\mid g^T(z-x^{(k)})\le0\}$；用这个 cut 把可行集合的体积切小；再在新多面体的**中心**选 $x^{(k+1)}$，希望继续大幅切小体积。
+
+### 带不等式约束的问题
+
+问题：minimize $f_0(x)$ s.t. $f_i(x)\le0$，$i=1,\dots,m$，所有 $f_i$ 凸。（讲义 p.8）
+
+- **若 $x$ 可行**，得到（neutral）**objective cut**：
+
+$$
+g_0^T(z-x) \le 0, \qquad g_0 \in \partial f_0(x).
+$$
+
+- **若 $x$ 不可行**，比如 $f_j(x)>0$，得到（deep）**feasibility cut**：
+
+$$
+f_j(x) + g_j^T(z-x) \le 0, \qquad g_j \in \partial f_j(x).
+$$
+
+<Steps title="feasibility cut 的来历" steps={[
+  {text:'对任意可行的 z，有 fⱼ(z) ≤ 0。由 fⱼ 的 subgradient 不等式：', math:'0 \\ge f_j(z) \\ge f_j(x) + g_j^T(z-x)'},
+  {text:'所以每个可行点都满足：', math:'f_j(x) + g_j^T(z-x) \\le 0'},
+  {text:'代入 z = x：左边 = fⱼ(x) > 0，不满足——x 本身被切掉，所以是 deep cut。', math:'f_j(x) + g_j^T(x-x) = f_j(x) > 0'}
+]} />
+
+和第 14 章“约束次梯度法”一样：当前点可行就用目标的 subgradient，不可行就用某个违反约束的 subgradient。
+
+<Quiz q="在可行点 x 处 f₀ 的 subgradient 为 g = (1, −2)，x = (0, 1)。objective cut 保留的是哪个半空间？" options={['z₁ − 2z₂ ≤ −2', 'z₁ − 2z₂ ≥ −2', 'z₁ + 2z₂ ≤ 2', 'z₁ − 2z₂ ≤ 0']} answer={0} explain="gᵀ(z − x) ≤ 0 ⇒ z₁ − 2(z₂ − 1) ≤ 0 ⇒ z₁ − 2z₂ ≤ −2。" />
+
+## 通用定位算法
+
+<Def title="Basic (conceptual) cutting-plane algorithm（讲义 p.9）">
+
+**given** 已知包含 $X$ 的初始多面体 $\mathcal P_0=\{z\mid Cz\preceq d\}$。$k:=0$。
+
+**repeat**
+1. 在 $\mathcal P_k$ 中选一点 $x^{(k+1)}$。
+2. 在 $x^{(k+1)}$ 查询 cutting-plane oracle。
+3. 若 oracle 判定 $x^{(k+1)}\in X$，**退出**。
+4. 否则加入新的 cutting plane $a_{k+1}^Tz\le b_{k+1}$：
+
+$$
+\mathcal{P}_{k+1} := \mathcal{P}_k \cap \{ z \mid a_{k+1}^T z \le b_{k+1} \}.
+$$
+
+5. 若 $\mathcal P_{k+1}=\emptyset$，**退出**。
+6. $k:=k+1$。
+
+</Def>
+
+说明：
+- $\{z\mid Cz\preceq d\}$ 是有限个线性不等式定义的多面体（$\preceq$ 表示逐分量 $\le$）。每加一个 cut，多一个不等式。
+- 第 5 步是一个**证书**：如果 $X$ 非空，它永远在 $\mathcal P_k$ 里；所以 $\mathcal P_{k+1}$ 为空就证明了 $X=\emptyset$（例如问题不可行）。
+- 这是一个“概念”算法，唯一没说清的是**第 1 步怎么选点**。
+
+### 查询点选在“中心”
+
+<Figure src="pages/L15/p10.png" caption="讲义 p.10：多面体 P_k、查询点 x⁽ᵏ⁺¹⁾、cut 的法向量 a_{k+1}，以及切完后剩下的 P_{k+1}。" />
+
+讲义 p.10 给出的两条原则：
+- 希望选 $x^{(k+1)}$ 使得**无论 oracle 给出什么 cut**，$\mathcal P_{k+1}$ 都尽量小；
+- 所以希望 $x^{(k+1)}$ 靠近 $\mathcal P_k$ 的**中心**。
+
+直觉：如果查询点偏在一角，oracle 可能“恰好”只切掉一小块；而经过中心的任何超平面都会切掉相当大的一部分。
+
+### 几种中心（讲义 p.11）
+
+**(a) 重心 center of gravity（CG 算法，教材 p.416）。**
+
+$$
+x^{(k)} = \mathbf{cg}\big(C^{(k-1)}\big) = \frac{\displaystyle\int_{C^{(k-1)}} z\,dz}{\displaystyle\int_{C^{(k-1)}} dz}.
+$$
+
+大白话：把集合当成均匀的薄板，它的质心。（补充：Grünbaum 定理保证任何过重心的超平面切出的每一侧都至少有 $\bigl(\tfrac{n}{n+1}\bigr)^n\ge\tfrac1e$ 的体积，所以切完后剩下的体积**至多**是原来的 $1-1/e\approx0.632$，与维数无关。缺点：高维时重心很难算。）
+
+**(b) Analytic center（ACCPM，analytic centering cutting-plane method）。** $x^{(k)}$ 取 $C^{(k-1)}=\{z\mid a_i^Tz\le b_i,\ i=1,\dots,m\}$ 的 analytic center：
+
+$$
+x^{(k)} = \arg\min_z \; -\sum_{i=1}^{m} \log\big(b_i - a_i^T z\big).
+$$
+
+这正是第 13 章的 analytic center（log barrier 的最小点），可以用 Newton 法高效计算。
+
+**(c) Chebyshev center。** 多面体内**最大内切球的球心**。（补充：可以用 LP 求：maximize $R$ s.t. $a_i^Tx_c+R\|a_i\|_2\le b_i$。）
+
+**(d) 最大体积内切椭球 MVE 的中心**（maximum volume ellipsoid）。
+
+<MathNote title="积分与重心">
+
+$\int_C dz$ 是集合 $C$ 的体积（二维是面积）；$\int_C z\,dz$ 是把每个点的坐标按体积加权求和。二者相除就是“平均位置”——重心。对多边形可以用三角剖分精确计算。
+
+</MathNote>
+
+<Ch15CuttingPlane />
+
+<Exam>
+
+四种中心的定义要能写出：CG（积分公式）、analytic center（$-\sum\log(b_i-a_i^Tz)$ 的最小点，ACCPM）、Chebyshev center（最大内切球的球心）、MVE。
+
+</Exam>
+
+## 一维特例：二分法 Bisection
+
+最小化凸函数 $f:\mathbb{R}\to\mathbb{R}$ 时，$\mathcal P_k$ 是一个**区间**，最自然的查询点是区间中点（讲义 p.12）：
+
+$$
+x^{(k+1)} := \operatorname{midpoint}(\mathcal{P}_k).
+$$
+
+<Def title="一维搜索的二分法（讲义 p.12）">
+
+**given** 已知包含 $x^\star$ 的初始区间 $[l,u]$，容差 $r>0$。
+
+**repeat**
+- $x:=(l+u)/2$；
+- 在 $x$ 查询 oracle；
+- 若 oracle 判定 $x^\star\le x$，则 $u:=x$；
+- 若 oracle 判定 $x^\star\ge x$，则 $l:=x$。
+
+**until** $u-l\le 2r$。
+
+</Def>
+
+**可微的 $f$（讲义 p.13）**：计算 $f'(x)$。若 $f'(x)<0$，令 $l:=x$；否则令 $u:=x$。
+
+理由：$f'(x)<0$ 表示 $f$ 在 $x$ 处下降。由凸性，对任意 $z<x$，$f(z)\ge f(x)+f'(x)(z-x)>f(x)$（因为 $f'(x)<0$ 且 $z-x<0$），所以左边都比 $f(x)$ 大，最小点在右边。这就是一维的 cut $f'(x)(z-x)\le0$。
+
+<Figure src="pages/L15/p13.png" caption="讲义 p.13：在区间 P_k 的中点查询，根据 f′ 的符号保留包含最小点的一半，得到 P_{k+1}。" />
+
+**迭代次数（补充）**：每步区间长度减半，$k$ 步后为 $(u_0-l_0)/2^k$。停止需要 $\le 2r$，所以约需 $\bigl\lceil\log_2\frac{u_0-l_0}{2r}\bigr\rceil$ 步。停止时取中点，它离 $x^\star$ 不超过 $r$。
+
+<Ch15Bisection />
+
+<Quiz q="初始区间 [0, 8]，容差 r = 0.01。二分法大约需要几步？" options={['3', '9', '400', '800']} answer={1} explain="log₂(8/(2×0.01)) = log₂(400) ≈ 8.64，向上取整为 9。" />
+
+## 椭球法 Ellipsoid method
+
+### 思想与算法框架
+
+多面体越切边数越多，重心之类的中心越来越难算。椭球法的想法（讲义 p.14）：**用椭球代替多面体**——在椭球而不是多面体里寻找 $x^\star$。
+
+1. 第 $k$ 步已知 $x^\star\in\mathcal E^{(k)}$；
+2. 令 $x^{(k+1)}:=\text{center}(\mathcal E^{(k)})$，计算 $g^{(k+1)}\in\partial f_0(x^{(k+1)})$（可微时就是梯度）；
+3. 于是知道 $x^\star\in\mathcal{E}^{(k)} \cap \{ z \mid g^{(k+1)T}(z - x^{(k+1)}) \le 0 \}$——一个**半椭球**；
+4. 令 $\mathcal E^{(k+1)}:=$ 覆盖这个半椭球的**最小体积椭球**。
+
+<Figure src="L15/p15_f1.png" caption="讲义 p.15（第 1 步）：当前椭球、过中心的切线（虚线）、subgradient 箭头 g，以及覆盖保留半边的更小椭球。" width="420px" />
+
+<Figure src="L15/p15_f6.png" caption="讲义 p.15（第 6 步）：经过几步迭代，椭球不断缩小并围住最小点。" width="420px" />
+
+### 最小体积椭球的更新公式
+
+<MathNote title="椭球的表示">
+
+$$
+\mathcal{E}(x,P) = \{ z \mid (z-x)^T P^{-1} (z-x) \le 1 \}
+$$
+
+$x$ 是中心，$P\succ0$（对称正定）决定形状：$P$ 的特征向量是主轴方向，特征值的平方根是半轴长。例如 $P=r^2I$ 就是半径 $r$ 的球。椭球体积 $\propto\sqrt{\det P}$。另一个常用事实：
+
+$$
+\max_{z\in\mathcal E(x,P)} g^T(z-x)=\sqrt{g^TPg},
+$$
+
+即椭球在方向 $g$ 上“伸出”中心的最远距离（按 $g$ 度量）。
+
+</MathNote>
+
+<Thm title="覆盖半椭球的最小体积椭球（讲义 p.16）">
+
+覆盖 $\mathcal E\cap\{z\mid g^T(z-x)\le0\}$ 的最小体积椭球 $\mathcal E(x^+,P^+)$ 为（$n$ 是 $x$ 的维数）：
+
+$$
+\begin{aligned}
+x^+ &= x - \frac{1}{n+1}\, P\tilde g, \\
+P^+ &= \frac{n^2}{n^2-1}\left( P - \frac{2}{n+1}\, P\tilde g\tilde g^T P \right),
+\end{aligned}
+\qquad
+\tilde g = \frac{1}{\sqrt{g^T P g}}\, g .
+$$
+
+</Thm>
+
+逐项解释：
+- $\tilde g$ 是把 $g$ 按椭球的尺度归一化（使 $\tilde g^TP\tilde g=1$）；
+- 新中心沿 $-P\tilde g$ 移动——朝保留的那一半移动（$g$ 指向被切掉的一侧）；移动量是“半径”的 $\frac1{n+1}$；
+- $P^+$ 中减去 $\frac{2}{n+1}P\tilde g\tilde g^TP$：在被切方向上压扁；系数 $\frac{n^2}{n^2-1}>1$：在其他方向上略微放大，以保证完全覆盖半椭球。
+
+<Figure src="L15/p16_f1.png" caption="讲义 p.16：椭球 E、过中心 x 的切线与法向 g、新的最小椭球 E⁺ 及其中心 x⁺。" width="460px" />
+
+### 算法
+
+<Def title="Basic ellipsoid algorithm（无约束，讲义 p.17）">
+
+**given** 包含 $x^\star$ 的椭球 $\mathcal E(x,P)$，精度 $\epsilon>0$。
+
+**repeat**
+1. 计算 $g\in\partial f_0(x)$。
+2. 若 $\sqrt{g^TPg}\le\epsilon$，**返回** $x$。
+3. 更新椭球：
+   - 3a. $\tilde g:=\dfrac{1}{\sqrt{g^TPg}}\,g$
+   - 3b. $x:=x-\dfrac{1}{n+1}P\tilde g$
+   - 3c. $P:=\dfrac{n^2}{n^2-1}\left(P-\dfrac{2}{n+1}P\tilde g\tilde g^TP\right)$
+
+</Def>
+
+<Warn>
+
+顺序很重要：3b 用的是**旧的** $P$；3c 才覆盖 $P$。若先算 3c 再算 3b，中心就算错了。
+
+</Warn>
+
+### 停止准则与收敛
+
+**停止准则（讲义 p.18）**：
+
+$$
+\sqrt{g^{(k)T} P^{(k)} g^{(k)}} \le \epsilon \quad\Longrightarrow\quad f(x^{(k)}) - f(x^\star) \le \epsilon .
+$$
+
+<Steps title="为什么这个准则保证 ε-最优" steps={[
+  {text:'subgradient 不等式（取 y = x*）：', math:'f(x^\\star)\\ge f(x^{(k)})+g^{(k)T}(x^\\star-x^{(k)})\\ \\Rightarrow\\ f(x^{(k)})-f(x^\\star)\\le g^{(k)T}(x^{(k)}-x^\\star)'},
+  {text:'x* 在椭球 E⁽ᵏ⁾ 里，所以右边不超过在整个椭球上取最大：', math:'g^{(k)T}(x^{(k)}-x^\\star)\\le\\max_{z\\in\\mathcal E^{(k)}} g^{(k)T}(x^{(k)}-z)=\\sqrt{g^{(k)T}P^{(k)}g^{(k)}}'},
+  {text:'合起来：', math:'f(x^{(k)})-f(x^\\star)\\le\\sqrt{g^{(k)T}P^{(k)}g^{(k)}}\\le\\epsilon'}
+]} />
+
+**收敛（讲义 p.18）**：
+
+$$
+\mathbf{vol}\big(\mathcal{E}^{(k+1)}\big) < e^{-\frac{1}{2n}}\,\mathbf{vol}\big(\mathcal{E}^{(k)}\big).
+$$
+
+- 体积缩小因子随 $n$ 增大**迅速变差**（越来越接近 1），不如 CG 或 MVE 割平面法；
+- 每步计算量适中，$O(n^2)$，有解析公式；
+- 理论上高效（多项式时间），实践中**慢但稳定**。
+
+（补充：neutral cut 的精确缩小因子是 $\frac{n}{n+1}\bigl(\frac{n^2}{n^2-1}\bigr)^{(n-1)/2}$；$n=2$ 时约 $0.770$，$n=1$ 时为 $1/2$，正好就是二分法。）
+
+<Ch15Ellipsoid />
+
+<Ch15VolumeRace />
+
+<Example title="数值例子（讲义 p.19）">
+
+$f(x)=\max_{i=1,\dots,m}(a_i^Tx+b_i)$，$n=20$，$m=100$。$f(x^{(k)})$ 从约 2.5 开始，大约 50–100 步后接近 $f^\star$。注意曲线**不是单调的**——椭球法也不是下降法，应报告迄今最好的值。
+
+</Example>
+
+<Figure src="pages/L15/p19.png" caption="讲义 p.19：椭球法在分段线性函数上的 f(x⁽ᵏ⁾)（实线）与 f*（虚线）。" />
+
+<Quiz q="n = 2 时，椭球法每步体积至少缩小到原来的多少以下？" options={['e^(−1/2) ≈ 0.607', 'e^(−1/4) ≈ 0.779', '1/2', '0.632']} answer={1} explain="vol(E⁽ᵏ⁺¹⁾) < e^(−1/(2n)) vol(E⁽ᵏ⁾)，n = 2 时为 e^(−1/4)。" />
+
+## 带不等式约束的椭球法
+
+问题：minimize $f_0(x)$ s.t. $f_i(x)\le0$，$i=1,\dots,m$。（讲义 p.20）
+
+- **若 $x^{(k)}$ 可行**，用 **objective cut** 更新椭球：
+
+$$
+g_0^T\big(z - x^{(k)}\big) + \underbrace{\Big(f_0(x^{(k)}) - f_{\text{best}}^{(k)}\Big)}_{\text{deep cut}} \le 0, \qquad g_0 \in \partial f_0(x^{(k)}),
+$$
+
+其中 $f_{\text{best}}^{(k)}$ 是迄今**可行**迭代点的最好目标值。
+
+- **若 $x^{(k)}$ 不可行**（$f_j(x^{(k)})>0$），用 **feasibility cut**：
+
+$$
+g_j^T\big(z - x^{(k)}\big) + \underbrace{f_j(x^{(k)})}_{\text{deep cut}} \le 0, \qquad g_j \in \partial f_j(x^{(k)}).
+$$
+
+objective cut 的直觉：最优点至少要和目前见过的最好可行点一样好，即 $f_0(z)\le f_{\text{best}}$；结合 $f_0(z)\ge f_0(x)+g_0^T(z-x)$ 就得到上式。当前点比 $f_{\text{best}}$ 差时它被切掉（deep）；当前点就是最好点时 $h=0$，退化成 neutral cut。
+
+### Deep cut 更新公式
+
+<Thm title="deep cut 的最小体积椭球（讲义 p.21）">
+
+覆盖 $\mathcal E\cap\{z\mid g^T(z-x)+h\le0\}$（$h\ge0$）的最小体积椭球：
+
+$$
+\begin{aligned}
+x^+ &= x - \frac{1+\alpha n}{n+1}\, P\tilde g, \\
+P^+ &= \frac{n^2(1-\alpha^2)}{n^2-1}\left( P - \frac{2(1+\alpha n)}{(n+1)(1+\alpha)}\, P\tilde g\tilde g^T P \right),
+\end{aligned}
+\qquad
+\tilde g = \frac{g}{\sqrt{g^T P g}}, \quad \alpha = \frac{h}{\sqrt{g^T P g}} .
+$$
+
+若 $\alpha>1$，交集为空。
+
+</Thm>
+
+大白话：$\alpha$ 衡量 cut 有多“深”——切线离中心有多远（以椭球在 $g$ 方向的半径为单位）。$\alpha=0$ 时公式退化为 neutral cut 的公式；$\alpha$ 越大，中心移得越远、椭球缩得越小；$\alpha>1$ 说明切线完全在椭球外面，保留部分是空集。
+
+<Steps title="检查 α = 0 时退化为 neutral 公式" steps={[
+  {text:'中心：(1 + 0·n)/(n+1) = 1/(n+1)。', math:'x^+ = x - \\frac{1}{n+1}P\\tilde g'},
+  {text:'矩阵：n²(1−0)/(n²−1) 与 2(1+0)/((n+1)(1+0)) = 2/(n+1)。', math:'P^+ = \\frac{n^2}{n^2-1}\\Bigl(P - \\frac{2}{n+1}P\\tilde g\\tilde g^TP\\Bigr)'}
+]} />
+
+### 停止准则（讲义 p.22）
+
+- **最优性**：若 $x^{(k)}$ 可行且 $\sqrt{g_0^{(k)T}P^{(k)}g_0^{(k)}}\le\epsilon$，则 $x^{(k)}$ 是 **$\epsilon$-次优**的。
+- **不可行性**：若
+
+$$
+f_j\big(x^{(k)}\big) - \sqrt{g_j^{(k)T} P^{(k)} g_j^{(k)}} > 0,
+$$
+
+则**问题不可行**。
+
+理由（补充）：对椭球内任意 $z$，$f_j(z)\ge f_j(x^{(k)})+g_j^T(z-x^{(k)})\ge f_j(x^{(k)})-\sqrt{g_j^TP^{(k)}g_j}>0$，即整个椭球里没有满足 $f_j\le0$ 的点；而任何可行的最优点都应在椭球里，矛盾。（这和 deep cut 中 $\alpha=f_j/\sqrt{g^TPg}>1$ ⇒ 空集是同一件事。）
+
+在上面椭球法交互中切换到“带约束”模式，可以看到不可行点处的 feasibility cut 和可行点处的 deep objective cut。
+
+<Exam>
+
+- subgradient cut $g^T(z-x)\le0$ 的推导；objective cut（neutral）与 feasibility cut（deep）。
+- neutral vs deep：$a^Tx=b$ vs $a^Tx>b$。
+- **椭球更新公式**（$x^+$、$P^+$、$\tilde g$）以及步骤顺序；deep cut 版本与 $\alpha=h/\sqrt{g^TPg}$，$\alpha>1$ ⇒ 空。
+- 停止准则：$\sqrt{g^TPg}\le\epsilon$；约束情形的最优性与不可行性判据。
+- 体积缩小 $e^{-1/(2n)}$，对 $n$ 的依赖；每步 $O(n^2)$。
+- 二分法（含 $u-l\le2r$ 与导数版本）；通用算法框架及两个退出条件。
+- 与 subgradient 方法、内点法的比较。
+
+</Exam>
+
+## 本章小结
+
+<Summary>
+
+- **定位法**：维护一定包含 $X$ 的集合，每次用 oracle 返回的 cut 把它切小。比 subgradient 法高效、每步更贵；不如内点法高效，但不需要可微。
+- **oracle 与 cut**：$a^Tz\le b$ 对 $X$ 成立、$a^Tx\ge b$；neutral（$=$）与 deep（$>$）。
+- **subgradient cut**：$g^T(z-x)\le0$；约束问题：可行用 objective cut，不可行用 feasibility cut $f_j(x)+g_j^T(z-x)\le0$。
+- **通用算法**：选点 → 查询 → 加 cut → 空则退出；查询点选中心：CG、analytic center（ACCPM）、Chebyshev center、MVE。
+- **二分法**：中点 + $f'$ 符号；停止 $u-l\le2r$，约 $\lceil\log_2((u_0-l_0)/2r)\rceil$ 步。
+- **椭球法**：$x^+=x-\frac1{n+1}P\tilde g$，$P^+=\frac{n^2}{n^2-1}(P-\frac2{n+1}P\tilde g\tilde g^TP)$；停止 $\sqrt{g^TPg}\le\epsilon$；体积每步 $<e^{-1/(2n)}$；$O(n^2)$。
+- **约束椭球法**：deep cut（$h=f_0-f_{\text{best}}$ 或 $f_j$），$\alpha=h/\sqrt{g^TPg}$，$\alpha>1$ 为空；不可行判据 $f_j-\sqrt{g_j^TPg_j}>0$。
+
+</Summary>
+
+<Quiz q="椭球法中，若某步 h = 3，√(gᵀPg) = 2，说明什么？" options={['这是 neutral cut', 'α = 1.5 > 1，交集为空', '已达到 ε-最优', '应该减小步长']} answer={1} explain="α = h/√(gᵀPg) = 1.5 > 1，切线完全在椭球之外，保留部分为空（对应约束情形：问题不可行，或已无更好的点）。" />
+
+<Quiz q="为什么在高维问题上椭球法往往很慢？" options={['因为每步计算量是 O(n³)', '因为体积缩小因子 e^(−1/(2n)) 随 n 增大趋近 1', '因为需要二阶导数', '因为不能处理约束']} answer={1} explain="每步体积只缩小一个接近 1 的因子，要把体积缩小固定倍数需要约 O(n) 倍的步数；每步计算量是 O(n²)。" />
+
+<Quiz q="与 subgradient 方法相比，定位法的特点是？" options={['每步更便宜但更慢', '可能高效得多，但每步需要更多内存和计算', '需要函数二阶可微', '只能解 LP']} answer={1} explain="讲义 p.3：定位法可能比 subgradient 方法高效得多，但每步需要更多内存和计算。" />
