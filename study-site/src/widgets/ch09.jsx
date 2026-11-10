@@ -1,6 +1,7 @@
 // 第 9 章交互组件：KKT 条件与互补松弛
 import { useState, useEffect, useRef } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Ellipse, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Ellipse, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, M } from '../components/index.jsx'
 
 const f2 = (v) => (Math.abs(v) < 5e-4 ? 0 : v).toFixed(2)
@@ -84,7 +85,7 @@ export function Ch09KKTGeometry() {
   const jump = () => x.setPoint(projPoly([c.x, c.y]))
   return (
     <Widget title="KKT 的几何：−∇f₀ 必须落在活跃约束梯度的锥里" hint="黑色点是候选解 x（只能在可行多边形内拖动，靠近边/角会自动吸附）；橙点是目标中心 c，f₀(x)=‖x−c‖²。试试：把 x 拖到边上、角上，观察红色箭头 −∇f₀ 是否落进绿色锥（活跃约束梯度 ∇fᵢ 的非负组合）。只有落进锥里且 λ≥0，KKT 才成立。">
-      <Mafs viewBox={{ x: [-1, 4.2], y: [-1, 3.4] }} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-1, 4.2], y: [-1, 3.4] }} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={KCORNERS.map((q) => q)} color={Theme.indigo} fillOpacity={0.12} />
         {[0.6, 1.2, 1.8, 2.4].map((r) => <Circle key={r} center={[c.x, c.y]} radius={r} color={Theme.orange} fillOpacity={0} strokeStyle="dashed" weight={1} />)}
@@ -135,7 +136,7 @@ export function Ch09CompSlack() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
         <div>
           <div style={{ fontSize: 13, color: '#555', marginBottom: 4 }}>原问题：f₀(x) 与可行域（灰色阴影区域 x ≤ b）</div>
-          <Mafs viewBox={{ x: [-3, 5], y: [-1, 7] }} height={260} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-3, 5], y: [-1, 7] }} height={260} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={1} />
             <Polygon points={[[-3, -1], [b, -1], [b, 7], [-3, 7]]} color={Theme.blue} fillOpacity={0.08} weight={0} />
             <Line.Segment point1={[b, -1]} point2={[b, 7]} color={Theme.blue} style="dashed" />
@@ -148,7 +149,7 @@ export function Ch09CompSlack() {
         </div>
         <div>
           <div style={{ fontSize: 13, color: '#555', marginBottom: 4 }}>对偶函数 g(λ) = λ(a−b) − λ²/4（λ ≥ 0）</div>
-          <Mafs viewBox={{ x: [-0.5, 8], y: [-6, 7] }} height={260} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-0.5, 8], y: [-6, 7] }} height={260} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={1} />
             <Plot.OfX y={g} domain={[0, 8]} color={Theme.violet} />
             <Line.Segment point1={[-0.5, pstar]} point2={[8, pstar]} color={Theme.green} style="dashed" />
@@ -186,7 +187,7 @@ export function Ch09DualRecover() {
   return (
     <Widget title="固定 λ，最小化 Lagrangian：x(λ) 什么时候正好是原问题最优解？" hint="对每个 λ，令 ∇ₓL=0 得到 x(λ)=(λ/2, λ/4)（绿点，沿绿色射线移动）。右图是对偶函数 g(λ)。试试把 λ 拖到 4：x(λ) 恰好落在约束线上、互补松弛成立、g(λ)=f₀(x)=6，对偶间隙为 0。λ<4 时 x(λ) 不可行；λ>4 时虽然可行，但 λ·f₁ ≠ 0。">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
-        <Mafs viewBox={{ x: [-1, 5], y: [-1.5, 3.5] }} height={260} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-1, 5], y: [-1.5, 3.5] }} height={260} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={1} />
           <Polygon points={[[3 + 1.5, -1.5], [5, -1.5], [5, 3.5], [-0.5, 3.5]]} color={Theme.blue} fillOpacity={0.08} weight={0} />
           <Line.ThroughPoints point1={[0, 3]} point2={[3, 0]} color={Theme.blue} />
@@ -198,7 +199,7 @@ export function Ch09DualRecover() {
           <Point x={x[0]} y={x[1]} color={Theme.green} />
           <Text x={x[0]} y={x[1]} attach="nw" size={12} color={Theme.green}>x(λ)</Text>
         </Mafs>
-        <Mafs viewBox={{ x: [-0.5, 8.5], y: [-1, 8] }} height={260} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-0.5, 8.5], y: [-1, 8] }} height={260} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={1} />
           <Plot.OfX y={g} domain={[0, 8.5]} color={Theme.violet} />
           <Line.Segment point1={[-0.5, 6]} point2={[8.5, 6]} color={Theme.red} style="dashed" />

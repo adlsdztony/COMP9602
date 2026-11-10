@@ -1,6 +1,7 @@
 // 第 11 章 无约束优化：梯度下降与牛顿法 —— 交互组件
 import { useState, useMemo, useEffect, useRef } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 /* =====================================================================
@@ -46,19 +47,26 @@ export function ch11ContourPaths(f, xr, yr, levels, sx, sy, nx = 90, ny = 60) {
 // 等高线画布：children 是 render 函数 ({sx, sy}) => svg 元素
 export function Ch11Contour({ f, fkey, xr, yr, W = 520, H = 300, levels, onPick, children }) {
   const ref = useRef(null)
-  const sx = (x) => ((x - xr[0]) / (xr[1] - xr[0])) * W
-  const sy = (y) => H - ((y - yr[0]) / (yr[1] - yr[0])) * H
+  // Fit both world ranges with one scale, including when this SVG is used in
+  // a narrow column. Expanding the visible range keeps the plot edge-to-edge.
+  const scale = Math.min(W / (xr[1] - xr[0]), H / (yr[1] - yr[0]))
+  const cx = (xr[0] + xr[1]) / 2, cy = (yr[0] + yr[1]) / 2
+  const vx = [cx - W / (2 * scale), cx + W / (2 * scale)]
+  const vy = [cy - H / (2 * scale), cy + H / (2 * scale)]
+  const sx = (x) => W / 2 + (x - cx) * scale
+  const sy = (y) => H / 2 - (y - cy) * scale
   const paths = useMemo(
-    () => ch11ContourPaths(f, xr, yr, levels, sx, sy),
+    () => ch11ContourPaths(f, vx, vy, levels, sx, sy),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fkey, xr[0], xr[1], yr[0], yr[1], levels.join(','), W, H],
   )
   const pick = (e) => {
     if (!onPick || !ref.current) return
-    const r = ref.current.getBoundingClientRect()
-    const px = ((e.clientX - r.left) / r.width) * W
-    const py = ((e.clientY - r.top) / r.height) * H
-    onPick([xr[0] + (px / W) * (xr[1] - xr[0]), yr[0] + ((H - py) / H) * (yr[1] - yr[0])])
+    const svg = ref.current
+    const point = svg.createSVGPoint()
+    point.x = e.clientX; point.y = e.clientY
+    const local = point.matrixTransform(svg.getScreenCTM().inverse())
+    onPick([cx + (local.x - W / 2) / scale, cy + (H / 2 - local.y) / scale])
   }
   return (
     <svg
@@ -336,7 +344,7 @@ export function Ch11Backtracking() {
       title="回溯线搜索 Backtracking line search"
       hint="黑色曲线是 g(t)=f(x+tΔx)，灰色虚线是 t=0 处的切线，橙色是“放宽的” α-线 f(x)+αt∇fᵀΔx。从 t=1 开始，点“下一次尝试”让 t←βt，直到点落到橙线下方（绿色区间 (0,t₀] 内）。试试把 β 调到 0.9（缩得慢、尝试次数多）或把 α 调小（更容易接受）。"
     >
-      <Mafs viewBox={{ x: [-0.06, 1.12], y: [ybot, ytop] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.06, 1.12], y: [ybot, ytop] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian xAxis={{ lines: 0.25 }} yAxis={{ lines: Math.max(0.5, Math.round((ytop - ybot) / 6)) }} />
         <Line.Segment point1={[0, ybot + 0.03 * (ytop - ybot)]} point2={[Math.min(t0, 1.12), ybot + 0.03 * (ytop - ybot)]} color={Theme.green} weight={7} />
         <Text x={Math.min(t0, 1.0)} y={ybot + 0.03 * (ytop - ybot)} attach="ne" size={13} color={Theme.green}>t₀ = {t0.toFixed(3)}</Text>
@@ -407,7 +415,7 @@ export function Ch11SteepestNorms() {
       title="最速下降方向依赖于范数 Steepest descent in different norms"
       hint="拖动黑点改变梯度 ∇f(x)。红色箭头是在“单位球”（灰色区域）里让 ∇fᵀv 最小的方向 Δx_nsd，绿色虚线是与 ∇f 垂直、恰好切到单位球的等值线。切换范数：只有欧氏范数时它才正好是 −∇f 的方向。"
     >
-      <Mafs viewBox={{ x: [-2.6, 2.6], y: [-1.8, 1.8] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-2.6, 2.6], y: [-1.8, 1.8] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {norm === 'l2' && <Plot.Parametric domain={[0, 2 * Math.PI]} xy={(t) => [Math.cos(t), Math.sin(t)]} color={Theme.indigo} />}
         {ball && <Polygon points={ball} color={Theme.indigo} fillOpacity={0.12} />}
@@ -506,7 +514,7 @@ export function Ch11Newton1D() {
         <Tabs value={fk} set={switchF} tabs={Object.entries(N1D).map(([k, v]) => ({ value: k, label: v.label }))} />
         <label style={{ fontSize: 14 }}><input type="checkbox" checked={damped} onChange={(e) => setDamped(e.target.checked)} /> 阻尼牛顿（回溯 α=0.25, β=0.5）</label>
       </div>
-      <Mafs viewBox={F.view} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={F.view} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={F.f} color={Theme.blue} weight={3} />
         {inView && <Plot.OfX y={q} color={Theme.violet} style="dashed" />}

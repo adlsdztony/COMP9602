@@ -1,6 +1,7 @@
 // 第 5 章交互组件：拟凸问题与线性规划
 import { useState, useMemo, useEffect, useRef } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const f2 = (v) => (Math.abs(v) < 5e-3 ? 0 : v).toFixed(2)
@@ -86,7 +87,7 @@ export function Ch05Bisection() {
   return (
     <Widget title="二分法求解拟凸问题" hint="目标 f₀(x) = ((x−1)²+1)/(x+1) 是“凸/凹”比值，拟凸。每一步取 t=(l+u)/2，问：是否存在可行 x 使 f₀(x) ≤ t？（等价于 φₜ(x)=p(x)−t·q(x) ≤ 0，一个凸可行性问题）。可行就把 u 压下来，不可行就把 l 抬上去。点“单步”看区间如何每次减半。">
       <Tabs tabs={[{ value: 'f', label: '看 f₀(x) 与水平线 t' }, { value: 'phi', label: '看 φₜ(x) = p(x) − t·q(x)' }]} value={view} set={setView} />
-      <Mafs viewBox={{ x: [-0.9, 6], y: view === 'f' ? [-0.4, 3.6] : [-4, 6] }} height={280} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.9, 6], y: view === 'f' ? [-0.4, 3.6] : [-4, 6] }} height={280} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Polygon points={[[lo, -10], [hi, -10], [hi, 30], [lo, 30]]} color={Theme.indigo} fillOpacity={0.08} weight={0} />
         {view === 'f' ? (
@@ -184,7 +185,7 @@ function LPInner({ mode }) {
   const xs = V[optIdx[0]]
   return (
     <>
-      <Mafs viewBox={LP_VIEW} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={LP_VIEW} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Polygon points={region} color={Theme.blue} fillOpacity={0.12} weight={bounded ? 2 : 1} />
         {ks.map((k, i) => (
@@ -274,7 +275,7 @@ export function Ch05Chebyshev() {
   const active = sol ? H.map(([a, b], i) => ({ i, a, s: b - a[0] * xc[0] - a[1] * xc[1] - r * Math.hypot(...a) })).filter((o) => Math.abs(o.s) < 1e-4 * Math.max(1, Math.hypot(...o.a))) : []
   return (
     <Widget title="Chebyshev 中心：多面体里最大的内切圆" hint="拖动 5 个橙色顶点（取凸包作为多面体 P）。程序在每一帧都解 LP：max r s.t. aᵢᵀx_c + r‖aᵢ‖₂ ≤ bᵢ。红色箭头是“最危险方向” u* = r·aᵢ/‖aᵢ‖₂ —— 圆正好在这些方向碰到边。试着把多边形拉得很扁，看圆怎么变。">
-      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         {V.length >= 3 && <Polygon points={V} color={Theme.blue} fillOpacity={0.1} />}
         {sol && <Circle center={xc} radius={r} color={Theme.green} fillOpacity={0.15} />}
@@ -318,7 +319,7 @@ export function Ch05PiecewiseLinear() {
   const sat = A.map((a, i) => P.y >= a * P.x + B[i] - 1e-9)
   return (
     <Widget title="分段线性最小化：min maxᵢ(aᵢx+bᵢ) 变成 LP" hint="灰色阴影 = max 函数的上境图。拖动绿色点 (x, t)：只有当 t ≥ 每一条直线时（四个约束全部满足），点才在阴影里。再按“压低 t”，t 会贴到 max 曲线上；按“最优”跳到 LP 的解。滑块改变第 3 条直线的斜率。">
-      <Mafs viewBox={{ x: [-3.5, 3.5], y: [-1.2, 4.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.5, 3.5], y: [-1.2, 4.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Plot.Inequality y={{ '>=': F, '<=': () => 6 }} color={Theme.indigo} fillOpacity={0.1} weight={0} />
         {A.map((a, i) => <Plot.OfX key={i} y={(x) => a * x + B[i]} color={cols[i]} weight={1.5} style="dashed" />)}

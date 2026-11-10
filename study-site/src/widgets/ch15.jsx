@@ -1,6 +1,7 @@
 // 第 15 章 定位法 Localization methods —— 交互组件
 import { useState, useMemo } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Text, Theme } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Text, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 // Mafs 外的 SVG 用中性配色（Mafs 的 CSS 变量只在 .MafsView 内有效）
@@ -158,7 +159,7 @@ export function Ch15CuttingPlane() {
     <Widget title="割平面法 Cutting-plane method（2D）"
       hint="灰色多边形 P_k 一定包含最优点 x*（绿点）。每一步在 P_k 的某种“中心”查询 oracle，得到 subgradient g，切线 gᵀ(z−x)=0 把 g 指向的那半边（红色）整个丢掉。点“下一步”观察多边形如何收缩；切换查询点的选择方式，比较面积缩小的速度。">
       <Tabs tabs={[{ value: 'cg', label: '重心 CG' }, { value: 'ac', label: 'Analytic center (ACCPM)' }, { value: 'cheb', label: 'Chebyshev center' }, { value: 'rand', label: '随便选一个点' }]} value={method} set={(m) => { setMethod(m); setK(1) }} />
-      <Mafs viewBox={{ x: [-3.3, 3.3], y: [-2.8, 2.8] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.3, 3.3], y: [-2.8, 2.8] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {LEVELS.map((p, i) => <Polygon key={i} points={p} color={Theme.indigo} fillOpacity={0} weight={1} />)}
         <Polygon points={s.poly} color={Theme.red} fillOpacity={0.15} weight={1} />
@@ -246,7 +247,7 @@ export function Ch15Ellipsoid() {
     <Widget title="椭球法 Ellipsoid method（n = 2）"
       hint="灰色椭圆 E⁽ᵏ⁾ 包含 x*。在中心 x 处求 subgradient g，切线把椭圆切成两半，保留橙色半椭圆；红色虚线椭圆是覆盖这半块的最小体积椭圆 E⁽ᵏ⁺¹⁾。逐步点击，看体积比每步都 ≤ e^(−1/4) ≈ 0.779。切换到“带约束”看 feasibility cut / 深切（deep cut）。">
       <Tabs tabs={[{ value: 'unc', label: '无约束（neutral cut）' }, { value: 'con', label: '带约束 x₁+x₂ ≤ 0（deep cut）' }]} value={mode} set={(m) => { setMode(m); setK(1) }} />
-      <Mafs viewBox={{ x: [-4.5, 4.5], y: [-3.4, 4.6] }} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4.5, 4.5], y: [-3.4, 4.6] }} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {LEVELS.map((p, i) => <Polygon key={i} points={p} color={Theme.indigo} fillOpacity={0} weight={1} />)}
         {mode === 'con' && <Plot.Inequality y={{ '<=': (x) => -x }} color={Theme.green} fillOpacity={0.06} weight={1.5} />}
@@ -315,7 +316,7 @@ export function Ch15Bisection() {
   return (
     <Widget title="一维二分法 Bisection on ℝ"
       hint="区间 [l, u] 一定包含最小点。每一步查询中点 x，看 f′(x) 的符号（切线斜率）：f′(x) < 0 说明最小点在右边，令 l := x；否则令 u := x。区间每步减半，直到 u − l ≤ 2r。调小容差 r，对比实际步数和公式。">
-      <Mafs viewBox={{ x: [-3.3, 3.3], y: [-1, 6] }} height={290} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.3, 3.3], y: [-1, 6] }} height={290} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={fb} color={Theme.blue} weight={2.5} />
         <Polygon points={[[cur.l, -0.6], [cur.u, -0.6], [cur.u, 6], [cur.l, 6]]} color={Theme.orange} fillOpacity={0.1} weight={0} />

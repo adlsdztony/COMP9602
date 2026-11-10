@@ -1,4 +1,4 @@
-import { Ch13LogBarrier, Ch13CentralPath, Ch13BarrierMethod, Ch13PhaseI } from '../widgets/ch13.jsx'
+import { Ch13LogBarrier, Ch13CentralPath, Ch13BarrierMethod, Ch13PhaseI } from '../widgets/lazy.jsx'
 
 前两章我们学会了两件事：第 11 章用 Newton 法解**无约束**问题，第 12 章把 Newton 法推广到**等式约束** $Ax=b$。但现实中的凸优化问题几乎总带着**不等式约束** $f_i(x)\le 0$（预算不能超、容量不能超……）。这一章的 <T zh="内点法">interior-point method</T> 要回答：**怎样把不等式约束“藏”进目标函数，从而继续用 Newton 法？**
 

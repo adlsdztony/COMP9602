@@ -1,6 +1,7 @@
 // 第 6 章交互组件：ILP · QP · SOCP · GP · SDP · 多目标
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { Mafs, Coordinates, Point, Line, Polygon, Ellipse, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Point, Line, Polygon, Ellipse, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 import { ch04InPoly, ch04ProjSeg } from './ch04.jsx'
 
@@ -30,7 +31,7 @@ export function Ch06ILP() {
   return (
     <Widget title="整数规划 vs LP 松弛" hint="黑点是格点（整数点），灰色多边形是 LP 松弛的可行集。转动 −c 的方向：红点是 LP 最优（总在顶点），橙点是 ILP 最优（最好的格点）。在“分数顶点”多边形里两者常常不同，“四舍五入”LP 解甚至可能不可行；切到“整数顶点”多边形，两者永远重合。">
       <Tabs tabs={[{ value: 'frac', label: '一般多面体（分数顶点）' }, { value: 'tu', label: '整数顶点多面体（如 TU 约束）' }]} value={mode} set={setMode} />
-      <Mafs viewBox={{ x: [-1, 6], y: [-1, 3.6] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-1, 6], y: [-1, 3.6] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Polygon points={V} color={Theme.blue} fillOpacity={0.1} />
         {[-2, -1, 0, 1, 2].map((k) => {
@@ -166,7 +167,7 @@ export function Ch06QP() {
   const gn = Math.hypot(...g)
   return (
     <Widget title="二次规划：椭圆等高线碰多面体" hint="拖动橙色点（f₀ 的无约束最小点），用滑块改变 P 的形状和方向。最优点 x* 是最小的那个椭圆和多面体的切点——它常常落在边的中间，而不像 LP 那样总在顶点。红色箭头是 −∇f₀(x*)，它垂直于切到的那条边。">
-      <Mafs viewBox={{ x: [-3.6, 4.2], y: [-3, 3.2] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.6, 4.2], y: [-3, 3.2] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Polygon points={QP_POLY} color={Theme.blue} fillOpacity={0.12} />
         {lv.map((l, i) => <Ellipse key={i} center={C.point} radius={[Math.sqrt(l), Math.sqrt(l / kap)]} angle={a} color={LIGHT} fillOpacity={0} strokeStyle="dashed" />)}
@@ -467,7 +468,7 @@ export function Ch06Pareto() {
   return (
     <Widget title="Pareto 最优与标量化" hint="灰色是可达集 𝒪（目标空间里所有 (F₁, F₂)）。转动权重 λ = (λ₁, λ₂)：最小化 λᵀf₀ 就是用法向为 λ 的直线去“托”𝒪，切点（红）一定是 Pareto 最优。在“非凸前沿”里，橙色那段 Pareto 点无论 λ 怎么转都托不到。拖动下面的滑块选一个边界点，看它的“左下方”（更好的区域）里有没有 𝒪 的点。">
       <Tabs tabs={[{ value: true, label: '非凸前沿' }, { value: false, label: '凸前沿' }]} value={nc} set={setNc} />
-      <Mafs viewBox={{ x: [0, 4.8], y: [0, 4.4] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [0, 4.8], y: [0, 4.4] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Polygon points={region} color={Theme.indigo} fillOpacity={0.14} weight={1} />
         <Polygon points={[[0, 0], [sp[0], 0], sp, [0, sp[1]]]} color={Theme.orange} fillOpacity={0.08} weight={1} strokeStyle="dashed" />

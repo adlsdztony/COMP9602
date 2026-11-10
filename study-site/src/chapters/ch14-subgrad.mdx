@@ -1,4 +1,4 @@
-import { Ch14SupportLines, Ch14SubgradMethod, Ch14Projected, Ch14Subdiff2D } from '../widgets/ch14.jsx'
+import { Ch14SupportLines, Ch14SubgradMethod, Ch14Projected, Ch14Subdiff2D } from '../widgets/lazy.jsx'
 
 到目前为止，算法部分（梯度下降、Newton 法、内点法）都有一个默认前提：函数**可微**，Newton 和内点法甚至要求**二阶可微**（要算 Hessian 并求逆）。可是很多重要的函数在某些点上有“尖角”：$|x|$、$\|x\|_1$、$\max_i(a_i^Tx+b_i)$……在尖角处梯度不存在。这一章引入 <T zh="次梯度">subgradient</T>——梯度的推广——并给出最简单的非光滑优化算法：<T zh="次梯度法">subgradient method</T>。
 

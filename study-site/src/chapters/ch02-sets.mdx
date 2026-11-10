@@ -1,4 +1,4 @@
-import { Ch02Combos, Ch02ConvexTest, Ch02Hull, Ch02Ellipsoid, Ch02NormBall, Ch02Intersection, Ch02MatrixOrder, Ch02Separating } from '../widgets/ch02.jsx'
+import { Ch02Combos, Ch02ConvexTest, Ch02Hull, Ch02Ellipsoid, Ch02NormBall, Ch02Intersection, Ch02MatrixOrder, Ch02Separating } from '../widgets/lazy.jsx'
 
 这一章回答一个最基础的问题：**什么样的“可行区域”是好的？** 优化问题 $\min f_0(x)$ 里，$x$ 只能在某个集合里取值（约束条件圈出来的区域）。如果这个区域是 <T zh="凸集">convex set</T>，后面的理论（对偶、KKT）和算法（梯度下降、内点法）才能保证“找到的局部最优就是全局最优”。
 

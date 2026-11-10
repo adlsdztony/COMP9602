@@ -1,4 +1,4 @@
-import { Ch15CuttingPlane, Ch15Ellipsoid, Ch15Bisection, Ch15VolumeRace } from '../widgets/ch15.jsx'
+import { Ch15CuttingPlane, Ch15Ellipsoid, Ch15Bisection, Ch15VolumeRace } from '../widgets/lazy.jsx'
 
 上一章的 subgradient method 每次只记住**一个点**，沿 $-g$ 走一小步，便宜但很慢。这一章换一种思路：维护一个**一定包含最优点的集合**（多边形或椭球），每问一次 oracle 就把这个集合切掉一块，让它越来越小，把最优点“围”出来。这类方法叫 <T zh="定位法">localization methods</T>，也叫 <T zh="割平面法">cutting-plane methods</T>。
 

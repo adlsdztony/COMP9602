@@ -1,6 +1,7 @@
 // 第 0 章 数学预备 —— 交互组件
 import { useState, useMemo, useRef } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const fx = (v, d = 2) => (Math.abs(v) < 5e-4 ? 0 : v).toFixed(d)
@@ -147,7 +148,7 @@ export function Ch00InnerProduct() {
   const kind = Math.abs(ang - 90) < 2 ? ['info', '≈ 直角：x 与 y 正交，内积 ≈ 0'] : ang < 90 ? ['good', '锐角：内积 > 0'] : ['bad', '钝角：内积 < 0']
   return (
     <Widget title="内积与投影 Inner product & projection" hint="拖动黑色向量 x 和红色向量 y 的箭头端点。试试把 y 拖到与 x 垂直的方向，观察内积变成 0；再拖到 x 的反方向，观察内积变负、绿色投影反向。">
-      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={330} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={330} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {na > 1e-3 && <Line.ThroughPoints point1={[0, 0]} point2={a.point} color={Theme.blue} opacity={0.25} style="dashed" />}
         <Vector tip={a.point} color={Theme.blue} weight={3} />
@@ -188,7 +189,7 @@ export function Ch00NormBall() {
   const sq = (s) => [[s, s], [-s, s], [-s, -s], [s, -s]]
   return (
     <Widget title="范数的单位球 Unit ball of ℓp norm" hint="拖动 p 滑块：p=1 是菱形，p=2 是圆，p 越大越接近正方形（p=∞）。拖动粉色点，看同一个点在不同范数下的“长度”；虚线是经过该点的那个范数球 {x | ‖x‖ₚ = ‖q‖ₚ}。">
-      <Mafs viewBox={{ x: [-2.6, 2.6], y: [-1.7, 1.7] }} height={330} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-2.6, 2.6], y: [-1.7, 1.7] }} height={330} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={[[1, 0], [0, 1], [-1, 0], [0, -1]]} color={Theme.orange} fillOpacity={0} strokeOpacity={0.35} />
         <Circle center={[0, 0]} radius={1} color={Theme.green} fillOpacity={0} strokeOpacity={0.35} />
@@ -254,7 +255,7 @@ export function Ch00MatVec() {
   const cl = classify(l1, l2)
   return (
     <Widget title="矩阵乘向量 Ax 与特征向量 Eigenvectors" hint="黑点 x 只能在单位圆上移动，红色箭头是 Ax。绕一圈拖动 x：大多数方向上 Ax 会“拐弯”，但在两条虚线（特征向量方向）上 Ax 与 x 共线，伸缩倍数就是特征值。橙色曲线是整个单位圆被 A 变换后的形状。">
-      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Circle center={[0, 0]} radius={1} color={Theme.blue} fillOpacity={0.04} strokeOpacity={0.5} />
         <Plot.Parametric domain={[0, 2 * Math.PI]} xy={(t) => [a * Math.cos(t) + b * Math.sin(t), b * Math.cos(t) + c * Math.sin(t)]} color={Theme.orange} />
@@ -344,7 +345,7 @@ export function Ch00Hyperplane() {
   const side = Math.abs(az - b) < 0.05 ? ['info', 'aᵀz ≈ b：z 在超平面上'] : az < b ? ['good', 'aᵀz < b：z 在绿色半空间内'] : ['bad', 'aᵀz > b：z 在 a 所指的那一侧（半空间外）']
   return (
     <Widget title="超平面与半空间 Hyperplane & halfspace" hint="拖动黑点改变法向量 a，拖动 b 滑块平移直线。观察：直线始终与 a 垂直；b 增大时直线沿 a 的方向移动；绿色区域是半空间 {x | aᵀx ≤ b}。拖动粉色点 z 看它在哪一侧。">
-      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={330} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={330} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={half} color={Theme.green} fillOpacity={0.13} strokeOpacity={0} />
         <Line.ThroughPoints point1={x0} point2={[x0[0] + d[0], x0[1] + d[1]]} color={Theme.indigo} weight={3} />
@@ -440,7 +441,7 @@ export function Ch00Taylor() {
     <Widget title="Taylor 近似 Taylor approximation" hint="沿 x 轴拖动灰色点改变展开点 x₀。红线是一阶近似（切线），绿线是二阶近似（抛物线）。把 h 调小，看两种误差都变小、而且二阶误差小得更快——“离 x₀ 越近越准”。">
       <Tabs tabs={Object.entries(TFUNS).map(([k, v]) => ({ value: k, label: v.label }))} value={key} set={setKey} />
       <Tabs tabs={[{ value: '1', label: '一阶（切线）' }, { value: '2', label: '二阶（抛物线）' }, { value: 'both', label: '都显示' }]} value={ord} set={setOrd} />
-      <Mafs viewBox={{ x: [-3, 3], y: [-3, 4] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3], y: [-3, 4] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={F.f} color={Theme.blue} weight={3.5} />
         {ord !== '2' && <Plot.OfX y={t1} color={Theme.red} />}

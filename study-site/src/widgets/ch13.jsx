@@ -1,6 +1,7 @@
 // 第 13 章 内点法 Interior-Point Methods —— 交互组件
 import { useState, useMemo } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Polyline, Text, Theme } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Polyline, Text, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 /* ---------------- 小工具 ---------------- */
@@ -123,7 +124,7 @@ export function Ch13LogBarrier() {
   return (
     <Widget title="对数障碍逼近指示函数 Log barrier vs. indicator"
       hint="拖动 t：橙色曲线是 −(1/t)·log(−u)。试试把 t 调到 100，观察曲线在 u<0 的大部分区域几乎贴着 0（像 indicator 的“免费区”），只在 u→0 附近突然冲上去（像一堵墙）。">
-      <Mafs viewBox={{ x: [-3, 0.5], y: [-1, 3] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 0.5], y: [-1, 3] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {[0.5, 1, 2].map((tt) => (
           <Plot.OfX key={tt} y={(u) => -(1 / tt) * Math.log(-u)} domain={[-3, -0.0005]} color={Theme.foreground} opacity={0.15} weight={1.5} />
@@ -179,7 +180,7 @@ export function Ch13CentralPath() {
   return (
     <Widget title="中心路径 Central path（2D LP）"
       hint="滑动 log₁₀t：红点是 x*(t)，它从 analytic center（t→0，黑点）出发，沿棕色的 central path 走向最优顶点 x*（绿点）。虚线是超平面 cᵀx = cᵀx*(t)。也可以转动目标方向 c，看最优顶点和整条路径如何改变。">
-      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.3, 3.6] }} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.3, 3.6] }} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={LP_VERTS} color={Theme.indigo} fillOpacity={0.08} />
         <Polyline points={path} color={Theme.violet} weight={2.5} />
@@ -251,7 +252,7 @@ export function Ch13BarrierMethod() {
     <Widget title="Barrier method：外循环与 μ 的取舍"
       hint="选 μ 后点“下一个外循环”逐步执行：每个外循环 = 一次 centering（若干 Newton 步）+ 把 t 乘以 μ。观察下方阶梯图：平台 = centering 的 Newton 步，竖直下降 = t 更新。试试 μ = 2 与 μ = 150，比较外循环次数和总 Newton 步数。">
       <Tabs tabs={[2, 5, 10, 20, 50, 150].map((u) => ({ value: u, label: 'μ = ' + u }))} value={mu} set={(u) => { setMu(u); setShow(99) }} />
-      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.3, 3.6] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.3, 3.6] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={LP_VERTS} color={Theme.indigo} fillOpacity={0.08} />
         <Polyline points={[LP_AC, ...shown.map((s) => s.x)]} color={Theme.orange} weight={2} />
@@ -298,7 +299,7 @@ export function Ch13PhaseI() {
   return (
     <Widget title="Phase I：寻找严格可行起点"
       hint="三个约束 −x₁ ≤ 0, −x₂ ≤ 0, x₁+x₂ ≤ d。辅助问题 (2) 用一个标量 s 同时“放宽”所有约束：fᵢ(x) ≤ s。滑动 s 往下压，橙色三角形 {x : fᵢ(x) ≤ s} 缩成一点时的 s 就是最优值 p̄*。再滑动 d，看 p̄* 的符号如何对应三种情形。">
-      <Mafs viewBox={{ x: [-2, 3.5], y: [-2, 3.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-2, 3.5], y: [-2, 3.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {feasTri && <Polygon points={feasTri} color={Theme.green} fillOpacity={0.25} />}
         <Polygon points={tri(s)} color={Theme.orange} fillOpacity={0.12} />

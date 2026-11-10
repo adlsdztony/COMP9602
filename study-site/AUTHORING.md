@@ -40,8 +40,9 @@
 
 ## 交互组件编写（src/widgets/chXX.jsx）
 - 参考 `src/widgets/_example.jsx`。用 `Widget` 外框（title + hint 告诉用户该怎么操作、该观察什么），`Slider`、`Tabs`、`M` 来自 `../components/index.jsx`。
-- 绘图优先用 Mafs：`import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Ellipse, Vector, Text, Theme, useMovablePoint } from 'mafs'`。
-  - `<Mafs viewBox={{x:[-4,4], y:[-3,3]}} height={320} preserveAspectRatio={false}>`
+- 绘图优先用 Mafs；`Mafs`、`Plot` 等来自 `mafs`，`Coordinates` 从 `./coordinates.jsx` 导入，让刻度间距随可用像素自动调整。
+  - `<Mafs viewBox={{x:[-4,4], y:[-3,3]}} height={320} preserveAspectRatio="contain">`
+  - 所有二维坐标图必须保持 x、y 单位等长，不要关闭 `preserveAspectRatio`。手写 SVG 的世界坐标到像素坐标也必须使用同一缩放比例；三维投影、对数统计图按其数学定义绘制。
   - `Plot.OfX({y: x=>...})`、`Plot.Parametric({t:[0,2*Math.PI], xy: t=>[x,y]})`、`Plot.Inequality({y: {'<=': f, '>=': g}})` 或 `Plot.Inequality({x: {...}})`、`Line.Segment({point1, point2})`、`Line.ThroughPoints`、`Polygon({points})`、`Circle({center, radius})`、`Ellipse({center, radius:[rx,ry], angle})`、`Vector({tail, tip})`、`Text({x,y,attach:'n'|'e'|...,size})`。
   - `useMovablePoint([x,y], {constrain: 'horizontal' | ([x,y])=>[x',y']})` 返回 `.x .y .point .element`，记得渲染 `.element`。
   - 颜色用 `Theme.blue / red / green / orange / violet / indigo / pink / yellow`。
@@ -59,7 +60,7 @@
 - 其中 SCRATCH = `C:/Users/zzl07/AppData/Local/Temp/claude/41c0ab8085c274eb/2f453447-cee9-407e-bc18-57895f0eec05/scratchpad`
 
 ## 验证
-- 在 mdx 文件顶部显式 import 本章组件：`import { Ch02ConvexCombo, Ch02Cone } from '../widgets/ch02.jsx'`。不要修改 `src/widgets/index.js`、`App.jsx`、`components/`、`styles.css`（如确需新样式，在你的 widget 文件里用 inline style）。
+- 在 mdx 文件顶部从懒加载入口显式 import 本章组件：`import { Ch02Combos, Ch02NormBall } from '../widgets/lazy.jsx'`，新增组件时在 `src/widgets/lazy.jsx` 注册 `deferredWidget`。组件接近视口时才下载所在章节的交互模块并挂载。不要修改 `App.jsx`、`components/`、`styles.css`（如确需新样式，在你的 widget 文件里用 inline style）。
 - 写完后在 `E:/workspace/COMP9602/study-site` 运行 `npx vite build --outDir SCRATCH/build-<你的章节号>`（**不要**用默认 dist，避免与其他并行代理冲突），必须无报错。
 - dev server 已在 http://localhost:5179 运行（HMR），路由是 `#/c/<slug>`；如果你有浏览器工具，可以打开看效果，没有就以 build 通过为准。
 

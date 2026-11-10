@@ -1,6 +1,7 @@
 // 第 14 章 次梯度法 Subgradient Methods —— 交互组件
 import { useState, useMemo, useRef } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Polyline, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Polyline, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 // Mafs 外的 SVG 用中性配色（Mafs 的 CSS 变量只在 .MafsView 内有效）
@@ -77,7 +78,7 @@ export function Ch14SupportLines() {
     <Widget title="次梯度 = 支撑线的斜率 Supporting lines"
       hint="滑动 x 到拐点（会自动吸附），再滑动 g：只要直线 f(x)+g(y−x) 整条位于函数图像下方，g 就是一个 subgradient。灰色扇形是拐点处所有支撑线；下方横轴上的粗线段就是次微分 ∂f(x)。试试在光滑点上改变 g，看看为什么只有一个斜率可行。">
       <Tabs tabs={Object.entries(FUNCS1D).map(([k, v]) => ({ value: k, label: v.label }))} value={which} set={(k) => { setWhich(k); setX0(FUNCS1D[k].kinks[0]); setG(0) }} />
-      <Mafs viewBox={{ x: F.vx, y: F.vy }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: F.vx, y: F.vy }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {fan.map((s, i) => <Plot.OfX key={i} y={(y) => fx + s * (y - x0)} color={Theme.indigo} opacity={0.25} weight={1.2} />)}
         <Plot.OfX y={f} color={Theme.blue} weight={3} />
@@ -189,7 +190,7 @@ export function Ch14SubgradMethod() {
     <Widget title="次梯度法实验室 Subgradient method lab"
       hint="f(x) = max 五个仿射函数（灰色折线框是等高线）。拖动橙色起点，选择步长规则并调参数。观察：路径常常来回锯齿；下方图中细线 f(x⁽ᵏ⁾)−f* 上下跳动（不是下降法），粗线 f_best 单调下降；虚线是理论上界。试试把常数步长 α 从 0.05 调到 1，看最终“地板”如何变高。">
       <Tabs tabs={RULES.map((r) => ({ value: r.value, label: r.label }))} value={rule} set={setRule} />
-      <Mafs viewBox={{ x: [-3.2, 3.2], y: [-2.6, 3] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.2, 3.2], y: [-2.6, 3] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {LEVELS.map((poly, i) => <Polygon key={i} points={poly} color={Theme.indigo} fillOpacity={0.03} weight={1} />)}
         <Polyline points={res.xs.slice(0, 201)} color={Theme.red} weight={1.5} />
@@ -276,7 +277,7 @@ export function Ch14Projected() {
     <Widget title="投影次梯度法 Projected subgradient"
       hint="目标 f(x) = ‖x − c‖₁（菱形是等高线，c 在可行集外）。每一步：先走一个普通次梯度步得到灰点 z = x − αg（可能跑出可行集），再投影回可行集得到下一个点 P(z)。点“下一步”观察；注意右侧数值：投影后到 x* 的距离不会变大。">
       <Tabs tabs={Object.entries(SETS).map(([key, v]) => ({ value: key, label: v.label }))} value={set} set={(s) => { setSet(s); setK(1) }} />
-      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.6, 3] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3.6], y: [-2.6, 3] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {[fstar - 1, fstar, fstar + 1, fstar + 2].filter((r) => r > 0).map((r) => <Polygon key={r} points={diamond(r)} color={Theme.indigo} fillOpacity={0} weight={1} />)}
         {set === 'line' && <Line.ThroughPoints point1={[0, 1]} point2={[1, -1]} color={Theme.blue} weight={3} />}
@@ -358,7 +359,7 @@ export function Ch14Subdiff2D() {
       <Tabs tabs={[{ value: 'l1', label: 'f = ‖x‖₁ = |x₁|+|x₂|' }, { value: 'max', label: 'f = max{x₁+½x₂, −x₁+½x₂, −x₂}' }]} value={kind} set={setKind} />
       <div className="two-col">
         <div>
-          <Mafs viewBox={{ x: [-2, 2], y: [-2, 2] }} height={280} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-2, 2], y: [-2, 2] }} height={280} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={2} />
             {kind === 'l1' ? (
               <>
@@ -379,7 +380,7 @@ export function Ch14Subdiff2D() {
           <div className="legend-inline" style={{ textAlign: 'center' }}>x 空间</div>
         </div>
         <div>
-          <Mafs viewBox={{ x: [-1.6, 1.6], y: [-1.6, 1.6] }} height={280} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-1.6, 1.6], y: [-1.6, 1.6] }} height={280} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={2} />
             {cands.map((c, i) => <Point key={i} x={c[0]} y={c[1]} color={Theme.indigo} opacity={0.4} />)}
             {uniq.length >= 3 && <Polygon points={uniq} color={Theme.orange} fillOpacity={0.3} />}

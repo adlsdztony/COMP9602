@@ -1,6 +1,7 @@
 // 第 4 章交互组件：优化问题与凸问题
 import { useState, useMemo } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 /* ================= 共享小工具（ch05 / ch06 也会 import） ================= */
@@ -113,7 +114,7 @@ export function Ch04OptimalValue() {
   return (
     <Widget title="最优值 p* 一定能取到吗？" hint="切换三个目标函数（定义域都是 x > 0），拖动滑块让 x 变大，观察 f₀(x) 能否“碰到”最优值 p*（虚线）。">
       <Tabs tabs={Object.entries(VAL_CASES).map(([v, c]) => ({ value: v, label: 'f₀ = ' + c.label }))} value={k} set={setK} />
-      <Mafs viewBox={{ x: [-0.3, 6.5], y: [-2.2, 3] }} height={280} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.3, 6.5], y: [-2.2, 3] }} height={280} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Plot.OfX y={C.f} domain={[0.02, 7]} color={Theme.blue} weight={3} />
         {k === 'inv' && <Line.ThroughPoints point1={[0, 0]} point2={[1, 0]} color={Theme.green} style="dashed" />}
@@ -216,7 +217,7 @@ function LocalGlobalInner({ mode }) {
   const gLevel = useMemo(() => ch04Contour(C.f, LG_VIEW.x, LG_VIEW.y, fg + 1e-4, 110), [mode])
   return (
     <>
-      <Mafs viewBox={LG_VIEW} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={LG_VIEW} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         {C.half
           ? <Polygon points={ch04ClipHalfplane([[-4.5, 4.5], [-3, 3.2]], [1, 1], 2.6)} color={Theme.blue} fillOpacity={0.12} weight={1.5} />
@@ -279,7 +280,7 @@ function OptCondInner({ mode }) {
   }).join(''), [c.x, c.y])
   return (
     <>
-      <Mafs viewBox={OC_VIEW} height={360} preserveAspectRatio={false}>
+      <Mafs viewBox={OC_VIEW} height={360} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         {bad && <Polygon points={bad} color={Theme.red} fillOpacity={0.07} weight={0} />}
         <Polygon points={V} color={Theme.blue} fillOpacity={0.15} />
@@ -339,7 +340,7 @@ export function Ch04Eliminate() {
   return (
     <Widget title="消去等式约束：把直线 Ax=b 参数化成 x = Fz + x₀" hint="拖动滑块 z：点 x(z)=Fz+x₀ 永远停在直线 x₁+2x₂=2 上（Ax 恒等于 b）。下方是新问题 φ(z)=f₀(Fz+x₀) —— 一个没有等式约束的一元问题。点“换一组 x₀, F”看看：参数化不唯一，但找到的最优 x* 一样。">
       <div className="two-col">
-        <Mafs viewBox={{ x: [-2.5, 4], y: [-1, 3.5] }} height={280} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-2.5, 4], y: [-1, 3.5] }} height={280} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={false} />
           <Ch04Path d={contours} color="#adb5bd" dash="4 4" />
           <Line.ThroughPoints point1={[2, 0]} point2={[0, 1]} color={Theme.blue} />
@@ -351,7 +352,7 @@ export function Ch04Eliminate() {
           <Point x={x[0]} y={x[1]} color={Theme.orange} />
           <Text x={x[0]} y={x[1]} attach="ne" size={13} color={Theme.orange}>x(z)</Text>
         </Mafs>
-        <Mafs viewBox={{ x: [-3, 3], y: [-0.5, 12] }} height={280} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-3, 3], y: [-0.5, 12] }} height={280} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={false} xAxis={{ lines: 1 }} yAxis={{ lines: 2 }} />
           <Plot.OfX y={phi} color={Theme.blue} weight={3} />
           <Point x={zs} y={phi(zs)} color={Theme.green} />
@@ -384,7 +385,7 @@ function SlackPanel() {
   const cols = [Theme.blue, Theme.violet, Theme.green]
   return (
     <>
-      <Mafs viewBox={{ x: [-3, 4], y: [-2.5, 3.5] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 4], y: [-2.5, 3.5] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         {SL_A.map((a, i) => (
           <Polygon key={i} points={ch04ClipHalfplane([[-4, 5], [-3.5, 4.5]], a, SL_B[i])} color={cols[i]} fillOpacity={0.07} weight={1.5} />
@@ -417,7 +418,7 @@ function EpigraphPanel() {
   const gap = P.y - EP_F(P.x)
   return (
     <>
-      <Mafs viewBox={{ x: [-2.5, 4.5], y: [-0.5, 5.2] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-2.5, 4.5], y: [-0.5, 5.2] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={false} />
         <Plot.Inequality y={{ '>=': EP_F, '<=': () => 5.2 }} color={Theme.blue} fillOpacity={0.06} weight={0} />
         <Polygon points={[[EP_L, 0], [EP_U, 0], [EP_U, 5.2], [EP_L, 5.2]]} color={Theme.green} fillOpacity={0.08} weight={0} />

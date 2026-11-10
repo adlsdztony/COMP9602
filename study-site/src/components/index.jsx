@@ -1,11 +1,12 @@
-import { useState, useId } from 'react'
-import katex from 'katex'
+import { lazy, memo, Suspense, useState, useId } from 'react'
+
+const MathContent = lazy(() => import('./MathContent.jsx'))
 
 /* ---------- inline / block math usable inside JSX props ---------- */
-export function M({ children, block }) {
-  const html = katex.renderToString(String(children), { throwOnError: false, displayMode: !!block, strict: false })
-  return block ? <div className="kblock" dangerouslySetInnerHTML={{ __html: html }} /> : <span dangerouslySetInnerHTML={{ __html: html }} />
-}
+export const M = memo(function M({ children, block }) {
+  const fallback = block ? <div className="kblock">{children}</div> : <span>{children}</span>
+  return <Suspense fallback={fallback}><MathContent block={block}>{children}</MathContent></Suspense>
+})
 
 /* ---------- callout boxes ---------- */
 const KINDS = {

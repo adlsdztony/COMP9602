@@ -1,4 +1,4 @@
-import { Ch09KKTGeometry, Ch09CompSlack, Ch09DualRecover, Ch09WaterFilling } from '../widgets/ch09.jsx'
+import { Ch09KKTGeometry, Ch09CompSlack, Ch09DualRecover, Ch09WaterFilling } from '../widgets/lazy.jsx'
 
 前两章我们学会了：给任何优化问题写出 Lagrangian、求对偶函数 $g(\lambda,\nu)$、写出对偶问题，并知道在 Slater 条件下 <T zh="强对偶">strong duality</T>（$p^\star=d^\star$）成立。但到目前为止，对偶还只是“给原问题一个下界”的工具。**这一章回答：如果强对偶成立，原问题最优解 $x^\star$ 和对偶最优解 $(\lambda^\star,\nu^\star)$ 之间到底满足什么关系？能不能直接用这些关系把最优解“解”出来？**
 

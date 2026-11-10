@@ -1,6 +1,7 @@
 // 第 8 章交互组件：对偶问题、几何解释、LP 对偶、Slater、博弈
 import { useMemo, useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const fmt = (v, d = 3) => (Number.isFinite(v) ? v.toFixed(d) : v > 0 ? '+∞' : '−∞')
@@ -77,7 +78,7 @@ export function Ch08Geometry() {
       <Tabs tabs={Object.entries(G_PRESETS).map(([k, v]) => ({ value: k, label: v.label }))} value={key} set={setKey} />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ flex: '1 1 340px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-2.5, 3.5], y: [-1, 4.2] }} height={340} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-2.5, 3.5], y: [-1, 4.2] }} height={340} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             {showA && <Polygon points={info.Apoly} color={Theme.orange} fillOpacity={0.12} strokeOpacity={0} />}
             {showA && <Plot.OfX y={(u) => minTLeft(pts, u)} domain={[info.umin + 0.001, 3.5]} color={Theme.red} weight={2.5} />}
@@ -96,7 +97,7 @@ export function Ch08Geometry() {
           </Mafs>
         </div>
         <div style={{ flex: '1 1 240px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-0.3, GLMAX + 0.2], y: [-1, 4.2] }} height={340} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.3, GLMAX + 0.2], y: [-1, 4.2] }} height={340} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             <Plot.OfX y={(l) => gOf(pts, l)[0]} domain={[0, GLMAX]} color={Theme.violet} weight={3} />
             <Line.ThroughPoints point1={[0, info.pstar]} point2={[1, info.pstar]} color={Theme.green} style="dashed" />
@@ -177,7 +178,7 @@ export function Ch08LPPair() {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ flex: '1 1 300px', minWidth: 0 }}>
           <div style={{ fontSize: 13, textAlign: 'center' }}><M>{`\\min\\ ${c1.toFixed(1)}x_1+${c2.toFixed(1)}x_2\\ \\ \\text{s.t. } x_1+2x_2\\ge4,\\ 3x_1+x_2\\ge6,\\ x\\succeq0`}</M></div>
-          <Mafs viewBox={{ x: [-0.5, 7], y: [-0.5, 8] }} height={300} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.5, 7], y: [-0.5, 8] }} height={300} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             {ppoly.length > 2 && <Polygon points={ppoly} color="#8e8e93" fillOpacity={0.2} weight={1} />}
             <Line.ThroughPoints point1={[xp.x, xp.y]} point2={[xp.x + c2, xp.y - c1]} color={Theme.orange} style="dashed" />
@@ -188,7 +189,7 @@ export function Ch08LPPair() {
         </div>
         <div style={{ flex: '1 1 300px', minWidth: 0 }}>
           <div style={{ fontSize: 13, textAlign: 'center' }}><M>{`\\max\\ 4y_1+6y_2\\ \\ \\text{s.t. } y_1+3y_2\\le ${c1.toFixed(1)},\\ 2y_1+y_2\\le ${c2.toFixed(1)},\\ y\\succeq0`}</M></div>
-          <Mafs viewBox={{ x: [-0.3, 3], y: [-0.3, 2.2] }} height={300} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.3, 3], y: [-0.3, 2.2] }} height={300} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             {dpoly.length > 2 && <Polygon points={dpoly} color="#8e8e93" fillOpacity={0.2} weight={1} />}
             <Line.ThroughPoints point1={[yd.x, yd.y]} point2={[yd.x + 6, yd.y - 4]} color={Theme.red} style="dashed" />
@@ -340,7 +341,7 @@ export function Ch08Game() {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 8 }}>
         <div style={{ flex: '1 1 280px', minWidth: 0 }}>
           <div style={{ fontSize: 13, textAlign: 'center' }}>LP1：x 先出，横轴 u₁</div>
-          <Mafs viewBox={{ x: [-0.05, 1.05], y: [-3.3, 3.3] }} height={260} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.05, 1.05], y: [-3.3, 3.3] }} height={260} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} xAxis={{ lines: 0.25 }} />
             <Plot.OfX y={(p) => colVals(p)[0]} domain={[0, 1]} color="#aeaeb2" />
             <Plot.OfX y={(p) => colVals(p)[1]} domain={[0, 1]} color="#aeaeb2" style="dashed" />
@@ -351,7 +352,7 @@ export function Ch08Game() {
         </div>
         <div style={{ flex: '1 1 280px', minWidth: 0 }}>
           <div style={{ fontSize: 13, textAlign: 'center' }}>LP2：y 先出，横轴 v₁</div>
-          <Mafs viewBox={{ x: [-0.05, 1.05], y: [-3.3, 3.3] }} height={260} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.05, 1.05], y: [-3.3, 3.3] }} height={260} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} xAxis={{ lines: 0.25 }} />
             <Plot.OfX y={(q) => rowVals(q)[0]} domain={[0, 1]} color="#aeaeb2" />
             <Plot.OfX y={(q) => rowVals(q)[1]} domain={[0, 1]} color="#aeaeb2" style="dashed" />

@@ -1,6 +1,7 @@
 // 第 2 章 凸集 Convex Sets —— 交互组件
 import { useState, useMemo } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Ellipse, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Ellipse, Circle, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const fx = (v, d = 2) => (Math.abs(v) < 1e-9 ? 0 : v).toFixed(d)
@@ -30,7 +31,7 @@ export function Ch02Combos() {
         { value: 'affine', label: '仿射组合 affine' },
         { value: 'conic', label: '锥组合 conic' },
       ]} />
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {mode === 'conic' && (
           <Polygon points={[[0, 0], [a.x * R, a.y * R], [b.x * R, b.y * R]]} color={Theme.violet} fillOpacity={0.15} weight={0} />
@@ -128,7 +129,7 @@ export function Ch02ConvexTest() {
       title="凸集判定器：找一条“跑出去”的线段"
       hint="拖动五个顶点改变多边形形状。如果集合不凸，程序会自动找到集合里的两点，它们之间的线段有一部分（橙色点）跑到集合外面——这就是“不凸”的反例。试试把中间那个凹进去的顶点往外拖，直到多边形变凸。"
     >
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={poly} color={convex ? Theme.green : Theme.red} fillOpacity={0.15} />
         {counter && <>
@@ -190,7 +191,7 @@ export function Ch02Hull() {
       title="凸包 conv S：所有凸组合组成的集合"
       hint="S 是 6 个黑点。点“撒一把随机凸组合”：每个绿色小点都是 θ₁x₁+…+θ₆x₆（θᵢ≥0、和为 1），它们全部落在灰色凸包里、并把它铺满。把一个黑点拖进凸包内部，凸包形状不变——它不是“顶点”。"
     >
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {showHull && <Polygon points={H} color={Theme.indigo} fillOpacity={0.12} />}
         {samples.map((q, i) => <Point key={i} x={q[0]} y={q[1]} color={Theme.green} opacity={0.7} svgCircleProps={{ r: 3 }} />)}
@@ -236,7 +237,7 @@ export function Ch02Ellipsoid() {
       title="椭球 Ellipsoid 调参台"
       hint="λ₁、λ₂ 是 P 的特征值，半轴长 = √λᵢ；旋转角决定特征向量方向。拖动棕色中心 x_c 和橙色测试点，看二次型的值是否 ≤1。再拖动 u 的角度：单位圆上的 u 经过 x_c+Au（A=P^{1/2}）恰好走在椭圆边界上。试试把 λ₁=λ₂，椭球就变成了球（P=r²I）。"
     >
-      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-3, 3] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Circle center={[0, 0]} radius={1} color={Theme.foreground} fillOpacity={0} strokeStyle="dashed" weight={1} />
         <Ellipse center={c.point} radius={[s1, s2]} angle={ang} color={Theme.blue} fillOpacity={0.15} />
@@ -331,7 +332,7 @@ export function Ch02Intersection() {
       hint="“交集”模式：n 个半空间 aₖᵀx ≤ bₖ（每条切线的内侧）的交是一个凸多边形；把 n 调大，交集越来越贴近椭圆——凸集可以看成无穷多个半空间的交。切到“并集”模式：椭圆 ∪ 一条直线，取直线上远处一点和椭圆里一点，连线会跑出并集。"
     >
       <Tabs value={mode} set={setMode} tabs={[{ value: 'inter', label: '交集 ∩' }, { value: 'union', label: '并集 ∪' }]} />
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {mode === 'inter' ? <>
           <Polygon points={verts} color={Theme.green} fillOpacity={0.15} />
@@ -396,7 +397,7 @@ export function Ch02MatrixOrder() {
       <div className="wrow" style={{ fontSize: 14 }}>
         <span><M>{`X=${mat(X)}`}</M></span><span><M>{`Y=${mat(Y)}`}</M></span><span><M>{`Y-X=${mat(D)}`}</M></span>
       </div>
-      <Mafs viewBox={{ x: [0, Math.PI], y: [-3, 3] }} height={200} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [0, Math.PI], y: [-3, 3] }} height={200} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} xAxis={{ labels: (v) => (v === 0 ? '0' : '') }} />
         <Plot.Inequality y={{ '<=': q, '>=': () => 0 }} color={Theme.green} />
         <Plot.Inequality y={{ '>=': q, '<=': () => 0 }} color={Theme.red} />
@@ -439,7 +440,7 @@ export function Ch02Separating() {
       title="分离超平面 & 支撑超平面"
       hint="拖动两个圆盘（凸集 C 黑、D 红）的圆心。只要两者不相交，就能画出一条直线 aᵀx = b 把它们分在两侧；让它们重叠，分离超平面就不存在。滑动“x₀ 位置”：在凸集 C 边界上任意一点都有一条支撑超平面（橙色），整个 C 都在它的一侧。"
     >
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Circle center={c.point} radius={rc} color={Theme.blue} fillOpacity={0.2} />
         <Circle center={d.point} radius={rd} color={Theme.red} fillOpacity={0.2} />

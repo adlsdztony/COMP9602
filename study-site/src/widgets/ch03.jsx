@@ -1,6 +1,7 @@
 // 第 3 章 凸函数 Convex Functions —— 交互组件
 import { useState, useMemo } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const fx = (v, d = 2) => (!isFinite(v) ? (v > 0 ? '+∞' : '−∞') : (Math.abs(v) < 1e-9 ? 0 : v).toFixed(d))
@@ -39,7 +40,7 @@ function JensenInner({ F }) {
   }
   return (
     <>
-      <Mafs viewBox={F.view} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={F.view} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={F.f} domain={[F.lo, F.hi]} color={Theme.blue} weight={3} />
         <Line.Segment point1={a.point} point2={b.point} color={worst > 1e-9 ? Theme.red : Theme.green} weight={2.5} />
@@ -92,7 +93,7 @@ function TangentInner({ F }) {
   const d2view = { x: F.view.x, y: [-4, 8] }
   return (
     <>
-      <Mafs viewBox={F.view} height={280} preserveAspectRatio={false}>
+      <Mafs viewBox={F.view} height={280} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={F.f} domain={[F.lo, F.hi]} color={Theme.blue} weight={3} />
         <Plot.OfX y={tan} color={under ? Theme.green : Theme.red} style="dashed" />
@@ -104,7 +105,7 @@ function TangentInner({ F }) {
         {p.element}
       </Mafs>
       <div style={{ fontSize: 13, color: '#636366', margin: '8px 0 4px' }}>下图：二阶导 f''(x)。红色区域表示 f'' &lt; 0（向下弯）。</div>
-      <Mafs viewBox={d2view} height={150} preserveAspectRatio={false}>
+      <Mafs viewBox={d2view} height={150} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.Inequality y={{ '<=': () => 0, '>=': (x) => (x >= F.lo && x <= F.hi ? Math.max(-4, F.d2(x)) : 0) }} color={Theme.red} />
         <Plot.OfX y={(x) => clamp(F.d2(x), -4, 8)} domain={[F.lo, F.hi]} color={Theme.orange} />
@@ -173,7 +174,7 @@ export function Ch03EpiSublevel() {
       hint="灰色阴影是 epi f = {(x,t) | f(x) ≤ t}；拖动 α，x 轴附近的绿色粗线是 sublevel set C_α = {x | f(x) ≤ α}。凸函数 ⇔ 阴影是凸集。拟凸函数：阴影不一定凸，但每个 C_α 都是一整段区间。试试“x⁴/4 − x²”：某些 α 下 C_α 断成两段 → 连拟凸都不是。"
     >
       <Tabs value={k} set={setK} tabs={Object.entries(EF).map(([v, o]) => ({ value: v, label: o.label }))} />
-      <Mafs viewBox={F.view} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={F.view} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.Inequality y={{ '>=': F.f, '<=': () => F.view.y[1] + 5 }} color={Theme.indigo} />
         <Plot.OfX y={F.f} color={Theme.blue} weight={3} />
@@ -214,7 +215,7 @@ export function Ch03PointwiseMax() {
       hint="三条直线（仿射函数，都是凸的）。拖动各自的锚点、调斜率。粗线 max{f₁,f₂,f₃} 永远是“向上开口”的折线 → 凸（分段线性函数）。切换到 min：得到“向下开口”的折线 → 一般是凹的，不是凸的。"
     >
       <Tabs value={show} set={setShow} tabs={[{ value: 'max', label: '逐点最大 max' }, { value: 'min', label: '逐点最小 min' }]} />
-      <Mafs viewBox={{ x: [-3, 3], y: [-2.5, 3.5] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3], y: [-2.5, 3.5] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         {show === 'max'
           ? <Plot.Inequality y={{ '>=': fmax, '<=': () => 10 }} color={Theme.indigo} />
@@ -290,7 +291,7 @@ export function Ch03Composition() {
       <Tabs value={hk} set={setHk} tabs={Object.entries(HS).map(([v, o]) => ({ value: v, label: o.label }))} />
       <div className="wrow" style={{ marginTop: 0 }}><span style={{ fontSize: 13, color: '#636366' }}>内层 g：</span></div>
       <Tabs value={gk} set={setGk} tabs={Object.entries(GS).map(([v, o]) => ({ value: v, label: o.label }))} />
-      <Mafs viewBox={{ x: [-3, 3], y: [ymin, ymax] }} height={280} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3], y: [ymin, ymax] }} height={280} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={G.g} color={Theme.indigo} style="dashed" weight={1.5} />
         <Plot.OfX y={f} color={Theme.blue} weight={3.5} />
@@ -349,7 +350,7 @@ export function Ch03Conjugate() {
       hint="滑动斜率 y：虚线是过原点的直线 yx。在每个 x 处计算“直线减曲线”的竖直差 yx − f(x)，最大的那个差（橙色竖线）就是 f*(y)。把这条直线往下平移 f*(y)，它恰好贴住 f 的图像，并在纵轴上截出 −f*(y)。下图把每个 y 的 f*(y) 连起来——无论 f 凸不凸，f* 都是凸的。"
     >
       <Tabs value={k} set={(v) => { setK(v); setY(v === 'nlog' ? -1 : 1) }} tabs={Object.entries(CF).map(([v, o]) => ({ value: v, label: o.label }))} />
-      <Mafs viewBox={F.view} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={F.view} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={(x) => (x >= F.lo && x <= F.hi ? F.f(x) : NaN)} color={Theme.blue} weight={3} />
         <Plot.OfX y={(x) => y * x} color={Theme.indigo} style="dashed" />
@@ -363,7 +364,7 @@ export function Ch03Conjugate() {
       </Mafs>
       <div className="wrow"><Slider label={<M>{'y'}</M>} value={y} set={setY} min={-3} max={3} /></div>
       <div style={{ fontSize: 13, color: '#636366', margin: '8px 0 4px' }}>下图：f*(y)（空缺处表示 +∞）</div>
-      <Mafs viewBox={{ x: [-3, 3], y: [-3, 5] }} height={160} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 3], y: [-3, 5] }} height={160} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={fstar} color={Theme.green} weight={3} />
         {bounded && <Point x={y} y={clamp(s.val, -3, 5)} color={Theme.orange} />}

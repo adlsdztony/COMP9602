@@ -1,6 +1,7 @@
 // 参考示例：所有交互组件都按这个模式写。
 import { useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, M } from '../components/index.jsx'
 
 // 凸组合：拖动 x1, x2，滑动 θ，观察 θx1+(1-θ)x2 在线段上移动
@@ -11,7 +12,7 @@ export function ExampleConvexCombo() {
   const p = [t * a.x + (1 - t) * b.x, t * a.y + (1 - t) * b.y]
   return (
     <Widget title="凸组合 Convex combination" hint="拖动两个端点，滑动 θ —— 绿色点永远落在线段上。">
-      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-4, 4], y: [-2.5, 2.5] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Line.Segment point1={a.point} point2={b.point} color={Theme.indigo} />
         <Plot.OfX y={(x) => 0.15 * x * x - 2} color={Theme.orange} />

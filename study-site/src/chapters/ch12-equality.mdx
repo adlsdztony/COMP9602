@@ -1,4 +1,4 @@
-import { Ch12EqualityNewton, Ch12InfeasibleNewton, Ch12Elimination } from '../widgets/ch12.jsx'
+import { Ch12EqualityNewton, Ch12InfeasibleNewton, Ch12Elimination } from '../widgets/lazy.jsx'
 
 上一章我们会解 $\min f(x)$ 了：梯度下降、牛顿法。这一章加上一类最简单的约束——**线性等式约束** $Ax=b$。为什么只有等式？因为凸优化问题里等式约束只能是仿射的，而它是“最容易处理”的约束；下一章的内点法会把不等式约束变成目标里的 barrier 项，最后要解的正是**等式约束问题**。所以这一章是从“无约束”走向“一般约束”的桥梁。
 

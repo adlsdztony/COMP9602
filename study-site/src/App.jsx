@@ -1,12 +1,11 @@
-import { Suspense, useEffect, useState, useRef } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Routes, Route, Link, NavLink, useParams, useLocation, Navigate } from 'react-router-dom'
 import { MDXProvider } from '@mdx-js/react'
 import { chapters } from './chapters/index.js'
 import * as C from './components/index.jsx'
-import * as W from './widgets/index.js'
 import Home from './Home.jsx'
 
-const mdxComponents = { ...C, ...W }
+const mdxComponents = C
 
 function useDone() {
   const read = () => { try { return JSON.parse(localStorage.getItem('c9602-done') || '{}') } catch { return {} } }

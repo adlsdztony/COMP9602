@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, M } from '../components/index.jsx'
 
 /* ---------- A1 Q1(b): 集合 {(x,y) ≥ 0 : y ≥ sqrt(x/2)} 是否凸？ ---------- */
@@ -16,7 +17,7 @@ export function Ch16SetCheck() {
   const ia = inSb(a.x, a.y), ib = inSb(b.x, b.y), ip = inSb(p[0], p[1])
   return (
     <Widget title="A1 Q1(b)：找反例" hint="绿色区域是 S_b。拖动两个端点（都放在区域里），滑动 θ：只要有一个凸组合点掉出区域，集合就不是凸的。试试默认的 (0,0) 和 (2,1)、θ = 0.5。">
-      <Mafs viewBox={{ x: [-0.5, 4.5], y: [-0.4, 2.5] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.5, 4.5], y: [-0.4, 2.5] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Polygon points={region} color={Theme.green} fillOpacity={0.18} strokeOpacity={0.3} />
         <Plot.OfX y={(x) => (x >= 0 ? Math.sqrt(x / 2) : NaN)} color={Theme.green} />
@@ -49,7 +50,7 @@ export function Ch16QPDual() {
   return (
     <Widget title="A2 Q3(c)：拖动 λ，观察 x(λ) 与 g(λ)" hint="x(λ) 是 Lagrangian 的最小点。λ = 0 时就是无约束最优点 (2,1)，违反约束；增大 λ 把它“推”向半平面。试试把 λ 调到 1：x(λ) 正好落在直线上，g(λ) 同时达到最大，等于原问题最优值 −3/2。">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
-        <Mafs viewBox={{ x: [-1, 3], y: [-1.5, 2] }} height={280} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-1, 3], y: [-1.5, 2] }} height={280} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={2} />
           <Polygon points={[[-3, 4], [-3, -3], [4, -3]]} color={Theme.blue} fillOpacity={0.1} strokeOpacity={0} />
           <Line.ThroughPoints point1={[0, 1]} point2={[1, 0]} color={Theme.blue} />
@@ -60,7 +61,7 @@ export function Ch16QPDual() {
           <Text x={x[0]} y={x[1]} attach="sw" size={12}>x(λ)</Text>
           <Text x={-0.6} y={-1.2} attach="ne" size={12}>x₁+x₂ ≤ 1</Text>
         </Mafs>
-        <Mafs viewBox={{ x: [-0.2, 2.5], y: [-4.5, -1] }} height={280} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-0.2, 2.5], y: [-4.5, -1] }} height={280} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={2} />
           <Plot.OfX y={(l) => -2.5 + 2 * l - l * l} color={Theme.violet} />
           <Line.ThroughPoints point1={[0, -1.5]} point2={[1, -1.5]} color={Theme.green} style="dashed" />

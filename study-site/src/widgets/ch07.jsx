@@ -1,6 +1,7 @@
 // 第 7 章交互组件：Lagrangian 与 Lagrange dual function
 import { useMemo, useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Circle, Text, Theme } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Circle, Text, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 /* ---------------- 共用：一维问题预设 ---------------- */
@@ -78,7 +79,7 @@ export function Ch07LagrangianSlider() {
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ flex: '1 1 340px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-2.8, 4.2], y: [-4, 6] }} height={320} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-2.8, 4.2], y: [-4, 6] }} height={320} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             <Polygon points={[[XMIN, -10], [P.xb, -10], [P.xb, 12], [XMIN, 12]]} color={Theme.green} fillOpacity={0.08} strokeOpacity={0} />
             <Plot.OfX y={P.f0} color="#8e8e93" />
@@ -94,7 +95,7 @@ export function Ch07LagrangianSlider() {
           </Mafs>
         </div>
         <div style={{ flex: '1 1 260px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-0.3, LMAX + 0.2], y: [-4, 3] }} height={320} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-0.3, LMAX + 0.2], y: [-4, 3] }} height={320} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             <Plot.OfX y={gInterp} domain={[0, LMAX]} color={Theme.violet} weight={3} />
             <Line.ThroughPoints point1={[0, pstar]} point2={[1, pstar]} color={Theme.green} style="dashed" />
@@ -140,7 +141,7 @@ export function Ch07ConcaveEnvelope() {
       hint="把 x 固定，L(x,λ)=f₀(x)+λf₁(x) 关于 λ 就是一条直线（斜率 f₁(x)，截距 f₀(x)）。灰线是很多个 x 对应的直线，棕色粗线是它们的逐点最小值 = g(λ)。拖动 x₀ 选中一条红线：它永远在棕线上方（或相切）。直线的下包络必然“向下弯”= 凹，哪怕原问题非凸。"
     >
       <Tabs tabs={Object.entries(PRESETS1D).map(([k, v]) => ({ value: k, label: v.label }))} value={key} set={setKey} />
-      <Mafs viewBox={{ x: [-0.2, LMAX + 0.2], y: [-5, 4] }} height={330} preserveAspectRatio={false} pan={false}>
+      <Mafs viewBox={{ x: [-0.2, LMAX + 0.2], y: [-5, 4] }} height={330} preserveAspectRatio="contain" pan={false}>
         <Coordinates.Cartesian subdivisions={false} />
         {sampleXs.map((x, i) => (
           <Line.Segment key={i} point1={[0, P.f0(x)]} point2={[LMAX, P.f0(x) + LMAX * P.f1(x)]} color="#aeaeb2" weight={1} opacity={0.7} />
@@ -178,7 +179,7 @@ export function Ch07QuadDual() {
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ flex: '1 1 320px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-1.5, 2.5], y: [-1.2, 2.5] }} height={320} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-1.5, 2.5], y: [-1.2, 2.5] }} height={320} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={2} />
             <Plot.Inequality y={{ '<=': (x) => (9 - 6 * x) / 4 }} color={Theme.green} fillOpacity={0.08} weight={1} />
             {[0.5, 1, Math.sqrt(PSTAR_Q), 1.6, 2.1].map((r, i) => (
@@ -192,7 +193,7 @@ export function Ch07QuadDual() {
           </Mafs>
         </div>
         <div style={{ flex: '1 1 240px', minWidth: 0 }}>
-          <Mafs viewBox={{ x: [-1.6, 1.1], y: [-4, 2.2] }} height={320} preserveAspectRatio={false} pan={false}>
+          <Mafs viewBox={{ x: [-1.6, 1.1], y: [-4, 2.2] }} height={320} preserveAspectRatio="contain" pan={false}>
             <Coordinates.Cartesian subdivisions={false} />
             <Plot.OfX y={(m) => gQ(lam, m)} color={Theme.violet} weight={3} />
             <Line.ThroughPoints point1={[0, PSTAR_Q]} point2={[1, PSTAR_Q]} color={Theme.green} style="dashed" />

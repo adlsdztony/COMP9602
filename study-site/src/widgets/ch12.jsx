@@ -1,6 +1,7 @@
 // 第 12 章 等式约束优化 —— 交互组件
 import { useState, useMemo, useEffect } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Text, Theme } from 'mafs'
+import { Mafs, Plot, Point, Line, Text, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 import { Ch11Contour, Ch11PathSvg, Ch11LogPlot, ch11Solve, ch11Fexp, ch11Backtrack } from './ch11.jsx'
 
@@ -257,7 +258,7 @@ export function Ch12Elimination() {
             </>
           )}
         </Ch11Contour>
-        <Mafs viewBox={{ x: [-2, 3], y: [-0.5, ymax] }} height={300} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-2, 3], y: [-0.5, ymax] }} height={300} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={1} />
           <Plot.OfX y={ft} color={Theme.blue} weight={3} />
           {hist.map((h, i) => <Point key={i} x={h} y={ft(h)} color={Theme.indigo} />)}

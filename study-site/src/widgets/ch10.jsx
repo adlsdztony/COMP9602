@@ -1,6 +1,7 @@
 // 第 10 章交互组件：灵敏度分析与对偶应用
 import { useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Vector, Text, Theme } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Vector, Text, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, M, Tabs } from '../components/index.jsx'
 
 const f2 = (v) => (Math.abs(v) < 5e-4 ? 0 : v).toFixed(2)
@@ -21,7 +22,7 @@ export function Ch10Perturb() {
   const tan0 = (v) => pU(u0) - lamU(u0) * (v - u0)
   return (
     <Widget title="扰动函数 p*(u)：λ* 是它在 u=0 处的（负）斜率" hint="问题：min x₁²+2x₂²，约束 3−x₁−x₂ ≤ u。u>0 表示放松约束，u<0 表示收紧。黑色粗曲线是 p*(u)，红色直线是全局下界 p*(0) − λ*u（λ*=4）。拖动 u：红线永远在曲线下方（全局灵敏度不等式）；在 u=0 附近两者几乎重合（局部灵敏度）。再拖动“切点 u₀”看任意点的切线斜率 = −λ*(u₀)。">
-      <Mafs viewBox={{ x: [-3, 5], y: [-4, 26] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3, 5], y: [-4, 26] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian xAxis={{ lines: 1 }} yAxis={{ lines: 5 }} />
         <Plot.OfX y={pU} color={Theme.blue} weight={3} />
         <Plot.OfX y={(v) => 6 - 4 * v} color={Theme.red} />
@@ -92,7 +93,7 @@ export function Ch10ShadowPrice() {
   return (
     <Widget title="影子价格 Shadow price：多 1 单位资源，利润能多多少？" hint="经典生产问题：两种产品产量 x₁,x₂，利润 3x₁+5x₂；三个工厂的工时分别限制 x₁ ≤ b₁、2x₂ ≤ b₂、3x₁+2x₂ ≤ b₃。写成最小化 −利润 后，每个约束的最优对偶变量 λᵢ* 就是“影子价格”。试试：把 b₃ 从 18 增加 1，利润恰好增加 λ₃* = 1；增加 b₁（没用满的资源）利润不变，λ₁* = 0（互补松弛！）。再把 b₂ 一直调大，看价格什么时候突变。">
       <div style={grid2}>
-        <Mafs viewBox={{ x: [-0.5, 8], y: [-0.5, 10] }} height={300} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-0.5, 8], y: [-0.5, 10] }} height={300} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={1} />
           {sol.poly.length > 2 && <Polygon points={sol.poly} color={Theme.indigo} fillOpacity={0.15} />}
           <Line.Segment point1={[b[0], -0.5]} point2={[b[0], 10]} color={Theme.blue} style="dashed" />
@@ -156,7 +157,7 @@ export function Ch10BoxDual() {
       <div style={grid2}>
         <div>
           <div style={cap}>原问题（x 空间）</div>
-          <Mafs viewBox={{ x: [-2, 2], y: [-1.7, 1.7] }} height={260} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-2, 2], y: [-1.7, 1.7] }} height={260} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={2} />
             <Polygon points={[[-1, -1], [1, -1], [1, 1], [-1, 1]]} color={Theme.indigo} fillOpacity={0.1} />
             <Line.ThroughPoints point1={[0, b / 2]} point2={[2, (b - 2) / 2]} color={Theme.green} style="dashed" opacity={0.5} />
@@ -169,7 +170,7 @@ export function Ch10BoxDual() {
         </div>
         <div>
           <div style={cap}>对偶函数 g(ν)（无约束）</div>
-          <Mafs viewBox={{ x: [-4, 4], y: [-8, 3] }} height={260} preserveAspectRatio={false}>
+          <Mafs viewBox={{ x: [-4, 4], y: [-8, 3] }} height={260} preserveAspectRatio="contain">
             <Coordinates.Cartesian subdivisions={1} />
             <Plot.OfX y={g} color={Theme.violet} />
             <Line.Segment point1={[-4, pstar]} point2={[4, pstar]} color={Theme.red} style="dashed" />
@@ -210,7 +211,7 @@ export function Ch10PartialDual() {
     <Widget title="部分拉格朗日松弛：只把“难”约束放进目标，“好”约束留作定义域" hint="原问题：min (x₁−2)²+(x₂−2)²，约束 x₁+x₂ ≤ 2（被松弛，乘子 λ）与 x₁ ≤ 0.5（保留，阴影区域）。拖动 λ：绿点是在保留约束下最小化 L̃ 得到的 x̃(λ)；右图是部分对偶函数 g̃(λ)，其最大值恰为 p* = 2.5（λ'=1）。切到“完全不保留”对比：若把 x₁ ≤ 0.5 也扔掉、又不给它乘子，得到的只是另一个问题的对偶，最大值 2 < p*。">
       <Tabs tabs={[{ value: 'partial', label: '部分松弛：保留 x₁ ≤ 0.5' }, { value: 'drop', label: '对比：直接丢掉 x₁ ≤ 0.5' }]} value={mode} set={setMode} />
       <div style={grid2}>
-        <Mafs viewBox={{ x: [-1, 3], y: [-0.5, 3] }} height={260} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-1, 3], y: [-0.5, 3] }} height={260} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={2} />
           {mode === 'partial' && <Polygon points={[[-1, -0.5], [0.5, -0.5], [0.5, 3], [-1, 3]]} color={Theme.blue} fillOpacity={0.12} weight={1} />}
           <Line.ThroughPoints point1={[0, 2]} point2={[2, 0]} color={Theme.orange} style="dashed" />
@@ -222,7 +223,7 @@ export function Ch10PartialDual() {
           <Point x={xt[0]} y={xt[1]} color={Theme.green} />
           <Text x={xt[0]} y={xt[1]} attach="se" size={11} color={Theme.green}>x̃(λ)</Text>
         </Mafs>
-        <Mafs viewBox={{ x: [-0.3, 6], y: [-1, 4] }} height={260} preserveAspectRatio={false}>
+        <Mafs viewBox={{ x: [-0.3, 6], y: [-1, 4] }} height={260} preserveAspectRatio="contain">
           <Coordinates.Cartesian subdivisions={1} />
           <Plot.OfX y={gt} domain={[0, 6]} color={Theme.violet} opacity={mode === 'partial' ? 1 : 0.3} />
           <Plot.OfX y={g1} domain={[0, 6]} color={Theme.pink} opacity={mode === 'drop' ? 1 : 0.3} />

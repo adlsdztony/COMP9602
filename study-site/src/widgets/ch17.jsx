@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Mafs, Coordinates, Plot, Theme } from 'mafs'
+import { Mafs, Plot, Theme } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Tabs, M } from '../components/index.jsx'
 
 /* ---------- 凸性判定练习：随机抽题 ---------- */
@@ -89,7 +90,7 @@ export function Ch17RateCompare() {
   return (
     <Widget title="三种收敛速度在 log 坐标下的样子" hint="纵轴是 log₁₀(误差)。线性收敛 = 直线；二次收敛 = 先慢后“断崖式”下降；次梯度法 1/√k 几乎是平的——这就是教授说它要“上千次迭代”的原因。">
       <Tabs tabs={[{ value: 'all', label: '全部' }, { value: 'linear', label: RATES.linear.label }, { value: 'quad', label: RATES.quad.label }, { value: 'sub', label: RATES.sub.label }]} value={show} set={setShow} />
-      <Mafs viewBox={{ x: [0, 40], y: [-16, 1] }} height={280} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [0, 40], y: [-16, 1] }} height={280} preserveAspectRatio="contain">
         <Coordinates.Cartesian xAxis={{ lines: 5 }} yAxis={{ lines: 2 }} />
         {on('linear') && <Plot.OfX y={lin} color={RATES.linear.c} />}
         {on('quad') && <Plot.OfX y={quad} color={RATES.quad.c} />}

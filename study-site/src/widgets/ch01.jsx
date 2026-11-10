@@ -1,6 +1,7 @@
 // 第 1 章 什么是（凸）优化 —— 交互组件
 import { useState } from 'react'
-import { Mafs, Coordinates, Plot, Point, Line, Polygon, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Mafs, Plot, Point, Line, Polygon, Vector, Text, Theme, useMovablePoint } from 'mafs'
+import { Coordinates } from './coordinates.jsx'
 import { Widget, Slider, Tabs, M } from '../components/index.jsx'
 
 const fx = (v, d = 2) => (Math.abs(v) < 5e-4 ? 0 : v).toFixed(d)
@@ -64,7 +65,7 @@ export function Ch01DietLP() {
           ? <M>{`\\min\\ ${fx(c1)}x_1+${fx(c2)}x_2\\ \\ \\text{s.t.}\\ 2x_1+x_2\\ge ${fx(b1)},\\ x_1+3x_2\\ge ${fx(b2)},\\ x_1,x_2\\ge 0`}</M>
           : <M>{`\\max\\ (2+1)x_1+(1+3)x_2\\ \\ \\text{s.t.}\\ ${fx(c1)}x_1+${fx(c2)}x_2\\le ${fx(d)},\\ x_1,x_2\\ge 0`}</M>}
       </div>
-      <Mafs viewBox={{ x: [-0.5, 8], y: [-0.5, 6] }} height={340} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.5, 8], y: [-0.5, 6] }} height={340} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={1} />
         {poly.length >= 3 && <Polygon points={poly} color={Theme.green} fillOpacity={0.2} weight={1.5} />}
         {mode === 'min' ? (
@@ -135,7 +136,7 @@ export function Ch01Jensen() {
   return (
     <Widget title="Jensen 不等式：凸函数在弦的下方" hint="沿 x 轴拖动两个黑点（x 和 y），再拖动 α。黑色线段是弦；竖线连接曲线上的点 f(αx+βy) 与弦上的点 αf(x)+βf(y)。凸函数：竖线永远是绿色（曲线 ≤ 弦）；线性函数：两者重合；换成凹函数或 sin，找一找让竖线变红的位置。">
       <Tabs tabs={Object.entries(JF).map(([k, v]) => ({ value: k, label: v.label }))} value={key} set={setKey} />
-      <Mafs viewBox={{ x: [-3.2, 3.2], y: [-1, 5] }} height={330} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.2, 3.2], y: [-1, 5] }} height={330} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={f} color={Theme.blue} weight={3} />
         <Line.Segment point1={[x, f(x)]} point2={[y, f(y)]} color="#222" weight={2.5} />
@@ -190,7 +191,7 @@ export function Ch01LocalMin() {
   return (
     <Widget title="凸 vs 非凸：局部最优陷阱 Local vs global minimum" hint="拖动棕色起点，“下山”算法（梯度下降，每步沿斜率反方向走一小步）会停在第一个碰到的谷底。凸函数：无论从哪里出发都到达同一个全局最优；非凸函数：试试把起点放在右边（x > 0.3）——它会困在右边那个更高的局部最小值。">
       <Tabs tabs={Object.entries(LF).map(([k, v]) => ({ value: k, label: v.label }))} value={key} set={setKey} />
-      <Mafs viewBox={{ x: [-3.6, 3.6], y: [-0.3, 4.2] }} height={300} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-3.6, 3.6], y: [-0.3, 4.2] }} height={300} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={2} />
         <Plot.OfX y={F.f} color={Theme.blue} weight={3} />
         {path.slice(0, -1).map((p, k) => (
@@ -242,7 +243,7 @@ export function Ch01LeastSquares() {
   const la = manual ? ma : a, lb = manual ? mb : b
   return (
     <Widget title="最小二乘拟合直线 Least-squares line fitting" hint="拖动 6 个黑色数据点，黑线自动更新为最小二乘最优直线 ŷ = ax + b；红色竖线是残差 yᵢ − ŷᵢ。打开“手动”后自己调 a, b，看看你的 J 能否比最优的 J* 更小（不可能！）。">
-      <Mafs viewBox={{ x: [-0.3, 7.5], y: [-0.3, 6] }} height={320} preserveAspectRatio={false}>
+      <Mafs viewBox={{ x: [-0.3, 7.5], y: [-0.3, 6] }} height={320} preserveAspectRatio="contain">
         <Coordinates.Cartesian subdivisions={1} />
         {manual && <Plot.OfX y={(x) => a * x + b} color={Theme.blue} opacity={0.3} style="dashed" />}
         <Plot.OfX y={(x) => la * x + lb} color={manual ? Theme.orange : Theme.blue} weight={3} />
